@@ -17,7 +17,7 @@ function App() {
       <div
         css={css`
           position: relative;
-          top: 56px;
+          top: 75px;
           display: flex;
         `}
       >
