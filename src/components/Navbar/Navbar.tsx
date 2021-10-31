@@ -4,10 +4,12 @@ import UserPic from '../../images/avatar_user.png';
 
 const NavbarSection = styled.div`
   width: 100%;
-  min-height: 56px;
+  min-height: 65px;
   position: fixed;
   top: 0;
   display: flex;
+  justify-content: end;
+  right: 100px;
 `;
 
 const NavbarList = styled.ul`
@@ -17,7 +19,7 @@ const NavbarList = styled.ul`
     
     > li {
         display:inline;
-        margin: 0 10px;
+        margin: 0 20px;
         cursor: pointer;
     }
 `;
@@ -27,14 +29,13 @@ const MyAccount = styled.img`
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    margin-left: 30px;
+    margin-left: 25px;
 `;
 export const Navbar = () => {
     return (
         <div>
             <NavbarSection>
                 <NavbarList>
-                    <li>โปรไฟล์</li>
                     <li>รายการรับหิ้วของฉัน</li>
                     <li>รายการฝากหิ้วของฉัน</li>
                     <MyAccount src={UserPic} alt="my account" />
