@@ -10,7 +10,7 @@ const SidebarSection = styled.div`
     display: flex;
     flex-direction: column;
     align-items: end;
-    height: calc( 100vh - 56px);
+    height: calc( 100vh - 65px);
     width: 25%;
     padding-left: 25px;
     padding-right: 25px;
