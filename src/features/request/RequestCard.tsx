@@ -5,10 +5,10 @@ import styled from '@emotion/styled';
 import { css, jsx, useTheme } from '@emotion/react'
 import { REQUEST } from 'data/request';
 import { Text } from 'components/Text';
-import { borderRadius } from 'styled-system';
+import qs from 'query-string'
 
 const RequestSection = styled.div`
-    height: calc( 100vh - 56px);
+    height: calc( 100vh - 65px);
     overflow-y: scroll;
 `;
 
@@ -69,9 +69,12 @@ const RequestBottomSection = styled.div`
 `;
 
 export const RequestCard = () => {
+
+    const pathname = window.location.pathname.split('/')[1];
+
     return (
         <RequestSection>
-            {REQUEST.map(({ owner, userImageURL, title, location, requestImageURL, message, helper }) => (
+            {(REQUEST.filter(({category}) => category.includes(pathname))).map(({ owner, userImageURL, title, location, requestImageURL, message, helper }) => (
                 <Card key="title">
                     <RequestContentSection>
                         <RequestImage
