@@ -16,7 +16,7 @@ const Card = styled.div`
     display: flex;
     flex-direction: column;
     width: auto%;
-    min-width: 650px;
+    min-width: 550px;
     max-width: 700px;
     padding: 20px 50px;
     border-bottom: 1px solid rgb(239, 243, 244);
@@ -74,7 +74,7 @@ export const RequestCard = () => {
 
     return (
         <RequestSection>
-            {(REQUEST.filter(({category}) => category.includes(pathname))).map(({ owner, userImageURL, title, location, requestImageURL, message, helper }) => (
+            {(pathname === '' ? REQUEST : REQUEST.filter(({category}) => category.includes(pathname))).map(({ owner, userImageURL, title, location, requestImageURL, message, helper }) => (
                 <Card key="title">
                     <RequestContentSection>
                         <RequestImage

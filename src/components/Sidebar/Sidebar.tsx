@@ -20,8 +20,10 @@ const SidebarSection = styled.div`
 
 const SidebarItem = styled.div`
     width: 100%;
-    max-width: 150px;
+    max-width: 170px;
     margin-right: 60px;
+    margin-bottom: 15px;
+    font-size: 20px;
     cursor: pointer;
     padding: 12px;
     &:hover {

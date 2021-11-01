@@ -1,5 +1,9 @@
 export const CATEGORY = [
     {
+        name: 'ทั้งหมด',
+        url: '/'
+    },
+    {
         name: 'อาหาร',
         url: '/food'
     },
