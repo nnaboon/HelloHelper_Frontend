@@ -25,9 +25,11 @@ const SidebarItem = styled.div`
     margin-bottom: 15px;
     font-size: 20px;
     cursor: pointer;
-    padding: 12px;
+    padding: 20px;
+    border-radius: 20px;
+
     &:hover {
-        background: pink;
+        background: rgb(239, 243, 244);
     }
 `;
 
