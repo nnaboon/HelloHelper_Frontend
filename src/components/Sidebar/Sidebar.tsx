@@ -41,10 +41,10 @@ const SidebarLink = styled.a`
 export const Sidebar = () => {
     return (
         <SidebarSection>
-            {CATEGORY.map(({ name, url }) => (
+            {CATEGORY.map(({ name, id }) => (
                 <SidebarItem>
                     <SidebarLink
-                        href={url}
+                        href={id}
                     >
                         {name}
                     </SidebarLink>                        

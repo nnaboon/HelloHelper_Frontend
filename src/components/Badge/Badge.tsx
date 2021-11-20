@@ -26,6 +26,6 @@ export const RankingBadge = styled.div < { rankColor: string }>`
     color: #ffff;
     border-radius: 8px;
     max-width: 141px;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 600;
 `;

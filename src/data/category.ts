@@ -1,30 +1,69 @@
+// export const CATEGORY = [
+//     {
+//         name: 'ทั้งหมด',
+//         url: '/'
+//     },
+//     {
+//         name: 'อาหาร',
+//         url: '/food'
+//     },
+//     {
+//         name: 'เครื่องใช้ภายในบ้าน',
+//         url: '/furniture'
+//     },
+//     {
+//         name: 'สวน',
+//         url: '/garden'
+//     },
+//     {
+//         name: 'เสื้อผ้า',
+//         url: '/cloth'
+//     },
+//     {
+//         name: 'เครื่องเขียน',
+//         url: '/stationary'
+//     },
+//     {
+//         name: 'แต่งบ้าน',
+//         url: '/home'        
+//     }
+// ]
+
 export const CATEGORY = [
     {
-        name: 'ทั้งหมด',
-        url: '/'
+        id: 'food',
+        name: 'ด้านการจัดหาอาหาร'
     },
     {
-        name: 'อาหาร',
-        url: '/food'
+        id: 'cloth',
+        name: 'ด้านเครื่องแต่งกาย'
     },
     {
-        name: 'เครื่องใช้ภายในบ้าน',
-        url: '/furniture'
+        id: 'beauty',
+        name: 'ด้านความงาม'
     },
     {
-        name: 'สวน',
-        url: '/garden'
+        id: 'furniture',
+        name: 'ด้านเครื่องใช้ในบ้าน'
     },
     {
-        name: 'เสื้อผ้า',
-        url: '/cloth'
+        id: 'electronic',
+        name: 'ด้านเครื่องใช้ไฟฟ้า'
     },
     {
-        name: 'เครื่องเขียน',
-        url: '/stationary'
+        id: 'garden',
+        name: 'ด้านอุปกรณ์ทำการเกษตร และ ตกแต่งสวน'
     },
     {
-        name: 'แต่งบ้าน',
-        url: '/home'        
+        id: 'stationary',
+        name: 'ด้านเครื่องเขียน หนังสือและดนตรี'
+    },
+    {
+        id: 'mobile',
+        name: 'ด้านมือถือและอุปกรณ์เสริม'
+    },
+    {
+        id: 'sports',
+        name: 'ด้านกีฬาและอุปกรณ์เสริม'
     }
 ]
