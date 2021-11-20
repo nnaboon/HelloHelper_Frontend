@@ -1,6 +1,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import React from 'react';
+import { ProfileButton, ChatButton } from 'components/Button/Button';
 import { SuggestedBadge, RankingBadge } from '../Badge/Badge';
 import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
@@ -94,6 +95,20 @@ export const RequestHelperCard = ({title, imageURL} : RequestCardProps) => {
                         <RequestDataInfo>Ed Sheeran</RequestDataInfo>                        
                     </div>
                 </div>
+                <div
+                    css={css`
+                        display: flex;
+                        position: absolute;
+                        bottom: 10px;
+                        right: 20px;
+                        align-items: center;
+                    `}
+                >
+
+                    <ProfileButton>โปรไฟล์</ProfileButton>
+                    <ChatButton>แชท</ChatButton>
+                </div>
+
             </div>
         </CardContainer>
     )
