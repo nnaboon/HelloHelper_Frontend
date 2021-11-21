@@ -2,7 +2,7 @@
 /** @jsx jsx */
 import React from 'react';
 import { SecondaryButton, PrimaryButton } from 'components/Button/Button';
-import { POPULAR_REQUEST_DATA, TOP_TEN_REQUEST_DATA } from 'data/helper';
+import { POPULAR_REQUEST_DATA } from 'data/helper';
 
 import { SuggestedBadge, RankingBadge } from '../Badge/Badge';
 import { RANK_BADGE } from 'components/Badge/const';

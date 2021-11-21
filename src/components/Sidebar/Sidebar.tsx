@@ -1,17 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useHistory } from 'react-router-dom'
 import styled from '@emotion/styled';
-import { Text } from 'components/Text';
 import { CATEGORY } from 'data/category';
-import { Link } from 'react-router-dom'
-import { Layout, Menu, Breadcrumb } from 'antd';
-
 
 const SidebarSection = styled.div`
     display: flex;
     flex-direction: column;
-    align-items: end;
-    height: calc( 100vh - 65px);
     width: 25%;
+    align-items: end;
     padding-left: 25px;
     padding-right: 25px;
     border-right: 1px solid rgb(239, 243, 244);
@@ -19,9 +15,9 @@ const SidebarSection = styled.div`
 `;
 
 const SidebarItem = styled.div`
-    width: 100%;
-    max-width: 170px;
-    margin-right: 60px;
+    width: max-content;
+    max-width: 260px;
+    margin-right: 20px;
     margin-bottom: 15px;
     font-size: 20px;
     cursor: pointer;
@@ -33,18 +29,37 @@ const SidebarItem = styled.div`
     }
 `;
 
-const SidebarLink = styled.a`
+const SidebarLink = styled.div`
     text-decoration: none;
-`
+`;
 
 
 export const Sidebar = () => {
+    const history = useHistory();
+
     return (
         <SidebarSection>
+            <SidebarItem>
+                <SidebarLink
+                    onClick={() => {
+                        history.push({
+                            pathname: '/home',
+                            search: `?query=all`
+                        })
+                    }}
+                >
+                    ความช่วยเหลือทั้งหมด
+                </SidebarLink>                        
+            </SidebarItem>
             {CATEGORY.map(({ name, id }) => (
                 <SidebarItem>
                     <SidebarLink
-                        href={id}
+                        onClick={() => {
+                            history.push({
+                                pathname: '/home',
+                                search: `?query=${id}`
+                            })
+                        }}
                     >
                         {name}
                     </SidebarLink>                        

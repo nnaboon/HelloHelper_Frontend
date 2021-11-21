@@ -1,10 +1,8 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import React, { useState } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
-import styled from '@emotion/styled';
-import { Input} from 'antd';
-import { css, jsx, useTheme } from '@emotion/react'
+import { css, jsx } from '@emotion/react'
 import OrangeCircle from '../images/circle-orange-background.png';
 import ShoppingBag from '../images/shopping-bag.png';
 import { Text } from 'components/Text';

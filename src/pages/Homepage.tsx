@@ -13,7 +13,6 @@ import { TopSearchButton } from 'components/Button/Button';
 import { PostRequestButton } from 'components/Button/PostRequestButton';
 import { SuggestedRequestCard } from 'components/Card/SuggestedRequestCard';
 import { Navbar } from 'components/Navbar/Navbar';
-import { zIndex } from 'styled-system';
 import { News } from 'components/News/News';
 
 const HomePageContainer = styled.div`
@@ -32,10 +31,6 @@ const TopTenSearchContainer = styled.div`
     margin: 40px 0;
 `;
 
-const HomePageNavbar = styled(Navbar)`
-    z-index: 2;
-`;
-
 export const HomePage = () => {
     const history = useHistory();
     const { Search } = Input;
@@ -48,7 +43,7 @@ export const HomePage = () => {
 
     return (
         <React.Fragment>
-            <HomePageNavbar />
+            <Navbar />
             <HomePageContainer>
                 <div
                     css={css`
