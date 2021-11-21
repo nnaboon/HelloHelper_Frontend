@@ -15,6 +15,10 @@ export const SecondaryButton = styled.a`
     display: flex;
     align-items: center;
     justify-content: center;
+
+    &:hover {
+        color: #EE6400;
+    }
 `;
 
 export const PrimaryButton = styled.a`
@@ -31,6 +35,10 @@ export const PrimaryButton = styled.a`
     align-items: center;
     justify-content: center;
     margin-left: 15px;
+
+    &:hover {
+        color: #FFFF;     
+    }
 `;
 
 export const TopSearchButton = styled.a`
@@ -47,4 +55,9 @@ export const TopSearchButton = styled.a`
     display: flex;
     align-items: center;
     justify-content: center;
+
+    &:hover {
+        color: #ffff;
+        background: #EE6400;
+    }
 `;

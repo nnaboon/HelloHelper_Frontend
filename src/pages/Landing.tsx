@@ -12,7 +12,7 @@ import { Text } from 'components/Text';
 import { TOP_TEN_SEARCH_WEEKLY } from 'data/search';
 import { TopSearchButton } from 'components/Button/Button';
 import { PostRequestButton } from 'components/Button/PostRequestButton';
-
+import { SuggestedRequestCard } from 'components/Card/SuggestedRequestCard';
 
 export const TopTenSearchContainer = styled.div`
     display: grid;
@@ -107,6 +107,10 @@ export const LandingPage = () => {
                 onSearch={onSearch}
                 size="large"
                 style={{ width: '462px', height: '60px' }}
+            />
+            <SuggestedRequestCard
+                title={'ข้าวมันไก่โชคชัน 111'}
+                imageURL={"dfhjfioashfa"}
             />
         </div>
     )

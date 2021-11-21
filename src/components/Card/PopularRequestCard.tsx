@@ -40,6 +40,8 @@ const CardContainer = styled.div`
     margin-right: 20px;
     position: relative;
     top: -20px;
+    margin-top: 40px;
+
 `;
 
 const RequestTitle = styled.div`
@@ -59,15 +61,20 @@ const RequestDataTitle = styled.div`
     font-size: 12px;
     line-height: 16px;
     color: #C4C4C4;
-    text-align: end;
     max-width: 91px;
+    margin-right: 15px;
 `;
 
 const RequestDataInfo = styled.div`
     font-size: 18px;
     line-height: 26px;
     color: #000000;
-    margin-left: 15px;
+`;
+
+const RequestDataContent = styled.div`
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
 `;
 
 export const PopularRequestCard = ({title, imageURL} : RequestCardProps) => {
@@ -84,8 +91,10 @@ export const PopularRequestCard = ({title, imageURL} : RequestCardProps) => {
                         <div
                             css={css`
                                 display: flex;
-                                width: 48%;
+                                width: 32%;
                                 flex-direction: column;
+                                align-items: center;
+                                margin-right: 35px;
                             `}
                         >
                             <HelperImage />
@@ -99,51 +108,26 @@ export const PopularRequestCard = ({title, imageURL} : RequestCardProps) => {
                                 margin-top: 30px;
                             `}
                         >
-                            <div
-                                css={css`
-                                    display: flex;
-                                    align-items: center;
-                                `}
-                            >                            
+                            <RequestDataContent>                            
                                 <RequestDataTitle>ชื่อ</RequestDataTitle>
                                 <RequestDataInfo>{name}</RequestDataInfo>
-                            </div>
-                            <div
-                                css={css`
-                                    display: flex;
-                                    align-items: center;
-                                `}
-                            >                            
+                            </RequestDataContent>
+                            <RequestDataContent>                            
                                 <RequestDataTitle>สถานที่ให้ความช่วยเหลือ</RequestDataTitle>
                                 <RequestDataInfo>{location}</RequestDataInfo>
-                            </div>
-                            <div
-                                css={css`
-                                    display: flex;
-                                    align-items: center;
-                                `}
-                            >                            
+                            </RequestDataContent>
+                            <RequestDataContent>                            
                                 <RequestDataTitle>ยอดการให้ความช่วยเหลือ</RequestDataTitle>
                                 <RequestDataInfo>{helpSum.toLocaleString()}</RequestDataInfo>
-                            </div>
-                            <div
-                                css={css`
-                                    display: flex;
-                                    align-items: center;
-                                `}
-                            >                            
+                            </RequestDataContent>
+                            <RequestDataContent>                            
                                 <RequestDataTitle>ค่าบริการ</RequestDataTitle>
                                 <RequestDataInfo>{serviceRate}</RequestDataInfo>
-                            </div>
-                            <div
-                                css={css`
-                                    display: flex;
-                                    align-items: center;
-                                `}
-                            >                            
+                            </RequestDataContent>
+                            <RequestDataContent>                            
                                 <RequestDataTitle>วิธีการชำระเงิน</RequestDataTitle>
                                 <RequestDataInfo>{payment}</RequestDataInfo>
-                            </div>
+                            </RequestDataContent>
                             
                         </div>
                         <div

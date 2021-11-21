@@ -3,7 +3,8 @@ import styled from '@emotion/styled';
 
 export const SuggestedBadge = styled.div`
     position: relative;
-    left: 22px;
+    display: flex;
+    align-items: center;
     top: -15px;
     width: 62px;
     height: 26px;
@@ -24,7 +25,8 @@ export const RankingBadge = styled.div < { rankColor: string }>`
     background: ${props => props.rankColor};
     color: #ffff;
     border-radius: 8px;
-    max-width: 141px;
+    max-width: max-content;
+    padding: 0 10px;
     font-size: 20px;
     font-weight: 600;
     position: relative;

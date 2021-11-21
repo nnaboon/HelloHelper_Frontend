@@ -40,49 +40,51 @@ const CardContainer = styled.div`
     margin-right: 20px;
     position: relative;
     top: -20px;
+    margin-top: 40px;
 `;
 
 const RequestTitle = styled.div`
     font-weight: 800;
     font-size: 24px;
+    line-height: 28px;
 `;
 
 const HelperImage = styled.div`
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200px;
+    height: 100%;
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
     background: yellow;
-    margin-top: 15px;
 `;
 
 const RequestDataTitle = styled.div`
     font-size: 12px;
     line-height: 16px;
     color: #C4C4C4;
-    text-align: end;
     max-width: 91px;
+    margin-right: 15px;
 `;
 
 const RequestDataInfo = styled.div`
     font-size: 18px;
     line-height: 26px;
     color: #000000;
-    margin-left: 15px;
 `;
 
-const TopTenRequestCardContainer = styled.div`
+const RequestDataContent = styled.div`
     display: flex;
-    overflow-x: scroll;
-    margin: 40px 0;
-    position: relative;
-`
+    align-items: center;
+    margin-bottom: 5px;
+`;
 
 export const SuggestedRequestCard = ({title, imageURL} : RequestCardProps) => {
     return (
         <RequestHelperCardContainer>
-            {POPULAR_REQUEST_DATA.map(({ title, imageUrl, name, payment, serviceRate, location, helpSum, rank }) => (
+            {SUGGESTED_REQUEST_DATA.map(({ title, imageUrl, name, payment, serviceRate, location, rank }) => (
                 <CardContainer>
-                    <RequestTitle>{title}</RequestTitle>
                     <div
                         css={css`
                             display: flex;
@@ -91,13 +93,10 @@ export const SuggestedRequestCard = ({title, imageURL} : RequestCardProps) => {
                         <div
                             css={css`
                                 display: flex;
-                                width: 48%;
-                                flex-direction: column;
+                                width: 90%;
                             `}
                         >
                             <HelperImage />
-                            <SuggestedBadge>แนะนำ</SuggestedBadge>
-                            <RankingBadge rankColor={RANK_BADGE[rank].color}>{rank.toUpperCase()}</RankingBadge>
                         </div>
                         <div
                             css={css`
@@ -106,64 +105,31 @@ export const SuggestedRequestCard = ({title, imageURL} : RequestCardProps) => {
                                 margin-top: 30px;
                             `}
                         >
-                            <div
-                                css={css`
-                                    display: flex;
-                                    align-items: center;
-                                `}
-                            >                            
+                            <RequestTitle>{title}</RequestTitle>
+                            <RequestDataContent>                            
                                 <RequestDataTitle>ชื่อ</RequestDataTitle>
                                 <RequestDataInfo>{name}</RequestDataInfo>
-                            </div>
-                            <div
-                                css={css`
-                                    display: flex;
-                                    align-items: center;
-                                `}
-                            >                            
+                            </RequestDataContent>
+                            <RequestDataContent>                            
+                                <RequestDataTitle>ระดับ</RequestDataTitle>
+                                <RankingBadge
+                                    rankColor={RANK_BADGE[rank].color}
+                                    style={{ fontSize: '18px', fontWeight: 500}}
+                                >{rank.toUpperCase()}</RankingBadge>
+                            </RequestDataContent>
+                            <RequestDataContent>                            
                                 <RequestDataTitle>สถานที่ให้ความช่วยเหลือ</RequestDataTitle>
                                 <RequestDataInfo>{location}</RequestDataInfo>
-                            </div>
-                            <div
-                                css={css`
-                                    display: flex;
-                                    align-items: center;
-                                `}
-                            >                            
-                                <RequestDataTitle>ยอดการให้ความช่วยเหลือ</RequestDataTitle>
-                                <RequestDataInfo>{helpSum.toLocaleString()}</RequestDataInfo>
-                            </div>
-                            <div
-                                css={css`
-                                    display: flex;
-                                    align-items: center;
-                                `}
-                            >                            
+                            </RequestDataContent>
+                            <RequestDataContent>                            
                                 <RequestDataTitle>ค่าบริการ</RequestDataTitle>
                                 <RequestDataInfo>{serviceRate}</RequestDataInfo>
-                            </div>
-                            <div
-                                css={css`
-                                    display: flex;
-                                    align-items: center;
-                                `}
-                            >                            
+                            </RequestDataContent>
+                            <RequestDataContent>                            
                                 <RequestDataTitle>วิธีการชำระเงิน</RequestDataTitle>
                                 <RequestDataInfo>{payment}</RequestDataInfo>
-                            </div>
+                            </RequestDataContent>
                             
-                        </div>
-                        <div
-                            css={css`
-                                display: flex;
-                                position: absolute;
-                                bottom: 10px;
-                                right: 20px;
-                                align-items: center;
-                            `}
-                        >
-                            <SecondaryButton>โปรไฟล์</SecondaryButton>
-                            <PrimaryButton>แชท</PrimaryButton>
                         </div>
                     </div>
                 </CardContainer>
