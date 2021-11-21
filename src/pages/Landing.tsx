@@ -2,7 +2,7 @@
 /** @jsx jsx */
 import React, { useState} from 'react';
 import styled from '@emotion/styled';
-import { Input, Space, Modal, Button } from 'antd';
+import { Input} from 'antd';
 import { css, jsx, useTheme } from '@emotion/react'
 import OrangeCircle from '../images/circle-orange-background.png';
 import { PopularRequestCard } from 'components/Card/PopularRequestCard';

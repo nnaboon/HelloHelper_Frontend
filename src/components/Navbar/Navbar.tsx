@@ -1,26 +1,30 @@
 import styled from '@emotion/styled';
 import React from 'react';
+import { Input } from 'antd';
 import UserPic from '../../images/avatar_user.png';
 
 const NavbarSection = styled.div`
-  width: 100%;
-  min-height: 65px;
-  position: fixed;
-  top: 0;
-  display: flex;
-  justify-content: end;
-  right: 100px;
+    width: 100%;
+    height: 165px;
+    position: fixed;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    background: #FF8730;
 `;
 
 const NavbarList = styled.ul`
     list-style-type: none;
     display: flex;
     align-items: center;
-    
+    justify-content: end;
+    border-box: box-sizing;
+    padding: 20px 100px;    
     > li {
         display:inline;
         margin: 0 20px;
         cursor: pointer;
+        color: #ffff;
     }
 `;
 
@@ -31,15 +35,36 @@ const MyAccount = styled.img`
     border-radius: 50%;
     margin-left: 25px;
 `;
-export const Navbar = () => {
+
+const SearchBarContainer = styled.div`
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+`;
+
+export const Navbar = () => {    
+    const { Search } = Input;
+    const onSearch = value => console.log(value);
+    
     return (
         <div>
             <NavbarSection>
                 <NavbarList>
                     <li>รายการรับหิ้วของฉัน</li>
                     <li>รายการฝากหิ้วของฉัน</li>
+                    <li>กล่องข้อความ</li>
+                    <li>โปรไฟล์</li>
                     <MyAccount src={UserPic} alt="my account" />
                 </NavbarList>
+                <SearchBarContainer>
+                    <Search
+                        placeholder="ข้าวผัดป้าเขียว, ก๋วยจั๊บนายวาย, แกงกะหรี่ป้าอร โชคชัย4"
+                        onSearch={onSearch}
+                        size="large"
+                        style={{ width: '700px', height: '40px' }}
+                    />
+                </SearchBarContainer>
             </NavbarSection>            
         </div>
 
