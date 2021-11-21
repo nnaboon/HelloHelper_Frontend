@@ -3,14 +3,16 @@
 import { css, jsx } from '@emotion/react';
 import styled from '@emotion/styled';
 import React from 'react';
+import { Text } from 'components/Text';
 import Flex from 'components/Flex/Flex';
 import { Navbar } from 'components/Navbar/Navbar';
 import { USER_DATA } from 'data/user';
 import { SecondaryButton, PrimaryButton } from 'components/Button/Button';
 
 import { SuggestedBadge, RankingBadge } from 'components/Badge/Badge';
+
 import { RANK_BADGE } from 'components/Badge/const';
-import { justifyContent } from 'styled-system';
+import { justifyContent, alignItems } from 'styled-system';
 
 const ProfilePageContainer = styled.div`
     box-sizing: border-box;
@@ -22,7 +24,7 @@ const ProfilePageContainer = styled.div`
 const ProfilePageUserInfoSection = styled.div`
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
 `;
 
 const ProfilePageUserHelperListSection = styled.div`
@@ -40,19 +42,22 @@ const HelperListCard = styled.div`
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    padding: 30px;
+    padding: 35px;
+    position: relative;
 `;
 
 const HelperListTitle = styled.div`
     font-weight: 700;
     font-size: 24px;
     color: #F86800;
+    margin-bottom: 8px;
 `;
 
 const HelperListHeading = styled.div`
     font-size: 12px;
     line-height: 26px;
     color: #C4C4C4;
+    min-width: 150px;
 `;
 
 const HelperListDetail = styled.div`
@@ -91,12 +96,13 @@ const UserName = styled.div`
 const ProfileInfoContainer = styled.div`
     width: 100%;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(300px, auto) minmax(300px, auto);
+    grid-gap: 40px;
 `;
 
 const ProfileInfoListHeading = styled.div`
     font-weight: 500;
-    font-size: 12px;
+    font-size: 16px;
     line-height: 14px;
     color: #BAB8B8;
 
@@ -104,15 +110,28 @@ const ProfileInfoListHeading = styled.div`
 
 const ProfileInfoListDetail = styled.div`
     font-weight: 700;
-    font-size: 18px;
+    font-size: 23px;
     line-height: 21px;
     color: #F86800;
-    margin-left: 8px;
+    margin-left: 12px;
 `;
 
 const SeparateLine = styled.div`
     border-bottom: 1px solid #C4C4C4;
-    padding: 40px 0;
+    margin: 50px 0;
+`;
+
+const SecondaryHelpButton = styled(SecondaryButton)`
+    width: max-content;
+    padding: 0 10px;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+
+    &:hover {
+        background: #F86800;
+        color: #ffff;
+    }
 `;
 
 export const ProfilePage = () => {
@@ -120,84 +139,90 @@ export const ProfilePage = () => {
         <React.Fragment>
             <Navbar />
             <ProfilePageContainer>
-                <ProfilePageUserInfoSection>
-                    <UserCard>
-                        <div
-                            css={css`
-                                display: flex;
-                                width: 50%;
-                                flex-direction: column;
-                                align-items: center;
-                                margin-right: 35px;
-                            `}
-                        >
-                            <HelperImage />
-                            <SuggestedBadge>แนะนำ</SuggestedBadge>
+                {USER_DATA.map(({ id, name, imageUrl, location, category, follower, following, helpSum, rank, rating, suggested}) => (
+                    <ProfilePageUserInfoSection
+                        key={id}
+                    >
+                        <UserCard>
+                            <div
+                                css={css`
+                                    display: flex;
+                                    width: 50%;
+                                    flex-direction: column;
+                                    align-items: center;
+                                    margin-right: 35px;
+                                `}
+                            >
+                                <HelperImage />
+                                {Boolean(suggested) && <SuggestedBadge>แนะนำ</SuggestedBadge>}
+                            </div>
+                            <div
+                                css={css`
+                                    display: flex;
+                                    flex-direction: column;
+                                    align-items: center;
+                                    justify-content: center;
+                                `}
+                            >
+                                <UserName>{name}</UserName>
+                                <RankingBadge rankColor={RANK_BADGE[rank].color}>{rank.toUpperCase()}</RankingBadge>
+                            </div>
+                        </UserCard>
+                        <div>
+                            <Flex marginBottom="40px" itemAlign="flex-end">
+                                <ProfileInfoListHeading>ขอบเขตการช่วยเหลือ</ProfileInfoListHeading>
+                                <ProfileInfoListDetail>{location}</ProfileInfoListDetail>
+                            </Flex>                
+                            <ProfileInfoContainer>
+                                <Flex>
+                                    <ProfileInfoListHeading>ยอดการช่วยเหลือ</ProfileInfoListHeading>
+                                    <ProfileInfoListDetail>{helpSum}</ProfileInfoListDetail>
+                                </Flex>
+                                <Flex>
+                                    <ProfileInfoListHeading>กำลังติดตาม</ProfileInfoListHeading>
+                                    <ProfileInfoListDetail>{following}</ProfileInfoListDetail>
+                                </Flex>
+                                <Flex>
+                                    <ProfileInfoListHeading>ผู้ติดตาม</ProfileInfoListHeading>
+                                    <ProfileInfoListDetail>{follower}</ProfileInfoListDetail>
+                                </Flex>
+                                <Flex>
+                                    <ProfileInfoListHeading>คะแนน</ProfileInfoListHeading>
+                                    <ProfileInfoListDetail>{rating.toFixed(1)}</ProfileInfoListDetail>
+                                </Flex>
+                            </ProfileInfoContainer>                           
                         </div>
-                        <div
-                            css={css`
-                                display: flex;
-                                flex-direction: column;
-                                align-items: center;
-                                justify-content: center;
-                            `}
-                        >
-                            <UserName>กระทิง สีแดง</UserName>
-                            <RankingBadge rankColor="#FFB800">GOLD</RankingBadge>
-                        </div>
-                    </UserCard>
-                    <div>
-                        <Flex>
-                            <ProfileInfoListHeading>ขอบเขตการช่วยเหลือ</ProfileInfoListHeading>
-                            <ProfileInfoListDetail>มหาลัยเกษตรศาสตร์ บางเขน</ProfileInfoListDetail>                        
-                        </Flex>                
-                        <ProfileInfoContainer>
-                            <Flex>
-                                <ProfileInfoListHeading>ยอดการช่วยเหลือ</ProfileInfoListHeading>
-                                <ProfileInfoListDetail>100</ProfileInfoListDetail>
-                            </Flex>
-                            <Flex>
-                                <ProfileInfoListHeading>กำลังติดตาม</ProfileInfoListHeading>
-                                <ProfileInfoListDetail>40</ProfileInfoListDetail>                        
-                            </Flex>
-                            <Flex>
-                                <ProfileInfoListHeading>ผู้ติดตาม</ProfileInfoListHeading>
-                                <ProfileInfoListDetail>110</ProfileInfoListDetail>                        
-                            </Flex>
-                            <Flex>
-                                <ProfileInfoListHeading>คะแนน</ProfileInfoListHeading>
-                                <ProfileInfoListDetail>5.0</ProfileInfoListDetail>                        
-                            </Flex>
-                        </ProfileInfoContainer>                           
-                    </div>
-                </ProfilePageUserInfoSection>
+                    </ProfilePageUserInfoSection>
+                ))}
                 <SeparateLine />
+                <Text fontWeight={500} fontSize="24px" marginY="20px">รายการความช่วยเหลือของฉัน</Text>
                 <ProfilePageUserHelperListSection>
                     {USER_DATA[0].helpList.map(({ id, name, title, location, helpSum, serviceCharge, payment}) => (
                         <HelperListCard
                             key={id}
                         >
                             <HelperListTitle>{title}</HelperListTitle>
-                            <Flex justify="space-between">
+                            <Flex marginY="8px">
                                 <HelperListHeading>ผู้ให้ความช่วยเหลือ</HelperListHeading>
                                 <HelperListDetail>{name}</HelperListDetail>                            
                             </Flex>
-                            <Flex justify="space-between">
+                            <Flex  marginY="8px">
                                 <HelperListHeading>สถานที่ให้ความช่วยเหลือ</HelperListHeading>
                                 <HelperListDetail>{location}</HelperListDetail>                            
                             </Flex>
-                            <Flex justify="space-between">
+                            <Flex  marginY="8px">
                                 <HelperListHeading>ยอดการให้ความช่วยเหลือ</HelperListHeading>
                                 <HelperListDetail>{helpSum}</HelperListDetail>                            
                             </Flex>
-                            <Flex justify="space-between">
+                            <Flex  marginY="8px">
                                 <HelperListHeading>ค่าบริการ</HelperListHeading>
                                 <HelperListDetail>{serviceCharge}</HelperListDetail>                            
                             </Flex>
-                            <Flex justify="space-between">
+                            <Flex  marginY="8px">
                                 <HelperListHeading>วิธีการชำระเงิน</HelperListHeading>
                                 <HelperListDetail>{payment}</HelperListDetail>                            
-                            </Flex>                            
+                            </Flex>
+                            <SecondaryHelpButton>ขอความช่วยเหลือ</SecondaryHelpButton>
                         </HelperListCard>                        
                     ))}
                 </ProfilePageUserHelperListSection>

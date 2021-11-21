@@ -3,7 +3,7 @@ export const USER_DATA = [
         id: 'abcde',
         name: 'กระทิง สีแดง',
         imageUrl: '',
-        location: 'หมู่บ้าน vive',
+        location: 'มหาวิทยาลัยเกษตรศาสตร์ บางเขน',
         category: ['food', 'cloth', 'music', 'sports'],
         following: 100,
         follower: 40,
