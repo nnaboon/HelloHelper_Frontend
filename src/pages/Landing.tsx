@@ -50,7 +50,7 @@ export const LandingPage = () => {
                     z-index: -1;
                     position: relative;
                     right: 15%;
-                    top: 70px;
+                    top: 140px;
                 `}
             />
             <Text
@@ -74,40 +74,6 @@ export const LandingPage = () => {
                 แพลตฟอร์มประสานความช่วยเหลือ{'\n'}
                 สำหรับการซื้อสินค้าหายาก
             </Text>
-            <PopularRequestCard
-                title={'ข้าวมันไก่โชคชัน 111'}
-                imageURL={"dfhjfioashfa"}
-            />
-            <TopTenSearchContainer>
-                {
-                    TOP_TEN_SEARCH_WEEKLY.map(({ name }) => (
-                        <TopSearchButton>{name}</TopSearchButton>
-                    ))
-                }                
-            </TopTenSearchContainer>
-            <TopTenRequestCard
-                title={'ข้าวมันไก่โชคชัน 111'}
-                imageURL={"dfhjfioashfa"}
-            />
-            <PostRequestButton />
-
-            <Search
-                placeholder="ข้าวผัดป้าเขียว, ก๋วยจั๊บนายวาย, แกงกะหรี่ป้าอร โชคชัย4"
-                onSearch={onSearch}
-                size="large"
-                style={{ width: '700px', height: '40px' }}
-            />
-
-            <Search
-                placeholder="ค้นหาสถานที่"
-                onSearch={onSearch}
-                size="large"
-                style={{ width: '462px', height: '60px' }}
-            />
-            <SuggestedRequestCard
-                title={'ข้าวมันไก่โชคชัน 111'}
-                imageURL={"dfhjfioashfa"}
-            />
         </div>
     )
 }
