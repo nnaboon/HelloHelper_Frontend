@@ -18,7 +18,7 @@ const NavbarList = styled.ul`
     display: flex;
     align-items: center;
     justify-content: end;
-    border-box: box-sizing;
+    box-sizing: border-box;
     padding: 20px 100px;    
     > li {
         display:inline;
