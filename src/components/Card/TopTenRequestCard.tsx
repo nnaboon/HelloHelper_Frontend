@@ -39,6 +39,8 @@ const CardContainer = styled.div`
 const RequestTitle = styled.div`
     font-weight: 800;
     font-size: 24px;
+    margin-bottom: 10px;
+
 `;
 
 const HelperImage = styled.div`
@@ -104,7 +106,6 @@ export const TopTenRequestCard = ({title, imageURL} : RequestCardProps) => {
                             css={css`
                                 display: flex;
                                 flex-direction: column;
-                                margin-top: 30px;
                             `}
                         >
                             <TopTenRequestDataContent>                            

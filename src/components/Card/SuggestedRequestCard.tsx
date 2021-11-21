@@ -47,6 +47,7 @@ const RequestTitle = styled.div`
     font-weight: 800;
     font-size: 24px;
     line-height: 28px;
+    margin-bottom: 20px;
 `;
 
 const HelperImage = styled.div`
@@ -102,7 +103,6 @@ export const SuggestedRequestCard = ({title, imageURL} : RequestCardProps) => {
                             css={css`
                                 display: flex;
                                 flex-direction: column;
-                                margin-top: 30px;
                             `}
                         >
                             <RequestTitle>{title}</RequestTitle>
