@@ -14,7 +14,7 @@ import { TopSearchButton } from 'components/Button/Button';
 import { PostRequestButton } from 'components/Button/PostRequestButton';
 import { SuggestedRequestCard } from 'components/Card/SuggestedRequestCard';
 
-export const TopTenSearchContainer = styled.div`
+const TopTenSearchContainer = styled.div`
     display: grid;
     grid-template-columns: auto auto auto auto auto;
     grid-gap: 28px;
@@ -25,11 +25,7 @@ export const TopTenSearchContainer = styled.div`
 export const LandingPage = () => {
     const { Search } = Input;
     const onSearch = value => console.log(value);
-    const [isModalVisible, setIsModalVisible] = useState(false);
 
-    const showModal = () => {
-        setIsModalVisible(true);
-    };
     return (
         <div
             css={css`

@@ -58,7 +58,7 @@ const HelperImage = styled.div`
     height: 100%;
     border-top-left-radius: 12px;
     border-bottom-left-radius: 12px;
-    background: yellow;
+    background: #0F3276;
 `;
 
 const RequestDataTitle = styled.div`
