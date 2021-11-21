@@ -1,6 +1,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import React, { useState} from 'react';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { Input} from 'antd';
 import { css, jsx, useTheme } from '@emotion/react'
@@ -13,6 +14,7 @@ import { PostRequestButton } from 'components/Button/PostRequestButton';
 import { SuggestedRequestCard } from 'components/Card/SuggestedRequestCard';
 import { Navbar } from 'components/Navbar/Navbar';
 import { zIndex } from 'styled-system';
+import { News } from 'components/News/News';
 
 const HomePageContainer = styled.div`
     box-sizing: border-box;
@@ -27,6 +29,7 @@ const TopTenSearchContainer = styled.div`
     grid-gap: 28px;
     padding: 10px;
     overflow-x: scroll;
+    margin: 40px 0;
 `;
 
 const HomePageNavbar = styled(Navbar)`
@@ -34,9 +37,14 @@ const HomePageNavbar = styled(Navbar)`
 `;
 
 export const HomePage = () => {
-
+    const history = useHistory();
     const { Search } = Input;
-    const onSearch = value => console.log(value);
+    const onSearch = value => {
+        history.push({
+            pathname: '/home',
+            search: `?query=${value}`
+        })
+    }
 
     return (
         <React.Fragment>
@@ -55,10 +63,12 @@ export const HomePage = () => {
                     />
                     <PostRequestButton />                
                 </div>
+                <Text fontSize="36px" fontWeight={500}>ความช่วยเหลือยอดนิยม</Text>
                 <PopularRequestCard
                     title={'ข้าวมันไก่โชคชัน 111'}
                     imageURL={"dfhjfioashfa"}
                 />
+                <Text fontSize="36px" fontWeight={500}>Top 10 การค้นหาติดอันดับ</Text>
                 <TopTenSearchContainer>
                     {
                         TOP_TEN_SEARCH_WEEKLY.map(({ name }) => (
@@ -66,15 +76,18 @@ export const HomePage = () => {
                         ))
                     }                
                 </TopTenSearchContainer>
+                <Text fontSize="36px" fontWeight={500}>Top 10 ความช่วยเหลือประจำสัปดาห์</Text>
                 <TopTenRequestCard
                     title={'ข้าวมันไก่โชคชัน 111'}
                     imageURL={"dfhjfioashfa"}
                 />
+                <Text fontSize="36px" fontWeight={500}>ความช่วยเหลือแนะนำ</Text>
                 <SuggestedRequestCard
                     title={'ข้าวมันไก่โชคชัน 111'}
                     imageURL={"dfhjfioashfa"}
-                />    
-
+                />
+                <Text fontSize="36px" fontWeight={500}>ข่าวน่าสนใจ</Text>
+                <News />
             </HomePageContainer>
         </React.Fragment>
     )

@@ -1,5 +1,6 @@
-import styled from '@emotion/styled';
 import React from 'react';
+import { useHistory } from 'react-router-dom';
+import styled from '@emotion/styled';
 import { Input } from 'antd';
 import UserPic from '../../images/avatar_user.png';
 
@@ -45,8 +46,14 @@ const SearchBarContainer = styled.div`
 `;
 
 export const Navbar = () => {    
+    const history = useHistory();
     const { Search } = Input;
-    const onSearch = value => console.log(value);
+    const onSearch = value => {
+        history.push({
+            pathname: '/home',
+            search: `?query=${value}`
+        })
+    }
     
     return (
         <div>

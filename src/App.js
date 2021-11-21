@@ -21,6 +21,7 @@ function App() {
         <Switch>
           <Route path="/" exact component={LandingPage} />
           <Route path="/home" component={HomePage} />
+          <Route path="/home?query=:query" component={HomePage} />
         </Switch>        
       </BrowserRouter>
     </div>

@@ -24,6 +24,7 @@ const RequestHelperCardContainer = styled.div`
     display: flex;
     overflow-x: scroll;
     margin-bottom: 40px;
+    margin-top: 30px;
     position: relative;
 `;
 

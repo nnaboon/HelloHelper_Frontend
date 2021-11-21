@@ -41,7 +41,6 @@ const CardContainer = styled.div`
     position: relative;
     top: -20px;
     margin-top: 40px;
-
 `;
 
 const RequestTitle = styled.div`

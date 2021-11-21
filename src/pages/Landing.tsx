@@ -1,30 +1,17 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import React, { useState} from 'react';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { Input} from 'antd';
 import { css, jsx, useTheme } from '@emotion/react'
 import OrangeCircle from '../images/circle-orange-background.png';
-import { PopularRequestCard } from 'components/Card/PopularRequestCard';
-import { TopTenRequestCard } from 'components/Card/TopTenRequestCard';
 import ShoppingBag from '../images/shopping-bag.png';
 import { Text } from 'components/Text';
-import { TOP_TEN_SEARCH_WEEKLY } from 'data/search';
-import { TopSearchButton } from 'components/Button/Button';
-import { PostRequestButton } from 'components/Button/PostRequestButton';
-import { SuggestedRequestCard } from 'components/Card/SuggestedRequestCard';
-
-const TopTenSearchContainer = styled.div`
-    display: grid;
-    grid-template-columns: auto auto auto auto auto;
-    grid-gap: 28px;
-    padding: 10px;
-    overflow-x: scroll;
-`;
+import { PrimaryButton } from 'components/Button/Button';
 
 export const LandingPage = () => {
-    const { Search } = Input;
-    const onSearch = value => console.log(value);
+    const history = useHistory();
 
     return (
         <div
@@ -74,6 +61,13 @@ export const LandingPage = () => {
                 แพลตฟอร์มประสานความช่วยเหลือ{'\n'}
                 สำหรับการซื้อสินค้าหายาก
             </Text>
+            <PrimaryButton
+                onClick={() => {
+                    history.push('/home');
+                }}
+            >
+                เริ่มใช้งาน
+            </PrimaryButton>
         </div>
     )
 }
