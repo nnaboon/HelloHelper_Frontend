@@ -19,7 +19,6 @@ export const SuggestedBadge = styled.div`
 export const RankingBadge = styled.div < { rankColor: string }>`
     display: flex;
     align-items: center;
-    width: 100%;
     height: 32px;
     justify-content: center;
     background: ${props => props.rankColor};
@@ -28,4 +27,5 @@ export const RankingBadge = styled.div < { rankColor: string }>`
     max-width: 141px;
     font-size: 20px;
     font-weight: 600;
+    position: relative;
 `;

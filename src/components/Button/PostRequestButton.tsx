@@ -8,6 +8,10 @@ const Button = styled(PrimaryButton)`
     height: 49px;
     font-weight: 700;
     font-size: 18px;
+
+    &:hover {
+        color: #ffff;
+    }
 `;
 
 export const PostRequestButton = () => {

@@ -2,9 +2,10 @@
 /** @jsx jsx */
 import React from 'react';
 import { SecondaryButton, PrimaryButton } from 'components/Button/Button';
-import { POPULAR_REQUEST_DATA, TOP_TEN_REQUEST_DATA } from 'data/helper';
+import { SUGGESTED_REQUEST_DATA } from 'data/request';
 
 import { SuggestedBadge, RankingBadge } from '../Badge/Badge';
+import { RANK_BADGE } from 'components/Badge/const';
 import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
 
@@ -76,7 +77,7 @@ const TopTenRequestCardContainer = styled.div`
     position: relative;
 `
 
-export const PopularRequestCard = ({title, imageURL} : RequestCardProps) => {
+export const SuggestedRequestCard = ({title, imageURL} : RequestCardProps) => {
     return (
         <RequestHelperCardContainer>
             {POPULAR_REQUEST_DATA.map(({ title, imageUrl, name, payment, serviceRate, location, helpSum, rank }) => (
@@ -96,7 +97,7 @@ export const PopularRequestCard = ({title, imageURL} : RequestCardProps) => {
                         >
                             <HelperImage />
                             <SuggestedBadge>แนะนำ</SuggestedBadge>
-                            <RankingBadge rankColor="linear-gradient(270deg, #FFE200 -34.75%, #EF8227 27.67%, #DB4D99 102.99%, rgba(255, 184, 0, 0) 103.01%);">{rank.toUpperCase()}</RankingBadge>
+                            <RankingBadge rankColor={RANK_BADGE[rank].color}>{rank.toUpperCase()}</RankingBadge>
                         </div>
                         <div
                             css={css`
@@ -168,102 +169,6 @@ export const PopularRequestCard = ({title, imageURL} : RequestCardProps) => {
                 </CardContainer>
             ))}
         </RequestHelperCardContainer>
-
-    )
-}
-
-export const TopTenRequestCard = ({title, imageURL} : RequestCardProps) => {
-    return (
-        <TopTenRequestCardContainer>
-            {TOP_TEN_REQUEST_DATA.map(({ title, imageUrl, name, payment, serviceRate, location, helpSum, rank }) => (
-                <CardContainer>
-                    <RequestTitle>{title}</RequestTitle>
-                    <div
-                        css={css`
-                            display: flex;
-                        `}
-                    >
-                        <div
-                            css={css`
-                                display: flex;
-                                width: 48%;
-                                flex-direction: column;
-                            `}
-                        >
-                            <HelperImage />
-                            <SuggestedBadge>แนะนำ</SuggestedBadge>
-                            <RankingBadge rankColor="linear-gradient(270deg, #FFE200 -34.75%, #EF8227 27.67%, #DB4D99 102.99%, rgba(255, 184, 0, 0) 103.01%);">{rank.toUpperCase()}</RankingBadge>
-                        </div>
-                        <div
-                            css={css`
-                                display: flex;
-                                flex-direction: column;
-                                margin-top: 30px;
-                            `}
-                        >
-                            <div
-                                css={css`
-                                    display: flex;
-                                    align-items: center;
-                                `}
-                            >                            
-                                <RequestDataTitle>ชื่อ</RequestDataTitle>
-                                <RequestDataInfo>{name}</RequestDataInfo>
-                            </div>
-                            <div
-                                css={css`
-                                    display: flex;
-                                    align-items: center;
-                                `}
-                            >                            
-                                <RequestDataTitle>สถานที่ให้ความช่วยเหลือ</RequestDataTitle>
-                                <RequestDataInfo>{location}</RequestDataInfo>
-                            </div>
-                            <div
-                                css={css`
-                                    display: flex;
-                                    align-items: center;
-                                `}
-                            >                            
-                                <RequestDataTitle>ยอดการให้ความช่วยเหลือ</RequestDataTitle>
-                                <RequestDataInfo>{helpSum.toLocaleString()}</RequestDataInfo>
-                            </div>
-                            <div
-                                css={css`
-                                    display: flex;
-                                    align-items: center;
-                                `}
-                            >                            
-                                <RequestDataTitle>ค่าบริการ</RequestDataTitle>
-                                <RequestDataInfo>{serviceRate}</RequestDataInfo>
-                            </div>
-                            <div
-                                css={css`
-                                    display: flex;
-                                    align-items: center;
-                                `}
-                            >                            
-                                <RequestDataTitle>วิธีการชำระเงิน</RequestDataTitle>
-                                <RequestDataInfo>{payment}</RequestDataInfo>
-                            </div>
-                            
-                        </div>
-                        <div
-                            css={css`
-                                display: flex;
-                                position: absolute;
-                                bottom: 10px;
-                                right: 20px;
-                                align-items: center;
-                            `}
-                        >
-                            <SecondaryButton>โปรไฟล์</SecondaryButton>
-                            <PrimaryButton>แชท</PrimaryButton>
-                        </div>
-                    </div>
-                </CardContainer>
-            ))}
-        </TopTenRequestCardContainer>
 
     )
 }

@@ -27,7 +27,7 @@ export const POPULAR_REQUEST_DATA = [
         helpSum: 270,
         serviceRate: '30 บาท',
         payment: 'โอน',
-        rank: 'platinum',
+        rank: 'diamond',
     },
     {
         name: 'กระทิง สีแดง',
@@ -87,7 +87,7 @@ export const POPULAR_REQUEST_DATA = [
         helpSum: 250,
         serviceRate: '30 บาท',
         payment: 'โอน',
-        rank: 'platinum',
+        rank: 'classic',
     },
     {
         name: 'กระทิง สีแดง',
@@ -97,7 +97,7 @@ export const POPULAR_REQUEST_DATA = [
         helpSum: 250,
         serviceRate: '30 บาท',
         payment: 'โอน',
-        rank: 'platinum',
+        rank: 'silver',
     }
 ]
 

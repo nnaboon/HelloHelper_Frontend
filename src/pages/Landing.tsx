@@ -5,8 +5,8 @@ import styled from '@emotion/styled';
 import { Input, Space, Modal, Button } from 'antd';
 import { css, jsx, useTheme } from '@emotion/react'
 import OrangeCircle from '../images/circle-orange-background.png';
-import { CategoryButton } from 'components/CategoryButton/CategoryButton';
-import { PopularRequestCard, TopTenRequestCard } from 'components/Card/Card';
+import { PopularRequestCard } from 'components/Card/PopularRequestCard';
+import { TopTenRequestCard } from 'components/Card/TopTenRequestCard';
 import ShoppingBag from '../images/shopping-bag.png';
 import { Text } from 'components/Text';
 import { TOP_TEN_SEARCH_WEEKLY } from 'data/search';
