@@ -56,13 +56,20 @@ export const Navbar = () => {
     }
     
     return (
-        <div>
             <NavbarSection>
                 <NavbarList>
                     <li>รายการรับหิ้วของฉัน</li>
                     <li>รายการฝากหิ้วของฉัน</li>
                     <li>กล่องข้อความ</li>
-                    <li>โปรไฟล์</li>
+                    <li
+                        onClick={() => {
+                            history.push({
+                                pathname: '/profile'
+                            })
+                        }}
+                    >
+                        โปรไฟล์
+                    </li>
                     <MyAccount src={UserPic} alt="my account" />
                 </NavbarList>
                 <SearchBarContainer>
@@ -74,7 +81,6 @@ export const Navbar = () => {
                     />
                 </SearchBarContainer>
             </NavbarSection>            
-        </div>
 
     )
 }

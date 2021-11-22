@@ -5,6 +5,7 @@ import { CATEGORY } from 'data/category';
 
 const SidebarSection = styled.div`
     display: flex;
+    position: fixed;
     flex-direction: column;
     width: 25%;
     align-items: end;
@@ -12,6 +13,9 @@ const SidebarSection = styled.div`
     padding-right: 25px;
     border-right: 1px solid rgb(239, 243, 244);
     z-index: 3;
+    top: 165px;
+    height: 100%;
+    overflow-y: hidden;
 `;
 
 const SidebarItem = styled.div`
@@ -21,7 +25,7 @@ const SidebarItem = styled.div`
     margin-bottom: 15px;
     font-size: 20px;
     cursor: pointer;
-    padding: 20px;
+    padding: 10px;
     border-radius: 20px;
 
     &:hover {

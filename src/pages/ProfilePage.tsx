@@ -8,11 +8,10 @@ import Flex from 'components/Flex/Flex';
 import { Navbar } from 'components/Navbar/Navbar';
 import { USER_DATA } from 'data/user';
 import { SecondaryButton, PrimaryButton } from 'components/Button/Button';
-
+import { Divider } from 'components/Divider/Divider';
 import { SuggestedBadge, RankingBadge } from 'components/Badge/Badge';
 
 import { RANK_BADGE } from 'components/Badge/const';
-import { justifyContent, alignItems } from 'styled-system';
 
 const ProfilePageContainer = styled.div`
     box-sizing: border-box;
@@ -116,11 +115,6 @@ const ProfileInfoListDetail = styled.div`
     margin-left: 12px;
 `;
 
-const SeparateLine = styled.div`
-    border-bottom: 1px solid #C4C4C4;
-    margin: 50px 0;
-`;
-
 const SecondaryHelpButton = styled(SecondaryButton)`
     width: max-content;
     padding: 0 10px;
@@ -194,7 +188,7 @@ export const ProfilePage = () => {
                         </div>
                     </ProfilePageUserInfoSection>
                 ))}
-                <SeparateLine />
+                <Divider />
                 <Text fontWeight={500} fontSize="24px" marginY="20px">รายการความช่วยเหลือของฉัน</Text>
                 <ProfilePageUserHelperListSection>
                     {USER_DATA[0].helpList.map(({ id, name, title, location, helpSum, serviceCharge, payment}) => (
