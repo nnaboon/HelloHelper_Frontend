@@ -1,5 +1,6 @@
 export const SUGGESTED_REQUEST_DATA = [
     {
+        id: '12345qw',
         name: 'นก หัวขวาน',
         imageUrl: '',
         title: 'ขนมปังสังขยา ร้านนายเฮ็ง โชคชัย4',
@@ -9,6 +10,7 @@ export const SUGGESTED_REQUEST_DATA = [
         rank: 'platinum',
     },
     {
+        id: '12345ww',
         name: 'กระทิง สีทอง',
         imageUrl: '',
         title: 'ขนมปังสังขยา ร้านนายเฮ็ง โชคชัย4',
@@ -18,6 +20,7 @@ export const SUGGESTED_REQUEST_DATA = [
         rank: 'gold',
     },
     {
+        id: '12345aa',
         name: 'นก หัวขวาน',
         imageUrl: '',
         title: 'ขนมปังสังขยา ร้านนายเฮ็ง โชคชัย4',
@@ -27,6 +30,7 @@ export const SUGGESTED_REQUEST_DATA = [
         rank: 'diamond',
     },
     {
+        id: '12345pf',
         name: 'นก หัวขวาน',
         imageUrl: '',
         title: 'ขนมปังสังขยา ร้านนายเฮ็ง โชคชัย4',
@@ -36,6 +40,7 @@ export const SUGGESTED_REQUEST_DATA = [
         rank: 'platinum',
     },
     {
+        id: '12345kl',
         name: 'นก หัวขวาน',
         imageUrl: '',
         title: 'ขนมปังสังขยา ร้านนายเฮ็ง โชคชัย4',
@@ -45,6 +50,7 @@ export const SUGGESTED_REQUEST_DATA = [
         rank: 'platinum',
     },
     {
+        id: '12345er',
         name: 'นก หัวขวาน',
         imageUrl: '',
         title: 'ขนมปังสังขยา ร้านนายเฮ็ง โชคชัย4',
@@ -54,6 +60,7 @@ export const SUGGESTED_REQUEST_DATA = [
         rank: 'platinum',
     },
     {
+        id: '12345mj',
         name: 'นก หัวขวาน',
         imageUrl: '',
         title: 'ขนมปังสังขยา ร้านนายเฮ็ง โชคชัย4',
@@ -63,6 +70,7 @@ export const SUGGESTED_REQUEST_DATA = [
         rank: 'platinum',
     },
     {
+        id: '12345na',
         name: 'นก หัวขวาน',
         imageUrl: '',
         title: 'ขนมปังสังขยา ร้านนายเฮ็ง โชคชัย4',
@@ -72,6 +80,7 @@ export const SUGGESTED_REQUEST_DATA = [
         rank: 'platinum',
     },
     {
+        id: '12345qn',
         name: 'นก หัวขวาน',
         imageUrl: '',
         title: 'ขนมปังสังขยา ร้านนายเฮ็ง โชคชัย4',
@@ -81,6 +90,7 @@ export const SUGGESTED_REQUEST_DATA = [
         rank: 'classic',
     },
     {
+        id: '12345ab',
         name: 'นก หัวขวาน',
         imageUrl: '',
         title: 'ขนมปังสังขยา ร้านนายเฮ็ง โชคชัย4',

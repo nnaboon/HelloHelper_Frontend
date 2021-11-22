@@ -8,6 +8,7 @@ import { LandingPage } from "./pages/Landing";
 import { HomePage } from 'pages/Homepage';
 import { ProfilePage } from 'pages/ProfilePage';
 import './App.css'
+import { InfoPage } from 'pages/Infopage';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/" exact component={LandingPage} />
           <Route path="/home" component={HomePage} />
           <Route path="/profile" component={ProfilePage} />
+          <Route path="/:id" component={InfoPage} />
          </Switch>        
       </BrowserRouter>
     </div>

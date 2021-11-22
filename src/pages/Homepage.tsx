@@ -5,13 +5,13 @@ import { useHistory } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { Input} from 'antd';
 import { css, jsx, useTheme } from '@emotion/react'
-import { PopularRequestCard } from 'components/Card/PopularRequestCard';
-import { TopTenRequestCard } from 'components/Card/TopTenRequestCard';
+import { PopularRequestSection } from 'components/Card/PopularRequestCard';
+import { TopTenRequestSection } from 'components/Card/TopTenRequestCard';
 import { Text } from 'components/Text';
 import { TOP_TEN_SEARCH_WEEKLY } from 'data/search';
 import { TopSearchButton } from 'components/Button/Button';
 import { PostRequestButton } from 'components/Button/PostRequestButton';
-import { SuggestedRequestCard } from 'components/Card/SuggestedRequestCard';
+import { SuggestedRequestSection } from 'components/Card/SuggestedRequestCard';
 import { Navbar } from 'components/Navbar/Navbar';
 import { News } from 'components/News/News';
 
@@ -59,28 +59,17 @@ export const HomePage = () => {
                     <PostRequestButton />                
                 </div>
                 <Text fontSize="36px" fontWeight={500}>ความช่วยเหลือยอดนิยม</Text>
-                <PopularRequestCard
-                    title={'ข้าวมันไก่โชคชัน 111'}
-                    imageURL={"dfhjfioashfa"}
-                />
+                <PopularRequestSection />
                 <Text fontSize="36px" fontWeight={500}>Top 10 การค้นหาติดอันดับ</Text>
                 <TopTenSearchContainer>
-                    {
-                        TOP_TEN_SEARCH_WEEKLY.map(({ name }) => (
-                            <TopSearchButton>{name}</TopSearchButton>
-                        ))
-                    }                
+                    {TOP_TEN_SEARCH_WEEKLY.map(({ name }) => (
+                        <TopSearchButton>{name}</TopSearchButton>
+                    ))}                
                 </TopTenSearchContainer>
                 <Text fontSize="36px" fontWeight={500}>Top 10 ความช่วยเหลือประจำสัปดาห์</Text>
-                <TopTenRequestCard
-                    title={'ข้าวมันไก่โชคชัน 111'}
-                    imageURL={"dfhjfioashfa"}
-                />
+                <TopTenRequestSection />
                 <Text fontSize="36px" fontWeight={500}>ความช่วยเหลือแนะนำ</Text>
-                <SuggestedRequestCard
-                    title={'ข้าวมันไก่โชคชัน 111'}
-                    imageURL={"dfhjfioashfa"}
-                />
+                <SuggestedRequestSection />
                 <Text fontSize="36px" fontWeight={500}>ข่าวน่าสนใจ</Text>
                 <News />
             </HomePageContainer>

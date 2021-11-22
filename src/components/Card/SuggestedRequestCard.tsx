@@ -1,6 +1,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { SecondaryButton, PrimaryButton } from 'components/Button/Button';
 import { SUGGESTED_REQUEST_DATA } from 'data/request';
 
@@ -8,17 +9,6 @@ import { SuggestedBadge, RankingBadge } from '../Badge/Badge';
 import { RANK_BADGE } from 'components/Badge/const';
 import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
-
-interface RequestCardProps {
-    title: string;
-    imageURL?: string;
-    ranking?: string;
-    name?: string;
-    location?: string;
-    helpSum?: number;
-    rate?: number;
-    billing?: string;
-}
 
 const RequestHelperCardContainer = styled.div`
     display: flex;
@@ -42,6 +32,7 @@ const CardContainer = styled.div`
     position: relative;
     top: -20px;
     margin-top: 40px;
+    cursor: pointer;
 `;
 
 const RequestTitle = styled.div`
@@ -82,11 +73,19 @@ const RequestDataContent = styled.div`
     margin-bottom: 5px;
 `;
 
-export const SuggestedRequestCard = ({title, imageURL} : RequestCardProps) => {
+export const SuggestedRequestSection = () => {
+    const history = useHistory();
+
     return (
         <RequestHelperCardContainer>
-            {SUGGESTED_REQUEST_DATA.map(({ title, imageUrl, name, payment, serviceRate, location, rank }) => (
-                <CardContainer>
+            {SUGGESTED_REQUEST_DATA.map(({ id, title, imageUrl, name, payment, serviceRate, location, rank }) => (
+                <CardContainer
+                    onClick={() => {
+                        history.push({
+                            pathname: `/${id}/${title}`
+                        })
+                    }}
+                >
                     <div
                         css={css`
                             display: flex;

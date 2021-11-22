@@ -1,6 +1,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { SecondaryButton, PrimaryButton } from 'components/Button/Button';
 import { TOP_TEN_REQUEST_DATA } from 'data/helper';
 
@@ -9,16 +10,6 @@ import { RANK_BADGE } from 'components/Badge/const';
 import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
 
-interface RequestCardProps {
-    title: string;
-    imageURL?: string;
-    ranking?: string;
-    name?: string;
-    location?: string;
-    helpSum?: number;
-    rate?: number;
-    billing?: string;
-}
 
 const CardContainer = styled.div`
     width: 448px;
@@ -34,6 +25,7 @@ const CardContainer = styled.div`
     position: relative;
     top: -20px;
     margin-top: 40px;
+    cursor: pointer;
 `;
 
 const RequestTitle = styled.div`
@@ -78,11 +70,20 @@ const TopTenRequestDataContent = styled.div`
     margin-bottom: 5px;
 `;
 
-export const TopTenRequestCard = ({title, imageURL} : RequestCardProps) => {
+export const TopTenRequestSection = () => {
+    const history = useHistory();
+
     return (
         <TopTenRequestCardContainer>
-            {TOP_TEN_REQUEST_DATA.map(({ title, imageUrl, name, payment, serviceRate, location, helpSum, rank }) => (
-                <CardContainer>
+            {TOP_TEN_REQUEST_DATA.map(({ id, title, imageUrl, name, payment, serviceRate, location, helpSum, rank }) => (
+                <CardContainer
+                    key={id}
+                    onClick={() => {
+                        history.push({
+                            pathname: `/${id}/${title}`
+                        })
+                    }}
+                >
                     <RequestTitle>{title}</RequestTitle>
                     <div
                         css={css`
