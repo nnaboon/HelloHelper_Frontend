@@ -80,7 +80,7 @@ export const TopTenRequestSection = () => {
                     key={id}
                     onClick={() => {
                         history.push({
-                            pathname: `/${id}/${title}`
+                            pathname: `/${title}/${id}`
                         })
                     }}
                 >

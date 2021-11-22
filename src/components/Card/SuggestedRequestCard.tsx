@@ -82,7 +82,7 @@ export const SuggestedRequestSection = () => {
                 <CardContainer
                     onClick={() => {
                         history.push({
-                            pathname: `/${id}/${title}`
+                            pathname: `/${title}/${id}`
                         })
                     }}
                 >

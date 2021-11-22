@@ -26,7 +26,8 @@ function App() {
           <Route path="/" exact component={LandingPage} />
           <Route path="/home" component={HomePage} />
           <Route path="/profile" component={ProfilePage} />
-          <Route path="/:id" component={SearchResultPage} />
+          <Route path="/:id" exact component={SearchResultPage} />
+          <Route path="/:title/:id" component={InfoPage} />
          </Switch>        
       </BrowserRouter>
     </div>
