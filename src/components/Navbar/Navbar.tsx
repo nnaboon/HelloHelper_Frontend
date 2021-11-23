@@ -1,9 +1,15 @@
-import React from 'react';
+/** @jsxRuntime classic */
+/** @jsx jsx */
+import { css, jsx, Global } from '@emotion/react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from '@emotion/styled';
-import { Input } from 'antd';
+import { Input, Modal } from 'antd';
 import UserPic from '../../images/avatar_user.png';
 import Flex from 'components/Flex/Flex';
+import { RegisterForm } from 'features/login/RegisterForm';
+import { LoginForm } from 'features/login/LoginForm';
+import { LoginStep } from 'features/login/const';
 
 const NavbarSection = styled.div`
     width: 100%;
@@ -46,17 +52,40 @@ const SearchBarContainer = styled.div`
     justify-content: center;
 `;
 
-export const Navbar = () => {    
+export const Navbar = () => {
+    const [account, setAccount] = useState<Boolean>(false);
     const history = useHistory();
     const { Search } = Input;
     const onSearch = value => {
         history.push({
-            search: `?query=${value}`
+            pathname: '/search',
+            search: `?keyword=${value}`
         })
     }
+      const [isModalVisible, setIsModalVisible] = useState(false);
+
+    const showModal = () => {
+        setIsModalVisible(true);
+    };
+
+    const handleOk = () => {
+        setIsModalVisible(false);
+    };
+
+    const handleCancel = () => {
+        setIsModalVisible(false);
+    };
     
     return (
         <NavbarSection>
+            <Global
+                styles={css`
+                    .ant-modal-content {
+                        border-radius: 12px;
+                        height: 614px;
+                    }
+                `}
+            />
             <Flex justify="space-between">
                 <div
                     style={{ width: '100px', height: '40px', background: 'blue' }}
@@ -85,9 +114,10 @@ export const Navbar = () => {
                         src={UserPic}
                         alt="my account"
                         onClick={() => {
-                            history.push({
-                                pathname: '/login'
-                            })
+                            // history.push({
+                            //     pathname: '/login'
+                            // })
+                            setIsModalVisible(true)
                         }}
                     />
                 </NavbarList>                
@@ -100,8 +130,21 @@ export const Navbar = () => {
                         size="large"
                         style={{ width: '700px', height: '40px' }}
                     />
-                </SearchBarContainer>
-            </NavbarSection>            
+            </SearchBarContainer>
+            <Modal
+                visible={isModalVisible}
+                onOk={handleOk}
+                onCancel={handleCancel}
+                footer={null}
+                width={500}
+                maskClosable={false}
+                centered
+            >
+                <LoginForm />
+                {/* <LoginForm /> */}
+                {/* <RegisterForm /> */}
+            </Modal>
+        </NavbarSection>            
 
     )
 }

@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "@emotion/styled";
+import { Button } from 'antd';
 
 export const SecondaryButton = styled.a`
     min-width: 106px;
@@ -58,6 +59,23 @@ export const TopSearchButton = styled.a`
 
     &:hover {
         color: #ffff;
+        background: #EE6400;
+    }
+`;
+
+export const PrimaryButton2 = styled(Button)`
+    width: 106px;
+    height: 40px;
+    box-sizing: border-box;
+    background: #EE6400;
+    border-radius: 9px;
+    border: 0;
+    position: relative;
+    bottom: 0;
+    right: 20px;
+    color: #ffff;
+
+    &:hover {
         background: #EE6400;
     }
 `;

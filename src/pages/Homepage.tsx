@@ -37,8 +37,8 @@ export const HomePage = () => {
     const { Search } = Input;
     const onSearch = value => {
         history.push({
-            pathname: '/',
-            search: `?query=${value}`
+            pathname: '/search',
+            search: `?keyword=${value}`
         })
     }
 
@@ -48,7 +48,7 @@ export const HomePage = () => {
                 <div
                     css={css`
                         width: 100%;
-                        height: 487px;
+                        height: 427px;
                         background: #C4C4C4;
                         margin-bottom: 30px;
                     `}

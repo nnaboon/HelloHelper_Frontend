@@ -11,7 +11,6 @@ export const RegisterForm = () => {
     const [createUserData, setCreateUserData] = useState<UserCreateBody>();
 
     const renderForm = (step: RegisterStep) => {
-        console.log(createUserData)
         switch (step) {
             case RegisterStep.EMAIL_AND_PASSWORD:
                 return (

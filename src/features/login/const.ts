@@ -5,6 +5,11 @@ export enum RegisterStep {
     ABILITY = 'ability'
 }
 
+export enum LoginStep {
+    LOGIN = 'login',
+    REGISTER = 'register'
+}
+
 export type UserCreateBody = {
     email: string;
     password: string;

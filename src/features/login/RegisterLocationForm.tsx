@@ -1,4 +1,9 @@
+/** @jsxRuntime classic */
+/** @jsx jsx */
+import { css, jsx, Global } from '@emotion/react';
 import React, { useEffect, useState } from 'react';
+import styled from '@emotion/styled';
+import { Text } from 'components/Text';
 import { Button, Divider, Form, Input, message, Checkbox } from 'antd';
 import { UserCreateBody } from './const';
 
@@ -7,6 +12,14 @@ type RegisterLocationFormProps = {
     onNext: (value: UserCreateBody) => void;
     onBack: () => void;
 };
+
+const RegisterLocationFormSection = styled.div`
+    display: flex;
+    flex-direction: column;
+    padding: 2.55rem 2.75rem 1.5rem 2.75rem;
+    position: relative;
+    height: 564px;
+`;
 
 export const RegisterLocationForm = (props : RegisterLocationFormProps) => {
     const [form] = Form.useForm();
@@ -37,34 +50,82 @@ export const RegisterLocationForm = (props : RegisterLocationFormProps) => {
     }
   };
 
-  return (
-    <Form
-      name="basic"
-      labelCol={{ span: 8 }}
-      wrapperCol={{ span: 16 }}
-      initialValues={{ remember: true }}
-      onFinish={onFinish}
-      autoComplete="off"
-    >
-      <Form.Item
-        label="Location"
-        name="location"
-        rules={[{ required: true, message: 'Please input your location!' }]}
-      >
-        <Input />
-        
-          </Form.Item>
-          
-        <Button
-          className=" w-full mr-4 h-12 rounded-xl"
-          onClick={() => onBack()}
-        >
-          ย้อนกลับ
-        </Button>
-        <Button type="primary" htmlType="submit">
-          ต่อไป
-        </Button>
+    return (
+        <RegisterLocationFormSection>
+            <Global
+                styles={css`
+                    .ant-form-item-control-input {
+                        width: 360px;
+                    }
+                `}
+            />
+            <Text fontSize="24px" marginTop="10px" marginBottom="20px">สถานที่ที่คุณสามารถให้ความช่วยเหลือได้</Text>        
+            <Form
+                name="basic"
+                labelCol={{ span: 8 }}
+                wrapperCol={{ span: 16 }}
+                initialValues={{ remember: true }}
+                onFinish={onFinish}
+                autoComplete="off"
+            >
+                <Form.Item
+                    name="location"
+                    rules={[{ required: true, message: 'กรุณากรอกสถานที่ที่คุณสามารถให้ความช่วยเหลือได้' }]}
+                >
+                    <Input placeholder="สถานที่" style={{ height: '40px', borderRadius: '12px' }}/>  
+                </Form.Item>             
+                <Button 
+                    type="primary"
+                    htmlType="submit"
+                    css={css`
+                        width: 106px;
+                        height: 40px;
+                        box-sizing: border-box;
+                        background: #ffff;
+                        border-radius: 9px;
+                        border: 1px solid #EE6400;
+                        position: absolute;
+                        bottom: 0;
+                        right: 140px;
+                        color: #EE6400;
+                        font-size: 16px;
 
-    </Form>
-  );
+
+                        &:hover {
+                            background: #ffff;
+                        }
+                    `}
+                    onClick={() => onBack()}
+                                
+                >
+                    ย้อนกลับ
+                </Button>
+                <Button 
+                    type="primary"
+                    htmlType="submit"
+                    css={css`
+                        width: 106px;
+                        height: 40px;
+                        box-sizing: border-box;
+                        background: #EE6400;
+                        border-radius: 9px;
+                        border: 0;
+                        position: absolute;
+                        bottom: 0;
+                        right: 20px;
+                        color: #ffff;
+                        font-size: 16px;
+
+
+                        &:hover {
+                            background: #EE6400;
+                        }
+                    `}
+                                
+                >
+                    ถัดไป
+                </Button>
+            </Form>
+        </RegisterLocationFormSection>
+    );
 };

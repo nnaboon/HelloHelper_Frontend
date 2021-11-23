@@ -1,12 +1,26 @@
+/** @jsxRuntime classic */
+/** @jsx jsx */
+import { css, jsx, Global } from '@emotion/react';
 import React, { useEffect, useState } from 'react';
+import styled from '@emotion/styled';
 import { Button, Divider, Form, Input, message, Checkbox } from 'antd';
 import { UserCreateBody } from './const';
 import { FormRule, getRule } from 'utils/form/getRule';
+import { Text } from '../../components/Text';
+import { PrimaryButton } from 'components/Button/Button';
 
 type RegisterAccountFormProps = {
     userAccountData: UserCreateBody;
     onNext: (value: UserCreateBody) => void;
 };
+
+const RegisterAccountFormSection = styled.div`
+    display: flex;
+    flex-direction: column;
+    padding: 2.55rem 2.75rem 1.5rem 2.75rem;
+    position: relative;
+    height: 564px;
+`;
 
 export const RegisterAccountForm = (props : RegisterAccountFormProps) => {
     const [form] = Form.useForm();
@@ -69,57 +83,77 @@ export const RegisterAccountForm = (props : RegisterAccountFormProps) => {
     }
   }, [userAccountData]);
 
-  return (
-    <Form
-      name="basic"
-      labelCol={{ span: 8 }}
-      wrapperCol={{ span: 16 }}
-      initialValues={{ remember: true }}
-      onFinish={onFinish}
-      autoComplete="off"
-    >
-      <Form.Item
-        label="Email"
-        name="email"
-        rules={[{ required: true, message: 'Please input your email!' }]}
-      >
-        <Input />
-      </Form.Item>
+    return (
+        <RegisterAccountFormSection>
+            <Global
+                styles={css`
+                    .ant-form-item-control-input {
+                        width: 360px;
+                    }
+                `}
+            />
+            <Text fontSize="24px" marginTop="10px" marginBottom="20px">เริ่มลงทะเบียน</Text>        
+            <Form
+            name="basic"
+            labelCol={{ span: 8 }}
+            wrapperCol={{ span: 16 }}
+            initialValues={{ remember: true }}
+            onFinish={onFinish}
+            autoComplete="off"
+            >
+            <Form.Item
+                name="email"
+                rules={[{ required: true, message: 'กรุณากรอกอีเมล' }]}
+            >
+                <Input placeholder="อีเมล" style={{ height: '40px', borderRadius: '12px' }} />
+            </Form.Item>
 
-      <Form.Item
-        label="Password"
-        name="password"
-        rules={[{ required: true, message: 'Please input your password!' }]}
-      >
-        <Input.Password />
-    </Form.Item>
-    <Form.Item
-        name="confirmPassword"
-        normalize={(value) => value.trim()}
-        rules={[
-          getRule(FormRule.REQUIRE, 'กรุณากรอกยืนยันรหัสผ่าน'),
-          ({ getFieldValue }) => ({
-            validator(rule, value) {
-              if (value && getFieldValue('password') !== value)
-                return Promise.reject('รหัสผ่านไม่ตรงกัน');
-              return Promise.resolve();
-            }
-          })
-        ]}
-        className="mb-6"
-      >
-        <Input type="password" placeholder="ยืนยันรหัสผ่าน" />
-      </Form.Item>
+            <Form.Item
+                name="password"
+                rules={[{ required: true, message: 'กรุณากรอกรหัสผ่าน' }]}
+            >
+                <Input.Password placeholder="รหัสผ่าน" style={{ height: '40px', borderRadius: '12px' }} />
+            </Form.Item>
+            <Form.Item
+                name="confirmPassword"
+                normalize={(value) => value.trim()}
+                rules={[
+                getRule(FormRule.REQUIRE, 'กรุณากรอกยืนยันรหัสผ่าน'),
+                ({ getFieldValue }) => ({
+                    validator(rule, value) {
+                    if (value && getFieldValue('password') !== value)
+                        return Promise.reject('รหัสผ่านไม่ตรงกัน');
+                    return Promise.resolve();
+                    }
+                })
+                ]}
+            >
+                <Input.Password placeholder="ยืนยันรหัสผ่าน" style={{ height: '40px', borderRadius: '12px' }} />
+            </Form.Item>
+            <Button 
+                type="primary"
+                htmlType="submit"
+                css={css`
+                    width: 106px;
+                    height: 40px;
+                    box-sizing: border-box;
+                    background: #EE6400;
+                    border-radius: 9px;
+                    border: 0;
+                    position: absolute;
+                    bottom: 0;
+                    right: 20px;
+                    color: #ffff;
 
-      <Form.Item name="remember" valuePropName="checked" wrapperCol={{ offset: 8, span: 16 }}>
-        <Checkbox>Remember me</Checkbox>
-      </Form.Item>
-
-      <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-        <Button type="primary" htmlType="submit">
-          Submit
-        </Button>
-      </Form.Item>
-    </Form>
+                    &:hover {
+                        background: #EE6400;
+                    }
+                `}                
+            >
+                ถัดไป
+            </Button>
+        </Form>
+                
+    </RegisterAccountFormSection>        
   );
 };

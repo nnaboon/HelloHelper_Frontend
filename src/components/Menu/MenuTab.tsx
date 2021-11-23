@@ -4,7 +4,6 @@ import Flex from 'components/Flex/Flex';
 import { useHistory, useLocation } from 'react-router-dom'
 import { MenuButton } from './MenuButton';
 import { HelpMenu, HELP_MENU_MAPPER } from './const';
-import { justifyContent } from 'styled-system';
 
 interface MenuTabProps {
   menu: HelpMenu;
@@ -25,7 +24,7 @@ export const MenuTab = ({ menu, setMenu }:MenuTabProps) => {
                 setMenu(key);
                 history.push({
                   pathname,
-                  search: `?menu=${key}`,
+                //   search: `?menu=${key}`,
                   state: {
                     menu: key
                   }
