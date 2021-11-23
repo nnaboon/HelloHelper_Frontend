@@ -12,6 +12,7 @@ import { InfoPage } from 'pages/Infopage';
 import { SearchResultPage } from './pages/SearchResultPage';
 import { Sidebar } from './components/Sidebar/Sidebar';
 import { Login } from './pages/Login';
+import { Navbar } from 'components/Navbar/Navbar';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
       `}
     >
       <BrowserRouter>
+        <Navbar />
         <Switch>
           {/* <Route path="" exact component={LandingPage} /> */}
           <Route path="/" exact component={HomePage} />
