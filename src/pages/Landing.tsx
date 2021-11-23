@@ -61,7 +61,7 @@ export const LandingPage = () => {
             </Text>
             <PrimaryButton
                 onClick={() => {
-                    history.push('/home');
+                    history.push('/');
                 }}
             >
                 เริ่มใช้งาน

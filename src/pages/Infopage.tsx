@@ -11,6 +11,7 @@ import { Text } from 'components/Text';
 import { PrimaryButton, SecondaryButton } from 'components/Button/Button';
 import { HelperListCard } from 'components/Card/HelperListCard';
 import { SmallSuggestRequestCard } from 'components/Card/SmallSuggestRequestCard';
+import { USER_DATA } from 'data/user';
 
 const RequestImage = styled.img`
     width: 420px;

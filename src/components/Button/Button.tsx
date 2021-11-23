@@ -2,7 +2,7 @@ import React from "react";
 import styled from "@emotion/styled";
 
 export const SecondaryButton = styled.a`
-    width: 106px;
+    min-width: 106px;
     height: 40px;
     background: #FFFFFF;
     border: 1px solid #EE6400;

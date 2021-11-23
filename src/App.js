@@ -11,6 +11,7 @@ import './App.css'
 import { InfoPage } from 'pages/Infopage';
 import { SearchResultPage } from './pages/SearchResultPage';
 import { Sidebar } from './components/Sidebar/Sidebar';
+import { Login } from './pages/Login';
 
 function App() {
   return (
@@ -23,8 +24,9 @@ function App() {
     >
       <BrowserRouter>
         <Switch>
-          <Route path="/" exact component={LandingPage} />
-          <Route path="/home" component={HomePage} />
+          {/* <Route path="" exact component={LandingPage} /> */}
+          <Route path="/" exact component={HomePage} />
+          <Route path="/login" component={Login} />
           <Route path="/profile" component={ProfilePage} />
           <Route path="/:id" exact component={SearchResultPage} />
           <Route path="/:title/:id" component={InfoPage} />

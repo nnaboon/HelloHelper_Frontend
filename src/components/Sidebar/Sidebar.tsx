@@ -1,5 +1,5 @@
-import React from 'react';
-import { useHistory } from 'react-router-dom'
+import React, { useState, useEffect } from 'react';
+import { useHistory, useLocation } from 'react-router-dom'
 import styled from '@emotion/styled';
 import { CATEGORY } from 'data/category';
 
@@ -18,7 +18,7 @@ const SidebarSection = styled.div`
     overflow-y: hidden;
 `;
 
-const SidebarItem = styled.div`
+const SidebarItem = styled.div<{ isActive: boolean }>`
     width: max-content;
     max-width: 260px;
     margin-right: 20px;
@@ -27,10 +27,7 @@ const SidebarItem = styled.div`
     cursor: pointer;
     padding: 10px;
     border-radius: 20px;
-
-    &:hover {
-        background: rgb(239, 243, 244);
-    }
+    background: ${props => props.isActive ? 'rgba(255, 116, 0, 0.38)' : 'transparent'};
 `;
 
 const SidebarLink = styled.div`
@@ -40,28 +37,29 @@ const SidebarLink = styled.div`
 
 export const Sidebar = () => {
     const history = useHistory();
+    const location = useLocation();
+    const [isActive, setIsActive] = useState<string>('');
+    
+    useEffect(() => {
+        if (location.pathname) {
+            setIsActive(location.pathname.split('/')[1]);
+        } else {
+            setIsActive('food')
+        }
+    }, [location]);
 
     return (
         <SidebarSection>
-            <SidebarItem>
-                <SidebarLink
-                    onClick={() => {
-                        history.push({
-                            pathname: '/home',
-                            search: `?query=all`
-                        })
-                    }}
-                >
-                    ความช่วยเหลือทั้งหมด
-                </SidebarLink>                        
-            </SidebarItem>
             {CATEGORY.map(({ name, id }) => (
-                <SidebarItem>
+                <SidebarItem
+                    key={id}
+                    isActive={ id === isActive ? true : false}
+                >
                     <SidebarLink
                         onClick={() => {
+                            setIsActive(id)
                             history.push({
-                                pathname: '/home',
-                                search: `?query=${id}`
+                                pathname: `${id}`
                             })
                         }}
                     >

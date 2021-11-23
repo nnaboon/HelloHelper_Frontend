@@ -9,11 +9,12 @@ import { PopularRequestSection } from 'components/Card/PopularRequestCard';
 import { TopTenRequestSection } from 'components/Card/TopTenRequestCard';
 import { Text } from 'components/Text';
 import { TOP_TEN_SEARCH_WEEKLY } from 'data/search';
-import { TopSearchButton } from 'components/Button/Button';
+import { SecondaryButton, TopSearchButton } from 'components/Button/Button';
 import { PostRequestButton } from 'components/Button/PostRequestButton';
 import { SuggestedRequestSection } from 'components/Card/SuggestedRequestCard';
 import { Navbar } from 'components/Navbar/Navbar';
 import { News } from 'components/News/News';
+import { CATEGORY } from 'data/category';
 
 const HomePageContainer = styled.div`
     box-sizing: border-box;
@@ -36,7 +37,7 @@ export const HomePage = () => {
     const { Search } = Input;
     const onSearch = value => {
         history.push({
-            pathname: '/home',
+            pathname: '/',
             search: `?query=${value}`
         })
     }
@@ -47,8 +48,40 @@ export const HomePage = () => {
             <HomePageContainer>
                 <div
                     css={css`
+                        width: 100%;
+                        height: 487px;
+                        background: #C4C4C4;
+                        margin-bottom: 30px;
+                    `}
+                >
+                    Picture
+                </div>
+                <div style={{ display: 'flex', overflowX: 'scroll', width: '100%' }}>
+                    {CATEGORY.map(({ id, name }) => (
+                        <SecondaryButton
+                            key={id}
+                            css={css`
+                                min-width: 240px;
+                                margin-right: 20px;
+                                border-sizing: border-box;
+                                padding: 0 10px;
+                                margin-bottom: 30px;
+                            `}
+                            onClick={() => {
+                                history.push({
+                                    pathname: `/${id}`,
+                                })
+                            }}
+                        >
+                            {name}
+                        </SecondaryButton>
+                    ))}                    
+                </div>
+                <div
+                    css={css`
                         justify-content: space-between;
                         display: flex;
+                        margin-top: 30px;
                 `}>
                     <Search
                         placeholder="ค้นหาสถานที่"

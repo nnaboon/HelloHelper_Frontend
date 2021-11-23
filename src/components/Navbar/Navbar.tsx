@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { Input } from 'antd';
 import UserPic from '../../images/avatar_user.png';
+import Flex from 'components/Flex/Flex';
 
 const NavbarSection = styled.div`
     width: 100%;
@@ -50,13 +51,23 @@ export const Navbar = () => {
     const { Search } = Input;
     const onSearch = value => {
         history.push({
-            pathname: '/home',
             search: `?query=${value}`
         })
     }
     
     return (
-            <NavbarSection>
+        <NavbarSection>
+            <Flex justify="space-between">
+                <div
+                    style={{ width: '100px', height: '40px', background: 'blue' }}
+                    onClick={() => {
+                        history.push({
+                            pathname: '/'
+                        })
+                    }}
+                >
+                    Home
+                </div>
                 <NavbarList>
                     <li>รายการรับหิ้วของฉัน</li>
                     <li>รายการฝากหิ้วของฉัน</li>
@@ -70,8 +81,18 @@ export const Navbar = () => {
                     >
                         โปรไฟล์
                     </li>
-                    <MyAccount src={UserPic} alt="my account" />
-                </NavbarList>
+                    <MyAccount
+                        src={UserPic}
+                        alt="my account"
+                        onClick={() => {
+                            history.push({
+                                pathname: '/login'
+                            })
+                        }}
+                    />
+                </NavbarList>                
+            </Flex>
+
                 <SearchBarContainer>
                     <Search
                         placeholder="ข้าวผัดป้าเขียว, ก๋วยจั๊บนายวาย, แกงกะหรี่ป้าอร โชคชัย4"
