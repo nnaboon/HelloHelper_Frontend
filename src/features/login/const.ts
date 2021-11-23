@@ -8,7 +8,7 @@ export enum RegisterStep {
 export type UserCreateBody = {
     email: string;
     password: string;
-    name: string;
+    username: string;
     location: string;
     ability: string[];
 };

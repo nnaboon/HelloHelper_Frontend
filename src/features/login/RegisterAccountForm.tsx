@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Divider, Form, Input, message, Checkbox } from 'antd';
 import { UserCreateBody } from './const';
+import { FormRule, getRule } from 'utils/form/getRule';
 
 type RegisterAccountFormProps = {
     userAccountData: UserCreateBody;
@@ -78,9 +79,9 @@ export const RegisterAccountForm = (props : RegisterAccountFormProps) => {
       autoComplete="off"
     >
       <Form.Item
-        label="Username"
-        name="username"
-        rules={[{ required: true, message: 'Please input your username!' }]}
+        label="Email"
+        name="email"
+        rules={[{ required: true, message: 'Please input your email!' }]}
       >
         <Input />
       </Form.Item>
@@ -91,6 +92,23 @@ export const RegisterAccountForm = (props : RegisterAccountFormProps) => {
         rules={[{ required: true, message: 'Please input your password!' }]}
       >
         <Input.Password />
+    </Form.Item>
+    <Form.Item
+        name="confirmPassword"
+        normalize={(value) => value.trim()}
+        rules={[
+          getRule(FormRule.REQUIRE, 'กรุณากรอกยืนยันรหัสผ่าน'),
+          ({ getFieldValue }) => ({
+            validator(rule, value) {
+              if (value && getFieldValue('password') !== value)
+                return Promise.reject('รหัสผ่านไม่ตรงกัน');
+              return Promise.resolve();
+            }
+          })
+        ]}
+        className="mb-6"
+      >
+        <Input type="password" placeholder="ยืนยันรหัสผ่าน" />
       </Form.Item>
 
       <Form.Item name="remember" valuePropName="checked" wrapperCol={{ offset: 8, span: 16 }}>

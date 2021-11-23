@@ -2,32 +2,61 @@ import React, { useEffect, useState } from 'react';
 import { Button, Divider, Form, Input, message, Checkbox } from 'antd';
 import { RegisterStep, UserCreateBody } from './const';
 import { RegisterAccountForm } from './RegisterAccountForm';
+import { RegisterUsernameForm } from './RegisterUsernameForm';
+import { RegisterLocationForm } from './RegisterLocationForm';
+import { RegisterAbilityForm } from './RegisterAbilityForm';
 
 export const RegisterForm = () => {
     const [step, setStep] = useState<RegisterStep>(RegisterStep.EMAIL_AND_PASSWORD);
     const [createUserData, setCreateUserData] = useState<UserCreateBody>();
 
     const renderForm = (step: RegisterStep) => {
-        console.log(step)
+        console.log(createUserData)
         switch (step) {
             case RegisterStep.EMAIL_AND_PASSWORD:
                 return (
                     <RegisterAccountForm
                         userAccountData={createUserData}
-                        onNext={() => setStep(RegisterStep.USERNAME)}
+                        onNext={async (userAccountData: UserCreateBody) => {
+                            await setCreateUserData(userAccountData);
+                            setStep(RegisterStep.USERNAME)
+                        }}
                     />
                 );
             case RegisterStep.USERNAME:
                 return (
-                    <div>user name</div>
+                    <RegisterUsernameForm
+                        userAccountData={createUserData}
+                        onNext={async (userAccountData: UserCreateBody) => {
+                            await setCreateUserData(userAccountData);
+                            setStep(RegisterStep.LOCATION)
+                        }}
+                    />
                 );
             case RegisterStep.LOCATION:
                 return (
-                    <div>location</div>
+                    <RegisterLocationForm
+                        userAccountData={createUserData}
+                        onNext={async (userAccountData: UserCreateBody) => {
+                            await setCreateUserData(userAccountData);
+                            setStep(RegisterStep.ABILITY)
+                        }}
+                        onBack={() => {
+                            setStep(RegisterStep.USERNAME)
+                        }}
+                    />
                 )
             case RegisterStep.ABILITY:
                 return (
-                    <div>ability</div>
+                    <RegisterAbilityForm
+                        userAccountData={createUserData}
+                        onNext={async (userAccountData: UserCreateBody) => {
+                            await setCreateUserData(userAccountData);
+                        }}
+                        onBack={() => {
+                            setStep(RegisterStep.LOCATION)
+                        }}
+                    />
                 )
         }
     }
