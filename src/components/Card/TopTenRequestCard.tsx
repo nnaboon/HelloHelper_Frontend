@@ -4,8 +4,8 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { SecondaryButton, PrimaryButton } from 'components/Button/Button';
 import { TOP_TEN_REQUEST_DATA } from 'data/helper';
-
 import { SuggestedBadge, RankingBadge } from '../Badge/Badge';
+import StarIcon from 'images/rating-star.png';
 import { RANK_BADGE } from 'components/Badge/const';
 import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
@@ -49,6 +49,7 @@ const RequestDataTitle = styled.div`
     color: #C4C4C4;
     max-width: 91px;
     margin-right: 15px;
+    width: 80px;
 `;
 
 const RequestDataInfo = styled.div`
@@ -96,11 +97,20 @@ export const TopTenRequestSection = () => {
                                 width: 32%;
                                 flex-direction: column;
                                 align-items: center;
+                                margin-top: -13px;
                                 margin-right: 35px;
                             `}
                         >
                             <HelperImage />
                             <SuggestedBadge>แนะนำ</SuggestedBadge>
+                            <div style={{ display: 'flex', marginBottom: '8px', marginTop: '-4px' }}>
+                                <img src={StarIcon} alt="star" style={{ width: '26px', height: '26px', marginRight: '2px' }} />
+                                <img src={StarIcon} alt="star" style={{ width: '26px', height: '26px', marginRight: '2px' }} />
+                                <img src={StarIcon} alt="star" style={{ width: '26px', height: '26px', marginRight: '2px' }} />
+                                <img src={StarIcon} alt="star" style={{ width: '26px', height: '26px', marginRight: '2px' }} />
+                                <img src={StarIcon} alt="star" style={{ width: '26px', height: '26px', marginRight: '2px'}} />
+                            </div>
+
                             <RankingBadge rankColor={RANK_BADGE[rank].color}>{rank.toUpperCase()}</RankingBadge>
                         </div>
                         <div

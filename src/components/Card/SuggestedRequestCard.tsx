@@ -59,6 +59,7 @@ const RequestDataTitle = styled.div`
     color: #C4C4C4;
     max-width: 91px;
     margin-right: 15px;
+    width: 80px;
 `;
 
 const RequestDataInfo = styled.div`
