@@ -112,7 +112,6 @@ export const SearchResultPage = () => {
     
     return (
         <div>
-            <Navbar />
             <Layout>
                 <Sidebar />
                 <Layout>

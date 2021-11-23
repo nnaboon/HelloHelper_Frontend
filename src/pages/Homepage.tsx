@@ -44,7 +44,6 @@ export const HomePage = () => {
 
     return (
         <React.Fragment>
-            <Navbar />
             <HomePageContainer>
                 <div
                     css={css`

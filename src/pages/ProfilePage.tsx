@@ -131,7 +131,6 @@ const SecondaryHelpButton = styled(SecondaryButton)`
 export const ProfilePage = () => {
     return (
         <React.Fragment>
-            <Navbar />
             <ProfilePageContainer>
                 {USER_DATA.map(({ id, name, imageUrl, location, category, follower, following, helpSum, rank, rating, suggested}) => (
                     <ProfilePageUserInfoSection

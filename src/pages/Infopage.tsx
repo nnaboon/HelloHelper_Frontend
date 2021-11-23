@@ -61,7 +61,6 @@ const RequestTitle = styled.div`
 export const InfoPage = () => {
     return (
         <React.Fragment>
-            <Navbar />
             <WrapperContainer>
                 <div style={{ display: 'flex', justifyContent: 'space-around'}}>
                     <Flex direction="column" justify="flex-start" itemAlign="flex-start" style={{ width: 'unset'}}>
