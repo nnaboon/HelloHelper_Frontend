@@ -1,50 +1,37 @@
-import React from 'react';
-import { Form, Input, Button, Checkbox } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Button, Divider, Form, Input, message, Checkbox } from 'antd';
+import { RegisterStep, UserCreateBody } from './const';
+import { RegisterAccountForm } from './RegisterAccountForm';
 
 export const RegisterForm = () => {
-  const onFinish = (values: any) => {
-    console.log('Success:', values);
-  };
+    const [step, setStep] = useState<RegisterStep>(RegisterStep.EMAIL_AND_PASSWORD);
+    const [createUserData, setCreateUserData] = useState<UserCreateBody>();
 
-  const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
-  };
-
-  return (
-    <Form
-      name="basic"
-      labelCol={{ span: 8 }}
-      wrapperCol={{ span: 16 }}
-      initialValues={{ remember: true }}
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-      autoComplete="off"
-    >
-      <Form.Item
-        label="Username"
-        name="username"
-        rules={[{ required: true, message: 'Please input your username!' }]}
-      >
-        <Input />
-      </Form.Item>
-
-      <Form.Item
-        label="Password"
-        name="password"
-        rules={[{ required: true, message: 'Please input your password!' }]}
-      >
-        <Input.Password />
-      </Form.Item>
-
-      <Form.Item name="remember" valuePropName="checked" wrapperCol={{ offset: 8, span: 16 }}>
-        <Checkbox>Remember me</Checkbox>
-      </Form.Item>
-
-      <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-        <Button type="primary" htmlType="submit">
-          Submit
-        </Button>
-      </Form.Item>
-    </Form>
-  );
+    const renderForm = (step: RegisterStep) => {
+        console.log(step)
+        switch (step) {
+            case RegisterStep.EMAIL_AND_PASSWORD:
+                return (
+                    <RegisterAccountForm
+                        userAccountData={createUserData}
+                        onNext={() => setStep(RegisterStep.USERNAME)}
+                    />
+                );
+            case RegisterStep.USERNAME:
+                return (
+                    <div>user name</div>
+                );
+            case RegisterStep.LOCATION:
+                return (
+                    <div>location</div>
+                )
+            case RegisterStep.ABILITY:
+                return (
+                    <div>ability</div>
+                )
+        }
+    }
+    return (
+        <div>{renderForm(step)}</div>
+    );
 };

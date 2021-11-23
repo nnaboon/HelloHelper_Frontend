@@ -4,3 +4,11 @@ export enum RegisterStep {
     LOCATION = 'location',
     ABILITY = 'ability'
 }
+
+export type UserCreateBody = {
+    email: string;
+    password: string;
+    name: string;
+    location: string;
+    ability: string[];
+};
