@@ -14,8 +14,10 @@ const SidebarSection = styled.div`
     border-right: 1px solid rgb(239, 243, 244);
     z-index: 3;
     top: 165px;
+    left: 0;
     height: 100%;
     overflow-y: hidden;
+    margin-top: 40px;
 `;
 
 const SidebarItem = styled.div<{ isActive: boolean }>`

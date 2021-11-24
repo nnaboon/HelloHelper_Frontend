@@ -2,7 +2,7 @@
 /** @jsx jsx */
 import { css, jsx, Global } from '@emotion/react';
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { Input, Modal } from 'antd';
 import UserPic from '../../images/avatar_user.png';
@@ -55,6 +55,7 @@ const SearchBarContainer = styled.div`
 export const Navbar = () => {
     const [account, setAccount] = useState<Boolean>(false);
     const history = useHistory();
+    const { search } = useLocation();
     const { Search } = Input;
     const onSearch = value => {
         history.push({
@@ -122,14 +123,13 @@ export const Navbar = () => {
                     />
                 </NavbarList>                
             </Flex>
-
-                <SearchBarContainer>
-                    <Search
-                        placeholder="ข้าวผัดป้าเขียว, ก๋วยจั๊บนายวาย, แกงกะหรี่ป้าอร โชคชัย4"
-                        onSearch={onSearch}
-                        size="large"
-                        style={{ width: '700px', height: '40px' }}
-                    />
+            <SearchBarContainer>
+                <Search
+                    placeholder="ข้าวผัดป้าเขียว, ก๋วยจั๊บนายวาย, แกงกะหรี่ป้าอร โชคชัย4"
+                    onSearch={onSearch}
+                    size="large"
+                    style={{ width: '700px', height: '40px' }}
+                />
             </SearchBarContainer>
             <Modal
                 visible={isModalVisible}
@@ -141,7 +141,6 @@ export const Navbar = () => {
                 centered
             >
                 <LoginForm />
-                {/* <LoginForm /> */}
                 {/* <RegisterForm /> */}
             </Modal>
         </NavbarSection>            

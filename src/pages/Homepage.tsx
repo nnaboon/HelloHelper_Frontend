@@ -15,6 +15,7 @@ import { SuggestedRequestSection } from 'components/Card/SuggestedRequestCard';
 import { Navbar } from 'components/Navbar/Navbar';
 import { News } from 'components/News/News';
 import { CATEGORY } from 'data/category';
+import { RequestForm } from 'components/Form/RequestForm';
 
 const HomePageContainer = styled.div`
     box-sizing: border-box;
@@ -60,7 +61,7 @@ export const HomePage = () => {
                         <SecondaryButton
                             key={id}
                             css={css`
-                                min-width: 240px;
+                                min-width: 350px;
                                 margin-right: 20px;
                                 border-sizing: border-box;
                                 padding: 0 10px;
@@ -72,7 +73,7 @@ export const HomePage = () => {
                                 })
                             }}
                         >
-                            {name}
+                            ความช่วยเหลือ{name}
                         </SecondaryButton>
                     ))}                    
                 </div>
@@ -95,7 +96,17 @@ export const HomePage = () => {
                 <Text fontSize="36px" fontWeight={500}>Top 10 การค้นหาติดอันดับ</Text>
                 <TopTenSearchContainer>
                     {TOP_TEN_SEARCH_WEEKLY.map(({ name }) => (
-                        <TopSearchButton>{name}</TopSearchButton>
+                        <TopSearchButton
+                            key={name}
+                            onClick={() => {
+                                history.push({
+                                    pathname: '/search',
+                                    search:  `?keyword=${name}`
+                                })
+                            }}
+                        >
+                            {name}
+                        </TopSearchButton>
                     ))}                
                 </TopTenSearchContainer>
                 <Text fontSize="36px" fontWeight={500}>Top 10 ความช่วยเหลือประจำสัปดาห์</Text>

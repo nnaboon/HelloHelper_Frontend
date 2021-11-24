@@ -2,7 +2,7 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/react';
 import styled from '@emotion/styled';
-import React from 'react';
+import React, { useState } from 'react';
 import { Text } from 'components/Text';
 import Flex from 'components/Flex/Flex';
 import { Navbar } from 'components/Navbar/Navbar';
@@ -10,7 +10,7 @@ import { USER_DATA } from 'data/user';
 import { SecondaryButton, PrimaryButton } from 'components/Button/Button';
 import { Divider } from 'components/Divider/Divider';
 import { SuggestedBadge, RankingBadge } from 'components/Badge/Badge';
-
+import StarIcon from 'images/rating-star.png';
 import { RANK_BADGE } from 'components/Badge/const';
 
 const ProfilePageContainer = styled.div`
@@ -75,6 +75,7 @@ const UserCard = styled.div`
     margin-left: 50px;
     border-sizing: border-box;
     padding: 20px;
+    position: relative;
 `;
 
 const HelperImage = styled.div`
@@ -129,6 +130,8 @@ const SecondaryHelpButton = styled(SecondaryButton)`
 `;
 
 export const ProfilePage = () => {
+    const [myAccount, setMyAccount] = useState<Boolean>(false);
+
     return (
         <React.Fragment>
             <ProfilePageContainer>
@@ -155,11 +158,39 @@ export const ProfilePage = () => {
                                     flex-direction: column;
                                     align-items: center;
                                     justify-content: center;
+                                    margin-top: -50px;
                                 `}
                             >
                                 <UserName>{name}</UserName>
                                 <RankingBadge rankColor={RANK_BADGE[rank].color}>{rank.toUpperCase()}</RankingBadge>
                             </div>
+                            {myAccount ? (
+                                <div style={{ display: 'flex', position: 'absolute', bottom: '8px', padding: '10px', left: '10px', width: '100%' }}>
+                                    <SecondaryButton
+                                        css={css`
+                                            width: 95%;
+                                            border: 1px solid #BAB8B8;
+                                            color: #B9B9B9;
+                                            &:hover {
+                                                color: #B9B9B9;
+                                            }
+                                        `}
+                                    >
+                                        แก้ไขโปรไฟล์
+                                    </SecondaryButton>
+                                </div>
+                            ) : (
+                                <div style={{ display: 'flex', position: 'absolute', bottom: '8px', padding: '10px', left: '-9px', width: '100%' }}>
+                                    <PrimaryButton
+                                        css={css`
+                                            width: 100%;
+                                        `}
+                                    >
+                                        ติดตาม
+                                    </PrimaryButton>
+                                    <PrimaryButton css={css`background: #487BFF; width: 100%;`}>แชท</PrimaryButton>                                
+                                </div>
+                            )}
                         </UserCard>
                         <div>
                             <Flex marginBottom="40px" itemAlign="flex-end">
@@ -181,7 +212,10 @@ export const ProfilePage = () => {
                                 </Flex>
                                 <Flex>
                                     <ProfileInfoListHeading>คะแนน</ProfileInfoListHeading>
-                                    <ProfileInfoListDetail>{rating.toFixed(1)}</ProfileInfoListDetail>
+                                    <ProfileInfoListDetail>
+                                        {rating.toFixed(1)}
+                                        <img src={StarIcon} alt="rating icon" style={{ marginTop: '-10px', width: '23px', height: '23px', marginLeft: '5px' }} />
+                                    </ProfileInfoListDetail>
                                 </Flex>
                             </ProfileInfoContainer>                           
                         </div>

@@ -38,7 +38,7 @@ const RequestHashtagButton = styled(SecondaryButton)`
 
 const RequestInfoContainer = styled.div`
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 180px 400px;
     grid-gap: 40px;
     margin-bottom: 60px;
 `;
@@ -56,6 +56,7 @@ const RequestTitle = styled.div`
     line-height: 26px;
     color: #CACACA;
     min-width: 90px;
+    max-width: 150px;
 `;
 
 export const InfoPage = () => {
@@ -79,33 +80,33 @@ export const InfoPage = () => {
                                 flex-wrap: wrap;
                             `}
                         >
-                            <RequestHashtagButton>#wax</RequestHashtagButton>
-                            <RequestHashtagButton>#wax</RequestHashtagButton>
-                            <RequestHashtagButton>#wax</RequestHashtagButton>
-                            <RequestHashtagButton>#wax</RequestHashtagButton>
-                            <RequestHashtagButton>#wax</RequestHashtagButton>
-                            <RequestHashtagButton>#wax</RequestHashtagButton>
-                            <RequestHashtagButton>#wax</RequestHashtagButton>
-                            <RequestHashtagButton>#wax</RequestHashtagButton>
-                            <RequestHashtagButton>#wax</RequestHashtagButton>
-                            <RequestHashtagButton>#wax</RequestHashtagButton>
-                            <RequestHashtagButton>#wax</RequestHashtagButton>
-                            <RequestHashtagButton>#wax</RequestHashtagButton> 
+                            <RequestHashtagButton>#ขนมปัง</RequestHashtagButton>
+                            <RequestHashtagButton>#ขนมปังสังขยา</RequestHashtagButton>
+                            <RequestHashtagButton>#นายเฮ็ง</RequestHashtagButton>
+                            <RequestHashtagButton>#โชคชัย4</RequestHashtagButton>
                         </Flex>
 
                     </Flex>
                     <Flex direction="column" marginTop="80px" style={{ width: 'unset'}}>
                         <RequestInfoContainer>
-                            <RequestTitle>Q</RequestTitle>
-                            <RequestDetail>A</RequestDetail>                                
-                            <RequestTitle>Q</RequestTitle>
-                            <RequestDetail>A</RequestDetail>                                
-                            <RequestTitle>Q</RequestTitle>
-                            <RequestDetail>A</RequestDetail>                                
+                            <RequestTitle>ชื่อ</RequestTitle>
+                            <RequestDetail>ขนมปังสังขยา นายเฮีง โชคชัย4</RequestDetail>                                
+                            <RequestTitle>สถานที่ให้ความข่วยเหลือ</RequestTitle>
+                            <RequestDetail>มหาวิทยาลัยเกษตรศาสตร์</RequestDetail>                                
+                            <RequestTitle>จำนวน</RequestTitle>
+                            <RequestDetail>1</RequestDetail>
+                            <RequestTitle>จำกัดราคา</RequestTitle>
+                            <RequestDetail>200</RequestDetail>
+                            <RequestTitle>ช่องทางการชำระเงิน</RequestTitle>
+                            <RequestDetail>โอนจ่าย</RequestDetail>
+                            <RequestTitle>คำอธิบาย</RequestTitle>
+                            <RequestDetail>ไส้ครีม ไส้ชานม ไส้สังขยา อย่างละ2ชิ้น</RequestDetail>                              
                         </RequestInfoContainer>
                         <PrimaryButton
                             style={{ width: '100%', maxWidth: '400px'}}
-                        >สนใจให้ความช่วยเหลือ</PrimaryButton>
+                        >
+                            สนใจให้ความช่วยเหลือ
+                        </PrimaryButton>
                     </Flex>
                 </div>
                 <Divider />

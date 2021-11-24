@@ -28,6 +28,6 @@ export const RankingBadge = styled.div < { rankColor: string }>`
     max-width: max-content;
     padding: 0 10px;
     font-size: 20px;
-    font-weight: 600;
+    font-weight: 500;
     position: relative;
 `;

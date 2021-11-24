@@ -15,20 +15,18 @@ export const MenuTab = ({ menu, setMenu }:MenuTabProps) => {
     const { pathname } = useLocation();
 
     return (
-        <Flex itemAlign="center" justify="space-around" marginTop="60px">
+        <Flex itemAlign="center" justify="space-around" style={{ width: '100%' }}>
             {Object.values(HelpMenu).map((key) => (
             <MenuButton
               key={key}
               isActive={menu === key}
               onClick={() => {
-                setMenu(key);
-                history.push({
-                  pathname,
-                //   search: `?menu=${key}`,
-                  state: {
-                    menu: key
-                  }
-                });
+                  setMenu(key);
+                  history.push({
+                      state: {
+                          menu: key
+                      }
+                  })
               }}
             >
               {HELP_MENU_MAPPER[key]}

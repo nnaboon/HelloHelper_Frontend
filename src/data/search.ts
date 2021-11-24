@@ -1,6 +1,6 @@
 export const TOP_TEN_SEARCH_WEEKLY = [
     {
-        name: 'ก๋วยเตี๋ยวเส้นปลาพระนคร',
+        name: 'ping pong',
         searchTime: 300
     },
     {

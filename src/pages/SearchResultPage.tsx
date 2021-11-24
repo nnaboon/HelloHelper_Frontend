@@ -5,6 +5,7 @@ import Layout, { Content } from 'antd/lib/layout/layout';
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { Sidebar } from 'components/Sidebar/Sidebar';
+import { WrapperContainer } from 'components/Wrapper/WrapperContainer';
 import { Navbar } from 'components/Navbar/Navbar';
 import { useLocation } from 'react-router-dom';
 import { HelpMenu, HELP_MENU_MAPPER } from 'components/Menu/const';
@@ -18,10 +19,10 @@ import { POPULAR_REQUEST_DATA } from 'data/helper';
 
 import { SuggestedBadge, RankingBadge } from 'components/Badge/Badge';
 import { RANK_BADGE } from 'components/Badge/const';
-import { flexBasis } from 'styled-system';
+import StarIcon from 'images/rating-star.png';
 
 const CardContainer = styled.div`
-    width: 448px;
+    width: 95%;
     height: 341px;
     background: #FFFFFF;
     box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.1);
@@ -35,6 +36,7 @@ const CardContainer = styled.div`
     top: -20px;
     margin-top: 40px;
     cursor: pointer;
+    left: 8px;
 `;
 
 const RequestTitle = styled.div`
@@ -57,6 +59,7 @@ const RequestDataTitle = styled.div`
     color: #C4C4C4;
     max-width: 91px;
     margin-right: 15px;
+    width: 80px;
 `;
 
 const RequestDataInfo = styled.div`
@@ -77,7 +80,6 @@ const SearchResultContent = styled.div`
     grid-gap: 30px;
     overflow: scroll;
     position: relative;
-    top: 200px;
 `;
 
 const SearchResultCard = styled.div`
@@ -107,16 +109,111 @@ export const SearchResultPage = () => {
         HelpMenu.REQUEST) as HelpMenu;
 
     useEffect(() => {
+        console.log(currentMenu)
         setMenu(currentMenu);
     }, [currentMenu]);
     
     return (
-        <div>
-            <Layout>
+        <WrapperContainer>
+            <div style={{ display: 'flex' }}>
                 <Sidebar />
-                <Layout>
-                    <Content>
-                        <Flex justify="center" direction="column" style={{ position: 'relative', top: '165px', height: 'calc( 100vh - 165px)', width: '100%' }}>
+                <div
+                    css={css`
+                        position: relative;
+                        display: flex;
+                        flex-direction: column;
+                        left: 25%;
+                        width: 75%;
+                    `}
+                >
+            <div style={{ top: '125px' }}>
+                                <MenuTab menu={menu} setMenu={setMenu} />
+                                <Divider />                        
+                            </div>
+                            <SearchResultContent>
+                    {POPULAR_REQUEST_DATA.map(({ id, title, imageUrl, name, payment, serviceRate, location, helpSum, rank }) => (
+                        <CardContainer
+                            key={id}
+                            onClick={() => {
+                                history.push({
+                                    pathname: `/${id}/${title}`
+                                })
+                            }}
+                        >
+                            <RequestTitle>{title}</RequestTitle>
+                            <div
+                                css={css`
+                                    display: flex;
+                                `}
+                            >
+                                <div
+                                    css={css`
+                                        display: flex;
+                                        width: 32%;
+                                        flex-direction: column;
+                                        align-items: center;
+                                        margin-right: 35px;
+                                    `}
+                                >
+                                    <HelperImage />
+                                    <SuggestedBadge>แนะนำ</SuggestedBadge>
+                                    <div style={{ display: 'flex', marginBottom: '8px', marginTop: '-4px' }}>
+                                        <img src={StarIcon} alt="star" style={{ width: '26px', height: '26px', marginRight: '2px' }} />
+                                        <img src={StarIcon} alt="star" style={{ width: '26px', height: '26px', marginRight: '2px' }} />
+                                        <img src={StarIcon} alt="star" style={{ width: '26px', height: '26px', marginRight: '2px' }} />
+                                        <img src={StarIcon} alt="star" style={{ width: '26px', height: '26px', marginRight: '2px' }} />
+                                        <img src={StarIcon} alt="star" style={{ width: '26px', height: '26px', marginRight: '2px'}} />
+                                    </div>
+                                    <RankingBadge rankColor={RANK_BADGE[rank].color}>{rank.toUpperCase()}</RankingBadge>
+                                </div>
+                                <div
+                                    css={css`
+                                        display: flex;
+                                        flex-direction: column;
+                                    `}
+                                >
+                                    <RequestDataContent>                            
+                                        <RequestDataTitle>ชื่อ</RequestDataTitle>
+                                        <RequestDataInfo>{name}</RequestDataInfo>
+                                    </RequestDataContent>
+                                    <RequestDataContent>                            
+                                        <RequestDataTitle>สถานที่ให้ความช่วยเหลือ</RequestDataTitle>
+                                        <RequestDataInfo>{location}</RequestDataInfo>
+                                    </RequestDataContent>
+                                    <RequestDataContent>                            
+                                        <RequestDataTitle>ยอดการให้ความช่วยเหลือ</RequestDataTitle>
+                                        <RequestDataInfo>{helpSum.toLocaleString()}</RequestDataInfo>
+                                    </RequestDataContent>
+                                    <RequestDataContent>                            
+                                        <RequestDataTitle>ค่าบริการ</RequestDataTitle>
+                                        <RequestDataInfo>{serviceRate}</RequestDataInfo>
+                                    </RequestDataContent>
+                                    <RequestDataContent>                            
+                                        <RequestDataTitle>วิธีการชำระเงิน</RequestDataTitle>
+                                        <RequestDataInfo>{payment}</RequestDataInfo>
+                                    </RequestDataContent>
+                                    
+                                </div>
+                                <div
+                                    css={css`
+                                        display: flex;
+                                        position: absolute;
+                                        bottom: 10px;
+                                        right: 20px;
+                                        align-items: center;
+                                    `}
+                                >
+                                    <SecondaryButton>โปรไฟล์</SecondaryButton>
+                                    <PrimaryButton>แชท</PrimaryButton>
+                                </div>
+                            </div>
+                        </CardContainer>
+                    ))}
+                            </SearchResultContent>
+                </div>
+            </div>
+
+                        {/* <Flex justify="center" direction="column" style={{ position: 'relative' }}>
                             <div style={{ position: 'fixed', top: '165px' }}>
                                 <MenuTab menu={menu} setMenu={setMenu} />
                                 <Divider style={{ width: '60%' }} />                        
@@ -194,13 +291,8 @@ export const SearchResultPage = () => {
                         </CardContainer>
                     ))}
                             </SearchResultContent>
-                        </Flex>                      
-                    </Content>
-                                    
-                </Layout>
+                        </Flex>                       */}
 
-            </Layout>
-
-        </div>
+        </WrapperContainer>
     )
 }
