@@ -8,7 +8,6 @@ import { WrapperContainer } from 'components/Wrapper/WrapperContainer';
 export const ProvideListPage = () => {
   return (
     <WrapperContainer>
-      a
       <StatusButton
         status={STATUS_MAPPER['waiting'].status}
         color={STATUS_MAPPER['waiting'].color}
