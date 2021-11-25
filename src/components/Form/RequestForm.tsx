@@ -1,60 +1,207 @@
+/** @jsxRuntime classic */
+/** @jsx jsx */
+import { css, jsx, Global } from '@emotion/react';
 import React, { useState } from 'react';
-import styled from '@emotion/styled'
-import { Upload, message } from 'antd';
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import styled from '@emotion/styled';
+import { Text } from 'components/Text';
+import { Button, Form, Input, message, Tooltip } from 'antd';
+import { RequestFormBody } from './const';
+import { GoogleMapContent } from 'components/GoogleMap/GoogleMap';
+import { InfoSvg } from 'components/Svg/InfoSvg';
 
-function getBase64(img, callback) {
-  const reader = new FileReader();
-  reader.addEventListener('load', () => callback(reader.result));
-  reader.readAsDataURL(img);
-}
-
-function beforeUpload(file) {
-  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-  if (!isJpgOrPng) {
-    message.error('You can only upload JPG/PNG file!');
-  }
-  const isLt2M = file.size / 1024 / 1024 < 2;
-  if (!isLt2M) {
-    message.error('Image must smaller than 2MB!');
-  }
-  return isJpgOrPng && isLt2M;
-}
+const RegisterLocationFormSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 1.75rem 2.75rem 1.5rem 2.75rem;
+  position: relative;
+  height: 100%;
+  overflow: scroll;
+`;
 
 export const RequestForm = () => {
-  const [loading, setLoading] = useState<Boolean>(false);
-  const [imageUrl, setImageUrl] = useState<any>();
-  
-  const handleChange = info => {
-    if (info.file.status === 'uploading') {
-      setLoading(true);
-      return;
-    }
-    if (info.file.status === 'done') {
-      // Get this url from response in real world.
-      getBase64(info.file.originFileObj, imageUrl => {
-        setImageUrl(imageUrl);
-        setLoading(false)
-      });
+  const [form] = Form.useForm();
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
+  const onFinish = async (value) => {
+    setIsSubmitting(true);
+    const data = {
+      title: value.title,
+      location: value.location,
+      message: value.message ?? '',
+      maxPrice: value.maxPrice,
+      maxServiceCharge: value.maxServiceCharge,
+      payment: value.payment,
+      category: value.category,
+      hashtag: value.hashtag
+    } as RequestFormBody;
+
+    try {
+      console.log('data', data);
+    } catch (e) {
+      message.error('ไม่สามารถโพสต์ขอความช่วยเหลือได้');
+    } finally {
+      setIsSubmitting(false);
     }
   };
-    const uploadButton = (
-      <div>
-        {loading ? <LoadingOutlined /> : <PlusOutlined />}
-        <div style={{ marginTop: 8 }}>Upload</div>
-      </div>
-    );
-    return (
-      <Upload
-        name="avatar"
-        listType="picture-card"
-        className="avatar-uploader"
-        showUploadList={false}
-        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-        // beforeUpload={beforeUpload}
-        onChange={handleChange}
+
+  return (
+    <RegisterLocationFormSection>
+      <Global
+        styles={css`
+          .ant-col-8 {
+            max-width: 24%;
+          }
+
+          .ant-form-item-control-input-content {
+            display: flex;
+            align-items: center;
+          }
+          .ant-form-item-control-input {
+            width: 460px;
+          }
+          .ant-modal-body {
+            height: 100%;
+          }
+        `}
+      />
+      <Text fontSize="24px" marginTop="10px" marginBottom="20px">
+        ขอความช่วยเหลือ
+      </Text>
+      <Form
+        name="basic"
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 16 }}
+        initialValues={{ remember: true }}
+        onFinish={onFinish}
+        autoComplete="off"
       >
-        {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
-      </Upload>
-    );
-}
+        <Form.Item
+          name="title"
+          label="ชื่อ"
+          rules={[
+            {
+              required: true,
+              message: 'กรุณากรอกชื่อความช่วยเหลือที่คุณต้องการ'
+            }
+          ]}
+        >
+          <Input
+            placeholder="ชื่อ"
+            style={{ height: '40px', borderRadius: '12px' }}
+          />
+        </Form.Item>
+
+        <Form.Item
+          name="location"
+          label="สถานที่"
+          rules={[
+            {
+              required: true,
+              message: 'กรุณากรอกสถานที่ที่คุณสามารถให้ความช่วยเหลือได้'
+            }
+          ]}
+        >
+          <GoogleMapContent />
+        </Form.Item>
+        <Form.Item name="message" label="ข้อความ">
+          <Input
+            placeholder="ข้อความ"
+            style={{ height: '40px', borderRadius: '12px' }}
+          />
+        </Form.Item>
+        <Form.Item
+          name="maxPrice"
+          label="ราคาสินค้าสูงสุด"
+          rules={[
+            {
+              required: true,
+              message: 'กรุณากำหนดขอบเขตราคาสินค้าสูงสุดที่คุณสามารถจ่ายได้'
+            }
+          ]}
+        >
+          <Input
+            placeholder="ขอบเขตราคาสินค้า"
+            style={{ height: '40px', borderRadius: '12px' }}
+          />
+        </Form.Item>
+        <Form.Item
+          name="maxServiceCharge"
+          label="อัตราค่าบริการสูงสุด"
+          rules={[
+            {
+              required: true,
+              message: 'กรุณากำหนดขอบเขตอัตราค่าบริการสูงสุดที่คุณสามารถจ่ายได้'
+            }
+          ]}
+        >
+          <Input
+            placeholder="ขอบเขตราคาค่าบริการ"
+            style={{ height: '40px', borderRadius: '12px' }}
+          />
+          <Tooltip title="กำหนดราคาสูงสุดของความช่วยเหลือครั้งนี้ที่คุณพึงพอใจจะจ่าย ให้กับผู้ให้ความช่วยเหลือ">
+            <InfoSvg
+              css={css`
+                margin-left: 10px;
+              `}
+            />
+          </Tooltip>
+        </Form.Item>
+        <Form.Item
+          name="payment"
+          label="วิธีการชำระเงิน"
+          rules={[{ required: true, message: 'กรุณากรอกวิธีการชำระเงิน' }]}
+        >
+          <Input
+            placeholder="วิธีการชำระเงิน"
+            style={{ height: '40px', borderRadius: '12px' }}
+          />
+        </Form.Item>
+        <Form.Item
+          name="category"
+          label="หมวดหมู่"
+          rules={[
+            { required: true, message: 'กรุณาเลือกหมวดหมู่ของความช่วยเหลือ' }
+          ]}
+        >
+          <Input
+            placeholder="หมวดหมู่"
+            style={{ height: '40px', borderRadius: '12px' }}
+          />
+        </Form.Item>
+        <Form.Item
+          name="hashtag"
+          label="แฮชแท็ก"
+          rules={[{ required: true, message: 'กรุณากรอกแฮชแท็ก' }]}
+        >
+          <Input
+            placeholder="แฮชแท็ก"
+            style={{ height: '40px', borderRadius: '12px' }}
+          />
+        </Form.Item>
+        <Button
+          type="primary"
+          htmlType="submit"
+          css={css`
+            width: 170px;
+            height: 40px;
+            box-sizing: border-box;
+            background: #ee6400;
+            border-radius: 9px;
+            border: 0;
+            position: absolute;
+            bottom: 0;
+            right: 20px;
+            color: #ffff;
+            font-size: 16px;
+
+            &:hover {
+              background: #ee6400;
+            }
+          `}
+        >
+          ขอความช่วยเหลือ
+        </Button>
+      </Form>
+    </RegisterLocationFormSection>
+  );
+};
