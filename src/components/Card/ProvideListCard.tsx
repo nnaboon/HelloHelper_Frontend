@@ -56,54 +56,54 @@ const ProvideListData = styled.div`
   text-align: start;
 `;
 
-export const ProvideListCard = (props: ProvideListCardProps) => {
+export const ProvideListCard = ({ props }: ProvideListCardProps) => {
   return (
     <ProvideListContainer>
       <StatusBadge
-        status={STATUS_MAPPER[props.props.status].status}
-        color={STATUS_MAPPER[props.props.status].color}
+        status={STATUS_MAPPER[props.status].status}
+        color={STATUS_MAPPER[props.status].color}
         style={{ position: 'absolute', right: '20px', top: '13px' }}
       />
       <ProvideListContent>
         <Flex itemAlign="flex-start">
           <ProvideListTitle>ชื่อความช่วยเหลือ</ProvideListTitle>
-          <ProvideListData>{props.props.title}</ProvideListData>
+          <ProvideListData>{props.title}</ProvideListData>
         </Flex>
         <Flex itemAlign="flex-start">
           <ProvideListTitle>สถานที่ให้ความข่วยเหลือ</ProvideListTitle>
-          <ProvideListData>{props.props.location}</ProvideListData>
+          <ProvideListData>{props.location}</ProvideListData>
         </Flex>
         <Flex itemAlign="flex-start">
           <ProvideListTitle>จำนวน</ProvideListTitle>
-          <ProvideListData>{props.props.amount}</ProvideListData>
+          <ProvideListData>{props.amount}</ProvideListData>
         </Flex>
         <Flex itemAlign="flex-start">
           <ProvideListTitle>ราคาสินค้าทั้งหมด</ProvideListTitle>
-          <ProvideListData>{props.props.price}</ProvideListData>
+          <ProvideListData>{props.price}</ProvideListData>
         </Flex>
         <Flex itemAlign="flex-start">
           <ProvideListTitle>อัตราค่าบริการ</ProvideListTitle>
-          <ProvideListData>{props.props.serviceCharge}</ProvideListData>
+          <ProvideListData>{props.serviceCharge}</ProvideListData>
         </Flex>
         <Flex itemAlign="flex-start">
           <ProvideListTitle>ข้อความ</ProvideListTitle>
-          <ProvideListData>{props.props.message}</ProvideListData>
+          <ProvideListData>{props.message}</ProvideListData>
         </Flex>
         <Flex itemAlign="flex-start">
           <ProvideListTitle>รูปแบบการชำระเงิน</ProvideListTitle>
-          <ProvideListData>{props.props.payment}</ProvideListData>
+          <ProvideListData>{props.payment}</ProvideListData>
         </Flex>
         <Flex itemAlign="flex-start">
           <ProvideListTitle>ชื่อ-นามสกุลผู้รับ</ProvideListTitle>
-          <ProvideListData>{props.props.recipient}</ProvideListData>
+          <ProvideListData>{props.recipient}</ProvideListData>
         </Flex>
         <Flex itemAlign="flex-start">
           <ProvideListTitle>ที่อยู่</ProvideListTitle>
-          <ProvideListData>{props.props.address}</ProvideListData>
+          <ProvideListData>{props.address}</ProvideListData>
         </Flex>
         <Flex itemAlign="flex-start">
           <ProvideListTitle>เบอร์โทรศัพท์</ProvideListTitle>
-          <ProvideListData>{props.props.phoneNumber}</ProvideListData>
+          <ProvideListData>{props.phoneNumber}</ProvideListData>
         </Flex>
       </ProvideListContent>
       <PrimaryButton
@@ -111,6 +111,7 @@ export const ProvideListCard = (props: ProvideListCardProps) => {
           position: absolute;
           right: 20px;
           bottom: 20px;
+          max-width: 200px;
         `}
       >
         เปลี่ยนสถานะ

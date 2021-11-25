@@ -110,6 +110,7 @@ export const RequestListCard = (props: RequestListCardProps) => {
           position: absolute;
           right: 20px;
           bottom: 20px;
+          max-width: 250px;
         `}
       >
         ยืนยันการรับสินค้า/ให้คะแนน

@@ -2,258 +2,361 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/react';
 import styled from '@emotion/styled';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
+import { HelpMenu } from 'components/Menu/const';
 import { Text } from 'components/Text';
 import Flex from 'components/Flex/Flex';
-import { Navbar } from 'components/Navbar/Navbar';
 import { USER_DATA } from 'data/user';
 import { SecondaryButton, PrimaryButton } from 'components/Button/Button';
 import { Divider } from 'components/Divider/Divider';
 import { SuggestedBadge, RankingBadge } from 'components/Badge/Badge';
 import StarIcon from 'images/rating-star.png';
+import { MyProvideList } from 'components/Profile/MyProvideList';
+import { MyRequestList } from 'components/Profile/MyRequestList';
 import { RANK_BADGE } from 'components/Badge/const';
+import { ProfileMenuTab } from 'components/Menu/ProfileMenuTab';
 
 const ProfilePageContainer = styled.div`
-    box-sizing: border-box;
-    position: relative;
-    top: 165px;
-    padding: 40px 100px;
+  box-sizing: border-box;
+  position: relative;
+  top: 165px;
+  padding: 40px 100px;
 `;
 
 const ProfilePageUserInfoSection = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
 `;
 
 const ProfilePageUserHelperListSection = styled.div`
-    display: grid;
-    grid-template-columns: minmax(auto, 510px) minmax(auto, 510px) minmax(auto, 510px);
-    grid-gap: 30px;
+  display: grid;
+  grid-template-columns: minmax(auto, 510px) minmax(auto, 510px) minmax(
+      auto,
+      510px
+    );
+  grid-gap: 30px;
 `;
 
 const HelperListCard = styled.div`
-    background: #FFFFFF;
-    box-shadow: 0px 6px 11px rgba(0, 0, 0, 0.15);
-    border-radius: 8px;
-    height: 341px;
-    margin-top: 30px;
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-    padding: 35px;
-    position: relative;
+  background: #ffffff;
+  box-shadow: 0px 6px 11px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  height: 341px;
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 35px;
+  position: relative;
 `;
 
 const HelperListTitle = styled.div`
-    font-weight: 700;
-    font-size: 24px;
-    color: #F86800;
-    margin-bottom: 8px;
+  font-weight: 700;
+  font-size: 24px;
+  color: #f86800;
+  margin-bottom: 8px;
 `;
 
 const HelperListHeading = styled.div`
-    font-size: 12px;
-    line-height: 26px;
-    color: #C4C4C4;
-    min-width: 150px;
+  font-size: 12px;
+  line-height: 26px;
+  color: #c4c4c4;
+  min-width: 150px;
 `;
 
 const HelperListDetail = styled.div`
-    font-size: 18px;
-    line-height: 26px;
-    color: #000000;
+  font-size: 18px;
+  line-height: 26px;
+  color: #000000;
 `;
 
 const UserCard = styled.div`
-    width: 445px;
-    height: 246px;
-    background: #FFFFFF;
-    box-shadow: 0px 7px 7px rgba(0, 0, 0, 0.15);
-    border-radius: 8px;
-    display: flex;
-    margin-left: 50px;
-    border-sizing: border-box;
-    padding: 20px;
-    position: relative;
+  width: 445px;
+  height: 246px;
+  background: #ffffff;
+  box-shadow: 0px 7px 7px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  display: flex;
+  margin-left: 50px;
+  border-sizing: border-box;
+  padding: 20px;
+  position: relative;
 `;
 
 const HelperImage = styled.div`
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    background: #0F3276;
-    margin-top: 15px;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: #0f3276;
+  margin-top: 15px;
 `;
 
 const UserName = styled.div`
-    font-weight: 700;
-    font-size: 24px;
-    color: #000000;
-    margin-bottom: 5px;
+  font-weight: 700;
+  font-size: 24px;
+  color: #000000;
+  margin-bottom: 5px;
 `;
 
 const ProfileInfoContainer = styled.div`
-    width: 100%;
-    display: grid;
-    grid-template-columns: minmax(300px, auto) minmax(300px, auto);
-    grid-gap: 40px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(300px, auto) minmax(300px, auto);
+  grid-gap: 40px;
 `;
 
 const ProfileInfoListHeading = styled.div`
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 14px;
-    color: #BAB8B8;
-
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 14px;
+  color: #5a5a5a;
 `;
 
 const ProfileInfoListDetail = styled.div`
-    font-weight: 700;
-    font-size: 23px;
-    line-height: 21px;
-    color: #F86800;
-    margin-left: 12px;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 21px;
+  color: #e56101;
+  margin-left: 12px;
 `;
 
 const SecondaryHelpButton = styled(SecondaryButton)`
-    width: max-content;
-    padding: 0 10px;
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
+  width: max-content;
+  padding: 0 10px;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
 
-    &:hover {
-        background: #F86800;
-        color: #ffff;
-    }
+  &:hover {
+    background: #f86800;
+    color: #ffff;
+  }
 `;
 
 export const ProfilePage = () => {
-    const [myAccount, setMyAccount] = useState<Boolean>(false);
+  const [myAccount, setMyAccount] = useState<Boolean>(false);
+  const [menu, setMenu] = useState<HelpMenu>(HelpMenu.PROVIDE);
+  const history = useHistory();
+  const { state } = useLocation();
+  const currentMenu = ((state as any)?.menuKey || HelpMenu.PROVIDE) as HelpMenu;
 
-    return (
-        <React.Fragment>
-            <ProfilePageContainer>
-                {USER_DATA.map(({ id, name, imageUrl, location, category, follower, following, helpSum, rank, rating, suggested}) => (
-                    <ProfilePageUserInfoSection
-                        key={id}
+  useEffect(() => {
+    setMenu(currentMenu);
+  }, [currentMenu]);
+
+  return (
+    <React.Fragment>
+      <ProfilePageContainer>
+        {USER_DATA.map(
+          ({
+            id,
+            name,
+            imageUrl,
+            location,
+            category,
+            follower,
+            following,
+            helpSum,
+            requestSum,
+            rank,
+            rating,
+            suggested
+          }) => (
+            <ProfilePageUserInfoSection key={id}>
+              <UserCard>
+                <div
+                  css={css`
+                    display: flex;
+                    width: 50%;
+                    flex-direction: column;
+                    align-items: center;
+                    margin-right: 35px;
+                  `}
+                >
+                  <HelperImage />
+                  {Boolean(suggested) && <SuggestedBadge>แนะนำ</SuggestedBadge>}
+                </div>
+                <div
+                  css={css`
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    margin-top: -50px;
+                  `}
+                >
+                  <UserName>{name}</UserName>
+                  <div
+                    style={{
+                      display: 'flex',
+                      marginBottom: '10px',
+                      marginTop: '-4px'
+                    }}
+                  >
+                    <img
+                      src={StarIcon}
+                      alt="star"
+                      style={{
+                        width: '26px',
+                        height: '26px',
+                        marginRight: '2px'
+                      }}
+                    />
+                    <img
+                      src={StarIcon}
+                      alt="star"
+                      style={{
+                        width: '26px',
+                        height: '26px',
+                        marginRight: '2px'
+                      }}
+                    />
+                    <img
+                      src={StarIcon}
+                      alt="star"
+                      style={{
+                        width: '26px',
+                        height: '26px',
+                        marginRight: '2px'
+                      }}
+                    />
+                    <img
+                      src={StarIcon}
+                      alt="star"
+                      style={{
+                        width: '26px',
+                        height: '26px',
+                        marginRight: '2px'
+                      }}
+                    />
+                    <img
+                      src={StarIcon}
+                      alt="star"
+                      style={{
+                        width: '26px',
+                        height: '26px',
+                        marginRight: '2px'
+                      }}
+                    />
+                  </div>
+                  <RankingBadge rankColor={RANK_BADGE[rank].color}>
+                    {rank.toUpperCase()}
+                  </RankingBadge>
+                </div>
+                {myAccount ? (
+                  <div
+                    style={{
+                      display: 'flex',
+                      position: 'absolute',
+                      bottom: '8px',
+                      padding: '10px',
+                      left: '10px',
+                      width: '100%'
+                    }}
+                  >
+                    <SecondaryButton
+                      css={css`
+                        width: 95%;
+                        border: 1px solid #bab8b8;
+                        color: #b9b9b9;
+                        &:hover {
+                          color: #b9b9b9;
+                        }
+                      `}
                     >
-                        <UserCard>
-                            <div
-                                css={css`
-                                    display: flex;
-                                    width: 50%;
-                                    flex-direction: column;
-                                    align-items: center;
-                                    margin-right: 35px;
-                                `}
-                            >
-                                <HelperImage />
-                                {Boolean(suggested) && <SuggestedBadge>แนะนำ</SuggestedBadge>}
-                            </div>
-                            <div
-                                css={css`
-                                    display: flex;
-                                    flex-direction: column;
-                                    align-items: center;
-                                    justify-content: center;
-                                    margin-top: -50px;
-                                `}
-                            >
-                                <UserName>{name}</UserName>
-                                <RankingBadge rankColor={RANK_BADGE[rank].color}>{rank.toUpperCase()}</RankingBadge>
-                            </div>
-                            {myAccount ? (
-                                <div style={{ display: 'flex', position: 'absolute', bottom: '8px', padding: '10px', left: '10px', width: '100%' }}>
-                                    <SecondaryButton
-                                        css={css`
-                                            width: 95%;
-                                            border: 1px solid #BAB8B8;
-                                            color: #B9B9B9;
-                                            &:hover {
-                                                color: #B9B9B9;
-                                            }
-                                        `}
-                                    >
-                                        แก้ไขโปรไฟล์
-                                    </SecondaryButton>
-                                </div>
-                            ) : (
-                                <div style={{ display: 'flex', position: 'absolute', bottom: '8px', padding: '10px', left: '-9px', width: '100%' }}>
-                                    <PrimaryButton
-                                        css={css`
-                                            width: 100%;
-                                        `}
-                                    >
-                                        ติดตาม
-                                    </PrimaryButton>
-                                    <PrimaryButton css={css`background: #487BFF; width: 100%;`}>แชท</PrimaryButton>                                
-                                </div>
-                            )}
-                        </UserCard>
-                        <div>
-                            <Flex marginBottom="40px" itemAlign="flex-end">
-                                <ProfileInfoListHeading>ขอบเขตการช่วยเหลือ</ProfileInfoListHeading>
-                                <ProfileInfoListDetail>{location}</ProfileInfoListDetail>
-                            </Flex>                
-                            <ProfileInfoContainer>
-                                <Flex>
-                                    <ProfileInfoListHeading>ยอดการช่วยเหลือ</ProfileInfoListHeading>
-                                    <ProfileInfoListDetail>{helpSum}</ProfileInfoListDetail>
-                                </Flex>
-                                <Flex>
-                                    <ProfileInfoListHeading>กำลังติดตาม</ProfileInfoListHeading>
-                                    <ProfileInfoListDetail>{following}</ProfileInfoListDetail>
-                                </Flex>
-                                <Flex>
-                                    <ProfileInfoListHeading>ผู้ติดตาม</ProfileInfoListHeading>
-                                    <ProfileInfoListDetail>{follower}</ProfileInfoListDetail>
-                                </Flex>
-                                <Flex>
-                                    <ProfileInfoListHeading>คะแนน</ProfileInfoListHeading>
-                                    <ProfileInfoListDetail>
-                                        {rating.toFixed(1)}
-                                        <img src={StarIcon} alt="rating icon" style={{ marginTop: '-10px', width: '23px', height: '23px', marginLeft: '5px' }} />
-                                    </ProfileInfoListDetail>
-                                </Flex>
-                            </ProfileInfoContainer>                           
-                        </div>
-                    </ProfilePageUserInfoSection>
-                ))}
-                <Divider />
-                <Text fontWeight={500} fontSize="24px" marginY="20px">รายการความช่วยเหลือของฉัน</Text>
-                <ProfilePageUserHelperListSection>
-                    {USER_DATA[0].helpList.map(({ id, name, title, location, helpSum, serviceCharge, payment}) => (
-                        <HelperListCard
-                            key={id}
-                        >
-                            <HelperListTitle>{title}</HelperListTitle>
-                            <Flex marginY="8px">
-                                <HelperListHeading>ผู้ให้ความช่วยเหลือ</HelperListHeading>
-                                <HelperListDetail>{name}</HelperListDetail>                            
-                            </Flex>
-                            <Flex  marginY="8px">
-                                <HelperListHeading>สถานที่ให้ความช่วยเหลือ</HelperListHeading>
-                                <HelperListDetail>{location}</HelperListDetail>                            
-                            </Flex>
-                            <Flex  marginY="8px">
-                                <HelperListHeading>ยอดการให้ความช่วยเหลือ</HelperListHeading>
-                                <HelperListDetail>{helpSum}</HelperListDetail>                            
-                            </Flex>
-                            <Flex  marginY="8px">
-                                <HelperListHeading>ค่าบริการ</HelperListHeading>
-                                <HelperListDetail>{serviceCharge}</HelperListDetail>                            
-                            </Flex>
-                            <Flex  marginY="8px">
-                                <HelperListHeading>วิธีการชำระเงิน</HelperListHeading>
-                                <HelperListDetail>{payment}</HelperListDetail>                            
-                            </Flex>
-                            <SecondaryHelpButton>ขอความช่วยเหลือ</SecondaryHelpButton>
-                        </HelperListCard>                        
-                    ))}
-                </ProfilePageUserHelperListSection>
-            </ProfilePageContainer>
-        </React.Fragment>
-    )
-}
+                      แก้ไขโปรไฟล์
+                    </SecondaryButton>
+                  </div>
+                ) : (
+                  <div
+                    style={{
+                      display: 'flex',
+                      position: 'absolute',
+                      bottom: '8px',
+                      padding: '10px',
+                      left: '-9px',
+                      width: '100%'
+                    }}
+                  >
+                    <PrimaryButton
+                      css={css`
+                        width: 100%;
+                      `}
+                    >
+                      ติดตาม
+                    </PrimaryButton>
+                    <PrimaryButton
+                      css={css`
+                        background: #487bff;
+                        width: 100%;
+                      `}
+                    >
+                      แชท
+                    </PrimaryButton>
+                  </div>
+                )}
+              </UserCard>
+              <div>
+                <Flex marginBottom="40px" itemAlign="flex-end">
+                  <ProfileInfoListHeading>
+                    ขอบเขตการช่วยเหลือ
+                  </ProfileInfoListHeading>
+                  <ProfileInfoListDetail>{location}</ProfileInfoListDetail>
+                </Flex>
+                <ProfileInfoContainer>
+                  <Flex>
+                    <ProfileInfoListHeading>
+                      ยอดการให้ช่วยเหลือ
+                    </ProfileInfoListHeading>
+                    <ProfileInfoListDetail>
+                      {helpSum.toLocaleString()}
+                    </ProfileInfoListDetail>
+                  </Flex>
+                  <Flex>
+                    <ProfileInfoListHeading>
+                      ยอดการขอความช่วยเหลือ
+                    </ProfileInfoListHeading>
+                    <ProfileInfoListDetail>
+                      {requestSum.toLocaleString()}
+                    </ProfileInfoListDetail>
+                  </Flex>
+                  <Flex>
+                    <ProfileInfoListHeading>ผู้ติดตาม</ProfileInfoListHeading>
+                    <ProfileInfoListDetail>
+                      {follower.toLocaleString()}
+                    </ProfileInfoListDetail>
+                  </Flex>
+                  <Flex>
+                    <ProfileInfoListHeading>กำลังติดตาม</ProfileInfoListHeading>
+                    <ProfileInfoListDetail>
+                      {following.toLocaleString()}
+                    </ProfileInfoListDetail>
+                  </Flex>
+                </ProfileInfoContainer>
+              </div>
+            </ProfilePageUserInfoSection>
+          )
+        )}
+        <Divider />
+        <ProfileMenuTab menu={menu} setMenu={setMenu} />
+        <ProfilePageUserHelperListSection>
+          {menu === HelpMenu.PROVIDE ? (
+            <React.Fragment>
+              {USER_DATA[0].helpList.map((props) => (
+                <MyProvideList key={props.id} data={props} />
+              ))}
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              {USER_DATA[0].requestList.map((props) => (
+                <MyRequestList key={props.id} data={props} />
+              ))}
+            </React.Fragment>
+          )}
+        </ProfilePageUserHelperListSection>
+      </ProfilePageContainer>
+    </React.Fragment>
+  );
+};

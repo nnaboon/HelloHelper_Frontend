@@ -3,14 +3,14 @@ import styled from '@emotion/styled';
 import Flex from 'components/Flex/Flex';
 import { useHistory, useLocation } from 'react-router-dom';
 import { MenuButton } from './MenuButton';
-import { HelpMenu, HELP_MENU_MAPPER } from './const';
+import { HelpMenu, PROFILE_MENU_MAPPER } from './const';
 
 interface MenuTabProps {
   menu: HelpMenu;
   setMenu: (helpMenu: HelpMenu) => void;
 }
 
-export const MenuTab = ({ menu, setMenu }: MenuTabProps) => {
+export const ProfileMenuTab = ({ menu, setMenu }: MenuTabProps) => {
   const history = useHistory();
   const { pathname } = useLocation();
 
@@ -24,12 +24,12 @@ export const MenuTab = ({ menu, setMenu }: MenuTabProps) => {
             setMenu(key);
             history.push({
               state: {
-                menu: key
+                profile_menu: key
               }
             });
           }}
         >
-          {HELP_MENU_MAPPER[key]}
+          {PROFILE_MENU_MAPPER[key]}
         </MenuButton>
       ))}
     </Flex>

@@ -6,7 +6,6 @@ import styled from '@emotion/styled';
 import { Sidebar } from 'components/Sidebar/Sidebar';
 import { Text } from 'components/Text';
 import { WrapperContainer } from 'components/Wrapper/WrapperContainer';
-import { Navbar } from 'components/Navbar/Navbar';
 import { useLocation } from 'react-router-dom';
 import { HelpMenu } from 'components/Menu/const';
 import { MenuTab } from 'components/Menu/MenuTab';
@@ -100,13 +99,12 @@ const SearchResultCard = styled.div`
 `;
 
 export const SearchResultPage = () => {
-  const [menu, setMenu] = useState<HelpMenu>(HelpMenu.REQUEST);
+  const [menu, setMenu] = useState<HelpMenu>(HelpMenu.PROVIDE);
   const history = useHistory();
   const { state } = useLocation();
-  const currentMenu = ((state as any)?.menu || HelpMenu.REQUEST) as HelpMenu;
+  const currentMenu = ((state as any)?.menu || HelpMenu.PROVIDE) as HelpMenu;
 
   useEffect(() => {
-    console.log(currentMenu);
     setMenu(currentMenu);
   }, [currentMenu]);
 
@@ -284,86 +282,6 @@ export const SearchResultPage = () => {
           </SearchResultContent>
         </div>
       </div>
-
-      {/* <Flex justify="center" direction="column" style={{ position: 'relative' }}>
-                            <div style={{ position: 'fixed', top: '165px' }}>
-                                <MenuTab menu={menu} setMenu={setMenu} />
-                                <Divider style={{ width: '60%' }} />                        
-                            </div>
-                            <SearchResultContent>
-                    {POPULAR_REQUEST_DATA.map(({ id, title, imageUrl, name, payment, serviceRate, location, helpSum, rank }) => (
-                        <CardContainer
-                            key={id}
-                            onClick={() => {
-                                history.push({
-                                    pathname: `/${id}/${title}`
-                                })
-                            }}
-                        >
-                            <RequestTitle>{title}</RequestTitle>
-                            <div
-                                css={css`
-                                    display: flex;
-                                `}
-                            >
-                                <div
-                                    css={css`
-                                        display: flex;
-                                        width: 32%;
-                                        flex-direction: column;
-                                        align-items: center;
-                                        margin-right: 35px;
-                                    `}
-                                >
-                                    <HelperImage />
-                                    <SuggestedBadge>แนะนำ</SuggestedBadge>
-                                    <RankingBadge rankColor={RANK_BADGE[rank].color}>{rank.toUpperCase()}</RankingBadge>
-                                </div>
-                                <div
-                                    css={css`
-                                        display: flex;
-                                        flex-direction: column;
-                                    `}
-                                >
-                                    <RequestDataContent>                            
-                                        <RequestDataTitle>ชื่อ</RequestDataTitle>
-                                        <RequestDataInfo>{name}</RequestDataInfo>
-                                    </RequestDataContent>
-                                    <RequestDataContent>                            
-                                        <RequestDataTitle>สถานที่ให้ความช่วยเหลือ</RequestDataTitle>
-                                        <RequestDataInfo>{location}</RequestDataInfo>
-                                    </RequestDataContent>
-                                    <RequestDataContent>                            
-                                        <RequestDataTitle>ยอดการให้ความช่วยเหลือ</RequestDataTitle>
-                                        <RequestDataInfo>{helpSum.toLocaleString()}</RequestDataInfo>
-                                    </RequestDataContent>
-                                    <RequestDataContent>                            
-                                        <RequestDataTitle>ค่าบริการ</RequestDataTitle>
-                                        <RequestDataInfo>{serviceRate}</RequestDataInfo>
-                                    </RequestDataContent>
-                                    <RequestDataContent>                            
-                                        <RequestDataTitle>วิธีการชำระเงิน</RequestDataTitle>
-                                        <RequestDataInfo>{payment}</RequestDataInfo>
-                                    </RequestDataContent>
-                                    
-                                </div>
-                                <div
-                                    css={css`
-                                        display: flex;
-                                        position: absolute;
-                                        bottom: 10px;
-                                        right: 20px;
-                                        align-items: center;
-                                    `}
-                                >
-                                    <SecondaryButton>โปรไฟล์</SecondaryButton>
-                                    <PrimaryButton>แชท</PrimaryButton>
-                                </div>
-                            </div>
-                        </CardContainer>
-                    ))}
-                            </SearchResultContent>
-                        </Flex>                       */}
     </WrapperContainer>
   );
 };
