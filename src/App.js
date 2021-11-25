@@ -24,7 +24,6 @@ function App() {
       <BrowserRouter>
         <Navbar />
         <Switch>
-          {/* <Route path="" exact component={LandingPage} /> */}
           <Route path="/" exact component={HomePage} />
           <Route path="/profile" component={ProfilePage} />
           <Route path="/request" component={RequestListPage} />
