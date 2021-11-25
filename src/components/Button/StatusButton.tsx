@@ -4,10 +4,12 @@ import styled from '@emotion/styled';
 interface StatusButtonProps {
   status: string;
   color: string;
+  onClick: () => void;
 }
 
 const StatusButtonContainer = styled.div<{ color: string }>`
-  width: 115px;
+  max-width: 200px;
+  min-width: 140px;
   height: 38px;
   display: flex;
   color: #ffff;
@@ -17,12 +19,16 @@ const StatusButtonContainer = styled.div<{ color: string }>`
   align-items: center;
   justify-content: center;
   border-radius: 8px;
+  margin-right: 10px;
+  cursor: pointer;
 `;
 
-export const StatusButton = ({ status, color }: StatusButtonProps) => {
+export const StatusButton = ({ status, color, onClick }: StatusButtonProps) => {
   return (
     <div>
-      <StatusButtonContainer color={color}>{status}</StatusButtonContainer>
+      <StatusButtonContainer onClick={onClick} color={color}>
+        {status}
+      </StatusButtonContainer>
     </div>
   );
 };

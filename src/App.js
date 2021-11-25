@@ -10,6 +10,7 @@ import { InfoPage } from 'pages/Infopage';
 import { SearchResultPage } from './pages/SearchResultPage';
 import { Navbar } from 'components/Navbar/Navbar';
 import { ProvideListPage } from './pages/ProvideListpage';
+import { RequestListPage } from './pages/RequestListpage';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           {/* <Route path="" exact component={LandingPage} /> */}
           <Route path="/" exact component={HomePage} />
           <Route path="/profile" component={ProfilePage} />
+          <Route path="/request" component={RequestListPage} />
           <Route path="/provide" component={ProvideListPage} />
           <Route path="/:id" exact component={SearchResultPage} />
           <Route path="/search" exact component={SearchResultPage} />

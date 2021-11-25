@@ -6,15 +6,15 @@ import { Text } from 'components/Text';
 import { StatusButton } from 'components/Button/StatusButton';
 import { STATUS_MAPPER } from 'components/Button/const';
 import { WrapperContainer } from 'components/Wrapper/WrapperContainer';
-import { ProvideListCard } from 'components/Card/ProvideListCard';
 import { PROVIDE_MAPPER } from 'data/provide';
+import { RequestListCard } from 'components/Card/RequestListCard';
 
-export const ProvideListPage = () => {
+export const RequestListPage = () => {
   const [currentStatus, setCurrentStatus] = useState<string>('waiting');
   return (
     <WrapperContainer>
       <Text fontSize="24px" fontWeight={400} marginY="20px">
-        รายการให้ความช่วยเหลือของฉัน ทั้งหมด {PROVIDE_MAPPER.length} รายการ
+        รายการขอความช่วยเหลือของฉัน ทั้งหมด {PROVIDE_MAPPER.length} รายการ
       </Text>
       <Flex itemAlign="center">
         <StatusButton
@@ -36,7 +36,7 @@ export const ProvideListPage = () => {
       <Flex itemAlign="center" justify="center" direction="column">
         {PROVIDE_MAPPER.filter((props) => props.status === currentStatus).map(
           (props) => (
-            <ProvideListCard props={props} />
+            <RequestListCard props={props} />
           )
         )}
       </Flex>
