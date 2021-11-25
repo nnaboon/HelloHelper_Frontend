@@ -56,9 +56,6 @@ export const RequestForm = () => {
             display: flex;
             align-items: center;
           }
-          .ant-form-item-control-input {
-            width: 460px;
-          }
           .ant-modal-body {
             height: 100%;
           }
@@ -74,6 +71,11 @@ export const RequestForm = () => {
         initialValues={{ remember: true }}
         onFinish={onFinish}
         autoComplete="off"
+        css={css`
+          .ant-form-item-control-input {
+            width: 460px;
+          }
+        `}
       >
         <Form.Item
           name="title"

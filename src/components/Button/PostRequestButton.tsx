@@ -1,6 +1,6 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import { css, jsx, Global } from '@emotion/react';
+import { css, jsx } from '@emotion/react';
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { PrimaryButton } from './Button';
@@ -31,14 +31,6 @@ export const PostRequestButton = () => {
 
   return (
     <div>
-      <Global
-        styles={css`
-          .ant-modal-content {
-            border-radius: 12px;
-            height: 950px;
-          }
-        `}
-      />
       <RequestButton onClick={() => setIsModalVisible(true)}>
         ขอความช่วยเหลือ
       </RequestButton>
@@ -50,6 +42,11 @@ export const PostRequestButton = () => {
         width={800}
         maskClosable={false}
         centered
+        css={css`
+          .ant-modal-content {
+            height: 950px;
+          }
+        `}
       >
         <RequestForm />
       </Modal>
