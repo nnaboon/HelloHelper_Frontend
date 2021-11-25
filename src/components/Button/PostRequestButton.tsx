@@ -32,7 +32,7 @@ export const PostRequestButton = () => {
   return (
     <div>
       <RequestButton onClick={() => setIsModalVisible(true)}>
-        ขอความช่วยเหลือ
+        ขอ/ให้ความช่วยเหลือ
       </RequestButton>
       <Modal
         visible={isModalVisible}

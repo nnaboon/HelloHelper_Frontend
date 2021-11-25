@@ -15,7 +15,12 @@ export const ProfileMenuTab = ({ menu, setMenu }: MenuTabProps) => {
   const { pathname } = useLocation();
 
   return (
-    <Flex itemAlign="center" justify="space-around" style={{ width: '100%' }}>
+    <Flex
+      itemAlign="center"
+      justify="space-around"
+      marginBottom="18px"
+      style={{ width: '100%' }}
+    >
       {Object.values(HelpMenu).map((key) => (
         <MenuButton
           key={key}

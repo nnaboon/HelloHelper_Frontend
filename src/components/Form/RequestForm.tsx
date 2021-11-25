@@ -4,7 +4,7 @@ import { css, jsx, Global } from '@emotion/react';
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { Text } from 'components/Text';
-import { Button, Form, Input, message, Tooltip } from 'antd';
+import { Button, Form, Input, message, Tooltip, Select } from 'antd';
 import { RequestFormBody } from './const';
 import { GoogleMapContent } from 'components/GoogleMap/GoogleMap';
 import { InfoSvg } from 'components/Svg/InfoSvg';
@@ -77,6 +77,20 @@ export const RequestForm = () => {
           }
         `}
       >
+        <Form.Item
+          label="รูปแบบความช่วยเหลือ"
+          rules={[
+            {
+              required: true,
+              message: 'กรุณากรอกรูปแบบความช่วยเหลือ'
+            }
+          ]}
+        >
+          <Select>
+            <Select.Option value="provide">ให้ความช่วยเหลือ</Select.Option>
+            <Select.Option value="request">ขอความช่วยเหลือ</Select.Option>
+          </Select>
+        </Form.Item>
         <Form.Item
           name="title"
           label="ชื่อ"

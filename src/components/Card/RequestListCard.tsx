@@ -61,7 +61,7 @@ export const RequestListCard = (props: RequestListCardProps) => {
       <StatusBadge
         status={STATUS_MAPPER[props.props.status].status}
         color={STATUS_MAPPER[props.props.status].color}
-        style={{ position: 'absolute', right: '20px', top: '8px' }}
+        style={{ position: 'absolute', right: '20px', top: '13px' }}
       />
       <RequestListContent>
         <Flex itemAlign="flex-start">

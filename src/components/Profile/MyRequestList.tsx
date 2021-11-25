@@ -1,3 +1,6 @@
+/** @jsxRuntime classic */
+/** @jsx jsx */
+import { css, jsx } from '@emotion/react';
 import React from 'react';
 import styled from '@emotion/styled';
 import Flex from 'components/Flex/Flex';
@@ -7,7 +10,7 @@ const HelperListCard = styled.div`
   background: #ffffff;
   box-shadow: 0px 6px 11px rgba(0, 0, 0, 0.15);
   border-radius: 8px;
-  height: 341px;
+  height: 360px;
   margin-top: 30px;
   display: flex;
   flex-direction: column;
@@ -69,6 +72,16 @@ export const MyRequestList = ({ data }: any) => {
         <HelperListHeading>วิธีการชำระเงิน</HelperListHeading>
         <HelperListDetail>{data.payment}</HelperListDetail>
       </Flex>
+      <div style={{ display: 'flex' }}>
+        <SecondaryHelpButton
+          css={css`
+            right: 140px;
+          `}
+        >
+          ลบ
+        </SecondaryHelpButton>
+        <SecondaryHelpButton>แก้ไข</SecondaryHelpButton>
+      </div>
     </HelperListCard>
   );
 };
