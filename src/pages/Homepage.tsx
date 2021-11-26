@@ -91,7 +91,7 @@ export const HomePage = () => {
             </SecondaryButton>
           ))}
         </div>
-        <Text>
+        <Text fontSize="23px" fontWeight={500} marginY="10px">
           คุณมีชุมชนความช่วยเหลือแล้วหรือยัง ให้ความช่วยเหลือคนในชุมชนของคุณได้{' '}
           <span
             style={{ color: '#F86800' }}
