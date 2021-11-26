@@ -6,11 +6,12 @@ import styled from '@emotion/styled';
 import { PrimaryButton } from './Button';
 import { Modal } from 'antd';
 import { RequestForm } from 'components/Form/RequestForm';
+import { PenRequestSvg } from 'components/Svg/PenRequestSvg';
 
 const RequestButton = styled(PrimaryButton)`
-  width: 198px;
+  width: 210px;
   height: 49px;
-  font-weight: 700;
+  font-weight: 500;
   font-size: 18px;
 
   &:hover {
@@ -32,6 +33,7 @@ export const PostRequestButton = () => {
   return (
     <div>
       <RequestButton onClick={() => setIsModalVisible(true)}>
+        <PenRequestSvg style={{ marginRight: '10px' }} />
         ขอ/ให้ความช่วยเหลือ
       </RequestButton>
       <Modal

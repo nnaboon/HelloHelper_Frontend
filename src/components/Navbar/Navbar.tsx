@@ -156,8 +156,8 @@ export const Navbar = () => {
         maskClosable={false}
         centered
       >
-        <LoginForm />
-        {/* <RegisterForm /> */}
+        {/* <LoginForm /> */}
+        <RegisterForm />
       </Modal>
     </NavbarSection>
   );
