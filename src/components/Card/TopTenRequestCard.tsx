@@ -9,6 +9,8 @@ import StarIcon from 'images/rating-star.png';
 import { RANK_BADGE } from 'components/Badge/const';
 import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
+import { MessageSvg } from 'components/Svg/MessageSvg';
+import { UserSvg } from 'components/Svg/UserSvg';
 
 const CardContainer = styled.div`
   width: 448px;
@@ -81,7 +83,7 @@ export const TopTenRequestSection = ({ data }: any) => {
           imageUrl,
           name,
           payment,
-          serviceRate,
+          serviceCharge,
           location,
           helpSum,
           rank
@@ -195,7 +197,7 @@ export const TopTenRequestSection = ({ data }: any) => {
                   </TopTenRequestDataContent>
                   <TopTenRequestDataContent>
                     <RequestDataTitle>ค่าบริการ</RequestDataTitle>
-                    <RequestDataInfo>{serviceRate}</RequestDataInfo>
+                    <RequestDataInfo>{serviceCharge}</RequestDataInfo>
                   </TopTenRequestDataContent>
                   <TopTenRequestDataContent>
                     <RequestDataTitle>วิธีการชำระเงิน</RequestDataTitle>
@@ -219,9 +221,13 @@ export const TopTenRequestSection = ({ data }: any) => {
                   history.push({ pathname: '/profile' });
                 }}
               >
-                โปรไฟล์
+                <UserSvg />
+                <div>โปรไฟล์</div>
               </SecondaryButton>
-              <PrimaryButton>แชท</PrimaryButton>
+              <PrimaryButton>
+                <MessageSvg style={{ marginRight: '5px' }} />
+                <div>แชท</div>
+              </PrimaryButton>
             </div>
           </CardContainer>
         )

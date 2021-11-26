@@ -11,6 +11,8 @@ import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
 
 import StarIcon from 'images/rating-star.png';
+import { MessageSvg } from 'components/Svg/MessageSvg';
+import { UserSvg } from 'components/Svg/UserSvg';
 
 const RequestHelperCardContainer = styled.div`
   display: flex;
@@ -84,7 +86,7 @@ export const PopularRequestSection = ({ data }: any) => {
           imageUrl,
           name,
           payment,
-          serviceRate,
+          serviceCharge,
           location,
           helpSum,
           rank
@@ -194,7 +196,7 @@ export const PopularRequestSection = ({ data }: any) => {
                   </RequestDataContent>
                   <RequestDataContent>
                     <RequestDataTitle>ค่าบริการ</RequestDataTitle>
-                    <RequestDataInfo>{serviceRate}</RequestDataInfo>
+                    <RequestDataInfo>{serviceCharge}</RequestDataInfo>
                   </RequestDataContent>
                   <RequestDataContent>
                     <RequestDataTitle>วิธีการชำระเงิน</RequestDataTitle>
@@ -218,9 +220,13 @@ export const PopularRequestSection = ({ data }: any) => {
                   history.push({ pathname: '/profile' });
                 }}
               >
-                โปรไฟล์
+                <UserSvg />
+                <div>โปรไฟล์</div>
               </SecondaryButton>
-              <PrimaryButton>แชท</PrimaryButton>
+              <PrimaryButton>
+                <MessageSvg style={{ marginRight: '5px' }} />
+                <div>แชท</div>
+              </PrimaryButton>
             </div>
           </CardContainer>
         )
