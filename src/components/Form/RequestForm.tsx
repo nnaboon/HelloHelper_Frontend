@@ -5,9 +5,11 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { Text } from 'components/Text';
 import { Button, Form, Input, message, Tooltip, Select } from 'antd';
+import { CATEGORY } from 'data/category';
 import { RequestFormBody } from './const';
 import { GoogleMapContent } from 'components/GoogleMap/GoogleMap';
 import { InfoSvg } from 'components/Svg/InfoSvg';
+import Flex from 'components/Flex/Flex';
 
 const RegisterLocationFormSection = styled.div`
   display: flex;
@@ -112,7 +114,7 @@ export const RequestForm = () => {
           label="สถานที่"
           rules={[
             {
-              required: true,
+              // required: true,
               message: 'กรุณากรอกสถานที่ที่คุณสามารถให้ความช่วยเหลือได้'
             }
           ]}
@@ -120,9 +122,9 @@ export const RequestForm = () => {
           <GoogleMapContent />
         </Form.Item>
         <Form.Item name="message" label="ข้อความ">
-          <Input
+          <Input.TextArea
             placeholder="ข้อความ"
-            style={{ height: '40px', borderRadius: '12px' }}
+            style={{ borderRadius: '12px' }}
           />
         </Form.Item>
         <Form.Item
@@ -140,28 +142,33 @@ export const RequestForm = () => {
             style={{ height: '40px', borderRadius: '12px' }}
           />
         </Form.Item>
-        <Form.Item
-          name="maxServiceCharge"
-          label="อัตราค่าบริการสูงสุด"
-          rules={[
-            {
-              required: true,
-              message: 'กรุณากำหนดขอบเขตอัตราค่าบริการสูงสุดที่คุณสามารถจ่ายได้'
-            }
-          ]}
-        >
-          <Input
-            placeholder="ขอบเขตราคาค่าบริการ"
-            style={{ height: '40px', borderRadius: '12px' }}
-          />
+        <Flex justify="center" itemAlign="center">
+          <Form.Item
+            name="maxServiceCharge"
+            label="อัตราค่าบริการสูงสุด"
+            rules={[
+              {
+                required: true,
+                message:
+                  'กรุณากำหนดขอบเขตอัตราค่าบริการสูงสุดที่คุณสามารถจ่ายได้'
+              }
+            ]}
+          >
+            <Input
+              placeholder="ขอบเขตราคาค่าบริการ"
+              style={{ height: '40px', borderRadius: '12px' }}
+            />
+          </Form.Item>
           <Tooltip title="กำหนดราคาสูงสุดของความช่วยเหลือครั้งนี้ที่คุณพึงพอใจจะจ่าย ให้กับผู้ให้ความช่วยเหลือ">
             <InfoSvg
               css={css`
                 margin-left: 10px;
+                margin-top: -20px;
               `}
             />
           </Tooltip>
-        </Form.Item>
+        </Flex>
+
         <Form.Item
           name="payment"
           label="วิธีการชำระเงิน"
@@ -179,10 +186,18 @@ export const RequestForm = () => {
             { required: true, message: 'กรุณาเลือกหมวดหมู่ของความช่วยเหลือ' }
           ]}
         >
-          <Input
-            placeholder="หมวดหมู่"
-            style={{ height: '40px', borderRadius: '12px' }}
-          />
+          <Select
+            mode="multiple"
+            allowClear
+            style={{ width: '100%' }}
+            placeholder="Please select"
+          >
+            {CATEGORY.map(({ id, name }) => (
+              <Select.Option key={id} value={id}>
+                {name}
+              </Select.Option>
+            ))}
+          </Select>
         </Form.Item>
         <Form.Item
           name="hashtag"
