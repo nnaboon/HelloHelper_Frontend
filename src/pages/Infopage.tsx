@@ -4,17 +4,12 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
 import { useLocation, useHistory } from 'react-router-dom';
-import { Navbar } from 'components/Navbar/Navbar';
-import { WrapperContainer } from 'components/Wrapper/WrapperContainer';
-import { Divider } from 'components/Divider/Divider';
-import Flex from 'components/Flex/Flex';
-import { Text } from 'components/Text';
 import { PrimaryButton, SecondaryButton } from 'components/Button/Button';
-import { HelperListCard } from 'components/Card/HelperListCard';
-import { SmallSuggestRequestCard } from 'components/Card/SmallSuggestRequestCard';
 import { SUGGESTED_REQUEST_DATA } from 'data/request';
-import { USER_DATA } from 'data/user';
+import { POPULAR_REQUEST_DATA } from 'data/helper';
 import { HelpMenu } from 'components/Menu/const';
+import { RequestInfoContent } from 'components/Info/RequestInfoContent';
+import { ProvideInfoContent } from 'components/Info/ProvideInfoContent';
 
 const RequestImage = styled.img`
   width: 420px;
@@ -68,133 +63,10 @@ export const InfoPage = () => {
   const query = pathname.split('/')[2];
   const currentMenu = ((state as any)?.type || HelpMenu.PROVIDE) as HelpMenu;
 
-  return (
-    <React.Fragment>
-      {SUGGESTED_REQUEST_DATA.filter(({ id }) => id === query).map(
-        ({
-          id,
-          name,
-          imageUrl,
-          title,
-          location,
-          maxPrice,
-          amount,
-          message,
-          maxServiceCharge,
-          category,
-          hashtag,
-          payment,
-          helper,
-          rank
-        }) => (
-          <WrapperContainer key={id}>
-            <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-              <Flex
-                direction="column"
-                justify="flex-start"
-                itemAlign="flex-start"
-                style={{ width: 'unset', position: 'relative', left: '6%' }}
-              >
-                <RequestImage />
-                <Flex
-                  css={css`
-                    width: 600px;
-                    flex-wrap: wrap;
-                  `}
-                >
-                  {category.map((items) => (
-                    <RequestCategoryButton
-                      onClick={() => {
-                        history.push({
-                          pathname: `/${items}`
-                        });
-                      }}
-                    >
-                      {items}
-                    </RequestCategoryButton>
-                  ))}
-                </Flex>
-                <Flex
-                  css={css`
-                    width: 600px;
-                    flex-wrap: wrap;
-                  `}
-                >
-                  {hashtag.map((items) => (
-                    <RequestHashtagButton
-                      onClick={() => {
-                        history.push({
-                          pathname: `/search`,
-                          search: `?keyword=${items}`
-                        });
-                      }}
-                    >
-                      #{items}
-                    </RequestHashtagButton>
-                  ))}
-                </Flex>
-              </Flex>
-              <Flex
-                direction="column"
-                marginTop="80px"
-                style={{ width: 'unset' }}
-              >
-                <RequestInfoContainer>
-                  <RequestTitle>ชื่อ</RequestTitle>
-                  <RequestDetail>{title}</RequestDetail>
-                  <RequestTitle>สถานที่ให้ความข่วยเหลือ</RequestTitle>
-                  <RequestDetail>{location}</RequestDetail>
-                  {currentMenu === 'request' && (
-                    <React.Fragment>
-                      <RequestTitle>จำนวน</RequestTitle>
-                      <RequestDetail>{amount}</RequestDetail>
-                      <RequestTitle>ราคาสินค้าสูงสุด</RequestTitle>
-                      <RequestDetail>{maxPrice}</RequestDetail>
-                    </React.Fragment>
-                  )}
-                  <RequestTitle>
-                    {currentMenu === 'request'
-                      ? 'อัตราค่าบริการสูงสุด'
-                      : 'อัตราค่าบริการ'}
-                  </RequestTitle>
-                  <RequestDetail>{maxServiceCharge}</RequestDetail>
-                  <RequestTitle>ช่องทางการชำระเงิน</RequestTitle>
-                  <RequestDetail>{payment}</RequestDetail>
-                  <RequestTitle>คำอธิบาย</RequestTitle>
-                  <RequestDetail>{message}</RequestDetail>
-                </RequestInfoContainer>
-                <PrimaryButton style={{ width: '100%' }}>
-                  สนใจให้ความช่วยเหลือ
-                </PrimaryButton>
-              </Flex>
-            </div>
-            <Divider />
-            <Text fontSize="24px" fontWeight={400}>
-              รายชื่อผู้ต้องการช่วยเหลือ
-            </Text>
-            <Flex justify="flex-start" itemAlign="flex-start">
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'flex-start',
-                  alignItems: 'flex-start',
-                  width: '100%',
-                  marginTop: '40px'
-                }}
-              >
-                {helper.map(({ id, name, imageUrl }) => (
-                  <HelperListCard id={id} name={name} imageUrl={imageUrl} />
-                ))}
-              </div>
-              <Flex direction="column" itemAlign="flex-end">
-                <SmallSuggestRequestCard />
-                <SmallSuggestRequestCard />
-              </Flex>
-            </Flex>
-          </WrapperContainer>
-        )
-      )}
-    </React.Fragment>
-  );
+  switch (currentMenu) {
+    case HelpMenu.PROVIDE:
+      return <ProvideInfoContent data={POPULAR_REQUEST_DATA} />;
+    case HelpMenu.REQUEST:
+      return <RequestInfoContent data={SUGGESTED_REQUEST_DATA} />;
+  }
 };

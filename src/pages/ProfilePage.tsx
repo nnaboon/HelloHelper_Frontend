@@ -16,6 +16,8 @@ import { MyProvideList } from 'components/Profile/MyProvideList';
 import { MyRequestList } from 'components/Profile/MyRequestList';
 import { RANK_BADGE } from 'components/Badge/const';
 import { ProfileMenuTab } from 'components/Menu/ProfileMenuTab';
+import { MessageSvg } from 'components/Svg/MessageSvg';
+import { UserPlusSvg } from 'components/Svg/UserPlusSvg';
 
 const ProfilePageContainer = styled.div`
   box-sizing: border-box;
@@ -285,6 +287,7 @@ export const ProfilePage = () => {
                         width: 100%;
                       `}
                     >
+                      <UserPlusSvg style={{ marginRight: '10px' }} />
                       ติดตาม
                     </PrimaryButton>
                     <PrimaryButton
@@ -293,6 +296,7 @@ export const ProfilePage = () => {
                         width: 100%;
                       `}
                     >
+                      <MessageSvg style={{ marginRight: '10px' }} />
                       แชท
                     </PrimaryButton>
                   </div>

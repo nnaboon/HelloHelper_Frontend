@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { Input, Modal } from 'antd';
-import { css, jsx, useTheme } from '@emotion/react';
+import { css, jsx } from '@emotion/react';
 import { PopularRequestSection } from 'components/Card/PopularRequestCard';
 import { TopTenRequestSection } from 'components/Card/TopTenRequestCard';
 import { Text } from 'components/Text';
@@ -12,15 +12,13 @@ import { TOP_TEN_SEARCH_WEEKLY } from 'data/search';
 import { SecondaryButton, TopSearchButton } from 'components/Button/Button';
 import { PostRequestButton } from 'components/Button/PostRequestButton';
 import { SuggestedRequestSection } from 'components/Card/SuggestedRequestCard';
-import { Navbar } from 'components/Navbar/Navbar';
 import { News } from 'components/News/News';
 import { CATEGORY } from 'data/category';
 import { RequestForm } from 'components/Form/RequestForm';
-import { TOP_TEN_REQUEST_DATA } from 'data/helper';
 import { SUGGESTED_REQUEST_DATA } from '../data/request';
 import { POPULAR_REQUEST_DATA } from '../data/helper';
-import { CommunityForm } from 'components/Form/CommunityForm';
 import { CommunityMenu } from 'features/community/CommunityMenu';
+import { SearchSvg } from 'components/Svg/SearchSvg';
 
 const HomePageContainer = styled.div`
   box-sizing: border-box;
@@ -133,6 +131,7 @@ export const HomePage = () => {
                 });
               }}
             >
+              <SearchSvg style={{ marginRight: '10px' }} />
               {name}
             </TopSearchButton>
           ))}
@@ -140,7 +139,7 @@ export const HomePage = () => {
         <Text fontSize="36px" fontWeight={500}>
           Top 10 ความช่วยเหลือประจำสัปดาห์
         </Text>
-        <TopTenRequestSection data={TOP_TEN_REQUEST_DATA} />
+        <TopTenRequestSection data={POPULAR_REQUEST_DATA} />
         <Text fontSize="36px" fontWeight={500}>
           ความช่วยเหลือแนะนำ
         </Text>
