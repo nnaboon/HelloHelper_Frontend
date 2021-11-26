@@ -94,7 +94,7 @@ export const HomePage = () => {
         <Text fontSize="23px" fontWeight={500} marginY="10px">
           คุณมีชุมชนความช่วยเหลือแล้วหรือยัง ให้ความช่วยเหลือคนในชุมชนของคุณได้{' '}
           <span
-            style={{ color: '#F86800' }}
+            style={{ color: '#F86800', cursor: 'pointer' }}
             onClick={() => setIsModalVisible(true)}
           >
             ที่นี่

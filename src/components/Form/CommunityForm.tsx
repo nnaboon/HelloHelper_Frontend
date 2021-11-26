@@ -105,7 +105,11 @@ export const CommunityForm = ({ setMenu }: CommunityFormProps) => {
         <div>
           หรือ{' '}
           <span
-            style={{ textDecoration: 'underline', color: '#F86800' }}
+            style={{
+              textDecoration: 'underline',
+              color: '#F86800',
+              cursor: 'pointer'
+            }}
             onClick={() => setMenu(CommunityType.CREATE)}
           >
             สร้างชุมชนความช่วยเหลือใหม่
