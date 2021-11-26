@@ -19,7 +19,7 @@ const NavbarSection = styled.div`
   display: flex;
   flex-direction: column;
   background: #ff8730;
-  z-index: 2;
+  z-index: 99;
 `;
 
 const NavbarList = styled.ul`

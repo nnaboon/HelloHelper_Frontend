@@ -61,7 +61,7 @@ const RequestTitle = styled.div`
   max-width: 150px;
 `;
 
-export const InfoPage = () => {
+export const ProvideInfoPage = () => {
   const history = useHistory();
   const location = useLocation();
   const query = location.pathname.split('/')[2];

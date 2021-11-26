@@ -1,12 +1,12 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { css, jsx } from '@emotion/react';
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import Flex from 'components/Flex/Flex';
 import { STATUS_MAPPER } from 'components/Badge/const';
 import { StatusType } from 'components/Button/const';
-import { message } from 'antd';
+import { Rate, Form, Modal, Button, message } from 'antd';
 import { StatusBadge } from 'components/Badge/StatusBadge';
 import { ProvideListProps } from 'data/provide';
 import { PrimaryButton } from '../Button/Button';
@@ -56,6 +56,37 @@ const RequestListData = styled.div`
 `;
 
 export const RequestListCard = (props: RequestListCardProps) => {
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [form] = Form.useForm();
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
+  const onFinish = async (value) => {
+    setIsSubmitting(true);
+    const data = {
+      rating: value.rating
+    };
+
+    try {
+      console.log('data', data);
+    } catch (e) {
+      message.error('ไม่สามารถโพสต์ขอความช่วยเหลือได้');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <RequestListContainer>
       <StatusBadge
@@ -112,9 +143,61 @@ export const RequestListCard = (props: RequestListCardProps) => {
           bottom: 20px;
           max-width: 250px;
         `}
+        onClick={() => {
+          setIsModalVisible(true);
+        }}
       >
         ยืนยันการรับสินค้า/ให้คะแนน
       </PrimaryButton>
+      <Modal
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        footer={null}
+        width={500}
+        maskClosable={false}
+        centered
+        css={css`
+          .ant-modal-content {
+            height: 180px;
+          }
+        `}
+      >
+        <Form
+          name="basic"
+          labelCol={{ span: 8 }}
+          wrapperCol={{ span: 16 }}
+          initialValues={{ remember: true }}
+          onFinish={onFinish}
+          autoComplete="off"
+        >
+          <Form.Item name="rating">
+            <Rate allowHalf />
+          </Form.Item>
+          <Button
+            type="primary"
+            htmlType="submit"
+            css={css`
+              width: 106px;
+              height: 40px;
+              box-sizing: border-box;
+              background: #ee6400;
+              border-radius: 9px;
+              border: 0;
+              position: absolute;
+              bottom: 20px;
+              right: 20px;
+              color: #ffff;
+
+              &:hover {
+                background: #ee6400;
+              }
+            `}
+          >
+            ตกลง
+          </Button>
+        </Form>
+      </Modal>
     </RequestListContainer>
   );
 };
