@@ -72,7 +72,7 @@ export const CreateCommunityForm = ({ setMenu }: CreateCommunityFormProps) => {
           rules={[
             {
               required: true,
-              message: 'กรุณากรอกชื่อชุมชนความช่วยเหลือที่คุณต้องการอยู่'
+              message: 'กรุณากำหนกชื่อชุมชนความช่วยเหลือ'
             }
           ]}
         >
@@ -86,7 +86,7 @@ export const CreateCommunityForm = ({ setMenu }: CreateCommunityFormProps) => {
           rules={[
             {
               required: true,
-              message: 'กรุณากรอกรหัสชุมชนความช่วยเหลือที่คุณต้องการอยู่'
+              message: 'กรุณากำหนดรหัสชุมชนความข่วยเหลือ'
             }
           ]}
         >
