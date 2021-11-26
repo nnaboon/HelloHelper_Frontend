@@ -13,12 +13,11 @@ import { Divider } from 'components/Divider/Divider';
 import Flex from 'components/Flex/Flex';
 import { PostRequestButton } from 'components/Button/PostRequestButton';
 import { useHistory } from 'react-router-dom';
-import { SecondaryButton, PrimaryButton } from 'components/Button/Button';
 import { POPULAR_REQUEST_DATA } from 'data/helper';
-
+import { SUGGESTED_REQUEST_DATA } from 'data/request';
+import { SuggestedRequestSection } from 'components/Card/SuggestedRequestCard';
+import { PopularRequestSection } from 'components/Card/PopularRequestCard';
 import { SuggestedBadge, RankingBadge } from 'components/Badge/Badge';
-import { RANK_BADGE } from 'components/Badge/const';
-import StarIcon from 'images/rating-star.png';
 
 const CardContainer = styled.div`
   width: 95%;
@@ -76,7 +75,7 @@ const RequestDataContent = styled.div`
 const SearchResultContent = styled.div`
   display: grid;
   grid-template-columns: auto auto;
-  grid-gap: 30px;
+  grid-gap: 10px;
   overflow: scroll;
   position: relative;
 `;
@@ -136,149 +135,13 @@ export const SearchResultPage = () => {
             </Flex>
           </div>
           <SearchResultContent>
-            {POPULAR_REQUEST_DATA.map(
-              ({
-                id,
-                title,
-                imageUrl,
-                name,
-                payment,
-                serviceRate,
-                location,
-                helpSum,
-                rank
-              }) => (
-                <CardContainer
-                  key={id}
-                  onClick={() => {
-                    history.push({
-                      pathname: `/${id}/${title}`
-                    });
-                  }}
-                >
-                  <RequestTitle>{title}</RequestTitle>
-                  <div
-                    css={css`
-                      display: flex;
-                    `}
-                  >
-                    <div
-                      css={css`
-                        display: flex;
-                        width: 32%;
-                        flex-direction: column;
-                        align-items: center;
-                        margin-right: 35px;
-                      `}
-                    >
-                      <HelperImage />
-                      <SuggestedBadge>แนะนำ</SuggestedBadge>
-                      <div
-                        style={{
-                          display: 'flex',
-                          marginBottom: '8px',
-                          marginTop: '-4px'
-                        }}
-                      >
-                        <img
-                          src={StarIcon}
-                          alt="star"
-                          style={{
-                            width: '26px',
-                            height: '26px',
-                            marginRight: '2px'
-                          }}
-                        />
-                        <img
-                          src={StarIcon}
-                          alt="star"
-                          style={{
-                            width: '26px',
-                            height: '26px',
-                            marginRight: '2px'
-                          }}
-                        />
-                        <img
-                          src={StarIcon}
-                          alt="star"
-                          style={{
-                            width: '26px',
-                            height: '26px',
-                            marginRight: '2px'
-                          }}
-                        />
-                        <img
-                          src={StarIcon}
-                          alt="star"
-                          style={{
-                            width: '26px',
-                            height: '26px',
-                            marginRight: '2px'
-                          }}
-                        />
-                        <img
-                          src={StarIcon}
-                          alt="star"
-                          style={{
-                            width: '26px',
-                            height: '26px',
-                            marginRight: '2px'
-                          }}
-                        />
-                      </div>
-                      <RankingBadge rankColor={RANK_BADGE[rank].color}>
-                        {rank.toUpperCase()}
-                      </RankingBadge>
-                    </div>
-                    <div
-                      css={css`
-                        display: flex;
-                        flex-direction: column;
-                      `}
-                    >
-                      <RequestDataContent>
-                        <RequestDataTitle>ชื่อ</RequestDataTitle>
-                        <RequestDataInfo>{name}</RequestDataInfo>
-                      </RequestDataContent>
-                      <RequestDataContent>
-                        <RequestDataTitle>
-                          สถานที่ให้ความช่วยเหลือ
-                        </RequestDataTitle>
-                        <RequestDataInfo>{location}</RequestDataInfo>
-                      </RequestDataContent>
-                      <RequestDataContent>
-                        <RequestDataTitle>
-                          ยอดการให้ความช่วยเหลือ
-                        </RequestDataTitle>
-                        <RequestDataInfo>
-                          {helpSum.toLocaleString()}
-                        </RequestDataInfo>
-                      </RequestDataContent>
-                      <RequestDataContent>
-                        <RequestDataTitle>ค่าบริการ</RequestDataTitle>
-                        <RequestDataInfo>{serviceRate}</RequestDataInfo>
-                      </RequestDataContent>
-                      <RequestDataContent>
-                        <RequestDataTitle>วิธีการชำระเงิน</RequestDataTitle>
-                        <RequestDataInfo>{payment}</RequestDataInfo>
-                      </RequestDataContent>
-                    </div>
-                    <div
-                      css={css`
-                        display: flex;
-                        position: absolute;
-                        bottom: 10px;
-                        right: 20px;
-                        align-items: center;
-                      `}
-                    >
-                      <SecondaryButton>โปรไฟล์</SecondaryButton>
-                      <PrimaryButton>แชท</PrimaryButton>
-                    </div>
-                  </div>
-                </CardContainer>
-              )
-            )}
+            {menu === HelpMenu.PROVIDE
+              ? POPULAR_REQUEST_DATA.map((props) => (
+                  <PopularRequestSection data={[props]} />
+                ))
+              : SUGGESTED_REQUEST_DATA.map((props) => (
+                  <SuggestedRequestSection data={[props]} />
+                ))}
           </SearchResultContent>
         </div>
       </div>

@@ -194,29 +194,35 @@ export const RequestForm = () => {
             style={{ height: '40px', borderRadius: '12px' }}
           />
         </Form.Item>
-        <Button
-          type="primary"
-          htmlType="submit"
+        <div
           css={css`
-            width: 170px;
-            height: 40px;
-            box-sizing: border-box;
-            background: #ee6400;
-            border-radius: 9px;
-            border: 0;
-            position: absolute;
-            bottom: 0;
-            right: 20px;
-            color: #ffff;
-            font-size: 16px;
-
-            &:hover {
-              background: #ee6400;
-            }
+            width: 100%;
+            position: relative;
           `}
         >
-          ขอความช่วยเหลือ
-        </Button>
+          <Button
+            type="primary"
+            htmlType="submit"
+            css={css`
+              width: 170px;
+              height: 40px;
+              box-sizing: border-box;
+              background: #ee6400;
+              border-radius: 9px;
+              border: 0;
+              right: 44px;
+              color: #ffff;
+              font-size: 16px;
+              position: absolute;
+
+              &:hover {
+                background: #ee6400;
+              }
+            `}
+          >
+            ขอความช่วยเหลือ
+          </Button>
+        </div>
       </Form>
     </RegisterLocationFormSection>
   );

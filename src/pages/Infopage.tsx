@@ -14,6 +14,7 @@ import { HelperListCard } from 'components/Card/HelperListCard';
 import { SmallSuggestRequestCard } from 'components/Card/SmallSuggestRequestCard';
 import { SUGGESTED_REQUEST_DATA } from 'data/request';
 import { USER_DATA } from 'data/user';
+import { HelpMenu } from 'components/Menu/const';
 
 const RequestImage = styled.img`
   width: 420px;
@@ -63,8 +64,10 @@ const RequestTitle = styled.div`
 
 export const InfoPage = () => {
   const history = useHistory();
-  const location = useLocation();
-  const query = location.pathname.split('/')[2];
+  const { pathname, state } = useLocation();
+  const query = pathname.split('/')[2];
+  const currentMenu = ((state as any)?.type || HelpMenu.PROVIDE) as HelpMenu;
+
   return (
     <React.Fragment>
       {SUGGESTED_REQUEST_DATA.filter(({ id }) => id === query).map(
@@ -141,9 +144,19 @@ export const InfoPage = () => {
                   <RequestDetail>{title}</RequestDetail>
                   <RequestTitle>สถานที่ให้ความข่วยเหลือ</RequestTitle>
                   <RequestDetail>{location}</RequestDetail>
-                  <RequestTitle>จำนวน</RequestTitle>
-                  <RequestDetail>{amount}</RequestDetail>
-                  <RequestTitle>จำกัดราคา</RequestTitle>
+                  {currentMenu === 'request' && (
+                    <React.Fragment>
+                      <RequestTitle>จำนวน</RequestTitle>
+                      <RequestDetail>{amount}</RequestDetail>
+                      <RequestTitle>ราคาสินค้าสูงสุด</RequestTitle>
+                      <RequestDetail>{maxPrice}</RequestDetail>
+                    </React.Fragment>
+                  )}
+                  <RequestTitle>
+                    {currentMenu === 'request'
+                      ? 'อัตราค่าบริการสูงสุด'
+                      : 'อัตราค่าบริการ'}
+                  </RequestTitle>
                   <RequestDetail>{maxServiceCharge}</RequestDetail>
                   <RequestTitle>ช่องทางการชำระเงิน</RequestTitle>
                   <RequestDetail>{payment}</RequestDetail>

@@ -20,7 +20,8 @@ const RequestHelperCardContainer = styled.div`
 `;
 
 const CardContainer = styled.div`
-  width: 448px;
+  min-width: 448px;
+  width: 95%;
   height: 341px;
   background: #ffffff;
   box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.1);
@@ -32,7 +33,7 @@ const CardContainer = styled.div`
   margin-right: 20px;
   position: relative;
   top: -20px;
-  margin-top: 40px;
+  margin-top: 20px;
   cursor: pointer;
 `;
 
@@ -71,12 +72,12 @@ const RequestDataContent = styled.div`
   margin-bottom: 5px;
 `;
 
-export const PopularRequestSection = () => {
+export const PopularRequestSection = ({ data }: any) => {
   const history = useHistory();
 
   return (
     <RequestHelperCardContainer>
-      {POPULAR_REQUEST_DATA.map(
+      {data.map(
         ({
           id,
           title,

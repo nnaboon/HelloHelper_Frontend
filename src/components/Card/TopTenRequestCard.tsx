@@ -69,12 +69,12 @@ const TopTenRequestDataContent = styled.div`
   margin-bottom: 5px;
 `;
 
-export const TopTenRequestSection = () => {
+export const TopTenRequestSection = ({ data }: any) => {
   const history = useHistory();
 
   return (
     <TopTenRequestCardContainer>
-      {TOP_TEN_REQUEST_DATA.map(
+      {data.map(
         ({
           id,
           title,
@@ -90,7 +90,10 @@ export const TopTenRequestSection = () => {
             <div
               onClick={() => {
                 history.push({
-                  pathname: `/${title}/${id}`
+                  pathname: `/${title}/${id}`,
+                  state: {
+                    type: 'provide'
+                  }
                 });
               }}
             >
