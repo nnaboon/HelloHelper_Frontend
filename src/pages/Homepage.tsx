@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from '@emotion/styled';
-import { Input } from 'antd';
+import { Input, Modal } from 'antd';
 import { css, jsx, useTheme } from '@emotion/react';
 import { PopularRequestSection } from 'components/Card/PopularRequestCard';
 import { TopTenRequestSection } from 'components/Card/TopTenRequestCard';
@@ -19,6 +19,8 @@ import { RequestForm } from 'components/Form/RequestForm';
 import { TOP_TEN_REQUEST_DATA } from 'data/helper';
 import { SUGGESTED_REQUEST_DATA } from '../data/request';
 import { POPULAR_REQUEST_DATA } from '../data/helper';
+import { CommunityForm } from 'components/Form/CommunityForm';
+import { CommunityMenu } from 'features/community/CommunityMenu';
 
 const HomePageContainer = styled.div`
   box-sizing: border-box;
@@ -37,6 +39,7 @@ const TopTenSearchContainer = styled.div`
 `;
 
 export const HomePage = () => {
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const history = useHistory();
   const { Search } = Input;
   const onSearch = (value) => {
@@ -44,6 +47,14 @@ export const HomePage = () => {
       pathname: '/search',
       search: `?keyword=${value}`
     });
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
   };
 
   return (
@@ -80,6 +91,15 @@ export const HomePage = () => {
             </SecondaryButton>
           ))}
         </div>
+        <Text>
+          คุณมีชุมชนความช่วยเหลือแล้วหรือยัง ให้ความช่วยเหลือคนในชุมชนของคุณได้{' '}
+          <span
+            style={{ color: '#F86800' }}
+            onClick={() => setIsModalVisible(true)}
+          >
+            ที่นี่
+          </span>
+        </Text>
         <div
           css={css`
             justify-content: space-between;
@@ -129,6 +149,17 @@ export const HomePage = () => {
           ข่าวน่าสนใจ
         </Text>
         <News />
+        <Modal
+          visible={isModalVisible}
+          onOk={handleOk}
+          onCancel={handleCancel}
+          footer={null}
+          width={500}
+          maskClosable={false}
+          centered
+        >
+          <CommunityMenu />
+        </Modal>
       </HomePageContainer>
     </React.Fragment>
   );
