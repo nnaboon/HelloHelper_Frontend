@@ -118,7 +118,15 @@ export const Navbar = () => {
           >
             รายการขอความช่วยเหลือของฉัน
           </li>
-          <li>กล่องข้อความ</li>
+          <li
+            onClick={() => {
+              history.push({
+                pathname: '/user/account/profile'
+              });
+            }}
+          >
+            กล่องข้อความ
+          </li>
           <li
             onClick={() => {
               history.push({
@@ -156,6 +164,12 @@ export const Navbar = () => {
         width={500}
         maskClosable={false}
         centered
+        css={css`
+          .ant-modal-content {
+            min-height: 664px;
+            height: max-content;
+          }
+        `}
       >
         <div>
           {accountStep === LoginStep.LOGIN ? (
