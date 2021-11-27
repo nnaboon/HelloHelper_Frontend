@@ -37,8 +37,13 @@ export const LoginForm = ({ setStep }: LoginFormProps) => {
       <Text fontSize="24px" marginY="10px">
         เข้าสู่ระบบ
       </Text>
-      <Text fontSize="18px" fontWeight={500} marginY="10px">
-        เข้าสู่ระบบได้ง่านด้วย Facebook
+      <Text
+        fontSize="18px"
+        fontWeight={500}
+        marginBottom="10px"
+        color="#F86800"
+      >
+        เข้าสู่ระบบได้ง่ายด้วย Facebook หรือ Google account
       </Text>
       <PrimaryButton
         css={css`
@@ -102,7 +107,7 @@ export const LoginForm = ({ setStep }: LoginFormProps) => {
         >
           เข้าสู่ระบบ
         </PrimaryButton>
-        <Flex justify="center" marginY="18px">
+        <Flex justify="center" marginTop="35px">
           เพิ่งเคยใช้บริการใช่ไหม ?{' '}
           <span
             style={{ color: '#F86800', textDecoration: 'underline' }}

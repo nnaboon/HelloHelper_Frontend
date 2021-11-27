@@ -20,7 +20,7 @@ const RegisterAbilityFormSection = styled.div`
   flex-direction: column;
   padding: 2.55rem 2.75rem 1.5rem 2.75rem;
   position: relative;
-  height: 584px;
+  height: 620px;
 `;
 
 export const RegisterAbilityForm = (props: RegisterAbilityFormProps) => {
@@ -76,6 +76,11 @@ export const RegisterAbilityForm = (props: RegisterAbilityFormProps) => {
         initialValues={{ remember: true }}
         onFinish={onFinish}
         autoComplete="off"
+        css={css`
+          .ant-form-item {
+            width: 475px;
+          }
+        `}
       >
         <Global
           styles={css`
@@ -86,7 +91,7 @@ export const RegisterAbilityForm = (props: RegisterAbilityFormProps) => {
           `}
         />
         <Text fontSize="24px" marginTop="10px" marginBottom="20px">
-          ความสามารถ
+          ท่านยินดีให้ความช่วยเหลือในหมวดหมู่ใดบ้าง
         </Text>
         <Form.Item name="ability">
           <Checkbox.Group

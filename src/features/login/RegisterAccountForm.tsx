@@ -21,7 +21,7 @@ const RegisterAccountFormSection = styled.div`
   flex-direction: column;
   padding: 2.55rem 2.75rem 1.5rem 2.75rem;
   position: relative;
-  height: 564px;
+  height: 620px;
 `;
 
 export const RegisterAccountForm = (props: RegisterAccountFormProps) => {

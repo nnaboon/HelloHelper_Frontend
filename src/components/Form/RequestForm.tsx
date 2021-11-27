@@ -27,6 +27,7 @@ export const RequestForm = () => {
   const onFinish = async (value) => {
     setIsSubmitting(true);
     const data = {
+      type: value.type,
       title: value.title,
       location: value.location,
       message: value.message ?? '',
@@ -80,6 +81,7 @@ export const RequestForm = () => {
         `}
       >
         <Form.Item
+          name="type"
           label="รูปแบบความช่วยเหลือ"
           rules={[
             {
