@@ -5,7 +5,6 @@ import styled from '@emotion/styled';
 import React, { useState, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { HelpMenu } from 'components/Menu/const';
-import { Text } from 'components/Text';
 import Flex from 'components/Flex/Flex';
 import { USER_DATA } from 'data/user';
 import { SecondaryButton, PrimaryButton } from 'components/Button/Button';
@@ -39,39 +38,6 @@ const ProfilePageUserHelperListSection = styled.div`
       510px
     );
   grid-gap: 30px;
-`;
-
-const HelperListCard = styled.div`
-  background: #ffffff;
-  box-shadow: 0px 6px 11px rgba(0, 0, 0, 0.15);
-  border-radius: 8px;
-  height: 341px;
-  margin-top: 30px;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-  padding: 35px;
-  position: relative;
-`;
-
-const HelperListTitle = styled.div`
-  font-weight: 700;
-  font-size: 24px;
-  color: #f86800;
-  margin-bottom: 8px;
-`;
-
-const HelperListHeading = styled.div`
-  font-size: 12px;
-  line-height: 26px;
-  color: #c4c4c4;
-  min-width: 150px;
-`;
-
-const HelperListDetail = styled.div`
-  font-size: 18px;
-  line-height: 26px;
-  color: #000000;
 `;
 
 const UserCard = styled.div`
@@ -122,19 +88,6 @@ const ProfileInfoListDetail = styled.div`
   line-height: 21px;
   color: #e56101;
   margin-left: 12px;
-`;
-
-const SecondaryHelpButton = styled(SecondaryButton)`
-  width: max-content;
-  padding: 0 10px;
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-
-  &:hover {
-    background: #f86800;
-    color: #ffff;
-  }
 `;
 
 export const ProfilePage = () => {

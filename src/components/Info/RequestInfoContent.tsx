@@ -49,6 +49,7 @@ const RequestDetail = styled.div`
   line-height: 28px;
   color: #000000;
   min-width: 200px;
+  line-height: 31px;
 `;
 
 const RequestTitle = styled.div`
