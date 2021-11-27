@@ -6,10 +6,10 @@ import styled from '@emotion/styled';
 import Flex from 'components/Flex/Flex';
 import { STATUS_MAPPER } from 'components/Badge/const';
 import { StatusType } from 'components/Button/const';
-import { message } from 'antd';
+import { Menu, Dropdown, message } from 'antd';
 import { StatusBadge } from 'components/Badge/StatusBadge';
 import { ProvideListProps } from 'data/provide';
-import { PrimaryButton } from '../Button/Button';
+import { PrimaryButton } from 'components/Button/Button';
 
 type ProvideListCardProps = {
   props: ProvideListProps;
@@ -57,6 +57,14 @@ const ProvideListData = styled.div`
 `;
 
 export const ProvideListCard = ({ props }: ProvideListCardProps) => {
+  const menu = (
+    <Menu>
+      <Menu.Item>รอดำเนินการ</Menu.Item>
+      <Menu.Item>กำลังดำเนินการ</Menu.Item>
+      <Menu.Item>สำเร็จ</Menu.Item>
+    </Menu>
+  );
+
   return (
     <ProvideListContainer>
       <StatusBadge
@@ -106,16 +114,18 @@ export const ProvideListCard = ({ props }: ProvideListCardProps) => {
           <ProvideListData>{props.phoneNumber}</ProvideListData>
         </Flex>
       </ProvideListContent>
-      <PrimaryButton
-        css={css`
-          position: absolute;
-          right: 20px;
-          bottom: 20px;
-          max-width: 200px;
-        `}
-      >
-        เปลี่ยนสถานะ
-      </PrimaryButton>
+      <Dropdown overlay={menu}>
+        <PrimaryButton
+          css={css`
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            max-width: 200px;
+          `}
+        >
+          เปลี่ยนสถานะ
+        </PrimaryButton>
+      </Dropdown>
     </ProvideListContainer>
   );
 };
