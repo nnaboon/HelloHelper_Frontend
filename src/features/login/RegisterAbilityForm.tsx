@@ -7,7 +7,7 @@ import { Text } from 'components/Text';
 import { Checkbox, Button, Form, message } from 'antd';
 import { UserCreateBody } from './const';
 import { useHistory } from 'react-router-dom';
-import { CATEGORY_CHECKBOX } from '../../data/category';
+import { ABILITY } from '../../data/ability';
 
 type RegisterAbilityFormProps = {
   userAccountData: UserCreateBody;
@@ -90,7 +90,7 @@ export const RegisterAbilityForm = (props: RegisterAbilityFormProps) => {
         </Text>
         <Form.Item name="ability">
           <Checkbox.Group
-            options={CATEGORY_CHECKBOX}
+            options={ABILITY}
             value={checkedList}
             onChange={toggleChecked}
           />

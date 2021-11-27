@@ -54,6 +54,8 @@ const SearchBarContainer = styled.div`
 
 export const Navbar = () => {
   const [account, setAccount] = useState<Boolean>(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [accountStep, setAccountStep] = useState<LoginStep>(LoginStep.LOGIN);
   const history = useHistory();
   const { search } = useLocation();
   const { Search } = Input;
@@ -63,7 +65,6 @@ export const Navbar = () => {
       search: `?keyword=${value}`
     });
   };
-  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -156,8 +157,13 @@ export const Navbar = () => {
         maskClosable={false}
         centered
       >
-        {/* <LoginForm /> */}
-        <RegisterForm />
+        <div>
+          {accountStep === LoginStep.LOGIN ? (
+            <LoginForm setStep={setAccountStep} />
+          ) : (
+            <RegisterForm setProcessStep={setAccountStep} />
+          )}
+        </div>
       </Modal>
     </NavbarSection>
   );
