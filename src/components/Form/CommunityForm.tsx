@@ -12,12 +12,9 @@ interface CommunityFormProps {
 }
 
 const CommunityFormSection = styled.div`
-  display: flex;
-  flex-direction: column;
   padding: 1.75rem 2.75rem 1.5rem 2.75rem;
   position: relative;
-  height: 564px;
-  overflow: scroll;
+  height: 581px;
 `;
 
 export const CommunityForm = ({ setMenu }: CommunityFormProps) => {
@@ -55,7 +52,7 @@ export const CommunityForm = ({ setMenu }: CommunityFormProps) => {
       >
         สามารถให้ความช่วยเหลือภายในชุมชนของคุณได้แล้วโดยความช่วยเหลือของคุณจะแสดงอยู่แค่ภายในชุมชนที่คุณอยู่เท่านั้น
       </Text>
-      <Text fontSize="20px" marginY="10px" fontWeight={500}>
+      <Text fontSize="20px" marginY="20px" fontWeight={500}>
         ชุมชนความช่วยเหลือของคุณขณะนี้
       </Text>
       <Form
@@ -69,6 +66,8 @@ export const CommunityForm = ({ setMenu }: CommunityFormProps) => {
           .ant-form-item-control-input {
             width: 360px;
           }
+
+          margin: 26px 0;
         `}
       >
         <Form.Item
@@ -118,7 +117,6 @@ export const CommunityForm = ({ setMenu }: CommunityFormProps) => {
         <div
           css={css`
             width: 100%;
-            position: absolute;
           `}
         >
           <Button
@@ -131,7 +129,8 @@ export const CommunityForm = ({ setMenu }: CommunityFormProps) => {
               background: #ee6400;
               border-radius: 9px;
               border: 0;
-              right: 44px;
+              bottom: 20px;
+              right: 40px;
               color: #ffff;
               font-size: 16px;
               position: absolute;
