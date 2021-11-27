@@ -12,12 +12,9 @@ interface CreateCommunityFormProps {
 }
 
 const CreateCommunityFormSection = styled.div`
-  display: flex;
-  flex-direction: column;
   padding: 1.75rem 2.75rem 1.5rem 2.75rem;
   position: relative;
-  height: 564px;
-  overflow: scroll;
+  height: 581px;
 `;
 
 export const CreateCommunityForm = ({ setMenu }: CreateCommunityFormProps) => {
@@ -62,6 +59,8 @@ export const CreateCommunityForm = ({ setMenu }: CreateCommunityFormProps) => {
         onFinish={onFinish}
         autoComplete="off"
         css={css`
+          margin: 26px 0;
+
           .ant-form-item-control-input {
             width: 360px;
           }
@@ -95,7 +94,7 @@ export const CreateCommunityForm = ({ setMenu }: CreateCommunityFormProps) => {
             style={{ height: '40px', borderRadius: '12px' }}
           />
         </Form.Item>
-        <ul>
+        <ul style={{ color: '#939393' }}>
           <li>สามารถเป็น ภาษาอังกฤษ ตัวเลข และอักษรพิเศษ </li>
           <li>ห้ามมีเว้นวรรค</li>
         </ul>
@@ -115,7 +114,6 @@ export const CreateCommunityForm = ({ setMenu }: CreateCommunityFormProps) => {
         <div
           css={css`
             width: 100%;
-            position: absolute;
           `}
         >
           <Button
@@ -128,7 +126,8 @@ export const CreateCommunityForm = ({ setMenu }: CreateCommunityFormProps) => {
               background: #ee6400;
               border-radius: 9px;
               border: 0;
-              right: 44px;
+              bottom: 20px;
+              right: 40px;
               color: #ffff;
               font-size: 16px;
               position: absolute;
