@@ -1,4 +1,4 @@
-export const UserPlusSvg = (props) => {
+export const FollowingSvg = (props) => {
   return (
     <svg
       width="25"
