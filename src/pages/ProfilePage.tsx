@@ -94,12 +94,20 @@ export const ProfilePage = () => {
   const [myAccount, setMyAccount] = useState<Boolean>(false);
   const [menu, setMenu] = useState<HelpMenu>(HelpMenu.PROVIDE);
   const history = useHistory();
-  const { state } = useLocation();
+  const { pathname, state } = useLocation();
   const currentMenu = ((state as any)?.menuKey || HelpMenu.PROVIDE) as HelpMenu;
 
   useEffect(() => {
     setMenu(currentMenu);
   }, [currentMenu]);
+
+  useEffect(() => {
+    if (pathname.split('/')[2] !== USER_DATA[0].id) {
+      setMyAccount(false);
+    } else {
+      setMyAccount(true);
+    }
+  }, [history]);
 
   return (
     <React.Fragment>

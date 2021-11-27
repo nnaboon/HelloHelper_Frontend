@@ -218,7 +218,7 @@ export const TopTenRequestSection = ({ data }: any) => {
             >
               <SecondaryButton
                 onClick={() => {
-                  history.push({ pathname: '/profile' });
+                  history.push({ pathname: `/profile/${id}` });
                 }}
               >
                 <UserSvg />

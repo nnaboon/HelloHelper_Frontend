@@ -151,7 +151,15 @@ export const ProvideInfoContent = ({ data }: any) => {
                   <Flex>
                     <SecondaryButton style={{ width: '35%', height: '45px' }}>
                       <UserSvg />
-                      <div>โปรไฟล์</div>
+                      <div
+                        onClick={() => {
+                          history.push({
+                            pathname: `/profile/${id}`
+                          });
+                        }}
+                      >
+                        โปรไฟล์
+                      </div>
                     </SecondaryButton>
                     <PrimaryButton style={{ width: '35%', height: '45px' }}>
                       สนใจขอความช่วยเหลือ
