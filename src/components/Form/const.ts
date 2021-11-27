@@ -1,4 +1,5 @@
 export type RequestFormBody = {
+  type: string;
   title: string;
   location: string;
   message: string;
