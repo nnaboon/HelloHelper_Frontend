@@ -8,6 +8,7 @@ import { SecondaryButton } from 'components/Button/Button';
 import { Dropdown, Menu, message } from 'antd';
 import { EditSvg } from 'components/Svg/EditSvg';
 import { DeleteSvg } from 'components/Svg/DeleteSvg';
+import { EyeOffSvg } from 'components/Svg/EyeOffSvg';
 
 const HelperListCard = styled.div`
   background: #ffffff;
@@ -82,6 +83,18 @@ export const MyRequestList = ({ data }: any) => {
         </div>
       </Menu.Item>
       <Menu.Item key="2">
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+        >
+          <EyeOffSvg style={{ marginRight: '18px' }} />
+          <div>ซ่อน</div>
+        </div>
+      </Menu.Item>
+      <Menu.Item key="3">
         <div
           style={{
             display: 'flex',
