@@ -10,6 +10,8 @@ import { Rate, Form, Modal, Button, message } from 'antd';
 import { StatusBadge } from 'components/Badge/StatusBadge';
 import { ProvideListProps } from 'data/provide';
 import { PrimaryButton } from '../Button/Button';
+import Text from 'components/Text/Text';
+import { RatingForm } from 'components/Form/RatingForm';
 
 type RequestListCardProps = {
   props: ProvideListProps;
@@ -154,49 +156,16 @@ export const RequestListCard = (props: RequestListCardProps) => {
         onOk={handleOk}
         onCancel={handleCancel}
         footer={null}
-        width={500}
+        width={400}
         maskClosable={false}
         centered
         css={css`
           .ant-modal-content {
-            height: 180px;
+            height: 220px;
           }
         `}
       >
-        <Form
-          name="basic"
-          labelCol={{ span: 8 }}
-          wrapperCol={{ span: 16 }}
-          initialValues={{ remember: true }}
-          onFinish={onFinish}
-          autoComplete="off"
-        >
-          <Form.Item name="rating">
-            <Rate allowHalf />
-          </Form.Item>
-          <Button
-            type="primary"
-            htmlType="submit"
-            css={css`
-              width: 106px;
-              height: 40px;
-              box-sizing: border-box;
-              background: #ee6400;
-              border-radius: 9px;
-              border: 0;
-              position: absolute;
-              bottom: 20px;
-              right: 20px;
-              color: #ffff;
-
-              &:hover {
-                background: #ee6400;
-              }
-            `}
-          >
-            ตกลง
-          </Button>
-        </Form>
+        <RatingForm />
       </Modal>
     </RequestListContainer>
   );
