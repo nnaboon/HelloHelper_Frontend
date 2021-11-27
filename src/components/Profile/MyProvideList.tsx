@@ -5,6 +5,9 @@ import React from 'react';
 import styled from '@emotion/styled';
 import Flex from 'components/Flex/Flex';
 import { SecondaryButton } from 'components/Button/Button';
+import { Dropdown, Menu, message } from 'antd';
+import { EditSvg } from 'components/Svg/EditSvg';
+import { DeleteSvg } from 'components/Svg/DeleteSvg';
 
 const HelperListCard = styled.div`
   background: #ffffff;
@@ -53,8 +56,73 @@ const SecondaryHelpButton = styled(SecondaryButton)`
 `;
 
 export const MyProvideList = ({ data }: any) => {
+  function handleButtonClick(e) {
+    message.info('Click on left button.');
+    console.log('click left button', e);
+  }
+
+  function handleMenuClick(e) {
+    message.info('Click on menu item.');
+    console.log('click', e);
+  }
+
+  const menu = (
+    <Menu onClick={handleMenuClick}>
+      <Menu.Item key="1">
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+        >
+          <EditSvg style={{ marginRight: '8px' }} />
+          <div>แก้ไข</div>
+        </div>
+      </Menu.Item>
+      <Menu.Item key="2">
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+        >
+          <DeleteSvg style={{ marginRight: '18px' }} />
+          <div>ลบ</div>
+        </div>
+      </Menu.Item>
+    </Menu>
+  );
+
   return (
     <HelperListCard key={data.id}>
+      <Dropdown.Button
+        onClick={handleButtonClick}
+        overlay={menu}
+        css={css`
+          position: absolute;
+          top: 20px;
+          color: #0000;
+          right: 35px;
+          .ant-dropdown-trigger {
+            border: none;
+          }
+
+          .ant-dropdown-trigger > span {
+            background-color: white !important;
+          }
+
+          &:selection {
+            color: #fff;
+            background: transparent;
+          }
+
+          svg {
+            font-size: 24px;
+          }
+        `}
+      />
       <HelperListTitle>{data.title}</HelperListTitle>
       <Flex marginY="8px">
         <HelperListHeading>ผู้ให้ความช่วยเหลือ</HelperListHeading>
@@ -76,17 +144,6 @@ export const MyProvideList = ({ data }: any) => {
         <HelperListHeading>วิธีการชำระเงิน</HelperListHeading>
         <HelperListDetail>{data.payment}</HelperListDetail>
       </Flex>
-
-      <div style={{ display: 'flex' }}>
-        <SecondaryHelpButton
-          css={css`
-            right: 140px;
-          `}
-        >
-          ลบ
-        </SecondaryHelpButton>
-        <SecondaryHelpButton>แก้ไข</SecondaryHelpButton>
-      </div>
     </HelperListCard>
   );
 };
