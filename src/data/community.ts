@@ -2,6 +2,7 @@ export const COMMUNITY_MAPPER = [
   {
     id: 'zxcvb234',
     name: 'ภาคคอม มก',
+    location: '',
     code: 'computerDepartmentKU',
     admin: [
       {
@@ -27,6 +28,7 @@ export const COMMUNITY_MAPPER = [
   {
     id: 'zxcvb345',
     name: 'ภาคคอม จุฬา',
+    location: '',
     code: 'computerDepartmentKU',
     admin: [
       {

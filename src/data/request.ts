@@ -1,3 +1,29 @@
+export type helperType = {
+  id: string;
+  name: string;
+  imageUrl: string;
+};
+
+export type RequestType = {
+  id: string;
+  title: string;
+  owner: {
+    id: string;
+    name: string;
+    imageUrl: string;
+    rank: string;
+  };
+  location: string;
+  message: string;
+  imageUrl: string;
+  amount: number;
+  maxPrice: string;
+  maxServiceCharge: string;
+  category: string[];
+  hashtag: string[];
+  helper: helperType[];
+};
+
 export const SUGGESTED_REQUEST_DATA = [
   {
     id: '12345qw',

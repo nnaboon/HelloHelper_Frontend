@@ -38,5 +38,9 @@ export const CATEGORY = [
   {
     id: 'sports',
     name: 'ด้านกีฬาและอุปกรณ์เสริม'
+  },
+  {
+    id: 'health',
+    name: 'ด้านสุขภาพ'
   }
 ];

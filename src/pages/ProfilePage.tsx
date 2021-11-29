@@ -309,13 +309,13 @@ export const ProfilePage = () => {
         <ProfilePageUserHelperListSection>
           {menu === HelpMenu.PROVIDE ? (
             <React.Fragment>
-              {USER_DATA[0].helpList.map((props) => (
+              {USER_DATA[0].myList.provideList.map((props) => (
                 <MyProvideList key={props.id} data={props} />
               ))}
             </React.Fragment>
           ) : (
             <React.Fragment>
-              {USER_DATA[0].requestList.map((props) => (
+              {USER_DATA[0].myList.requestList.map((props) => (
                 <MyRequestList key={props.id} data={props} />
               ))}
             </React.Fragment>

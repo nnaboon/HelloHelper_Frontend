@@ -1,3 +1,21 @@
+export type ProvideType = {
+  id: string;
+  title: string;
+  owner: {
+    id: string;
+    name: string;
+    imageUrl: string;
+    rank: string;
+  };
+  location: string;
+  message: string;
+  imageUrl: string;
+  payment: string;
+  serviceCharge: string;
+  category: string[];
+  hashtag: string[];
+};
+
 export const POPULAR_REQUEST_DATA = [
   {
     id: 'qwer21',
