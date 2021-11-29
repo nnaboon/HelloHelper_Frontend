@@ -125,7 +125,7 @@ export const ProfilePage = () => {
             requestSum,
             rank,
             rating,
-            suggested
+            recommend
           }) => (
             <ProfilePageUserInfoSection key={id}>
               <UserCard>
@@ -139,7 +139,7 @@ export const ProfilePage = () => {
                   `}
                 >
                   <HelperImage />
-                  {Boolean(suggested) && <SuggestedBadge>แนะนำ</SuggestedBadge>}
+                  {Boolean(recommend) && <SuggestedBadge>แนะนำ</SuggestedBadge>}
                 </div>
                 <div
                   css={css`

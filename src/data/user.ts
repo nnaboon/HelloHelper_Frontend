@@ -12,7 +12,7 @@ export const USER_DATA = [
     requestSum: 45,
     rating: 5,
     rank: 'platinum',
-    suggested: 1,
+    recommend: 1,
     order: {
       provide: [
         {
