@@ -3,16 +3,16 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { SecondaryButton, PrimaryButton } from 'components/Button/Button';
-import { POPULAR_REQUEST_DATA } from 'data/helper';
 
 import { SuggestedBadge, RankingBadge } from '../Badge/Badge';
 import { RANK_BADGE } from 'components/Badge/const';
 import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
 
-import StarIcon from 'images/rating-star.png';
 import { MessageSvg } from 'components/Svg/MessageSvg';
 import { UserSvg } from 'components/Svg/UserSvg';
+
+import { getStar } from 'components/Star/getStar';
 
 const RequestHelperCardContainer = styled.div`
   display: flex;
@@ -89,7 +89,8 @@ export const PopularRequestSection = ({ data }: any) => {
           serviceCharge,
           location,
           helpSum,
-          rank
+          rank,
+          rating
         }) => (
           <CardContainer key={id}>
             <div
@@ -124,51 +125,7 @@ export const PopularRequestSection = ({ data }: any) => {
                       marginTop: '-4px'
                     }}
                   >
-                    <img
-                      src={StarIcon}
-                      alt="star"
-                      style={{
-                        width: '26px',
-                        height: '26px',
-                        marginRight: '2px'
-                      }}
-                    />
-                    <img
-                      src={StarIcon}
-                      alt="star"
-                      style={{
-                        width: '26px',
-                        height: '26px',
-                        marginRight: '2px'
-                      }}
-                    />
-                    <img
-                      src={StarIcon}
-                      alt="star"
-                      style={{
-                        width: '26px',
-                        height: '26px',
-                        marginRight: '2px'
-                      }}
-                    />
-                    <img
-                      src={StarIcon}
-                      alt="star"
-                      style={{
-                        width: '26px',
-                        height: '26px',
-                        marginRight: '2px'
-                      }}
-                    />
-                    <img
-                      src={StarIcon}
-                      alt="star"
-                      style={{
-                        width: '26px',
-                        height: '26px',
-                        marginRight: '2px'
-                      }}
-                    />
+                    {getStar(rating)}
                   </div>
                   <RankingBadge rankColor={RANK_BADGE[rank].color}>
                     {rank.toUpperCase()}

@@ -10,6 +10,11 @@ import { Text } from 'components/Text';
 import { PrimaryButton, SecondaryButton } from 'components/Button/Button';
 import { HelpMenu } from 'components/Menu/const';
 import { UserSvg } from 'components/Svg/UserSvg';
+import { Divider } from 'antd';
+import { RankingBadge } from 'components/Badge/Badge';
+import { SuggestedBadge } from 'components/Badge/Badge';
+import { RANK_BADGE } from 'components/Badge/const';
+import { getStar } from 'components/Star/getStar';
 
 const ProvideImage = styled.img`
   width: 420px;
@@ -58,6 +63,22 @@ const ProvideTitle = styled.div`
   max-width: 150px;
 `;
 
+const HelperImage = styled.div`
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: #0f3276;
+  margin-top: 15px;
+`;
+
+const UserName = styled.div`
+  font-weight: 700;
+  font-size: 24px;
+  color: #000000;
+  margin-bottom: 5px;
+  margin-right: 10px;
+`;
+
 export const ProvideInfoContent = ({ data }: any) => {
   const history = useHistory();
   const { pathname, state } = useLocation();
@@ -80,7 +101,8 @@ export const ProvideInfoContent = ({ data }: any) => {
             serviceCharge,
             category,
             hashtag,
-            payment
+            payment,
+            rating
           }) => (
             <WrapperContainer key={id}>
               <div style={{ display: 'flex', justifyContent: 'space-around' }}>
@@ -149,7 +171,7 @@ export const ProvideInfoContent = ({ data }: any) => {
                     <ProvideDetail>{message}</ProvideDetail>
                   </ProvideInfoContainer>
                   <Flex>
-                    <SecondaryButton style={{ width: '35%', height: '45px' }}>
+                    <SecondaryButton style={{ width: '55%', height: '45px' }}>
                       <UserSvg />
                       <div
                         onClick={() => {
@@ -161,11 +183,47 @@ export const ProvideInfoContent = ({ data }: any) => {
                         โปรไฟล์
                       </div>
                     </SecondaryButton>
-                    <PrimaryButton style={{ width: '35%', height: '45px' }}>
-                      สนใจขอความช่วยเหลือ
+                    <PrimaryButton style={{ width: '55%', height: '45px' }}>
+                      ขอความช่วยเหลือ
                     </PrimaryButton>
                   </Flex>
                 </Flex>
+              </div>
+              <Divider />
+              <div style={{ display: 'flex' }}>
+                <div
+                  css={css`
+                    display: flex;
+                    width: 20%;
+                    flex-direction: column;
+                    align-items: center;
+                    margin-right: 35px;
+                    margin-left: 100px;
+                  `}
+                >
+                  <HelperImage />
+                  {Boolean(1) && <SuggestedBadge>แนะนำ</SuggestedBadge>}
+                  <div
+                    style={{
+                      display: 'flex',
+                      marginBottom: '10px',
+                      marginTop: '-4px'
+                    }}
+                  >
+                    {getStar(rating)}
+                  </div>
+                </div>
+                <div
+                  css={css`
+                    display: flex;
+                    margin-top: 30px;
+                  `}
+                >
+                  <UserName>{name}</UserName>
+                  <RankingBadge rankColor={RANK_BADGE['platinum'].color}>
+                    {'platinum'.toUpperCase()}
+                  </RankingBadge>
+                </div>
               </div>
             </WrapperContainer>
           )

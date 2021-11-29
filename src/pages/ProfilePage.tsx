@@ -10,13 +10,13 @@ import { USER_DATA } from 'data/user';
 import { SecondaryButton, PrimaryButton } from 'components/Button/Button';
 import { Divider } from 'components/Divider/Divider';
 import { SuggestedBadge, RankingBadge } from 'components/Badge/Badge';
-import StarIcon from 'images/rating-star.png';
 import { MyProvideList } from 'components/Profile/MyProvideList';
 import { MyRequestList } from 'components/Profile/MyRequestList';
 import { RANK_BADGE } from 'components/Badge/const';
 import { ProfileMenuTab } from 'components/Menu/ProfileMenuTab';
 import { MessageSvg } from 'components/Svg/MessageSvg';
 import { FollowingSvg } from 'components/Svg/FollowingSvg';
+import { getStar } from 'components/Star/getStar';
 
 const ProfilePageContainer = styled.div`
   box-sizing: border-box;
@@ -158,51 +158,7 @@ export const ProfilePage = () => {
                       marginTop: '-4px'
                     }}
                   >
-                    <img
-                      src={StarIcon}
-                      alt="star"
-                      style={{
-                        width: '26px',
-                        height: '26px',
-                        marginRight: '2px'
-                      }}
-                    />
-                    <img
-                      src={StarIcon}
-                      alt="star"
-                      style={{
-                        width: '26px',
-                        height: '26px',
-                        marginRight: '2px'
-                      }}
-                    />
-                    <img
-                      src={StarIcon}
-                      alt="star"
-                      style={{
-                        width: '26px',
-                        height: '26px',
-                        marginRight: '2px'
-                      }}
-                    />
-                    <img
-                      src={StarIcon}
-                      alt="star"
-                      style={{
-                        width: '26px',
-                        height: '26px',
-                        marginRight: '2px'
-                      }}
-                    />
-                    <img
-                      src={StarIcon}
-                      alt="star"
-                      style={{
-                        width: '26px',
-                        height: '26px',
-                        marginRight: '2px'
-                      }}
-                    />
+                    {getStar(rating)}
                   </div>
                   <RankingBadge rankColor={RANK_BADGE[rank].color}>
                     {rank.toUpperCase()}
