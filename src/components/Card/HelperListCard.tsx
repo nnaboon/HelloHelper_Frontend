@@ -44,13 +44,22 @@ const HelperImage = styled.img`
 const HelperName = styled.div`
   font-size: 22px;
   color: #000000;
+  margin-left: 50px;
 `;
 
 export const HelperListCard = ({ id, name, imageUrl }: HelperListCardProps) => {
   return (
     <HelperListCardContainer>
-      <HelperImage />
-      <HelperName>{name}</HelperName>
+      <div
+        css={css`
+          display: flex;
+          align-items: center;
+        `}
+      >
+        <HelperImage />
+        <HelperName>{name}</HelperName>
+      </div>
+
       <div
         css={css`
           display: flex;

@@ -151,7 +151,11 @@ export const RegisterAccountForm = (props: RegisterAccountFormProps) => {
         >
           มีบัญชีผู้ใช้แล้ว{' '}
           <span
-            style={{ color: '#F86800', textDecoration: 'underline' }}
+            style={{
+              color: '#F86800',
+              textDecoration: 'underline',
+              cursor: 'pointer'
+            }}
             onClick={() => setProcessStep(LoginStep.LOGIN)}
           >
             เข้าสู่ระบบ

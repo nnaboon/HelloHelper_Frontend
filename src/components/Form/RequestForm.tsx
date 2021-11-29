@@ -116,7 +116,7 @@ export const RequestForm = () => {
           label="สถานที่"
           rules={[
             {
-              // required: true,
+              required: true,
               message: 'กรุณากรอกสถานที่ที่คุณสามารถให้ความช่วยเหลือได้'
             }
           ]}

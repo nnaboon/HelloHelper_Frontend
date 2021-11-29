@@ -110,7 +110,11 @@ export const LoginForm = ({ setStep }: LoginFormProps) => {
         <Flex justify="center" marginTop="35px">
           เพิ่งเคยใช้บริการใช่ไหม ?{' '}
           <span
-            style={{ color: '#F86800', textDecoration: 'underline' }}
+            style={{
+              color: '#F86800',
+              textDecoration: 'underline',
+              cursor: 'pointer'
+            }}
             onClick={() => setStep(LoginStep.REGISTER)}
           >
             สมัครเลย
