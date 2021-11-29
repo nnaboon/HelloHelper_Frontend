@@ -1,6 +1,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { css, jsx } from '@emotion/react';
+import { useHistory } from 'react-router-dom';
 import React from 'react';
 import styled from '@emotion/styled';
 import Flex from 'components/Flex/Flex';
@@ -21,6 +22,7 @@ const HelperListCard = styled.div`
   box-sizing: border-box;
   padding: 35px;
   position: relative;
+  cursor: pointer;
 `;
 
 const HelperListTitle = styled.div`
@@ -57,6 +59,8 @@ const SecondaryHelpButton = styled(SecondaryButton)`
 `;
 
 export const MyProvideList = ({ data }: any) => {
+  const history = useHistory();
+
   function handleButtonClick(e) {
     message.info('Click on left button.');
     console.log('click left button', e);
@@ -109,7 +113,17 @@ export const MyProvideList = ({ data }: any) => {
   );
 
   return (
-    <HelperListCard key={data.id}>
+    <HelperListCard
+      key={data.id}
+      onClick={() => {
+        history.push({
+          pathname: `/${data.title}/${data.id}`,
+          state: {
+            type: 'provide'
+          }
+        });
+      }}
+    >
       <Dropdown.Button
         onClick={handleButtonClick}
         overlay={menu}

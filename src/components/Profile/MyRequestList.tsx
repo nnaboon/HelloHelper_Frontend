@@ -2,6 +2,7 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/react';
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from '@emotion/styled';
 import Flex from 'components/Flex/Flex';
 import { SecondaryButton } from 'components/Button/Button';
@@ -21,6 +22,7 @@ const HelperListCard = styled.div`
   box-sizing: border-box;
   padding: 35px;
   position: relative;
+  cursor: pointer;
 `;
 
 const HelperListTitle = styled.div`
@@ -58,6 +60,7 @@ const SecondaryHelpButton = styled(SecondaryButton)`
 `;
 
 export const MyRequestList = ({ data }: any) => {
+  const history = useHistory();
   function handleButtonClick(e) {
     message.info('Click on left button.');
     console.log('click left button', e);
@@ -109,7 +112,17 @@ export const MyRequestList = ({ data }: any) => {
     </Menu>
   );
   return (
-    <HelperListCard key={data.id}>
+    <HelperListCard
+      key={data.id}
+      onClick={() => {
+        history.push({
+          pathname: `/${data.title}/${data.id}`,
+          state: {
+            type: 'request'
+          }
+        });
+      }}
+    >
       <Dropdown.Button
         onClick={handleButtonClick}
         overlay={menu}
