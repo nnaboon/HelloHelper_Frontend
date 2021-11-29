@@ -3,17 +3,30 @@ import { Input } from 'antd';
 import {
   GoogleMap,
   useJsApiLoader,
-  StandaloneSearchBox
+  StandaloneSearchBox,
+  Marker
 } from '@react-google-maps/api';
 
-export const GoogleMapContent = (children: any) => {
+interface GoogleMapContentProps {
+  width?: string;
+}
+export const GoogleMapContent = ({ width }: GoogleMapContentProps) => {
   const [map, setMap] = useState<any>(null);
+  const [myLocation, setMyLocation] = useState<google.maps.LatLng>();
   const [center, setCenter] = useState<google.maps.LatLng>();
   const [searchBox, setSearchBox] = useState<any>(null);
+  const [currentZoom, setCurrentZoom] = useState(20);
 
   const onLoad = React.useCallback(function callback(map) {
     const bounds = new window.google.maps.LatLngBounds();
     map.fitBounds(bounds);
+    navigator.geolocation.getCurrentPosition(function (position) {
+      let location = new google.maps.LatLng(
+        position.coords.latitude,
+        position.coords.longitude
+      );
+      setMyLocation(location);
+    });
     setMap(map);
   }, []);
 
@@ -22,7 +35,7 @@ export const GoogleMapContent = (children: any) => {
   }, []);
 
   const containerStyle = {
-    width: '470px',
+    width: width ?? '470px',
     height: '300px'
   };
 
@@ -45,15 +58,22 @@ export const GoogleMapContent = (children: any) => {
     <GoogleMap
       mapContainerStyle={containerStyle}
       center={center}
-      zoom={10}
+      zoom={currentZoom}
       onLoad={onLoad}
+      onZoomChanged={() => {
+        setCurrentZoom(14);
+      }}
       onUnmount={onUnmount}
+      options={{
+        mapTypeControl: false,
+        fullscreenControl: false
+      }}
     >
+      <Marker position={center ?? (myLocation as google.maps.LatLng)} />
       <StandaloneSearchBox
         onLoad={onSearchBoxLoad}
         onPlacesChanged={onPlacesChanged}
       >
-        {/* <Input /> */}
         <input
           type="text"
           placeholder="Customized your placeholder"
