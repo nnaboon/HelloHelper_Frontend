@@ -29,7 +29,8 @@ export const POPULAR_REQUEST_DATA = [
     hashtag: ['ขนมปัง', 'สังขยา', 'โชคชัย4'],
     message: 'หากรับหิ้วมากกว่า 10 ชิ้น บวกค่าบริการเพิ่มชิ้นละ 10 บาท',
     payment: 'โอน',
-    rank: 'platinum'
+    rank: 'platinum',
+    rating: 5
   },
   {
     id: 'qwer31',
@@ -43,7 +44,8 @@ export const POPULAR_REQUEST_DATA = [
     hashtag: ['ขนมปัง', 'สังขยา', 'โชคชัย4'],
     message: 'หากรับหิ้วมากกว่า 10 ชิ้น บวกค่าบริการเพิ่มชิ้นละ 10 บาท',
     payment: 'โอน',
-    rank: 'gold'
+    rank: 'gold',
+    rating: 4
   },
   {
     id: 'qwer90',
@@ -57,7 +59,8 @@ export const POPULAR_REQUEST_DATA = [
     hashtag: ['ขนมปัง', 'สังขยา', 'โชคชัย4'],
     message: 'หากรับหิ้วมากกว่า 10 ชิ้น บวกค่าบริการเพิ่มชิ้นละ 10 บาท',
     payment: 'โอน',
-    rank: 'diamond'
+    rank: 'diamond',
+    rating: 4
   },
   {
     id: 'qwer92',
@@ -71,7 +74,8 @@ export const POPULAR_REQUEST_DATA = [
     hashtag: ['ขนมปัง', 'สังขยา', 'โชคชัย4'],
     message: 'หากรับหิ้วมากกว่า 10 ชิ้น บวกค่าบริการเพิ่มชิ้นละ 10 บาท',
     payment: 'โอน',
-    rank: 'platinum'
+    rank: 'platinum',
+    rating: 3
   },
   {
     id: 'qwer45',
@@ -85,7 +89,8 @@ export const POPULAR_REQUEST_DATA = [
     hashtag: ['ขนมปัง', 'สังขยา', 'โชคชัย4'],
     message: 'หากรับหิ้วมากกว่า 10 ชิ้น บวกค่าบริการเพิ่มชิ้นละ 10 บาท',
     payment: 'โอน',
-    rank: 'platinum'
+    rank: 'platinum',
+    rating: 3
   },
   {
     id: 'qwer88',
@@ -99,7 +104,8 @@ export const POPULAR_REQUEST_DATA = [
     hashtag: ['ขนมปัง', 'สังขยา', 'โชคชัย4'],
     message: 'หากรับหิ้วมากกว่า 10 ชิ้น บวกค่าบริการเพิ่มชิ้นละ 10 บาท',
     payment: 'โอน',
-    rank: 'platinum'
+    rank: 'platinum',
+    rating: 3.5
   },
   {
     id: 'qwer32',
@@ -113,7 +119,8 @@ export const POPULAR_REQUEST_DATA = [
     hashtag: ['ขนมปัง', 'สังขยา', 'โชคชัย4'],
     message: 'หากรับหิ้วมากกว่า 6 ชิ้น บวกค่าบริการเพิ่มชิ้นละ 10 บาท',
     payment: 'โอน',
-    rank: 'platinum'
+    rank: 'platinum',
+    rating: 5
   },
   {
     id: 'qwer40',
@@ -127,7 +134,8 @@ export const POPULAR_REQUEST_DATA = [
     hashtag: ['ขนมปัง', 'สังขยา', 'โชคชัย4'],
     message: 'หากรับหิ้วมากกว่า 10 ชิ้น บวกค่าบริการเพิ่มชิ้นละ 40 บาท',
     payment: 'โอน',
-    rank: 'platinum'
+    rank: 'platinum',
+    rating: 5
   },
   {
     id: 'qwer67',
@@ -142,7 +150,8 @@ export const POPULAR_REQUEST_DATA = [
     message: 'หากรับหิ้วมากกว่า 10 ชิ้น บวกค่าบริการเพิ่มชิ้นละ 40 บาท',
 
     payment: 'โอน',
-    rank: 'classic'
+    rank: 'classic',
+    rating: 2
   },
   {
     id: 'qwer11',
@@ -155,7 +164,8 @@ export const POPULAR_REQUEST_DATA = [
     category: ['food'],
     hashtag: ['ขนมปัง', 'สังขยา', 'โชคชัย4'],
     payment: 'โอน',
-    rank: 'silver'
+    rank: 'silver',
+    rating: 4.5
   }
 ];
 
@@ -169,7 +179,8 @@ export const TOP_TEN_REQUEST_DATA = [
     helpSum: 600,
     serviceCharge: '30 บาท',
     payment: 'โอน',
-    rank: 'platinum'
+    rank: 'platinum',
+    rating: 4
   },
   {
     id: 'abcdefi1',
@@ -180,7 +191,8 @@ export const TOP_TEN_REQUEST_DATA = [
     helpSum: 400,
     serviceCharge: '30 บาท',
     payment: 'โอน',
-    rank: 'gold'
+    rank: 'gold',
+    rating: 4
   },
   {
     id: 'abcdefa3',
@@ -191,7 +203,8 @@ export const TOP_TEN_REQUEST_DATA = [
     helpSum: 270,
     serviceCharge: '30 บาท',
     payment: 'โอน',
-    rank: 'platinum'
+    rank: 'platinum',
+    rating: 4
   },
   {
     id: 'abcdefz9',
@@ -202,7 +215,8 @@ export const TOP_TEN_REQUEST_DATA = [
     helpSum: 260,
     serviceCharge: '30 บาท',
     payment: 'โอน',
-    rank: 'platinum'
+    rank: 'platinum',
+    rating: 4.5
   },
   {
     id: 'abcdefo9',
@@ -213,7 +227,8 @@ export const TOP_TEN_REQUEST_DATA = [
     helpSum: 250,
     serviceCharge: '30 บาท',
     payment: 'โอน',
-    rank: 'platinum'
+    rank: 'platinum',
+    rating: 5
   },
   {
     id: 'abcdefg8',
@@ -224,7 +239,8 @@ export const TOP_TEN_REQUEST_DATA = [
     helpSum: 260,
     serviceCharge: '30 บาท',
     payment: 'โอน',
-    rank: 'platinum'
+    rank: 'platinum',
+    rating: 5
   },
   {
     id: 'abcdefc9',
@@ -235,7 +251,8 @@ export const TOP_TEN_REQUEST_DATA = [
     helpSum: 250,
     serviceCharge: '30 บาท',
     payment: 'โอน',
-    rank: 'platinum'
+    rank: 'platinum',
+    rating: 4.5
   },
   {
     id: 'abcdefw4',
@@ -246,7 +263,8 @@ export const TOP_TEN_REQUEST_DATA = [
     helpSum: 260,
     serviceCharge: '30 บาท',
     payment: 'โอน',
-    rank: 'platinum'
+    rank: 'platinum',
+    rating: 5
   },
   {
     id: 'abcdefa2',
@@ -257,7 +275,8 @@ export const TOP_TEN_REQUEST_DATA = [
     helpSum: 250,
     serviceCharge: '30 บาท',
     payment: 'โอน',
-    rank: 'platinum'
+    rank: 'platinum',
+    rating: 4
   },
   {
     id: 'abcdefd1',
@@ -268,6 +287,7 @@ export const TOP_TEN_REQUEST_DATA = [
     helpSum: 250,
     serviceCharge: '30 บาท',
     payment: 'โอน',
-    rank: 'platinum'
+    rank: 'platinum',
+    rating: 5
   }
 ];
