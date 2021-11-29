@@ -6,6 +6,7 @@ import styled from '@emotion/styled';
 import { Text } from 'components/Text';
 import { Button, Divider, Form, Input, message, Checkbox } from 'antd';
 import { UserCreateBody } from './const';
+import { GoogleMapContent } from 'components/GoogleMap/GoogleMap';
 
 type RegisterLocationFormProps = {
   userAccountData: UserCreateBody;
@@ -79,10 +80,7 @@ export const RegisterLocationForm = (props: RegisterLocationFormProps) => {
             }
           ]}
         >
-          <Input
-            placeholder="สถานที่"
-            style={{ height: '40px', borderRadius: '12px' }}
-          />
+          <GoogleMapContent width="380px" />
         </Form.Item>
         <Button
           type="primary"
