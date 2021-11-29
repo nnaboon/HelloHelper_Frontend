@@ -54,7 +54,12 @@ export const EditProfileForm = () => {
   };
   return (
     <WrapperContainer>
-      <Text fontSize="24px" marginTop="10px" marginBottom="20px">
+      <Text
+        fontSize="24px"
+        marginTop="10px"
+        marginBottom="20px"
+        fontWeight={500}
+      >
         ข้อมูลของฉัน
       </Text>
       <Form
@@ -75,7 +80,7 @@ export const EditProfileForm = () => {
           label="ชื่อ"
           rules={[
             {
-              required: true,
+              // required: true,
               message: 'กรุณากรอกชื่อความช่วยเหลือที่คุณต้องการ'
             }
           ]}
@@ -90,7 +95,7 @@ export const EditProfileForm = () => {
           label="อีเมล"
           rules={[
             {
-              required: true,
+              // required: true,
               message: 'กรุณากรอกอีเมล'
             }
           ]}
@@ -101,13 +106,15 @@ export const EditProfileForm = () => {
           />
         </Form.Item>
         <Divider />
-        <Text>เปลี่ยนรหัสผ่าน</Text>
+        <Text fontSize="24px" fontWeight={500}>
+          เปลี่ยนรหัสผ่าน
+        </Text>
         <Form.Item
           name="prevPassword"
           label="รหัสผ่านปัจจุบัน"
           rules={[
             {
-              required: true,
+              // required: true,
               message: 'กรุณากรอกรหัสผ่านปัจจุบัน'
             }
           ]}
@@ -122,7 +129,7 @@ export const EditProfileForm = () => {
           label="รหัสผ่านใหม่"
           rules={[
             {
-              required: true,
+              // required: true,
               message: 'กรุณากรอกรหัสผ่านใหม่'
             }
           ]}
@@ -137,7 +144,7 @@ export const EditProfileForm = () => {
           label="ยืนยันรหัสผ่านใหม่"
           rules={[
             {
-              required: true,
+              // required: true,
               message: 'กรุณากรอกรหัสผ่านใหม่'
             }
           ]}
@@ -161,7 +168,22 @@ export const EditProfileForm = () => {
           <GoogleMapContent />
         </Form.Item>
         <Divider />
-        <Form.Item name="ability">
+        <Text fontSize="24px" fontWeight={500} marginY="20px">
+          ความสามารถในการช่วยเหลือ
+        </Text>
+        <Form.Item
+          name="ability"
+          css={css`
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            .ant-checkbox-group {
+              width: 250px;
+            }
+          `}
+        >
           <Checkbox.Group
             options={ABILITY}
             value={checkedList}
@@ -188,14 +210,14 @@ export const EditProfileForm = () => {
               color: #ffff;
               font-size: 16px;
               position: absolute;
-              margin-bottom: 40px;
+              bottom: -15px;
 
               &:hover {
                 background: #ee6400;
               }
             `}
           >
-            ขอความช่วยเหลือ
+            สำเร็จ
           </Button>
         </div>
       </Form>
