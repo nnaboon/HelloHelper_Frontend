@@ -25,7 +25,7 @@ export const SecondaryButton = styled.a`
 export const PrimaryButton = styled.a`
   min-width: 106px;
   width: 100%;
-  max-width: 450px;
+  max-width: 550px;
   height: 40px;
   box-sizing: border-box;
   text-decoration: none;
