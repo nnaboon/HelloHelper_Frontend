@@ -130,6 +130,7 @@ export const MyRequestList = ({ data }: any) => {
           position: absolute;
           top: 20px;
           color: #0000;
+          z-index: 6;
           right: 35px;
           .ant-dropdown-trigger {
             border: none;
@@ -142,6 +143,7 @@ export const MyRequestList = ({ data }: any) => {
           &:selection {
             color: #fff;
             background: transparent;
+            z-index: 6;
           }
 
           svg {

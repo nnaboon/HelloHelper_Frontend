@@ -129,6 +129,7 @@ export const MyProvideList = ({ data }: any) => {
         overlay={menu}
         css={css`
           position: absolute;
+          z-index: 8;
           top: 20px;
           color: #0000;
           right: 35px;
@@ -142,6 +143,7 @@ export const MyProvideList = ({ data }: any) => {
 
           &:selection {
             color: #fff;
+            z-index: 8;
             background: transparent;
           }
 
