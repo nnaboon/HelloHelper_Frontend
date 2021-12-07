@@ -12,6 +12,7 @@ import { Navbar } from 'components/Navbar/Navbar';
 import { ProvideListPage } from './pages/ProvideListpage';
 import { RequestListPage } from './pages/RequestListpage';
 import { EditProfilePage } from './pages/EditProfilePage';
+import { CommunityPage } from './pages/CommunityPage';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Switch>
           <Route path="/" exact component={HomePage} />
           <Route path="/profile" component={ProfilePage} />
+          <Route path="/community/:id" component={CommunityPage} />
           <Route path="/user/account/profile" component={EditProfilePage} />
           <Route path="/request" component={RequestListPage} />
           <Route path="/provide" component={ProvideListPage} />
