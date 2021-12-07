@@ -6,15 +6,15 @@ import { Text } from 'components/Text';
 import { StatusButton } from 'components/Button/StatusButton';
 import { STATUS_MAPPER } from 'components/Button/const';
 import { WrapperContainer } from 'components/Wrapper/WrapperContainer';
-import { PROVIDE_MAPPER } from 'data/provide';
 import { RequestListCard } from 'components/Card/RequestListCard';
+import { REQUEST_MAPPER } from 'data/request';
 
 export const RequestListPage = () => {
   const [currentStatus, setCurrentStatus] = useState<string>('waiting');
   return (
     <WrapperContainer>
       <Text fontSize="24px" fontWeight={400} marginY="20px">
-        รายการขอความช่วยเหลือของฉัน ทั้งหมด {PROVIDE_MAPPER.length} รายการ
+        รายการขอความช่วยเหลือของฉัน ทั้งหมด {REQUEST_MAPPER.length} รายการ
       </Text>
       <Flex itemAlign="center">
         <StatusButton
@@ -32,9 +32,19 @@ export const RequestListPage = () => {
           color={STATUS_MAPPER['complete'].color}
           onClick={() => setCurrentStatus('complete')}
         />
+        <StatusButton
+          status={STATUS_MAPPER['cancel'].status}
+          color={STATUS_MAPPER['cancel'].color}
+          onClick={() => setCurrentStatus('cancel')}
+        />
       </Flex>
-      <Flex itemAlign="center" justify="center" direction="column">
-        {PROVIDE_MAPPER.filter((props) => props.status === currentStatus).map(
+      <Flex
+        itemAlign="center"
+        justify="center"
+        direction="column"
+        marginTop="30px"
+      >
+        {REQUEST_MAPPER.filter((props) => props.status === currentStatus).map(
           (props) => (
             <RequestListCard props={props} />
           )

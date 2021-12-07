@@ -32,8 +32,18 @@ export const ProvideListPage = () => {
           color={STATUS_MAPPER['complete'].color}
           onClick={() => setCurrentStatus('complete')}
         />
+        <StatusButton
+          status={STATUS_MAPPER['cancel'].status}
+          color={STATUS_MAPPER['cancel'].color}
+          onClick={() => setCurrentStatus('cancel')}
+        />
       </Flex>
-      <Flex itemAlign="center" justify="center" direction="column">
+      <Flex
+        itemAlign="center"
+        justify="center"
+        direction="column"
+        marginTop="30px"
+      >
         {PROVIDE_MAPPER.filter((props) => props.status === currentStatus).map(
           (props) => (
             <ProvideListCard props={props} />
