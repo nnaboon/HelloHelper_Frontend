@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { Text } from 'components/Text';
 import { Button, Form, Input, message, Tooltip, Select, Checkbox } from 'antd';
-import { CommunityType } from 'features/community/CommunityMenu';
+import { CommunityType } from '../../features/community/const';
 
 interface CreateCommunityFormProps {
   setMenu: (menu: CommunityType) => void;
