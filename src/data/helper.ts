@@ -30,12 +30,22 @@ export const POPULAR_REQUEST_DATA = [
     message: 'หากรับหิ้วมากกว่า 10 ชิ้น บวกค่าบริการเพิ่มชิ้นละ 10 บาท',
     payment: 'โอน',
     rank: 'platinum',
-    rating: 5
+    rating: 5,
+    owner: {
+      userId: '',
+      imageUrl: '',
+      name: '',
+      rank: '',
+      rating: 5
+    }
   },
   {
     id: 'qwer31',
+    type: 'provide',
+    userId: 'qeweqa',
     name: 'กระทิง สีทอง',
     imageUrl: '',
+    userImageUrl: '',
     title: 'ขนมปังสังขยา ร้านนายเฮ็ง โชคชัย4',
     location: 'หมู่บ้าน vive',
     helpSum: 400,

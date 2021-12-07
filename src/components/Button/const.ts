@@ -1,7 +1,8 @@
 export enum StatusType {
   WAITING = 'waiting',
   PENDING = 'pending',
-  COMPLETE = 'complete'
+  COMPLETE = 'complete',
+  CANCEL = 'cancel'
 }
 
 export const STATUS_MAPPER = {
@@ -16,5 +17,9 @@ export const STATUS_MAPPER = {
   [StatusType.COMPLETE]: {
     status: 'สำเร็จ',
     color: '#42C306'
+  },
+  [StatusType.CANCEL]: {
+    status: 'ยกเลิก',
+    color: '#E00101'
   }
 };

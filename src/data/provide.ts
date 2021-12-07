@@ -16,7 +16,7 @@ export type ProvideListProps = {
 export const PROVIDE_MAPPER: ProvideListProps[] = [
   {
     id: 'aabbccrt',
-    status: 'waiting',
+    status: 'cancel',
     title: 'ขนมปังสังขยา โชคชัย4',
     location: 'มหาลัยเกษตรศาสตร์ บางเขน',
     amount: '2',

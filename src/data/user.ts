@@ -4,7 +4,10 @@ export const USER_DATA = [
     name: 'กระทิง สีแดง',
     imageUrl: '',
     location: 'มหาวิทยาลัยเกษตรศาสตร์ บางเขน',
-    community: 'ภาคคอม มก',
+    community: {
+      id: 'zxcvb234',
+      name: 'ภาคคอม มก'
+    },
     category: ['food', 'cloth', 'music', 'sports'],
     following: 100,
     follower: 40,
@@ -448,7 +451,7 @@ export const USER_DATA = [
         },
         {
           id: 'abceo3',
-          name: 'กระทิง สีแดง',
+          name: 'นก หัวขวาน',
           imageUrl: '',
           title: 'ข้าวจี่ อนุสาวรีย์ ข้างโรงพยาบาลโรคผิวหนัง',
           location: 'หมู่บ้าน vive',
