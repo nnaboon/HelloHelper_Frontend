@@ -8,6 +8,7 @@ import { SuggestedBadge, RankingBadge } from '../Badge/Badge';
 import { RANK_BADGE } from 'components/Badge/const';
 import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
+import { Rate } from 'antd';
 
 import { MessageSvg } from 'components/Svg/MessageSvg';
 import { UserSvg } from 'components/Svg/UserSvg';
@@ -22,16 +23,16 @@ const RequestHelperCardContainer = styled.div`
 `;
 
 const CardContainer = styled.div`
-  min-width: 448px;
+  width: 550px;
+  height: 370px;
   width: 95%;
-  height: 341px;
   background: #ffffff;
   box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
   padding: 40px 30px;
   box-sizing: border-box;
   position: relative;
-  min-width: 448px;
+  min-width: 500px;
   margin-right: 20px;
   position: relative;
   top: -20px;
@@ -54,12 +55,14 @@ const HelperImage = styled.div`
 `;
 
 const RequestDataTitle = styled.div`
-  font-size: 12px;
-  line-height: 16px;
+  font-size: 14px;
+  white-space: pre-wrap;
+  line-height: 20px;
   color: #c4c4c4;
-  max-width: 91px;
+  max-width: 110px;
   margin-right: 15px;
-  width: 80px;
+  width: 95px;
+  text-align: end;
 `;
 
 const RequestDataInfo = styled.div`
@@ -71,7 +74,7 @@ const RequestDataInfo = styled.div`
 const RequestDataContent = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 `;
 
 export const PopularRequestSection = ({ data }: any) => {
@@ -142,22 +145,30 @@ export const PopularRequestSection = ({ data }: any) => {
                     <RequestDataInfo>{name}</RequestDataInfo>
                   </RequestDataContent>
                   <RequestDataContent>
-                    <RequestDataTitle>สถานที่ให้ความช่วยเหลือ</RequestDataTitle>
+                    <RequestDataTitle>
+                      สถานที่ให้{'\n'}ความช่วยเหลือ
+                    </RequestDataTitle>
                     <RequestDataInfo>{location}</RequestDataInfo>
                   </RequestDataContent>
                   <RequestDataContent>
-                    <RequestDataTitle>ยอดการให้ความช่วยเหลือ</RequestDataTitle>
+                    <RequestDataTitle>
+                      ยอดการให้{'\n'}ความช่วยเหลือนี้
+                    </RequestDataTitle>
                     <RequestDataInfo>
-                      {helpSum.toLocaleString()}
+                      {helpSum.toLocaleString()} ครั้ง
+                    </RequestDataInfo>
+                  </RequestDataContent>
+                  <RequestDataContent>
+                    <RequestDataTitle>
+                      คะแนนการให้ความช่วยเหลือนี้
+                    </RequestDataTitle>
+                    <RequestDataInfo>
+                      5.0 <Rate count={1} defaultValue={1} />
                     </RequestDataInfo>
                   </RequestDataContent>
                   <RequestDataContent>
                     <RequestDataTitle>ค่าบริการ</RequestDataTitle>
                     <RequestDataInfo>{serviceCharge}</RequestDataInfo>
-                  </RequestDataContent>
-                  <RequestDataContent>
-                    <RequestDataTitle>วิธีการชำระเงิน</RequestDataTitle>
-                    <RequestDataInfo>{payment}</RequestDataInfo>
                   </RequestDataContent>
                 </div>
               </div>

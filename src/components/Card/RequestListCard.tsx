@@ -4,17 +4,17 @@ import { css, jsx } from '@emotion/react';
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import Flex from 'components/Flex/Flex';
-import { STATUS_MAPPER } from 'components/Badge/const';
+import { STATUS_MAPPER } from 'components/Button/const';
 import { StatusType } from 'components/Button/const';
 import { Rate, Form, Modal, Button, message } from 'antd';
 import { StatusBadge } from 'components/Badge/StatusBadge';
-import { ProvideListProps } from 'data/provide';
-import { PrimaryButton } from '../Button/Button';
+import { RequestListProps } from 'data/request';
+import { PrimaryButton, SecondaryButton } from '../Button/Button';
 import Text from 'components/Text/Text';
 import { RatingForm } from 'components/Form/RatingForm';
 
 type RequestListCardProps = {
-  props: ProvideListProps;
+  props: RequestListProps;
 };
 
 const RequestListContainer = styled.div`
@@ -46,7 +46,8 @@ const RequestListTitle = styled.div`
   line-height: 16px;
   text-align: right;
   color: #b9b9b9;
-  text-align: start;
+  text-align: end;
+  margin-right: 20px;
 `;
 
 const RequestListData = styled.div`
@@ -91,6 +92,7 @@ export const RequestListCard = (props: RequestListCardProps) => {
 
   return (
     <RequestListContainer>
+      {console.log(STATUS_MAPPER[props.props.status].color, props.props.status)}
       <StatusBadge
         status={STATUS_MAPPER[props.props.status].status}
         color={STATUS_MAPPER[props.props.status].color}
@@ -126,31 +128,71 @@ export const RequestListCard = (props: RequestListCardProps) => {
           <RequestListData>{props.props.payment}</RequestListData>
         </Flex>
         <Flex itemAlign="flex-start">
-          <RequestListTitle>ชื่อ-นามสกุลผู้รับ</RequestListTitle>
-          <RequestListData>{props.props.recipient}</RequestListData>
+          <RequestListTitle>ชื่อ-นามสกุลผู้ให้ความช่วยเหลือ</RequestListTitle>
+          <RequestListData>{props.props.helperName}</RequestListData>
         </Flex>
         <Flex itemAlign="flex-start">
-          <RequestListTitle>ที่อยู่</RequestListTitle>
-          <RequestListData>{props.props.address}</RequestListData>
-        </Flex>
-        <Flex itemAlign="flex-start">
-          <RequestListTitle>เบอร์โทรศัพท์</RequestListTitle>
+          <RequestListTitle>เบอร์โทรศัพท์ผู้ให้ความช่วยเหลือ</RequestListTitle>
           <RequestListData>{props.props.phoneNumber}</RequestListData>
         </Flex>
       </RequestListContent>
-      <PrimaryButton
-        css={css`
-          position: absolute;
-          right: 20px;
-          bottom: 20px;
-          max-width: 250px;
-        `}
-        onClick={() => {
-          setIsModalVisible(true);
-        }}
-      >
-        ยืนยันการรับสินค้า/ให้คะแนน
-      </PrimaryButton>
+      {props.props.status === StatusType.WAITING ? (
+        <Flex
+          css={css`
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            width: max-content;
+          `}
+        >
+          <SecondaryButton
+            css={css`
+              min-width: 150px;
+              border: 1px solid #e00101;
+              color: #e00101;
+            `}
+          >
+            ยกเลิก
+          </SecondaryButton>
+          <PrimaryButton
+            css={css`
+              min-width: 150px;
+              background: #0047ff;
+            `}
+          >
+            แชท
+          </PrimaryButton>
+        </Flex>
+      ) : (
+        <Flex
+          css={css`
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            width: max-content;
+          `}
+        >
+          <PrimaryButton
+            css={css`
+              min-width: 180px;
+              background: #0047ff;
+            `}
+          >
+            แขท
+          </PrimaryButton>
+          <PrimaryButton
+            css={css`
+              min-width: 180px;
+            `}
+            onClick={() => {
+              setIsModalVisible(true);
+            }}
+          >
+            ยืนยันการรับสินค้า
+          </PrimaryButton>
+        </Flex>
+      )}
+
       <Modal
         visible={isModalVisible}
         onOk={handleOk}

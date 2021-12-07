@@ -1,15 +1,16 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { css, jsx } from '@emotion/react';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import Flex from 'components/Flex/Flex';
-import { STATUS_MAPPER } from 'components/Badge/const';
+import { STATUS_MAPPER } from 'components/Button/const';
 import { StatusType } from 'components/Button/const';
-import { Menu, Dropdown, message } from 'antd';
+import { Menu, Dropdown, message, Form, Modal } from 'antd';
 import { StatusBadge } from 'components/Badge/StatusBadge';
 import { ProvideListProps } from 'data/provide';
-import { PrimaryButton } from 'components/Button/Button';
+import { RatingForm } from 'components/Form/RatingForm';
+import { PrimaryButton, SecondaryButton } from 'components/Button/Button';
 
 type ProvideListCardProps = {
   props: ProvideListProps;
@@ -41,10 +42,11 @@ const ProvideListTitle = styled.div`
   width: 130px;
   font-weight: 400;
   font-size: 14px;
-  line-height: 16px;
+  line-height: 20px;
   text-align: right;
   color: #b9b9b9;
-  text-align: start;
+  text-align: end;
+  margin-right: 20px;
 `;
 
 const ProvideListData = styled.div`
@@ -57,11 +59,43 @@ const ProvideListData = styled.div`
 `;
 
 export const ProvideListCard = ({ props }: ProvideListCardProps) => {
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [form] = Form.useForm();
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
+  const onFinish = async (value) => {
+    setIsSubmitting(true);
+    const data = {
+      rating: value.rating
+    };
+
+    try {
+      console.log('data', data);
+    } catch (e) {
+      message.error('ไม่สามารถโพสต์ขอความช่วยเหลือได้');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   const menu = (
     <Menu>
       <Menu.Item>รอดำเนินการ</Menu.Item>
       <Menu.Item>กำลังดำเนินการ</Menu.Item>
       <Menu.Item>สำเร็จ</Menu.Item>
+      <Menu.Item>ยกเลิก</Menu.Item>
     </Menu>
   );
 
@@ -114,18 +148,79 @@ export const ProvideListCard = ({ props }: ProvideListCardProps) => {
           <ProvideListData>{props.phoneNumber}</ProvideListData>
         </Flex>
       </ProvideListContent>
-      <Dropdown overlay={menu}>
-        <PrimaryButton
+
+      {props.status === StatusType.COMPLETE ? (
+        <Flex
           css={css`
             position: absolute;
             right: 20px;
             bottom: 20px;
-            max-width: 200px;
+            width: max-content;
           `}
         >
-          เปลี่ยนสถานะ
-        </PrimaryButton>
-      </Dropdown>
+          <PrimaryButton
+            css={css`
+              min-width: 160px;
+              background: #0047ff;
+            `}
+          >
+            แชท
+          </PrimaryButton>
+          <PrimaryButton
+            css={css`
+              min-width: 160px;
+            `}
+            onClick={() => {
+              setIsModalVisible(true);
+            }}
+          >
+            ช่วยเหลือเสร็จสิ้น
+          </PrimaryButton>
+        </Flex>
+      ) : (
+        <Flex
+          css={css`
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            width: max-content;
+          `}
+        >
+          <PrimaryButton
+            css={css`
+              min-width: 150px;
+              background: #0047ff;
+            `}
+          >
+            แขท
+          </PrimaryButton>
+          <Dropdown overlay={menu}>
+            <PrimaryButton
+              css={css`
+                min-width: 150px;
+              `}
+            >
+              เปลี่ยนสถานะ
+            </PrimaryButton>
+          </Dropdown>
+        </Flex>
+      )}
+      <Modal
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        footer={null}
+        width={400}
+        maskClosable={false}
+        centered
+        css={css`
+          .ant-modal-content {
+            height: 220px;
+          }
+        `}
+      >
+        <RatingForm />
+      </Modal>
     </ProvideListContainer>
   );
 };

@@ -10,17 +10,18 @@ import { css, jsx } from '@emotion/react';
 import { MessageSvg } from 'components/Svg/MessageSvg';
 import { UserSvg } from 'components/Svg/UserSvg';
 import { getStar } from '../Star/getStar';
+import { Rate } from 'antd';
 
 const CardContainer = styled.div`
-  width: 448px;
-  height: 341px;
+  width: 550px;
+  height: 370px;
   background: #ffffff;
   box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
   padding: 40px 30px;
   box-sizing: border-box;
   position: relative;
-  min-width: 448px;
+  min-width: 500px;
   margin-right: 20px;
   position: relative;
   top: -20px;
@@ -43,12 +44,14 @@ const HelperImage = styled.div`
 `;
 
 const RequestDataTitle = styled.div`
-  font-size: 12px;
-  line-height: 16px;
+  font-size: 14px;
+  line-height: 20px;
   color: #c4c4c4;
-  max-width: 91px;
+  max-width: 110px;
   margin-right: 15px;
-  width: 80px;
+  width: 95px;
+  text-align: end;
+  white-space: pre-wrap;
 `;
 
 const RequestDataInfo = styled.div`
@@ -67,7 +70,7 @@ const TopTenRequestCardContainer = styled.div`
 const TopTenRequestDataContent = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 `;
 
 export const TopTenRequestSection = ({ data }: any) => {
@@ -142,22 +145,30 @@ export const TopTenRequestSection = ({ data }: any) => {
                     <RequestDataInfo>{name}</RequestDataInfo>
                   </TopTenRequestDataContent>
                   <TopTenRequestDataContent>
-                    <RequestDataTitle>สถานที่ให้ความช่วยเหลือ</RequestDataTitle>
+                    <RequestDataTitle>
+                      สถานที่ให้{'\n'}ความช่วยเหลือ
+                    </RequestDataTitle>
                     <RequestDataInfo>{location}</RequestDataInfo>
                   </TopTenRequestDataContent>
                   <TopTenRequestDataContent>
-                    <RequestDataTitle>ยอดการให้ความช่วยเหลือ</RequestDataTitle>
+                    <RequestDataTitle>
+                      ยอดการให้ {'\n'}ความช่วยเหลือ
+                    </RequestDataTitle>
                     <RequestDataInfo>
-                      {helpSum.toLocaleString()}
+                      {helpSum.toLocaleString()} ครั้ง
+                    </RequestDataInfo>
+                  </TopTenRequestDataContent>
+                  <TopTenRequestDataContent>
+                    <RequestDataTitle>
+                      คะแนนการให้ความช่วยเหลือนี้
+                    </RequestDataTitle>
+                    <RequestDataInfo>
+                      5.0 <Rate count={1} defaultValue={1} />
                     </RequestDataInfo>
                   </TopTenRequestDataContent>
                   <TopTenRequestDataContent>
                     <RequestDataTitle>ค่าบริการ</RequestDataTitle>
                     <RequestDataInfo>{serviceCharge}</RequestDataInfo>
-                  </TopTenRequestDataContent>
-                  <TopTenRequestDataContent>
-                    <RequestDataTitle>วิธีการชำระเงิน</RequestDataTitle>
-                    <RequestDataInfo>{payment}</RequestDataInfo>
                   </TopTenRequestDataContent>
                 </div>
               </div>
