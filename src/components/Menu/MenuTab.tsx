@@ -12,7 +12,6 @@ interface MenuTabProps {
 
 export const MenuTab = ({ menu, setMenu }: MenuTabProps) => {
   const history = useHistory();
-  const { pathname } = useLocation();
 
   return (
     <Flex itemAlign="center" justify="space-around" style={{ width: '100%' }}>

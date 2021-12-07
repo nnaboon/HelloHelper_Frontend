@@ -12,14 +12,14 @@ interface MenuTabProps {
 
 export const ProfileMenuTab = ({ menu, setMenu }: MenuTabProps) => {
   const history = useHistory();
-  const { pathname } = useLocation();
+  const { pathname, state } = useLocation();
 
   return (
     <Flex
       itemAlign="center"
       justify="space-around"
       marginBottom="18px"
-      style={{ width: '100%' }}
+      style={{ width: '50%', margin: '50px 0' }}
     >
       {Object.values(HelpMenu).map((key) => (
         <MenuButton
