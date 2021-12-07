@@ -6,7 +6,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import Flex from 'components/Flex/Flex';
 import { SecondaryButton } from 'components/Button/Button';
-import { Dropdown, Menu, message } from 'antd';
+import { Dropdown, Menu, message, Rate } from 'antd';
 import { EditSvg } from 'components/Svg/EditSvg';
 import { DeleteSvg } from 'components/Svg/DeleteSvg';
 import { EyeOffSvg } from 'components/Svg/EyeOffSvg';
@@ -36,7 +36,7 @@ const HelperListHeading = styled.div`
   font-size: 12px;
   line-height: 26px;
   color: #c4c4c4;
-  min-width: 150px;
+  min-width: 170px;
 `;
 
 const HelperListDetail = styled.div`
@@ -162,8 +162,14 @@ export const MyProvideList = ({ data }: any) => {
         <HelperListDetail>{data.location}</HelperListDetail>
       </Flex>
       <Flex marginY="8px">
-        <HelperListHeading>ยอดการให้ความช่วยเหลือ</HelperListHeading>
-        <HelperListDetail>{data.helpSum}</HelperListDetail>
+        <HelperListHeading>ยอดการให้ความช่วยเหลือนี้</HelperListHeading>
+        <HelperListDetail>{data.helpSum} ครั้ง</HelperListDetail>
+      </Flex>
+      <Flex marginY="8px">
+        <HelperListHeading>คะแนนการให้ความช่วยเหลือนี้</HelperListHeading>
+        <HelperListDetail>
+          5.0 <Rate count={1} defaultValue={1} />
+        </HelperListDetail>
       </Flex>
       <Flex marginY="8px">
         <HelperListHeading>ค่าบริการ</HelperListHeading>

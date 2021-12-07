@@ -103,6 +103,15 @@ export const Navbar = () => {
           <li
             onClick={() => {
               history.push({
+                pathname: '/community/zxcvb234'
+              });
+            }}
+          >
+            ชุมชนความช่วยเหลือ
+          </li>
+          <li
+            onClick={() => {
+              history.push({
                 pathname: '/provide'
               });
             }}

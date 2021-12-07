@@ -64,8 +64,8 @@ const ProvideTitle = styled.div`
 `;
 
 const HelperImage = styled.div`
-  width: 120px;
-  height: 120px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   background: #0f3276;
   margin-top: 15px;
@@ -76,7 +76,7 @@ const UserName = styled.div`
   font-size: 24px;
   color: #000000;
   margin-bottom: 5px;
-  margin-right: 10px;
+  margin-right: 30px;
 `;
 
 export const ProvideInfoContent = ({ data }: any) => {
@@ -190,37 +190,42 @@ export const ProvideInfoContent = ({ data }: any) => {
                 </Flex>
               </div>
               <Divider />
-              <div style={{ display: 'flex' }}>
+              <div
+                style={{ display: 'flex' }}
+                css={css`
+                  width: 100%;
+                  height: 140px;
+                  background: #ffffff;
+                  box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.09);
+                  border-radius: 12px;
+                `}
+              >
                 <div
                   css={css`
                     display: flex;
                     width: 20%;
                     flex-direction: column;
                     align-items: center;
-                    margin-right: 35px;
                     margin-left: 100px;
                   `}
                 >
                   <HelperImage />
                   {Boolean(1) && <SuggestedBadge>แนะนำ</SuggestedBadge>}
-                  <div
-                    style={{
-                      display: 'flex',
-                      marginBottom: '10px',
-                      marginTop: '-4px'
-                    }}
-                  >
-                    {getStar(rating)}
-                  </div>
                 </div>
                 <div
                   css={css`
                     display: flex;
-                    margin-top: 30px;
+                    margin-left: -60px;
+                    align-items: center;
                   `}
                 >
                   <UserName>{name}</UserName>
-                  <RankingBadge rankColor={RANK_BADGE['platinum'].color}>
+                  <RankingBadge
+                    rankColor={RANK_BADGE['platinum'].color}
+                    css={css`
+                      margin-top: -10px;
+                    `}
+                  >
                     {'platinum'.toUpperCase()}
                   </RankingBadge>
                 </div>
