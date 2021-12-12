@@ -2,10 +2,8 @@
 /** @jsx jsx */
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { SecondaryButton, PrimaryButton } from 'components/Button/Button';
-import { SUGGESTED_REQUEST_DATA } from 'data/request';
 
-import { SuggestedBadge, RankingBadge } from '../Badge/Badge';
+import { RankingBadge } from '../Badge/Badge';
 import { RANK_BADGE } from 'components/Badge/const';
 import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
@@ -28,7 +26,6 @@ const CardContainer = styled.div`
   padding: 40px 30px;
   box-sizing: border-box;
   position: relative;
-  min-width: 448px;
   margin-right: 20px;
   position: relative;
   top: -20px;
@@ -61,6 +58,7 @@ const RequestDataTitle = styled.div`
   max-width: 91px;
   margin-right: 15px;
   width: 80px;
+  text-align: end;
 `;
 
 const RequestDataInfo = styled.div`

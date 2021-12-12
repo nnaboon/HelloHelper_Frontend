@@ -6,7 +6,6 @@ import { css, jsx } from '@emotion/react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { WrapperContainer } from 'components/Wrapper/WrapperContainer';
 import Flex from 'components/Flex/Flex';
-import { Text } from 'components/Text';
 import { PrimaryButton, SecondaryButton } from 'components/Button/Button';
 import { HelpMenu } from 'components/Menu/const';
 import { UserSvg } from 'components/Svg/UserSvg';
@@ -14,7 +13,6 @@ import { Divider } from 'antd';
 import { RankingBadge } from 'components/Badge/Badge';
 import { SuggestedBadge } from 'components/Badge/Badge';
 import { RANK_BADGE } from 'components/Badge/const';
-import { getStar } from 'components/Star/getStar';
 
 const ProvideImage = styled.img`
   width: 420px;
@@ -77,6 +75,8 @@ const UserName = styled.div`
   color: #000000;
   margin-bottom: 5px;
   margin-right: 30px;
+  min-width: 140px;
+  width: max-content;
 `;
 
 export const ProvideInfoContent = ({ data }: any) => {
@@ -171,7 +171,7 @@ export const ProvideInfoContent = ({ data }: any) => {
                     <ProvideDetail>{message}</ProvideDetail>
                   </ProvideInfoContainer>
                   <Flex>
-                    <SecondaryButton style={{ width: '55%', height: '45px' }}>
+                    {/* <SecondaryButton style={{ width: '55%', height: '45px' }}>
                       <UserSvg />
                       <div
                         onClick={() => {
@@ -182,8 +182,8 @@ export const ProvideInfoContent = ({ data }: any) => {
                       >
                         โปรไฟล์
                       </div>
-                    </SecondaryButton>
-                    <PrimaryButton style={{ width: '55%', height: '45px' }}>
+                    </SecondaryButton> */}
+                    <PrimaryButton style={{ height: '45px' }}>
                       ขอความช่วยเหลือ
                     </PrimaryButton>
                   </Flex>
@@ -191,44 +191,66 @@ export const ProvideInfoContent = ({ data }: any) => {
               </div>
               <Divider />
               <div
-                style={{ display: 'flex' }}
                 css={css`
                   width: 100%;
                   height: 140px;
+                  display: flex;
+                  align-items: center;
                   background: #ffffff;
                   box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.09);
                   border-radius: 12px;
+                  justify-content: space-between;
                 `}
               >
-                <div
-                  css={css`
-                    display: flex;
-                    width: 20%;
-                    flex-direction: column;
-                    align-items: center;
-                    margin-left: 100px;
-                  `}
-                >
-                  <HelperImage />
-                  {Boolean(1) && <SuggestedBadge>แนะนำ</SuggestedBadge>}
-                </div>
-                <div
-                  css={css`
-                    display: flex;
-                    margin-left: -60px;
-                    align-items: center;
-                  `}
-                >
-                  <UserName>{name}</UserName>
-                  <RankingBadge
-                    rankColor={RANK_BADGE['platinum'].color}
+                <div style={{ display: 'flex' }}>
+                  <div
                     css={css`
-                      margin-top: -10px;
+                      display: flex;
+                      width: 20%;
+                      flex-direction: column;
+                      align-items: center;
+                      margin-left: 170px;
+                      margin-right: 60px;
                     `}
                   >
-                    {'platinum'.toUpperCase()}
-                  </RankingBadge>
+                    <HelperImage />
+                    {Boolean(1) && <SuggestedBadge>แนะนำ</SuggestedBadge>}
+                  </div>
+                  <div
+                    css={css`
+                      display: flex;
+                      align-items: center;
+                    `}
+                  >
+                    <UserName>{name}</UserName>
+                    <RankingBadge
+                      rankColor={RANK_BADGE['platinum'].color}
+                      css={css`
+                        margin-top: -10px;
+                      `}
+                    >
+                      {'platinum'.toUpperCase()}
+                    </RankingBadge>
+                  </div>
                 </div>
+
+                <SecondaryButton
+                  css={css`
+                    margin-right: 100px;
+                    width: 140px;
+                  `}
+                >
+                  <UserSvg />
+                  <div
+                    onClick={() => {
+                      history.push({
+                        pathname: `/profile/${id}`
+                      });
+                    }}
+                  >
+                    โปรไฟล์
+                  </div>
+                </SecondaryButton>
               </div>
             </WrapperContainer>
           )

@@ -91,7 +91,7 @@ export const HomePage = () => {
             size="large"
             style={{ width: '462px', height: '60px' }}
           />
-          <PostRequestButton />
+          <PostRequestButton buttonText="ขอ/ให้ความช่วยเหลือ" />
         </div>
         <Text fontSize="36px" fontWeight={500}>
           ความช่วยเหลือยอดนิยม

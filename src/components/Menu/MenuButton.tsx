@@ -28,6 +28,7 @@ export const MenuButton = ({
       css={css`
         color: ${isActive ? '#EE6400' : '#CACACA'};
         font-size: ${isActive ? '28px' : '24px'};
+        font-weight: ${isActive ? '700' : '500'};
       `}
       {...restProps}
     >

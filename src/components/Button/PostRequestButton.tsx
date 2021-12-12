@@ -8,6 +8,9 @@ import { Modal } from 'antd';
 import { RequestForm } from 'components/Form/RequestForm';
 import { PenRequestSvg } from 'components/Svg/PenRequestSvg';
 
+interface PostRequestButtonProps {
+  buttonText: string;
+}
 const RequestButton = styled(PrimaryButton)`
   width: 210px;
   height: 49px;
@@ -19,7 +22,7 @@ const RequestButton = styled(PrimaryButton)`
   }
 `;
 
-export const PostRequestButton = () => {
+export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
   const handleOk = () => {
@@ -34,7 +37,7 @@ export const PostRequestButton = () => {
     <div>
       <RequestButton onClick={() => setIsModalVisible(true)}>
         <PenRequestSvg style={{ marginRight: '10px' }} />
-        ขอ/ให้ความช่วยเหลือ
+        {buttonText}
       </RequestButton>
       <Modal
         visible={isModalVisible}

@@ -131,6 +131,7 @@ export const SearchResultPage = () => {
                 css={css`
                   margin-right: 20px;
                 `}
+                buttonText="ขอ/ให้ความช่วยเหลือ"
               />
             </Flex>
           </div>

@@ -4,30 +4,29 @@ import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { Divider } from 'antd';
+import { Divider, Input, Menu, Select } from 'antd';
 import { WrapperContainer } from 'components/Wrapper/WrapperContainer';
-import { SecondaryButton, PrimaryButton } from 'components/Button/Button';
+import { PrimaryButton } from 'components/Button/Button';
 import Flex from 'components/Flex/Flex';
-import { Text } from 'components/Text';
 import { SettingSvg } from 'components/Svg/SettingSvg';
 import { LogoutSvg } from 'components/Svg/LogoutSvg';
 import { COMMUNITY_MAPPER } from 'data/community';
 import { CommunityMenuTab } from 'components/Menu/CommunityMenuTab';
 import { CommunityMenu } from 'components/Menu/const';
+import { PostRequestButton } from 'components/Button/PostRequestButton';
+import { CommunityProvideContent } from './CommunityProvideContent';
+import { CommunityRequestContent } from './CommunityRequestContent';
+import { CommunityMemberContent } from './CommunityMemberContent';
+import { CATEGORY } from 'data/category';
 
 const ProfilePageUserHelperListSection = styled.div`
-  display: grid;
-  grid-template-columns: minmax(auto, 510px) minmax(auto, 510px) minmax(
-      auto,
-      510px
-    );
-  grid-gap: 30px;
+  width: 100%;
 `;
 
 const ProfilePageUserInfoSection = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: center;
   margin-top: 40px;
   margin-bottom: 70px;
 `;
@@ -43,6 +42,7 @@ const UserCard = styled.div`
   border-sizing: border-box;
   padding: 20px;
   position: relative;
+  margin-right: 150px;
 `;
 
 const HelperImage = styled.div`
@@ -74,12 +74,32 @@ const ProfileInfoListDetail = styled.div`
   color: #e56101;
   margin-left: 12px;
 `;
-export const CommunityContentInfo = () => {
+export const CommunityContentInfo = ({ data }: any) => {
   const [menu, setMenu] = useState<CommunityMenu>(CommunityMenu.PROVIDE);
   const history = useHistory();
   const { pathname, state } = useLocation();
   const currentMenu = ((state as any)?.menuKey ||
     CommunityMenu.PROVIDE) as CommunityMenu;
+
+  const { Search } = Input;
+  const { Option } = Select;
+
+  const onSearch = (value) => {
+    history.push({
+      pathname: '/search',
+      search: `?keyword=${value}`
+    });
+  };
+
+  const dropDownMenu = (
+    <Menu>
+      {CATEGORY.map(({ id, name }) => (
+        <Menu.Item key={id}>
+          <div>{name}</div>
+        </Menu.Item>
+      ))}
+    </Menu>
+  );
 
   useEffect(() => {
     setMenu(currentMenu);
@@ -170,7 +190,9 @@ export const CommunityContentInfo = () => {
               </Flex>
               <Flex marginBottom="40px">
                 <ProfileInfoListHeading>สมาชิก</ProfileInfoListHeading>
-                <ProfileInfoListDetail>{member.length}</ProfileInfoListDetail>
+                <ProfileInfoListDetail>
+                  {member.length} คน
+                </ProfileInfoListDetail>
               </Flex>
               <Flex marginBottom="40px">
                 <ProfileInfoListHeading>คำอธิบาย</ProfileInfoListHeading>
@@ -182,20 +204,80 @@ export const CommunityContentInfo = () => {
       )}
       <Divider />
       <CommunityMenuTab menu={menu} setMenu={setMenu} />
+      {menu !== CommunityMenu.MEMBER && (
+        <div
+          css={css`
+            justify-content: space-between;
+            display: flex;
+            margin-top: 30px;
+          `}
+        >
+          <div
+            css={css`
+              display: flex;
+              align-items: start;
+            `}
+          >
+            <Search
+              placeholder="ค้นหาความช่วยเหลือ"
+              onSearch={onSearch}
+              size="large"
+              style={{ width: '462px', height: '60px' }}
+            />
+            <Select
+              defaultValue="เลือกหมวดหมู่"
+              style={{
+                width: 200,
+                justifyContent: 'center',
+                display: 'flex',
+                alignItems: 'center',
+                marginLeft: '20px'
+              }}
+              // css={css`
+              //   .ant-select:not(.ant-select-customize-input)
+              //     .ant-select-selector {
+              //     height: 35px;
+              //     border: 2px solid #f86800 !important;
+              //     border-radius: 8px;
+              //   }
+              // `}
+            >
+              {CATEGORY.map(({ id, name }) => (
+                <Option key={id} value={name}>
+                  {name}
+                </Option>
+              ))}
+            </Select>
+          </div>
+
+          <PostRequestButton
+            buttonText={
+              menu === CommunityMenu.PROVIDE
+                ? 'ให้ความช่วยเหลือ'
+                : 'ขอความช่วยเหลือ'
+            }
+          />
+        </div>
+      )}
       <ProfilePageUserHelperListSection>
-        {/* {menu === CommunityMenu.PROVIDE ? (
-          <React.Fragment>
-            {USER_DATA[0].myList.provideList.map((props) => (
-              <MyProvideList key={props.id} data={props} />
-            ))}
-          </React.Fragment>
+        {menu === CommunityMenu.MEMBER ? (
+          <div>
+            <CommunityMemberContent member={data.member} />
+          </div>
         ) : (
-          <React.Fragment>
-            {USER_DATA[0].myList.requestList.map((props) => (
-              <MyRequestList key={props.id} data={props} />
-            ))}
-          </React.Fragment>
-        )} */}
+          <div>
+            {' '}
+            {menu === CommunityMenu.PROVIDE ? (
+              <React.Fragment>
+                <CommunityProvideContent />
+              </React.Fragment>
+            ) : (
+              <React.Fragment>
+                <CommunityRequestContent />
+              </React.Fragment>
+            )}
+          </div>
+        )}
       </ProfilePageUserHelperListSection>
     </WrapperContainer>
   );
