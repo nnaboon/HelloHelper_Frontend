@@ -9,8 +9,13 @@ import {
 
 interface GoogleMapContentProps {
   width?: string;
+  setLocation?: (location: string) => void;
 }
-export const GoogleMapContent = ({ width }: GoogleMapContentProps) => {
+
+export const GoogleMapContent = ({
+  width,
+  setLocation
+}: GoogleMapContentProps) => {
   const [map, setMap] = useState<any>(null);
   const [myLocation, setMyLocation] = useState<google.maps.LatLng>();
   const [center, setCenter] = useState<google.maps.LatLng>();
@@ -25,6 +30,7 @@ export const GoogleMapContent = ({ width }: GoogleMapContentProps) => {
         position.coords.latitude,
         position.coords.longitude
       );
+      console.log(position);
       setMyLocation(location);
     });
     setMap(map);
@@ -50,6 +56,7 @@ export const GoogleMapContent = ({ width }: GoogleMapContentProps) => {
   const onPlacesChanged = () => {
     const searchLocation = searchBox.getPlaces();
     if (searchLocation[0] !== undefined) {
+      setLocation(searchLocation[0].name);
       setCenter(searchLocation[0].geometry.location);
     }
   };
@@ -67,6 +74,17 @@ export const GoogleMapContent = ({ width }: GoogleMapContentProps) => {
       options={{
         mapTypeControl: false,
         fullscreenControl: false
+      }}
+      onClick={(e) => {
+        navigator.geolocation.getCurrentPosition(function (position) {
+          let location = new google.maps.LatLng(
+            position.coords.latitude,
+            position.coords.longitude
+          );
+          console.log(position, location);
+          setCenter(location);
+        });
+        // console.log(map?.getPlaces());
       }}
     >
       <Marker position={center ?? (myLocation as google.maps.LatLng)} />
