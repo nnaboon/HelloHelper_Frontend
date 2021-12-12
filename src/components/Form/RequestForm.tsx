@@ -1,10 +1,11 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { css, jsx, Global } from '@emotion/react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { Text } from 'components/Text';
-import { Button, Form, Input, message, Tooltip, Select } from 'antd';
+import { Button, Form, Input, message, Tooltip, Select, Upload } from 'antd';
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { CATEGORY } from 'data/category';
 import { RequestFormBody } from './const';
 import { GoogleMapContent } from 'components/GoogleMap/GoogleMap';
@@ -22,20 +23,39 @@ const RegisterLocationFormSection = styled.div`
 
 export const RequestForm = () => {
   const [form] = Form.useForm();
+  const [location, setLocation] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
+  const [imageUrl, setImageUrl] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const uploadButton = (
+    <div>
+      {loading ? <LoadingOutlined /> : <PlusOutlined />}
+      <div style={{ marginTop: 8 }}>Upload</div>
+    </div>
+  );
+
+  useEffect(() => {
+    console.log('s', location);
+    form.setFieldsValue({
+      location: location
+    });
+  }, [form, location]);
 
   const onFinish = async (value) => {
+    console.log(value);
     setIsSubmitting(true);
     const data = {
       type: value.type,
       title: value.title,
-      location: value.location,
+      name: value.name,
+      location: location ?? '',
       message: value.message ?? '',
       maxPrice: value.maxPrice,
       maxServiceCharge: value.maxServiceCharge,
       payment: value.payment,
       category: value.category,
-      hashtag: value.hashtag
+      hashtag: value.hashtag,
+      image: value.image
     } as RequestFormBody;
 
     try {
@@ -44,6 +64,27 @@ export const RequestForm = () => {
       message.error('ไม่สามารถโพสต์ขอความช่วยเหลือได้');
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  function getBase64(img, callback) {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => callback(reader.result));
+    reader.readAsDataURL(img);
+  }
+
+  const handleChange = (info) => {
+    // Change condition
+    if (info.file.status === 'done') {
+      setLoading(true);
+      return;
+    }
+    if (info.file.status === 'uploading') {
+      // Get this url from response in real world.
+      getBase64(info.file.originFileObj, (imageUrl) => {
+        setLoading(false);
+        setImageUrl(imageUrl);
+      });
     }
   };
 
@@ -116,12 +157,12 @@ export const RequestForm = () => {
           label="สถานที่"
           rules={[
             {
-              required: true,
+              // required: true,
               message: 'กรุณากรอกสถานที่ที่คุณสามารถให้ความช่วยเหลือได้'
             }
           ]}
         >
-          <GoogleMapContent />
+          <GoogleMapContent setLocation={setLocation} />
         </Form.Item>
         <Form.Item name="message" label="ข้อความ">
           <Input.TextArea
@@ -210,6 +251,26 @@ export const RequestForm = () => {
             placeholder="แฮชแท็ก"
             style={{ height: '40px', borderRadius: '12px' }}
           />
+        </Form.Item>
+        <Form.Item
+          name="image"
+          label="รูปภาพ"
+          rules={[{ required: true, message: 'กรุณากรอกแฮชแท็ก' }]}
+        >
+          <Upload
+            name="avatar"
+            listType="picture-card"
+            className="avatar-uploader"
+            showUploadList={false}
+            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            onChange={handleChange}
+          >
+            {imageUrl ? (
+              <img src={imageUrl} alt="avatar" style={{ width: '100%' }} />
+            ) : (
+              uploadButton
+            )}
+          </Upload>
         </Form.Item>
         <div
           css={css`

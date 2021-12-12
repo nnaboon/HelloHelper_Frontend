@@ -8,5 +8,5 @@ export type RequestFormBody = {
   payment: string;
   category: string[];
   hashtag: string[];
-  imageUrl: string;
+  image: string;
 };
