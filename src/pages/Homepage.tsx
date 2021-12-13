@@ -43,7 +43,7 @@ const HomePageContainer = styled.div`
 
 const HomePagePictureSection = styled.div`
   width: 100%;
-  height: 227px;
+  height: 287px;
   background: #c4c4c4;
   margin-bottom: 30px;
   ${mediaQueryMobile} {
