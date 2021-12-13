@@ -6,11 +6,10 @@ import styled from '@emotion/styled';
 import Flex from 'components/Flex/Flex';
 import { STATUS_MAPPER } from 'components/Button/const';
 import { StatusType } from 'components/Button/const';
-import { Rate, Form, Modal, Button, message } from 'antd';
+import { Form, Modal, message } from 'antd';
 import { StatusBadge } from 'components/Badge/StatusBadge';
 import { RequestListProps } from 'data/request';
 import { PrimaryButton, SecondaryButton } from '../Button/Button';
-import Text from 'components/Text/Text';
 import { RatingForm } from 'components/Form/RatingForm';
 
 type RequestListCardProps = {
@@ -63,10 +62,6 @@ export const RequestListCard = (props: RequestListCardProps) => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [form] = Form.useForm();
 
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
-
   const handleOk = () => {
     setIsModalVisible(false);
   };
@@ -92,7 +87,6 @@ export const RequestListCard = (props: RequestListCardProps) => {
 
   return (
     <RequestListContainer>
-      {console.log(STATUS_MAPPER[props.props.status].color, props.props.status)}
       <StatusBadge
         status={STATUS_MAPPER[props.props.status].status}
         color={STATUS_MAPPER[props.props.status].color}

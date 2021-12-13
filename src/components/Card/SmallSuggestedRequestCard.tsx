@@ -3,30 +3,39 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { SecondaryButton, PrimaryButton } from 'components/Button/Button';
+
 import { SuggestedBadge, RankingBadge } from '../Badge/Badge';
 import { RANK_BADGE } from 'components/Badge/const';
 import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
+import { Rate } from 'antd';
+
 import { MessageSvg } from 'components/Svg/MessageSvg';
 import { UserSvg } from 'components/Svg/UserSvg';
-import { getStar } from '../Star/getStar';
-import { Rate } from 'antd';
 import UserAvatar from 'images/avatar_helper.png';
 
+import { getStar } from 'components/Star/getStar';
+
+const RequestHelperCardContainer = styled.div`
+  display: flex;
+  overflow-x: scroll;
+  position: relative;
+`;
+
 const CardContainer = styled.div`
-  width: 550px;
-  height: 370px;
+  min-width: 500px;
+  height: 380px;
+  width: 95%;
   background: #ffffff;
   box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
   padding: 40px 30px;
   box-sizing: border-box;
   position: relative;
-  min-width: 500px;
   margin-right: 20px;
   position: relative;
   top: -20px;
-  margin-top: 40px;
+  margin-top: 20px;
   cursor: pointer;
 `;
 
@@ -36,7 +45,7 @@ const RequestTitle = styled.div`
   margin-bottom: 10px;
 `;
 
-const HelperImage = styled.img`
+const HelperImageSection = styled.img`
   width: 120px;
   height: 120px;
   border-radius: 50%;
@@ -45,13 +54,13 @@ const HelperImage = styled.img`
 
 const RequestDataTitle = styled.div`
   font-size: 14px;
+  white-space: pre-wrap;
   line-height: 20px;
   color: #c4c4c4;
   max-width: 110px;
   margin-right: 15px;
   width: 95px;
   text-align: end;
-  white-space: pre-wrap;
 `;
 
 const RequestDataInfo = styled.div`
@@ -60,24 +69,17 @@ const RequestDataInfo = styled.div`
   color: #000000;
 `;
 
-const TopTenRequestCardContainer = styled.div`
-  display: flex;
-  overflow-x: scroll;
-  margin: 40px 0;
-  position: relative;
-`;
-
-const TopTenRequestDataContent = styled.div`
+const RequestDataContent = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 10px;
 `;
 
-export const TopTenRequestSection = ({ data }: any) => {
+export const SmallSuggestedRequestCard = ({ data }: any) => {
   const history = useHistory();
 
   return (
-    <TopTenRequestCardContainer>
+    <RequestHelperCardContainer>
       {data.map(
         ({
           id,
@@ -95,10 +97,7 @@ export const TopTenRequestSection = ({ data }: any) => {
             <div
               onClick={() => {
                 history.push({
-                  pathname: `/${title}/${id}`,
-                  state: {
-                    type: 'provide'
-                  }
+                  pathname: `/${title}/${id}`
                 });
               }}
             >
@@ -118,7 +117,7 @@ export const TopTenRequestSection = ({ data }: any) => {
                     margin-right: 35px;
                   `}
                 >
-                  <HelperImage src={UserAvatar} alt="user avatar" />
+                  <HelperImageSection src={UserAvatar} alt="user avatar" />
                   <SuggestedBadge>แนะนำ</SuggestedBadge>
                   <div
                     style={{
@@ -129,7 +128,6 @@ export const TopTenRequestSection = ({ data }: any) => {
                   >
                     {getStar(rating)}
                   </div>
-
                   <RankingBadge rankColor={RANK_BADGE[rank].color}>
                     {rank.toUpperCase()}
                   </RankingBadge>
@@ -140,36 +138,36 @@ export const TopTenRequestSection = ({ data }: any) => {
                     flex-direction: column;
                   `}
                 >
-                  <TopTenRequestDataContent>
+                  <RequestDataContent>
                     <RequestDataTitle>ชื่อ</RequestDataTitle>
                     <RequestDataInfo>{name}</RequestDataInfo>
-                  </TopTenRequestDataContent>
-                  <TopTenRequestDataContent>
+                  </RequestDataContent>
+                  <RequestDataContent>
                     <RequestDataTitle>
                       สถานที่ให้{'\n'}ความช่วยเหลือ
                     </RequestDataTitle>
                     <RequestDataInfo>{location}</RequestDataInfo>
-                  </TopTenRequestDataContent>
-                  <TopTenRequestDataContent>
+                  </RequestDataContent>
+                  <RequestDataContent>
                     <RequestDataTitle>
-                      ยอดการให้ {'\n'}ความช่วยเหลือ
+                      ยอดการให้{'\n'}ความช่วยเหลือนี้
                     </RequestDataTitle>
                     <RequestDataInfo>
                       {helpSum.toLocaleString()} ครั้ง
                     </RequestDataInfo>
-                  </TopTenRequestDataContent>
-                  <TopTenRequestDataContent>
+                  </RequestDataContent>
+                  <RequestDataContent>
                     <RequestDataTitle>
                       คะแนนการให้ความช่วยเหลือนี้
                     </RequestDataTitle>
                     <RequestDataInfo>
                       5.0 <Rate count={1} defaultValue={1} />
                     </RequestDataInfo>
-                  </TopTenRequestDataContent>
-                  <TopTenRequestDataContent>
+                  </RequestDataContent>
+                  <RequestDataContent>
                     <RequestDataTitle>ค่าบริการ</RequestDataTitle>
                     <RequestDataInfo>{serviceCharge}</RequestDataInfo>
-                  </TopTenRequestDataContent>
+                  </RequestDataContent>
                 </div>
               </div>
             </div>
@@ -177,7 +175,7 @@ export const TopTenRequestSection = ({ data }: any) => {
               css={css`
                 display: flex;
                 position: absolute;
-                bottom: 10px;
+                bottom: 15px;
                 right: 20px;
                 align-items: center;
                 z-index: 3;
@@ -199,6 +197,6 @@ export const TopTenRequestSection = ({ data }: any) => {
           </CardContainer>
         )
       )}
-    </TopTenRequestCardContainer>
+    </RequestHelperCardContainer>
   );
 };

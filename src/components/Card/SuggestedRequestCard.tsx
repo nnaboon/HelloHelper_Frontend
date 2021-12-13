@@ -7,6 +7,7 @@ import { RankingBadge } from '../Badge/Badge';
 import { RANK_BADGE } from 'components/Badge/const';
 import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
+import RequestImage from 'images/request.jpeg';
 
 const RequestHelperCardContainer = styled.div`
   display: flex;
@@ -40,15 +41,15 @@ const RequestTitle = styled.div`
   margin-bottom: 20px;
 `;
 
-const HelperImage = styled.div`
+const RequestImageSection = styled.img`
   position: absolute;
   top: 0;
   left: 0;
-  width: 200px;
+  min-width: 200px;
+  width: 45%;
   height: 100%;
   border-top-left-radius: 12px;
   border-bottom-left-radius: 12px;
-  background: #0f3276;
 `;
 
 const RequestDataTitle = styled.div`
@@ -56,7 +57,7 @@ const RequestDataTitle = styled.div`
   line-height: 16px;
   color: #c4c4c4;
   max-width: 91px;
-  margin-right: 15px;
+  margin-right: 8px;
   width: 80px;
   text-align: end;
 `;
@@ -110,7 +111,7 @@ export const SuggestedRequestSection = ({ data }: any) => {
                   width: 90%;
                 `}
               >
-                <HelperImage />
+                <RequestImageSection src={RequestImage} alt="request" />
               </div>
               <div
                 css={css`

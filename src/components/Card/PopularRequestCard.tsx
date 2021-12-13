@@ -14,6 +14,7 @@ import { MessageSvg } from 'components/Svg/MessageSvg';
 import { UserSvg } from 'components/Svg/UserSvg';
 
 import { getStar } from 'components/Star/getStar';
+import UserAvatar from 'images/avatar_helper.png';
 
 const RequestHelperCardContainer = styled.div`
   display: flex;
@@ -45,11 +46,10 @@ const RequestTitle = styled.div`
   margin-bottom: 10px;
 `;
 
-const HelperImage = styled.div`
+const HelperImage = styled.img`
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  background: #0f3276;
   margin-top: 15px;
 `;
 
@@ -118,7 +118,7 @@ export const PopularRequestSection = ({ data }: any) => {
                     margin-right: 35px;
                   `}
                 >
-                  <HelperImage />
+                  <HelperImage src={UserAvatar} alt="user" />
                   <SuggestedBadge>แนะนำ</SuggestedBadge>
                   <div
                     style={{

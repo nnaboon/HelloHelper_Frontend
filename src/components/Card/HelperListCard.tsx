@@ -16,8 +16,8 @@ interface HelperListCardProps {
 }
 
 const HelperListCardContainer = styled.div`
-  width: 770px;
-  min-width: 630px;
+  width: 900px;
+  min-width: 730px;
   height: 100px;
   background: #ffffff;
   box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.09);
@@ -38,7 +38,6 @@ const HelperImage = styled.img`
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background: #473f3f;
 `;
 
 const HelperName = styled.div`
@@ -56,7 +55,7 @@ export const HelperListCard = ({ id, name, imageUrl }: HelperListCardProps) => {
           align-items: center;
         `}
       >
-        <HelperImage />
+        <HelperImage src={imageUrl} alt="user avatar" />
         <HelperName>{name}</HelperName>
       </div>
 
