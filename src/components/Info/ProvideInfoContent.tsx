@@ -13,11 +13,12 @@ import { Divider } from 'antd';
 import { RankingBadge } from 'components/Badge/Badge';
 import { SuggestedBadge } from 'components/Badge/Badge';
 import { RANK_BADGE } from 'components/Badge/const';
+import UserAvatar from 'images/avatar_helper.png';
+import ProvideImage from 'images/request.jpeg';
 
-const ProvideImage = styled.img`
+const ProvideImageSection = styled.img`
   width: 420px;
   height: 510px;
-  background: yellow;
   margin-bottom: 20px;
 `;
 
@@ -61,11 +62,10 @@ const ProvideTitle = styled.div`
   max-width: 150px;
 `;
 
-const HelperImage = styled.div`
+const HelperImage = styled.img`
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  background: #0f3276;
   margin-top: 15px;
 `;
 
@@ -105,14 +105,14 @@ export const ProvideInfoContent = ({ data }: any) => {
             rating
           }) => (
             <WrapperContainer key={id}>
-              <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <Flex
                   direction="column"
                   justify="flex-start"
                   itemAlign="flex-start"
-                  style={{ width: 'unset', position: 'relative', left: '6%' }}
+                  style={{ width: 'unset', position: 'relative' }}
                 >
-                  <ProvideImage />
+                  <ProvideImageSection src={ProvideImage} alt="provide img" />
                   <Flex
                     css={css`
                       width: 600px;
@@ -153,7 +153,7 @@ export const ProvideInfoContent = ({ data }: any) => {
                 </Flex>
                 <Flex
                   direction="column"
-                  marginTop="80px"
+                  marginTop="30px"
                   style={{ width: 'unset' }}
                 >
                   <ProvideInfoContainer>
@@ -213,7 +213,7 @@ export const ProvideInfoContent = ({ data }: any) => {
                       margin-right: 60px;
                     `}
                   >
-                    <HelperImage />
+                    <HelperImage src={UserAvatar} alt="user avatar" />
                     {Boolean(1) && <SuggestedBadge>แนะนำ</SuggestedBadge>}
                   </div>
                   <div

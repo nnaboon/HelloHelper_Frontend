@@ -10,13 +10,15 @@ import Flex from 'components/Flex/Flex';
 import { Text } from 'components/Text';
 import { PrimaryButton, SecondaryButton } from 'components/Button/Button';
 import { HelperListCard } from 'components/Card/HelperListCard';
-import { SmallSuggestRequestCard } from 'components/Card/SmallSuggestRequestCard';
+import { SmallSuggestedRequestCard } from 'components/Card/SmallSuggestedRequestCard';
 import { HelpMenu } from 'components/Menu/const';
+import { POPULAR_REQUEST_DATA } from 'data/helper';
+import UserAvatar from 'images/avatar_helper.png';
+import RequestImage from 'images/request.jpeg';
 
-const RequestImage = styled.img`
+const RequestImageSection = styled.img`
   width: 420px;
   height: 510px;
-  background: yellow;
   margin-bottom: 20px;
 `;
 
@@ -88,14 +90,14 @@ export const RequestInfoContent = ({ data }: any) => {
             rank
           }) => (
             <WrapperContainer key={id}>
-              <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <Flex
                   direction="column"
                   justify="flex-start"
                   itemAlign="flex-start"
-                  style={{ width: 'unset', position: 'relative', left: '6%' }}
+                  style={{ width: 'unset', position: 'relative' }}
                 >
-                  <RequestImage />
+                  <RequestImageSection src={imageUrl} alt="request section" />
                   <Flex
                     css={css`
                       width: 600px;
@@ -136,7 +138,7 @@ export const RequestInfoContent = ({ data }: any) => {
                 </Flex>
                 <Flex
                   direction="column"
-                  marginTop="80px"
+                  marginTop="30px"
                   style={{ width: 'unset' }}
                 >
                   <RequestInfoContainer>
@@ -157,9 +159,7 @@ export const RequestInfoContent = ({ data }: any) => {
                     <RequestTitle>คำอธิบาย</RequestTitle>
                     <RequestDetail>{message}</RequestDetail>
                   </RequestInfoContainer>
-                  <PrimaryButton style={{ width: '100%' }}>
-                    สนใจให้ความช่วยเหลือ
-                  </PrimaryButton>
+                  <PrimaryButton>สนใจให้ความช่วยเหลือ</PrimaryButton>
                 </Flex>
               </div>
               <Divider />
@@ -178,12 +178,12 @@ export const RequestInfoContent = ({ data }: any) => {
                   }}
                 >
                   {helper.map(({ id, name, imageUrl }) => (
-                    <HelperListCard id={id} name={name} imageUrl={imageUrl} />
+                    <HelperListCard id={id} name={name} imageUrl={UserAvatar} />
                   ))}
                 </div>
                 <Flex direction="column" itemAlign="flex-end">
-                  <SmallSuggestRequestCard />
-                  <SmallSuggestRequestCard />
+                  <SmallSuggestedRequestCard data={[POPULAR_REQUEST_DATA[0]]} />
+                  <SmallSuggestedRequestCard data={[POPULAR_REQUEST_DATA[1]]} />
                 </Flex>
               </Flex>
             </WrapperContainer>
