@@ -13,6 +13,7 @@ import { ProvideListPage } from './pages/ProvideListpage';
 import { RequestListPage } from './pages/RequestListpage';
 import { EditProfilePage } from './pages/EditProfilePage';
 import { CommunityPage } from './pages/CommunityPage';
+import { CommunitySetting } from 'features/community/CommunitySetting';
 
 function App() {
   return (
@@ -29,7 +30,12 @@ function App() {
           <Route path="/" exact component={HomePage} />
           <Route path="/profile" component={ProfilePage} />
           <Route path="/community/:id" component={CommunityPage} />
-          <Route path="/user/account/profile" component={EditProfilePage} />
+          <Route path="/user/community" component={CommunitySetting} />
+          <Route
+            path="/user/account/profile"
+            exact
+            component={EditProfilePage}
+          />
           <Route path="/request" component={RequestListPage} />
           <Route path="/provide" component={ProvideListPage} />
           <Route path="/:id" exact component={SearchResultPage} />
