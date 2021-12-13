@@ -16,6 +16,7 @@ export const SecondaryButton = styled.a`
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 
   &:hover {
     color: #ee6400;
@@ -38,6 +39,7 @@ export const PrimaryButton = styled.a`
   align-items: center;
   justify-content: center;
   margin-left: 15px;
+  cursor: pointer;
 
   &:hover {
     color: #ffff;
