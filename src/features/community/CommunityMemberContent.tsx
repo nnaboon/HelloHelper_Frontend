@@ -7,6 +7,7 @@ import { useHistory } from 'react-router-dom';
 import { PrimaryButton, SecondaryButton } from 'components/Button/Button';
 import { UserSvg } from 'components/Svg/UserSvg';
 import { MessageSvg } from 'components/Svg/MessageSvg';
+import UserAvatar from 'images/avatar_helper.png';
 
 const CommunityMemberCard = styled.div`
   width: 100%;
@@ -26,11 +27,10 @@ const CommunityAdminBadge = styled.div`
   color: #ee6400;
 `;
 
-const CommunityMemberImage = styled.div`
+const CommunityMemberImage = styled.img`
   border-radius: 50%;
   width: 74px;
   height: 74px;
-  background: #473f3f;
   margin-right: 55px;
 `;
 
@@ -65,7 +65,10 @@ export const CommunityMemberContent = ({ member }: any) => {
               `}
             >
               {' '}
-              <CommunityMemberImage />
+              <CommunityMemberImage
+                src={UserAvatar}
+                alt="community member avatar"
+              />
               <UserName>{name}</UserName>
               <CommunityAdminBadge>ผู้นำชุมชน</CommunityAdminBadge>
             </div>

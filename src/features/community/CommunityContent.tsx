@@ -1,9 +1,5 @@
-/** @jsxRuntime classic */
-/** @jsx jsx */
 import React, { useState, useEffect } from 'react';
-import styled from '@emotion/styled';
-import { css, jsx } from '@emotion/react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { CommunityMenu } from 'components/Menu/const';
 import { CommunityContentInfo } from './CommunityContentInfo';
 import { CommunitySignin } from './CommunitySignin';

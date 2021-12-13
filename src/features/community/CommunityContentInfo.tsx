@@ -18,6 +18,7 @@ import { CommunityProvideContent } from './CommunityProvideContent';
 import { CommunityRequestContent } from './CommunityRequestContent';
 import { CommunityMemberContent } from './CommunityMemberContent';
 import { CATEGORY } from 'data/category';
+import CommunityImage from 'images/community.jpg';
 
 const ProfilePageUserHelperListSection = styled.div`
   width: 100%;
@@ -45,11 +46,10 @@ const UserCard = styled.div`
   margin-right: 150px;
 `;
 
-const HelperImage = styled.div`
-  width: 120px;
-  height: 120px;
+const CommunityImageSection = styled.img`
+  width: 130px;
+  height: 130px;
   border-radius: 50%;
-  background: #0f3276;
   margin-top: 15px;
 `;
 
@@ -121,7 +121,7 @@ export const CommunityContentInfo = ({ data }: any) => {
                   margin-right: 35px;
                 `}
               >
-                <HelperImage />
+                <CommunityImageSection src={CommunityImage} alt="community" />
               </div>
               <div
                 css={css`
@@ -142,7 +142,8 @@ export const CommunityContentInfo = ({ data }: any) => {
                     bottom: '12px',
                     padding: '10px',
                     left: '-6px',
-                    width: '100%'
+                    width: '100%',
+                    cursor: 'pointer'
                   }}
                 >
                   <PrimaryButton>
@@ -158,14 +159,22 @@ export const CommunityContentInfo = ({ data }: any) => {
                     bottom: '12px',
                     padding: '10px',
                     left: '-9px',
-                    width: '100%'
+                    width: '100%',
+                    cursor: 'pointer'
                   }}
                 >
                   <PrimaryButton
                     css={css`
                       width: 100%;
                       background: #487bff;
+                      z-index: 2;
+                      cursor: pointer;
                     `}
+                    onClick={() => {
+                      history.push({
+                        pathname: '/user/community'
+                      });
+                    }}
                   >
                     <SettingSvg style={{ marginRight: '10px' }} />
                     จัดการชุมขน
