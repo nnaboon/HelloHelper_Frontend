@@ -17,6 +17,9 @@ import { ProfileMenuTab } from 'components/Menu/ProfileMenuTab';
 import { MessageSvg } from 'components/Svg/MessageSvg';
 import { FollowingSvg } from 'components/Svg/FollowingSvg';
 import { getStar } from 'components/Star/getStar';
+import { OverallHelpedChart } from 'features/charts/OverallHelpedChart';
+import { TopThreeHelpedChart } from 'features/charts/TopThreeHelpedChart';
+import UserAvatar from 'images/avatar_helper.png';
 
 const ProfilePageContainer = styled.div`
   box-sizing: border-box;
@@ -53,11 +56,10 @@ const UserCard = styled.div`
   position: relative;
 `;
 
-const HelperImage = styled.div`
+const HelperImageSection = styled.img`
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  background: #0f3276;
   margin-top: 15px;
 `;
 
@@ -107,7 +109,7 @@ export const ProfilePage = () => {
     } else {
       setMyAccount(true);
     }
-  }, [history]);
+  }, [pathname, history]);
 
   return (
     <React.Fragment>
@@ -138,7 +140,7 @@ export const ProfilePage = () => {
                     margin-right: 35px;
                   `}
                 >
-                  <HelperImage />
+                  <HelperImageSection src={UserAvatar} alt="user avatar" />
                   {Boolean(recommend) && <SuggestedBadge>แนะนำ</SuggestedBadge>}
                 </div>
                 <div
@@ -260,6 +262,17 @@ export const ProfilePage = () => {
             </ProfilePageUserInfoSection>
           )
         )}
+        <div
+          style={{
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            margin: '40px 0'
+          }}
+        >
+          <OverallHelpedChart />
+          <TopThreeHelpedChart />
+        </div>
         <Divider />
         <ProfileMenuTab menu={menu} setMenu={setMenu} />
         <ProfilePageUserHelperListSection>
