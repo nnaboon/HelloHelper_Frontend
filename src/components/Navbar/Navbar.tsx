@@ -2,7 +2,7 @@
 /** @jsx jsx */
 import { css, jsx, Global } from '@emotion/react';
 import React, { useState } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { Input, Modal } from 'antd';
 import UserPic from '../../images/avatar_user.png';
@@ -10,6 +10,8 @@ import Flex from 'components/Flex/Flex';
 import { RegisterForm } from 'features/login/RegisterForm';
 import { LoginForm } from 'features/login/LoginForm';
 import { LoginStep } from 'features/login/const';
+import { mediaQueryMobile } from 'styles/variables';
+import { useResponsive } from 'styles/variables';
 
 const NavbarSection = styled.div`
   width: 100%;
@@ -20,6 +22,10 @@ const NavbarSection = styled.div`
   flex-direction: column;
   background: #ff8730;
   z-index: 99;
+
+  ${mediaQueryMobile} {
+    height: 65px;
+  }
 `;
 
 const NavbarList = styled.ul`
@@ -34,6 +40,10 @@ const NavbarList = styled.ul`
     margin: 0 20px;
     cursor: pointer;
     color: #ffff;
+  }
+
+  ${mediaQueryMobile} {
+    padding: 15px;
   }
 `;
 
@@ -53,21 +63,17 @@ const SearchBarContainer = styled.div`
 `;
 
 export const Navbar = () => {
-  const [account, setAccount] = useState<Boolean>(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [accountStep, setAccountStep] = useState<LoginStep>(LoginStep.LOGIN);
+  const { isMobile } = useResponsive();
   const history = useHistory();
-  const { search } = useLocation();
   const { Search } = Input;
+
   const onSearch = (value) => {
     history.push({
       pathname: '/search',
       search: `?keyword=${value}`
     });
-  };
-
-  const showModal = () => {
-    setIsModalVisible(true);
   };
 
   const handleOk = () => {
@@ -100,51 +106,57 @@ export const Navbar = () => {
           Home
         </div>
         <NavbarList>
-          <li
-            onClick={() => {
-              history.push({
-                pathname: '/community/zxcvb234'
-              });
-            }}
-          >
-            ชุมชนความช่วยเหลือ
-          </li>
-          <li
-            onClick={() => {
-              history.push({
-                pathname: '/provide'
-              });
-            }}
-          >
-            รายการให้ความช่วยเหลือของฉัน
-          </li>
-          <li
-            onClick={() => {
-              history.push({
-                pathname: '/request'
-              });
-            }}
-          >
-            รายการขอความช่วยเหลือของฉัน
-          </li>
-          <li
-            onClick={() => {
-              history.push({
-                pathname: '/user/account/profile'
-              });
-            }}
-          >
-            กล่องข้อความ
-          </li>
-          <li
-            onClick={() => {
-              history.push({
-                pathname: '/profile'
-              });
-            }}
-          >
-            โปรไฟล์
-          </li>
+          {!isMobile && (
+            <React.Fragment>
+              {' '}
+              <li
+                onClick={() => {
+                  history.push({
+                    pathname: '/community/zxcvb234'
+                  });
+                }}
+              >
+                ชุมชนความช่วยเหลือ
+              </li>
+              <li
+                onClick={() => {
+                  history.push({
+                    pathname: '/provide'
+                  });
+                }}
+              >
+                รายการให้ความช่วยเหลือของฉัน
+              </li>
+              <li
+                onClick={() => {
+                  history.push({
+                    pathname: '/request'
+                  });
+                }}
+              >
+                รายการขอความช่วยเหลือของฉัน
+              </li>
+              <li
+                onClick={() => {
+                  history.push({
+                    pathname: '/user/account/profile'
+                  });
+                }}
+              >
+                กล่องข้อความ
+              </li>
+              <li
+                onClick={() => {
+                  history.push({
+                    pathname: '/profile'
+                  });
+                }}
+              >
+                โปรไฟล์
+              </li>
+            </React.Fragment>
+          )}
+
           <MyAccount
             src={UserPic}
             alt="my account"
@@ -162,7 +174,7 @@ export const Navbar = () => {
           placeholder="ข้าวผัดป้าเขียว, ก๋วยจั๊บนายวาย, แกงกะหรี่ป้าอร โชคชัย4"
           onSearch={onSearch}
           size="large"
-          style={{ width: '700px', height: '40px' }}
+          style={{ width: isMobile ? '350px' : '700px', height: '40px' }}
         />
       </SearchBarContainer>
       <Modal

@@ -17,12 +17,38 @@ import { CATEGORY } from 'data/category';
 import { SUGGESTED_REQUEST_DATA } from '../data/request';
 import { POPULAR_REQUEST_DATA } from '../data/helper';
 import { SearchSvg } from 'components/Svg/SearchSvg';
+import { mediaQueryMobile } from 'styles/variables';
+
+const HomePageCategorySection = styled.div`
+  display: flex;
+  width: 100%;
+  overflow-x: scroll;
+  ${mediaQueryMobile} {
+    display: grid;
+    grid-template-rows: repeat(2, auto);
+    grid-gap: 20px;
+  }
+`;
 
 const HomePageContainer = styled.div`
   box-sizing: border-box;
   position: relative;
   top: 165px;
   padding: 40px 100px;
+
+  ${mediaQueryMobile} {
+    padding: 30px;
+  }
+`;
+
+const HomePagePictureSection = styled.div`
+  width: 100%;
+  height: 227px;
+  background: #c4c4c4;
+  margin-bottom: 30px;
+  ${mediaQueryMobile} {
+    height: 180px;
+  }
 `;
 
 const TopTenSearchContainer = styled.div`
@@ -47,17 +73,8 @@ export const HomePage = () => {
   return (
     <React.Fragment>
       <HomePageContainer>
-        <div
-          css={css`
-            width: 100%;
-            height: 427px;
-            background: #c4c4c4;
-            margin-bottom: 30px;
-          `}
-        >
-          Picture
-        </div>
-        <div style={{ display: 'flex', overflowX: 'scroll', width: '100%' }}>
+        <HomePagePictureSection>Picture</HomePagePictureSection>
+        <HomePageCategorySection>
           {CATEGORY.map(({ id, name }) => (
             <SecondaryButton
               key={id}
@@ -77,7 +94,7 @@ export const HomePage = () => {
               ความช่วยเหลือ{name}
             </SecondaryButton>
           ))}
-        </div>
+        </HomePageCategorySection>
         <div
           css={css`
             justify-content: space-between;
@@ -93,11 +110,27 @@ export const HomePage = () => {
           />
           <PostRequestButton buttonText="ขอ/ให้ความช่วยเหลือ" />
         </div>
-        <Text fontSize="36px" fontWeight={500}>
+        <Text
+          fontSize="36px"
+          fontWeight={500}
+          css={css`
+            ${mediaQueryMobile} {
+              font-size: 24px;
+            }
+          `}
+        >
           ความช่วยเหลือยอดนิยม
         </Text>
         <PopularRequestSection data={POPULAR_REQUEST_DATA} />
-        <Text fontSize="36px" fontWeight={500}>
+        <Text
+          fontSize="36px"
+          fontWeight={500}
+          css={css`
+            ${mediaQueryMobile} {
+              font-size: 24px;
+            }
+          `}
+        >
           Top 10 การค้นหาติดอันดับ
         </Text>
         <TopTenSearchContainer>
@@ -116,7 +149,15 @@ export const HomePage = () => {
             </TopSearchButton>
           ))}
         </TopTenSearchContainer>
-        <Text fontSize="36px" fontWeight={500}>
+        <Text
+          fontSize="36px"
+          fontWeight={500}
+          css={css`
+            ${mediaQueryMobile} {
+              font-size: 24px;
+            }
+          `}
+        >
           Top 10 ความช่วยเหลือประจำสัปดาห์
         </Text>
         <TopTenRequestSection data={POPULAR_REQUEST_DATA} />
