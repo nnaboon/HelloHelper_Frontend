@@ -10,3 +10,22 @@ export type RequestFormBody = {
   hashtag: string[];
   image: string;
 };
+
+export type OrderFormBody = {
+  title: string;
+  location: string;
+  amount: number;
+  message: string;
+  maxServiceCharge: string;
+  maxPrice: string;
+  payment: string;
+  helper: {
+    name: string;
+    phoneNumber: string;
+  };
+  requester: {
+    name: string;
+    address: string;
+    phoneNumber: string;
+  };
+};

@@ -1,3 +1,5 @@
+import RequestImage from 'images/request.jpeg';
+
 export type helperType = {
   id: string;
   name: string;
@@ -15,7 +17,7 @@ export type RequestType = {
   };
   location: string;
   message: string;
-  imageUrl: string;
+  imageUrl: any;
   amount: number;
   maxPrice: string;
   maxServiceCharge: string;
@@ -42,7 +44,7 @@ export const SUGGESTED_REQUEST_DATA = [
   {
     id: '12345qw',
     name: 'นก หัวขวาน',
-    imageUrl: '',
+    imageUrl: RequestImage,
     title: 'ขนมปังสังขยา ร้านนายเฮ็ง โชคชัย4',
     location: 'หมู่บ้าน vive',
     amount: '2',
@@ -69,7 +71,7 @@ export const SUGGESTED_REQUEST_DATA = [
   {
     id: '12345ww',
     name: 'กระทิง สีทอง',
-    imageUrl: '',
+    imageUrl: RequestImage,
     title: 'ขนมปังสังขยา ร้านนายเฮ็ง โชคชัย4',
     location: 'หมู่บ้าน vive',
     amount: '2',
@@ -96,7 +98,7 @@ export const SUGGESTED_REQUEST_DATA = [
   {
     id: '12345aa',
     name: 'นก หัวขวาน',
-    imageUrl: '',
+    imageUrl: RequestImage,
     title: 'ขนมปังสังขยา ร้านนายเฮ็ง โชคชัย4',
     location: 'หมู่บ้าน vive',
     amount: '2',
@@ -123,7 +125,7 @@ export const SUGGESTED_REQUEST_DATA = [
   {
     id: '12345pf',
     name: 'นก หัวขวาน',
-    imageUrl: '',
+    imageUrl: RequestImage,
     title: 'ขนมปังสังขยา ร้านนายเฮ็ง โชคชัย4',
     location: 'หมู่บ้าน vive',
     amount: '2',
@@ -150,7 +152,7 @@ export const SUGGESTED_REQUEST_DATA = [
   {
     id: 'abceo3',
     name: 'นก หัวขวาน',
-    imageUrl: '',
+    imageUrl: RequestImage,
     title: 'ขนมปังสังขยา ร้านนายเฮ็ง โชคชัย4',
     location: 'หมู่บ้าน vive',
     amount: '2',
@@ -177,7 +179,7 @@ export const SUGGESTED_REQUEST_DATA = [
   {
     id: '12345er',
     name: 'นก หัวขวาน',
-    imageUrl: '',
+    imageUrl: RequestImage,
     title: 'ขนมปังสังขยา ร้านนายเฮ็ง โชคชัย4',
     location: 'หมู่บ้าน vive',
     amount: '2',
@@ -204,7 +206,7 @@ export const SUGGESTED_REQUEST_DATA = [
   {
     id: '12345mj',
     name: 'นก หัวขวาน',
-    imageUrl: '',
+    imageUrl: RequestImage,
     title: 'ขนมปังสังขยา ร้านนายเฮ็ง โชคชัย4',
     location: 'หมู่บ้าน vive',
     amount: '2',
@@ -231,7 +233,7 @@ export const SUGGESTED_REQUEST_DATA = [
   {
     id: '12345na',
     name: 'นก หัวขวาน',
-    imageUrl: '',
+    imageUrl: RequestImage,
     title: 'ขนมปังสังขยา ร้านนายเฮ็ง โชคชัย4',
     location: 'หมู่บ้าน vive',
     amount: '2',
@@ -258,7 +260,7 @@ export const SUGGESTED_REQUEST_DATA = [
   {
     id: '12345qn',
     name: 'นก หัวขวาน',
-    imageUrl: '',
+    imageUrl: RequestImage,
     title: 'ขนมปังสังขยา ร้านนายเฮ็ง โชคชัย4',
     location: 'หมู่บ้าน vive',
     amount: '2',
@@ -285,7 +287,7 @@ export const SUGGESTED_REQUEST_DATA = [
   {
     id: '12345ab',
     name: 'นก หัวขวาน',
-    imageUrl: '',
+    imageUrl: RequestImage,
     title: 'ขนมปังสังขยา ร้านนายเฮ็ง โชคชัย4',
     location: 'หมู่บ้าน vive',
     amount: '2',
