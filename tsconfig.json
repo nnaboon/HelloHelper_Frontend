@@ -1,44 +1,30 @@
 {
-    "compilerOptions": {
-        "target": "es5",
-        "downlevelIteration": true,
-        "lib": [
-            "dom",
-            "dom.iterable",
-            "esnext"
-        ],
-        "experimentalDecorators": true,
-        "jsx": "react-jsx",
-        "allowJs": true,
-        "skipLibCheck": true,
-        "esModuleInterop": true,
-        "allowSyntheticDefaultImports": true,
-        "strict": true,
-        "forceConsistentCasingInFileNames": true,
-        "module": "esnext",
-        "moduleResolution": "node",
-        "resolveJsonModule": true,
-        "strictNullChecks": false,
-        "isolatedModules": true,
-        "importHelpers": true,
-        "noEmit": true,
-        "noImplicitAny": false,
-        "baseUrl": "src",
-        "noFallthroughCasesInSwitch": false,
-        "allowUnusedLabels": true,
-        "typeRoots": [
-            "./src/@types",
-            "./src/thirdparty"
-        ]
-    },
-    "exclude": [
-        "node_modules",
-        "**/thirdparty/*"
-    ],
-    "include": [
-        "src"
-    ],
-    "types": [
-        "@emotion/react/types/css-prop"
-    ]
+  "compilerOptions": {
+    "target": "es6",
+    "downlevelIteration": true,
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "experimentalDecorators": true,
+    "jsx": "react-jsx",
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "strictNullChecks": false,
+    "isolatedModules": true,
+    "importHelpers": true,
+    "noEmit": true,
+    "noImplicitAny": false,
+    "baseUrl": "src",
+    "noFallthroughCasesInSwitch": false,
+    "allowUnusedLabels": true,
+    "typeRoots": ["./src/@types", "./src/thirdparty"]
+  },
+  "exclude": ["node_modules", "**/thirdparty/*"],
+  "include": ["src"],
+  "types": ["@emotion/react/types/css-prop"]
 }
