@@ -8,6 +8,8 @@ import { RANK_BADGE } from 'components/Badge/const';
 import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
 import RequestImage from 'images/request.jpeg';
+import { mediaQueryMobile, MOBILE_WIDTH } from 'styles/variables';
+import { useMedia } from '../../styles/variables';
 
 const RequestHelperCardContainer = styled.div`
   display: flex;
@@ -15,6 +17,12 @@ const RequestHelperCardContainer = styled.div`
   margin-bottom: 40px;
   margin-top: 30px;
   position: relative;
+
+  ${mediaQueryMobile} {
+    overflow-x: visible;
+    margin-bottom: 10px;
+    margin-top: 10px;
+  }
 `;
 
 const CardContainer = styled.div`
@@ -32,6 +40,13 @@ const CardContainer = styled.div`
   top: -20px;
   margin-top: 40px;
   cursor: pointer;
+
+  ${mediaQueryMobile} {
+    width: 100%;
+    height: 270px;
+    min-width: 100%;
+    padding: 20px;
+  }
 `;
 
 const RequestTitle = styled.div`
@@ -39,6 +54,12 @@ const RequestTitle = styled.div`
   font-size: 24px;
   line-height: 28px;
   margin-bottom: 20px;
+
+  ${mediaQueryMobile} {
+    font-size: 18px;
+    line-height: 17px;
+    margin-bottom: 10px;
+  }
 `;
 
 const RequestImageSection = styled.img`
@@ -50,6 +71,16 @@ const RequestImageSection = styled.img`
   height: 100%;
   border-top-left-radius: 12px;
   border-bottom-left-radius: 12px;
+
+  ${mediaQueryMobile} {
+    position: absolute;
+    top: -20px;
+    min-width: 100%;
+    width: 100%;
+    height: 140px;
+    border-bottom-left-radius: 0px;
+    border-top-right-radius: 12px;
+  }
 `;
 
 const RequestDataTitle = styled.div`
@@ -60,12 +91,22 @@ const RequestDataTitle = styled.div`
   margin-right: 8px;
   width: 80px;
   text-align: end;
+
+  ${mediaQueryMobile} {
+    max-width: unset;
+    width: unset;
+    text-align: start;
+  }
 `;
 
 const RequestDataInfo = styled.div`
   font-size: 18px;
   line-height: 26px;
   color: #000000;
+
+  ${mediaQueryMobile} {
+    font-size: 16px;
+  }
 `;
 
 const RequestDataContent = styled.div`
@@ -76,6 +117,7 @@ const RequestDataContent = styled.div`
 
 export const SuggestedRequestSection = ({ data }: any) => {
   const history = useHistory();
+  const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
 
   return (
     <RequestHelperCardContainer>
@@ -103,13 +145,18 @@ export const SuggestedRequestSection = ({ data }: any) => {
             <div
               css={css`
                 display: flex;
+                flex-direction: row;
+
+                ${mediaQueryMobile} {
+                  flex-direction: column;
+                }
               `}
             >
               <div
-                css={css`
-                  display: flex;
-                  width: 90%;
-                `}
+              // css={css`
+              //   display: flex;
+              //   width: 90%;
+              // `}
               >
                 <RequestImageSection src={RequestImage} alt="request" />
               </div>
@@ -117,6 +164,8 @@ export const SuggestedRequestSection = ({ data }: any) => {
                 css={css`
                   display: flex;
                   flex-direction: column;
+                  position: absolute;
+                  top: 50%;
                 `}
               >
                 <RequestTitle>{title}</RequestTitle>
@@ -126,25 +175,29 @@ export const SuggestedRequestSection = ({ data }: any) => {
                 </RequestDataContent>
                 <RequestDataContent>
                   <RequestDataTitle>ระดับ</RequestDataTitle>
-                  <RankingBadge
-                    rankColor={RANK_BADGE[rank].color}
-                    style={{ fontSize: '18px', fontWeight: 500 }}
-                  >
+                  <RankingBadge rankColor={RANK_BADGE[rank].color}>
                     {rank.toUpperCase()}
                   </RankingBadge>
                 </RequestDataContent>
                 <RequestDataContent>
-                  <RequestDataTitle>สถานที่ให้ความช่วยเหลือ</RequestDataTitle>
+                  <RequestDataTitle>
+                    {isMobile ? 'สถานที่' : `สถานที่ให้\nความช่วยเหลือ`}
+                  </RequestDataTitle>
                   <RequestDataInfo>{location}</RequestDataInfo>
                 </RequestDataContent>
-                <RequestDataContent>
-                  <RequestDataTitle>ค่าบริการ</RequestDataTitle>
-                  <RequestDataInfo>{maxServiceCharge}</RequestDataInfo>
-                </RequestDataContent>
-                <RequestDataContent>
-                  <RequestDataTitle>วิธีการชำระเงิน</RequestDataTitle>
-                  <RequestDataInfo>{payment}</RequestDataInfo>
-                </RequestDataContent>
+                {!isMobile && (
+                  <React.Fragment>
+                    {' '}
+                    <RequestDataContent>
+                      <RequestDataTitle>ค่าบริการ</RequestDataTitle>
+                      <RequestDataInfo>{maxServiceCharge}</RequestDataInfo>
+                    </RequestDataContent>
+                    <RequestDataContent>
+                      <RequestDataTitle>วิธีการชำระเงิน</RequestDataTitle>
+                      <RequestDataInfo>{payment}</RequestDataInfo>
+                    </RequestDataContent>
+                  </React.Fragment>
+                )}
               </div>
             </div>
           </CardContainer>

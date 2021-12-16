@@ -8,6 +8,7 @@ import { Checkbox, Button, Form, message } from 'antd';
 import { UserCreateBody } from './const';
 import { useHistory } from 'react-router-dom';
 import { ABILITY } from '../../data/ability';
+import { mediaQueryMobile } from 'styles/variables';
 
 type RegisterAbilityFormProps = {
   userAccountData: UserCreateBody;
@@ -21,6 +22,10 @@ const RegisterAbilityFormSection = styled.div`
   padding: 2.55rem 2.75rem 1.5rem 2.75rem;
   position: relative;
   height: 620px;
+
+  ${mediaQueryMobile} {
+    padding: 0;
+  }
 `;
 
 export const RegisterAbilityForm = (props: RegisterAbilityFormProps) => {
@@ -79,6 +84,10 @@ export const RegisterAbilityForm = (props: RegisterAbilityFormProps) => {
         css={css`
           .ant-form-item {
             width: 475px;
+
+            ${mediaQueryMobile} {
+              width: 100%;
+            }
           }
         `}
       >

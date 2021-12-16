@@ -5,21 +5,15 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { MenuButton } from './MenuButton';
 import { useMedia, MOBILE_WIDTH } from 'styles/variables';
 
-import {
-  HelpMenu,
-  ProfileMenu,
-  PROFILE_MENU_MAPPER,
-  PROFILE_MOBILE_MENU_MAPPER
-} from './const';
+import { InfoMenu, INFO_MENU_MAPPER } from './const';
 
 interface MenuTabProps {
-  menu: HelpMenu | ProfileMenu;
-  setMenu: (helpMenu: HelpMenu | ProfileMenu) => void;
+  menu: InfoMenu;
+  setMenu: (helpMenu: InfoMenu) => void;
 }
 
-export const ProfileMenuTab = ({ menu, setMenu }: MenuTabProps) => {
+export const InfoMenuTab = ({ menu, setMenu }: MenuTabProps) => {
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
-
   const history = useHistory();
 
   return (
@@ -29,7 +23,7 @@ export const ProfileMenuTab = ({ menu, setMenu }: MenuTabProps) => {
       marginBottom="18px"
       style={{ width: isMobile ? '100%' : '50%', margin: '50px 0' }}
     >
-      {Object.values(isMobile ? ProfileMenu : HelpMenu).map((key) => (
+      {Object.values(InfoMenu).map((key) => (
         <MenuButton
           key={key}
           isActive={menu === key}
@@ -37,14 +31,12 @@ export const ProfileMenuTab = ({ menu, setMenu }: MenuTabProps) => {
             setMenu(key);
             history.push({
               state: {
-                profile_menu: key
+                infoMenu: key
               }
             });
           }}
         >
-          {isMobile
-            ? PROFILE_MOBILE_MENU_MAPPER[key]
-            : PROFILE_MENU_MAPPER[key]}
+          {INFO_MENU_MAPPER[key]}
         </MenuButton>
       ))}
     </Flex>

@@ -16,6 +16,7 @@ import { POPULAR_REQUEST_DATA } from 'data/helper';
 import { SUGGESTED_REQUEST_DATA } from 'data/request';
 import { SuggestedRequestSection } from 'components/Card/SuggestedRequestCard';
 import { PopularRequestSection } from 'components/Card/PopularRequestCard';
+import { useMedia, MOBILE_WIDTH, mediaQueryMobile } from 'styles/variables';
 
 const SearchResultContent = styled.div`
   display: grid;
@@ -23,12 +24,18 @@ const SearchResultContent = styled.div`
   grid-gap: 10px;
   overflow: scroll;
   position: relative;
+
+  ${mediaQueryMobile} {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 export const SearchResultPage = () => {
   const [menu, setMenu] = useState<HelpMenu>(HelpMenu.PROVIDE);
   const { state } = useLocation();
   const currentMenu = ((state as any)?.menu || HelpMenu.PROVIDE) as HelpMenu;
+  const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
 
   useEffect(() => {
     setMenu(currentMenu);
@@ -37,7 +44,7 @@ export const SearchResultPage = () => {
   return (
     <WrapperContainer>
       <div style={{ display: 'flex' }}>
-        <Sidebar />
+        {!isMobile && <Sidebar />}
         <div
           css={css`
             position: relative;
@@ -45,20 +52,44 @@ export const SearchResultPage = () => {
             flex-direction: column;
             left: 25%;
             width: 75%;
+
+            ${mediaQueryMobile} {
+              left: 0;
+              width: 100%;
+            }
           `}
         >
           <div style={{ top: '125px' }}>
             <MenuTab menu={menu} setMenu={setMenu} />
-            <Divider />
-            <Flex justify="space-between" marginY="20px">
-              <Text fontSize="24px" fontWeight={500}>
+            <Divider
+              css={css`
+                ${mediaQueryMobile} {
+                  margin: 30px 0;
+                }
+              `}
+            />
+            <Flex
+              justify={isMobile ? 'flex-start' : 'space-between'}
+              marginY="20px"
+              itemAlign={isMobile ? 'flex-start' : 'center'}
+              direction={isMobile ? 'column' : 'row'}
+            >
+              <Text fontSize="24px" fontWeight={500} marginBottom="20px">
                 ผลการค้นหา ทั้งหมด {POPULAR_REQUEST_DATA.length} รายการ
               </Text>
               <PostRequestButton
                 css={css`
                   margin-right: 20px;
+
+                  > div {
+                    align-self: end !important;
+                  }
                 `}
-                buttonText="ขอ/ให้ความช่วยเหลือ"
+                buttonText={
+                  menu === HelpMenu.PROVIDE
+                    ? 'ขอความช่วยเหลือ'
+                    : 'ให้ความช่วยเหลือ'
+                }
               />
             </Flex>
           </div>

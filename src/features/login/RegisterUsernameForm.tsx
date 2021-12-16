@@ -6,6 +6,7 @@ import styled from '@emotion/styled';
 import { Button, Form, Input, message } from 'antd';
 import { Text } from 'components/Text';
 import { UserCreateBody } from './const';
+import { mediaQueryMobile } from 'styles/variables';
 
 type RegisterUsernameFormProps = {
   userAccountData: UserCreateBody;
@@ -18,6 +19,11 @@ const RegisterUsernameFormSection = styled.div`
   padding: 2.55rem 2.75rem 1.5rem 2.75rem;
   position: relative;
   height: 620px;
+
+  ${mediaQueryMobile} {
+    padding: 0;
+    height: 360px;
+  }
 `;
 
 export const RegisterUsernameForm = (props: RegisterUsernameFormProps) => {
@@ -68,6 +74,13 @@ export const RegisterUsernameForm = (props: RegisterUsernameFormProps) => {
         initialValues={{ remember: true }}
         onFinish={onFinish}
         autoComplete="off"
+        css={css`
+          .ant-form-item-control-input {
+            ${mediaQueryMobile} {
+              width: 100%;
+            }
+          }
+        `}
       >
         <Form.Item
           name="username"
@@ -96,6 +109,10 @@ export const RegisterUsernameForm = (props: RegisterUsernameFormProps) => {
 
             &:hover {
               background: #ee6400;
+            }
+
+            ${mediaQueryMobile} {
+              right: -5px;
             }
           `}
         >

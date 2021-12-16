@@ -6,6 +6,7 @@ import styled from '@emotion/styled';
 import { Text } from 'components/Text';
 import { Button, Divider, Form, Input, message, Checkbox } from 'antd';
 import { UserCreateBody } from './const';
+import { mediaQueryMobile } from 'styles/variables';
 import { GoogleMapContent } from 'components/GoogleMap/GoogleMap';
 
 type RegisterLocationFormProps = {
@@ -20,6 +21,10 @@ const RegisterLocationFormSection = styled.div`
   padding: 2.55rem 2.75rem 1.5rem 2.75rem;
   position: relative;
   height: 620px;
+
+  ${mediaQueryMobile} {
+    padding: 0;
+  }
 `;
 
 export const RegisterLocationForm = (props: RegisterLocationFormProps) => {
@@ -70,17 +75,30 @@ export const RegisterLocationForm = (props: RegisterLocationFormProps) => {
         initialValues={{ remember: true }}
         onFinish={onFinish}
         autoComplete="off"
+        css={css`
+          .ant-form-item-control-input {
+            ${mediaQueryMobile} {
+              width: 100%;
+            }
+          }
+        `}
       >
         <Form.Item
           name="location"
-          rules={[
-            {
-              required: true,
-              message: 'กรุณากรอกสถานที่ที่คุณสามารถให้ความช่วยเหลือได้'
-            }
-          ]}
+          // rules={[
+          //   {
+          //     required: true,
+          //     message: 'กรุณากรอกสถานที่ที่คุณสามารถให้ความช่วยเหลือได้'
+          //   }
+          // ]}
         >
-          <GoogleMapContent width="380px" />
+          <GoogleMapContent
+            width="100%"
+            css={css`
+              width: 100%;
+              min-width: 100%;
+            `}
+          />
         </Form.Item>
         <Button
           type="primary"

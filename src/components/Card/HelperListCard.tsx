@@ -6,8 +6,7 @@ import { css, jsx } from '@emotion/react';
 import { PrimaryButton, SecondaryButton } from '../Button/Button';
 import { MessageSvg } from 'components/Svg/MessageSvg';
 import { UserSvg } from 'components/Svg/UserSvg';
-
-import Flex from '../Flex/Flex';
+import { useMedia, mediaQueryMobile } from 'styles/variables';
 
 interface HelperListCardProps {
   id: string;
@@ -32,18 +31,34 @@ const HelperListCardContainer = styled.div`
   &:hover {
     box-shadow: 0px 9px 16px rgba(255, 135, 48, 0.2);
   }
+
+  ${mediaQueryMobile} {
+    width: 100%;
+    height: 90px;
+    min-width: 100%;
+  }
 `;
 
 const HelperImage = styled.img`
   width: 60px;
   height: 60px;
   border-radius: 50%;
+
+  ${mediaQueryMobile} {
+    width: 55px;
+    height: 55px;
+  }
 `;
 
 const HelperName = styled.div`
   font-size: 22px;
   color: #000000;
   margin-left: 50px;
+
+  ${mediaQueryMobile} {
+    font-size: 16px;
+    margin-left: 20px;
+  }
 `;
 
 export const HelperListCard = ({ id, name, imageUrl }: HelperListCardProps) => {

@@ -6,6 +6,7 @@ import styled from '@emotion/styled';
 import { Text } from 'components/Text';
 import { Button, Form, Input, message, Divider } from 'antd';
 import { OrderFormBody } from './const';
+import { mediaQueryMobile } from 'styles/variables';
 
 interface OrderFormProps {
   setIsModalVisible: (isModalVisible: boolean) => void;
@@ -18,6 +19,10 @@ const RegisterLocationFormSection = styled.div`
   position: relative;
   height: 100%;
   overflow: scroll;
+
+  ${mediaQueryMobile} {
+    height: 400px;
+  }
 `;
 
 export const OrderForm = ({ setIsModalVisible }: OrderFormProps) => {
@@ -95,6 +100,9 @@ export const OrderForm = ({ setIsModalVisible }: OrderFormProps) => {
         css={css`
           .ant-form-item-control-input {
             width: 460px;
+            ${mediaQueryMobile} {
+              width: 100%;
+            }
           }
         `}
       >
@@ -246,6 +254,10 @@ export const OrderForm = ({ setIsModalVisible }: OrderFormProps) => {
 
               &:hover {
                 background: #ee6400;
+              }
+
+              ${mediaQueryMobile} {
+                right: 0px;
               }
             `}
           >

@@ -3,6 +3,8 @@ import styled from '@emotion/styled';
 import Flex from 'components/Flex/Flex';
 import { useHistory, useLocation } from 'react-router-dom';
 import { MenuButton } from './MenuButton';
+import { useMedia, MOBILE_WIDTH } from 'styles/variables';
+
 import { CommunityMenu, COMMUNITY_MENU_MAPPER } from './const';
 
 interface MenuTabProps {
@@ -11,15 +13,15 @@ interface MenuTabProps {
 }
 
 export const CommunityMenuTab = ({ menu, setMenu }: MenuTabProps) => {
+  const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const history = useHistory();
-  const { pathname } = useLocation();
 
   return (
     <Flex
       itemAlign="center"
       justify="space-around"
       marginBottom="18px"
-      style={{ width: '50%', margin: '50px 0' }}
+      style={{ width: isMobile ? '100%' : '50%', margin: '50px 0' }}
     >
       {Object.values(CommunityMenu).map((key) => (
         <MenuButton

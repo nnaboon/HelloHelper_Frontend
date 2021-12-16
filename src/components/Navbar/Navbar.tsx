@@ -11,7 +11,8 @@ import { RegisterForm } from 'features/login/RegisterForm';
 import { LoginForm } from 'features/login/LoginForm';
 import { LoginStep } from 'features/login/const';
 import { mediaQueryMobile } from 'styles/variables';
-import { useResponsive } from 'styles/variables';
+import { useMedia, MOBILE_WIDTH } from 'styles/variables';
+import { SideMenu } from 'components/Menu/SideMenu';
 
 const NavbarSection = styled.div`
   width: 100%;
@@ -53,6 +54,13 @@ const MyAccount = styled.img`
   height: 40px;
   border-radius: 50%;
   margin-left: 25px;
+
+  ${mediaQueryMobile} {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    z-index: 10;
+  }
 `;
 
 const SearchBarContainer = styled.div`
@@ -60,12 +68,18 @@ const SearchBarContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
+
+  ${mediaQueryMobile} {
+    top: 40px;
+  }
 `;
 
 export const Navbar = () => {
+  // Change to check from key in local storage.
+  const [account, setAccount] = useState<boolean>(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [accountStep, setAccountStep] = useState<LoginStep>(LoginStep.LOGIN);
-  const { isMobile } = useResponsive();
+  const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const history = useHistory();
   const { Search } = Input;
 
@@ -95,16 +109,20 @@ export const Navbar = () => {
         `}
       />
       <Flex justify="space-between">
-        <div
-          style={{ width: '100px', height: '40px', background: 'blue' }}
-          onClick={() => {
-            history.push({
-              pathname: '/'
-            });
-          }}
-        >
-          Home
-        </div>
+        {isMobile ? (
+          <SideMenu />
+        ) : (
+          <div
+            style={{ width: '100px', height: '40px', background: 'blue' }}
+            onClick={() => {
+              history.push({
+                pathname: '/'
+              });
+            }}
+          >
+            Home
+          </div>
+        )}
         <NavbarList>
           {!isMobile && (
             <React.Fragment>
@@ -161,10 +179,13 @@ export const Navbar = () => {
             src={UserPic}
             alt="my account"
             onClick={() => {
-              // history.push({
-              //     pathname: '/login'
-              // })
-              setIsModalVisible(true);
+              if (account) {
+                history.push({
+                  pathname: '/profile'
+                });
+              } else {
+                setIsModalVisible(true);
+              }
             }}
           />
         </NavbarList>
@@ -174,7 +195,10 @@ export const Navbar = () => {
           placeholder="ข้าวผัดป้าเขียว, ก๋วยจั๊บนายวาย, แกงกะหรี่ป้าอร โชคชัย4"
           onSearch={onSearch}
           size="large"
-          style={{ width: isMobile ? '350px' : '700px', height: '40px' }}
+          style={{
+            width: isMobile ? '350px' : '700px',
+            height: '40px'
+          }}
         />
       </SearchBarContainer>
       <Modal
@@ -182,13 +206,19 @@ export const Navbar = () => {
         onOk={handleOk}
         onCancel={handleCancel}
         footer={null}
-        width={500}
+        width={isMobile ? '85%' : 500}
         maskClosable={false}
         centered
         css={css`
           .ant-modal-content {
             min-height: 664px;
             height: max-content;
+
+            ${mediaQueryMobile} {
+              min-height: 400px;
+              height: 400px;
+              overflow-y: scroll;
+            }
           }
         `}
       >

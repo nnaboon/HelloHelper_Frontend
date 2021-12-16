@@ -17,7 +17,7 @@ import { CATEGORY } from 'data/category';
 import { SUGGESTED_REQUEST_DATA } from '../data/request';
 import { POPULAR_REQUEST_DATA } from '../data/helper';
 import { SearchSvg } from 'components/Svg/SearchSvg';
-import { mediaQueryMobile } from 'styles/variables';
+import { mediaQueryMobile, MOBILE_WIDTH, useMedia } from 'styles/variables';
 
 const HomePageCategorySection = styled.div`
   display: flex;
@@ -38,6 +38,7 @@ const HomePageContainer = styled.div`
 
   ${mediaQueryMobile} {
     padding: 30px;
+    top: 140px;
   }
 `;
 
@@ -62,6 +63,7 @@ const TopTenSearchContainer = styled.div`
 
 export const HomePage = () => {
   const history = useHistory();
+  const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const { Search } = Input;
   const onSearch = (value) => {
     history.push({
@@ -106,13 +108,14 @@ export const HomePage = () => {
             placeholder="ค้นหาสถานที่"
             onSearch={onSearch}
             size="large"
-            style={{ width: '462px', height: '60px' }}
+            style={{ width: isMobile ? '200px' : '462px', height: '60px' }}
           />
           <PostRequestButton buttonText="ขอ/ให้ความช่วยเหลือ" />
         </div>
         <Text
           fontSize="36px"
           fontWeight={500}
+          marginY="10px"
           css={css`
             ${mediaQueryMobile} {
               font-size: 24px;
@@ -125,9 +128,10 @@ export const HomePage = () => {
         <Text
           fontSize="36px"
           fontWeight={500}
+          marginY="10px"
           css={css`
             ${mediaQueryMobile} {
-              font-size: 24px;
+              font-size: 26px;
             }
           `}
         >
@@ -152,20 +156,39 @@ export const HomePage = () => {
         <Text
           fontSize="36px"
           fontWeight={500}
+          marginY="10px"
           css={css`
             ${mediaQueryMobile} {
-              font-size: 24px;
+              font-size: 26px;
             }
           `}
         >
           Top 10 ความช่วยเหลือประจำสัปดาห์
         </Text>
-        <TopTenRequestSection data={POPULAR_REQUEST_DATA} />
-        <Text fontSize="36px" fontWeight={500}>
+        <PopularRequestSection data={POPULAR_REQUEST_DATA} />
+        <Text
+          fontSize="36px"
+          fontWeight={500}
+          marginY="10px"
+          css={css`
+            ${mediaQueryMobile} {
+              font-size: 26px;
+            }
+          `}
+        >
           ความช่วยเหลือแนะนำ
         </Text>
         <SuggestedRequestSection data={SUGGESTED_REQUEST_DATA} />
-        <Text fontSize="36px" fontWeight={500}>
+        <Text
+          fontSize="36px"
+          fontWeight={500}
+          marginY="10px"
+          css={css`
+            ${mediaQueryMobile} {
+              font-size: 26px;
+            }
+          `}
+        >
           ข่าวน่าสนใจ
         </Text>
         <News />

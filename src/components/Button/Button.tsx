@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { Button } from 'antd';
+import { mediaQueryMobile } from 'styles/variables';
 
 export const SecondaryButton = styled.a`
   min-width: 106px;
@@ -17,9 +18,18 @@ export const SecondaryButton = styled.a`
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  margin-bottom: 20px;
+  margin-right: 10px;
 
   &:hover {
     color: #ee6400;
+  }
+
+  ${mediaQueryMobile} {
+    min-width: 80px;
+    height: 30px;
+    border-radius: 5px;
+    font-size: 16px;
   }
 `;
 
@@ -43,6 +53,14 @@ export const PrimaryButton = styled.a`
 
   &:hover {
     color: #ffff;
+  }
+
+  ${mediaQueryMobile} {
+    min-width: 80px;
+    height: 30px;
+    border-radius: 5px;
+    font-size: 16px;
+    margin: 0;
   }
 `;
 

@@ -20,18 +20,30 @@ import { getStar } from 'components/Star/getStar';
 import { OverallHelpedChart } from 'features/charts/OverallHelpedChart';
 import { TopThreeHelpedChart } from 'features/charts/TopThreeHelpedChart';
 import UserAvatar from 'images/avatar_helper.png';
+import { mediaQueryMobile, MOBILE_WIDTH, useMedia } from 'styles/variables';
+import { ProfileMenu } from '../components/Menu/const';
 
 const ProfilePageContainer = styled.div`
   box-sizing: border-box;
   position: relative;
   top: 165px;
   padding: 40px 100px;
+
+  ${mediaQueryMobile} {
+    padding: 20px;
+    top: 95px;
+  }
 `;
 
 const ProfilePageUserInfoSection = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-around;
+
+  ${mediaQueryMobile} {
+    flex-direction: column;
+    justify-content: center;
+  }
 `;
 
 const ProfilePageUserHelperListSection = styled.div`
@@ -54,6 +66,11 @@ const UserCard = styled.div`
   border-sizing: border-box;
   padding: 20px;
   position: relative;
+
+  ${mediaQueryMobile} {
+    width: 100%;
+    margin: 0 0 20px 0;
+  }
 `;
 
 const HelperImageSection = styled.img`
@@ -61,6 +78,11 @@ const HelperImageSection = styled.img`
   height: 120px;
   border-radius: 50%;
   margin-top: 15px;
+
+  ${mediaQueryMobile} {
+    width: 70px;
+    height: 70px;
+  }
 `;
 
 const UserName = styled.div`
@@ -75,6 +97,11 @@ const ProfileInfoContainer = styled.div`
   display: grid;
   grid-template-columns: minmax(300px, auto) minmax(300px, auto);
   grid-gap: 40px;
+
+  ${mediaQueryMobile} {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 const ProfileInfoListHeading = styled.div`
@@ -82,6 +109,10 @@ const ProfileInfoListHeading = styled.div`
   font-size: 16px;
   line-height: 14px;
   color: #5a5a5a;
+
+  ${mediaQueryMobile} {
+    font-size: 14px;
+  }
 `;
 
 const ProfileInfoListDetail = styled.div`
@@ -90,14 +121,32 @@ const ProfileInfoListDetail = styled.div`
   line-height: 21px;
   color: #e56101;
   margin-left: 12px;
+
+  ${mediaQueryMobile} {
+    font-size: 16px;
+  }
 `;
 
 export const ProfilePage = () => {
   const [myAccount, setMyAccount] = useState<Boolean>(false);
-  const [menu, setMenu] = useState<HelpMenu>(HelpMenu.PROVIDE);
+  const [menu, setMenu] = useState<HelpMenu | ProfileMenu>(HelpMenu.PROVIDE);
   const history = useHistory();
   const { pathname, state } = useLocation();
-  const currentMenu = ((state as any)?.menuKey || HelpMenu.PROVIDE) as HelpMenu;
+  const currentMenu = ((state as any)?.profile_menu || HelpMenu.PROVIDE) as
+    | HelpMenu
+    | ProfileMenu;
+  const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
+
+  const ProfileMobileContent = (menu) => {
+    switch (menu) {
+      case ProfileMenu.HOME:
+        return <div>หน้าแรก</div>;
+      case ProfileMenu.PROVIDE:
+        return <div>ให้ความช่วยเหลือ</div>;
+      case ProfileMenu.REQUEST:
+        return <div>ขอความช่วยเหลือ</div>;
+    }
+  };
 
   useEffect(() => {
     setMenu(currentMenu);
@@ -130,6 +179,7 @@ export const ProfilePage = () => {
             recommend
           }) => (
             <ProfilePageUserInfoSection key={id}>
+              {isMobile && <ProfileMenuTab menu={menu} setMenu={setMenu} />}
               <UserCard>
                 <div
                   css={css`
@@ -234,7 +284,7 @@ export const ProfilePage = () => {
                       ยอดการให้ช่วยเหลือ
                     </ProfileInfoListHeading>
                     <ProfileInfoListDetail>
-                      {helpSum.toLocaleString()}
+                      {helpSum.toLocaleString()} ครั้ง
                     </ProfileInfoListDetail>
                   </Flex>
                   <Flex>
@@ -242,19 +292,19 @@ export const ProfilePage = () => {
                       ยอดการขอความช่วยเหลือ
                     </ProfileInfoListHeading>
                     <ProfileInfoListDetail>
-                      {requestSum.toLocaleString()}
+                      {requestSum.toLocaleString()} ครั้ง
                     </ProfileInfoListDetail>
                   </Flex>
                   <Flex>
                     <ProfileInfoListHeading>ผู้ติดตาม</ProfileInfoListHeading>
                     <ProfileInfoListDetail>
-                      {follower.toLocaleString()}
+                      {follower.toLocaleString()} คน
                     </ProfileInfoListDetail>
                   </Flex>
                   <Flex>
                     <ProfileInfoListHeading>กำลังติดตาม</ProfileInfoListHeading>
                     <ProfileInfoListDetail>
-                      {following.toLocaleString()}
+                      {following.toLocaleString()} คน
                     </ProfileInfoListDetail>
                   </Flex>
                 </ProfileInfoContainer>
@@ -266,7 +316,7 @@ export const ProfilePage = () => {
           style={{
             width: '100%',
             height: '100%',
-            display: 'flex',
+            display: isMobile ? 'block' : 'flex',
             margin: '40px 0'
           }}
         >
@@ -274,7 +324,7 @@ export const ProfilePage = () => {
           <TopThreeHelpedChart />
         </div>
         <Divider />
-        <ProfileMenuTab menu={menu} setMenu={setMenu} />
+        {!isMobile && <ProfileMenuTab menu={menu} setMenu={setMenu} />}
         <ProfilePageUserHelperListSection>
           {menu === HelpMenu.PROVIDE ? (
             <React.Fragment>

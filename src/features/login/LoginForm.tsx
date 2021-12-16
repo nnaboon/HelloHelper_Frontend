@@ -8,6 +8,7 @@ import { Text } from 'components/Text';
 import { PrimaryButton } from 'components/Button/Button';
 import Flex from 'components/Flex/Flex';
 import { LoginStep } from './const';
+import { mediaQueryMobile } from 'styles/variables';
 
 interface LoginFormProps {
   setStep: (step: LoginStep) => void;
@@ -17,6 +18,10 @@ const LoginSection = styled.div`
   display: flex;
   flex-direction: column;
   padding: 2.55rem 2.75rem 1.5rem 2.75rem;
+
+  ${mediaQueryMobile} {
+    padding: 0;
+  }
 `;
 
 export const LoginForm = ({ setStep }: LoginFormProps) => {
@@ -52,6 +57,10 @@ export const LoginForm = ({ setStep }: LoginFormProps) => {
           height: 50px;
           background: #1877f2;
           margin: 20px 0;
+
+          ${mediaQueryMobile} {
+            margin: 10px 0 !important;
+          }
         `}
       >
         Facebook
@@ -77,6 +86,13 @@ export const LoginForm = ({ setStep }: LoginFormProps) => {
         initialValues={{ remember: true }}
         onFinish={onFinish}
         autoComplete="off"
+        css={css`
+          .ant-form-item-control-input {
+            ${mediaQueryMobile} {
+              width: 100%;
+            }
+          }
+        `}
       >
         <Form.Item
           name="email"

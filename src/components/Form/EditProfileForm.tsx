@@ -8,20 +8,13 @@ import { Button, Form, Input, message, Checkbox, Divider } from 'antd';
 import { ABILITY } from 'data/ability';
 import { GoogleMapContent } from 'components/GoogleMap/GoogleMap';
 import { WrapperContainer } from 'components/Wrapper/WrapperContainer';
-
-const RegisterLocationFormSection = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 1.75rem 2.75rem 1.5rem 2.75rem;
-  position: relative;
-  height: 100%;
-  overflow: scroll;
-`;
+import { mediaQueryMobile, useMedia, MOBILE_WIDTH } from 'styles/variables';
 
 export const EditProfileForm = () => {
   const [form] = Form.useForm();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [checkedList, setCheckedList] = useState<string[]>([]);
+  const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
 
   const toggleChecked = (value) => {
     console.log(value.includes('ไม่สามารถให้ความช่วยเหลือได้'));
@@ -53,7 +46,11 @@ export const EditProfileForm = () => {
     }
   };
   return (
-    <WrapperContainer>
+    <WrapperContainer
+      css={css`
+        height: calc(100vh + 450px);
+      `}
+    >
       <Text
         fontSize="24px"
         marginTop="10px"
@@ -72,6 +69,9 @@ export const EditProfileForm = () => {
         css={css`
           .ant-form-item-control-input {
             width: 460px;
+            ${mediaQueryMobile} {
+              width: 100%;
+            }
           }
         `}
       >
@@ -165,7 +165,7 @@ export const EditProfileForm = () => {
             }
           ]}
         >
-          <GoogleMapContent />
+          <GoogleMapContent width={isMobile ? '100%' : '470px'} />
         </Form.Item>
         <Divider />
         <Text fontSize="24px" fontWeight={500} marginY="20px">
@@ -181,6 +181,10 @@ export const EditProfileForm = () => {
 
             .ant-checkbox-group {
               width: 250px;
+
+              > label {
+                margin-bottom: 8px;
+              }
             }
           `}
         >
@@ -214,6 +218,13 @@ export const EditProfileForm = () => {
 
               &:hover {
                 background: #ee6400;
+              }
+
+              ${mediaQueryMobile} {
+                width: 100px;
+                font-size: 16px;
+                height: 35px;
+                right: 0px;
               }
             `}
           >

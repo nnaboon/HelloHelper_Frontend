@@ -6,9 +6,10 @@ import styled from '@emotion/styled';
 import { Button, Divider, Form, Input, message, Checkbox } from 'antd';
 import { UserCreateBody } from './const';
 import { FormRule, getRule } from 'utils/form/getRule';
-import { Text } from '../../components/Text';
+import { Text } from 'components/Text';
 import { PrimaryButton } from 'components/Button/Button';
 import { LoginStep } from 'components/Navbar/const';
+import { mediaQueryMobile } from 'styles/variables';
 
 type RegisterAccountFormProps = {
   userAccountData: UserCreateBody;
@@ -22,6 +23,11 @@ const RegisterAccountFormSection = styled.div`
   padding: 2.55rem 2.75rem 1.5rem 2.75rem;
   position: relative;
   height: 620px;
+
+  ${mediaQueryMobile} {
+    padding: 0;
+    height: 360px;
+  }
 `;
 
 export const RegisterAccountForm = (props: RegisterAccountFormProps) => {
@@ -103,6 +109,13 @@ export const RegisterAccountForm = (props: RegisterAccountFormProps) => {
         initialValues={{ remember: true }}
         onFinish={onFinish}
         autoComplete="off"
+        css={css`
+          .ant-form-item-control-input {
+            ${mediaQueryMobile} {
+              width: 100%;
+            }
+          }
+        `}
       >
         <Form.Item
           name="email"
@@ -147,6 +160,10 @@ export const RegisterAccountForm = (props: RegisterAccountFormProps) => {
             position: absolute;
             bottom: 10px;
             left: 2.75rem;
+
+            ${mediaQueryMobile} {
+              left: 0px;
+            }
           `}
         >
           มีบัญชีผู้ใช้แล้ว{' '}
@@ -178,6 +195,10 @@ export const RegisterAccountForm = (props: RegisterAccountFormProps) => {
 
             &:hover {
               background: #ee6400;
+            }
+
+            ${mediaQueryMobile} {
+              right: -5px;
             }
           `}
         >

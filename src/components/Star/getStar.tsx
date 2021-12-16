@@ -3,6 +3,7 @@
 import React from 'react';
 import { css, jsx } from '@emotion/react';
 import { Rate } from 'antd';
+import { mediaQueryMobile } from 'styles/variables';
 
 export const getStar = (count: Number) => {
   for (let i = 0; i < count; i++) {
@@ -43,6 +44,25 @@ export const getStar = (count: Number) => {
 
             .ant-rate-star.ant-rate-star-zero:hover {
               transform: scale(0.91);
+            }
+
+            ${mediaQueryMobile} {
+              .ant-rate-star:not(:last-child) {
+                margin-right: 4px;
+              }
+              .ant-rate-star.ant-rate-star-full svg {
+                width: 20px;
+                height: 20px;
+              }
+              .ant-rate-star.ant-rate-star-zero svg {
+                width: 20px;
+                height: 20px;
+              }
+
+              .ant-rate-star.ant-rate-star-half.ant-rate-star-active svg {
+                width: 20px;
+                height: 20px;
+              }
             }
           `}
         />

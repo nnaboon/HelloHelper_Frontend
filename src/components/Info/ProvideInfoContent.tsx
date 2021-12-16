@@ -15,11 +15,17 @@ import { SuggestedBadge } from 'components/Badge/Badge';
 import { RANK_BADGE } from 'components/Badge/const';
 import UserAvatar from 'images/avatar_helper.png';
 import ProvideImage from 'images/request.jpeg';
+import { useMedia, MOBILE_WIDTH, mediaQueryMobile } from 'styles/variables';
 
 const ProvideImageSection = styled.img`
   width: 420px;
   height: 510px;
   margin-bottom: 20px;
+
+  ${mediaQueryMobile} {
+    width: 100%;
+    height: 300px;
+  }
 `;
 
 const ProvideCategoryButton = styled(PrimaryButton)`
@@ -43,6 +49,11 @@ const ProvideInfoContainer = styled.div`
   grid-template-columns: 180px 400px;
   grid-gap: 40px;
   margin-bottom: 60px;
+
+  ${mediaQueryMobile} {
+    grid-template-columns: auto auto;
+    grid-gap: 12px;
+  }
 `;
 
 const ProvideDetail = styled.div`
@@ -52,6 +63,10 @@ const ProvideDetail = styled.div`
   color: #000000;
   min-width: 200px;
   line-height: 31px;
+
+  ${mediaQueryMobile} {
+    font-size: 16px;
+  }
 `;
 
 const ProvideTitle = styled.div`
@@ -60,6 +75,11 @@ const ProvideTitle = styled.div`
   color: #cacaca;
   min-width: 90px;
   max-width: 150px;
+
+  ${mediaQueryMobile} {
+    min-width: unset;
+    max-width: unset;
+  }
 `;
 
 const HelperImage = styled.img`
@@ -67,6 +87,11 @@ const HelperImage = styled.img`
   height: 100px;
   border-radius: 50%;
   margin-top: 15px;
+
+  ${mediaQueryMobile} {
+    width: 65px;
+    height: 65px;
+  }
 `;
 
 const UserName = styled.div`
@@ -77,6 +102,12 @@ const UserName = styled.div`
   margin-right: 30px;
   min-width: 140px;
   width: max-content;
+
+  ${mediaQueryMobile} {
+    min-width: max-content;
+    font-size: 16px;
+    margin-right: 0;
+  }
 `;
 
 export const ProvideInfoContent = ({ data }: any) => {
@@ -84,6 +115,7 @@ export const ProvideInfoContent = ({ data }: any) => {
   const { pathname, state } = useLocation();
   const query = pathname.split('/')[2];
   const currentMenu = ((state as any)?.type || HelpMenu.PROVIDE) as HelpMenu;
+  const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
 
   return (
     <React.Fragment>
@@ -101,11 +133,18 @@ export const ProvideInfoContent = ({ data }: any) => {
             serviceCharge,
             category,
             hashtag,
+            rank,
             payment,
             rating
           }) => (
             <WrapperContainer key={id}>
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  flexDirection: `${isMobile ? 'column' : 'row'}`
+                }}
+              >
                 <Flex
                   direction="column"
                   justify="flex-start"
@@ -117,6 +156,10 @@ export const ProvideInfoContent = ({ data }: any) => {
                     css={css`
                       width: 600px;
                       flex-wrap: wrap;
+
+                      ${mediaQueryMobile} {
+                        width: 100%;
+                      }
                     `}
                   >
                     {category.map((items) => (
@@ -135,6 +178,10 @@ export const ProvideInfoContent = ({ data }: any) => {
                     css={css`
                       width: 600px;
                       flex-wrap: wrap;
+
+                      ${mediaQueryMobile} {
+                        width: 100%;
+                      }
                     `}
                   >
                     {hashtag.map((items) => (
@@ -159,10 +206,12 @@ export const ProvideInfoContent = ({ data }: any) => {
                   <ProvideInfoContainer>
                     <ProvideTitle>ชื่อ</ProvideTitle>
                     <ProvideDetail>{title}</ProvideDetail>
-                    <ProvideTitle>สถานที่ให้ความข่วยเหลือ</ProvideTitle>
+                    <ProvideTitle>
+                      {isMobile ? 'สถานที่' : 'สถานที่ให้ความข่วยเหลือ'}
+                    </ProvideTitle>
                     <ProvideDetail>{location}</ProvideDetail>
                     <ProvideTitle>ยอดการช่วยเหลือ</ProvideTitle>
-                    <ProvideDetail>{helpSum}</ProvideDetail>
+                    <ProvideDetail>{helpSum} ครั้ง</ProvideDetail>
                     <ProvideTitle>อัตราค่าบริการ</ProvideTitle>
                     <ProvideDetail>{serviceCharge}</ProvideDetail>
                     <ProvideTitle>ช่องทางการชำระเงิน</ProvideTitle>
@@ -171,19 +220,19 @@ export const ProvideInfoContent = ({ data }: any) => {
                     <ProvideDetail>{message}</ProvideDetail>
                   </ProvideInfoContainer>
                   <Flex>
-                    {/* <SecondaryButton style={{ width: '55%', height: '45px' }}>
-                      <UserSvg />
-                      <div
-                        onClick={() => {
-                          history.push({
-                            pathname: `/profile/${id}`
-                          });
-                        }}
-                      >
-                        โปรไฟล์
-                      </div>
-                    </SecondaryButton> */}
-                    <PrimaryButton style={{ height: '45px' }}>
+                    <PrimaryButton
+                      style={{ height: '45px' }}
+                      css={css`
+                        ${mediaQueryMobile} {
+                          width: 100%;
+                          position: fixed;
+                          z-index: 99;
+                          bottom: 0;
+                          left: 0;
+                          border-radius: 0 !important;
+                        }
+                      `}
+                    >
                       ขอความช่วยเหลือ
                     </PrimaryButton>
                   </Flex>
@@ -200,6 +249,10 @@ export const ProvideInfoContent = ({ data }: any) => {
                   box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.09);
                   border-radius: 12px;
                   justify-content: space-between;
+
+                  ${mediaQueryMobile} {
+                    height: 90px;
+                  }
                 `}
               >
                 <div style={{ display: 'flex' }}>
@@ -211,10 +264,24 @@ export const ProvideInfoContent = ({ data }: any) => {
                       align-items: center;
                       margin-left: 170px;
                       margin-right: 60px;
+
+                      ${mediaQueryMobile} {
+                        margin: 0 30px;
+                      }
                     `}
                   >
                     <HelperImage src={UserAvatar} alt="user avatar" />
-                    {Boolean(1) && <SuggestedBadge>แนะนำ</SuggestedBadge>}
+                    {Boolean(1) && (
+                      <SuggestedBadge
+                        css={css`
+                          ${mediaQueryMobile} {
+                            left: 0;
+                          }
+                        `}
+                      >
+                        แนะนำ
+                      </SuggestedBadge>
+                    )}
                   </div>
                   <div
                     css={css`
@@ -224,33 +291,35 @@ export const ProvideInfoContent = ({ data }: any) => {
                   >
                     <UserName>{name}</UserName>
                     <RankingBadge
-                      rankColor={RANK_BADGE['platinum'].color}
+                      rankColor={RANK_BADGE[rank].color}
                       css={css`
                         margin-top: -10px;
                       `}
                     >
-                      {'platinum'.toUpperCase()}
+                      {rank.toUpperCase()}
                     </RankingBadge>
                   </div>
                 </div>
 
-                <SecondaryButton
-                  css={css`
-                    margin-right: 100px;
-                    width: 140px;
-                  `}
-                >
-                  <UserSvg />
-                  <div
-                    onClick={() => {
-                      history.push({
-                        pathname: `/profile/${id}`
-                      });
-                    }}
+                {!isMobile && (
+                  <SecondaryButton
+                    css={css`
+                      margin-right: 100px;
+                      width: 140px;
+                    `}
                   >
-                    โปรไฟล์
-                  </div>
-                </SecondaryButton>
+                    <UserSvg />
+                    <div
+                      onClick={() => {
+                        history.push({
+                          pathname: `/profile/${id}`
+                        });
+                      }}
+                    >
+                      โปรไฟล์
+                    </div>
+                  </SecondaryButton>
+                )}
               </div>
             </WrapperContainer>
           )

@@ -1,7 +1,10 @@
 import React from 'react';
 import ReactECharts from 'echarts-for-react';
+import { useMedia, MOBILE_WIDTH } from 'styles/variables';
 
 export const TopThreeHelpedChart = () => {
+  const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
+
   const option = {
     tooltip: {
       trigger: 'axis'
@@ -35,7 +38,10 @@ export const TopThreeHelpedChart = () => {
 
   return (
     <div>
-      <ReactECharts option={option} style={{ width: '640px' }} />
+      <ReactECharts
+        option={option}
+        style={{ width: isMobile ? '100%' : '640px' }}
+      />
     </div>
   );
 };
