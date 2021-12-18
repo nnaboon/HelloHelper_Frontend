@@ -14,6 +14,7 @@ import { RequestListPage } from './pages/RequestListpage';
 import { EditProfilePage } from './pages/EditProfilePage';
 import { CommunityPage } from './pages/CommunityPage';
 import { CommunitySetting } from 'features/community/CommunitySetting';
+import { mediaQueryMobile } from './styles/variables';
 
 function App() {
   return (
@@ -23,6 +24,10 @@ function App() {
         width: 100%;
         height: 100vh;
         overflow-y: scroll;
+
+        ${mediaQueryMobile} {
+          overflow-y: hidden;
+        }
       `}
     >
       <BrowserRouter>
