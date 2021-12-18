@@ -21,7 +21,10 @@ export const InfoMenuTab = ({ menu, setMenu }: MenuTabProps) => {
       itemAlign="center"
       justify="space-around"
       marginBottom="18px"
-      style={{ width: isMobile ? '100%' : '50%', margin: '50px 0' }}
+      style={{
+        width: isMobile ? '100%' : '50%',
+        margin: isMobile ? '10px 0px 40px 0' : '50px 0'
+      }}
     >
       {Object.values(InfoMenu).map((key) => (
         <MenuButton
@@ -31,7 +34,7 @@ export const InfoMenuTab = ({ menu, setMenu }: MenuTabProps) => {
             setMenu(key);
             history.push({
               state: {
-                infoMenu: key
+                info_menu: key
               }
             });
           }}

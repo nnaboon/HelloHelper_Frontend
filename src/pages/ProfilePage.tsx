@@ -30,8 +30,10 @@ const ProfilePageContainer = styled.div`
   padding: 40px 100px;
 
   ${mediaQueryMobile} {
-    padding: 20px;
+    height: calc(100vh - 95px);
+    padding: 30px 20px 50px 20px;
     top: 95px;
+    overflow-y: scroll;
   }
 `;
 
@@ -53,6 +55,11 @@ const ProfilePageUserHelperListSection = styled.div`
       510px
     );
   grid-gap: 30px;
+
+  ${mediaQueryMobile} {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 const UserCard = styled.div`
@@ -80,8 +87,8 @@ const HelperImageSection = styled.img`
   margin-top: 15px;
 
   ${mediaQueryMobile} {
-    width: 70px;
-    height: 70px;
+    width: 100px;
+    height: 100px;
   }
 `;
 
@@ -90,6 +97,12 @@ const UserName = styled.div`
   font-size: 24px;
   color: #000000;
   margin-bottom: 5px;
+  word-wrap: break-word;
+
+  ${mediaQueryMobile} {
+    text-align: center;
+    max-width: 150px;
+  }
 `;
 
 const ProfileInfoContainer = styled.div`
@@ -104,6 +117,10 @@ const ProfileInfoContainer = styled.div`
   }
 `;
 
+const ProfileInfoSection = styled.div`
+  margin-top: 20px;
+`;
+
 const ProfileInfoListHeading = styled.div`
   font-weight: 500;
   font-size: 16px;
@@ -111,7 +128,8 @@ const ProfileInfoListHeading = styled.div`
   color: #5a5a5a;
 
   ${mediaQueryMobile} {
-    font-size: 14px;
+    font-size: 16px;
+    white-space: pre;
   }
 `;
 
@@ -123,7 +141,8 @@ const ProfileInfoListDetail = styled.div`
   margin-left: 12px;
 
   ${mediaQueryMobile} {
-    font-size: 16px;
+    font-size: 18px;
+    word-wrap: break-word;
   }
 `;
 
@@ -137,20 +156,19 @@ export const ProfilePage = () => {
     | ProfileMenu;
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
 
-  const ProfileMobileContent = (menu) => {
-    switch (menu) {
-      case ProfileMenu.HOME:
-        return <div>หน้าแรก</div>;
-      case ProfileMenu.PROVIDE:
-        return <div>ให้ความช่วยเหลือ</div>;
-      case ProfileMenu.REQUEST:
-        return <div>ขอความช่วยเหลือ</div>;
+  useEffect(() => {
+    if (!isMobile && menu === ProfileMenu.HOME) {
+      setMenu(HelpMenu.PROVIDE);
+    } else {
+      setMenu(currentMenu);
     }
-  };
+  }, [currentMenu, isMobile]);
 
   useEffect(() => {
-    setMenu(currentMenu);
-  }, [currentMenu]);
+    if (isMobile) {
+      setMenu(ProfileMenu.HOME);
+    }
+  }, []);
 
   useEffect(() => {
     if (pathname.split('/')[2] !== USER_DATA[0].id) {
@@ -163,182 +181,241 @@ export const ProfilePage = () => {
   return (
     <React.Fragment>
       <ProfilePageContainer>
-        {USER_DATA.map(
-          ({
-            id,
-            name,
-            imageUrl,
-            location,
-            category,
-            follower,
-            following,
-            helpSum,
-            requestSum,
-            rank,
-            rating,
-            recommend
-          }) => (
-            <ProfilePageUserInfoSection key={id}>
-              {isMobile && <ProfileMenuTab menu={menu} setMenu={setMenu} />}
-              <UserCard>
-                <div
-                  css={css`
-                    display: flex;
-                    width: 50%;
-                    flex-direction: column;
-                    align-items: center;
-                    margin-right: 35px;
-                  `}
-                >
-                  <HelperImageSection src={UserAvatar} alt="user avatar" />
-                  {Boolean(recommend) && <SuggestedBadge>แนะนำ</SuggestedBadge>}
-                </div>
-                <div
-                  css={css`
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    justify-content: center;
-                    margin-top: -50px;
-                  `}
-                >
-                  <UserName>{name}</UserName>
-                  <div
-                    style={{
-                      display: 'flex',
-                      marginBottom: '10px',
-                      marginTop: '-4px'
-                    }}
-                  >
-                    {getStar(rating)}
-                  </div>
-                  <RankingBadge rankColor={RANK_BADGE[rank].color}>
-                    {rank.toUpperCase()}
-                  </RankingBadge>
-                </div>
-                {myAccount ? (
-                  <div
-                    style={{
-                      display: 'flex',
-                      position: 'absolute',
-                      bottom: '8px',
-                      padding: '10px',
-                      left: '10px',
-                      width: '100%'
-                    }}
-                  >
-                    <SecondaryButton
+        {isMobile && <ProfileMenuTab menu={menu} setMenu={setMenu} />}
+        {(!isMobile || menu === ProfileMenu.HOME) && (
+          <div>
+            {USER_DATA.map(
+              ({
+                id,
+                name,
+                imageUrl,
+                location,
+                category,
+                follower,
+                following,
+                helpSum,
+                requestSum,
+                rank,
+                rating,
+                recommend
+              }) => (
+                <ProfilePageUserInfoSection key={id}>
+                  <UserCard>
+                    <div
                       css={css`
-                        width: 95%;
-                        border: 1px solid #bab8b8;
-                        color: #b9b9b9;
-                        &:hover {
-                          color: #b9b9b9;
+                        display: flex;
+                        width: 50%;
+                        flex-direction: column;
+                        align-items: center;
+                        margin-right: 35px;
+
+                        ${mediaQueryMobile} {
+                          margin-right: 0;
+                          margin-top: 8px;
                         }
                       `}
                     >
-                      แก้ไขโปรไฟล์
-                    </SecondaryButton>
-                  </div>
-                ) : (
-                  <div
-                    style={{
-                      display: 'flex',
-                      position: 'absolute',
-                      bottom: '8px',
-                      padding: '10px',
-                      left: '-9px',
-                      width: '100%'
-                    }}
-                  >
-                    <PrimaryButton
+                      <HelperImageSection src={UserAvatar} alt="user avatar" />
+                      {Boolean(recommend) && (
+                        <SuggestedBadge
+                          css={css`
+                            left: 0 !important;
+                            width: 62px !important;
+                            font-size: 14px !important;
+                          `}
+                        >
+                          แนะนำ
+                        </SuggestedBadge>
+                      )}
+                    </div>
+                    <div
                       css={css`
-                        width: 100%;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        margin-top: -50px;
                       `}
                     >
-                      <FollowingSvg style={{ marginRight: '10px' }} />
-                      ติดตาม
-                    </PrimaryButton>
-                    <PrimaryButton
-                      css={css`
-                        background: #487bff;
-                        width: 100%;
-                      `}
+                      <UserName>{name}</UserName>
+                      <div
+                        style={{
+                          display: 'flex',
+                          marginBottom: '10px',
+                          marginTop: '-4px'
+                        }}
+                        css={css`
+                          ${mediaQueryMobile} {
+                            ul {
+                              display: flex;
+                              justify-content: center;
+                            }
+                          }
+                        `}
+                      >
+                        {getStar(rating)}
+                      </div>
+                      <RankingBadge
+                        rankColor={RANK_BADGE[rank].color}
+                        css={css`
+                          ${mediaQueryMobile} {
+                            width: max-content !important;
+                            height: 32px !important;
+                            font-size: 20px !important;
+                            border-radius: 8px !important;
+                            margin-left: 0 !important;
+                          }
+                        `}
+                      >
+                        {rank.toUpperCase()}
+                      </RankingBadge>
+                    </div>
+                    {myAccount ? (
+                      <div
+                        style={{
+                          display: 'flex',
+                          position: 'absolute',
+                          bottom: '8px',
+                          padding: '10px',
+                          left: '10px',
+                          width: '100%'
+                        }}
+                      >
+                        <SecondaryButton
+                          css={css`
+                            width: 95%;
+                            border: 1px solid #bab8b8;
+                            color: #b9b9b9;
+                            &:hover {
+                              color: #b9b9b9;
+                            }
+                          `}
+                        >
+                          แก้ไขโปรไฟล์
+                        </SecondaryButton>
+                      </div>
+                    ) : (
+                      <div
+                        style={{
+                          display: 'flex',
+                          position: 'absolute',
+                          bottom: '8px',
+                          padding: '10px',
+                          left: '-9px',
+                          width: '100%'
+                        }}
+                        css={css`
+                          ${mediaQueryMobile} {
+                            left: 0 !important;
+                            justify-content: space-between;
+                            padding: 10px 20px !important;
+                          }
+                        `}
+                      >
+                        <PrimaryButton
+                          css={css`
+                            width: 100%;
+
+                            ${mediaQueryMobile} {
+                              width: 47%;
+                            }
+                          `}
+                        >
+                          <FollowingSvg style={{ marginRight: '10px' }} />
+                          ติดตาม
+                        </PrimaryButton>
+                        <PrimaryButton
+                          css={css`
+                            background: #487bff;
+                            width: 100%;
+                            ${mediaQueryMobile} {
+                              width: 47%;
+                            }
+                          `}
+                        >
+                          <MessageSvg style={{ marginRight: '10px' }} />
+                          แชท
+                        </PrimaryButton>
+                      </div>
+                    )}
+                  </UserCard>
+                  <ProfileInfoSection>
+                    <Flex
+                      marginBottom="40px"
+                      itemAlign={isMobile ? 'center' : 'flex-end'}
                     >
-                      <MessageSvg style={{ marginRight: '10px' }} />
-                      แชท
-                    </PrimaryButton>
-                  </div>
-                )}
-              </UserCard>
-              <div>
-                <Flex marginBottom="40px" itemAlign="flex-end">
-                  <ProfileInfoListHeading>
-                    ขอบเขตการช่วยเหลือ
-                  </ProfileInfoListHeading>
-                  <ProfileInfoListDetail>{location}</ProfileInfoListDetail>
-                </Flex>
-                <ProfileInfoContainer>
-                  <Flex>
-                    <ProfileInfoListHeading>
-                      ยอดการให้ช่วยเหลือ
-                    </ProfileInfoListHeading>
-                    <ProfileInfoListDetail>
-                      {helpSum.toLocaleString()} ครั้ง
-                    </ProfileInfoListDetail>
-                  </Flex>
-                  <Flex>
-                    <ProfileInfoListHeading>
-                      ยอดการขอความช่วยเหลือ
-                    </ProfileInfoListHeading>
-                    <ProfileInfoListDetail>
-                      {requestSum.toLocaleString()} ครั้ง
-                    </ProfileInfoListDetail>
-                  </Flex>
-                  <Flex>
-                    <ProfileInfoListHeading>ผู้ติดตาม</ProfileInfoListHeading>
-                    <ProfileInfoListDetail>
-                      {follower.toLocaleString()} คน
-                    </ProfileInfoListDetail>
-                  </Flex>
-                  <Flex>
-                    <ProfileInfoListHeading>กำลังติดตาม</ProfileInfoListHeading>
-                    <ProfileInfoListDetail>
-                      {following.toLocaleString()} คน
-                    </ProfileInfoListDetail>
-                  </Flex>
-                </ProfileInfoContainer>
-              </div>
-            </ProfilePageUserInfoSection>
-          )
+                      <ProfileInfoListHeading>
+                        ขอบเขตการช่วยเหลือ
+                      </ProfileInfoListHeading>
+                      <ProfileInfoListDetail>{location}</ProfileInfoListDetail>
+                    </Flex>
+                    <ProfileInfoContainer>
+                      <Flex>
+                        <ProfileInfoListHeading>
+                          ยอดการให้ช่วยเหลือ
+                        </ProfileInfoListHeading>
+                        <ProfileInfoListDetail>
+                          {helpSum.toLocaleString()} ครั้ง
+                        </ProfileInfoListDetail>
+                      </Flex>
+                      <Flex>
+                        <ProfileInfoListHeading>
+                          ยอดการขอความช่วยเหลือ
+                        </ProfileInfoListHeading>
+                        <ProfileInfoListDetail>
+                          {requestSum.toLocaleString()} ครั้ง
+                        </ProfileInfoListDetail>
+                      </Flex>
+                      <Flex>
+                        <ProfileInfoListHeading>
+                          ผู้ติดตาม
+                        </ProfileInfoListHeading>
+                        <ProfileInfoListDetail>
+                          {follower.toLocaleString()} คน
+                        </ProfileInfoListDetail>
+                      </Flex>
+                      <Flex>
+                        <ProfileInfoListHeading>
+                          กำลังติดตาม
+                        </ProfileInfoListHeading>
+                        <ProfileInfoListDetail>
+                          {following.toLocaleString()} คน
+                        </ProfileInfoListDetail>
+                      </Flex>
+                    </ProfileInfoContainer>
+                  </ProfileInfoSection>
+                </ProfilePageUserInfoSection>
+              )
+            )}
+            <div
+              style={{
+                width: '100%',
+                height: '100%',
+                display: isMobile ? 'block' : 'flex',
+                margin: '40px 0'
+              }}
+            >
+              <OverallHelpedChart />
+              <TopThreeHelpedChart />
+            </div>
+          </div>
         )}
-        <div
-          style={{
-            width: '100%',
-            height: '100%',
-            display: isMobile ? 'block' : 'flex',
-            margin: '40px 0'
-          }}
-        >
-          <OverallHelpedChart />
-          <TopThreeHelpedChart />
-        </div>
-        <Divider />
+        {!isMobile && <Divider />}
         {!isMobile && <ProfileMenuTab menu={menu} setMenu={setMenu} />}
         <ProfilePageUserHelperListSection>
-          {menu === HelpMenu.PROVIDE ? (
+          {!isMobile || menu === HelpMenu.PROVIDE ? (
             <React.Fragment>
               {USER_DATA[0].myList.provideList.map((props) => (
                 <MyProvideList key={props.id} data={props} />
               ))}
             </React.Fragment>
-          ) : (
+          ) : menu === ProfileMenu.REQUEST ? (
             <React.Fragment>
               {USER_DATA[0].myList.requestList.map((props) => (
                 <MyRequestList key={props.id} data={props} />
               ))}
             </React.Fragment>
-          )}
+          ) : null}
         </ProfilePageUserHelperListSection>
       </ProfilePageContainer>
     </React.Fragment>

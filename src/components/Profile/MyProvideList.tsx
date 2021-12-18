@@ -10,6 +10,7 @@ import { Dropdown, Menu, message, Rate } from 'antd';
 import { EditSvg } from 'components/Svg/EditSvg';
 import { DeleteSvg } from 'components/Svg/DeleteSvg';
 import { EyeOffSvg } from 'components/Svg/EyeOffSvg';
+import { mediaQueryMobile, useMedia, MOBILE_WIDTH } from 'styles/variables';
 
 const HelperListCard = styled.div`
   background: #ffffff;
@@ -23,6 +24,10 @@ const HelperListCard = styled.div`
   padding: 35px;
   position: relative;
   cursor: pointer;
+
+  ${mediaQueryMobile} {
+    margin-top: 0;
+  }
 `;
 
 const HelperListTitle = styled.div`
@@ -30,6 +35,10 @@ const HelperListTitle = styled.div`
   font-size: 24px;
   color: #f86800;
   margin-bottom: 8px;
+
+  ${mediaQueryMobile} {
+    font-size: 18px;
+  }
 `;
 
 const HelperListHeading = styled.div`
@@ -37,12 +46,22 @@ const HelperListHeading = styled.div`
   line-height: 26px;
   color: #c4c4c4;
   min-width: 170px;
+
+  ${mediaQueryMobile} {
+    width: max-content;
+    min-width: max-content;
+    margin-right: 10px;
+  }
 `;
 
 const HelperListDetail = styled.div`
   font-size: 18px;
   line-height: 26px;
   color: #000000;
+
+  ${mediaQueryMobile} {
+    font-size: 16px;
+  }
 `;
 
 const SecondaryHelpButton = styled(SecondaryButton)`
@@ -60,6 +79,7 @@ const SecondaryHelpButton = styled(SecondaryButton)`
 
 export const MyProvideList = ({ data }: any) => {
   const history = useHistory();
+  const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
 
   function handleButtonClick(e) {
     message.info('Click on left button.');
@@ -150,32 +170,37 @@ export const MyProvideList = ({ data }: any) => {
           svg {
             font-size: 24px;
           }
+
+          ${mediaQueryMobile} {
+            right: 8px;
+            top: 10px;
+          }
         `}
       />
       <HelperListTitle>{data.title}</HelperListTitle>
-      <Flex marginY="8px">
+      <Flex marginY={isMobile ? 2 : '8px'}>
         <HelperListHeading>ผู้ให้ความช่วยเหลือ</HelperListHeading>
         <HelperListDetail>{data.name}</HelperListDetail>
       </Flex>
-      <Flex marginY="8px">
+      <Flex marginY={isMobile ? 2 : '8px'}>
         <HelperListHeading>สถานที่ให้ความช่วยเหลือ</HelperListHeading>
         <HelperListDetail>{data.location}</HelperListDetail>
       </Flex>
-      <Flex marginY="8px">
+      <Flex marginY={isMobile ? 2 : '8px'}>
         <HelperListHeading>ยอดการให้ความช่วยเหลือนี้</HelperListHeading>
         <HelperListDetail>{data.helpSum} ครั้ง</HelperListDetail>
       </Flex>
-      <Flex marginY="8px">
+      <Flex marginY={isMobile ? 2 : '8px'}>
         <HelperListHeading>คะแนนการให้ความช่วยเหลือนี้</HelperListHeading>
         <HelperListDetail>
           5.0 <Rate count={1} defaultValue={1} />
         </HelperListDetail>
       </Flex>
-      <Flex marginY="8px">
+      <Flex marginY={isMobile ? 2 : '8px'}>
         <HelperListHeading>ค่าบริการ</HelperListHeading>
         <HelperListDetail>{data.serviceCharge}</HelperListDetail>
       </Flex>
-      <Flex marginY="8px">
+      <Flex marginY={isMobile ? 2 : '8px'}>
         <HelperListHeading>วิธีการชำระเงิน</HelperListHeading>
         <HelperListDetail>{data.payment}</HelperListDetail>
       </Flex>

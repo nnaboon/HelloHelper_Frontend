@@ -22,7 +22,10 @@ export const CommunitySettingMenuTab = ({ menu, setMenu }: MenuTabProps) => {
       itemAlign="center"
       justify="space-around"
       marginBottom="18px"
-      style={{ width: isMobile ? '100%' : '50%', margin: '50px 0' }}
+      style={{
+        width: isMobile ? '100%' : '50%',
+        margin: isMobile ? '10px 0' : '50px 0'
+      }}
     >
       {Object.values(CommunitySettingMenu).map((key) => (
         <MenuButton

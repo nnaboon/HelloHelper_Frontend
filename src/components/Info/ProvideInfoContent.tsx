@@ -7,7 +7,6 @@ import { useLocation, useHistory } from 'react-router-dom';
 import { WrapperContainer } from 'components/Wrapper/WrapperContainer';
 import Flex from 'components/Flex/Flex';
 import { PrimaryButton, SecondaryButton } from 'components/Button/Button';
-import { HelpMenu } from 'components/Menu/const';
 import { UserSvg } from 'components/Svg/UserSvg';
 import { Divider } from 'antd';
 import { RankingBadge } from 'components/Badge/Badge';
@@ -112,9 +111,8 @@ const UserName = styled.div`
 
 export const ProvideInfoContent = ({ data }: any) => {
   const history = useHistory();
-  const { pathname, state } = useLocation();
+  const { pathname } = useLocation();
   const query = pathname.split('/')[2];
-  const currentMenu = ((state as any)?.type || HelpMenu.PROVIDE) as HelpMenu;
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
 
   return (
@@ -137,7 +135,15 @@ export const ProvideInfoContent = ({ data }: any) => {
             payment,
             rating
           }) => (
-            <WrapperContainer key={id}>
+            <WrapperContainer
+              key={id}
+              css={css`
+                ${mediaQueryMobile} {
+                  height: calc(100vh - 170px);
+                  overflow-y: scroll;
+                }
+              `}
+            >
               <div
                 style={{
                   display: 'flex',

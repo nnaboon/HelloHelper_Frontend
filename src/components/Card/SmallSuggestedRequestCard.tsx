@@ -13,13 +13,19 @@ import { Rate } from 'antd';
 import { MessageSvg } from 'components/Svg/MessageSvg';
 import { UserSvg } from 'components/Svg/UserSvg';
 import UserAvatar from 'images/avatar_helper.png';
-
+import { mediaQueryMobile, MOBILE_WIDTH, useMedia } from 'styles/variables';
 import { getStar } from 'components/Star/getStar';
 
 const RequestHelperCardContainer = styled.div`
   display: flex;
   overflow-x: scroll;
   position: relative;
+
+  ${mediaQueryMobile} {
+    overflow-x: visible;
+    margin-bottom: 30px;
+    width: 100%;
+  }
 `;
 
 const CardContainer = styled.div`
@@ -37,12 +43,24 @@ const CardContainer = styled.div`
   top: -20px;
   margin-top: 20px;
   cursor: pointer;
+
+  ${mediaQueryMobile} {
+    width: 100%;
+    height: 250px;
+    min-width: 100%;
+    padding: 20px;
+  }
 `;
 
 const RequestTitle = styled.div`
   font-weight: 800;
   font-size: 24px;
   margin-bottom: 10px;
+
+  ${mediaQueryMobile} {
+    font-size: 18px;
+    line-height: 17px;
+  }
 `;
 
 const HelperImageSection = styled.img`
@@ -50,6 +68,12 @@ const HelperImageSection = styled.img`
   height: 120px;
   border-radius: 50%;
   margin-top: 15px;
+
+  ${mediaQueryMobile} {
+    width: 55px;
+    height: 55px;
+    margin-top: 0;
+  }
 `;
 
 const RequestDataTitle = styled.div`
@@ -61,12 +85,22 @@ const RequestDataTitle = styled.div`
   margin-right: 15px;
   width: 95px;
   text-align: end;
+
+  ${mediaQueryMobile} {
+    max-width: unset;
+    width: unset;
+    text-align: start;
+  }
 `;
 
 const RequestDataInfo = styled.div`
   font-size: 18px;
   line-height: 26px;
   color: #000000;
+
+  ${mediaQueryMobile} {
+    font-size: 16px;
+  }
 `;
 
 const RequestDataContent = styled.div`
@@ -77,6 +111,7 @@ const RequestDataContent = styled.div`
 
 export const SmallSuggestedRequestCard = ({ data }: any) => {
   const history = useHistory();
+  const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
 
   return (
     <RequestHelperCardContainer>
@@ -107,31 +142,34 @@ export const SmallSuggestedRequestCard = ({ data }: any) => {
                   display: flex;
                 `}
               >
-                <div
-                  css={css`
-                    display: flex;
-                    width: 32%;
-                    flex-direction: column;
-                    align-items: center;
-                    margin-top: -13px;
-                    margin-right: 35px;
-                  `}
-                >
-                  <HelperImageSection src={UserAvatar} alt="user avatar" />
-                  <SuggestedBadge>แนะนำ</SuggestedBadge>
+                {!isMobile && (
                   <div
-                    style={{
-                      display: 'flex',
-                      marginBottom: '8px',
-                      marginTop: '-4px'
-                    }}
+                    css={css`
+                      display: flex;
+                      width: 32%;
+                      flex-direction: column;
+                      align-items: center;
+                      margin-top: -13px;
+                      margin-right: 35px;
+                    `}
                   >
-                    {getStar(rating)}
+                    <HelperImageSection src={UserAvatar} alt="user avatar" />
+                    <SuggestedBadge>แนะนำ</SuggestedBadge>
+                    <div
+                      style={{
+                        display: 'flex',
+                        marginBottom: '8px',
+                        marginTop: '-4px'
+                      }}
+                    >
+                      {getStar(rating)}
+                    </div>
+                    <RankingBadge rankColor={RANK_BADGE[rank].color}>
+                      {rank.toUpperCase()}
+                    </RankingBadge>
                   </div>
-                  <RankingBadge rankColor={RANK_BADGE[rank].color}>
-                    {rank.toUpperCase()}
-                  </RankingBadge>
-                </div>
+                )}
+
                 <div
                   css={css`
                     display: flex;
@@ -156,18 +194,64 @@ export const SmallSuggestedRequestCard = ({ data }: any) => {
                       {helpSum.toLocaleString()} ครั้ง
                     </RequestDataInfo>
                   </RequestDataContent>
-                  <RequestDataContent>
-                    <RequestDataTitle>
-                      คะแนนการให้ความช่วยเหลือนี้
-                    </RequestDataTitle>
-                    <RequestDataInfo>
-                      5.0 <Rate count={1} defaultValue={1} />
-                    </RequestDataInfo>
-                  </RequestDataContent>
-                  <RequestDataContent>
-                    <RequestDataTitle>ค่าบริการ</RequestDataTitle>
-                    <RequestDataInfo>{serviceCharge}</RequestDataInfo>
-                  </RequestDataContent>
+                  {isMobile && (
+                    <div
+                      css={css`
+                        display: flex;
+                        position: absolute;
+                        bottom: 0px;
+                      `}
+                    >
+                      <div
+                        css={css`
+                          display: flex;
+                          flex-direction: column;
+                          margin-right: 10px;
+                        `}
+                      >
+                        <HelperImageSection src={UserAvatar} alt="user" />
+                        <SuggestedBadge>แนะนำ</SuggestedBadge>
+                      </div>
+
+                      <div
+                        css={css`
+                          display: flex;
+                          flex-direction: column;
+                        `}
+                      >
+                        {' '}
+                        <div
+                          style={{
+                            display: 'flex',
+                            marginBottom: '8px',
+                            marginTop: '-4px'
+                          }}
+                        >
+                          {getStar(rating)}
+                        </div>
+                        <RankingBadge rankColor={RANK_BADGE[rank].color}>
+                          {rank.toUpperCase()}
+                        </RankingBadge>
+                      </div>
+                    </div>
+                  )}
+                  {!isMobile && (
+                    <div>
+                      {' '}
+                      <RequestDataContent>
+                        <RequestDataTitle>
+                          คะแนนการให้ความช่วยเหลือนี้
+                        </RequestDataTitle>
+                        <RequestDataInfo>
+                          5.0 <Rate count={1} defaultValue={1} />
+                        </RequestDataInfo>
+                      </RequestDataContent>
+                      <RequestDataContent>
+                        <RequestDataTitle>ค่าบริการ</RequestDataTitle>
+                        <RequestDataInfo>{serviceCharge}</RequestDataInfo>
+                      </RequestDataContent>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -179,16 +263,22 @@ export const SmallSuggestedRequestCard = ({ data }: any) => {
                 right: 20px;
                 align-items: center;
                 z-index: 3;
+
+                ${mediaQueryMobile} {
+                  bottom: 12px;
+                }
               `}
             >
-              <SecondaryButton
-                onClick={() => {
-                  history.push({ pathname: `/profile/${id}` });
-                }}
-              >
-                <UserSvg />
-                <div>โปรไฟล์</div>
-              </SecondaryButton>
+              {!isMobile && (
+                <SecondaryButton
+                  onClick={() => {
+                    history.push({ pathname: `/profile/${id}` });
+                  }}
+                >
+                  <UserSvg />
+                  <div>โปรไฟล์</div>
+                </SecondaryButton>
+              )}
               <PrimaryButton>
                 <MessageSvg style={{ marginRight: '5px' }} />
                 <div>แชท</div>

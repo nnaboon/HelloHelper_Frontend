@@ -19,9 +19,11 @@ const RequestHelperCardContainer = styled.div`
   position: relative;
 
   ${mediaQueryMobile} {
-    overflow-x: visible;
+    overflow-x: hidden;
     margin-bottom: 10px;
     margin-top: 10px;
+    width: 100%;
+    justify-content: center;
   }
 `;
 
@@ -42,10 +44,13 @@ const CardContainer = styled.div`
   cursor: pointer;
 
   ${mediaQueryMobile} {
-    width: 100%;
+    width: 90%;
     height: 270px;
-    min-width: 100%;
+    min-width: 90%;
     padding: 20px;
+    display: flex;
+    justify-content: center;
+    margin: 40px 0;
   }
 `;
 
@@ -149,14 +154,15 @@ export const SuggestedRequestSection = ({ data }: any) => {
 
                 ${mediaQueryMobile} {
                   flex-direction: column;
+                  width: 100%;
                 }
               `}
             >
               <div
-              // css={css`
-              //   display: flex;
-              //   width: 90%;
-              // `}
+                css={css`
+                  display: flex;
+                  width: 90%;
+                `}
               >
                 <RequestImageSection src={RequestImage} alt="request" />
               </div>
@@ -164,8 +170,10 @@ export const SuggestedRequestSection = ({ data }: any) => {
                 css={css`
                   display: flex;
                   flex-direction: column;
-                  position: absolute;
-                  top: 50%;
+                  ${mediaQueryMobile} {
+                    position: absolute;
+                    top: 50%;
+                  }
                 `}
               >
                 <RequestTitle>{title}</RequestTitle>

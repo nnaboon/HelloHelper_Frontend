@@ -42,7 +42,13 @@ export const SearchResultPage = () => {
   }, [currentMenu]);
 
   return (
-    <WrapperContainer>
+    <WrapperContainer
+      css={css`
+        ${mediaQueryMobile} {
+          height: calc(100vh - 90px);
+        }
+      `}
+    >
       <div style={{ display: 'flex' }}>
         {!isMobile && <Sidebar />}
         <div
@@ -77,20 +83,22 @@ export const SearchResultPage = () => {
               <Text fontSize="24px" fontWeight={500} marginBottom="20px">
                 ผลการค้นหา ทั้งหมด {POPULAR_REQUEST_DATA.length} รายการ
               </Text>
-              <PostRequestButton
+              <div
                 css={css`
-                  margin-right: 20px;
-
-                  > div {
+                  ${mediaQueryMobile} {
                     align-self: end !important;
                   }
                 `}
-                buttonText={
-                  menu === HelpMenu.PROVIDE
-                    ? 'ขอความช่วยเหลือ'
-                    : 'ให้ความช่วยเหลือ'
-                }
-              />
+              >
+                {' '}
+                <PostRequestButton
+                  buttonText={
+                    menu === HelpMenu.PROVIDE
+                      ? 'ขอความช่วยเหลือ'
+                      : 'ให้ความช่วยเหลือ'
+                  }
+                />
+              </div>
             </Flex>
           </div>
           <SearchResultContent>

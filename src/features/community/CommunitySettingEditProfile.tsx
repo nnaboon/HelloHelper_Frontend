@@ -5,23 +5,14 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { Text } from 'components/Text';
 import { Button, Form, Input, message, Checkbox, Divider } from 'antd';
-import { ABILITY } from 'data/ability';
 import { GoogleMapContent } from 'components/GoogleMap/GoogleMap';
-import { WrapperContainer } from 'components/Wrapper/WrapperContainer';
-
-const RegisterLocationFormSection = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 1.75rem 2.75rem 1.5rem 2.75rem;
-  position: relative;
-  height: 100%;
-  overflow: scroll;
-`;
+import { useMedia, MOBILE_WIDTH, mediaQueryMobile } from 'styles/variables';
 
 export const CommunitySettingEditProfile = () => {
   const [form] = Form.useForm();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [checkedList, setCheckedList] = useState<string[]>([]);
+  const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
 
   const toggleChecked = (value) => {
     console.log(value.includes('ไม่สามารถให้ความช่วยเหลือได้'));
@@ -52,8 +43,19 @@ export const CommunitySettingEditProfile = () => {
     }
   };
   return (
-    <div>
-      <Text fontSize="28px" marginY="40px" marginLeft="60px" fontWeight={500}>
+    <div
+      css={css`
+        ${mediaQueryMobile} {
+          padding: 20px 20px 30px 20px;
+        }
+      `}
+    >
+      <Text
+        fontSize={isMobile ? '24px' : '28px'}
+        marginY={isMobile ? '20px' : '40px'}
+        marginLeft={isMobile ? 0 : '60px'}
+        fontWeight={500}
+      >
         ข้อมูลชุมชนความช่วยเหลือ
       </Text>
       <Form
@@ -66,6 +68,10 @@ export const CommunitySettingEditProfile = () => {
         css={css`
           .ant-form-item-control-input {
             width: 460px;
+
+            ${mediaQueryMobile} {
+              width: 100%;
+            }
           }
         `}
       >
@@ -91,7 +97,12 @@ export const CommunitySettingEditProfile = () => {
           />
         </Form.Item>
         <Divider />
-        <Text fontSize="28px" fontWeight={500} marginLeft="60px" marginY="40px">
+        <Text
+          fontSize={isMobile ? '24px' : '28px'}
+          fontWeight={500}
+          marginLeft={isMobile ? 0 : '60px'}
+          marginY={isMobile ? '20px' : '40px'}
+        >
           เปลี่ยนรหัสผ่าน
         </Text>
         <Form.Item
@@ -140,9 +151,16 @@ export const CommunitySettingEditProfile = () => {
           />
         </Form.Item>
         <Divider />
+        <Text
+          fontSize={isMobile ? '24px' : '28px'}
+          fontWeight={500}
+          marginLeft={isMobile ? 0 : '60px'}
+          marginY={isMobile ? '30px' : '40px'}
+        >
+          สถานที่ให้ความช่วยเหลือ
+        </Text>
         <Form.Item
           name="location"
-          label="สถานที่ให้ความช่วยเหลือ"
           rules={[
             {
               // required: true,
@@ -150,7 +168,7 @@ export const CommunitySettingEditProfile = () => {
             }
           ]}
         >
-          <GoogleMapContent />
+          <GoogleMapContent width={isMobile ? '100%' : '470px'} />
         </Form.Item>
         <div
           css={css`
@@ -176,6 +194,12 @@ export const CommunitySettingEditProfile = () => {
 
               &:hover {
                 background: #ee6400;
+              }
+
+              ${mediaQueryMobile} {
+                right: 0;
+                width: 100px;
+                height: 35px;
               }
             `}
           >

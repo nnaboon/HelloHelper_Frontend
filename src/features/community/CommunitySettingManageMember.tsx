@@ -7,6 +7,7 @@ import { Dropdown, Menu } from 'antd';
 import { SecondaryButton, PrimaryButton } from 'components/Button/Button';
 import { Text } from 'components/Text';
 import UserAvatar from 'images/avatar_helper.png';
+import { useMedia, MOBILE_WIDTH, mediaQueryMobile } from 'styles/variables';
 
 const CommunityMemberCard = styled.div`
   width: 100%;
@@ -17,6 +18,11 @@ const CommunityMemberCard = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 40px;
+
+  ${mediaQueryMobile} {
+    height: 130px;
+    margin-bottom: 20px;
+  }
 `;
 
 const CommunityAdminBadge = styled.div`
@@ -24,6 +30,11 @@ const CommunityAdminBadge = styled.div`
   font-size: 14px;
   line-height: 26px;
   color: #ee6400;
+
+  ${mediaQueryMobile} {
+    width: 100%;
+    margin-top: -8px;
+  }
 `;
 
 const CommunityMemberImage = styled.img`
@@ -31,6 +42,13 @@ const CommunityMemberImage = styled.img`
   width: 74px;
   height: 74px;
   margin-right: 55px;
+
+  ${mediaQueryMobile} {
+    width: 60px;
+    height: 60px;
+    margin-right: 20px;
+    margin-left: 20px;
+  }
 `;
 
 const UserName = styled.div`
@@ -39,9 +57,18 @@ const UserName = styled.div`
   color: #000000;
   margin-bottom: 5px;
   margin-right: 30px;
+
+  ${mediaQueryMobile} {
+    font-size: 16px;
+    width: max-content;
+    margin-right: 20px;
+    min-width: max-content;
+  }
 `;
 
 export const CommunitySettingManageMember = ({ member }: any) => {
+  const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
+
   const menu = (
     <Menu>
       <Menu.Item>ผู้นำชุมชน</Menu.Item>
@@ -50,7 +77,7 @@ export const CommunitySettingManageMember = ({ member }: any) => {
   );
 
   return (
-    <div style={{ margin: '40px 60px' }}>
+    <div style={{ margin: isMobile ? 0 : '40px 60px' }}>
       <Text fontWeight={500} fontSize="28px" marginY="40px">
         ผู้ต้องการเข้าร่วมชุมชน
       </Text>
@@ -63,12 +90,22 @@ export const CommunitySettingManageMember = ({ member }: any) => {
               align-items: center;
               margin-left: 90px;
               justify-content: space-between;
+
+              ${mediaQueryMobile} {
+                margin-left: 0;
+                flex-direction: column;
+              }
             `}
           >
             <div
               css={css`
                 display: flex;
                 align-items: center;
+
+                ${mediaQueryMobile} {
+                  margin-left: 0;
+                  align-self: flex-start;
+                }
               `}
             >
               {' '}
@@ -82,12 +119,24 @@ export const CommunitySettingManageMember = ({ member }: any) => {
               css={css`
                 display: flex;
                 margin-right: 80px;
+
+                ${mediaQueryMobile} {
+                  margin: 0;
+                  position: relative;
+                  bottom: -15px;
+                  width: 100%;
+                  justify-content: center;
+                }
               `}
             >
               {' '}
               <SecondaryButton
                 css={css`
                   width: 140px;
+
+                  ${mediaQueryMobile} {
+                    width: 45%;
+                  }
                 `}
               >
                 <div>ปฏิเสธ</div>
@@ -96,6 +145,10 @@ export const CommunitySettingManageMember = ({ member }: any) => {
                 <PrimaryButton
                   css={css`
                     width: 140px;
+
+                    ${mediaQueryMobile} {
+                      width: 45%;
+                    }
                   `}
                 >
                   <div>ยอมรับ</div>
@@ -117,12 +170,21 @@ export const CommunitySettingManageMember = ({ member }: any) => {
               align-items: center;
               margin-left: 90px;
               justify-content: space-between;
+
+              ${mediaQueryMobile} {
+                margin-left: 0;
+                flex-direction: column;
+              }
             `}
           >
             <div
               css={css`
                 display: flex;
                 align-items: center;
+                ${mediaQueryMobile} {
+                  margin-left: 0;
+                  align-self: flex-start;
+                }
               `}
             >
               {' '}
@@ -137,12 +199,24 @@ export const CommunitySettingManageMember = ({ member }: any) => {
               css={css`
                 display: flex;
                 margin-right: 80px;
+
+                ${mediaQueryMobile} {
+                  margin: 0;
+                  position: relative;
+                  bottom: -15px;
+                  width: 100%;
+                  justify-content: center;
+                }
               `}
             >
               {' '}
               <SecondaryButton
                 css={css`
                   width: 140px;
+
+                  ${mediaQueryMobile} {
+                    width: 45%;
+                  }
                 `}
               >
                 <div>ลบ</div>
@@ -151,6 +225,10 @@ export const CommunitySettingManageMember = ({ member }: any) => {
                 <PrimaryButton
                   css={css`
                     width: 140px;
+
+                    ${mediaQueryMobile} {
+                      width: 45%;
+                    }
                   `}
                 >
                   <div>เปลี่ยนสถานะ</div>
@@ -172,12 +250,21 @@ export const CommunitySettingManageMember = ({ member }: any) => {
               align-items: center;
               margin-left: 90px;
               justify-content: space-between;
+
+              ${mediaQueryMobile} {
+                margin-left: 0;
+                flex-direction: column;
+              }
             `}
           >
             <div
               css={css`
                 display: flex;
                 align-items: center;
+                ${mediaQueryMobile} {
+                  margin-left: 0;
+                  align-self: flex-start;
+                }
               `}
             >
               {' '}
@@ -191,12 +278,24 @@ export const CommunitySettingManageMember = ({ member }: any) => {
               css={css`
                 display: flex;
                 margin-right: 80px;
+
+                ${mediaQueryMobile} {
+                  margin: 0;
+                  position: relative;
+                  bottom: -15px;
+                  width: 100%;
+                  justify-content: center;
+                }
               `}
             >
               {' '}
               <SecondaryButton
                 css={css`
                   width: 140px;
+
+                  ${mediaQueryMobile} {
+                    width: 45%;
+                  }
                 `}
               >
                 <div>ลบ</div>
@@ -205,6 +304,10 @@ export const CommunitySettingManageMember = ({ member }: any) => {
                 <PrimaryButton
                   css={css`
                     width: 140px;
+
+                    ${mediaQueryMobile} {
+                      width: 45%;
+                    }
                   `}
                 >
                   <div>เปลี่ยนสถานะ</div>

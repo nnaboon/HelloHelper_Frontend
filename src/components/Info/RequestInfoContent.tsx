@@ -1,6 +1,6 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
 import { useLocation, useHistory } from 'react-router-dom';
@@ -11,15 +11,24 @@ import { Text } from 'components/Text';
 import { PrimaryButton, SecondaryButton } from 'components/Button/Button';
 import { HelperListCard } from 'components/Card/HelperListCard';
 import { SmallSuggestedRequestCard } from 'components/Card/SmallSuggestedRequestCard';
-import { HelpMenu } from 'components/Menu/const';
+import { InfoMenu } from 'components/Menu/const';
 import { POPULAR_REQUEST_DATA } from 'data/helper';
 import UserAvatar from 'images/avatar_helper.png';
-import RequestImage from 'images/request.jpeg';
+import { useMedia, MOBILE_WIDTH, mediaQueryMobile } from 'styles/variables';
+import { InfoMenuTab } from 'components/Menu/InfoMenuTab';
+import { RANK_BADGE } from 'components/Badge/const';
+import { RankingBadge } from 'components/Badge/Badge';
+import { SuggestedBadge } from 'components/Badge/Badge';
 
 const RequestImageSection = styled.img`
   width: 420px;
   height: 510px;
   margin-bottom: 20px;
+
+  ${mediaQueryMobile} {
+    width: 100%;
+    height: 300px;
+  }
 `;
 
 const RequestCategoryButton = styled(PrimaryButton)`
@@ -43,6 +52,39 @@ const RequestInfoContainer = styled.div`
   grid-template-columns: 180px 400px;
   grid-gap: 40px;
   margin-bottom: 60px;
+
+  ${mediaQueryMobile} {
+    grid-template-columns: auto auto;
+    grid-gap: 12px;
+  }
+`;
+
+const HelperImage = styled.img`
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-top: 15px;
+
+  ${mediaQueryMobile} {
+    width: 65px;
+    height: 65px;
+  }
+`;
+
+const UserName = styled.div`
+  font-weight: 700;
+  font-size: 24px;
+  color: #000000;
+  margin-bottom: 5px;
+  margin-right: 30px;
+  min-width: 140px;
+  width: max-content;
+
+  ${mediaQueryMobile} {
+    min-width: max-content;
+    font-size: 16px;
+    margin-right: 0;
+  }
 `;
 
 const RequestDetail = styled.div`
@@ -52,6 +94,10 @@ const RequestDetail = styled.div`
   color: #000000;
   min-width: 200px;
   line-height: 31px;
+
+  ${mediaQueryMobile} {
+    font-size: 16px;
+  }
 `;
 
 const RequestTitle = styled.div`
@@ -60,15 +106,30 @@ const RequestTitle = styled.div`
   color: #cacaca;
   min-width: 90px;
   max-width: 150px;
+
+  ${mediaQueryMobile} {
+    min-width: unset;
+    max-width: unset;
+  }
 `;
 
 export const RequestInfoContent = ({ data }: any) => {
+  const [menu, setMenu] = useState<InfoMenu>(InfoMenu.INFO);
   const history = useHistory();
   const { pathname, state } = useLocation();
   const query = pathname.split('/')[2];
-  const currentMenu = ((state as any)?.type || HelpMenu.PROVIDE) as HelpMenu;
+  const currentMenu = ((state as any)?.info_menu || InfoMenu.INFO) as InfoMenu;
+  const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
+
+  useEffect(() => {
+    setMenu(currentMenu);
+  }, [currentMenu]);
 
   return (
+    // <WrapperContainer>
+    //   {isMobile && <InfoMenuTab menu={menu} setMenu={setMenu} />}
+    //   {menu === InfoMenu.INFO ? <div>d</div> : <div>ddd</div>}
+    // </WrapperContainer>
     <React.Fragment>
       {data
         .filter(({ id }) => id === query)
@@ -89,103 +150,224 @@ export const RequestInfoContent = ({ data }: any) => {
             helper,
             rank
           }) => (
-            <WrapperContainer key={id}>
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <Flex
-                  direction="column"
-                  justify="flex-start"
-                  itemAlign="flex-start"
-                  style={{ width: 'unset', position: 'relative' }}
-                >
-                  <RequestImageSection src={imageUrl} alt="request section" />
-                  <Flex
+            <WrapperContainer
+              key={id}
+              css={css`
+                ${mediaQueryMobile} {
+                  height: calc(100vh - 170px);
+                  overflow-y: scroll;
+                }
+              `}
+            >
+              {isMobile && <InfoMenuTab menu={menu} setMenu={setMenu} />}
+              {(!isMobile || menu === InfoMenu.INFO) && (
+                <React.Fragment>
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      flexDirection: `${isMobile ? 'column' : 'row'}`
+                    }}
+                  >
+                    <Flex
+                      direction="column"
+                      justify="flex-start"
+                      itemAlign="flex-start"
+                      style={{ width: 'unset', position: 'relative' }}
+                    >
+                      <RequestImageSection
+                        src={imageUrl}
+                        alt="request section"
+                      />
+
+                      <Flex
+                        css={css`
+                          width: 600px;
+                          flex-wrap: wrap;
+                        `}
+                      >
+                        {category.map((items) => (
+                          <RequestCategoryButton
+                            onClick={() => {
+                              history.push({
+                                pathname: `/${items}`
+                              });
+                            }}
+                          >
+                            {items}
+                          </RequestCategoryButton>
+                        ))}
+                      </Flex>
+                      <Flex
+                        css={css`
+                          width: 600px;
+                          flex-wrap: wrap;
+                        `}
+                      >
+                        {hashtag.map((items) => (
+                          <RequestHashtagButton
+                            onClick={() => {
+                              history.push({
+                                pathname: `/search`,
+                                search: `?keyword=${items}`
+                              });
+                            }}
+                          >
+                            #{items}
+                          </RequestHashtagButton>
+                        ))}
+                      </Flex>
+                    </Flex>
+                    <Flex
+                      direction="column"
+                      marginTop="30px"
+                      style={{ width: 'unset' }}
+                    >
+                      <RequestInfoContainer>
+                        <RequestTitle>ชื่อ</RequestTitle>
+                        <RequestDetail>{title}</RequestDetail>
+                        <RequestTitle>สถานที่ให้ความข่วยเหลือ</RequestTitle>
+                        <RequestDetail>{location}</RequestDetail>
+                        <React.Fragment>
+                          <RequestTitle>จำนวน</RequestTitle>
+                          <RequestDetail>{amount}</RequestDetail>
+                          <RequestTitle>ราคาสินค้าสูงสุด</RequestTitle>
+                          <RequestDetail>{maxPrice}</RequestDetail>
+                        </React.Fragment>
+                        <RequestTitle>อัตราค่าบริการสูงสุด</RequestTitle>
+                        <RequestDetail>{maxServiceCharge}</RequestDetail>
+                        <RequestTitle>ช่องทางการชำระเงิน</RequestTitle>
+                        <RequestDetail>{payment}</RequestDetail>
+                        <RequestTitle>คำอธิบาย</RequestTitle>
+                        <RequestDetail>{message}</RequestDetail>
+                      </RequestInfoContainer>
+                      <PrimaryButton
+                        css={css`
+                          ${mediaQueryMobile} {
+                            width: 100%;
+                            position: fixed;
+                            z-index: 99;
+                            bottom: 0;
+                            left: 0;
+                            border-radius: 0 !important;
+                            height: 40px;
+                          }
+                        `}
+                      >
+                        สนใจให้ความช่วยเหลือ
+                      </PrimaryButton>
+                    </Flex>
+                  </div>
+                  <div
                     css={css`
-                      width: 600px;
-                      flex-wrap: wrap;
+                      width: 100%;
+                      height: 140px;
+                      display: flex;
+                      align-items: center;
+                      background: #ffffff;
+                      box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.09);
+                      border-radius: 12px;
+                      justify-content: space-between;
+                      margin: 40px 0;
+
+                      ${mediaQueryMobile} {
+                        height: 90px;
+                        margin: 0;
+                      }
                     `}
                   >
-                    {category.map((items) => (
-                      <RequestCategoryButton
-                        onClick={() => {
-                          history.push({
-                            pathname: `/${items}`
-                          });
-                        }}
+                    <div style={{ display: 'flex' }}>
+                      <div
+                        css={css`
+                          display: flex;
+                          width: 20%;
+                          flex-direction: column;
+                          align-items: center;
+                          margin-left: 170px;
+                          margin-right: 60px;
+
+                          ${mediaQueryMobile} {
+                            margin: 0 30px;
+                          }
+                        `}
                       >
-                        {items}
-                      </RequestCategoryButton>
-                    ))}
-                  </Flex>
+                        <HelperImage src={UserAvatar} alt="user avatar" />
+                        {Boolean(1) && (
+                          <SuggestedBadge
+                            css={css`
+                              ${mediaQueryMobile} {
+                                left: 0;
+                              }
+                            `}
+                          >
+                            แนะนำ
+                          </SuggestedBadge>
+                        )}
+                      </div>
+                      <div
+                        css={css`
+                          display: flex;
+                          align-items: center;
+                        `}
+                      >
+                        <UserName>{name}</UserName>
+                        <RankingBadge
+                          rankColor={RANK_BADGE[rank].color}
+                          css={css`
+                            margin-top: -10px;
+                          `}
+                        >
+                          {rank.toUpperCase()}
+                        </RankingBadge>
+                      </div>
+                    </div>
+                  </div>
+                </React.Fragment>
+              )}
+              {(!isMobile || menu === InfoMenu.HELPER_LIST) && (
+                <React.Fragment>
+                  <Text fontSize="24px" fontWeight={400}>
+                    รายชื่อผู้ต้องการช่วยเหลือ
+                  </Text>
                   <Flex
+                    justify="flex-start"
+                    itemAlign="flex-start"
                     css={css`
-                      width: 600px;
-                      flex-wrap: wrap;
+                      ${mediaQueryMobile} {
+                        flex-direction: column;
+                      }
                     `}
                   >
-                    {hashtag.map((items) => (
-                      <RequestHashtagButton
-                        onClick={() => {
-                          history.push({
-                            pathname: `/search`,
-                            search: `?keyword=${items}`
-                          });
-                        }}
-                      >
-                        #{items}
-                      </RequestHashtagButton>
-                    ))}
+                    <div
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'flex-start',
+                        alignItems: 'flex-start',
+                        width: '100%',
+                        marginTop: isMobile ? '20px' : '40px'
+                      }}
+                    >
+                      {helper.map(({ id, name, imageUrl }) => (
+                        <HelperListCard
+                          id={id}
+                          name={name}
+                          imageUrl={UserAvatar}
+                        />
+                      ))}
+                    </div>
+                    {isMobile && <Divider />}
+                    <Flex direction="column" itemAlign="flex-end">
+                      <SmallSuggestedRequestCard
+                        data={[POPULAR_REQUEST_DATA[0]]}
+                      />
+                      <SmallSuggestedRequestCard
+                        data={[POPULAR_REQUEST_DATA[1]]}
+                      />
+                    </Flex>
                   </Flex>
-                </Flex>
-                <Flex
-                  direction="column"
-                  marginTop="30px"
-                  style={{ width: 'unset' }}
-                >
-                  <RequestInfoContainer>
-                    <RequestTitle>ชื่อ</RequestTitle>
-                    <RequestDetail>{title}</RequestDetail>
-                    <RequestTitle>สถานที่ให้ความข่วยเหลือ</RequestTitle>
-                    <RequestDetail>{location}</RequestDetail>
-                    <React.Fragment>
-                      <RequestTitle>จำนวน</RequestTitle>
-                      <RequestDetail>{amount}</RequestDetail>
-                      <RequestTitle>ราคาสินค้าสูงสุด</RequestTitle>
-                      <RequestDetail>{maxPrice}</RequestDetail>
-                    </React.Fragment>
-                    <RequestTitle>อัตราค่าบริการสูงสุด</RequestTitle>
-                    <RequestDetail>{maxServiceCharge}</RequestDetail>
-                    <RequestTitle>ช่องทางการชำระเงิน</RequestTitle>
-                    <RequestDetail>{payment}</RequestDetail>
-                    <RequestTitle>คำอธิบาย</RequestTitle>
-                    <RequestDetail>{message}</RequestDetail>
-                  </RequestInfoContainer>
-                  <PrimaryButton>สนใจให้ความช่วยเหลือ</PrimaryButton>
-                </Flex>
-              </div>
-              <Divider />
-              <Text fontSize="24px" fontWeight={400}>
-                รายชื่อผู้ต้องการช่วยเหลือ
-              </Text>
-              <Flex justify="flex-start" itemAlign="flex-start">
-                <div
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'flex-start',
-                    alignItems: 'flex-start',
-                    width: '100%',
-                    marginTop: '40px'
-                  }}
-                >
-                  {helper.map(({ id, name, imageUrl }) => (
-                    <HelperListCard id={id} name={name} imageUrl={UserAvatar} />
-                  ))}
-                </div>
-                <Flex direction="column" itemAlign="flex-end">
-                  <SmallSuggestedRequestCard data={[POPULAR_REQUEST_DATA[0]]} />
-                  <SmallSuggestedRequestCard data={[POPULAR_REQUEST_DATA[1]]} />
-                </Flex>
-              </Flex>
+                </React.Fragment>
+              )}
             </WrapperContainer>
           )
         )}

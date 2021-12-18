@@ -34,8 +34,11 @@ const HelperListCardContainer = styled.div`
 
   ${mediaQueryMobile} {
     width: 100%;
-    height: 90px;
+    height: 130px;
     min-width: 100%;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
   }
 `;
 
@@ -56,8 +59,9 @@ const HelperName = styled.div`
   margin-left: 50px;
 
   ${mediaQueryMobile} {
-    font-size: 16px;
+    font-size: 18px;
     margin-left: 20px;
+    font-weight: 600;
   }
 `;
 
@@ -68,6 +72,10 @@ export const HelperListCard = ({ id, name, imageUrl }: HelperListCardProps) => {
         css={css`
           display: flex;
           align-items: center;
+
+          ${mediaQueryMobile} {
+            width: 100%;
+          }
         `}
       >
         <HelperImage src={imageUrl} alt="user avatar" />
@@ -77,13 +85,32 @@ export const HelperListCard = ({ id, name, imageUrl }: HelperListCardProps) => {
       <div
         css={css`
           display: flex;
+
+          ${mediaQueryMobile} {
+            position: relative;
+            bottom: -12px;
+            width: 100%;
+            justify-content: space-between;
+          }
         `}
       >
-        <SecondaryButton>
+        <SecondaryButton
+          css={css`
+            ${mediaQueryMobile} {
+              width: 50%;
+            }
+          `}
+        >
           <UserSvg />
           <div>โปรไฟล์</div>
         </SecondaryButton>
-        <PrimaryButton>
+        <PrimaryButton
+          css={css`
+            ${mediaQueryMobile} {
+              width: 50%;
+            }
+          `}
+        >
           <MessageSvg style={{ marginRight: '5px' }} />
           <div>แชท</div>
         </PrimaryButton>

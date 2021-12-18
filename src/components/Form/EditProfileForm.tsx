@@ -2,7 +2,6 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/react';
 import React, { useState } from 'react';
-import styled from '@emotion/styled';
 import { Text } from 'components/Text';
 import { Button, Form, Input, message, Checkbox, Divider } from 'antd';
 import { ABILITY } from 'data/ability';
@@ -49,6 +48,10 @@ export const EditProfileForm = () => {
     <WrapperContainer
       css={css`
         height: calc(100vh + 450px);
+
+        ${mediaQueryMobile} {
+          height: calc(100vh - 140px);
+        }
       `}
     >
       <Text

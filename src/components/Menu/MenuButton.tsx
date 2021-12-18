@@ -32,7 +32,7 @@ export const MenuButton = ({
         font-weight: ${isActive ? '700' : '500'};
 
         ${mediaQueryMobile} {
-          font-size: ${isActive ? '24px' : '18px'};
+          font-size: ${isActive ? '20px' : '16px'};
         }
       `}
       {...restProps}

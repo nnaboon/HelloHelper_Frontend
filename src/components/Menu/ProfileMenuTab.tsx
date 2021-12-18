@@ -27,7 +27,7 @@ export const ProfileMenuTab = ({ menu, setMenu }: MenuTabProps) => {
       itemAlign="center"
       justify="space-around"
       marginBottom="18px"
-      style={{ width: isMobile ? '100%' : '50%', margin: '50px 0' }}
+      style={{ width: isMobile ? '100%' : '50%', margin: '30px 0' }}
     >
       {Object.values(isMobile ? ProfileMenu : HelpMenu).map((key) => (
         <MenuButton

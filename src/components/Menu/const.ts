@@ -21,8 +21,8 @@ export const PROFILE_MENU_MAPPER = {
 
 export const PROFILE_MOBILE_MENU_MAPPER = {
   [ProfileMenu.HOME]: 'หน้าแรก',
-  [ProfileMenu.PROVIDE]: 'รายการให้ความช่วยเหลือของฉัน',
-  [ProfileMenu.REQUEST]: 'รายการขอความช่วยเหลือของฉัน'
+  [ProfileMenu.PROVIDE]: 'ให้ความช่วยเหลือ',
+  [ProfileMenu.REQUEST]: 'ขอความช่วยเหลือ'
 };
 
 export enum CommunityMenu {
@@ -38,7 +38,7 @@ export enum CommunitySettingMenu {
 
 export enum InfoMenu {
   INFO = 'info',
-  LIST = 'list'
+  HELPER_LIST = 'helper_list'
 }
 
 export const COMMUNITY_MENU_MAPPER = {
@@ -54,5 +54,5 @@ export const COMMUNITY_SETTING_MENU_MAPPER = {
 
 export const INFO_MENU_MAPPER = {
   [InfoMenu.INFO]: 'ข้อมูลความช่วยเหลือ',
-  [InfoMenu.LIST]: 'ผู้ต้องการช่วยเหลือ'
+  [InfoMenu.HELPER_LIST]: 'ผู้ต้องการช่วยเหลือ'
 };

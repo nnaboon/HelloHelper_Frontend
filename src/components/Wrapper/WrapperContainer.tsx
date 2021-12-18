@@ -4,7 +4,6 @@ import { mediaQueryMobile } from 'styles/variables';
 
 export const WrapperContainer = styled.div`
   position: relative;
-  height: calc(100vh + 400px);
   top: 165px;
   padding: 40px 100px;
   box-sizing: border-box;

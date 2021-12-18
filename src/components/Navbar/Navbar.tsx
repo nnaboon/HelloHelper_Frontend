@@ -13,6 +13,7 @@ import { LoginStep } from 'features/login/const';
 import { mediaQueryMobile } from 'styles/variables';
 import { useMedia, MOBILE_WIDTH } from 'styles/variables';
 import { SideMenu } from 'components/Menu/SideMenu';
+import { USER_DATA } from 'data/user';
 
 const NavbarSection = styled.div`
   width: 100%;
@@ -77,6 +78,8 @@ const SearchBarContainer = styled.div`
 export const Navbar = () => {
   // Change to check from key in local storage.
   const [account, setAccount] = useState<boolean>(true);
+  const [collapsed, setCollapsed] = useState<boolean>(true);
+
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [accountStep, setAccountStep] = useState<LoginStep>(LoginStep.LOGIN);
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
@@ -110,7 +113,7 @@ export const Navbar = () => {
       />
       <Flex justify="space-between">
         {isMobile ? (
-          <SideMenu />
+          <SideMenu collapsed={collapsed} setCollapsed={setCollapsed} />
         ) : (
           <div
             style={{ width: '100px', height: '40px', background: 'blue' }}
@@ -176,9 +179,10 @@ export const Navbar = () => {
           )}
 
           <MyAccount
-            src={UserPic}
+            src={USER_DATA[0].imageUrl ?? UserPic}
             alt="my account"
             onClick={() => {
+              setCollapsed(true);
               if (account) {
                 history.push({
                   pathname: '/profile'

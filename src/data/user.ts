@@ -2,7 +2,7 @@ export const USER_DATA = [
   {
     id: 'abcde',
     name: 'กระทิง สีแดง',
-    imageUrl: '',
+    imageUrl: undefined,
     location: 'มหาวิทยาลัยเกษตรศาสตร์ บางเขน',
     community: {
       id: 'zxcvb234',
@@ -302,12 +302,7 @@ export const USER_DATA = [
       provideList: [
         {
           id: 'qwer21',
-          owner: {
-            id: 'dfsads',
-            name: 'กระทิง สีแดง',
-            imageUrl: '',
-            rank: ''
-          },
+          name: 'กระทิง สีแดง',
           imageUrl: '',
           title: 'ขนมปังสังขยา ร้านนายเฮ็ง โชคชัย4',
           location: 'หมู่บ้าน vive',

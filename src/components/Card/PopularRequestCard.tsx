@@ -25,8 +25,10 @@ const RequestHelperCardContainer = styled.div`
   position: relative;
 
   ${mediaQueryMobile} {
+    width: 100%;
     overflow-x: visible;
     margin-bottom: 30px;
+    justify-content: center;
   }
 `;
 
@@ -47,10 +49,13 @@ const CardContainer = styled.div`
   cursor: pointer;
 
   ${mediaQueryMobile} {
-    width: 100%;
-    height: 250px;
-    min-width: 100%;
+    width: 90%;
+    height: 270px;
+    min-width: 90%;
     padding: 20px;
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
   }
 `;
 
@@ -114,9 +119,6 @@ const RequestDataContent = styled.div`
 export const PopularRequestSection = ({ data }: any) => {
   const history = useHistory();
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
-  function onChange() {
-    console.log('na');
-  }
 
   return (
     <RequestHelperCardContainer>
@@ -137,7 +139,10 @@ export const PopularRequestSection = ({ data }: any) => {
             <div
               onClick={() => {
                 history.push({
-                  pathname: `/${title}/${id}`
+                  pathname: `/${title}/${id}`,
+                  state: {
+                    type: 'provide'
+                  }
                 });
               }}
             >

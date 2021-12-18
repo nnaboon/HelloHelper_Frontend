@@ -16,65 +16,6 @@ import { CommunityMenuTab } from 'components/Menu/CommunityMenuTab';
 import { CommunityMenu } from 'components/Menu/const';
 import { CommunitySigninState } from './CommunitySigninState';
 
-const ProfilePageUserHelperListSection = styled.div`
-  display: grid;
-  grid-template-columns: minmax(auto, 510px) minmax(auto, 510px) minmax(
-      auto,
-      510px
-    );
-  grid-gap: 30px;
-`;
-
-const ProfilePageUserInfoSection = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  margin-top: 40px;
-  margin-bottom: 70px;
-`;
-
-const UserCard = styled.div`
-  width: 445px;
-  height: 246px;
-  background: #ffffff;
-  box-shadow: 0px 7px 7px rgba(0, 0, 0, 0.15);
-  border-radius: 8px;
-  display: flex;
-  margin-left: 50px;
-  border-sizing: border-box;
-  padding: 20px;
-  position: relative;
-`;
-
-const HelperImage = styled.div`
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  background: #0f3276;
-  margin-top: 15px;
-`;
-
-const UserName = styled.div`
-  font-weight: 700;
-  font-size: 24px;
-  color: #000000;
-  margin-bottom: 5px;
-`;
-
-const ProfileInfoListHeading = styled.div`
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 14px;
-  color: #5a5a5a;
-`;
-
-const ProfileInfoListDetail = styled.div`
-  font-weight: 600;
-  font-size: 24px;
-  line-height: 21px;
-  color: #e56101;
-  margin-left: 12px;
-`;
 export const CommunitySignin = () => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
