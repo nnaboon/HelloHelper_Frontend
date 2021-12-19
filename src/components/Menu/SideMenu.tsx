@@ -1,6 +1,6 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import { jsx } from '@emotion/react';
+import { css, jsx } from '@emotion/react';
 import { useHistory } from 'react-router-dom';
 import React from 'react';
 import { Menu } from 'antd';
@@ -15,6 +15,8 @@ import {
 } from '@ant-design/icons';
 import { CATEGORY } from 'data/category';
 import { MenuSvg } from 'components/Svg/MenuSvg';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 
 interface SideMenuProps {
   collapsed: boolean;
@@ -37,6 +39,18 @@ export const SideMenu = ({ collapsed, setCollapsed }: SideMenuProps) => {
         position: 'absolute',
         zIndex: 5
       }}
+      css={css`
+        .ant-tooltip
+          .ant-menu-inline-collapsed-tooltip
+          .ant-tooltip-placement-left
+          .ant-tooltip-hidden {
+          visibility: hidden !important;
+        }
+
+        .ant-tooltip-inner {
+          visibility: hidden !important;
+        }
+      `}
     >
       <div
         onClick={toggleCollapsed}
@@ -74,7 +88,7 @@ export const SideMenu = ({ collapsed, setCollapsed }: SideMenuProps) => {
           หน้าแรก
         </Menu.Item>
         <SubMenu key="sub1" icon={<UnorderedListOutlined />} title="หมวดหมู่">
-          {CATEGORY.map(({ id, name }) => (
+          {CATEGORY.map(({ id, name, icon }) => (
             <Menu.Item
               key={id}
               onClick={() => {
@@ -83,8 +97,21 @@ export const SideMenu = ({ collapsed, setCollapsed }: SideMenuProps) => {
                   pathname: `/${id}`
                 });
               }}
+              css={css`
+                span {
+                  display: flex;
+                  align-items: center;
+                }
+              `}
             >
-              {name}
+              <FontAwesomeIcon icon={icon} />
+              <div
+                css={css`
+                  margin-left: 10px;
+                `}
+              >
+                {name}
+              </div>
             </Menu.Item>
           ))}
         </SubMenu>{' '}

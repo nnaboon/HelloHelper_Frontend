@@ -1,4 +1,5 @@
 import React from 'react';
+import { mediaQueryMobile } from 'styles/variables';
 import styled from '@emotion/styled';
 
 interface StatusButtonProps {
@@ -21,6 +22,10 @@ const StatusButtonContainer = styled.div<{ color: string }>`
   border-radius: 8px;
   margin-right: 10px;
   cursor: pointer;
+
+  ${mediaQueryMobile} {
+    min-width: 130px;
+  }
 `;
 
 export const StatusButton = ({ status, color, onClick }: StatusButtonProps) => {

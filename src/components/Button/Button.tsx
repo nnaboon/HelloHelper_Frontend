@@ -18,7 +18,6 @@ export const SecondaryButton = styled.a`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  margin-bottom: 20px;
   margin-right: 10px;
 
   &:hover {
