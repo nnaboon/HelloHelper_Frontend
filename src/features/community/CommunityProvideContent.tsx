@@ -4,11 +4,11 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
 import { PopularRequestSection } from 'components/Card/PopularRequestCard';
-import { POPULAR_REQUEST_DATA } from 'data/helper';
 import { Text } from 'components/Text';
 import { Carousel } from 'antd';
 import { useMedia, MOBILE_WIDTH, mediaQueryMobile } from 'styles/variables';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
+import { PROVIDE_MAPPER } from 'data/provide';
 
 const CommunityProvideSection = styled.div`
   display: grid;
@@ -82,12 +82,12 @@ export const CommunityProvideContent = () => {
           nextArrow={<SampleNextArrow />}
           prevArrow={<SamplePrevArrow />}
         >
-          {POPULAR_REQUEST_DATA.map((items) => (
+          {PROVIDE_MAPPER.map((items) => (
             <PopularRequestSection data={[items]} />
           ))}
         </ProvideCarousel>
       ) : (
-        <PopularRequestSection data={POPULAR_REQUEST_DATA} />
+        <PopularRequestSection data={PROVIDE_MAPPER} />
       )}
 
       <Text fontSize="32px" fontWeight={500}>
@@ -99,18 +99,18 @@ export const CommunityProvideContent = () => {
           nextArrow={<SampleNextArrow />}
           prevArrow={<SamplePrevArrow />}
         >
-          {POPULAR_REQUEST_DATA.map((items) => (
+          {PROVIDE_MAPPER.map((items) => (
             <PopularRequestSection data={[items]} />
           ))}
         </ProvideCarousel>
       ) : (
-        <PopularRequestSection data={POPULAR_REQUEST_DATA} />
+        <PopularRequestSection data={PROVIDE_MAPPER} />
       )}
       <Text fontSize="32px" fontWeight={500}>
         ความช่วยเหลือทั้งหมด
       </Text>
       <CommunityProvideSection>
-        {POPULAR_REQUEST_DATA.map((items) => (
+        {PROVIDE_MAPPER.map((items) => (
           <PopularRequestSection
             data={[items]}
             css={css`

@@ -9,6 +9,7 @@ import { UserSvg } from 'components/Svg/UserSvg';
 import { MessageSvg } from 'components/Svg/MessageSvg';
 import UserAvatar from 'images/avatar_helper.png';
 import { useMedia, MOBILE_WIDTH, mediaQueryMobile } from 'styles/variables';
+import { USER_DATA } from '../../data/user';
 
 const CommunityMemberCard = styled.div`
   width: 100%;
@@ -71,8 +72,8 @@ export const CommunityMemberContent = ({ member }: any) => {
 
   return (
     <div>
-      {member.map(({ id, name }) => (
-        <CommunityMemberCard key={id}>
+      {member.map(({ userId, role }) => (
+        <CommunityMemberCard key={userId}>
           <div
             css={css`
               display: flex;
@@ -102,8 +103,15 @@ export const CommunityMemberContent = ({ member }: any) => {
                 src={UserAvatar}
                 alt="community member avatar"
               />
-              <UserName>{name}</UserName>
-              <CommunityAdminBadge>ผู้นำชุมชน</CommunityAdminBadge>
+              <UserName>
+                {
+                  USER_DATA.filter((props) => props.userId === userId)[0]
+                    .username
+                }
+              </UserName>
+              {Boolean(role) && (
+                <CommunityAdminBadge>ผู้นำชุมชน</CommunityAdminBadge>
+              )}
             </div>
             <div
               css={css`
@@ -134,7 +142,7 @@ export const CommunityMemberContent = ({ member }: any) => {
                   style={{ marginLeft: 5 }}
                   onClick={() => {
                     history.push({
-                      pathname: `/profile/${id}`
+                      pathname: `/profile/${userId}`
                     });
                   }}
                 >

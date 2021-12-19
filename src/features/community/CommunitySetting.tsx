@@ -27,7 +27,10 @@ export const CommunitySetting = () => {
     <WrapperContainer>
       <CommunitySettingMenuTab menu={menu} setMenu={setMenu} />
       {currentMenu === CommunitySettingMenu.MANAGE ? (
-        <CommunitySettingManageMember member={COMMUNITY_MAPPER[0].member} />
+        <CommunitySettingManageMember
+          member={COMMUNITY_MAPPER[0].member}
+          joinedRequest={COMMUNITY_MAPPER[0].joinedRequest}
+        />
       ) : (
         <CommunitySettingEditProfile />
       )}

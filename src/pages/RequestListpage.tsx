@@ -1,3 +1,5 @@
+/** @jsxRuntime classic */
+/** @jsx jsx */
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
@@ -7,16 +9,32 @@ import { StatusButton } from 'components/Button/StatusButton';
 import { STATUS_MAPPER } from 'components/Button/const';
 import { WrapperContainer } from 'components/Wrapper/WrapperContainer';
 import { RequestListCard } from 'components/Card/RequestListCard';
-import { REQUEST_MAPPER } from 'data/request';
+import { mediaQueryMobile, MOBILE_WIDTH, useMedia } from 'styles/variables';
+import { ORDER_DATA } from '../data/order';
+import { myAccountUserId } from 'data/user';
 
 export const RequestListPage = () => {
   const [currentStatus, setCurrentStatus] = useState<string>('waiting');
+  const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
+
   return (
-    <WrapperContainer>
+    <WrapperContainer
+      css={css`
+        ${mediaQueryMobile} {
+          height: calc(100vh - 150px);
+        }
+      `}
+    >
       <Text fontSize="24px" fontWeight={400} marginY="20px">
-        รายการขอความช่วยเหลือของฉัน ทั้งหมด {REQUEST_MAPPER.length} รายการ
+        รายการขอความช่วยเหลือของฉัน ทั้งหมด{' '}
+        {
+          ORDER_DATA.filter(
+            ({ requesterUserId }) => requesterUserId === myAccountUserId
+          ).length
+        }{' '}
+        รายการ
       </Text>
-      <Flex itemAlign="center">
+      <Flex itemAlign="center" overflowX={isMobile ? 'scroll' : 'unset'}>
         <StatusButton
           status={STATUS_MAPPER['waiting'].status}
           color={STATUS_MAPPER['waiting'].color}
@@ -44,11 +62,12 @@ export const RequestListPage = () => {
         direction="column"
         marginTop="30px"
       >
-        {REQUEST_MAPPER.filter((props) => props.status === currentStatus).map(
-          (props) => (
-            <RequestListCard props={props} />
-          )
-        )}
+        {ORDER_DATA.filter(
+          ({ status, orderReferenceType }) =>
+            status === currentStatus && orderReferenceType === 'request'
+        ).map((props) => (
+          <RequestListCard props={props} />
+        ))}
       </Flex>
     </WrapperContainer>
   );

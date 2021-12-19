@@ -1,185 +1,84 @@
-export type ProvideListProps = {
-  id: string;
-  status: string;
-  title: string;
-  location: string;
-  amount: string;
-  price: string;
-  serviceCharge: string;
-  payment: string;
-  message: string;
-  recipient: string;
-  address: string;
-  phoneNumber: string;
-};
+// export type ProvideListProps = {
+//   provideId: string;
+//   userId: string;
+//   title: string;
+//   location: string;
+//   serviceCharge: number;
+//   payment: string;
+//   description: string;
+//   category: string[];
+//   hashtag: string[];
+//   provideSum: number;
+//   rating: number;
+// };
 
-export const PROVIDE_MAPPER: ProvideListProps[] = [
+export const PROVIDE_MAPPER = [
   {
-    id: 'aabbccrt',
-    status: 'cancel',
+    provideId: 'aabbccrt',
+    userId: 'abcde',
     title: 'ขนมปังสังขยา โชคชัย4',
-    location: 'มหาลัยเกษตรศาสตร์ บางเขน',
-    amount: '2',
-    price: '100',
-    serviceCharge: '30',
+    location: {
+      name: 'มหาวิทยาลัยเกษตรศาสตร์ วิทยาเขตเฉลิมพระเกียรติ จังหวัดสกลนคร ตำบล เชียงเครือ อำเภอเมืองสกลนคร สกลนคร ประเทศไทย',
+      lat: 13.8476,
+      lng: 100.5696
+    },
+    serviceCharge: 30,
     payment: 'โอน',
-    message: 'ไส้ครีม',
-    recipient: 'นกกระยาง สีขาว',
-    address: '',
-    phoneNumber: '0811111111'
+    description: 'ไส้ครีม',
+    category: ['food'],
+    hashtag: ['ขนมปัง', 'สังขยา'],
+    provideSum: 300,
+    rating: 4
   },
   {
-    id: 'aabbccfg',
-    status: 'pending',
+    provideId: 'aabbccfg',
+    userId: 'abcde',
     title: 'ขนมปังสังขยา โชคชัย4',
-    location: 'มหาลัยเกษตรศาสตร์ บางเขน',
-    amount: '2',
-    price: '100',
-    serviceCharge: '30',
+    location: {
+      name: 'มหาวิทยาลัยเกษตรศาสตร์ วิทยาเขตเฉลิมพระเกียรติ จังหวัดสกลนคร ตำบล เชียงเครือ อำเภอเมืองสกลนคร สกลนคร ประเทศไทย',
+      lat: 13.8476,
+      lng: 100.5696
+    },
+    serviceCharge: 30,
     payment: 'โอน',
-    message: 'ไส้ครีม',
-    recipient: 'นกกระยาง สีขาว',
-    address: '',
-    phoneNumber: '0811111111'
+    description: 'ไส้ครีม',
+    category: ['food'],
+    hashtag: ['ขนมปัง', 'สังขยา'],
+    provideSum: 300,
+    rating: 4
   },
   {
-    id: 'aabbccop',
-    status: 'complete',
+    provideId: 'aabbccop',
+    userId: 'abcdf',
     title: 'ขนมปังสังขยา โชคชัย4',
-    location: 'มหาลัยเกษตรศาสตร์ บางเขน',
-    amount: '2',
-    price: '100',
-    serviceCharge: '30',
+    location: {
+      name: 'มหาวิทยาลัยเกษตรศาสตร์ วิทยาเขตเฉลิมพระเกียรติ จังหวัดสกลนคร ตำบล เชียงเครือ อำเภอเมืองสกลนคร สกลนคร ประเทศไทย',
+      lat: 13.8476,
+      lng: 100.5696
+    },
+    serviceCharge: 30,
     payment: 'โอน',
-    message: 'ไส้ครีม',
-    recipient: 'นกกระยาง สีขาว',
-    address: '',
-    phoneNumber: '0811111111'
+    description: 'ไส้ครีม',
+    category: ['food'],
+    hashtag: ['ขนมปัง', 'สังขยา'],
+    provideSum: 300,
+    rating: 4
   },
   {
-    id: 'aabbccuu',
-    status: 'complete',
+    provideId: 'aabbccuu',
+    userId: 'abcdg',
     title: 'ขนมปังสังขยา โชคชัย4',
-    location: 'มหาลัยเกษตรศาสตร์ บางเขน',
-    amount: '2',
-    price: '100',
-    serviceCharge: '30',
+    location: {
+      name: 'มหาวิทยาลัยเกษตรศาสตร์ วิทยาเขตเฉลิมพระเกียรติ จังหวัดสกลนคร ตำบล เชียงเครือ อำเภอเมืองสกลนคร สกลนคร ประเทศไทย',
+      lat: 13.8476,
+      lng: 100.5696
+    },
+    serviceCharge: 30,
     payment: 'โอน',
-    message: 'ไส้ครีม',
-    recipient: 'นกกระยาง สีขาว',
-    address: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when a`,
-    phoneNumber: '0811111111'
-  },
-  {
-    id: 'aabbccrsa',
-    status: 'waiting',
-    title: 'ขนมปังสังขยา โชคชัย4',
-    location: 'มหาลัยเกษตรศาสตร์ บางเขน',
-    amount: '2',
-    price: '100',
-    serviceCharge: '30',
-    payment: 'โอน',
-    message: 'ไส้ครีม',
-    recipient: 'นกกระยาง สีขาว',
-    address: '',
-    phoneNumber: '0811111111'
-  },
-  {
-    id: 'aabbcckm',
-    status: 'complete',
-    title: 'ขนมปังสังขยา โชคชัย4',
-    location: 'มหาลัยเกษตรศาสตร์ บางเขน',
-    amount: '2',
-    price: '100',
-    serviceCharge: '30',
-    payment: 'โอน',
-    message: 'ไส้ครีม',
-    recipient: 'นกกระยาง สีขาว',
-    address: '',
-    phoneNumber: '0811111111'
-  },
-  {
-    id: 'aabbccll',
-    status: 'waiting',
-    title: 'ขนมปังสังขยา โชคชัย4',
-    location: 'มหาลัยเกษตรศาสตร์ บางเขน',
-    amount: '2',
-    price: '100',
-    serviceCharge: '30',
-    payment: 'โอน',
-    message: 'ไส้ครีม',
-    recipient: 'นกกระยาง สีขาว',
-    address: '',
-    phoneNumber: '0811111111'
-  },
-  {
-    id: 'aabbccny',
-    status: 'pending',
-    title: 'ขนมปังสังขยา โชคชัย4',
-    location: 'มหาลัยเกษตรศาสตร์ บางเขน',
-    amount: '2',
-    price: '100',
-    serviceCharge: '30',
-    payment: 'โอน',
-    message: 'ไส้ครีม',
-    recipient: 'นกกระยาง สีขาว',
-    address: '',
-    phoneNumber: '0811111111'
-  },
-  {
-    id: 'aabbcciu',
-    status: 'complete',
-    title: 'ขนมปังสังขยา โชคชัย4',
-    location: 'มหาลัยเกษตรศาสตร์ บางเขน',
-    amount: '2',
-    price: '100',
-    serviceCharge: '30',
-    payment: 'โอน',
-    message: 'ไส้ครีม',
-    recipient: 'นกกระยาง สีขาว',
-    address: '',
-    phoneNumber: '0811111111'
-  },
-  {
-    id: 'aabbcerm',
-    status: 'complete',
-    title: 'ขนมปังสังขยา โชคชัย4',
-    location: 'มหาลัยเกษตรศาสตร์ บางเขน',
-    amount: '2',
-    price: '100',
-    serviceCharge: '30',
-    payment: 'โอน',
-    message: 'ไส้ครีม',
-    recipient: 'นกกระยาง สีขาว',
-    address: '',
-    phoneNumber: '0811111111'
-  },
-  {
-    id: 'aabbccpx',
-    status: 'pending',
-    title: 'ขนมปังสังขยา โชคชัย4',
-    location: 'มหาลัยเกษตรศาสตร์ บางเขน',
-    amount: '2',
-    price: '100',
-    serviceCharge: '30',
-    payment: 'โอน',
-    message: 'ไส้ครีม',
-    recipient: 'นกกระยาง สีขาว',
-    address: '',
-    phoneNumber: '0811111111'
-  },
-  {
-    id: 'aabbccds',
-    status: 'pending',
-    title: 'ขนมปังสังขยา โชคชัย4',
-    location: 'มหาลัยเกษตรศาสตร์ บางเขน',
-    amount: '2',
-    price: '100',
-    serviceCharge: '30',
-    payment: 'โอน',
-    message: 'ไส้ครีม',
-    recipient: 'นกกระยาง สีขาว',
-    address: '',
-    phoneNumber: '0811111111'
+    description: 'ไส้ครีม',
+    category: ['food'],
+    hashtag: ['ขนมปัง', 'สังขยา'],
+    provideSum: 300,
+    rating: 4
   }
 ];

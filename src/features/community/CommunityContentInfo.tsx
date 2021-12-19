@@ -19,7 +19,7 @@ import { CommunityProvideContent } from './CommunityProvideContent';
 import { CommunityRequestContent } from './CommunityRequestContent';
 import { CommunityMemberContent } from './CommunityMemberContent';
 import { CATEGORY } from 'data/category';
-import { USER_DATA } from 'data/user';
+import { myAccountUserId, USER_DATA } from 'data/user';
 import CommunityImage from 'images/community.jpg';
 
 const ProfilePageUserHelperListSection = styled.div`
@@ -133,8 +133,11 @@ export const CommunityContentInfo = ({ data }: any) => {
     <WrapperContainer>
       {' '}
       {COMMUNITY_MAPPER.filter(
-        (items) => items.id === USER_DATA[0].community.id
-      ).map(({ id, name, location, description, code, admin, member }) => (
+        (items) =>
+          items.id ===
+          USER_DATA.find((props) => props.userId === myAccountUserId).community
+            .id
+      ).map(({ id, name, location, description, code, member }) => (
         <ProfilePageUserInfoSection key={id}>
           <UserCard>
             <div
@@ -241,7 +244,7 @@ export const CommunityContentInfo = ({ data }: any) => {
               <ProfileInfoListHeading>
                 ขอบเขต{'\n'}การช่วยเหลือ
               </ProfileInfoListHeading>
-              <ProfileInfoListDetail>{location}</ProfileInfoListDetail>
+              <ProfileInfoListDetail>{location.name}</ProfileInfoListDetail>
             </Flex>
             <Flex marginBottom="40px">
               <ProfileInfoListHeading>สมาชิก</ProfileInfoListHeading>
@@ -331,8 +334,8 @@ export const CommunityContentInfo = ({ data }: any) => {
           </div>
         ) : (
           <div>
-            {' '}
-            {menu === CommunityMenu.PROVIDE ? (
+            hello{' '}
+            {/* {menu === CommunityMenu.PROVIDE ? (
               <React.Fragment>
                 <CommunityProvideContent />
               </React.Fragment>
@@ -340,7 +343,7 @@ export const CommunityContentInfo = ({ data }: any) => {
               <React.Fragment>
                 <CommunityRequestContent />
               </React.Fragment>
-            )}
+            )} */}
           </div>
         )}
       </ProfilePageUserHelperListSection>

@@ -1,20 +1,23 @@
-import React, { useState, useCallback, useRef } from 'react';
-import { Input } from 'antd';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
+import { Spin } from 'antd';
 import {
   GoogleMap,
   useJsApiLoader,
   StandaloneSearchBox,
-  Marker
+  Marker,
+  Circle
 } from '@react-google-maps/api';
 
 interface GoogleMapContentProps {
   width?: string;
-  setLocation?: (location: string) => void;
+  requestLocation?: any;
+  setRequestLocation?: (location: any) => void;
 }
 
 export const GoogleMapContent = ({
   width,
-  setLocation
+  requestLocation,
+  setRequestLocation
 }: GoogleMapContentProps) => {
   const [map, setMap] = useState<any>(null);
   const [myLocation, setMyLocation] = useState<google.maps.LatLng>();
@@ -23,16 +26,28 @@ export const GoogleMapContent = ({
   const [currentZoom, setCurrentZoom] = useState(20);
 
   const onLoad = React.useCallback(function callback(map) {
+    console.log('re', requestLocation);
     const bounds = new window.google.maps.LatLngBounds();
     map.fitBounds(bounds);
-    navigator.geolocation.getCurrentPosition(function (position) {
-      let location = new google.maps.LatLng(
-        position.coords.latitude,
-        position.coords.longitude
-      );
-      console.log(position);
-      setMyLocation(location);
-    });
+
+    if (requestLocation) {
+      const geocoder = new google.maps.Geocoder();
+      geocoder.geocode({ location: requestLocation }).then((res) => {
+        if (res.results[0]) {
+          map.setZoom(20);
+          setMyLocation(res.results[0].geometry.location);
+        }
+      });
+    } else {
+      navigator.geolocation.getCurrentPosition(function (position) {
+        let location = new google.maps.LatLng(
+          position.coords.latitude,
+          position.coords.longitude
+        );
+        setMyLocation(location);
+      });
+    }
+
     setMap(map);
   }, []);
 
@@ -55,8 +70,12 @@ export const GoogleMapContent = ({
 
   const onPlacesChanged = () => {
     const searchLocation = searchBox.getPlaces();
+
+    console.log(searchLocation);
+    map.setZoom(20);
     if (searchLocation[0] !== undefined) {
-      setLocation(searchLocation[0].name);
+      setRequestLocation(searchLocation[0]);
+      console.log(searchLocation[0]);
       setCenter(searchLocation[0].geometry.location);
     }
   };
@@ -64,8 +83,8 @@ export const GoogleMapContent = ({
   return isLoaded ? (
     <GoogleMap
       mapContainerStyle={containerStyle}
-      center={center}
-      zoom={currentZoom}
+      center={center ? center : myLocation}
+      zoom={17}
       onLoad={onLoad}
       onZoomChanged={() => {
         setCurrentZoom(14);
@@ -76,18 +95,11 @@ export const GoogleMapContent = ({
         fullscreenControl: false
       }}
       onClick={(e) => {
-        navigator.geolocation.getCurrentPosition(function (position) {
-          let location = new google.maps.LatLng(
-            position.coords.latitude,
-            position.coords.longitude
-          );
-          console.log(position, location);
-          setCenter(location);
-        });
-        // console.log(map?.getPlaces());
+        setCenter(new google.maps.LatLng(e.latLng.lat(), e.latLng.lng()));
       }}
     >
-      <Marker position={center ?? (myLocation as google.maps.LatLng)} />
+      <Marker position={center ? center : (myLocation as google.maps.LatLng)} />
+
       <StandaloneSearchBox
         onLoad={onSearchBoxLoad}
         onPlacesChanged={onPlacesChanged}

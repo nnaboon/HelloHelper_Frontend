@@ -1,16 +1,18 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { css, jsx } from '@emotion/react';
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from '@emotion/styled';
 import Flex from 'components/Flex/Flex';
 import { SecondaryButton } from 'components/Button/Button';
-import { Dropdown, Menu, message } from 'antd';
+import { Dropdown, Menu, message, Modal } from 'antd';
 import { EditSvg } from 'components/Svg/EditSvg';
 import { DeleteSvg } from 'components/Svg/DeleteSvg';
 import { EyeOffSvg } from 'components/Svg/EyeOffSvg';
 import { mediaQueryMobile } from 'styles/variables';
+import { RequestFormModal } from 'components/Form/RequestForm';
+import { USER_DATA } from 'data/user';
 
 const HelperListCard = styled.div`
   background: #ffffff;
@@ -79,6 +81,7 @@ const SecondaryHelpButton = styled(SecondaryButton)`
 `;
 
 export const MyRequestList = ({ data }: any) => {
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const history = useHistory();
   function handleButtonClick(e) {
     message.info('Click on left button.');
@@ -91,13 +94,16 @@ export const MyRequestList = ({ data }: any) => {
   }
 
   const menu = (
-    <Menu onClick={handleMenuClick}>
+    <Menu onClick={handleMenuClick} style={{ zIndex: 8 }}>
       <Menu.Item key="1">
         <div
           style={{
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center'
+          }}
+          onClick={() => {
+            setIsModalVisible(true);
           }}
         >
           <EditSvg style={{ marginRight: '8px' }} />
@@ -133,23 +139,25 @@ export const MyRequestList = ({ data }: any) => {
   return (
     <HelperListCard
       key={data.id}
-      onClick={() => {
-        history.push({
-          pathname: `/${data.title}/${data.id}`,
-          state: {
-            type: 'request'
-          }
-        });
-      }}
+      // onClick={() => {
+      //   history.push({
+      //     pathname: `/${data.title}/${data.id}`,
+      //     state: {
+      //       type: 'request'
+      //     }
+      //   });
+      // }}
     >
       <Dropdown.Button
+        style={{ zIndex: 8 }}
         onClick={handleButtonClick}
+        trigger={['click']}
         overlay={menu}
         css={css`
           position: absolute;
           top: 20px;
           color: #0000;
-          z-index: 6;
+          z-index: 8;
           right: 35px;
           .ant-dropdown-trigger {
             border: none;
@@ -162,7 +170,7 @@ export const MyRequestList = ({ data }: any) => {
           &:selection {
             color: #fff;
             background: transparent;
-            z-index: 6;
+            z-index: 8;
           }
 
           svg {
@@ -178,20 +186,34 @@ export const MyRequestList = ({ data }: any) => {
       <HelperListTitle>{data.title}</HelperListTitle>
       <Flex marginY="8px">
         <HelperListHeading>ผู้ให้ความช่วยเหลือ</HelperListHeading>
-        <HelperListDetail>{data.name}</HelperListDetail>
+        <HelperListDetail>
+          {
+            USER_DATA.find((props) => props.userId === data.requesterUserId)
+              .username
+          }
+        </HelperListDetail>
       </Flex>
       <Flex marginY="8px">
         <HelperListHeading>สถานที่ให้ความช่วยเหลือ</HelperListHeading>
-        <HelperListDetail>{data.location}</HelperListDetail>
+        <HelperListDetail>{data.location.name}</HelperListDetail>
+      </Flex>
+      <Flex marginY="8px">
+        <HelperListHeading>จำนวน</HelperListHeading>
+        <HelperListDetail>{data.amount} บาท</HelperListDetail>
       </Flex>
       <Flex marginY="8px">
         <HelperListHeading>ค่าบริการ</HelperListHeading>
-        <HelperListDetail>{data.serviceCharge}</HelperListDetail>
+        <HelperListDetail>{data.maxServiceCharge} บาท</HelperListDetail>
       </Flex>
       <Flex marginY="8px">
         <HelperListHeading>วิธีการชำระเงิน</HelperListHeading>
         <HelperListDetail>{data.payment}</HelperListDetail>
       </Flex>
+      <RequestFormModal
+        visible={isModalVisible}
+        onClose={() => setIsModalVisible(false)}
+        requestData={data}
+      />
     </HelperListCard>
   );
 };

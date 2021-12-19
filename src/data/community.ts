@@ -2,54 +2,100 @@ export const COMMUNITY_MAPPER = [
   {
     id: 'zxcvb234',
     name: 'ภาคคอม มก',
-    location: 'มหาวิทยาลัยเกษตรศาสตร์ บางเขน',
+    location: {
+      name: 'ภาคคอม มหาวิทยาลัยเกษตรศาสตร์ บางเขน',
+      lat: 10.444,
+      lng: 100.555
+    },
     code: 'computerDepartmentKU',
     description: 'เฉพาะภาคคอม ม.เกษตรเท่านั้น',
-    admin: [
-      {
-        id: 'abcde',
-        name: 'กระทิง สีแดง'
-      }
-    ],
+    joinedRequest: ['abcdj'],
     member: [
       {
-        id: 'abcdf',
-        name: 'กระทิงสีทอง'
+        userId: 'abcde',
+        role: 1,
+        requestedSum: 20,
+        providedSum: 40,
+        joinedStatus: 'accepted',
+        joinedAt: '',
+        leavedAt: ''
       },
       {
-        id: 'abcdg',
-        name: 'กระทิง สีน้ำเงิน'
+        userId: 'abcdf',
+        role: 0,
+        requestedSum: 20,
+        providedSum: 40,
+        joinedStatus: 'accepted',
+        joinedAt: '',
+        leavedAt: ''
       },
       {
-        id: 'abcdh',
-        name: 'Bull Yellow'
+        userId: 'abcdg',
+        role: 1,
+        requestedSum: 20,
+        providedSum: 40,
+        joinedStatus: 'accepted',
+        joinedAt: '',
+        leavedAt: ''
+      },
+      {
+        userId: 'abcdh',
+        role: 1,
+        requestedSum: 20,
+        providedSum: 40,
+        joinedStatus: 'accepted',
+        joinedAt: '',
+        leavedAt: ''
       }
     ]
   },
   {
     id: 'zxcvb345',
     name: 'ภาคคอม จุฬา',
-    location: '',
+    location: {
+      name: 'ภาคคอม จุฬาลงกรณ์',
+      lat: 10.444,
+      lng: 100.555
+    },
     description: 'เฉพาะภาคคอม ของจุฬาเท่านั้น',
     code: 'computerDepartmentKU',
-    admin: [
-      {
-        id: 'abcda',
-        name: 'กระทิง สีเงิน'
-      }
-    ],
+    joinedRequest: ['abcdm', 'abcdn'],
     member: [
       {
-        id: 'abcdf',
-        name: 'กระทิงสีทอง'
+        userId: 'abcde',
+        role: 1,
+        requestedSum: 20,
+        providedSum: 40,
+        joinedStatus: 'accepted',
+        joinedAt: '',
+        leavedAt: ''
       },
       {
-        id: 'abcdg',
-        name: 'กระทิง สีน้ำเงิน'
+        userId: 'abcdf',
+        role: 1,
+        requestedSum: 20,
+        providedSum: 40,
+        joinedStatus: 'accepted',
+        joinedAt: '',
+        leavedAt: ''
       },
       {
-        id: 'abcde',
-        name: 'กระทิง สีแดง'
+        userId: 'abcdg',
+        role: 1,
+        requestedSum: 20,
+        providedSum: 40,
+        joinedStatus: 'accepted',
+        joinedAt: '',
+        leavedAt: ''
+      },
+      {
+        userId: 'abcdh',
+        role: 0,
+        requestedSum: 20,
+        providedSum: 40,
+        joinedStatus: 'accepted',
+        joinedAt: '',
+        leavedAt: ''
       }
     ]
   }

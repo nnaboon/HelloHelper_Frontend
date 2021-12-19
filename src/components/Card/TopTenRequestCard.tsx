@@ -148,7 +148,7 @@ export const TopTenRequestSection = ({ data }: any) => {
                     <RequestDataTitle>
                       สถานที่ให้{'\n'}ความช่วยเหลือ
                     </RequestDataTitle>
-                    <RequestDataInfo>{location}</RequestDataInfo>
+                    <RequestDataInfo>{location.name}</RequestDataInfo>
                   </TopTenRequestDataContent>
                   <TopTenRequestDataContent>
                     <RequestDataTitle>

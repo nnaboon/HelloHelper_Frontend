@@ -2,15 +2,17 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/react';
 import { useHistory } from 'react-router-dom';
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import Flex from 'components/Flex/Flex';
 import { SecondaryButton } from 'components/Button/Button';
-import { Dropdown, Menu, message, Rate } from 'antd';
+import { Dropdown, Menu, message, Rate, Modal } from 'antd';
 import { EditSvg } from 'components/Svg/EditSvg';
 import { DeleteSvg } from 'components/Svg/DeleteSvg';
 import { EyeOffSvg } from 'components/Svg/EyeOffSvg';
 import { mediaQueryMobile, useMedia, MOBILE_WIDTH } from 'styles/variables';
+import { RequestFormModal } from 'components/Form/RequestForm';
+import { USER_DATA } from 'data/user';
 
 const HelperListCard = styled.div`
   background: #ffffff;
@@ -80,6 +82,7 @@ const SecondaryHelpButton = styled(SecondaryButton)`
 export const MyProvideList = ({ data }: any) => {
   const history = useHistory();
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
   function handleButtonClick(e) {
     message.info('Click on left button.');
@@ -91,6 +94,14 @@ export const MyProvideList = ({ data }: any) => {
     console.log('click', e);
   }
 
+  const onModalClose = () => {
+    setIsModalVisible(false);
+  };
+
+  const onModalOpen = () => {
+    setIsModalVisible(true);
+  };
+
   const menu = (
     <Menu onClick={handleMenuClick}>
       <Menu.Item key="1">
@@ -100,8 +111,12 @@ export const MyProvideList = ({ data }: any) => {
             alignItems: 'center',
             justifyContent: 'center'
           }}
+          onClick={() => {
+            setIsModalVisible(true);
+          }}
         >
           <EditSvg style={{ marginRight: '8px' }} />
+
           <div>แก้ไข</div>
         </div>
       </Menu.Item>
@@ -134,16 +149,17 @@ export const MyProvideList = ({ data }: any) => {
 
   return (
     <HelperListCard
-      key={data.id}
-      onClick={() => {
-        history.push({
-          pathname: `/${data.title}/${data.id}`,
-          state: {
-            type: 'provide'
-          }
-        });
-      }}
+      key={data.provideId}
+      // onClick={() => {
+      //   history.push({
+      //     pathname: `/${data.title}/${data.id}`,
+      //     state: {
+      //       type: 'provide'
+      //     }
+      //   });
+      // }}
     >
+      {console.log(data)}
       <Dropdown.Button
         onClick={handleButtonClick}
         overlay={menu}
@@ -180,15 +196,20 @@ export const MyProvideList = ({ data }: any) => {
       <HelperListTitle>{data.title}</HelperListTitle>
       <Flex marginY={isMobile ? 2 : '8px'}>
         <HelperListHeading>ผู้ให้ความช่วยเหลือ</HelperListHeading>
-        <HelperListDetail>{data.name}</HelperListDetail>
+        <HelperListDetail>
+          {
+            USER_DATA.find((props) => props.userId === data.providerUserId)
+              .username
+          }
+        </HelperListDetail>
       </Flex>
       <Flex marginY={isMobile ? 2 : '8px'}>
         <HelperListHeading>สถานที่ให้ความช่วยเหลือ</HelperListHeading>
-        <HelperListDetail>{data.location}</HelperListDetail>
+        <HelperListDetail>{data.location.name}</HelperListDetail>
       </Flex>
       <Flex marginY={isMobile ? 2 : '8px'}>
         <HelperListHeading>ยอดการให้ความช่วยเหลือนี้</HelperListHeading>
-        <HelperListDetail>{data.helpSum} ครั้ง</HelperListDetail>
+        <HelperListDetail>{data.provideSum} ครั้ง</HelperListDetail>
       </Flex>
       <Flex marginY={isMobile ? 2 : '8px'}>
         <HelperListHeading>คะแนนการให้ความช่วยเหลือนี้</HelperListHeading>
@@ -198,12 +219,36 @@ export const MyProvideList = ({ data }: any) => {
       </Flex>
       <Flex marginY={isMobile ? 2 : '8px'}>
         <HelperListHeading>ค่าบริการ</HelperListHeading>
-        <HelperListDetail>{data.serviceCharge}</HelperListDetail>
+        <HelperListDetail>{data.serviceCharge} บาท</HelperListDetail>
       </Flex>
       <Flex marginY={isMobile ? 2 : '8px'}>
         <HelperListHeading>วิธีการชำระเงิน</HelperListHeading>
         <HelperListDetail>{data.payment}</HelperListDetail>
       </Flex>
+      {/* <Modal
+        visible={isModalVisible}
+        onOk={onModalOpen}
+        onCancel={onModalClose}
+        footer={null}
+        width={isMobile ? '80%' : '800px'}
+        maskClosable={false}
+        centered
+        css={css`
+          .ant-modal-content {
+            height: 950px;
+
+            ${mediaQueryMobile} {
+              height: 480px;
+            }
+          }
+        `}
+      > */}
+      <RequestFormModal
+        visible={isModalVisible}
+        onClose={() => setIsModalVisible(false)}
+        requestData={data}
+      />
+      {/* </Modal> */}
     </HelperListCard>
   );
 };

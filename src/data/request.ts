@@ -40,434 +40,65 @@ export type RequestListProps = {
   phoneNumber: string;
 };
 
-export const SUGGESTED_REQUEST_DATA = [
+export const REQUEST_MAPPER = [
   {
-    id: '12345qw',
-    name: 'นก หัวขวาน',
+    requestId: '12345qw',
+    userId: 'abcdf',
     imageUrl: RequestImage,
     title: 'ขนมปังสังขยา ร้านนายเฮ็ง โชคชัย4',
-    location: 'หมู่บ้าน vive',
-    amount: '2',
-    message: 'ซอสชานม ซอสสังขยา 5',
-    maxPrice: '300บาท',
-    maxServiceCharge: '30 บาท',
+    location: {
+      name: 'เซ็นทรัล ลาดพร้าว',
+      lat: 13.8163,
+      lng: 100.5608
+    },
+    amount: 2,
+    description: 'ซอสชานม ซอสสังขยา 5',
+    maxPrice: 300,
+    maxServiceCharge: 30,
     payment: 'โอน',
     rank: 'platinum',
     category: ['food'],
     hashtag: ['ขนมปัง', 'สังขยา', 'โชคชัย4'],
-    helper: [
-      {
-        id: 'abcde',
-        name: 'กระทิง สีแดง',
-        imageUrl: ''
-      },
-      {
-        id: 'abcdf',
-        name: 'กระทิง สีทอง',
-        imageUrl: ''
-      }
-    ]
+    provideUserId: ['abcde', 'abcdh', 'abcdg']
   },
   {
-    id: '12345ww',
-    name: 'กระทิง สีทอง',
+    requestId: '12345ww',
+    userId: 'abcde',
     imageUrl: RequestImage,
     title: 'ขนมปังสังขยา ร้านนายเฮ็ง โชคชัย4',
-    location: 'หมู่บ้าน vive',
-    amount: '2',
-    message: 'ซอสชานม ซอสสังขยา 5',
-    maxPrice: '300บาท',
-    maxServiceCharge: '30 บาท',
+    location: {
+      name: 'เซ็นทรัล ลาดพร้าว',
+      lat: 13.8163,
+      lng: 100.5608
+    },
+    amount: 2,
+    description: 'ซอสชานม ซอสสังขยา 5',
+    maxPrice: 300,
+    maxServiceCharge: 30,
     payment: 'โอน',
     rank: 'platinum',
     category: ['food'],
     hashtag: ['ขนมปัง', 'สังขยา', 'โชคชัย4'],
-    helper: [
-      {
-        id: 'abcde',
-        name: 'กระทิง สีแดง',
-        imageUrl: ''
-      },
-      {
-        id: 'abcdf',
-        name: 'กระทิง สีทอง',
-        imageUrl: ''
-      }
-    ]
+    provideUserId: ['abcdf', 'abcdh', 'abcdg']
   },
   {
-    id: '12345aa',
-    name: 'นก หัวขวาน',
+    requestId: '12345aa',
+    userId: 'abcde',
     imageUrl: RequestImage,
     title: 'ขนมปังสังขยา ร้านนายเฮ็ง โชคชัย4',
-    location: 'หมู่บ้าน vive',
-    amount: '2',
-    message: 'ซอสชานม ซอสสังขยา 5',
-    maxPrice: '300บาท',
-    maxServiceCharge: '30 บาท',
-    payment: 'โอน',
-    rank: 'diamond',
-    category: ['food'],
-    hashtag: ['ขนมปัง', 'สังขยา', 'โชคชัย4'],
-    helper: [
-      {
-        id: 'abcde',
-        name: 'กระทิง สีแดง',
-        imageUrl: ''
-      },
-      {
-        id: 'abcdf',
-        name: 'กระทิง สีทอง',
-        imageUrl: ''
-      }
-    ]
-  },
-  {
-    id: '12345pf',
-    name: 'นก หัวขวาน',
-    imageUrl: RequestImage,
-    title: 'ขนมปังสังขยา ร้านนายเฮ็ง โชคชัย4',
-    location: 'หมู่บ้าน vive',
-    amount: '2',
-    message: 'ซอสชานม ซอสสังขยา 5',
-    maxPrice: '300บาท',
-    maxServiceCharge: '30 บาท',
-    payment: 'โอน',
-    rank: 'gold',
-    category: ['food'],
-    hashtag: ['ขนมปัง', 'สังขยา', 'โชคชัย4'],
-    helper: [
-      {
-        id: 'abcde',
-        name: 'กระทิง สีแดง',
-        imageUrl: ''
-      },
-      {
-        id: 'abcdf',
-        name: 'กระทิง สีทอง',
-        imageUrl: ''
-      }
-    ]
-  },
-  {
-    id: 'abceo3',
-    name: 'นก หัวขวาน',
-    imageUrl: RequestImage,
-    title: 'ขนมปังสังขยา ร้านนายเฮ็ง โชคชัย4',
-    location: 'หมู่บ้าน vive',
-    amount: '2',
-    message: 'ซอสชานม ซอสสังขยา 5',
-    maxPrice: '300บาท',
-    maxServiceCharge: '30 บาท',
-    payment: 'โอน',
-    rank: 'silver',
-    category: ['food'],
-    hashtag: ['ขนมปัง', 'สังขยา', 'โชคชัย4'],
-    helper: [
-      {
-        id: 'abcde',
-        name: 'กระทิง สีแดง',
-        imageUrl: ''
-      },
-      {
-        id: 'abcdf',
-        name: 'กระทิง สีทอง',
-        imageUrl: ''
-      }
-    ]
-  },
-  {
-    id: '12345er',
-    name: 'นก หัวขวาน',
-    imageUrl: RequestImage,
-    title: 'ขนมปังสังขยา ร้านนายเฮ็ง โชคชัย4',
-    location: 'หมู่บ้าน vive',
-    amount: '2',
-    message: 'ซอสชานม ซอสสังขยา 5',
-    maxPrice: '300บาท',
-    maxServiceCharge: '30 บาท',
+    location: {
+      name: 'เซ็นทรัล ลาดพร้าว',
+      lat: 13.8163,
+      lng: 100.5608
+    },
+    amount: 2,
+    description: 'ซอสชานม ซอสสังขยา 5',
+    maxPrice: 300,
+    maxServiceCharge: 30,
     payment: 'โอน',
     rank: 'platinum',
     category: ['food'],
     hashtag: ['ขนมปัง', 'สังขยา', 'โชคชัย4'],
-    helper: [
-      {
-        id: 'abcde',
-        name: 'กระทิง สีแดง',
-        imageUrl: ''
-      },
-      {
-        id: 'abcdf',
-        name: 'กระทิง สีทอง',
-        imageUrl: ''
-      }
-    ]
-  },
-  {
-    id: '12345mj',
-    name: 'นก หัวขวาน',
-    imageUrl: RequestImage,
-    title: 'ขนมปังสังขยา ร้านนายเฮ็ง โชคชัย4',
-    location: 'หมู่บ้าน vive',
-    amount: '2',
-    message: 'ซอสชานม ซอสสังขยา 5',
-    maxPrice: '300บาท',
-    maxServiceCharge: '30 บาท',
-    payment: 'โอน',
-    rank: 'platinum',
-    category: ['food'],
-    hashtag: ['ขนมปัง', 'สังขยา', 'โชคชัย4'],
-    helper: [
-      {
-        id: 'abcde',
-        name: 'กระทิง สีแดง',
-        imageUrl: ''
-      },
-      {
-        id: 'abcdf',
-        name: 'กระทิง สีทอง',
-        imageUrl: ''
-      }
-    ]
-  },
-  {
-    id: '12345na',
-    name: 'นก หัวขวาน',
-    imageUrl: RequestImage,
-    title: 'ขนมปังสังขยา ร้านนายเฮ็ง โชคชัย4',
-    location: 'หมู่บ้าน vive',
-    amount: '2',
-    message: 'ซอสชานม ซอสสังขยา 5',
-    maxPrice: '300บาท',
-    maxServiceCharge: '30 บาท',
-    payment: 'โอน',
-    rank: 'gold',
-    category: ['food'],
-    hashtag: ['ขนมปัง', 'สังขยา', 'โชคชัย4'],
-    helper: [
-      {
-        id: 'abcde',
-        name: 'กระทิง สีแดง',
-        imageUrl: ''
-      },
-      {
-        id: 'abcdf',
-        name: 'กระทิง สีทอง',
-        imageUrl: ''
-      }
-    ]
-  },
-  {
-    id: '12345qn',
-    name: 'นก หัวขวาน',
-    imageUrl: RequestImage,
-    title: 'ขนมปังสังขยา ร้านนายเฮ็ง โชคชัย4',
-    location: 'หมู่บ้าน vive',
-    amount: '2',
-    message: 'ซอสชานม ซอสสังขยา 5',
-    maxPrice: '300บาท',
-    maxServiceCharge: '30 บาท',
-    payment: 'โอน',
-    rank: 'silver',
-    category: ['food'],
-    hashtag: ['ขนมปัง', 'สังขยา', 'โชคชัย4'],
-    helper: [
-      {
-        id: 'abcde',
-        name: 'กระทิง สีแดง',
-        imageUrl: ''
-      },
-      {
-        id: 'abcdf',
-        name: 'กระทิง สีทอง',
-        imageUrl: ''
-      }
-    ]
-  },
-  {
-    id: '12345ab',
-    name: 'นก หัวขวาน',
-    imageUrl: RequestImage,
-    title: 'ขนมปังสังขยา ร้านนายเฮ็ง โชคชัย4',
-    location: 'หมู่บ้าน vive',
-    amount: '2',
-    message: 'ซอสชานม ซอสสังขยา 5',
-    maxPrice: '300บาท',
-    maxServiceCharge: '30 บาท',
-    payment: 'โอน',
-    rank: 'classic',
-    category: ['food'],
-    hashtag: ['ขนมปัง', 'สังขยา', 'โชคชัย4'],
-    helper: [
-      {
-        id: 'abcde',
-        name: 'กระทิง สีแดง',
-        imageUrl: ''
-      },
-      {
-        id: 'abcdf',
-        name: 'กระทิง สีทอง',
-        imageUrl: ''
-      }
-    ]
-  }
-];
-
-export const REQUEST_MAPPER: RequestListProps[] = [
-  {
-    id: 'aabbccrt',
-    status: 'waiting',
-    title: 'ขนมปังสังขยา โชคชัย4',
-    location: 'มหาลัยเกษตรศาสตร์ บางเขน',
-    amount: '2',
-    price: '100',
-    serviceCharge: '30',
-    payment: 'โอน',
-    message: 'ไส้ครีม',
-    helperName: 'นกกระยาง สีขาว',
-    phoneNumber: '0811111111'
-  },
-  {
-    id: 'aabbccfg',
-    status: 'cancel',
-    title: 'ขนมปังสังขยา โชคชัย4',
-    location: 'มหาลัยเกษตรศาสตร์ บางเขน',
-    amount: '2',
-    price: '100',
-    serviceCharge: '30',
-    payment: 'โอน',
-    message: 'ไส้ครีม',
-    helperName: 'นกกระยาง สีขาว',
-    phoneNumber: '0811111111'
-  },
-  {
-    id: 'aabbccop',
-    status: 'cancel',
-    title: 'ขนมปังสังขยา โชคชัย4',
-    location: 'มหาลัยเกษตรศาสตร์ บางเขน',
-    amount: '2',
-    price: '100',
-    serviceCharge: '30',
-    payment: 'โอน',
-    message: 'ไส้ครีม',
-    helperName: 'นกกระยาง สีขาว',
-    phoneNumber: '0811111111'
-  },
-  {
-    id: 'aabbccuu',
-    status: 'complete',
-    title: 'ขนมปังสังขยา โชคชัย4',
-    location: 'มหาลัยเกษตรศาสตร์ บางเขน',
-    amount: '2',
-    price: '100',
-    serviceCharge: '30',
-    payment: 'โอน',
-    message: 'ไส้ครีม',
-    helperName: 'นกกระยาง สีขาว',
-    phoneNumber: '0811111111'
-  },
-  {
-    id: 'aabbccrsa',
-    status: 'waiting',
-    title: 'ขนมปังสังขยา โชคชัย4',
-    location: 'มหาลัยเกษตรศาสตร์ บางเขน',
-    amount: '2',
-    price: '100',
-    serviceCharge: '30',
-    payment: 'โอน',
-    message: 'ไส้ครีม',
-    helperName: 'นกกระยาง สีขาว',
-    phoneNumber: '0811111111'
-  },
-  {
-    id: 'aabbcckm',
-    status: 'complete',
-    title: 'ขนมปังสังขยา โชคชัย4',
-    location: 'มหาลัยเกษตรศาสตร์ บางเขน',
-    amount: '2',
-    price: '100',
-    serviceCharge: '30',
-    payment: 'โอน',
-    message: 'ไส้ครีม',
-    helperName: 'นกกระยาง สีขาว',
-    phoneNumber: '0811111111'
-  },
-  {
-    id: 'aabbccll',
-    status: 'waiting',
-    title: 'ขนมปังสังขยา โชคชัย4',
-    location: 'มหาลัยเกษตรศาสตร์ บางเขน',
-    amount: '2',
-    price: '100',
-    serviceCharge: '30',
-    payment: 'โอน',
-    message: 'ไส้ครีม',
-    helperName: 'นกกระยาง สีขาว',
-    phoneNumber: '0811111111'
-  },
-  {
-    id: 'aabbccny',
-    status: 'pending',
-    title: 'ขนมปังสังขยา โชคชัย4',
-    location: 'มหาลัยเกษตรศาสตร์ บางเขน',
-    amount: '2',
-    price: '100',
-    serviceCharge: '30',
-    payment: 'โอน',
-    message: 'ไส้ครีม',
-    helperName: 'นกกระยาง สีขาว',
-    phoneNumber: '0811111111'
-  },
-  {
-    id: 'aabbcciu',
-    status: 'complete',
-    title: 'ขนมปังสังขยา โชคชัย4',
-    location: 'มหาลัยเกษตรศาสตร์ บางเขน',
-    amount: '2',
-    price: '100',
-    serviceCharge: '30',
-    payment: 'โอน',
-    message: 'ไส้ครีม',
-    helperName: 'นกกระยาง สีขาว',
-    phoneNumber: '0811111111'
-  },
-  {
-    id: 'aabbcerm',
-    status: 'complete',
-    title: 'ขนมปังสังขยา โชคชัย4',
-    location: 'มหาลัยเกษตรศาสตร์ บางเขน',
-    amount: '2',
-    price: '100',
-    serviceCharge: '30',
-    payment: 'โอน',
-    message: 'ไส้ครีม',
-    helperName: 'นกกระยาง สีขาว',
-    phoneNumber: '0811111111'
-  },
-  {
-    id: 'aabbccpx',
-    status: 'pending',
-    title: 'ขนมปังสังขยา โชคชัย4',
-    location: 'มหาลัยเกษตรศาสตร์ บางเขน',
-    amount: '2',
-    price: '100',
-    serviceCharge: '30',
-    payment: 'โอน',
-    message: 'ไส้ครีม',
-    helperName: 'นกกระยาง สีขาว',
-    phoneNumber: '0811111111'
-  },
-  {
-    id: 'aabbccds',
-    status: 'pending',
-    title: 'ขนมปังสังขยา โชคชัย4',
-    location: 'มหาลัยเกษตรศาสตร์ บางเขน',
-    amount: '2',
-    price: '100',
-    serviceCharge: '30',
-    payment: 'โอน',
-    message: 'ไส้ครีม',
-    helperName: 'นกกระยาง สีขาว',
-    phoneNumber: '0811111111'
+    provideUserId: ['abcdf', 'abcdh', 'abcdg']
   }
 ];

@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
-import { SUGGESTED_REQUEST_DATA } from 'data/request';
+import { REQUEST_MAPPER } from 'data/request';
 import { SuggestedRequestSection } from 'components/Card/SuggestedRequestCard';
 import { useMedia, MOBILE_WIDTH, mediaQueryMobile } from 'styles/variables';
 import { Carousel } from 'antd';
@@ -82,12 +82,12 @@ export const CommunityRequestContent = () => {
           nextArrow={<SampleNextArrow />}
           prevArrow={<SamplePrevArrow />}
         >
-          {SUGGESTED_REQUEST_DATA.map((items) => (
+          {REQUEST_MAPPER.map((items) => (
             <SuggestedRequestSection data={[items]} />
           ))}
         </RequestCarousel>
       ) : (
-        <SuggestedRequestSection data={SUGGESTED_REQUEST_DATA} />
+        <SuggestedRequestSection data={REQUEST_MAPPER} />
       )}
       <Text fontSize="32px" fontWeight={500}>
         Top 10 ความช่วยเหลือประจำสัปดาห์
@@ -98,18 +98,18 @@ export const CommunityRequestContent = () => {
           nextArrow={<SampleNextArrow />}
           prevArrow={<SamplePrevArrow />}
         >
-          {SUGGESTED_REQUEST_DATA.map((items) => (
+          {REQUEST_MAPPER.map((items) => (
             <SuggestedRequestSection data={[items]} />
           ))}
         </RequestCarousel>
       ) : (
-        <SuggestedRequestSection data={SUGGESTED_REQUEST_DATA} />
+        <SuggestedRequestSection data={REQUEST_MAPPER} />
       )}
       <Text fontSize="32px" fontWeight={500}>
         ความช่วยเหลือทั้งหมด
       </Text>
       <CommunityRequestSection>
-        {SUGGESTED_REQUEST_DATA.map((items) => (
+        {REQUEST_MAPPER.map((items) => (
           <SuggestedRequestSection
             data={[items]}
             css={css`

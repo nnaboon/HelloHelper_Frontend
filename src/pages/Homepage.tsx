@@ -13,11 +13,11 @@ import { PostRequestButton } from 'components/Button/PostRequestButton';
 import { SuggestedRequestSection } from 'components/Card/SuggestedRequestCard';
 import { News } from 'components/News/News';
 import { CATEGORY } from 'data/category';
-import { SUGGESTED_REQUEST_DATA } from '../data/request';
-import { POPULAR_REQUEST_DATA } from '../data/helper';
+import { REQUEST_MAPPER } from '../data/request';
 import { SearchSvg } from 'components/Svg/SearchSvg';
 import { mediaQueryMobile, MOBILE_WIDTH, useMedia } from 'styles/variables';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
+import { PROVIDE_MAPPER } from 'data/provide';
 
 const HomePageCategorySection = styled.div`
   display: flex;
@@ -154,7 +154,6 @@ export const HomePage = () => {
           ))}
         </HomePageCategorySection>
       )}
-
       <div
         css={css`
           justify-content: space-between;
@@ -189,12 +188,17 @@ export const HomePage = () => {
         `}
       >
         ความช่วยเหลือยอดนิยม
-      </Text>
+      </Text>{' '}
+      {console.log(
+        PROVIDE_MAPPER.filter(({ location }) =>
+          searchValue ? location.name === searchValue : true
+        )
+      )}
       {isMobile ? (
         <React.Fragment>
           {' '}
-          {POPULAR_REQUEST_DATA.filter(({ location }) =>
-            searchValue ? location.includes(searchValue) : location
+          {PROVIDE_MAPPER.filter(({ location }) =>
+            searchValue ? location.name === searchValue : true
           ).length > 0 ? (
             <React.Fragment>
               {' '}
@@ -217,8 +221,8 @@ export const HomePage = () => {
                   }
                 `}
               >
-                {POPULAR_REQUEST_DATA.filter(({ location }) =>
-                  searchValue ? location.includes(searchValue) : location
+                {PROVIDE_MAPPER.filter(({ location }) =>
+                  searchValue ? location.name === searchValue : true
                 ).map((items) => (
                   <PopularRequestSection data={[items]} />
                 ))}
@@ -242,13 +246,13 @@ export const HomePage = () => {
       ) : (
         <React.Fragment>
           {' '}
-          {POPULAR_REQUEST_DATA.filter(({ location }) =>
-            searchValue ? location.includes(searchValue) : location
+          {PROVIDE_MAPPER.filter(({ location }) =>
+            searchValue ? location.name === searchValue : true
           ).length > 0 ? (
             <React.Fragment>
               <PopularRequestSection
-                data={POPULAR_REQUEST_DATA.filter(({ location }) =>
-                  searchValue ? location.includes(searchValue) : location
+                data={PROVIDE_MAPPER.filter(({ location }) =>
+                  searchValue ? location.name === searchValue : true
                 )}
               />
             </React.Fragment>
@@ -257,7 +261,6 @@ export const HomePage = () => {
           )}
         </React.Fragment>
       )}
-
       <Text
         fontSize={isMobile ? '24px' : '36px'}
         fontWeight={500}
@@ -348,8 +351,8 @@ export const HomePage = () => {
       {isMobile ? (
         <React.Fragment>
           {' '}
-          {POPULAR_REQUEST_DATA.filter(({ location }) =>
-            searchValue ? location.includes(searchValue) : location
+          {PROVIDE_MAPPER.filter(({ location }) =>
+            searchValue ? location.name.includes(searchValue) : true
           ).length > 0 ? (
             <React.Fragment>
               {' '}
@@ -373,11 +376,15 @@ export const HomePage = () => {
                 }
               `}
               >
-                {POPULAR_REQUEST_DATA.filter(({ location }) =>
-                  searchValue ? location.includes(searchValue) : location
-                ).map((items) => (
-                  <PopularRequestSection data={[items]} />
-                ))}
+                {PROVIDE_MAPPER.filter(({ location }) =>
+                  searchValue ? location.name.includes(searchValue) : true
+                ).map(
+                  (items) => {
+                    <div>a</div>;
+                    return console.log(items);
+                  }
+                  // <PopularRequestSection data={[items]} />
+                )}
               </Carousel>
             </React.Fragment>
           ) : (
@@ -387,13 +394,13 @@ export const HomePage = () => {
       ) : (
         <React.Fragment>
           {' '}
-          {POPULAR_REQUEST_DATA.filter(({ location }) =>
-            searchValue ? location.includes(searchValue) : location
+          {PROVIDE_MAPPER.filter(({ location }) =>
+            searchValue ? location.name.includes(searchValue) : true
           ).length > 0 ? (
             <React.Fragment>
               <PopularRequestSection
-                data={POPULAR_REQUEST_DATA.filter(({ location }) =>
-                  searchValue ? location.includes(searchValue) : location
+                data={PROVIDE_MAPPER.filter(({ location }) =>
+                  searchValue ? location.name.includes(searchValue) : true
                 )}
               />
             </React.Fragment>
@@ -417,8 +424,8 @@ export const HomePage = () => {
       {isMobile ? (
         <React.Fragment>
           {' '}
-          {SUGGESTED_REQUEST_DATA.filter(({ location }) =>
-            searchValue ? location.includes(searchValue) : location
+          {REQUEST_MAPPER.filter(({ location }) =>
+            searchValue ? location.name.includes(searchValue) : true
           ).length > 0 ? (
             <React.Fragment>
               {' '}
@@ -437,8 +444,8 @@ export const HomePage = () => {
                 }
               `}
               >
-                {SUGGESTED_REQUEST_DATA.filter(({ location }) =>
-                  searchValue ? location.includes(searchValue) : location
+                {REQUEST_MAPPER.filter(({ location }) =>
+                  searchValue ? location.name.includes(searchValue) : true
                 ).map((items) => (
                   <SuggestedRequestSection data={[items]} />
                 ))}
@@ -450,13 +457,13 @@ export const HomePage = () => {
         </React.Fragment>
       ) : (
         <React.Fragment>
-          {SUGGESTED_REQUEST_DATA.filter(({ location }) =>
-            searchValue ? location.includes(searchValue) : location
+          {REQUEST_MAPPER.filter(({ location }) =>
+            searchValue ? location.name.includes(searchValue) : true
           ).length > 0 ? (
             <React.Fragment>
               <SuggestedRequestSection
-                data={SUGGESTED_REQUEST_DATA.filter(({ location }) =>
-                  searchValue ? location.includes(searchValue) : location
+                data={REQUEST_MAPPER.filter(({ location }) =>
+                  searchValue ? location.name.includes(searchValue) : true
                 )}
               />
             </React.Fragment>

@@ -15,6 +15,8 @@ import { RANK_BADGE } from 'components/Badge/const';
 import UserAvatar from 'images/avatar_helper.png';
 import ProvideImage from 'images/request.jpeg';
 import { useMedia, MOBILE_WIDTH, mediaQueryMobile } from 'styles/variables';
+import { USER_DATA } from '../../data/user';
+import { PROVIDE_MAPPER } from '../../data/provide';
 
 const ProvideImageSection = styled.img`
   width: 420px;
@@ -117,26 +119,24 @@ export const ProvideInfoContent = ({ data }: any) => {
 
   return (
     <React.Fragment>
-      {data
-        .filter(({ id }) => id === query)
+      {(data ?? PROVIDE_MAPPER)
+        .filter(({ provideId }) => provideId === query)
         .map(
           ({
-            id,
-            name,
+            provideId,
+            userId,
             imageUrl,
             title,
             location,
-            message,
-            helpSum,
+            description,
+            provideSum,
             serviceCharge,
             category,
             hashtag,
-            rank,
-            payment,
-            rating
+            payment
           }) => (
             <WrapperContainer
-              key={id}
+              key={provideId}
               css={css`
                 ${mediaQueryMobile} {
                   height: calc(100vh - 170px);
@@ -215,15 +215,15 @@ export const ProvideInfoContent = ({ data }: any) => {
                     <ProvideTitle>
                       {isMobile ? 'สถานที่' : 'สถานที่ให้ความข่วยเหลือ'}
                     </ProvideTitle>
-                    <ProvideDetail>{location}</ProvideDetail>
+                    <ProvideDetail>{location.name}</ProvideDetail>
                     <ProvideTitle>ยอดการช่วยเหลือ</ProvideTitle>
-                    <ProvideDetail>{helpSum} ครั้ง</ProvideDetail>
+                    <ProvideDetail>{provideSum} ครั้ง</ProvideDetail>
                     <ProvideTitle>อัตราค่าบริการ</ProvideTitle>
                     <ProvideDetail>{serviceCharge}</ProvideDetail>
                     <ProvideTitle>ช่องทางการชำระเงิน</ProvideTitle>
                     <ProvideDetail>{payment}</ProvideDetail>
                     <ProvideTitle>คำอธิบาย</ProvideTitle>
-                    <ProvideDetail>{message}</ProvideDetail>
+                    <ProvideDetail>{description}</ProvideDetail>
                   </ProvideInfoContainer>
                   <Flex>
                     <PrimaryButton
@@ -295,14 +295,27 @@ export const ProvideInfoContent = ({ data }: any) => {
                       align-items: center;
                     `}
                   >
-                    <UserName>{name}</UserName>
+                    <UserName>
+                      {
+                        USER_DATA.filter((props) => props.userId === userId)[0]
+                          .username
+                      }
+                    </UserName>
                     <RankingBadge
-                      rankColor={RANK_BADGE[rank].color}
+                      rankColor={
+                        RANK_BADGE[
+                          USER_DATA.filter(
+                            (props) => props.userId === userId
+                          )[0].rank
+                        ].color
+                      }
                       css={css`
                         margin-top: -10px;
                       `}
                     >
-                      {rank.toUpperCase()}
+                      {USER_DATA.filter(
+                        (props) => props.userId === userId
+                      )[0].rank.toUpperCase()}
                     </RankingBadge>
                   </div>
                 </div>
@@ -312,18 +325,16 @@ export const ProvideInfoContent = ({ data }: any) => {
                     css={css`
                       margin-right: 100px;
                       width: 140px;
+                      z-index: 5;
                     `}
+                    onClick={() => {
+                      history.push({
+                        pathname: `/profile/${userId}`
+                      });
+                    }}
                   >
                     <UserSvg />
-                    <div
-                      onClick={() => {
-                        history.push({
-                          pathname: `/profile/${id}`
-                        });
-                      }}
-                    >
-                      โปรไฟล์
-                    </div>
+                    <div>โปรไฟล์</div>
                   </SecondaryButton>
                 )}
               </div>

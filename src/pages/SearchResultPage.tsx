@@ -12,11 +12,11 @@ import { MenuTab } from 'components/Menu/MenuTab';
 import { Divider } from 'components/Divider/Divider';
 import Flex from 'components/Flex/Flex';
 import { PostRequestButton } from 'components/Button/PostRequestButton';
-import { POPULAR_REQUEST_DATA } from 'data/helper';
-import { SUGGESTED_REQUEST_DATA } from 'data/request';
+import { REQUEST_MAPPER } from 'data/request';
 import { SuggestedRequestSection } from 'components/Card/SuggestedRequestCard';
 import { PopularRequestSection } from 'components/Card/PopularRequestCard';
 import { useMedia, MOBILE_WIDTH, mediaQueryMobile } from 'styles/variables';
+import { PROVIDE_MAPPER } from 'data/provide';
 
 const SearchResultContent = styled.div`
   display: grid;
@@ -81,7 +81,7 @@ export const SearchResultPage = () => {
               direction={isMobile ? 'column' : 'row'}
             >
               <Text fontSize="24px" fontWeight={500} marginBottom="20px">
-                ผลการค้นหา ทั้งหมด {POPULAR_REQUEST_DATA.length} รายการ
+                ผลการค้นหา ทั้งหมด {PROVIDE_MAPPER.length} รายการ
               </Text>
               <div
                 css={css`
@@ -103,10 +103,10 @@ export const SearchResultPage = () => {
           </div>
           <SearchResultContent>
             {menu === HelpMenu.PROVIDE
-              ? POPULAR_REQUEST_DATA.map((props) => (
+              ? PROVIDE_MAPPER.map((props) => (
                   <PopularRequestSection data={[props]} />
                 ))
-              : SUGGESTED_REQUEST_DATA.map((props) => (
+              : REQUEST_MAPPER.map((props) => (
                   <SuggestedRequestSection data={[props]} />
                 ))}
           </SearchResultContent>

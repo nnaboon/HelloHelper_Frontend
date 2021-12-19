@@ -10,6 +10,7 @@ import { css, jsx } from '@emotion/react';
 import RequestImage from 'images/request.jpeg';
 import { mediaQueryMobile, MOBILE_WIDTH } from 'styles/variables';
 import { useMedia } from '../../styles/variables';
+import { USER_DATA } from 'data/user';
 
 const RequestHelperCardContainer = styled.div`
   display: flex;
@@ -41,6 +42,7 @@ const CardContainer = styled.div`
   position: relative;
   top: -20px;
   margin-top: 40px;
+  max-width: 550px;
   cursor: pointer;
 
   ${mediaQueryMobile} {
@@ -128,7 +130,8 @@ export const SuggestedRequestSection = ({ data }: any) => {
     <RequestHelperCardContainer>
       {data.map(
         ({
-          id,
+          requestId,
+          userId,
           title,
           imageUrl,
           name,
@@ -138,9 +141,10 @@ export const SuggestedRequestSection = ({ data }: any) => {
           rank
         }) => (
           <CardContainer
+            key={requestId}
             onClick={() => {
               history.push({
-                pathname: `/${title}/${id}`,
+                pathname: `/${title}/${requestId}`,
                 state: {
                   type: 'request'
                 }
@@ -179,19 +183,33 @@ export const SuggestedRequestSection = ({ data }: any) => {
                 <RequestTitle>{title}</RequestTitle>
                 <RequestDataContent>
                   <RequestDataTitle>ชื่อ</RequestDataTitle>
-                  <RequestDataInfo>{name}</RequestDataInfo>
+                  <RequestDataInfo>
+                    {
+                      USER_DATA.filter((props) => props.userId === userId)[0]
+                        .username
+                    }
+                  </RequestDataInfo>
                 </RequestDataContent>
                 <RequestDataContent>
                   <RequestDataTitle>ระดับ</RequestDataTitle>
-                  <RankingBadge rankColor={RANK_BADGE[rank].color}>
-                    {rank.toUpperCase()}
+                  <RankingBadge
+                    rankColor={
+                      RANK_BADGE[
+                        USER_DATA.filter((props) => props.userId === userId)[0]
+                          .rank
+                      ].color
+                    }
+                  >
+                    {USER_DATA.filter(
+                      (props) => props.userId === userId
+                    )[0].rank.toUpperCase()}
                   </RankingBadge>
                 </RequestDataContent>
                 <RequestDataContent>
                   <RequestDataTitle>
                     {isMobile ? 'สถานที่' : `สถานที่ให้\nความช่วยเหลือ`}
                   </RequestDataTitle>
-                  <RequestDataInfo>{location}</RequestDataInfo>
+                  <RequestDataInfo>{location.name}</RequestDataInfo>
                 </RequestDataContent>
                 {!isMobile && (
                   <React.Fragment>

@@ -17,6 +17,7 @@ import { getStar } from 'components/Star/getStar';
 import UserAvatar from 'images/avatar_helper.png';
 import { mediaQueryMobile } from 'styles/variables';
 import { useMedia, MOBILE_WIDTH } from 'styles/variables';
+import { USER_DATA } from 'data/user';
 
 const RequestHelperCardContainer = styled.div`
   display: flex;
@@ -47,6 +48,7 @@ const CardContainer = styled.div`
   top: -20px;
   margin-top: 20px;
   cursor: pointer;
+  max-width: 550px;
 
   ${mediaQueryMobile} {
     width: 90%;
@@ -124,22 +126,19 @@ export const PopularRequestSection = ({ data }: any) => {
     <RequestHelperCardContainer>
       {data.map(
         ({
-          id,
+          provideId,
+          userId,
           title,
-          imageUrl,
-          name,
-          payment,
           serviceCharge,
           location,
-          helpSum,
-          rank,
+          provideSum,
           rating
         }) => (
-          <CardContainer key={id}>
+          <CardContainer key={provideId}>
             <div
               onClick={() => {
                 history.push({
-                  pathname: `/${title}/${id}`,
+                  pathname: `/${title}/${provideId}`,
                   state: {
                     type: 'provide'
                   }
@@ -174,8 +173,18 @@ export const PopularRequestSection = ({ data }: any) => {
                     >
                       {getStar(rating)}
                     </div>
-                    <RankingBadge rankColor={RANK_BADGE[rank].color}>
-                      {rank.toUpperCase()}
+                    <RankingBadge
+                      rankColor={
+                        RANK_BADGE[
+                          USER_DATA.filter(
+                            (props) => props.userId === userId
+                          )[0].rank
+                        ].color
+                      }
+                    >
+                      {USER_DATA.filter(
+                        (props) => props.userId === userId
+                      )[0].rank.toUpperCase()}
                     </RankingBadge>
                   </div>
                 )}
@@ -187,22 +196,27 @@ export const PopularRequestSection = ({ data }: any) => {
                 >
                   <RequestDataContent>
                     <RequestDataTitle>ชื่อ</RequestDataTitle>
-                    <RequestDataInfo>{name}</RequestDataInfo>
+                    <RequestDataInfo>
+                      {
+                        USER_DATA.filter((props) => props.userId === userId)[0]
+                          .username
+                      }
+                    </RequestDataInfo>
                   </RequestDataContent>
                   <RequestDataContent>
                     <RequestDataTitle>
-                      {isMobile ? 'สถานที่' : `สถานที่ให้{'\n'}ความช่วยเหลือ`}
+                      {isMobile ? 'สถานที่' : `สถานที่ให้\nความช่วยเหลือ`}
                     </RequestDataTitle>
-                    <RequestDataInfo>{location}</RequestDataInfo>
+                    <RequestDataInfo>{location.name}</RequestDataInfo>
                   </RequestDataContent>
                   <RequestDataContent>
                     <RequestDataTitle>
                       {isMobile
                         ? `การให้ความช่วยเหลือนี้`
-                        : `ยอดการให้'\nความช่วยเหลือนี้`}
+                        : `ยอดการให้\nความช่วยเหลือนี้`}
                     </RequestDataTitle>
                     <RequestDataInfo>
-                      {helpSum.toLocaleString()} ครั้ง
+                      {provideSum.toLocaleString()} ครั้ง
                     </RequestDataInfo>
                   </RequestDataContent>
                   {isMobile && (
@@ -240,8 +254,18 @@ export const PopularRequestSection = ({ data }: any) => {
                         >
                           {getStar(rating)}
                         </div>
-                        <RankingBadge rankColor={RANK_BADGE[rank].color}>
-                          {rank.toUpperCase()}
+                        <RankingBadge
+                          rankColor={
+                            RANK_BADGE[
+                              USER_DATA.filter(
+                                (props) => props.userId === userId
+                              )[0].rank
+                            ].color
+                          }
+                        >
+                          {USER_DATA.filter(
+                            (props) => props.userId === userId
+                          )[0].rank.toUpperCase()}
                         </RankingBadge>
                       </div>
                     </div>
@@ -254,7 +278,8 @@ export const PopularRequestSection = ({ data }: any) => {
                           คะแนนการให้ความช่วยเหลือนี้
                         </RequestDataTitle>
                         <RequestDataInfo>
-                          5.0 <Rate count={1} defaultValue={1} />
+                          {rating.toFixed(1)}{' '}
+                          <Rate count={1} defaultValue={1} />
                         </RequestDataInfo>
                       </RequestDataContent>
                       <RequestDataContent>
@@ -283,7 +308,7 @@ export const PopularRequestSection = ({ data }: any) => {
               {!isMobile && (
                 <SecondaryButton
                   onClick={() => {
-                    history.push({ pathname: `/profile/${id}` });
+                    history.push({ pathname: `/profile/${userId}` });
                   }}
                 >
                   <UserSvg />

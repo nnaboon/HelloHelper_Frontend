@@ -22,6 +22,9 @@ import { TopThreeHelpedChart } from 'features/charts/TopThreeHelpedChart';
 import UserAvatar from 'images/avatar_helper.png';
 import { mediaQueryMobile, MOBILE_WIDTH, useMedia } from 'styles/variables';
 import { ProfileMenu } from '../components/Menu/const';
+import { PostRequestButton } from 'components/Button/PostRequestButton';
+import { myAccountUserId } from 'data/user';
+import { ORDER_DATA } from 'data/order';
 
 const ProfilePageContainer = styled.div`
   box-sizing: border-box;
@@ -147,14 +150,16 @@ const ProfileInfoListDetail = styled.div`
 `;
 
 export const ProfilePage = () => {
-  const [myAccount, setMyAccount] = useState<Boolean>(false);
   const [menu, setMenu] = useState<HelpMenu | ProfileMenu>(HelpMenu.PROVIDE);
   const history = useHistory();
   const { pathname, state } = useLocation();
+  const query = pathname.split('/')[2];
   const currentMenu = ((state as any)?.profile_menu || HelpMenu.PROVIDE) as
     | HelpMenu
     | ProfileMenu;
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
+
+  let data = USER_DATA.filter(({ userId }) => userId === myAccountUserId);
 
   useEffect(() => {
     if (!isMobile && menu === ProfileMenu.HOME) {
@@ -170,36 +175,29 @@ export const ProfilePage = () => {
     }
   }, []);
 
-  useEffect(() => {
-    if (pathname.split('/')[2] !== USER_DATA[0].id) {
-      setMyAccount(false);
-    } else {
-      setMyAccount(true);
-    }
-  }, [pathname, history]);
-
   return (
     <React.Fragment>
       <ProfilePageContainer>
         {isMobile && <ProfileMenuTab menu={menu} setMenu={setMenu} />}
         {(!isMobile || menu === ProfileMenu.HOME) && (
           <div>
-            {USER_DATA.map(
+            {USER_DATA.filter(
+              (props) => props.userId === (query ? query : myAccountUserId)
+            ).map(
               ({
-                id,
-                name,
+                userId,
+                username,
                 imageUrl,
                 location,
-                category,
-                follower,
-                following,
-                helpSum,
+                followerUserId,
+                followingUserId,
+                provideSum,
                 requestSum,
                 rank,
                 rating,
                 recommend
               }) => (
-                <ProfilePageUserInfoSection key={id}>
+                <ProfilePageUserInfoSection key={userId}>
                   <UserCard>
                     <div
                       css={css`
@@ -237,7 +235,7 @@ export const ProfilePage = () => {
                         margin-top: -50px;
                       `}
                     >
-                      <UserName>{name}</UserName>
+                      <UserName>{username}</UserName>
                       <div
                         style={{
                           display: 'flex',
@@ -270,7 +268,7 @@ export const ProfilePage = () => {
                         {rank.toUpperCase()}
                       </RankingBadge>
                     </div>
-                    {myAccount ? (
+                    {myAccountUserId === query ? (
                       <div
                         style={{
                           display: 'flex',
@@ -347,7 +345,9 @@ export const ProfilePage = () => {
                       <ProfileInfoListHeading>
                         ขอบเขตการช่วยเหลือ
                       </ProfileInfoListHeading>
-                      <ProfileInfoListDetail>{location}</ProfileInfoListDetail>
+                      <ProfileInfoListDetail>
+                        {location.name}
+                      </ProfileInfoListDetail>
                     </Flex>
                     <ProfileInfoContainer>
                       <Flex>
@@ -355,7 +355,7 @@ export const ProfilePage = () => {
                           ยอดการให้ช่วยเหลือ
                         </ProfileInfoListHeading>
                         <ProfileInfoListDetail>
-                          {helpSum.toLocaleString()} ครั้ง
+                          {provideSum.toLocaleString()} ครั้ง
                         </ProfileInfoListDetail>
                       </Flex>
                       <Flex>
@@ -371,7 +371,7 @@ export const ProfilePage = () => {
                           ผู้ติดตาม
                         </ProfileInfoListHeading>
                         <ProfileInfoListDetail>
-                          {follower.toLocaleString()} คน
+                          {followerUserId.length} คน
                         </ProfileInfoListDetail>
                       </Flex>
                       <Flex>
@@ -379,7 +379,7 @@ export const ProfilePage = () => {
                           กำลังติดตาม
                         </ProfileInfoListHeading>
                         <ProfileInfoListDetail>
-                          {following.toLocaleString()} คน
+                          {followingUserId.length} คน
                         </ProfileInfoListDetail>
                       </Flex>
                     </ProfileInfoContainer>
@@ -400,23 +400,63 @@ export const ProfilePage = () => {
             </div>
           </div>
         )}
+
         {!isMobile && <Divider />}
-        {!isMobile && <ProfileMenuTab menu={menu} setMenu={setMenu} />}
-        <ProfilePageUserHelperListSection>
-          {!isMobile || menu === HelpMenu.PROVIDE ? (
-            <React.Fragment>
-              {USER_DATA[0].myList.provideList.map((props) => (
-                <MyProvideList key={props.id} data={props} />
-              ))}
-            </React.Fragment>
-          ) : menu === ProfileMenu.REQUEST ? (
-            <React.Fragment>
-              {USER_DATA[0].myList.requestList.map((props) => (
-                <MyRequestList key={props.id} data={props} />
-              ))}
-            </React.Fragment>
-          ) : null}
-        </ProfilePageUserHelperListSection>
+        {!isMobile && (
+          <Flex justify="space-between">
+            <ProfileMenuTab menu={menu} setMenu={setMenu} />
+            <PostRequestButton
+              buttonText={
+                menu === HelpMenu.PROVIDE ? 'ให้ความข่วยเหลือ' : 'ขอคำช่วยเหลือ'
+              }
+            />
+          </Flex>
+        )}
+        {isMobile ? (
+          <ProfilePageUserHelperListSection>
+            {menu === HelpMenu.PROVIDE ? (
+              <React.Fragment>
+                {ORDER_DATA.filter(
+                  ({ providerUserId }) =>
+                    providerUserId === (query ?? myAccountUserId)
+                ).map((props) => (
+                  <MyProvideList key={props.orderId} data={props} />
+                ))}
+              </React.Fragment>
+            ) : menu === ProfileMenu.REQUEST ? (
+              <React.Fragment>
+                {ORDER_DATA.filter(
+                  ({ requesterUserId }) =>
+                    requesterUserId === (query ?? myAccountUserId)
+                ).map((props) => (
+                  <MyRequestList key={props.orderId} data={props} />
+                ))}
+              </React.Fragment>
+            ) : null}
+          </ProfilePageUserHelperListSection>
+        ) : (
+          <ProfilePageUserHelperListSection>
+            {menu === HelpMenu.PROVIDE ? (
+              <React.Fragment>
+                {ORDER_DATA.filter(
+                  ({ providerUserId }) =>
+                    providerUserId === (query ?? myAccountUserId)
+                ).map((props) => (
+                  <MyProvideList key={props.orderId} data={props} />
+                ))}
+              </React.Fragment>
+            ) : menu === ProfileMenu.REQUEST ? (
+              <React.Fragment>
+                {ORDER_DATA.filter(
+                  ({ requesterUserId }) =>
+                    requesterUserId === (query ?? myAccountUserId)
+                ).map((props) => (
+                  <MyRequestList key={props.orderId} data={props} />
+                ))}
+              </React.Fragment>
+            ) : null}
+          </ProfilePageUserHelperListSection>
+        )}
       </ProfilePageContainer>
     </React.Fragment>
   );

@@ -8,6 +8,12 @@ import { SecondaryButton, PrimaryButton } from 'components/Button/Button';
 import { Text } from 'components/Text';
 import UserAvatar from 'images/avatar_helper.png';
 import { useMedia, MOBILE_WIDTH, mediaQueryMobile } from 'styles/variables';
+import { USER_DATA } from 'data/user';
+
+interface CommunitySettingManagerMemberProps {
+  member: any[];
+  joinedRequest: string[];
+}
 
 const CommunityMemberCard = styled.div`
   width: 100%;
@@ -66,7 +72,10 @@ const UserName = styled.div`
   }
 `;
 
-export const CommunitySettingManageMember = ({ member }: any) => {
+export const CommunitySettingManageMember = ({
+  member,
+  joinedRequest
+}: CommunitySettingManagerMemberProps) => {
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
 
   const menu = (
@@ -81,8 +90,8 @@ export const CommunitySettingManageMember = ({ member }: any) => {
       <Text fontWeight={500} fontSize="28px" marginY="40px">
         ผู้ต้องการเข้าร่วมชุมชน
       </Text>
-      {member.map(({ id, name }) => (
-        <CommunityMemberCard key={id}>
+      {joinedRequest.map((userId) => (
+        <CommunityMemberCard key={userId}>
           <div
             css={css`
               display: flex;
@@ -113,7 +122,12 @@ export const CommunitySettingManageMember = ({ member }: any) => {
                 src={UserAvatar}
                 alt="community member avatar"
               />
-              <UserName>{name}</UserName>
+              <UserName>
+                {
+                  USER_DATA.filter((props) => props.userId === userId)[0]
+                    .username
+                }
+              </UserName>
             </div>
             <div
               css={css`
@@ -161,8 +175,8 @@ export const CommunitySettingManageMember = ({ member }: any) => {
       <Text fontWeight={500} fontSize="28px" marginY="40px">
         ผู้นำชุมชน
       </Text>
-      {member.map(({ id, name }) => (
-        <CommunityMemberCard key={id}>
+      {member.map(({ userId }) => (
+        <CommunityMemberCard key={userId}>
           <div
             css={css`
               display: flex;
@@ -192,7 +206,12 @@ export const CommunitySettingManageMember = ({ member }: any) => {
                 src={UserAvatar}
                 alt="community member avatar"
               />
-              <UserName>{name}</UserName>
+              <UserName>
+                {
+                  USER_DATA.filter((props) => props.userId === userId)[0]
+                    .username
+                }
+              </UserName>
               <CommunityAdminBadge>ผู้นำชุมชน</CommunityAdminBadge>
             </div>
             <div
@@ -241,8 +260,8 @@ export const CommunitySettingManageMember = ({ member }: any) => {
       <Text fontWeight={500} fontSize="28px" marginY="40px">
         สมาชิกในชุมชน
       </Text>
-      {member.map(({ id, name }) => (
-        <CommunityMemberCard key={id}>
+      {member.map(({ userId }) => (
+        <CommunityMemberCard key={userId}>
           <div
             css={css`
               display: flex;
@@ -272,7 +291,12 @@ export const CommunitySettingManageMember = ({ member }: any) => {
                 src={UserAvatar}
                 alt="community member avatar"
               />
-              <UserName>{name}</UserName>
+              <UserName>
+                {
+                  USER_DATA.filter((props) => props.userId === userId)[0]
+                    .username
+                }
+              </UserName>
             </div>
             <div
               css={css`

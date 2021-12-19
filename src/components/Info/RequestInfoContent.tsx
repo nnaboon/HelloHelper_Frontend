@@ -5,20 +5,21 @@ import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { WrapperContainer } from 'components/Wrapper/WrapperContainer';
-import { Divider } from 'components/Divider/Divider';
+import { Divider } from 'antd';
 import Flex from 'components/Flex/Flex';
 import { Text } from 'components/Text';
 import { PrimaryButton, SecondaryButton } from 'components/Button/Button';
 import { HelperListCard } from 'components/Card/HelperListCard';
 import { SmallSuggestedRequestCard } from 'components/Card/SmallSuggestedRequestCard';
 import { InfoMenu } from 'components/Menu/const';
-import { POPULAR_REQUEST_DATA } from 'data/helper';
 import UserAvatar from 'images/avatar_helper.png';
 import { useMedia, MOBILE_WIDTH, mediaQueryMobile } from 'styles/variables';
 import { InfoMenuTab } from 'components/Menu/InfoMenuTab';
 import { RANK_BADGE } from 'components/Badge/const';
 import { RankingBadge } from 'components/Badge/Badge';
 import { SuggestedBadge } from 'components/Badge/Badge';
+import { USER_DATA } from '../../data/user';
+import { PROVIDE_MAPPER } from 'data/provide';
 
 const RequestImageSection = styled.img`
   width: 420px;
@@ -132,26 +133,25 @@ export const RequestInfoContent = ({ data }: any) => {
     // </WrapperContainer>
     <React.Fragment>
       {data
-        .filter(({ id }) => id === query)
+        .filter(({ requestId }) => requestId === query)
         .map(
           ({
-            id,
-            name,
+            requestId,
+            userId,
             imageUrl,
             title,
             location,
             maxPrice,
-            message,
+            description,
             maxServiceCharge,
             category,
             hashtag,
             amount,
             payment,
-            helper,
-            rank
+            provideUserId
           }) => (
             <WrapperContainer
-              key={id}
+              key={requestId}
               css={css`
                 ${mediaQueryMobile} {
                   height: calc(100vh - 170px);
@@ -227,7 +227,7 @@ export const RequestInfoContent = ({ data }: any) => {
                         <RequestTitle>ชื่อ</RequestTitle>
                         <RequestDetail>{title}</RequestDetail>
                         <RequestTitle>สถานที่ให้ความข่วยเหลือ</RequestTitle>
-                        <RequestDetail>{location}</RequestDetail>
+                        <RequestDetail>{location.name}</RequestDetail>
                         <React.Fragment>
                           <RequestTitle>จำนวน</RequestTitle>
                           <RequestDetail>{amount}</RequestDetail>
@@ -239,7 +239,7 @@ export const RequestInfoContent = ({ data }: any) => {
                         <RequestTitle>ช่องทางการชำระเงิน</RequestTitle>
                         <RequestDetail>{payment}</RequestDetail>
                         <RequestTitle>คำอธิบาย</RequestTitle>
-                        <RequestDetail>{message}</RequestDetail>
+                        <RequestDetail>{description}</RequestDetail>
                       </RequestInfoContainer>
                       <PrimaryButton
                         css={css`
@@ -310,14 +310,28 @@ export const RequestInfoContent = ({ data }: any) => {
                           align-items: center;
                         `}
                       >
-                        <UserName>{name}</UserName>
+                        <UserName>
+                          {
+                            USER_DATA.filter(
+                              (props) => props.userId === userId
+                            )[0].username
+                          }
+                        </UserName>
                         <RankingBadge
-                          rankColor={RANK_BADGE[rank].color}
+                          rankColor={
+                            RANK_BADGE[
+                              USER_DATA.filter(
+                                (props) => props.userId === userId
+                              )[0].rank
+                            ].color
+                          }
                           css={css`
                             margin-top: -10px;
                           `}
                         >
-                          {rank.toUpperCase()}
+                          {USER_DATA.filter(
+                            (props) => props.userId === userId
+                          )[0].rank.toUpperCase()}
                         </RankingBadge>
                       </div>
                     </div>
@@ -348,22 +362,29 @@ export const RequestInfoContent = ({ data }: any) => {
                         marginTop: isMobile ? '20px' : '40px'
                       }}
                     >
-                      {helper.map(({ id, name, imageUrl }) => (
+                      {provideUserId.map((id) => (
                         <HelperListCard
                           id={id}
-                          name={name}
+                          name={
+                            USER_DATA.filter((props) => props.userId === id)[0]
+                              .username
+                          }
                           imageUrl={UserAvatar}
                         />
                       ))}
                     </div>
-                    {isMobile && <Divider />}
+                    {isMobile && (
+                      <Divider
+                        style={{ borderTopColor: '#C4C4C4', color: '#7C7A7A' }}
+                      >
+                        คุณอาจจะสนใจสิ่งนี้
+                      </Divider>
+                    )}
                     <Flex direction="column" itemAlign="flex-end">
-                      <SmallSuggestedRequestCard
-                        data={[POPULAR_REQUEST_DATA[0]]}
-                      />
-                      <SmallSuggestedRequestCard
-                        data={[POPULAR_REQUEST_DATA[1]]}
-                      />
+                      <SmallSuggestedRequestCard data={[PROVIDE_MAPPER[1]]} />
+                      <SmallSuggestedRequestCard data={[PROVIDE_MAPPER[2]]} />
+                      <SmallSuggestedRequestCard data={[PROVIDE_MAPPER[0]]} />
+                      <SmallSuggestedRequestCard data={[PROVIDE_MAPPER[1]]} />
                     </Flex>
                   </Flex>
                 </React.Fragment>

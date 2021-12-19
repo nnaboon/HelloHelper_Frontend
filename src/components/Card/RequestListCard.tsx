@@ -11,9 +11,12 @@ import { StatusBadge } from 'components/Badge/StatusBadge';
 import { RequestListProps } from 'data/request';
 import { PrimaryButton, SecondaryButton } from '../Button/Button';
 import { RatingForm } from 'components/Form/RatingForm';
+import { useMedia, MOBILE_WIDTH, mediaQueryMobile } from 'styles/variables';
+import { OrderProps } from 'data/order';
+import { USER_DATA } from '../../data/user';
 
 type RequestListCardProps = {
-  props: RequestListProps;
+  props: OrderProps;
 };
 
 const RequestListContainer = styled.div`
@@ -28,6 +31,11 @@ const RequestListContainer = styled.div`
   margin-bottom: 40px;
   margin-top: 20px;
   padding: 20px 30px 30px 30px;
+
+  ${mediaQueryMobile} {
+    width: 100%;
+    padding: 20px;
+  }
 `;
 
 const RequestListContent = styled.div`
@@ -36,6 +44,11 @@ const RequestListContent = styled.div`
   grid-gap: 30px;
   margin-top: 40px;
   text-align: start;
+
+  ${mediaQueryMobile} {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 const RequestListTitle = styled.div`
@@ -47,6 +60,10 @@ const RequestListTitle = styled.div`
   color: #b9b9b9;
   text-align: end;
   margin-right: 20px;
+
+  ${mediaQueryMobile} {
+    text-align: start;
+  }
 `;
 
 const RequestListData = styled.div`
@@ -57,10 +74,11 @@ const RequestListData = styled.div`
   width: 200px;
 `;
 
-export const RequestListCard = (props: RequestListCardProps) => {
+export const RequestListCard = ({ props }: RequestListCardProps) => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [form] = Form.useForm();
+  const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
 
   const handleOk = () => {
     setIsModalVisible(false);
@@ -88,55 +106,75 @@ export const RequestListCard = (props: RequestListCardProps) => {
   return (
     <RequestListContainer>
       <StatusBadge
-        status={STATUS_MAPPER[props.props.status].status}
-        color={STATUS_MAPPER[props.props.status].color}
+        status={STATUS_MAPPER[props.status].status}
+        color={STATUS_MAPPER[props.status].color}
         style={{ position: 'absolute', right: '20px', top: '13px' }}
       />
       <RequestListContent>
         <Flex itemAlign="flex-start">
           <RequestListTitle>ชื่อความช่วยเหลือ</RequestListTitle>
-          <RequestListData>{props.props.title}</RequestListData>
+          <RequestListData>{props.title}</RequestListData>
         </Flex>
         <Flex itemAlign="flex-start">
           <RequestListTitle>สถานที่ให้ความข่วยเหลือ</RequestListTitle>
-          <RequestListData>{props.props.location}</RequestListData>
+          <RequestListData>{props.location}</RequestListData>
         </Flex>
         <Flex itemAlign="flex-start">
           <RequestListTitle>จำนวน</RequestListTitle>
-          <RequestListData>{props.props.amount}</RequestListData>
+          <RequestListData>{props.amount}</RequestListData>
         </Flex>
         <Flex itemAlign="flex-start">
           <RequestListTitle>ราคาสินค้าทั้งหมด</RequestListTitle>
-          <RequestListData>{props.props.price}</RequestListData>
+          <RequestListData>{props.price}</RequestListData>
         </Flex>
         <Flex itemAlign="flex-start">
           <RequestListTitle>อัตราค่าบริการ</RequestListTitle>
-          <RequestListData>{props.props.serviceCharge}</RequestListData>
+          <RequestListData>{props.serviceCharge}</RequestListData>
         </Flex>
         <Flex itemAlign="flex-start">
           <RequestListTitle>ข้อความ</RequestListTitle>
-          <RequestListData>{props.props.message}</RequestListData>
+          <RequestListData>{props.description}</RequestListData>
         </Flex>
         <Flex itemAlign="flex-start">
           <RequestListTitle>รูปแบบการชำระเงิน</RequestListTitle>
-          <RequestListData>{props.props.payment}</RequestListData>
+          <RequestListData>{props.payment}</RequestListData>
         </Flex>
         <Flex itemAlign="flex-start">
           <RequestListTitle>ชื่อ-นามสกุลผู้ให้ความช่วยเหลือ</RequestListTitle>
-          <RequestListData>{props.props.helperName}</RequestListData>
+          <RequestListData>
+            {
+              USER_DATA.find(({ userId }) => userId === props.providerUserId)
+                .username
+            }
+          </RequestListData>
         </Flex>
         <Flex itemAlign="flex-start">
           <RequestListTitle>เบอร์โทรศัพท์ผู้ให้ความช่วยเหลือ</RequestListTitle>
-          <RequestListData>{props.props.phoneNumber}</RequestListData>
+          <RequestListData>
+            {' '}
+            {
+              USER_DATA.find(({ userId }) => userId === props.providerUserId)
+                .phoneNumber
+            }
+          </RequestListData>
         </Flex>
       </RequestListContent>
-      {props.props.status === StatusType.WAITING ? (
+      {props.status === StatusType.WAITING ? (
         <Flex
           css={css`
             position: absolute;
             right: 20px;
             bottom: 20px;
             width: max-content;
+
+            ${mediaQueryMobile} {
+              position: relative;
+              bottom: 0;
+              right: 0;
+              width: 100%;
+              justify-content: space-between;
+              margin-top: 20px;
+            }
           `}
         >
           <SecondaryButton
@@ -144,6 +182,11 @@ export const RequestListCard = (props: RequestListCardProps) => {
               min-width: 150px;
               border: 1px solid #e00101;
               color: #e00101;
+
+              ${mediaQueryMobile} {
+                min-width: 47%;
+                width: 47%;
+              }
             `}
           >
             ยกเลิก
@@ -152,6 +195,11 @@ export const RequestListCard = (props: RequestListCardProps) => {
             css={css`
               min-width: 150px;
               background: #0047ff;
+
+              ${mediaQueryMobile} {
+                min-width: 47%;
+                width: 47%;
+              }
             `}
           >
             แชท
@@ -164,12 +212,26 @@ export const RequestListCard = (props: RequestListCardProps) => {
             right: 20px;
             bottom: 20px;
             width: max-content;
+
+            ${mediaQueryMobile} {
+              position: relative;
+              bottom: 0;
+              right: 0;
+              width: 100%;
+              justify-content: space-between;
+              margin-top: 20px;
+            }
           `}
         >
           <PrimaryButton
             css={css`
               min-width: 180px;
               background: #0047ff;
+
+              ${mediaQueryMobile} {
+                min-width: 47%;
+                width: 47%;
+              }
             `}
           >
             แขท
@@ -177,6 +239,11 @@ export const RequestListCard = (props: RequestListCardProps) => {
           <PrimaryButton
             css={css`
               min-width: 180px;
+
+              ${mediaQueryMobile} {
+                min-width: 47%;
+                width: 47%;
+              }
             `}
             onClick={() => {
               setIsModalVisible(true);

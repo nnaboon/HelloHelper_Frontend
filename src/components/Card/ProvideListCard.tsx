@@ -8,12 +8,13 @@ import { STATUS_MAPPER } from 'components/Button/const';
 import { StatusType } from 'components/Button/const';
 import { Menu, Dropdown, message, Form, Modal } from 'antd';
 import { StatusBadge } from 'components/Badge/StatusBadge';
-import { ProvideListProps } from 'data/provide';
 import { RatingForm } from 'components/Form/RatingForm';
 import { PrimaryButton, SecondaryButton } from 'components/Button/Button';
+import { mediaQueryMobile, useMedia, MOBILE_WIDTH } from 'styles/variables';
+import { OrderProps } from 'data/order';
 
 type ProvideListCardProps = {
-  props: ProvideListProps;
+  props: OrderProps;
 };
 
 const ProvideListContainer = styled.div`
@@ -28,6 +29,11 @@ const ProvideListContainer = styled.div`
   margin-bottom: 40px;
   margin-top: 20px;
   padding: 20px 30px 30px 30px;
+
+  ${mediaQueryMobile} {
+    width: 100%;
+    padding: 20px;
+  }
 `;
 
 const ProvideListContent = styled.div`
@@ -36,6 +42,11 @@ const ProvideListContent = styled.div`
   grid-gap: 30px;
   margin-top: 40px;
   text-align: start;
+
+  ${mediaQueryMobile} {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 const ProvideListTitle = styled.div`
@@ -47,6 +58,10 @@ const ProvideListTitle = styled.div`
   color: #b9b9b9;
   text-align: end;
   margin-right: 20px;
+
+  ${mediaQueryMobile} {
+    text-align: start;
+  }
 `;
 
 const ProvideListData = styled.div`
@@ -61,6 +76,8 @@ const ProvideListData = styled.div`
 export const ProvideListCard = ({ props }: ProvideListCardProps) => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
+
   const [form] = Form.useForm();
 
   const showModal = () => {
@@ -121,15 +138,15 @@ export const ProvideListCard = ({ props }: ProvideListCardProps) => {
         </Flex>
         <Flex itemAlign="flex-start">
           <ProvideListTitle>ราคาสินค้าทั้งหมด</ProvideListTitle>
-          <ProvideListData>{props.price}</ProvideListData>
+          <ProvideListData>{props.price} บาท</ProvideListData>
         </Flex>
         <Flex itemAlign="flex-start">
           <ProvideListTitle>อัตราค่าบริการ</ProvideListTitle>
-          <ProvideListData>{props.serviceCharge}</ProvideListData>
+          <ProvideListData>{props.serviceCharge} บาท</ProvideListData>
         </Flex>
         <Flex itemAlign="flex-start">
           <ProvideListTitle>ข้อความ</ProvideListTitle>
-          <ProvideListData>{props.message}</ProvideListData>
+          <ProvideListData>{props.description}</ProvideListData>
         </Flex>
         <Flex itemAlign="flex-start">
           <ProvideListTitle>รูปแบบการชำระเงิน</ProvideListTitle>
@@ -137,15 +154,17 @@ export const ProvideListCard = ({ props }: ProvideListCardProps) => {
         </Flex>
         <Flex itemAlign="flex-start">
           <ProvideListTitle>ชื่อ-นามสกุลผู้รับ</ProvideListTitle>
-          <ProvideListData>{props.recipient}</ProvideListData>
+          <ProvideListData>{props.receiver.receiverName}</ProvideListData>
         </Flex>
         <Flex itemAlign="flex-start">
           <ProvideListTitle>ที่อยู่</ProvideListTitle>
-          <ProvideListData>{props.address}</ProvideListData>
+          <ProvideListData>{props.receiver.receiverAddress}</ProvideListData>
         </Flex>
         <Flex itemAlign="flex-start">
           <ProvideListTitle>เบอร์โทรศัพท์</ProvideListTitle>
-          <ProvideListData>{props.phoneNumber}</ProvideListData>
+          <ProvideListData>
+            {props.receiver.receiverPhoneNumber}
+          </ProvideListData>
         </Flex>
       </ProvideListContent>
 
@@ -156,12 +175,26 @@ export const ProvideListCard = ({ props }: ProvideListCardProps) => {
             right: 20px;
             bottom: 20px;
             width: max-content;
+
+            ${mediaQueryMobile} {
+              position: relative;
+              bottom: 0;
+              right: 0;
+              width: 100%;
+              justify-content: space-between;
+              margin-top: 20px;
+            }
           `}
         >
           <PrimaryButton
             css={css`
               min-width: 160px;
               background: #0047ff;
+
+              ${mediaQueryMobile} {
+                min-width: 47%;
+                width: 47%;
+              }
             `}
           >
             แชท
@@ -169,6 +202,11 @@ export const ProvideListCard = ({ props }: ProvideListCardProps) => {
           <PrimaryButton
             css={css`
               min-width: 160px;
+
+              ${mediaQueryMobile} {
+                min-width: 47%;
+                width: 47%;
+              }
             `}
             onClick={() => {
               setIsModalVisible(true);
@@ -184,12 +222,26 @@ export const ProvideListCard = ({ props }: ProvideListCardProps) => {
             right: 20px;
             bottom: 20px;
             width: max-content;
+
+            ${mediaQueryMobile} {
+              position: relative;
+              bottom: 0;
+              right: 0;
+              width: 100%;
+              justify-content: space-between;
+              margin-top: 20px;
+            }
           `}
         >
           <PrimaryButton
             css={css`
               min-width: 150px;
               background: #0047ff;
+
+              ${mediaQueryMobile} {
+                min-width: 47%;
+                width: 47%;
+              }
             `}
           >
             แขท
@@ -198,6 +250,11 @@ export const ProvideListCard = ({ props }: ProvideListCardProps) => {
             <PrimaryButton
               css={css`
                 min-width: 150px;
+
+                ${mediaQueryMobile} {
+                  min-width: 47%;
+                  width: 47%;
+                }
               `}
             >
               เปลี่ยนสถานะ

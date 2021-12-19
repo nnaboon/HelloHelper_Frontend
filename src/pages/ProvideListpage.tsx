@@ -1,3 +1,5 @@
+/** @jsxRuntime classic */
+/** @jsx jsx */
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
@@ -8,15 +10,32 @@ import { STATUS_MAPPER } from 'components/Button/const';
 import { WrapperContainer } from 'components/Wrapper/WrapperContainer';
 import { ProvideListCard } from 'components/Card/ProvideListCard';
 import { PROVIDE_MAPPER } from 'data/provide';
+import { mediaQueryMobile, useMedia, MOBILE_WIDTH } from 'styles/variables';
+import { ORDER_DATA } from '../data/order';
+import { myAccountUserId } from 'data/user';
 
 export const ProvideListPage = () => {
   const [currentStatus, setCurrentStatus] = useState<string>('waiting');
+  const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
+
   return (
-    <WrapperContainer>
+    <WrapperContainer
+      css={css`
+        ${mediaQueryMobile} {
+          height: calc(100vh - 150px);
+        }
+      `}
+    >
       <Text fontSize="24px" fontWeight={400} marginY="20px">
-        รายการให้ความช่วยเหลือของฉัน ทั้งหมด {PROVIDE_MAPPER.length} รายการ
+        รายการให้ความช่วยเหลือของฉัน ทั้งหมด{' '}
+        {
+          ORDER_DATA.filter(
+            ({ providerUserId }) => providerUserId === myAccountUserId
+          ).length
+        }{' '}
+        รายการ
       </Text>
-      <Flex itemAlign="center">
+      <Flex itemAlign="center" overflowX={isMobile ? 'scroll' : 'unset'}>
         <StatusButton
           status={STATUS_MAPPER['waiting'].status}
           color={STATUS_MAPPER['waiting'].color}
@@ -44,11 +63,12 @@ export const ProvideListPage = () => {
         direction="column"
         marginTop="30px"
       >
-        {PROVIDE_MAPPER.filter((props) => props.status === currentStatus).map(
-          (props) => (
-            <ProvideListCard props={props} />
-          )
-        )}
+        {ORDER_DATA.filter(
+          ({ status, orderReferenceType }) =>
+            status === currentStatus && orderReferenceType === 'provide'
+        ).map((props) => (
+          <ProvideListCard props={props} />
+        ))}
       </Flex>
     </WrapperContainer>
   );

@@ -7,6 +7,7 @@ import { PrimaryButton, SecondaryButton } from '../Button/Button';
 import { MessageSvg } from 'components/Svg/MessageSvg';
 import { UserSvg } from 'components/Svg/UserSvg';
 import { useMedia, mediaQueryMobile } from 'styles/variables';
+import { useHistory } from 'react-router-dom';
 
 interface HelperListCardProps {
   id: string;
@@ -66,6 +67,8 @@ const HelperName = styled.div`
 `;
 
 export const HelperListCard = ({ id, name, imageUrl }: HelperListCardProps) => {
+  const history = useHistory();
+
   return (
     <HelperListCardContainer>
       <div
@@ -100,6 +103,9 @@ export const HelperListCard = ({ id, name, imageUrl }: HelperListCardProps) => {
               width: 50%;
             }
           `}
+          onClick={() => {
+            history.push({ pathname: `/profile/${id}` });
+          }}
         >
           <UserSvg />
           <div>โปรไฟล์</div>

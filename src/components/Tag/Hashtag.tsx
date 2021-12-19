@@ -3,6 +3,10 @@ import { PlusOutlined } from '@ant-design/icons';
 import React, { useState, useRef } from 'react';
 import styled from '@emotion/styled';
 
+interface EditableTagGroupProps {
+  tags: string[];
+  setTags: (tags: string[]) => void;
+}
 const TagPlus = styled(Tag)`
   background: #fff;
   border-style: dashed;
@@ -18,8 +22,8 @@ const EditTag = styled(Tag)`
   user-select: none;
 `;
 
-export const EditableTagGroup = () => {
-  const [tags, setTags] = useState<string[]>([]);
+export const EditableTagGroup = ({ tags, setTags }: EditableTagGroupProps) => {
+  // const [tags, setTags] = useState<string[]>([]);
   const [inputVisible, setInputVisible] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>('');
   const [editInputIndex, setEditInputIndex] = useState<any>(-1);
@@ -42,6 +46,7 @@ export const EditableTagGroup = () => {
 
   const handleInputConfirm = () => {
     if (inputValue && tags.indexOf(inputValue) === -1) {
+      console.log(tags, inputValue);
       setTags([...tags, inputValue]);
     }
     console.log(tags);
