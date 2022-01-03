@@ -320,7 +320,7 @@ export const PopularRequestSection = ({ data }: any) => {
                       </RequestDataContent>
                       <RequestDataContent>
                         <RequestDataTitle>ค่าบริการ</RequestDataTitle>
-                        <RequestDataInfo>{serviceCharge}</RequestDataInfo>
+                        <RequestDataInfo>{serviceCharge} บาท</RequestDataInfo>
                       </RequestDataContent>
                     </div>
                   )}
