@@ -26,7 +26,6 @@ import {
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { PROVIDE_MAPPER } from 'data/provide';
 import { useUsers } from 'hooks/users/useUsers';
-import 'react-multi-carousel/lib/styles.css';
 import { mediaQueryTablet } from '../styles/variables';
 
 const HomePageCategorySection = styled.div`
@@ -485,7 +484,6 @@ export const HomePage = () => {
           display: flex;
         `}
       >
-        <News />
         <News />
       </div>
     </HomePageContainer>

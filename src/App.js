@@ -5,7 +5,6 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { css, jsx } from '@emotion/react';
 import { HomePage } from 'pages/Homepage';
 import { ProfilePage } from 'pages/ProfilePage';
-import './App.css';
 import { InfoPage } from 'pages/Infopage';
 import { SearchResultPage } from './pages/SearchResultPage';
 import { Navbar } from 'components/Navbar/Navbar';
@@ -16,6 +15,8 @@ import { CommunityPage } from './pages/CommunityPage';
 import { CommunitySetting } from 'features/community/CommunitySetting';
 import { mediaQueryMobile } from './styles/variables';
 import Chat from 'features/chat/components/Chat/Chat';
+import 'react-multi-carousel/lib/styles.css';
+import './App.css';
 
 function App() {
   return (

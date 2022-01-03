@@ -3,7 +3,7 @@
 import React from 'react';
 import { css, jsx } from '@emotion/react';
 import styled from '@emotion/styled';
-import { Carousel } from 'antd';
+import Carousel from 'react-multi-carousel';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { mediaQueryMobile, MOBILE_WIDTH, useMedia } from 'styles/variables';
 
@@ -35,61 +35,55 @@ const NewsContainer = styled.div`
 export const News = () => {
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
 
-  const SampleNextArrow = (props) => {
-    const { className, style, onClick } = props;
-    return (
-      <div
-        className={className}
-        style={{
-          ...style,
-          color: 'black',
-          fontSize: '15px',
-          marginRight: '5px'
-        }}
-        onClick={onClick}
-      >
-        <RightOutlined />
-      </div>
-    );
+  const responsive = {
+    superLargeDesktop: {
+      breakpoint: { max: 4000, min: 3000 },
+      items: 5
+    },
+    bigDesktop: {
+      breakpoint: { max: 3000, min: 2000 },
+      items: 4
+    },
+    desktop: {
+      breakpoint: { max: 2000, min: 1024 },
+      items: 3
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 768 },
+      items: 2
+    },
+    smallTablet: {
+      breakpoint: { max: 768, min: 464 },
+      items: 2
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1
+    }
   };
 
-  const SamplePrevArrow = (props) => {
-    const { className, style, onClick } = props;
-    return (
-      <div
-        className={className}
-        style={{
-          ...style,
-          color: 'black',
-          fontSize: '15px',
-          marginLeft: '5px'
-        }}
-        onClick={onClick}
-      >
-        <LeftOutlined />
-      </div>
-    );
-  };
   return (
     <NewsSection>
       {isMobile ? (
         <React.Fragment>
           {' '}
           <Carousel
+            responsive={responsive}
             arrows
-            nextArrow={<SampleNextArrow />}
-            prevArrow={<SamplePrevArrow />}
-            css={css`  
-                .slick-next::before {
-                    content: '';
-                }
-                .slick-prev::before {
-                    content: '';
-                  }
-                }
-              `}
+            css={css`
+              .react-multiple-carousel__arrow {
+                z-index: 10;
+              }
+
+              .react-multiple-carousel__arrow--left {
+                left: 0;
+              }
+
+              .react-multiple-carousel__arrow--right {
+                right: 0;
+              }
+            `}
           >
-            {' '}
             <NewsContainer>na1</NewsContainer>
             <NewsContainer>na2</NewsContainer>
           </Carousel>
