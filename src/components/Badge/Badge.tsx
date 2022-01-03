@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { mediaQueryMobile } from 'styles/variables';
+import { mediaQueryMobile, mediaQuerySmallTablet } from 'styles/variables';
 
 export const SuggestedBadge = styled.div`
   position: relative;
@@ -16,7 +16,7 @@ export const SuggestedBadge = styled.div`
   justify-content: center;
   text-align: center;
 
-  ${mediaQueryMobile} {
+  ${mediaQuerySmallTablet} {
     width: 40px;
     height: 20px;
     font-size: 12px;
@@ -39,7 +39,7 @@ export const RankingBadge = styled.div<{ rankColor: string }>`
   font-weight: 500;
   position: relative;
 
-  ${mediaQueryMobile} {
+  ${mediaQuerySmallTablet} {
     width: 84px;
     height: 20px;
     font-size: 14px;

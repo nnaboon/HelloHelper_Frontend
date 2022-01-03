@@ -18,7 +18,7 @@ export const WrapperContainer = styled.div`
   }
 
   ${mediaQuerySmallTablet} {
-    padding: 40px 50px;
+    padding: 40px 30px;
     height: calc(100vh - 180px);
   }
 

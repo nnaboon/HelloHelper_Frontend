@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactECharts from 'echarts-for-react';
-import { useMedia, MOBILE_WIDTH } from 'styles/variables';
+import { useMedia, MOBILE_WIDTH, TABLET_WIDTH } from 'styles/variables';
 
 export const TopThreeHelpedChart = () => {
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
+  const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
 
   const option = {
     tooltip: {
@@ -40,7 +41,7 @@ export const TopThreeHelpedChart = () => {
     <div>
       <ReactECharts
         option={option}
-        style={{ width: isMobile ? '100%' : '640px' }}
+        style={{ width: isTablet ? '100%' : '640px' }}
       />
     </div>
   );

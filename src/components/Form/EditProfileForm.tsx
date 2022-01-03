@@ -7,7 +7,15 @@ import { Button, Form, Input, message, Checkbox, Divider, Upload } from 'antd';
 import { ABILITY } from 'data/ability';
 import { GoogleMapContent } from 'components/GoogleMap/GoogleMap';
 import { WrapperContainer } from 'components/Wrapper/WrapperContainer';
-import { mediaQueryMobile, useMedia, MOBILE_WIDTH } from 'styles/variables';
+import {
+  useMedia,
+  MOBILE_WIDTH,
+  TABLET_WIDTH,
+  SMALL_TABLET_WIDTH,
+  mediaQueryMobile,
+  mediaQuerySmallTablet,
+  mediaQueryTablet
+} from 'styles/variables';
 import UserAvatar from 'images/avatar_user.png';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { UploadOutlined } from '@ant-design/icons';
@@ -19,6 +27,8 @@ export const EditProfileForm = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [imageUrl, setImageUrl] = useState<string>(UserAvatar);
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
+  const isSmallTablet = useMedia(`(max-width: ${SMALL_TABLET_WIDTH}px)`);
+  const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
 
   const uploadButton = (
     <div>
@@ -81,6 +91,9 @@ export const EditProfileForm = () => {
         height: calc(100vh + 450px);
         display: flex;
 
+        ${mediaQuerySmallTablet} {
+          flex-direction: column-reverse;
+        }
         ${mediaQueryMobile} {
           height: calc(100vh - 140px);
         }
@@ -89,6 +102,10 @@ export const EditProfileForm = () => {
       <div
         css={css`
           width: 100%;
+
+          ${mediaQueryTablet} {
+            margin-top: 40px;
+          }
         `}
       >
         <Text
@@ -110,6 +127,20 @@ export const EditProfileForm = () => {
             .ant-form-item-control-input {
               width: 100%;
               margin-bottom: 15px;
+            }
+
+            ${mediaQueryTablet} {
+              .ant-col-8 {
+                max-width: 100%;
+                flex: 0 0 100%;
+              }
+
+              .ant-col-16 {
+                max-width: 100%;
+              }
+              .ant-form-item-label {
+                text-align: left;
+              }
             }
           `}
         >
@@ -144,7 +175,12 @@ export const EditProfileForm = () => {
             />
           </Form.Item>
           <Divider />
-          <Text fontSize="24px" fontWeight={500}>
+          <Text
+            fontSize="24px"
+            fontWeight={500}
+            marginBottom="20px"
+            marginTop="10px"
+          >
             เปลี่ยนรหัสผ่าน
           </Text>
           <Form.Item
@@ -193,6 +229,14 @@ export const EditProfileForm = () => {
             />
           </Form.Item>
           <Divider />
+          <Text
+            fontSize="24px"
+            fontWeight={500}
+            marginBottom="20px"
+            marginTop="10px"
+          >
+            สถานที่ให้ความช่วยเหลือ
+          </Text>
           <Form.Item
             name="location"
             label="สถานที่ให้ความช่วยเหลือ"
@@ -231,6 +275,10 @@ export const EditProfileForm = () => {
                   margin-bottom: 8px;
                 }
               }
+
+              ${mediaQueryTablet} {
+                left: 0;
+              }
             `}
           >
             <Checkbox.Group
@@ -239,43 +287,46 @@ export const EditProfileForm = () => {
               onChange={toggleChecked}
             />
           </Form.Item>
-          {/* <div
-            css={css`
-              width: 100%;
-              position: relative;
-            `}
-          >
-            <Button
-              type="primary"
-              htmlType="submit"
+          {isSmallTablet && (
+            <div
               css={css`
-                width: 170px;
-                height: 40px;
-                box-sizing: border-box;
-                background: #ee6400;
-                border-radius: 9px;
-                border: 0;
-                right: 44px;
-                color: #ffff;
-                font-size: 16px;
-                position: absolute;
-                bottom: -15px;
-
-                &:hover {
-                  background: #ee6400;
-                }
-
-                ${mediaQueryMobile} {
-                  width: 100px;
-                  font-size: 16px;
-                  height: 35px;
-                  right: 0px;
-                }
+                width: 100%;
+                position: relative;
+                height: 100%;
               `}
             >
-              สำเร็จ
-            </Button>
-          </div> */}
+              <Button
+                type="primary"
+                htmlType="submit"
+                css={css`
+                  width: 170px;
+                  height: 40px;
+                  box-sizing: border-box;
+                  background: #ee6400;
+                  border-radius: 9px;
+                  border: 0;
+                  right: 39%;
+                  color: #ffff;
+                  font-size: 16px;
+                  position: absolute;
+                  bottom: 0;
+
+                  &:hover {
+                    background: #ee6400;
+                  }
+
+                  ${mediaQueryMobile} {
+                    width: 100px;
+                    font-size: 16px;
+                    height: 35px;
+                    right: 0px;
+                  }
+                `}
+              >
+                สำเร็จ
+              </Button>
+            </div>
+          )}
         </Form>
       </div>
       <div
@@ -313,44 +364,47 @@ export const EditProfileForm = () => {
         <Text fontSize="14px" color="#C4C4C4" fontWeight={500} whiteSpace="pre">
           ขนาดไฟล์: สูงสุด 1 MB{'\n'}ไฟล์ที่รองรับ: .JPEG, .PNG
         </Text>
-        <div
-          css={css`
-            width: 100%;
-            position: relative;
-            height: 100%;
-          `}
-        >
-          <Button
-            type="primary"
-            htmlType="submit"
+        {isSmallTablet && <Divider />}
+        {!isSmallTablet && (
+          <div
             css={css`
-              width: 170px;
-              height: 40px;
-              box-sizing: border-box;
-              background: #ee6400;
-              border-radius: 9px;
-              border: 0;
-              right: 39%;
-              color: #ffff;
-              font-size: 16px;
-              position: absolute;
-              bottom: 30px;
-
-              &:hover {
-                background: #ee6400;
-              }
-
-              ${mediaQueryMobile} {
-                width: 100px;
-                font-size: 16px;
-                height: 35px;
-                right: 0px;
-              }
+              width: 100%;
+              position: relative;
+              height: 100%;
             `}
           >
-            สำเร็จ
-          </Button>
-        </div>
+            <Button
+              type="primary"
+              htmlType="submit"
+              css={css`
+                width: 170px;
+                height: 40px;
+                box-sizing: border-box;
+                background: #ee6400;
+                border-radius: 9px;
+                border: 0;
+                right: 0;
+                color: #ffff;
+                font-size: 16px;
+                position: absolute;
+                bottom: 30px;
+
+                &:hover {
+                  background: #ee6400;
+                }
+
+                ${mediaQueryMobile} {
+                  width: 100px;
+                  font-size: 16px;
+                  height: 35px;
+                  right: 0px;
+                }
+              `}
+            >
+              สำเร็จ
+            </Button>
+          </div>
+        )}
       </div>
     </WrapperContainer>
   );

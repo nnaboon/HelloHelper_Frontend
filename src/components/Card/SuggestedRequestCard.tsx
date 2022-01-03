@@ -13,7 +13,9 @@ import {
   mediaQueryMobile,
   mediaQueryTablet,
   MOBILE_WIDTH,
-  TABLET_WIDTH
+  TABLET_WIDTH,
+  SMALL_TABLET_WIDTH,
+  mediaQuerySmallTablet
 } from 'styles/variables';
 import { USER_DATA } from 'data/user';
 
@@ -29,7 +31,7 @@ const RequestHelperCardContainer = styled.div`
     margin: 10px 0;
   }
 
-  ${mediaQueryMobile} {
+  ${mediaQuerySmallTablet} {
     overflow-x: hidden;
     width: 100%;
   }
@@ -38,7 +40,7 @@ const RequestHelperCardContainer = styled.div`
 const CardContainer = styled.div`
   min-width: 448px;
   width: 95%;
-  height: 341px;
+  height: 370px;
   background: #ffffff;
   box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
@@ -57,13 +59,15 @@ const CardContainer = styled.div`
     margin-top: 40px;
   }
 
-  ${mediaQueryMobile} {
-    width: 90%;
-    height: 270px;
-    min-width: 90%;
+  ${mediaQuerySmallTablet} {
+    min-width: 300px;
     padding: 20px;
     display: flex;
     justify-content: center;
+  }
+
+  ${mediaQueryMobile} {
+    height: 270px;
   }
 `;
 
@@ -80,7 +84,7 @@ const RequestTitle = styled.div`
     margin-left: 27px;
   }
 
-  ${mediaQueryMobile} {
+  ${mediaQuerySmallTablet} {
     font-size: 18px;
     line-height: 17px;
     margin-bottom: 10px;
@@ -100,14 +104,18 @@ const RequestImageSection = styled.img`
   border-top-left-radius: 12px;
   border-bottom-left-radius: 12px;
 
-  ${mediaQueryMobile} {
+  ${mediaQuerySmallTablet} {
     position: absolute;
     top: -20px;
     min-width: 100%;
     width: 100%;
-    height: 140px;
+    height: 200px;
     border-bottom-left-radius: 0px;
     border-top-right-radius: 12px;
+  }
+
+  ${mediaQueryMobile} {
+    height: 140px;
   }
 `;
 
@@ -120,7 +128,7 @@ const RequestDataTitle = styled.div`
   width: 80px;
   text-align: end;
 
-  ${mediaQueryMobile} {
+  ${mediaQuerySmallTablet} {
     max-width: unset;
     width: unset;
     text-align: start;
@@ -139,7 +147,7 @@ const RequestDataInfo = styled.div`
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-  ${mediaQueryMobile} {
+  ${mediaQuerySmallTablet} {
     font-size: 16px;
     width: 185px;
     -webkit-line-clamp: 1;
@@ -159,6 +167,7 @@ export const SuggestedRequestSection = ({ data }: any) => {
   const history = useHistory();
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
+  const isSmallTablet = useMedia(`(max-width: ${SMALL_TABLET_WIDTH}px)`);
 
   return (
     <RequestHelperCardContainer>
@@ -190,7 +199,7 @@ export const SuggestedRequestSection = ({ data }: any) => {
                 display: flex;
                 flex-direction: row;
 
-                ${mediaQueryMobile} {
+                ${mediaQuerySmallTablet} {
                   flex-direction: column;
                   width: 100%;
                 }
@@ -215,11 +224,15 @@ export const SuggestedRequestSection = ({ data }: any) => {
                   position: relative;
                   left: 20px;
 
-                  ${mediaQueryMobile} {
+                  ${mediaQuerySmallTablet} {
                     position: absolute;
-                    top: 50%;
+                    top: 57%;
                     left: 0;
                     padding: 0 15px;
+                  }
+
+                  ${mediaQueryMobile} {
+                    top: 50%;
                   }
                 `}
               >
@@ -254,7 +267,7 @@ export const SuggestedRequestSection = ({ data }: any) => {
                   </RequestDataTitle>
                   <RequestDataInfo>{location.name}</RequestDataInfo>
                 </RequestDataContent>
-                {!isMobile && (
+                {!isSmallTablet && (
                   <React.Fragment>
                     {' '}
                     <RequestDataContent>

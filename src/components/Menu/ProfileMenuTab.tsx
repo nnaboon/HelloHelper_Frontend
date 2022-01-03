@@ -1,9 +1,19 @@
+/** @jsxRuntime classic */
+/** @jsx jsx */
 import React from 'react';
 import styled from '@emotion/styled';
+import { css, jsx } from '@emotion/react';
+
 import Flex from 'components/Flex/Flex';
 import { useHistory, useLocation } from 'react-router-dom';
 import { MenuButton } from './MenuButton';
-import { useMedia, MOBILE_WIDTH } from 'styles/variables';
+import {
+  useMedia,
+  mediaQueryTablet,
+  mediaQueryMobile,
+  mediaQuerySmallTablet,
+  MOBILE_WIDTH
+} from 'styles/variables';
 
 import {
   HelpMenu,
@@ -27,7 +37,20 @@ export const ProfileMenuTab = ({ menu, setMenu }: MenuTabProps) => {
       itemAlign="center"
       justify="space-around"
       marginBottom="18px"
-      style={{ width: isMobile ? '100%' : '50%', margin: '30px 0' }}
+      css={css`
+        width: 50%;
+        margin: 30px 0;
+
+        ${mediaQueryTablet} {
+          width: 60%;
+        }
+        ${mediaQuerySmallTablet} {
+          width: 76%;
+        }
+        ${mediaQueryMobile} {
+          width: 100%;
+        }
+      `}
     >
       {Object.values(isMobile ? ProfileMenu : HelpMenu).map((key) => (
         <MenuButton

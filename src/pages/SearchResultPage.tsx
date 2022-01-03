@@ -88,7 +88,7 @@ export const SearchResultPage = () => {
               itemAlign={isMobile ? 'flex-start' : 'center'}
               direction={isMobile ? 'column' : 'row'}
             >
-              <Text fontSize="24px" fontWeight={500} marginBottom="20px">
+              <Text fontSize="26px" fontWeight={500} marginBottom="20px">
                 ผลการค้นหา ทั้งหมด {PROVIDE_MAPPER.length} รายการ
               </Text>
               <div

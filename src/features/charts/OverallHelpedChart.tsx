@@ -4,10 +4,12 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
 import ReactECharts from 'echarts-for-react';
-import { useMedia, MOBILE_WIDTH } from 'styles/variables';
+import { useMedia, MOBILE_WIDTH, TABLET_WIDTH } from 'styles/variables';
 
 export const OverallHelpedChart = () => {
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
+  const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
+
   const option = {
     tooltip: {
       trigger: 'item'
@@ -40,7 +42,7 @@ export const OverallHelpedChart = () => {
     <div>
       <ReactECharts
         option={option}
-        style={{ width: isMobile ? '100%' : '800px', height: '300px' }}
+        style={{ width: isTablet ? '100%' : '800px', height: '300px' }}
       />
     </div>
   );

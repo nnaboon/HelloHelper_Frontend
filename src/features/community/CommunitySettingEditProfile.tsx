@@ -75,6 +75,7 @@ export const CommunitySettingEditProfile = () => {
         onFinish={onFinish}
         autoComplete="off"
         css={css`
+          height: 100vh;
           .ant-col-8 {
             ${mediaQuerySmallTablet} {
               max-width: 20%;

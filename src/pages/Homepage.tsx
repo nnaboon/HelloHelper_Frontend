@@ -53,7 +53,7 @@ const HomePageContainer = styled.div`
   }
 
   ${mediaQuerySmallTablet} {
-    padding: 40px 50px;
+    padding: 40px 30px;
     height: calc(100vh - 165px);
   }
 
@@ -134,7 +134,7 @@ export const HomePage = () => {
     },
     smallTablet: {
       breakpoint: { max: 768, min: 464 },
-      items: 1
+      items: 2
     },
     mobile: {
       breakpoint: { max: 464, min: 0 },

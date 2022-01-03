@@ -10,7 +10,14 @@ import { Dropdown, Menu, message, Rate, Modal } from 'antd';
 import { EditSvg } from 'components/Svg/EditSvg';
 import { DeleteSvg } from 'components/Svg/DeleteSvg';
 import { EyeOffSvg } from 'components/Svg/EyeOffSvg';
-import { mediaQueryMobile, useMedia, MOBILE_WIDTH } from 'styles/variables';
+import {
+  mediaQueryMobile,
+  mediaQueryTablet,
+  mediaQuerySmallTablet,
+  useMedia,
+  MOBILE_WIDTH,
+  TABLET_WIDTH
+} from 'styles/variables';
 import { RequestFormModal } from 'components/Form/RequestForm';
 import { USER_DATA } from 'data/user';
 
@@ -67,6 +74,15 @@ const HelperListDetail = styled.div`
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+
+  ${mediaQueryTablet} {
+    width: 500px;
+  }
+
+  ${mediaQuerySmallTablet} {
+    width: 350px;
+  }
+
   ${mediaQueryMobile} {
     font-size: 16px;
     width: 185px;

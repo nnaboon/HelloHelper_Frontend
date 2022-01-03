@@ -15,12 +15,15 @@ import { UserSvg } from 'components/Svg/UserSvg';
 
 import { getStar } from 'components/Star/getStar';
 import UserAvatar from 'images/avatar_helper.png';
+
 import {
+  useMedia,
+  MOBILE_WIDTH,
+  SMALL_TABLET_WIDTH,
+  mediaQueryTablet,
   mediaQueryMobile,
-  mediaQuerySmallTablet,
-  mediaQueryTablet
+  mediaQuerySmallTablet
 } from 'styles/variables';
-import { useMedia, MOBILE_WIDTH } from 'styles/variables';
 import { USER_DATA } from 'data/user';
 
 const RequestHelperCardContainer = styled.div`
@@ -61,6 +64,10 @@ const CardContainer = styled.div`
     min-width: 430px;
   }
 
+  ${mediaQuerySmallTablet} {
+    min-width: 336px;
+  }
+
   ${mediaQueryMobile} {
     width: 90%;
     height: 270px;
@@ -88,7 +95,7 @@ const HelperImage = styled.img`
   border-radius: 50%;
   margin-top: 15px;
 
-  ${mediaQueryMobile} {
+  ${mediaQuerySmallTablet} {
     width: 55px;
     height: 55px;
     margin-top: 0;
@@ -123,6 +130,11 @@ const RequestDataInfo = styled.div`
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+
+  ${mediaQuerySmallTablet} {
+    width: 100%;
+  }
+
   ${mediaQueryMobile} {
     font-size: 16px;
     width: 185px;
@@ -139,6 +151,7 @@ const RequestDataContent = styled.div`
 export const PopularRequestSection = ({ data }: any) => {
   const history = useHistory();
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
+  const isSmallTablet = useMedia(`(max-width: ${SMALL_TABLET_WIDTH}px)`);
 
   return (
     <RequestHelperCardContainer>
@@ -169,7 +182,7 @@ export const PopularRequestSection = ({ data }: any) => {
                   display: flex;
                 `}
               >
-                {!isMobile && (
+                {!isSmallTablet && (
                   <div
                     css={css`
                       display: flex;
@@ -212,7 +225,7 @@ export const PopularRequestSection = ({ data }: any) => {
                     flex-direction: column;
                     margin-left: -13px;
 
-                    ${mediaQueryMobile} {
+                    ${mediaQuerySmallTablet} {
                       margin: 0;
                     }
                   `}
@@ -228,13 +241,13 @@ export const PopularRequestSection = ({ data }: any) => {
                   </RequestDataContent>
                   <RequestDataContent>
                     <RequestDataTitle>
-                      {isMobile ? 'สถานที่' : `สถานที่ให้\nความช่วยเหลือ`}
+                      {isSmallTablet ? 'สถานที่' : `สถานที่ให้\nความช่วยเหลือ`}
                     </RequestDataTitle>
                     <RequestDataInfo>{location.name}</RequestDataInfo>
                   </RequestDataContent>
                   <RequestDataContent>
                     <RequestDataTitle>
-                      {isMobile
+                      {isSmallTablet
                         ? `การให้ความช่วยเหลือนี้`
                         : `ยอดการให้\nความช่วยเหลือนี้`}
                     </RequestDataTitle>
@@ -242,7 +255,7 @@ export const PopularRequestSection = ({ data }: any) => {
                       {provideSum.toLocaleString()} ครั้ง
                     </RequestDataInfo>
                   </RequestDataContent>
-                  {isMobile && (
+                  {isSmallTablet && (
                     <div
                       css={css`
                         display: flex;
@@ -293,7 +306,7 @@ export const PopularRequestSection = ({ data }: any) => {
                       </div>
                     </div>
                   )}
-                  {!isMobile && (
+                  {!isSmallTablet && (
                     <div>
                       {' '}
                       <RequestDataContent>
@@ -328,7 +341,7 @@ export const PopularRequestSection = ({ data }: any) => {
                 }
               `}
             >
-              {!isMobile && (
+              {!isSmallTablet && (
                 <SecondaryButton
                   onClick={() => {
                     history.push({ pathname: `/profile/${userId}` });
@@ -339,7 +352,17 @@ export const PopularRequestSection = ({ data }: any) => {
                 </SecondaryButton>
               )}
 
-              <PrimaryButton>
+              <PrimaryButton
+                css={css`
+                  ${mediaQuerySmallTablet} {
+                    min-width: 80px;
+                    height: 30px;
+                    border-radius: 5px;
+                    font-size: 16px;
+                    margin: 0;
+                  }
+                `}
+              >
                 <MessageSvg style={{ marginRight: '5px' }} />
                 <div>แชท</div>
               </PrimaryButton>

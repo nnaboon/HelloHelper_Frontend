@@ -101,6 +101,7 @@ export const Navbar = () => {
   const { Search } = Input;
 
   const onSearch = (value) => {
+    setCollapsed(true);
     history.push({
       pathname: '/search',
       search: `?keyword=${value}`

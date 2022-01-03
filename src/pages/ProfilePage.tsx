@@ -20,7 +20,13 @@ import { getStar } from 'components/Star/getStar';
 import { OverallHelpedChart } from 'features/charts/OverallHelpedChart';
 import { TopThreeHelpedChart } from 'features/charts/TopThreeHelpedChart';
 import UserAvatar from 'images/avatar_helper.png';
-import { mediaQueryMobile, MOBILE_WIDTH, useMedia } from 'styles/variables';
+import {
+  mediaQueryMobile,
+  MOBILE_WIDTH,
+  useMedia,
+  mediaQueryTablet,
+  TABLET_WIDTH
+} from 'styles/variables';
 import { ProfileMenu } from '../components/Menu/const';
 import { PostRequestButton } from 'components/Button/PostRequestButton';
 import { myAccountUserId } from 'data/user';
@@ -45,7 +51,7 @@ const ProfilePageUserInfoSection = styled.div`
   align-items: center;
   justify-content: space-around;
 
-  ${mediaQueryMobile} {
+  ${mediaQueryTablet} {
     flex-direction: column;
     justify-content: center;
   }
@@ -59,7 +65,7 @@ const ProfilePageUserHelperListSection = styled.div`
     );
   grid-gap: 30px;
 
-  ${mediaQueryMobile} {
+  ${mediaQueryTablet} {
     display: flex;
     flex-direction: column;
   }
@@ -76,6 +82,11 @@ const UserCard = styled.div`
   border-sizing: border-box;
   padding: 20px;
   position: relative;
+
+  ${mediaQueryTablet} {
+    margin-bottom: 40px;
+    margin-left: 0;
+  }
 
   ${mediaQueryMobile} {
     width: 100%;
@@ -114,6 +125,10 @@ const ProfileInfoContainer = styled.div`
   grid-template-columns: minmax(300px, auto) minmax(300px, auto);
   grid-gap: 40px;
 
+  ${mediaQueryTablet} {
+    grid-template-columns: minmax(200px, auto) minmax(200px, auto);
+  }
+
   ${mediaQueryMobile} {
     display: flex;
     flex-direction: column;
@@ -122,6 +137,14 @@ const ProfileInfoContainer = styled.div`
 
 const ProfileInfoSection = styled.div`
   margin-top: 20px;
+
+  ${mediaQueryTablet} {
+    margin-bottom: 30px;
+  }
+
+  ${mediaQueryMobile} {
+    margin-bottom: 0;
+  }
 `;
 
 const ProfileInfoListHeading = styled.div`
@@ -158,6 +181,7 @@ export const ProfilePage = () => {
     | HelpMenu
     | ProfileMenu;
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
+  const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
 
   let data = USER_DATA.filter(({ userId }) => userId === myAccountUserId);
 
@@ -394,7 +418,7 @@ export const ProfilePage = () => {
               style={{
                 width: '100%',
                 height: '100%',
-                display: isMobile ? 'block' : 'flex',
+                display: isTablet ? 'block' : 'flex',
                 margin: '40px 0'
               }}
             >

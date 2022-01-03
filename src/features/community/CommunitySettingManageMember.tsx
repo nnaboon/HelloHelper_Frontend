@@ -239,7 +239,6 @@ export const CommunitySettingManageMember = ({
                     .username
                 }
               </UserName>
-              <CommunityAdminBadge>ผู้นำชุมชน</CommunityAdminBadge>
             </div>
             <div
               css={css`
