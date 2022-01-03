@@ -1,5 +1,5 @@
 import useAxios from 'axios-hooks';
-import { UsersGetDto } from 'models/UsersGetDto';
+import { UsersGetDto } from 'models/UserGetDto';
 
 export type UsersListResponse = {
   data: Array<UsersGetDto>;

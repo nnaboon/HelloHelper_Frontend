@@ -1,5 +1,5 @@
 import useAxios from 'axios-hooks';
-import { UsersGetDto } from 'models/UsersGetDto';
+import { UsersGetDto } from 'models/UserGetDto';
 
 export type UsersResponse = {
   data: UsersGetDto;
@@ -13,7 +13,7 @@ export const useUser = () => {
   );
 
   const execute = (userId: string) => {
-    return fire({ url: `/users/${userId}` });
+    return fire({ url: `http://localhost:5000/users/${userId}` });
   };
   return {
     data: response?.data,

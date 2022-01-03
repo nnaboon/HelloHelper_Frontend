@@ -25,7 +25,7 @@ import {
 } from 'styles/variables';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { PROVIDE_MAPPER } from 'data/provide';
-import { useUsers } from 'hooks/users/useUsers';
+import { useUsers } from 'hooks/user/useUsers';
 import { mediaQueryTablet } from '../styles/variables';
 
 const HomePageCategorySection = styled.div`
