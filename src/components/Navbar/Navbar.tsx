@@ -181,15 +181,6 @@ export const Navbar = () => {
               >
                 กล่องข้อความ
               </li>
-              <li
-                onClick={() => {
-                  history.push({
-                    pathname: '/profile'
-                  });
-                }}
-              >
-                โปรไฟล์
-              </li>
             </React.Fragment>
           )}
 
