@@ -294,6 +294,7 @@ export const HomePage = () => {
                 justify-content: center;
               }
             `}
+            description={<span>ไม่พบข้อมูล</span>}
           />
         )}
       </React.Fragment>
@@ -417,7 +418,10 @@ export const HomePage = () => {
             </Carousel>
           </React.Fragment>
         ) : (
-          <EmptyData image={Empty.PRESENTED_IMAGE_SIMPLE} />
+          <EmptyData
+            image={Empty.PRESENTED_IMAGE_SIMPLE}
+            description={<span>ไม่พบข้อมูล</span>}
+          />
         )}
       </React.Fragment>
       <Text
@@ -465,7 +469,10 @@ export const HomePage = () => {
             </Carousel>
           </React.Fragment>
         ) : (
-          <EmptyData image={Empty.PRESENTED_IMAGE_SIMPLE} />
+          <EmptyData
+            image={Empty.PRESENTED_IMAGE_SIMPLE}
+            description={<span>ไม่พบข้อมูล</span>}
+          />
         )}
       </React.Fragment>
       <Text

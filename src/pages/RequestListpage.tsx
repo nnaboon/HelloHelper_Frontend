@@ -12,6 +12,7 @@ import { RequestListCard } from 'components/Card/RequestListCard';
 import { mediaQueryMobile, MOBILE_WIDTH, useMedia } from 'styles/variables';
 import { ORDER_DATA } from '../data/order';
 import { myAccountUserId } from 'data/user';
+import { EmptyData } from 'components/Empty/EmptyData';
 
 export const RequestListPage = () => {
   const [currentStatus, setCurrentStatus] = useState<string>('waiting');
@@ -65,9 +66,18 @@ export const RequestListPage = () => {
         {ORDER_DATA.filter(
           ({ status, orderReferenceType }) =>
             status === currentStatus && orderReferenceType === 'request'
-        ).map((props) => (
-          <RequestListCard props={props} />
-        ))}
+        ).length > 0 ? (
+          <div>
+            {ORDER_DATA.filter(
+              ({ status, orderReferenceType }) =>
+                status === currentStatus && orderReferenceType === 'request'
+            ).map((props) => (
+              <RequestListCard props={props} />
+            ))}
+          </div>
+        ) : (
+          <EmptyData />
+        )}
       </Flex>
     </WrapperContainer>
   );

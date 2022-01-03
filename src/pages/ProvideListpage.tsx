@@ -13,6 +13,7 @@ import { PROVIDE_MAPPER } from 'data/provide';
 import { mediaQueryMobile, useMedia, MOBILE_WIDTH } from 'styles/variables';
 import { ORDER_DATA } from '../data/order';
 import { myAccountUserId } from 'data/user';
+import { EmptyData } from '../components/Empty/EmptyData';
 
 export const ProvideListPage = () => {
   const [currentStatus, setCurrentStatus] = useState<string>('waiting');
@@ -66,9 +67,21 @@ export const ProvideListPage = () => {
         {ORDER_DATA.filter(
           ({ status, orderReferenceType }) =>
             status === currentStatus && orderReferenceType === 'provide'
-        ).map((props) => (
-          <ProvideListCard props={props} />
-        ))}
+        ).length > 0 ? (
+          <div>
+            {' '}
+            {ORDER_DATA.filter(
+              ({ status, orderReferenceType }) =>
+                status === currentStatus && orderReferenceType === 'provide'
+            ).map((props) => (
+              <ProvideListCard props={props} />
+            ))}
+          </div>
+        ) : (
+          <div>
+            <EmptyData />
+          </div>
+        )}
       </Flex>
     </WrapperContainer>
   );
