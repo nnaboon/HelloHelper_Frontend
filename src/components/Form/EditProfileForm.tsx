@@ -93,6 +93,7 @@ export const EditProfileForm = () => {
 
         ${mediaQuerySmallTablet} {
           flex-direction: column-reverse;
+          height: calc(100vh - 220px);
         }
         ${mediaQueryMobile} {
           height: calc(100vh - 140px);
@@ -247,7 +248,7 @@ export const EditProfileForm = () => {
               }
             ]}
           >
-            <GoogleMapContent width={isMobile ? '100%' : '470px'} />
+            <GoogleMapContent width={isSmallTablet ? '100%' : '470px'} />
           </Form.Item>
           <Divider />
           <Text fontSize="24px" fontWeight={500} marginY="20px">

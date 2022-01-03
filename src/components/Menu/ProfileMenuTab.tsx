@@ -45,7 +45,7 @@ export const ProfileMenuTab = ({ menu, setMenu }: MenuTabProps) => {
           width: 60%;
         }
         ${mediaQuerySmallTablet} {
-          width: 76%;
+          width: 85%;
         }
         ${mediaQueryMobile} {
           width: 100%;

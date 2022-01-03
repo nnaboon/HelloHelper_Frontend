@@ -285,6 +285,7 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
               <GoogleMapContent
                 requestLocation={location}
                 setRequestLocation={setLocation}
+                width={isSmallTablet ? '100%' : '470px'}
               />
             </Form.Item>
             <Form.Item name="message" label="ข้อความ">

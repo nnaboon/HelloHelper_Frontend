@@ -165,7 +165,13 @@ export const CommunityContentInfo = ({ data }: any) => {
   }, [currentMenu]);
 
   return (
-    <WrapperContainer>
+    <WrapperContainer
+      css={css`
+        ${mediaQueryMobile} {
+          height: calc(100vh - 140px);
+        }
+      `}
+    >
       {' '}
       {COMMUNITY_MAPPER.filter(
         (items) =>

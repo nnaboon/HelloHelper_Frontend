@@ -47,6 +47,12 @@ export const COMMUNITY_MENU_MAPPER = {
   [CommunityMenu.MEMBER]: 'สมาชิก'
 };
 
+export const COMMUNITY_MOBILE_MENU_MAPPER = {
+  [CommunityMenu.PROVIDE]: 'ให้ความช่วยเหลือ',
+  [CommunityMenu.REQUEST]: 'ขอความช่วยเหลือ',
+  [CommunityMenu.MEMBER]: 'สมาชิก'
+};
+
 export const COMMUNITY_SETTING_MENU_MAPPER = {
   [CommunitySettingMenu.MANAGE]: 'จัดการสมาชิกในชุมชน',
   [CommunitySettingMenu.EDIT]: 'แก้ไขข้อมูลชุมชน'

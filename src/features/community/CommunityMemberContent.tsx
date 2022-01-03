@@ -27,7 +27,7 @@ const CommunityMemberCard = styled.div`
   margin-bottom: 40px;
 
   ${mediaQueryMobile} {
-    height: 130px;
+    height: 135px;
     margin-bottom: 20px;
   }
 `;
@@ -101,6 +101,7 @@ export const CommunityMemberContent = ({ member }: any) => {
               }
 
               ${mediaQueryMobile} {
+                padding: 20px;
                 margin-left: 0;
                 flex-direction: column;
               }
@@ -143,9 +144,9 @@ export const CommunityMemberContent = ({ member }: any) => {
                 ${mediaQueryMobile} {
                   margin: 0;
                   position: relative;
-                  bottom: -15px;
+                  bottom: -13px;
                   width: 100%;
-                  justify-content: center;
+                  justify-content: space-between;
                 }
               `}
             >

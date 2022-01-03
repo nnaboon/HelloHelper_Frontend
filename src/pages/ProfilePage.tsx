@@ -38,6 +38,10 @@ const ProfilePageContainer = styled.div`
   top: 165px;
   padding: 40px 100px;
 
+  ${mediaQueryTablet} {
+    padding: 40px 50px;
+  }
+
   ${mediaQueryMobile} {
     height: calc(100vh - 95px);
     padding: 30px 20px 50px 20px;

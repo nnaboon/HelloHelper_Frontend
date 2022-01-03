@@ -32,7 +32,7 @@ const CommunityMemberCard = styled.div`
   margin-bottom: 40px;
 
   ${mediaQueryMobile} {
-    height: 130px;
+    height: 135px;
     margin-bottom: 20px;
   }
 `;
@@ -113,6 +113,7 @@ export const CommunitySettingManageMember = ({
 
               ${mediaQueryMobile} {
                 margin-left: 0;
+                padding: 20px;
                 flex-direction: column;
               }
             `}
@@ -151,9 +152,9 @@ export const CommunitySettingManageMember = ({
                 ${mediaQueryMobile} {
                   margin: 0;
                   position: relative;
-                  bottom: -15px;
+                  bottom: -13px;
                   width: 100%;
-                  justify-content: center;
+                  justify-content: space-between;
                 }
               `}
             >
@@ -214,6 +215,7 @@ export const CommunitySettingManageMember = ({
 
               ${mediaQueryMobile} {
                 margin-left: 0;
+                padding: 20px;
                 flex-direction: column;
               }
             `}
@@ -252,9 +254,9 @@ export const CommunitySettingManageMember = ({
                 ${mediaQueryMobile} {
                   margin: 0;
                   position: relative;
-                  bottom: -15px;
+                  bottom: -13px;
                   width: 100%;
-                  justify-content: center;
+                  justify-content: space-between;
                 }
               `}
             >
@@ -315,6 +317,7 @@ export const CommunitySettingManageMember = ({
 
               ${mediaQueryMobile} {
                 margin-left: 0;
+                padding: 20px;
                 flex-direction: column;
               }
             `}
@@ -355,7 +358,7 @@ export const CommunitySettingManageMember = ({
                   position: relative;
                   bottom: -15px;
                   width: 100%;
-                  justify-content: center;
+                  justify-content: space-between;
                 }
               `}
             >

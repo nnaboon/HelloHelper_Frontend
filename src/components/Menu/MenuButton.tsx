@@ -28,11 +28,11 @@ export const MenuButton = ({
       onClick={onClick}
       css={css`
         color: ${isActive ? '#EE6400' : '#CACACA'};
-        font-size: ${isActive ? '28px' : '24px'};
+        font-size: ${isActive ? '22px' : '16px'};
         font-weight: ${isActive ? '700' : '500'};
 
         ${mediaQueryMobile} {
-          font-size: ${isActive ? '20px' : '16px'};
+          font-size: ${isActive ? '20px' : '14px'};
         }
       `}
       {...restProps}
