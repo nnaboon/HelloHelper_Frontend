@@ -29,7 +29,7 @@ import { useEffect, useState } from 'react';
 export const DESKTOP_WIDTH = 1440;
 export const MINI_DESKTOP_WIDTH = 1280;
 export const TABLET_WIDTH = 1024;
-export const SMALL_TABLET_WIDTH = 800;
+export const SMALL_TABLET_WIDTH = 900;
 export const MOBILE_WIDTH = 600;
 export const MINI_MOBILE_WIDTH = 320;
 export const isClient = typeof window === 'object';
