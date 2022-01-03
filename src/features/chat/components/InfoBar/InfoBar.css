@@ -1,0 +1,58 @@
+.infoBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f7f7f7;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+  border-radius: 4px 4px 0 0;
+  height: 140px;
+  width: 100%;
+}
+
+.leftInnerContainer {
+  flex: 0.5;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin-left: 5%;
+  color: white;
+  flex-direction: column;
+}
+
+.user-name {
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 26px;
+
+  color: #e66101;
+}
+
+.request-name {
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 26px;
+
+  color: #000000;
+  margin-left: 20px;
+}
+
+.request-form {
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 26px;
+
+  color: #000000;
+  margin-left: 20px;
+  cursor: pointer;
+}
+
+.rightInnerContainer {
+  display: flex;
+  flex: 0.5;
+  justify-content: flex-end;
+  margin-right: 5%;
+}
+
+.onlineIcon {
+  margin-right: 5%;
+}
