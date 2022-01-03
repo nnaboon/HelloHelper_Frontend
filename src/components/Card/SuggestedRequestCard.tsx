@@ -60,14 +60,16 @@ const CardContainer = styled.div`
   }
 
   ${mediaQuerySmallTablet} {
-    min-width: 300px;
-    padding: 20px;
-    display: flex;
-    justify-content: center;
+    min-width: 336px;
   }
 
   ${mediaQueryMobile} {
+    width: 90%;
     height: 270px;
+    min-width: 90%;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
   }
 `;
 
