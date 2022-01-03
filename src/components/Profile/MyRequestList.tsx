@@ -61,9 +61,16 @@ const HelperListDetail = styled.div`
   font-size: 18px;
   line-height: 26px;
   color: #000000;
-
+  width: 270px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   ${mediaQueryMobile} {
     font-size: 16px;
+    width: 185px;
+    -webkit-line-clamp: 2;
   }
 `;
 

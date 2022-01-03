@@ -15,7 +15,14 @@ import { PostRequestButton } from 'components/Button/PostRequestButton';
 import { REQUEST_MAPPER } from 'data/request';
 import { SuggestedRequestSection } from 'components/Card/SuggestedRequestCard';
 import { PopularRequestSection } from 'components/Card/PopularRequestCard';
-import { useMedia, MOBILE_WIDTH, mediaQueryMobile } from 'styles/variables';
+import {
+  useMedia,
+  MOBILE_WIDTH,
+  mediaQueryMobile,
+  mediaQueryTablet,
+  mediaQuerySmallTablet,
+  TABLET_WIDTH
+} from 'styles/variables';
 import { PROVIDE_MAPPER } from 'data/provide';
 
 const SearchResultContent = styled.div`
@@ -36,6 +43,7 @@ export const SearchResultPage = () => {
   const { state } = useLocation();
   const currentMenu = ((state as any)?.menu || HelpMenu.PROVIDE) as HelpMenu;
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
+  const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
 
   useEffect(() => {
     setMenu(currentMenu);
@@ -45,12 +53,12 @@ export const SearchResultPage = () => {
     <WrapperContainer
       css={css`
         ${mediaQueryMobile} {
-          height: calc(100vh - 90px);
+          height: calc(100vh - 120px);
         }
       `}
     >
       <div style={{ display: 'flex' }}>
-        {!isMobile && <Sidebar />}
+        {!isTablet && <Sidebar />}
         <div
           css={css`
             position: relative;
@@ -59,7 +67,7 @@ export const SearchResultPage = () => {
             left: 25%;
             width: 75%;
 
-            ${mediaQueryMobile} {
+            ${mediaQueryTablet} {
               left: 0;
               width: 100%;
             }

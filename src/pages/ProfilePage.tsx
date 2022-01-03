@@ -268,7 +268,7 @@ export const ProfilePage = () => {
                         {rank.toUpperCase()}
                       </RankingBadge>
                     </div>
-                    {myAccountUserId === query ? (
+                    {myAccountUserId === query || query === undefined ? (
                       <div
                         style={{
                           display: 'flex',
@@ -277,6 +277,9 @@ export const ProfilePage = () => {
                           padding: '10px',
                           left: '10px',
                           width: '100%'
+                        }}
+                        onClick={() => {
+                          history.push('/user/account/profile');
                         }}
                       >
                         <SecondaryButton

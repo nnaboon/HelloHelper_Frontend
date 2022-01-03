@@ -6,7 +6,7 @@ import { css, jsx } from '@emotion/react';
 import { PrimaryButton, SecondaryButton } from '../Button/Button';
 import { MessageSvg } from 'components/Svg/MessageSvg';
 import { UserSvg } from 'components/Svg/UserSvg';
-import { useMedia, mediaQueryMobile } from 'styles/variables';
+import { useMedia, mediaQueryMobile, mediaQueryTablet } from 'styles/variables';
 import { useHistory } from 'react-router-dom';
 
 interface HelperListCardProps {
@@ -33,10 +33,15 @@ const HelperListCardContainer = styled.div`
     box-shadow: 0px 9px 16px rgba(255, 135, 48, 0.2);
   }
 
-  ${mediaQueryMobile} {
+  ${mediaQueryTablet} {
     width: 100%;
     height: 130px;
     min-width: 100%;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+
+  ${mediaQueryMobile} {
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;

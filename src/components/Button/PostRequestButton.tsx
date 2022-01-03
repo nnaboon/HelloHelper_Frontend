@@ -23,7 +23,13 @@ import { GoogleMapContent } from 'components/GoogleMap/GoogleMap';
 import { InfoSvg } from 'components/Svg/InfoSvg';
 import Flex from 'components/Flex/Flex';
 import { EditableTagGroup } from 'components/Tag/Hashtag';
-import { useMedia, MOBILE_WIDTH, mediaQueryMobile } from 'styles/variables';
+import {
+  useMedia,
+  MOBILE_WIDTH,
+  mediaQueryMobile,
+  mediaQuerySmallTablet,
+  SMALL_TABLET_WIDTH
+} from 'styles/variables';
 
 interface PostRequestButtonProps {
   buttonText: string;
@@ -41,7 +47,7 @@ const RequestButton = styled(PrimaryButton)`
     color: #ffff;
   }
 
-  ${mediaQueryMobile} {
+  ${mediaQuerySmallTablet} {
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -74,6 +80,7 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
+  const isSmallTablet = useMedia(`(max-width: ${SMALL_TABLET_WIDTH}px)`);
 
   const uploadButton = (
     <div>
@@ -84,15 +91,10 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
 
   useEffect(() => {
     if (location) {
-      console.log(location);
-
       form.setFieldsValue({
         location: location.formatted_address,
         hashtag: tags
       });
-
-      const v = form.getFieldValue('hashtag');
-      console.log(v);
     }
   }, [form, location, tags]);
 
@@ -158,8 +160,10 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
   return (
     <React.Fragment>
       <RequestButton onClick={() => setIsModalVisible(true)}>
-        <PenRequestSvg style={{ marginRight: isMobile ? '0px' : '10px' }} />
-        {!isMobile && buttonText}
+        <PenRequestSvg
+          style={{ marginRight: isSmallTablet ? '0px' : '10px' }}
+        />
+        {!isSmallTablet && buttonText}
       </RequestButton>
       <Modal
         visible={isModalVisible}
@@ -351,7 +355,6 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
               ]}
             >
               <Select
-                mode="multiple"
                 allowClear
                 style={{ width: '100%' }}
                 placeholder="Please select"

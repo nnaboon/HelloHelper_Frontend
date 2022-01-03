@@ -11,7 +11,15 @@ import { StatusBadge } from 'components/Badge/StatusBadge';
 import { RequestListProps } from 'data/request';
 import { PrimaryButton, SecondaryButton } from '../Button/Button';
 import { RatingForm } from 'components/Form/RatingForm';
-import { useMedia, MOBILE_WIDTH, mediaQueryMobile } from 'styles/variables';
+import {
+  mediaQueryMobile,
+  useMedia,
+  MOBILE_WIDTH,
+  SMALL_TABLET_WIDTH,
+  TABLET_WIDTH,
+  mediaQuerySmallTablet,
+  mediaQueryTablet
+} from 'styles/variables';
 import { OrderProps } from 'data/order';
 import { USER_DATA } from '../../data/user';
 
@@ -32,7 +40,7 @@ const RequestListContainer = styled.div`
   margin-top: 20px;
   padding: 20px 30px 30px 30px;
 
-  ${mediaQueryMobile} {
+  ${mediaQueryTablet} {
     width: 100%;
     padding: 20px;
   }
@@ -72,6 +80,18 @@ const RequestListData = styled.div`
   line-height: 21px;
   color: #000000;
   width: 200px;
+
+  width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  ${mediaQueryMobile} {
+    font-size: 16px;
+    width: 185px;
+    -webkit-line-clamp: 1;
+  }
 `;
 
 export const RequestListCard = ({ props }: RequestListCardProps) => {
@@ -117,7 +137,7 @@ export const RequestListCard = ({ props }: RequestListCardProps) => {
         </Flex>
         <Flex itemAlign="flex-start">
           <RequestListTitle>สถานที่ให้ความข่วยเหลือ</RequestListTitle>
-          <RequestListData>{props.location}</RequestListData>
+          <RequestListData>{props.location.name}</RequestListData>
         </Flex>
         <Flex itemAlign="flex-start">
           <RequestListTitle>จำนวน</RequestListTitle>
@@ -125,7 +145,7 @@ export const RequestListCard = ({ props }: RequestListCardProps) => {
         </Flex>
         <Flex itemAlign="flex-start">
           <RequestListTitle>ราคาสินค้าทั้งหมด</RequestListTitle>
-          <RequestListData>{props.price}</RequestListData>
+          <RequestListData>{props.price} บาท</RequestListData>
         </Flex>
         <Flex itemAlign="flex-start">
           <RequestListTitle>อัตราค่าบริการ</RequestListTitle>
@@ -228,6 +248,10 @@ export const RequestListCard = ({ props }: RequestListCardProps) => {
               min-width: 180px;
               background: #0047ff;
 
+              ${mediaQueryTablet} {
+                min-width: 170px;
+              }
+
               ${mediaQueryMobile} {
                 min-width: 47%;
                 width: 47%;
@@ -239,6 +263,10 @@ export const RequestListCard = ({ props }: RequestListCardProps) => {
           <PrimaryButton
             css={css`
               min-width: 180px;
+
+              ${mediaQueryTablet} {
+                min-width: 170px;
+              }
 
               ${mediaQueryMobile} {
                 min-width: 47%;

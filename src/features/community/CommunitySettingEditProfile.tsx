@@ -6,13 +6,22 @@ import styled from '@emotion/styled';
 import { Text } from 'components/Text';
 import { Button, Form, Input, message, Checkbox, Divider } from 'antd';
 import { GoogleMapContent } from 'components/GoogleMap/GoogleMap';
-import { useMedia, MOBILE_WIDTH, mediaQueryMobile } from 'styles/variables';
+import {
+  useMedia,
+  MOBILE_WIDTH,
+  TABLET_WIDTH,
+  SMALL_TABLET_WIDTH,
+  mediaQueryMobile,
+  mediaQuerySmallTablet
+} from 'styles/variables';
 
 export const CommunitySettingEditProfile = () => {
   const [form] = Form.useForm();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [checkedList, setCheckedList] = useState<string[]>([]);
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
+  const isSmallTablet = useMedia(`(max-width: ${SMALL_TABLET_WIDTH}px)`);
+  const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
 
   const toggleChecked = (value) => {
     console.log(value.includes('ไม่สามารถให้ความช่วยเหลือได้'));
@@ -53,7 +62,7 @@ export const CommunitySettingEditProfile = () => {
       <Text
         fontSize={isMobile ? '24px' : '28px'}
         marginY={isMobile ? '20px' : '40px'}
-        marginLeft={isMobile ? 0 : '60px'}
+        marginLeft={isSmallTablet ? 0 : '60px'}
         fontWeight={500}
       >
         ข้อมูลชุมชนความช่วยเหลือ
@@ -66,6 +75,16 @@ export const CommunitySettingEditProfile = () => {
         onFinish={onFinish}
         autoComplete="off"
         css={css`
+          .ant-col-8 {
+            ${mediaQuerySmallTablet} {
+              max-width: 20%;
+            }
+
+            ${mediaQueryMobile} {
+              max-width: 33.3333%;
+            }
+          }
+
           .ant-form-item-control-input {
             width: 460px;
 
@@ -100,7 +119,7 @@ export const CommunitySettingEditProfile = () => {
         <Text
           fontSize={isMobile ? '24px' : '28px'}
           fontWeight={500}
-          marginLeft={isMobile ? 0 : '60px'}
+          marginLeft={isSmallTablet ? 0 : '60px'}
           marginY={isMobile ? '20px' : '40px'}
         >
           เปลี่ยนรหัสผ่าน
@@ -154,7 +173,7 @@ export const CommunitySettingEditProfile = () => {
         <Text
           fontSize={isMobile ? '24px' : '28px'}
           fontWeight={500}
-          marginLeft={isMobile ? 0 : '60px'}
+          marginLeft={isSmallTablet ? 0 : '60px'}
           marginY={isMobile ? '30px' : '40px'}
         >
           สถานที่ให้ความช่วยเหลือ
@@ -168,7 +187,7 @@ export const CommunitySettingEditProfile = () => {
             }
           ]}
         >
-          <GoogleMapContent width={isMobile ? '100%' : '470px'} />
+          <GoogleMapContent width={isTablet ? '100%' : '470px'} />
         </Form.Item>
         <div
           css={css`

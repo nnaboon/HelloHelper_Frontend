@@ -46,10 +46,8 @@ export const EditableTagGroup = ({ tags, setTags }: EditableTagGroupProps) => {
 
   const handleInputConfirm = () => {
     if (inputValue && tags.indexOf(inputValue) === -1) {
-      console.log(tags, inputValue);
       setTags([...tags, inputValue]);
     }
-    console.log(tags);
     setInputVisible(false);
     setInputValue('');
   };

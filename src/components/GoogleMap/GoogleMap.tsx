@@ -26,7 +26,6 @@ export const GoogleMapContent = ({
   const [currentZoom, setCurrentZoom] = useState(20);
 
   const onLoad = React.useCallback(function callback(map) {
-    console.log('re', requestLocation);
     const bounds = new window.google.maps.LatLngBounds();
     map.fitBounds(bounds);
 

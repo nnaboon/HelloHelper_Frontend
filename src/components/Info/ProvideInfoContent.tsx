@@ -14,14 +14,32 @@ import { SuggestedBadge } from 'components/Badge/Badge';
 import { RANK_BADGE } from 'components/Badge/const';
 import UserAvatar from 'images/avatar_helper.png';
 import ProvideImage from 'images/request.jpeg';
-import { useMedia, MOBILE_WIDTH, mediaQueryMobile } from 'styles/variables';
-import { USER_DATA } from '../../data/user';
-import { PROVIDE_MAPPER } from '../../data/provide';
+import {
+  useMedia,
+  MOBILE_WIDTH,
+  TABLET_WIDTH,
+  mediaQueryMobile,
+  mediaQuerySmallTablet,
+  mediaQueryTablet
+} from 'styles/variables';
+import { USER_DATA } from 'data/user';
+import { PROVIDE_MAPPER } from 'data/provide';
 
 const ProvideImageSection = styled.img`
   width: 420px;
   height: 510px;
   margin-bottom: 20px;
+
+  ${mediaQueryTablet} {
+    width: 100%;
+    justify-self: center;
+    align-self: center;
+  }
+
+  ${mediaQuerySmallTablet} {
+    justify-self: flex-start;
+    align-self: flex-start;
+  }
 
   ${mediaQueryMobile} {
     width: 100%;
@@ -50,6 +68,10 @@ const ProvideInfoContainer = styled.div`
   grid-template-columns: 180px 400px;
   grid-gap: 40px;
   margin-bottom: 60px;
+
+  ${mediaQuerySmallTablet} {
+    grid-template-columns: 144px 400px;
+  }
 
   ${mediaQueryMobile} {
     grid-template-columns: auto auto;
@@ -116,6 +138,7 @@ export const ProvideInfoContent = ({ data }: any) => {
   const { pathname } = useLocation();
   const query = pathname.split('/')[2];
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
+  const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
 
   return (
     <React.Fragment>
@@ -138,9 +161,16 @@ export const ProvideInfoContent = ({ data }: any) => {
             <WrapperContainer
               key={provideId}
               css={css`
+                ${mediaQueryTablet} {
+                  height: calc(100vh - 300px);
+                  overflow-y: scroll;
+                }
+
+                ${mediaQuerySmallTablet} {
+                  height: calc(100vh - 200px);
+                }
                 ${mediaQueryMobile} {
                   height: calc(100vh - 170px);
-                  overflow-y: scroll;
                 }
               `}
             >
@@ -148,7 +178,7 @@ export const ProvideInfoContent = ({ data }: any) => {
                 style={{
                   display: 'flex',
                   justifyContent: 'center',
-                  flexDirection: `${isMobile ? 'column' : 'row'}`
+                  flexDirection: `${isTablet ? 'column' : 'row'}`
                 }}
               >
                 <Flex
@@ -208,6 +238,7 @@ export const ProvideInfoContent = ({ data }: any) => {
                   direction="column"
                   marginTop="30px"
                   style={{ width: 'unset' }}
+                  itemAlign={isTablet ? 'flex-start' : 'center'}
                 >
                   <ProvideInfoContainer>
                     <ProvideTitle>ชื่อ</ProvideTitle>
@@ -229,10 +260,13 @@ export const ProvideInfoContent = ({ data }: any) => {
                     <PrimaryButton
                       style={{ height: '45px' }}
                       css={css`
-                        ${mediaQueryMobile} {
+                        ${mediaQueryTablet} {
                           width: 100%;
+                          max-width: 100%;
+                        }
+                        ${mediaQueryMobile} {
                           position: fixed;
-                          z-index: 99;
+                          z-index: 4;
                           bottom: 0;
                           left: 0;
                           border-radius: 0 !important;
@@ -270,6 +304,10 @@ export const ProvideInfoContent = ({ data }: any) => {
                       align-items: center;
                       margin-left: 170px;
                       margin-right: 60px;
+
+                      ${mediaQuerySmallTablet} {
+                        margin-left: 45px;
+                      }
 
                       ${mediaQueryMobile} {
                         margin: 0 30px;
@@ -320,7 +358,7 @@ export const ProvideInfoContent = ({ data }: any) => {
                   </div>
                 </div>
 
-                {!isMobile && (
+                {!isTablet && (
                   <SecondaryButton
                     css={css`
                       margin-right: 100px;

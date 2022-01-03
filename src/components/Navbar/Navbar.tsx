@@ -10,8 +10,8 @@ import Flex from 'components/Flex/Flex';
 import { RegisterForm } from 'features/login/RegisterForm';
 import { LoginForm } from 'features/login/LoginForm';
 import { LoginStep } from 'features/login/const';
-import { mediaQueryMobile } from 'styles/variables';
-import { useMedia, MOBILE_WIDTH } from 'styles/variables';
+import { mediaQueryMobile, mediaQuerySmallTablet } from 'styles/variables';
+import { useMedia, MOBILE_WIDTH, SMALL_TABLET_WIDTH } from 'styles/variables';
 import { SideMenu } from 'components/Menu/SideMenu';
 import { USER_DATA } from 'data/user';
 
@@ -24,6 +24,10 @@ const NavbarSection = styled.div`
   flex-direction: column;
   background: #ff8730;
   z-index: 99;
+
+  ${mediaQuerySmallTablet} {
+    height: 130px;
+  }
 
   ${mediaQueryMobile} {
     height: 65px;
@@ -56,11 +60,15 @@ const MyAccount = styled.img`
   border-radius: 50%;
   margin-left: 25px;
 
-  ${mediaQueryMobile} {
+  ${mediaQuerySmallTablet} {
     position: absolute;
     right: 15px;
-    top: 10px;
+    top: 22px;
     z-index: 10;
+  }
+
+  ${mediaQueryMobile} {
+    top: 12px;
   }
 `;
 
@@ -69,6 +77,10 @@ const SearchBarContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
+
+  ${mediaQuerySmallTablet} {
+    top: 15px;
+  }
 
   ${mediaQueryMobile} {
     top: 40px;
@@ -82,7 +94,9 @@ export const Navbar = () => {
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [accountStep, setAccountStep] = useState<LoginStep>(LoginStep.LOGIN);
+  const isSmallTablet = useMedia(`(max-width: ${SMALL_TABLET_WIDTH}px)`);
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
+
   const history = useHistory();
   const { Search } = Input;
 
@@ -112,7 +126,7 @@ export const Navbar = () => {
         `}
       />
       <Flex justify="space-between">
-        {isMobile ? (
+        {isSmallTablet ? (
           <SideMenu collapsed={collapsed} setCollapsed={setCollapsed} />
         ) : (
           <div
@@ -127,7 +141,7 @@ export const Navbar = () => {
           </div>
         )}
         <NavbarList>
-          {!isMobile && (
+          {!isSmallTablet && (
             <React.Fragment>
               {' '}
               <li
@@ -160,7 +174,7 @@ export const Navbar = () => {
               <li
                 onClick={() => {
                   history.push({
-                    pathname: '/user/account/profile'
+                    pathname: '/chat'
                   });
                 }}
               >
@@ -200,7 +214,7 @@ export const Navbar = () => {
           onSearch={onSearch}
           size="large"
           style={{
-            width: isMobile ? '350px' : '700px',
+            width: isMobile ? '350px' : isSmallTablet ? '600px' : '700px',
             height: '40px'
           }}
         />

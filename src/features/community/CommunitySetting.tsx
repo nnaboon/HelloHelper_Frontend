@@ -10,6 +10,7 @@ import { WrapperContainer } from 'components/Wrapper/WrapperContainer';
 import { CommunitySettingMenu } from 'components/Menu/const';
 import { COMMUNITY_MAPPER } from 'data/community';
 import { CommunitySettingEditProfile } from './CommunitySettingEditProfile';
+import { mediaQuerySmallTablet, mediaQueryMobile } from 'styles/variables';
 
 export const CommunitySetting = () => {
   const [menu, setMenu] = useState<CommunitySettingMenu>(

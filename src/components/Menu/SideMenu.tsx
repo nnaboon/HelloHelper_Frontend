@@ -16,7 +16,7 @@ import {
 import { CATEGORY } from 'data/category';
 import { MenuSvg } from 'components/Svg/MenuSvg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCoffee } from '@fortawesome/free-solid-svg-icons';
+import { mediaQueryMobile, mediaQuerySmallTablet } from 'styles/variables';
 
 interface SideMenuProps {
   collapsed: boolean;
@@ -60,6 +60,16 @@ export const SideMenu = ({ collapsed, setCollapsed }: SideMenuProps) => {
           marginBottom: 15,
           width: '50px'
         }}
+        css={css`
+          ${mediaQuerySmallTablet} {
+            position: relative;
+            top: 35px;
+          }
+
+          ${mediaQueryMobile} {
+            top: 0;
+          }
+        `}
       >
         <MenuSvg />
       </div>
@@ -71,9 +81,21 @@ export const SideMenu = ({ collapsed, setCollapsed }: SideMenuProps) => {
         style={{
           visibility: !collapsed ? 'visible' : 'hidden',
           overflowY: 'scroll',
-          height: '91vh',
           width: '100%'
         }}
+        css={css`
+          height: 100vh;
+          ${mediaQuerySmallTablet} {
+            height: 89vh;
+            position: relative;
+            top: 95px;
+          }
+
+          ${mediaQueryMobile} {
+            height: 92vh;
+            top: 0;
+          }
+        `}
       >
         <Menu.Item
           key="1"
@@ -121,7 +143,7 @@ export const SideMenu = ({ collapsed, setCollapsed }: SideMenuProps) => {
           onClick={() => {
             setCollapsed(true);
             history.push({
-              pathname: '/user/account/profile'
+              pathname: '/chat'
             });
           }}
         >

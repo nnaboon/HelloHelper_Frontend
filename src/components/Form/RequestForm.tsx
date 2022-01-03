@@ -353,7 +353,6 @@ export const RequestFormModal = ({
             ]}
           >
             <Select
-              mode="multiple"
               allowClear
               style={{ width: '100%' }}
               placeholder="Please select"

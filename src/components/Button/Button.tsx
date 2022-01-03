@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { Button } from 'antd';
-import { mediaQueryMobile } from 'styles/variables';
+import { mediaQueryMobile, mediaQuerySmallTablet } from 'styles/variables';
 
 export const SecondaryButton = styled.a`
   min-width: 106px;
@@ -52,6 +52,10 @@ export const PrimaryButton = styled.a`
 
   &:hover {
     color: #ffff;
+  }
+
+  ${mediaQuerySmallTablet} {
+    margin-left: 10px;
   }
 
   ${mediaQueryMobile} {

@@ -4,10 +4,18 @@ import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { Divider, Input, Menu, Select } from 'antd';
+import { Divider, Input, Menu, Dropdown, Select } from 'antd';
 import { WrapperContainer } from 'components/Wrapper/WrapperContainer';
 import { PrimaryButton } from 'components/Button/Button';
-import { useMedia, MOBILE_WIDTH, mediaQueryMobile } from 'styles/variables';
+import {
+  useMedia,
+  MOBILE_WIDTH,
+  TABLET_WIDTH,
+  SMALL_TABLET_WIDTH,
+  mediaQueryMobile,
+  mediaQueryTablet,
+  mediaQuerySmallTablet
+} from 'styles/variables';
 import Flex from 'components/Flex/Flex';
 import { SettingSvg } from 'components/Svg/SettingSvg';
 import { LogoutSvg } from 'components/Svg/LogoutSvg';
@@ -15,12 +23,11 @@ import { COMMUNITY_MAPPER } from 'data/community';
 import { CommunityMenuTab } from 'components/Menu/CommunityMenuTab';
 import { CommunityMenu } from 'components/Menu/const';
 import { PostRequestButton } from 'components/Button/PostRequestButton';
-import { CommunityProvideContent } from './CommunityProvideContent';
-import { CommunityRequestContent } from './CommunityRequestContent';
 import { CommunityMemberContent } from './CommunityMemberContent';
 import { CATEGORY } from 'data/category';
 import { myAccountUserId, USER_DATA } from 'data/user';
 import CommunityImage from 'images/community.jpg';
+import { SwitchCommunity } from 'components/Svg/SwitchCommunity';
 
 const ProfilePageUserHelperListSection = styled.div`
   width: 100%;
@@ -33,7 +40,11 @@ const ProfilePageUserInfoSection = styled.div`
   margin-top: 40px;
   margin-bottom: 70px;
 
-  ${mediaQueryMobile} {
+  ${mediaQueryTablet} {
+    margin: 40px 0;
+  }
+
+  ${mediaQuerySmallTablet} {
     flex-direction: column;
     margin-top: 0;
     margin-bottom: 0;
@@ -52,6 +63,13 @@ const UserCard = styled.div`
   box-shadow: 0px 7px 7px rgba(0, 0, 0, 0.15);
   border-radius: 8px;
   border-sizing: border-box;
+
+  ${mediaQueryTablet} {
+    width: 65%;
+    margin-left: 0;
+    margin-right: 50px;
+    margin-bottom: 45px;
+  }
 
   ${mediaQueryMobile} {
     width: 100%;
@@ -110,6 +128,9 @@ const ProfileInfoListDetail = styled.div`
 export const CommunityContentInfo = ({ data }: any) => {
   const [menu, setMenu] = useState<CommunityMenu>(CommunityMenu.PROVIDE);
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
+  const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
+  const isSmallTablet = useMedia(`(max-width: ${SMALL_TABLET_WIDTH}px)`);
+
   const history = useHistory();
   const { pathname, state } = useLocation();
   const currentMenu = ((state as any)?.menuKey ||
@@ -124,6 +145,20 @@ export const CommunityContentInfo = ({ data }: any) => {
       search: `?keyword=${value}`
     });
   };
+
+  const dropDownMenu = (
+    <Menu>
+      {['ภาคเกษตร', 'ภาคการเงินและการเที่ยว'].map((items) => (
+        <Menu.Item
+          onClick={() => {
+            history.push(`/community/${items}`);
+          }}
+        >
+          {items}
+        </Menu.Item>
+      ))}
+    </Menu>
+  );
 
   useEffect(() => {
     setMenu(currentMenu);
@@ -140,6 +175,27 @@ export const CommunityContentInfo = ({ data }: any) => {
       ).map(({ id, name, location, description, code, member }) => (
         <ProfilePageUserInfoSection key={id}>
           <UserCard>
+            <SettingSvg
+              style={{
+                marginRight: '10px',
+                position: 'absolute',
+                top: '20px',
+                right: '8px',
+                cursor: 'pointer',
+                transition: 'transform .7s ease-in-out'
+              }}
+              css={css`
+                &:hover {
+                  transform: rotate(90deg);
+                }
+              `}
+              onClick={() => {
+                history.push({
+                  pathname: '/user/community'
+                });
+              }}
+            />
+
             <div
               css={css`
                 display: flex;
@@ -201,26 +257,7 @@ export const CommunityContentInfo = ({ data }: any) => {
                   }
                 `}
               >
-                <PrimaryButton
-                  css={css`
-                    width: 100%;
-                    background: #487bff;
-                    z-index: 2;
-                    cursor: pointer;
-
-                    ${mediaQueryMobile} {
-                      width: 47%;
-                    }
-                  `}
-                  onClick={() => {
-                    history.push({
-                      pathname: '/user/community'
-                    });
-                  }}
-                >
-                  <SettingSvg style={{ marginRight: '10px' }} />
-                  จัดการชุมขน
-                </PrimaryButton>
+                {' '}
                 <PrimaryButton
                   css={css`
                     width: 100%;
@@ -232,12 +269,29 @@ export const CommunityContentInfo = ({ data }: any) => {
                   <LogoutSvg style={{ marginRight: '10px' }} />
                   ออกจากขุมชน
                 </PrimaryButton>
+                <Dropdown overlay={dropDownMenu}>
+                  <PrimaryButton
+                    css={css`
+                      width: 100%;
+                      background: #487bff;
+                      z-index: 2;
+                      cursor: pointer;
+
+                      ${mediaQueryMobile} {
+                        width: 47%;
+                      }
+                    `}
+                  >
+                    {/* <SwitchCommunity style={{ marginRight: '10px' }} /> */}
+                    สลับชุมชน
+                  </PrimaryButton>
+                </Dropdown>
               </div>
             )}
           </UserCard>
           <div>
             <Flex
-              marginBottom="40px"
+              marginBottom={isSmallTablet ? '40px' : '30px'}
               marginTop={isMobile ? '40px' : 0}
               itemAlign={isMobile ? 'center' : 'flex-end'}
             >
@@ -281,7 +335,10 @@ export const CommunityContentInfo = ({ data }: any) => {
               placeholder="ค้นหาความช่วยเหลือ"
               onSearch={onSearch}
               size="large"
-              style={{ width: isMobile ? '100%' : '462px', height: '60px' }}
+              style={{
+                width: isSmallTablet ? '100%' : '462px',
+                height: '60px'
+              }}
             />
             <Select
               defaultValue="เลือกหมวดหมู่"

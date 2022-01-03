@@ -117,7 +117,7 @@ export const ORDER_DATA = [
     },
     providerUserId: 'abcdg',
     requesterUserId: 'abcde',
-    status: 'complete'
+    status: 'pending'
   },
   {
     orderId: 'abcdj12345',
@@ -141,6 +141,6 @@ export const ORDER_DATA = [
     },
     providerUserId: 'abcdg',
     requesterUserId: 'abcde',
-    status: 'cancel'
+    status: 'waiting'
   }
 ];

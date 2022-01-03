@@ -8,7 +8,12 @@ import { PrimaryButton, SecondaryButton } from 'components/Button/Button';
 import { UserSvg } from 'components/Svg/UserSvg';
 import { MessageSvg } from 'components/Svg/MessageSvg';
 import UserAvatar from 'images/avatar_helper.png';
-import { useMedia, MOBILE_WIDTH, mediaQueryMobile } from 'styles/variables';
+import {
+  useMedia,
+  MOBILE_WIDTH,
+  mediaQueryMobile,
+  mediaQuerySmallTablet
+} from 'styles/variables';
 import { USER_DATA } from '../../data/user';
 
 const CommunityMemberCard = styled.div`
@@ -44,6 +49,10 @@ const CommunityMemberImage = styled.img`
   height: 74px;
   margin-right: 55px;
 
+  ${mediaQuerySmallTablet} {
+    margin-right: 25px;
+  }
+
   ${mediaQueryMobile} {
     width: 60px;
     height: 60px;
@@ -58,11 +67,16 @@ const UserName = styled.div`
   color: #000000;
   margin-right: 30px;
 
+  ${mediaQuerySmallTablet} {
+    margin-right: 20px;
+    max-width: 150px;
+  }
+
   ${mediaQueryMobile} {
     font-size: 16px;
     width: max-content;
-    margin-right: 20px;
     min-width: max-content;
+    max-width: max-content;
   }
 `;
 
@@ -81,6 +95,10 @@ export const CommunityMemberContent = ({ member }: any) => {
               align-items: center;
               margin-left: 90px;
               justify-content: space-between;
+
+              ${mediaQuerySmallTablet} {
+                margin-left: 30px;
+              }
 
               ${mediaQueryMobile} {
                 margin-left: 0;
@@ -118,6 +136,10 @@ export const CommunityMemberContent = ({ member }: any) => {
                 display: flex;
                 margin-right: 80px;
 
+                ${mediaQuerySmallTablet} {
+                  margin-right: 30px;
+                }
+
                 ${mediaQueryMobile} {
                   margin: 0;
                   position: relative;
@@ -131,6 +153,10 @@ export const CommunityMemberContent = ({ member }: any) => {
               <SecondaryButton
                 css={css`
                   width: 140px;
+
+                  ${mediaQuerySmallTablet} {
+                    width: 100px;
+                  }
 
                   ${mediaQueryMobile} {
                     width: 45%;
@@ -152,6 +178,10 @@ export const CommunityMemberContent = ({ member }: any) => {
               <PrimaryButton
                 css={css`
                   width: 140px;
+
+                  ${mediaQuerySmallTablet} {
+                    width: 100px;
+                  }
 
                   ${mediaQueryMobile} {
                     width: 45%;

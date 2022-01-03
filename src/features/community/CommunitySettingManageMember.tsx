@@ -7,7 +7,13 @@ import { Dropdown, Menu } from 'antd';
 import { SecondaryButton, PrimaryButton } from 'components/Button/Button';
 import { Text } from 'components/Text';
 import UserAvatar from 'images/avatar_helper.png';
-import { useMedia, MOBILE_WIDTH, mediaQueryMobile } from 'styles/variables';
+import {
+  useMedia,
+  MOBILE_WIDTH,
+  SMALL_TABLET_WIDTH,
+  mediaQueryMobile,
+  mediaQueryTablet
+} from 'styles/variables';
 import { USER_DATA } from 'data/user';
 
 interface CommunitySettingManagerMemberProps {
@@ -77,6 +83,7 @@ export const CommunitySettingManageMember = ({
   joinedRequest
 }: CommunitySettingManagerMemberProps) => {
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
+  const isSmallTablet = useMedia(`(max-width: ${SMALL_TABLET_WIDTH}px)`);
 
   const menu = (
     <Menu>
@@ -86,7 +93,7 @@ export const CommunitySettingManageMember = ({
   );
 
   return (
-    <div style={{ margin: isMobile ? 0 : '40px 60px' }}>
+    <div style={{ margin: isSmallTablet ? 0 : '40px 60px' }}>
       <Text fontWeight={500} fontSize="28px" marginY="40px">
         ผู้ต้องการเข้าร่วมชุมชน
       </Text>
@@ -99,6 +106,10 @@ export const CommunitySettingManageMember = ({
               align-items: center;
               margin-left: 90px;
               justify-content: space-between;
+
+              ${mediaQueryTablet} {
+                margin-left: 35px;
+              }
 
               ${mediaQueryMobile} {
                 margin-left: 0;
@@ -134,6 +145,9 @@ export const CommunitySettingManageMember = ({
                 display: flex;
                 margin-right: 80px;
 
+                ${mediaQueryTablet} {
+                  margin-right: 35px;
+                }
                 ${mediaQueryMobile} {
                   margin: 0;
                   position: relative;
@@ -148,6 +162,11 @@ export const CommunitySettingManageMember = ({
                 css={css`
                   width: 140px;
 
+                  ${mediaQueryTablet} {
+                    width: 120px;
+                    margin-right: 0;
+                  }
+
                   ${mediaQueryMobile} {
                     width: 45%;
                   }
@@ -159,6 +178,10 @@ export const CommunitySettingManageMember = ({
                 <PrimaryButton
                   css={css`
                     width: 140px;
+
+                    ${mediaQueryTablet} {
+                      width: 120px;
+                    }
 
                     ${mediaQueryMobile} {
                       width: 45%;
@@ -184,6 +207,10 @@ export const CommunitySettingManageMember = ({
               align-items: center;
               margin-left: 90px;
               justify-content: space-between;
+
+              ${mediaQueryTablet} {
+                margin-left: 35px;
+              }
 
               ${mediaQueryMobile} {
                 margin-left: 0;
@@ -219,6 +246,10 @@ export const CommunitySettingManageMember = ({
                 display: flex;
                 margin-right: 80px;
 
+                ${mediaQueryTablet} {
+                  margin-right: 35px;
+                }
+
                 ${mediaQueryMobile} {
                   margin: 0;
                   position: relative;
@@ -233,6 +264,11 @@ export const CommunitySettingManageMember = ({
                 css={css`
                   width: 140px;
 
+                  ${mediaQueryTablet} {
+                    width: 120px;
+                    margin-right: 0;
+                  }
+
                   ${mediaQueryMobile} {
                     width: 45%;
                   }
@@ -244,6 +280,10 @@ export const CommunitySettingManageMember = ({
                 <PrimaryButton
                   css={css`
                     width: 140px;
+
+                    ${mediaQueryTablet} {
+                      width: 120px;
+                    }
 
                     ${mediaQueryMobile} {
                       width: 45%;
@@ -269,6 +309,10 @@ export const CommunitySettingManageMember = ({
               align-items: center;
               margin-left: 90px;
               justify-content: space-between;
+
+              ${mediaQueryTablet} {
+                margin-left: 35px;
+              }
 
               ${mediaQueryMobile} {
                 margin-left: 0;
@@ -303,6 +347,10 @@ export const CommunitySettingManageMember = ({
                 display: flex;
                 margin-right: 80px;
 
+                ${mediaQueryTablet} {
+                  margin-right: 35px;
+                }
+
                 ${mediaQueryMobile} {
                   margin: 0;
                   position: relative;
@@ -317,6 +365,11 @@ export const CommunitySettingManageMember = ({
                 css={css`
                   width: 140px;
 
+                  ${mediaQueryTablet} {
+                    width: 120px;
+                    margin-right: 0;
+                  }
+
                   ${mediaQueryMobile} {
                     width: 45%;
                   }
@@ -328,6 +381,10 @@ export const CommunitySettingManageMember = ({
                 <PrimaryButton
                   css={css`
                     width: 140px;
+
+                    ${mediaQueryTablet} {
+                      width: 120px;
+                    }
 
                     ${mediaQueryMobile} {
                       width: 45%;

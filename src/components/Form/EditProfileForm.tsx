@@ -3,18 +3,49 @@
 import { css, jsx } from '@emotion/react';
 import React, { useState } from 'react';
 import { Text } from 'components/Text';
-import { Button, Form, Input, message, Checkbox, Divider } from 'antd';
+import { Button, Form, Input, message, Checkbox, Divider, Upload } from 'antd';
 import { ABILITY } from 'data/ability';
 import { GoogleMapContent } from 'components/GoogleMap/GoogleMap';
 import { WrapperContainer } from 'components/Wrapper/WrapperContainer';
 import { mediaQueryMobile, useMedia, MOBILE_WIDTH } from 'styles/variables';
+import UserAvatar from 'images/avatar_user.png';
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import { UploadOutlined } from '@ant-design/icons';
 
 export const EditProfileForm = () => {
   const [form] = Form.useForm();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [checkedList, setCheckedList] = useState<string[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [imageUrl, setImageUrl] = useState<string>(UserAvatar);
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
 
+  const uploadButton = (
+    <div>
+      {loading ? <LoadingOutlined /> : <PlusOutlined />}
+      <div style={{ marginTop: 8 }}>Upload</div>
+    </div>
+  );
+  function getBase64(img, callback) {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => callback(reader.result));
+    reader.readAsDataURL(img);
+  }
+
+  const handleChange = (info) => {
+    // Change condition
+    if (info.file.status === 'done') {
+      setLoading(true);
+      return;
+    }
+    if (info.file.status === 'uploading') {
+      // Get this url from response in real world.
+      getBase64(info.file.originFileObj, (imageUrl) => {
+        setLoading(false);
+        setImageUrl(imageUrl);
+      });
+    }
+  };
   const toggleChecked = (value) => {
     console.log(value.includes('ไม่สามารถให้ความช่วยเหลือได้'));
     setCheckedList(value);
@@ -48,159 +79,245 @@ export const EditProfileForm = () => {
     <WrapperContainer
       css={css`
         height: calc(100vh + 450px);
+        display: flex;
 
         ${mediaQueryMobile} {
           height: calc(100vh - 140px);
         }
       `}
     >
-      <Text
-        fontSize="24px"
-        marginTop="10px"
-        marginBottom="20px"
-        fontWeight={500}
-      >
-        ข้อมูลของฉัน
-      </Text>
-      <Form
-        name="basic"
-        labelCol={{ span: 8 }}
-        wrapperCol={{ span: 16 }}
-        initialValues={{ remember: true }}
-        onFinish={onFinish}
-        autoComplete="off"
+      <div
         css={css`
-          .ant-form-item-control-input {
-            width: 460px;
-            ${mediaQueryMobile} {
-              width: 100%;
-            }
-          }
+          width: 100%;
         `}
       >
-        <Form.Item
-          name="title"
-          label="ชื่อ"
-          rules={[
-            {
-              // required: true,
-              message: 'กรุณากรอกชื่อความช่วยเหลือที่คุณต้องการ'
-            }
-          ]}
+        <Text
+          fontSize="24px"
+          marginTop="10px"
+          marginBottom="20px"
+          fontWeight={500}
         >
-          <Input
-            placeholder="ชื่อ"
-            style={{ height: '40px', borderRadius: '12px' }}
-          />
-        </Form.Item>
-        <Form.Item
-          name="email"
-          label="อีเมล"
-          rules={[
-            {
-              // required: true,
-              message: 'กรุณากรอกอีเมล'
-            }
-          ]}
-        >
-          <Input
-            placeholder="อีเมล"
-            style={{ height: '40px', borderRadius: '12px' }}
-          />
-        </Form.Item>
-        <Divider />
-        <Text fontSize="24px" fontWeight={500}>
-          เปลี่ยนรหัสผ่าน
+          ข้อมูลของฉัน
         </Text>
-        <Form.Item
-          name="prevPassword"
-          label="รหัสผ่านปัจจุบัน"
-          rules={[
-            {
-              // required: true,
-              message: 'กรุณากรอกรหัสผ่านปัจจุบัน'
-            }
-          ]}
-        >
-          <Input
-            placeholder="รหัสผ่านปัจจุบัน"
-            style={{ height: '40px', borderRadius: '12px' }}
-          />
-        </Form.Item>{' '}
-        <Form.Item
-          name="password"
-          label="รหัสผ่านใหม่"
-          rules={[
-            {
-              // required: true,
-              message: 'กรุณากรอกรหัสผ่านใหม่'
-            }
-          ]}
-        >
-          <Input
-            placeholder="รหัสผ่านใหม่"
-            style={{ height: '40px', borderRadius: '12px' }}
-          />
-        </Form.Item>{' '}
-        <Form.Item
-          name="confirmPassword"
-          label="ยืนยันรหัสผ่านใหม่"
-          rules={[
-            {
-              // required: true,
-              message: 'กรุณากรอกรหัสผ่านใหม่'
-            }
-          ]}
-        >
-          <Input
-            placeholder="รหัสผ่านใหม่"
-            style={{ height: '40px', borderRadius: '12px' }}
-          />
-        </Form.Item>
-        <Divider />
-        <Form.Item
-          name="location"
-          label="สถานที่ให้ความช่วยเหลือ"
-          rules={[
-            {
-              // required: true,
-              message: 'กรุณากรอกสถานที่ที่คุณสามารถให้ความช่วยเหลือได้'
-            }
-          ]}
-        >
-          <GoogleMapContent width={isMobile ? '100%' : '470px'} />
-        </Form.Item>
-        <Divider />
-        <Text fontSize="24px" fontWeight={500} marginY="20px">
-          ความสามารถในการช่วยเหลือ
-        </Text>
-        <Form.Item
-          name="ability"
+        <Form
+          name="basic"
+          labelCol={{ span: 8 }}
+          wrapperCol={{ span: 16 }}
+          initialValues={{ remember: true }}
+          onFinish={onFinish}
+          autoComplete="off"
           css={css`
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            .ant-checkbox-group {
-              width: 250px;
-
-              > label {
-                margin-bottom: 8px;
-              }
+            .ant-form-item-control-input {
+              width: 100%;
+              margin-bottom: 15px;
             }
           `}
         >
-          <Checkbox.Group
-            options={ABILITY}
-            value={checkedList}
-            onChange={toggleChecked}
-          />
+          <Form.Item
+            name="title"
+            label="ชื่อ"
+            rules={[
+              {
+                // required: true,
+                message: 'กรุณากรอกชื่อความช่วยเหลือที่คุณต้องการ'
+              }
+            ]}
+          >
+            <Input
+              placeholder="ชื่อ"
+              style={{ height: '40px', borderRadius: '12px' }}
+            />
+          </Form.Item>
+          <Form.Item
+            name="email"
+            label="อีเมล"
+            rules={[
+              {
+                // required: true,
+                message: 'กรุณากรอกอีเมล'
+              }
+            ]}
+          >
+            <Input
+              placeholder="อีเมล"
+              style={{ height: '40px', borderRadius: '12px' }}
+            />
+          </Form.Item>
+          <Divider />
+          <Text fontSize="24px" fontWeight={500}>
+            เปลี่ยนรหัสผ่าน
+          </Text>
+          <Form.Item
+            name="prevPassword"
+            label="รหัสผ่านปัจจุบัน"
+            rules={[
+              {
+                // required: true,
+                message: 'กรุณากรอกรหัสผ่านปัจจุบัน'
+              }
+            ]}
+          >
+            <Input
+              placeholder="รหัสผ่านปัจจุบัน"
+              style={{ height: '40px', borderRadius: '12px' }}
+            />
+          </Form.Item>{' '}
+          <Form.Item
+            name="password"
+            label="รหัสผ่านใหม่"
+            rules={[
+              {
+                // required: true,
+                message: 'กรุณากรอกรหัสผ่านใหม่'
+              }
+            ]}
+          >
+            <Input
+              placeholder="รหัสผ่านใหม่"
+              style={{ height: '40px', borderRadius: '12px' }}
+            />
+          </Form.Item>{' '}
+          <Form.Item
+            name="confirmPassword"
+            label="ยืนยันรหัสผ่านใหม่"
+            rules={[
+              {
+                // required: true,
+                message: 'กรุณากรอกรหัสผ่านใหม่'
+              }
+            ]}
+          >
+            <Input
+              placeholder="รหัสผ่านใหม่"
+              style={{ height: '40px', borderRadius: '12px' }}
+            />
+          </Form.Item>
+          <Divider />
+          <Form.Item
+            name="location"
+            label="สถานที่ให้ความช่วยเหลือ"
+            rules={[
+              {
+                // required: true,
+                message: 'กรุณากรอกสถานที่ที่คุณสามารถให้ความช่วยเหลือได้'
+              }
+            ]}
+          >
+            <GoogleMapContent width={isMobile ? '100%' : '470px'} />
+          </Form.Item>
+          <Divider />
+          <Text fontSize="24px" fontWeight={500} marginY="20px">
+            ความสามารถในการช่วยเหลือ
+          </Text>
+          <Form.Item
+            name="ability"
+            css={css`
+              position: relative;
+              left: 33.333%;
+              display: flex;
+
+              .ant-checkbox-group-item {
+                font-size: 16px;
+              }
+
+              .ant-checkbox {
+                margin-right: 12px !important;
+              }
+
+              .ant-checkbox-group {
+                width: 250px;
+                font-size: 16px;
+                > label {
+                  margin-bottom: 8px;
+                }
+              }
+            `}
+          >
+            <Checkbox.Group
+              options={ABILITY}
+              value={checkedList}
+              onChange={toggleChecked}
+            />
+          </Form.Item>
+          {/* <div
+            css={css`
+              width: 100%;
+              position: relative;
+            `}
+          >
+            <Button
+              type="primary"
+              htmlType="submit"
+              css={css`
+                width: 170px;
+                height: 40px;
+                box-sizing: border-box;
+                background: #ee6400;
+                border-radius: 9px;
+                border: 0;
+                right: 44px;
+                color: #ffff;
+                font-size: 16px;
+                position: absolute;
+                bottom: -15px;
+
+                &:hover {
+                  background: #ee6400;
+                }
+
+                ${mediaQueryMobile} {
+                  width: 100px;
+                  font-size: 16px;
+                  height: 35px;
+                  right: 0px;
+                }
+              `}
+            >
+              สำเร็จ
+            </Button>
+          </div> */}
+        </Form>
+      </div>
+      <div
+        css={css`
+          display: flex;
+          height: 100% !important;
+          flex-direction: column;
+          align-items: center;
+          width: 100%;
+          position: relative;
+          top: 40px;
+        `}
+      >
+        <img
+          src={imageUrl}
+          alt="user avatar"
+          css={css`
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            margin-bottom: 25px;
+          `}
+        />{' '}
+        <Form.Item name="image">
+          <Upload
+            name="avatar"
+            className="avatar-uploader"
+            showUploadList={false}
+            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            onChange={handleChange}
+          >
+            <Button icon={<UploadOutlined />}>เลือกรูป</Button>
+          </Upload>
         </Form.Item>
+        <Text fontSize="14px" color="#C4C4C4" fontWeight={500} whiteSpace="pre">
+          ขนาดไฟล์: สูงสุด 1 MB{'\n'}ไฟล์ที่รองรับ: .JPEG, .PNG
+        </Text>
         <div
           css={css`
             width: 100%;
             position: relative;
+            height: 100%;
           `}
         >
           <Button
@@ -213,11 +330,11 @@ export const EditProfileForm = () => {
               background: #ee6400;
               border-radius: 9px;
               border: 0;
-              right: 44px;
+              right: 39%;
               color: #ffff;
               font-size: 16px;
               position: absolute;
-              bottom: -15px;
+              bottom: 30px;
 
               &:hover {
                 background: #ee6400;
@@ -234,7 +351,7 @@ export const EditProfileForm = () => {
             สำเร็จ
           </Button>
         </div>
-      </Form>
+      </div>
     </WrapperContainer>
   );
 };

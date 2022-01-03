@@ -8,8 +8,13 @@ import { RANK_BADGE } from 'components/Badge/const';
 import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
 import RequestImage from 'images/request.jpeg';
-import { mediaQueryMobile, MOBILE_WIDTH } from 'styles/variables';
-import { useMedia } from '../../styles/variables';
+import {
+  useMedia,
+  mediaQueryMobile,
+  mediaQueryTablet,
+  MOBILE_WIDTH,
+  TABLET_WIDTH
+} from 'styles/variables';
 import { USER_DATA } from 'data/user';
 
 const RequestHelperCardContainer = styled.div`
@@ -19,12 +24,14 @@ const RequestHelperCardContainer = styled.div`
   margin-top: 30px;
   position: relative;
 
+  ${mediaQueryTablet} {
+    justify-content: center;
+    margin: 10px 0;
+  }
+
   ${mediaQueryMobile} {
     overflow-x: hidden;
-    margin-bottom: 10px;
-    margin-top: 10px;
     width: 100%;
-    justify-content: center;
   }
 `;
 
@@ -38,12 +45,17 @@ const CardContainer = styled.div`
   padding: 40px 30px;
   box-sizing: border-box;
   position: relative;
-  margin-right: 20px;
   position: relative;
   top: -20px;
   margin-top: 40px;
   max-width: 550px;
   cursor: pointer;
+
+  ${mediaQueryTablet} {
+    min-width: 430px;
+    padding: 20px;
+    margin-top: 40px;
+  }
 
   ${mediaQueryMobile} {
     width: 90%;
@@ -52,7 +64,6 @@ const CardContainer = styled.div`
     padding: 20px;
     display: flex;
     justify-content: center;
-    margin: 40px 0;
   }
 `;
 
@@ -62,10 +73,20 @@ const RequestTitle = styled.div`
   line-height: 28px;
   margin-bottom: 20px;
 
+  ${mediaQueryTablet} {
+    overflow-wrap: break-word;
+    width: 90%;
+    max-width: 200px;
+    margin-left: 27px;
+  }
+
   ${mediaQueryMobile} {
     font-size: 18px;
     line-height: 17px;
     margin-bottom: 10px;
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
   }
 `;
 
@@ -95,7 +116,7 @@ const RequestDataTitle = styled.div`
   line-height: 16px;
   color: #c4c4c4;
   max-width: 91px;
-  margin-right: 8px;
+  margin-right: 13px;
   width: 80px;
   text-align: end;
 
@@ -111,20 +132,33 @@ const RequestDataInfo = styled.div`
   line-height: 26px;
   color: #000000;
 
+  white-space: wrap;
+  width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   ${mediaQueryMobile} {
     font-size: 16px;
-  }
+    width: 185px;
+    -webkit-line-clamp: 1;
 `;
 
 const RequestDataContent = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 5px;
+
+  ${mediaQueryTablet} {
+    margin-bottom: 12px;
+  }
 `;
 
 export const SuggestedRequestSection = ({ data }: any) => {
   const history = useHistory();
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
+  const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
 
   return (
     <RequestHelperCardContainer>
@@ -166,6 +200,10 @@ export const SuggestedRequestSection = ({ data }: any) => {
                 css={css`
                   display: flex;
                   width: 90%;
+
+                  ${mediaQueryTablet} {
+                    width: 100%;
+                  }
                 `}
               >
                 <RequestImageSection src={RequestImage} alt="request" />
@@ -174,9 +212,14 @@ export const SuggestedRequestSection = ({ data }: any) => {
                 css={css`
                   display: flex;
                   flex-direction: column;
+                  position: relative;
+                  left: 20px;
+
                   ${mediaQueryMobile} {
                     position: absolute;
                     top: 50%;
+                    left: 0;
+                    padding: 0 15px;
                   }
                 `}
               >
@@ -207,7 +250,7 @@ export const SuggestedRequestSection = ({ data }: any) => {
                 </RequestDataContent>
                 <RequestDataContent>
                   <RequestDataTitle>
-                    {isMobile ? 'สถานที่' : `สถานที่ให้\nความช่วยเหลือ`}
+                    {isTablet ? 'สถานที่' : `สถานที่ให้\nความช่วยเหลือ`}
                   </RequestDataTitle>
                   <RequestDataInfo>{location.name}</RequestDataInfo>
                 </RequestDataContent>
@@ -219,7 +262,7 @@ export const SuggestedRequestSection = ({ data }: any) => {
                       <RequestDataInfo>{maxServiceCharge}</RequestDataInfo>
                     </RequestDataContent>
                     <RequestDataContent>
-                      <RequestDataTitle>วิธีการชำระเงิน</RequestDataTitle>
+                      <RequestDataTitle>วิธีชำระเงิน</RequestDataTitle>
                       <RequestDataInfo>{payment}</RequestDataInfo>
                     </RequestDataContent>
                   </React.Fragment>

@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import Flex from 'components/Flex/Flex';
 import { useHistory, useLocation } from 'react-router-dom';
 import { MenuButton } from './MenuButton';
-import { useMedia, MOBILE_WIDTH } from 'styles/variables';
+import { useMedia, MOBILE_WIDTH, TABLET_WIDTH } from 'styles/variables';
 
 import { InfoMenu, INFO_MENU_MAPPER } from './const';
 
@@ -14,6 +14,7 @@ interface MenuTabProps {
 
 export const InfoMenuTab = ({ menu, setMenu }: MenuTabProps) => {
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
+  const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
   const history = useHistory();
 
   return (
@@ -22,7 +23,7 @@ export const InfoMenuTab = ({ menu, setMenu }: MenuTabProps) => {
       justify="space-around"
       marginBottom="18px"
       style={{
-        width: isMobile ? '100%' : '50%',
+        width: isTablet ? '100%' : '50%',
         margin: isMobile ? '10px 0px 40px 0' : '50px 0'
       }}
     >

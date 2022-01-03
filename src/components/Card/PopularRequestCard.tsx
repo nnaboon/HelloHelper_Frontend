@@ -8,14 +8,18 @@ import { SecondaryButton, PrimaryButton } from 'components/Button/Button';
 import { SuggestedBadge, RankingBadge } from '../Badge/Badge';
 import { RANK_BADGE } from 'components/Badge/const';
 import styled from '@emotion/styled';
-import { Divider, Rate, Carousel } from 'antd';
+import { Rate } from 'antd';
 
 import { MessageSvg } from 'components/Svg/MessageSvg';
 import { UserSvg } from 'components/Svg/UserSvg';
 
 import { getStar } from 'components/Star/getStar';
 import UserAvatar from 'images/avatar_helper.png';
-import { mediaQueryMobile } from 'styles/variables';
+import {
+  mediaQueryMobile,
+  mediaQuerySmallTablet,
+  mediaQueryTablet
+} from 'styles/variables';
 import { useMedia, MOBILE_WIDTH } from 'styles/variables';
 import { USER_DATA } from 'data/user';
 
@@ -23,13 +27,17 @@ const RequestHelperCardContainer = styled.div`
   display: flex;
   overflow-x: scroll;
   margin-bottom: 40px;
+  margin-top: 30px;
   position: relative;
+
+  ${mediaQuerySmallTablet} {
+    justify-content: center;
+    margin: 10px 0;
+  }
 
   ${mediaQueryMobile} {
     width: 100%;
     overflow-x: visible;
-    margin-bottom: 30px;
-    justify-content: center;
   }
 `;
 
@@ -43,12 +51,15 @@ const CardContainer = styled.div`
   padding: 40px 30px;
   box-sizing: border-box;
   position: relative;
-  margin-right: 20px;
   position: relative;
   top: -20px;
   margin-top: 20px;
   cursor: pointer;
   max-width: 550px;
+
+  ${mediaQueryTablet} {
+    min-width: 430px;
+  }
 
   ${mediaQueryMobile} {
     width: 90%;
@@ -57,7 +68,6 @@ const CardContainer = styled.div`
     padding: 20px;
     display: flex;
     justify-content: center;
-    margin: 20px 0;
   }
 `;
 
@@ -106,9 +116,17 @@ const RequestDataInfo = styled.div`
   font-size: 18px;
   line-height: 26px;
   color: #000000;
-
+  white-space: wrap;
+  width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   ${mediaQueryMobile} {
     font-size: 16px;
+    width: 185px;
+    -webkit-line-clamp: 1;
   }
 `;
 
@@ -192,6 +210,11 @@ export const PopularRequestSection = ({ data }: any) => {
                   css={css`
                     display: flex;
                     flex-direction: column;
+                    margin-left: -13px;
+
+                    ${mediaQueryMobile} {
+                      margin: 0;
+                    }
                   `}
                 >
                   <RequestDataContent>

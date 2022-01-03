@@ -13,7 +13,14 @@ import { HelperListCard } from 'components/Card/HelperListCard';
 import { SmallSuggestedRequestCard } from 'components/Card/SmallSuggestedRequestCard';
 import { InfoMenu } from 'components/Menu/const';
 import UserAvatar from 'images/avatar_helper.png';
-import { useMedia, MOBILE_WIDTH, mediaQueryMobile } from 'styles/variables';
+import {
+  useMedia,
+  MOBILE_WIDTH,
+  TABLET_WIDTH,
+  mediaQueryMobile,
+  mediaQuerySmallTablet,
+  mediaQueryTablet
+} from 'styles/variables';
 import { InfoMenuTab } from 'components/Menu/InfoMenuTab';
 import { RANK_BADGE } from 'components/Badge/const';
 import { RankingBadge } from 'components/Badge/Badge';
@@ -26,9 +33,16 @@ const RequestImageSection = styled.img`
   height: 510px;
   margin-bottom: 20px;
 
-  ${mediaQueryMobile} {
+  ${mediaQueryTablet} {
     width: 100%;
+    justify-self: center;
+    align-self: center;
+  }
+
+  ${mediaQueryMobile} {
     height: 300px;
+    justify-self: center;
+    align-self: center;
   }
 `;
 
@@ -121,6 +135,7 @@ export const RequestInfoContent = ({ data }: any) => {
   const query = pathname.split('/')[2];
   const currentMenu = ((state as any)?.info_menu || InfoMenu.INFO) as InfoMenu;
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
+  const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
 
   useEffect(() => {
     setMenu(currentMenu);
@@ -153,20 +168,24 @@ export const RequestInfoContent = ({ data }: any) => {
             <WrapperContainer
               key={requestId}
               css={css`
-                ${mediaQueryMobile} {
-                  height: calc(100vh - 170px);
+                ${mediaQueryTablet} {
+                  height: calc(100vh - 270px);
                   overflow-y: scroll;
+                }
+
+                ${mediaQuerySmallTablet} {
+                  height: calc(100vh - 170px);
                 }
               `}
             >
-              {isMobile && <InfoMenuTab menu={menu} setMenu={setMenu} />}
-              {(!isMobile || menu === InfoMenu.INFO) && (
+              {isTablet && <InfoMenuTab menu={menu} setMenu={setMenu} />}
+              {(!isTablet || menu === InfoMenu.INFO) && (
                 <React.Fragment>
                   <div
                     style={{
                       display: 'flex',
                       justifyContent: 'center',
-                      flexDirection: `${isMobile ? 'column' : 'row'}`
+                      flexDirection: `${isTablet ? 'column' : 'row'}`
                     }}
                   >
                     <Flex
@@ -222,6 +241,7 @@ export const RequestInfoContent = ({ data }: any) => {
                       direction="column"
                       marginTop="30px"
                       style={{ width: 'unset' }}
+                      itemAlign={isTablet ? 'flex-start' : 'center'}
                     >
                       <RequestInfoContainer>
                         <RequestTitle>ชื่อ</RequestTitle>
@@ -243,10 +263,15 @@ export const RequestInfoContent = ({ data }: any) => {
                       </RequestInfoContainer>
                       <PrimaryButton
                         css={css`
+                          ${mediaQueryTablet} {
+                            width: 100%;
+                            max-width: 100%;
+                          }
+
                           ${mediaQueryMobile} {
                             width: 100%;
                             position: fixed;
-                            z-index: 99;
+                            z-index: 4;
                             bottom: 0;
                             left: 0;
                             border-radius: 0 !important;
@@ -285,6 +310,10 @@ export const RequestInfoContent = ({ data }: any) => {
                           align-items: center;
                           margin-left: 170px;
                           margin-right: 60px;
+
+                          ${mediaQueryTablet} {
+                            margin-left: 45px;
+                          }
 
                           ${mediaQueryMobile} {
                             margin: 0 30px;
@@ -338,16 +367,16 @@ export const RequestInfoContent = ({ data }: any) => {
                   </div>
                 </React.Fragment>
               )}
-              {(!isMobile || menu === InfoMenu.HELPER_LIST) && (
+              {(!isTablet || menu === InfoMenu.HELPER_LIST) && (
                 <React.Fragment>
-                  <Text fontSize="24px" fontWeight={400}>
+                  <Text fontSize="26px" fontWeight={400}>
                     รายชื่อผู้ต้องการช่วยเหลือ
                   </Text>
                   <Flex
                     justify="flex-start"
                     itemAlign="flex-start"
                     css={css`
-                      ${mediaQueryMobile} {
+                      ${mediaQueryTablet} {
                         flex-direction: column;
                       }
                     `}
@@ -359,7 +388,7 @@ export const RequestInfoContent = ({ data }: any) => {
                         justifyContent: 'flex-start',
                         alignItems: 'flex-start',
                         width: '100%',
-                        marginTop: isMobile ? '20px' : '40px'
+                        marginTop: isTablet ? '20px' : '40px'
                       }}
                     >
                       {provideUserId.map((id) => (
@@ -373,14 +402,22 @@ export const RequestInfoContent = ({ data }: any) => {
                         />
                       ))}
                     </div>
-                    {isMobile && (
+                    {isTablet && (
                       <Divider
-                        style={{ borderTopColor: '#C4C4C4', color: '#7C7A7A' }}
+                        style={{
+                          borderTopColor: '#C4C4C4',
+                          color: '#7C7A7A',
+                          fontSize: '18px',
+                          fontWeight: 500
+                        }}
                       >
                         คุณอาจจะสนใจสิ่งนี้
                       </Divider>
                     )}
-                    <Flex direction="column" itemAlign="flex-end">
+                    <Flex
+                      direction="column"
+                      itemAlign={isTablet ? 'center' : 'flex-end'}
+                    >
                       <SmallSuggestedRequestCard data={[PROVIDE_MAPPER[1]]} />
                       <SmallSuggestedRequestCard data={[PROVIDE_MAPPER[2]]} />
                       <SmallSuggestedRequestCard data={[PROVIDE_MAPPER[0]]} />
