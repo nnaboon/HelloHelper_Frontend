@@ -27,6 +27,7 @@ import {
   useMedia,
   MOBILE_WIDTH,
   mediaQueryMobile,
+  mediaQueryTablet,
   mediaQuerySmallTablet,
   SMALL_TABLET_WIDTH
 } from 'styles/variables';
@@ -307,32 +308,32 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
                 style={{ height: '40px', borderRadius: '12px' }}
               />
             </Form.Item>
-            <Flex justify="center" itemAlign="center">
-              <Form.Item
-                name="maxServiceCharge"
-                label="อัตราค่าบริการสูงสุด"
-                rules={[
-                  {
-                    required: true,
-                    message:
-                      'กรุณากำหนดขอบเขตอัตราค่าบริการสูงสุดที่คุณสามารถจ่ายได้'
-                  }
-                ]}
-              >
-                <Input
-                  placeholder="ขอบเขตราคาค่าบริการ"
-                  style={{ height: '40px', borderRadius: '12px' }}
-                />
-              </Form.Item>
-              <Tooltip title="กำหนดราคาสูงสุดของความช่วยเหลือครั้งนี้ที่คุณพึงพอใจจะจ่าย ให้กับผู้ให้ความช่วยเหลือ">
+            {/* <Flex justify="center" itemAlign="center"> */}
+            <Form.Item
+              name="maxServiceCharge"
+              label="อัตราค่าบริการสูงสุด"
+              rules={[
+                {
+                  required: true,
+                  message:
+                    'กรุณากำหนดขอบเขตอัตราค่าบริการสูงสุดที่คุณสามารถจ่ายได้'
+                }
+              ]}
+            >
+              <Input
+                placeholder="ขอบเขตราคาค่าบริการ"
+                style={{ height: '40px', borderRadius: '12px' }}
+              />
+            </Form.Item>
+            {/* <Tooltip title="กำหนดราคาสูงสุดของความช่วยเหลือครั้งนี้ที่คุณพึงพอใจจะจ่าย ให้กับผู้ให้ความช่วยเหลือ">
                 <InfoSvg
                   css={css`
                     margin-left: 10px;
                     margin-top: -20px;
                   `}
                 />
-              </Tooltip>
-            </Flex>
+              </Tooltip> */}
+            {/* </Flex> */}
 
             <Form.Item
               name="payment"
@@ -420,8 +421,12 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
                     background: #ee6400;
                   }
 
-                  ${mediaQueryMobile} {
+                  ${mediaQueryTablet} {
+                    width: 150px;
                     right: 0;
+                  }
+
+                  ${mediaQueryMobile} {
                     width: 144px;
                   }
                 `}

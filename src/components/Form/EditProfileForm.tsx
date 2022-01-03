@@ -315,11 +315,15 @@ export const EditProfileForm = () => {
                     background: #ee6400;
                   }
 
+                  ${mediaQueryTablet} {
+                    width: 120px;
+                    right: 0;
+                    height: 35px;
+                    font-size: 16px;
+                  }
+
                   ${mediaQueryMobile} {
                     width: 100px;
-                    font-size: 16px;
-                    height: 35px;
-                    right: 0px;
                   }
                 `}
               >
@@ -393,11 +397,15 @@ export const EditProfileForm = () => {
                   background: #ee6400;
                 }
 
+                ${mediaQueryTablet} {
+                  width: 120px;
+                  right: 0;
+                  height: 35px;
+                  font-size: 16px;
+                }
+
                 ${mediaQueryMobile} {
                   width: 100px;
-                  font-size: 16px;
-                  height: 35px;
-                  right: 0px;
                 }
               `}
             >

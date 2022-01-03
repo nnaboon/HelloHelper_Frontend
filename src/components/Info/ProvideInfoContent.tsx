@@ -168,7 +168,7 @@ export const ProvideInfoContent = ({ data }: any) => {
                 }
 
                 ${mediaQueryMobile} {
-                  height: calc(100vh - 170px);
+                  height: calc(100vh - 190px);
                 }
               `}
             >

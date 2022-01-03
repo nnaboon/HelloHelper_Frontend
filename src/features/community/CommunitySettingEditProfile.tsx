@@ -12,7 +12,8 @@ import {
   TABLET_WIDTH,
   SMALL_TABLET_WIDTH,
   mediaQueryMobile,
-  mediaQuerySmallTablet
+  mediaQuerySmallTablet,
+  mediaQueryTablet
 } from 'styles/variables';
 
 export const CommunitySettingEditProfile = () => {
@@ -216,10 +217,15 @@ export const CommunitySettingEditProfile = () => {
                 background: #ee6400;
               }
 
-              ${mediaQueryMobile} {
+              ${mediaQueryTablet} {
+                width: 120px;
                 right: 0;
-                width: 100px;
                 height: 35px;
+                font-size: 16px;
+              }
+
+              ${mediaQueryMobile} {
+                width: 100px;
               }
             `}
           >

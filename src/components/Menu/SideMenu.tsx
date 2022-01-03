@@ -88,7 +88,7 @@ export const SideMenu = ({ collapsed, setCollapsed }: SideMenuProps) => {
           ${mediaQuerySmallTablet} {
             height: 89vh;
             position: relative;
-            top: 95px;
+            top: 92px;
           }
 
           ${mediaQueryMobile} {

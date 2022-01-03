@@ -169,9 +169,14 @@ export const RequestInfoContent = ({ data }: any) => {
               key={requestId}
               css={css`
                 overflow-y: scroll;
+                overflow-x: hidden;
 
                 ${mediaQueryTablet} {
                   height: calc(100vh - 140px);
+                }
+
+                ${mediaQueryMobile} {
+                  height: calc(100vh - 190px);
                 }
               `}
             >
