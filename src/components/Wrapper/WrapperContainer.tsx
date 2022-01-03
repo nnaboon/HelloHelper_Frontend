@@ -18,8 +18,8 @@ export const WrapperContainer = styled.div`
   }
 
   ${mediaQuerySmallTablet} {
+    top: 140px;
     padding: 40px 30px;
-    height: calc(100vh - 180px);
   }
 
   ${mediaQueryMobile} {

@@ -168,14 +168,7 @@ export const RequestInfoContent = ({ data }: any) => {
             <WrapperContainer
               key={requestId}
               css={css`
-                ${mediaQueryTablet} {
-                  height: calc(100vh - 270px);
-                  overflow-y: scroll;
-                }
-
-                ${mediaQuerySmallTablet} {
-                  height: calc(100vh - 170px);
-                }
+                overflow-y: scroll;
               `}
             >
               {isTablet && <InfoMenuTab menu={menu} setMenu={setMenu} />}

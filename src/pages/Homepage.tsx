@@ -44,22 +44,20 @@ const HomePageContainer = styled.div`
   position: relative;
   top: 165px;
   padding: 40px 100px;
+  overflow-y: scroll;
 
   ${mediaQueryTablet} {
     padding: 40px 60px;
-    height: calc(100vh - 250px);
-    overflow-y: scroll;
   }
 
   ${mediaQuerySmallTablet} {
     padding: 40px 30px;
-    height: calc(100vh - 165px);
+    top: 140px;
   }
 
   ${mediaQueryMobile} {
     height: calc(100vh - 80px);
     padding: 20px 20px 50px 20px;
-    top: 140px;
   }
 `;
 

@@ -161,17 +161,7 @@ export const ProvideInfoContent = ({ data }: any) => {
             <WrapperContainer
               key={provideId}
               css={css`
-                ${mediaQueryTablet} {
-                  height: calc(100vh - 300px);
-                  overflow-y: scroll;
-                }
-
-                ${mediaQuerySmallTablet} {
-                  height: calc(100vh - 200px);
-                }
-                ${mediaQueryMobile} {
-                  height: calc(100vh - 170px);
-                }
+                overflow-y: scroll;
               `}
             >
               <div
