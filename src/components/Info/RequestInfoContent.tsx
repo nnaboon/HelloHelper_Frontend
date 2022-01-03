@@ -169,6 +169,10 @@ export const RequestInfoContent = ({ data }: any) => {
               key={requestId}
               css={css`
                 overflow-y: scroll;
+
+                ${mediaQueryTablet} {
+                  height: calc(100vh - 140px);
+                }
               `}
             >
               {isTablet && <InfoMenuTab menu={menu} setMenu={setMenu} />}

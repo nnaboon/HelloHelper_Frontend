@@ -15,10 +15,10 @@ export const WrapperContainer = styled.div`
 
   ${mediaQueryTablet} {
     padding: 40px 60px;
+    height: calc(100vh - 200px);
   }
 
   ${mediaQuerySmallTablet} {
-    top: 140px;
     padding: 40px 30px;
   }
 

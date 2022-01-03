@@ -162,6 +162,14 @@ export const ProvideInfoContent = ({ data }: any) => {
               key={provideId}
               css={css`
                 overflow-y: scroll;
+
+                ${mediaQueryTablet} {
+                  height: calc(100vh - 200px);
+                }
+
+                ${mediaQueryMobile} {
+                  height: calc(100vh - 170px);
+                }
               `}
             >
               <div

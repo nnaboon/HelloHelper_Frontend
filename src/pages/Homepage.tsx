@@ -48,10 +48,13 @@ const HomePageContainer = styled.div`
 
   ${mediaQueryTablet} {
     padding: 40px 60px;
+    height: calc(100vh - 250px);
+    padding: 40px 60px;
   }
 
   ${mediaQuerySmallTablet} {
     padding: 40px 30px;
+    height: calc(100vh - 165px);
     top: 140px;
   }
 
