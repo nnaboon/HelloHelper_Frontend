@@ -15,6 +15,7 @@ import { EditProfilePage } from './pages/EditProfilePage';
 import { CommunityPage } from './pages/CommunityPage';
 import { CommunitySetting } from 'features/community/CommunitySetting';
 import { mediaQueryMobile } from './styles/variables';
+import Chat from 'features/chat/components/Chat/Chat';
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
             exact
             component={EditProfilePage}
           />
+          <Route path="/chat" component={Chat} />
           <Route path="/request" component={RequestListPage} />
           <Route path="/provide" component={ProvideListPage} />
           <Route path="/:id" exact component={SearchResultPage} />
