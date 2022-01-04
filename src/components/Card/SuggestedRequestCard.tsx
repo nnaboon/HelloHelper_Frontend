@@ -158,7 +158,7 @@ const RequestDataInfo = styled.div`
 const RequestDataContent = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 5px;
+  margin-bottom: 14px;
 
   ${mediaQueryTablet} {
     margin-bottom: 12px;

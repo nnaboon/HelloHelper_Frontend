@@ -47,6 +47,7 @@ export const SearchResultPage = () => {
   const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
 
   useEffect(() => {
+    console.log(state?.menu);
     setMenu(currentMenu);
   }, [currentMenu]);
 
@@ -121,9 +122,9 @@ export const SearchResultPage = () => {
               ? PROVIDE_MAPPER.filter(({ category }) => category[0] === qs).map(
                   (props) => <PopularRequestSection data={[props]} />
                 )
-              : REQUEST_MAPPER.map((props) => (
-                  <SuggestedRequestSection data={[props]} />
-                ))}
+              : REQUEST_MAPPER.filter(({ category }) => category[0] === qs).map(
+                  (props) => <SuggestedRequestSection data={[props]} />
+                )}
           </SearchResultContent>
         </div>
       </div>
