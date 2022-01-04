@@ -102,7 +102,7 @@ const ProvideDetail = styled.div`
 const ProvideTitle = styled.div`
   font-size: 14px;
   line-height: 26px;
-  color: #cacaca;
+  color: #848484;
   min-width: 90px;
   max-width: 150px;
 

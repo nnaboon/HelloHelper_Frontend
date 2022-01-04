@@ -23,7 +23,7 @@ const NavbarSection = styled.div`
   top: 0;
   display: flex;
   flex-direction: column;
-  background: #ff8730;
+  background: #f9f9f9;
   z-index: 99;
 
   ${mediaQuerySmallTablet} {
@@ -46,7 +46,8 @@ const NavbarList = styled.ul`
     display: inline;
     margin: 0 20px;
     cursor: pointer;
-    color: #ffff;
+    color: #eeeee;
+    font-size: 14px;
   }
 
   ${mediaQueryMobile} {
@@ -135,7 +136,7 @@ export const Navbar = () => {
           <div
             style={{
               width: '400px',
-              marginLeft: '40px',
+              marginLeft: '60px',
               display: 'flex',
               cursor: 'pointer'
             }}
@@ -145,7 +146,7 @@ export const Navbar = () => {
               });
             }}
           >
-            <div style={{ color: 'white', fontSize: '32px', fontWeight: 700 }}>
+            <div style={{ color: 'black', fontSize: '32px', fontWeight: 700 }}>
               HELLO HELPER
             </div>{' '}
             <MessageOutlined />

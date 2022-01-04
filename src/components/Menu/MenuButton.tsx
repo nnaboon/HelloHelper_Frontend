@@ -27,7 +27,7 @@ export const MenuButton = ({
     <MenuButtonSection
       onClick={onClick}
       css={css`
-        color: ${isActive ? '#EE6400' : '#CACACA'};
+        color: ${isActive ? '#EE6400' : '#848484'};
         font-size: ${isActive ? '25px' : '16px'};
         font-weight: ${isActive ? '700' : '500'};
 

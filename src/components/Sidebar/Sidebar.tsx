@@ -31,8 +31,6 @@ const SidebarItem = styled.div<{ isActive: boolean }>`
   border-radius: 20px;
   font-weight: ${(props) => (props.isActive ? 700 : 500)};
   color: ${(props) => (props.isActive ? '#EE6400' : 'black')};
-  background: ${(props) =>
-    props.isActive ? 'rgba(255, 116, 0, 0.23)' : 'transparent'};
 `;
 
 const SidebarLink = styled.div`

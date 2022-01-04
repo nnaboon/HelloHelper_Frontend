@@ -28,7 +28,7 @@ function App() {
         width: 100%;
         height: 100vh;
         overflow-y: scroll;
-
+        background: #f9f9f9;
         ${mediaQueryMobile} {
           overflow-y: hidden;
         }

@@ -21,7 +21,6 @@ import { USER_DATA } from 'data/user';
 
 const RequestHelperCardContainer = styled.div`
   display: flex;
-  margin-bottom: 40px;
   margin-top: 30px;
   position: relative;
 

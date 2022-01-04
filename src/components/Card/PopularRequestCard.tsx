@@ -44,7 +44,7 @@ const RequestHelperCardContainer = styled.div`
 `;
 
 const CardContainer = styled.div`
-  min-width: 430px;
+  min-width: 400px;
   height: 370px;
   width: 95%;
   background: #ffffff;
