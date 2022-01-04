@@ -72,7 +72,7 @@ export const RequestFormModal = ({
   useEffect(() => {
     form.setFieldsValue({
       type: requestData.type,
-      title: requestData.name,
+      title: requestData.title,
       location: requestData.location,
       message: requestData.message,
       maxPrice: requestData.maxPrice,
@@ -193,15 +193,15 @@ export const RequestFormModal = ({
           autoComplete="off"
           initialValues={{
             type: requestData.type,
-            title: requestData.name,
+            title: requestData.title,
             location: requestData.location,
-            message: requestData.message,
-            maxPrice: requestData.maxPrice,
-            maxServiceCharge: requestData.maxServiceCharge,
+            message: requestData.description,
+            maxPrice: requestData.price,
+            maxServiceCharge: requestData.serviceCharge,
             payment: requestData.payment,
             category: requestData.category,
             hashtag: requestData.hashtag,
-            image: requestData.image
+            image: requestData.imageUrl
           }}
           css={css`
             .ant-form-item-control-input {
@@ -223,7 +223,7 @@ export const RequestFormModal = ({
               }
             ]}
           >
-            <Select defaultValue={requestData.type}>
+            <Select disabled defaultValue={requestData.type}>
               <Select.Option value="provide">ให้ความช่วยเหลือ</Select.Option>
               <Select.Option value="request">ขอความช่วยเหลือ</Select.Option>
             </Select>
@@ -239,7 +239,7 @@ export const RequestFormModal = ({
             ]}
           >
             <Input
-              defaultValue={requestData.name}
+              defaultValue={requestData.title}
               placeholder="ชื่อ"
               style={{ height: '40px', borderRadius: '12px' }}
             />
@@ -274,6 +274,7 @@ export const RequestFormModal = ({
           <Form.Item name="message" label="ข้อความ">
             <Input.TextArea
               placeholder="ข้อความ"
+              defaultValue={requestData.description}
               style={{ borderRadius: '12px' }}
             />
           </Form.Item>

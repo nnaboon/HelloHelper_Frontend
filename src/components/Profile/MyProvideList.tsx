@@ -2,14 +2,11 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/react';
 import { useHistory } from 'react-router-dom';
-import React, { useState } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 import Flex from 'components/Flex/Flex';
 import { SecondaryButton } from 'components/Button/Button';
-import { Dropdown, Menu, message, Rate, Modal } from 'antd';
-import { EditSvg } from 'components/Svg/EditSvg';
-import { DeleteSvg } from 'components/Svg/DeleteSvg';
-import { EyeOffSvg } from 'components/Svg/EyeOffSvg';
+import { Rate } from 'antd';
 import {
   mediaQueryMobile,
   mediaQueryTablet,
@@ -18,7 +15,6 @@ import {
   MOBILE_WIDTH,
   TABLET_WIDTH
 } from 'styles/variables';
-import { RequestFormModal } from 'components/Form/RequestForm';
 import { USER_DATA } from 'data/user';
 
 const HelperListCard = styled.div`
@@ -106,116 +102,19 @@ const SecondaryHelpButton = styled(SecondaryButton)`
 export const MyProvideList = ({ data }: any) => {
   const history = useHistory();
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
-  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-
-  function handleButtonClick(e) {
-    message.info('Click on left button.');
-    console.log('click left button', e);
-  }
-
-  function handleMenuClick(e) {
-    message.info('Click on menu item.');
-    console.log('click', e);
-  }
-
-  const onModalClose = () => {
-    setIsModalVisible(false);
-  };
-
-  const onModalOpen = () => {
-    setIsModalVisible(true);
-  };
-
-  const menu = (
-    <Menu onClick={handleMenuClick}>
-      <Menu.Item key="1">
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-          onClick={() => {
-            setIsModalVisible(true);
-          }}
-        >
-          <EditSvg style={{ marginRight: '8px' }} />
-
-          <div>แก้ไข</div>
-        </div>
-      </Menu.Item>
-      <Menu.Item key="2">
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-        >
-          <EyeOffSvg style={{ marginRight: '18px' }} />
-          <div>ซ่อน</div>
-        </div>
-      </Menu.Item>
-      <Menu.Item key="3">
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-        >
-          <DeleteSvg style={{ marginRight: '18px' }} />
-          <div>ลบ</div>
-        </div>
-      </Menu.Item>
-    </Menu>
-  );
 
   return (
     <HelperListCard
       key={data.provideId}
-      // onClick={() => {
-      //   history.push({
-      //     pathname: `/${data.title}/${data.id}`,
-      //     state: {
-      //       type: 'provide'
-      //     }
-      //   });
-      // }}
+      onClick={() => {
+        history.push({
+          pathname: `/${data.title}/${data.id}`,
+          state: {
+            type: 'provide'
+          }
+        });
+      }}
     >
-      <Dropdown.Button
-        onClick={handleButtonClick}
-        overlay={menu}
-        css={css`
-          position: absolute;
-          z-index: 8;
-          top: 20px;
-          color: #0000;
-          right: 35px;
-          .ant-dropdown-trigger {
-            border: none;
-          }
-
-          .ant-dropdown-trigger > span {
-            background-color: white !important;
-          }
-
-          &:selection {
-            color: #fff;
-            z-index: 8;
-            background: transparent;
-          }
-
-          svg {
-            font-size: 24px;
-          }
-
-          ${mediaQueryMobile} {
-            right: 8px;
-            top: 10px;
-          }
-        `}
-      />
       <HelperListTitle>{data.title}</HelperListTitle>
       <Flex marginY={isMobile ? 2 : '8px'}>
         <HelperListHeading>ผู้ให้ความช่วยเหลือ</HelperListHeading>
@@ -248,30 +147,6 @@ export const MyProvideList = ({ data }: any) => {
         <HelperListHeading>วิธีการชำระเงิน</HelperListHeading>
         <HelperListDetail>{data.payment}</HelperListDetail>
       </Flex>
-      {/* <Modal
-        visible={isModalVisible}
-        onOk={onModalOpen}
-        onCancel={onModalClose}
-        footer={null}
-        width={isMobile ? '80%' : '800px'}
-        maskClosable={false}
-        centered
-        css={css`
-          .ant-modal-content {
-            height: 950px;
-
-            ${mediaQueryMobile} {
-              height: 480px;
-            }
-          }
-        `}
-      > */}
-      <RequestFormModal
-        visible={isModalVisible}
-        onClose={() => setIsModalVisible(false)}
-        requestData={data}
-      />
-      {/* </Modal> */}
     </HelperListCard>
   );
 };

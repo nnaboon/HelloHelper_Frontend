@@ -44,7 +44,7 @@ const RequestHelperCardContainer = styled.div`
 `;
 
 const CardContainer = styled.div`
-  min-width: 448px;
+  min-width: 430px;
   height: 370px;
   width: 95%;
   background: #ffffff;
@@ -168,7 +168,7 @@ export const PopularRequestSection = ({ data }: any) => {
             <div
               onClick={() => {
                 history.push({
-                  pathname: `/${title}/${provideId}`,
+                  pathname: `/provide/${title}/${provideId}`,
                   state: {
                     type: 'provide'
                   }
@@ -201,7 +201,10 @@ export const PopularRequestSection = ({ data }: any) => {
                         marginTop: '-4px'
                       }}
                     >
-                      {getStar(rating)}
+                      {getStar(
+                        USER_DATA.filter((items) => items.userId === userId)[0]
+                          .rating
+                      )}
                     </div>
                     <RankingBadge
                       rankColor={
@@ -287,7 +290,11 @@ export const PopularRequestSection = ({ data }: any) => {
                             marginTop: '-4px'
                           }}
                         >
-                          {getStar(rating)}
+                          {getStar(
+                            USER_DATA.filter(
+                              (items) => items.userId === userId
+                            )[0].rating
+                          )}
                         </div>
                         <RankingBadge
                           rankColor={

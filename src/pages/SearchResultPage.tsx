@@ -20,7 +20,6 @@ import {
   MOBILE_WIDTH,
   mediaQueryMobile,
   mediaQueryTablet,
-  mediaQuerySmallTablet,
   TABLET_WIDTH
 } from 'styles/variables';
 import { PROVIDE_MAPPER } from 'data/provide';
@@ -48,8 +47,10 @@ export const SearchResultPage = () => {
 
   useEffect(() => {
     console.log(state?.menu);
-    setMenu(currentMenu);
-  }, [currentMenu]);
+    if (state?.menu !== undefined) {
+      setMenu(currentMenu);
+    }
+  }, [currentMenu, state]);
 
   return (
     <WrapperContainer

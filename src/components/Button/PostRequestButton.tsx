@@ -31,6 +31,9 @@ import {
   mediaQuerySmallTablet,
   SMALL_TABLET_WIDTH
 } from 'styles/variables';
+import { PROVIDE_MAPPER } from 'data/provide';
+import { REQUEST_MAPPER } from 'data/request';
+import { myAccountUserId } from 'data/user';
 
 interface PostRequestButtonProps {
   buttonText: string;
@@ -105,20 +108,39 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
     const values = form.getFieldsValue();
     console.log(values, value);
     const data = {
-      type: value.type,
+      userId: myAccountUserId,
       title: value.title,
-      location: location ?? '',
-      message: value.message ?? '',
-      maxPrice: value.maxPrice,
-      maxServiceCharge: value.maxServiceCharge,
+      location: {
+        name: location.name,
+        lat: 10.0,
+        lng: 100.8933
+      },
+      description: value.message ?? '',
+
+      serviceCharge: value.maxServiceCharge,
       payment: value.payment,
-      category: value.category,
-      hashtag: value.hashtag,
-      image: value.image
-    } as RequestFormBody;
+      category: [value.category],
+      hashtag: tags,
+      imageUrl: ''
+    };
 
     try {
       setIsModalVisible(false);
+      value.type === 'provide'
+        ? PROVIDE_MAPPER?.push({
+            provideId: Math.random().toString(16).slice(2),
+            provideSum: 0,
+            rating: 0,
+            ...data
+          })
+        : REQUEST_MAPPER?.push({
+            requestId: Math.random().toString(16).slice(2),
+            price: value.maxPrice,
+            provideUserId: [''],
+            amount: value.amount,
+            ...data
+          });
+
       console.log(data);
     } catch (e) {
       message.error('ไม่สามารถโพสต์ขอความช่วยเหลือได้');
@@ -302,15 +324,21 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
             <Form.Item
               name="maxPrice"
               label="ราคาสินค้าสูงสุด"
-              rules={[
-                {
-                  required: true,
-                  message: 'กรุณากำหนดขอบเขตราคาสินค้าสูงสุดที่คุณสามารถจ่ายได้'
-                }
-              ]}
+              rules={
+                !isDisable
+                  ? [
+                      {
+                        required: true,
+                        message:
+                          'กรุณากำหนดขอบเขตราคาสินค้าสูงสุดที่คุณสามารถจ่ายได้'
+                      }
+                    ]
+                  : null
+              }
             >
               <Input
                 disabled={isDisable}
+                type="number"
                 placeholder="ขอบเขตราคาสินค้า"
                 style={{ height: '40px', borderRadius: '12px' }}
               />
@@ -329,6 +357,7 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
             >
               <Input
                 placeholder="ขอบเขตราคาค่าบริการ"
+                type="number"
                 style={{ height: '40px', borderRadius: '12px' }}
               />
             </Form.Item>
@@ -341,7 +370,27 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
                 />
               </Tooltip> */}
             {/* </Flex> */}
-
+            <Form.Item
+              name="amount"
+              label="จำนวน"
+              rules={
+                !isDisable
+                  ? [
+                      {
+                        required: true,
+                        message: 'กรุณากรอกจำนวนสินค้าที่ต้องการ'
+                      }
+                    ]
+                  : null
+              }
+            >
+              <Input
+                disabled={isDisable}
+                type="number"
+                placeholder="จำนวนสินค้า"
+                style={{ height: '40px', borderRadius: '12px' }}
+              />
+            </Form.Item>
             <Form.Item
               name="payment"
               label="วิธีการชำระเงิน"

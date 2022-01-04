@@ -148,7 +148,7 @@ export const SmallSuggestedRequestCard = ({ data }: any) => {
             <div
               onClick={() => {
                 history.push({
-                  pathname: `/${title}/${provideId}`,
+                  pathname: `/provide/${title}/${provideId}`,
                   state: {
                     type: 'provide'
                   }
@@ -287,12 +287,13 @@ export const SmallSuggestedRequestCard = ({ data }: any) => {
                           คะแนนการให้ความช่วยเหลือนี้
                         </RequestDataTitle>
                         <RequestDataInfo>
-                          {rating} <Rate count={1} defaultValue={1} />
+                          {rating.toFixed(1)}{' '}
+                          <Rate count={1} defaultValue={1} />
                         </RequestDataInfo>
                       </RequestDataContent>
                       <RequestDataContent>
                         <RequestDataTitle>ค่าบริการ</RequestDataTitle>
-                        <RequestDataInfo>{serviceCharge}</RequestDataInfo>
+                        <RequestDataInfo>{serviceCharge} บาท</RequestDataInfo>
                       </RequestDataContent>
                     </div>
                   )}

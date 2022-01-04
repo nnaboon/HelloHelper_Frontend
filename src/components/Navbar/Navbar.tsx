@@ -12,6 +12,7 @@ import { LoginForm } from 'features/login/LoginForm';
 import { LoginStep } from 'features/login/const';
 import { mediaQueryMobile, mediaQuerySmallTablet } from 'styles/variables';
 import { useMedia, MOBILE_WIDTH, SMALL_TABLET_WIDTH } from 'styles/variables';
+import { MessageOutlined } from '@ant-design/icons';
 import { SideMenu } from 'components/Menu/SideMenu';
 import { USER_DATA } from 'data/user';
 
@@ -131,16 +132,25 @@ export const Navbar = () => {
           <SideMenu collapsed={collapsed} setCollapsed={setCollapsed} />
         ) : (
           <div
-            style={{ width: '100px', height: '40px', background: 'blue' }}
+            style={{
+              width: '400px',
+              marginLeft: '40px',
+              display: 'flex',
+              cursor: 'pointer'
+            }}
             onClick={() => {
               history.push({
                 pathname: '/'
               });
             }}
           >
-            Home
+            <div style={{ color: 'white', fontSize: '32px', fontWeight: 700 }}>
+              HELLO HELPER
+            </div>{' '}
+            <MessageOutlined />
           </div>
         )}
+
         <NavbarList>
           {!isSmallTablet && (
             <React.Fragment>

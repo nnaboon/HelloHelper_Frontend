@@ -52,7 +52,12 @@ export const CommunityProvideContent = () => {
 
   return (
     <div>
-      <Text fontSize="32px" fontWeight={500}>
+      <Text
+        fontSize="32px"
+        fontWeight={500}
+        marginTop="30px"
+        marginBottom="10px"
+      >
         ความช่วยเหลือยอดนิยม
       </Text>
       <Carousel
@@ -77,7 +82,12 @@ export const CommunityProvideContent = () => {
         ))}
       </Carousel>
 
-      <Text fontSize="32px" fontWeight={500}>
+      <Text
+        fontSize="32px"
+        fontWeight={500}
+        marginTop="30px"
+        marginBottom="10px"
+      >
         Top 10 ความช่วยเหลือประจำสัปดาห์
       </Text>
 
@@ -103,7 +113,12 @@ export const CommunityProvideContent = () => {
         ))}
       </Carousel>
 
-      <Text fontSize="32px" fontWeight={500}>
+      <Text
+        fontSize="32px"
+        fontWeight={500}
+        marginTop="30px"
+        marginBottom="10px"
+      >
         ความช่วยเหลือทั้งหมด
       </Text>
       <CommunityProvideSection>

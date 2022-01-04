@@ -21,7 +21,6 @@ import { USER_DATA } from 'data/user';
 
 const RequestHelperCardContainer = styled.div`
   display: flex;
-  overflow-x: scroll;
   margin-bottom: 40px;
   margin-top: 30px;
   position: relative;
@@ -39,8 +38,8 @@ const RequestHelperCardContainer = styled.div`
 
 const CardContainer = styled.div`
   min-width: 448px;
-  width: 95%;
   height: 370px;
+  width: 95%;
   background: #ffffff;
   box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
@@ -49,14 +48,16 @@ const CardContainer = styled.div`
   position: relative;
   position: relative;
   top: -20px;
-  margin-top: 40px;
-  max-width: 550px;
+  margin-top: 20px;
   cursor: pointer;
+  max-width: 550px;
+  margin-left: 5px;
 
   ${mediaQueryTablet} {
     min-width: 430px;
     padding: 20px;
     margin-top: 40px;
+    margin-left: 0;
   }
 
   ${mediaQuerySmallTablet} {
@@ -181,7 +182,7 @@ export const SuggestedRequestSection = ({ data }: any) => {
           imageUrl,
           name,
           payment,
-          maxServiceCharge,
+          serviceCharge,
           location,
           rank
         }) => (
@@ -189,7 +190,7 @@ export const SuggestedRequestSection = ({ data }: any) => {
             key={requestId}
             onClick={() => {
               history.push({
-                pathname: `/${title}/${requestId}`,
+                pathname: `/request/${title}/${requestId}`,
                 state: {
                   type: 'request'
                 }
@@ -274,7 +275,7 @@ export const SuggestedRequestSection = ({ data }: any) => {
                     {' '}
                     <RequestDataContent>
                       <RequestDataTitle>ค่าบริการ</RequestDataTitle>
-                      <RequestDataInfo>{maxServiceCharge}</RequestDataInfo>
+                      <RequestDataInfo>{serviceCharge} บาท</RequestDataInfo>
                     </RequestDataContent>
                     <RequestDataContent>
                       <RequestDataTitle>วิธีชำระเงิน</RequestDataTitle>

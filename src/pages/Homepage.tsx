@@ -182,7 +182,8 @@ export const HomePage = () => {
         autoPlay
         autoPlaySpeed={3000}
         customTransition="all .5"
-        transitionDuration={1000}
+        transitionDuration={500}
+        containerClass="carousel-container"
       >
         <HomePagePictureSection
           src={CommunityPic}

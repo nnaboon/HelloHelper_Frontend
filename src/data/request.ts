@@ -19,8 +19,8 @@ export type RequestType = {
   message: string;
   imageUrl: any;
   amount: number;
-  maxPrice: string;
-  maxServiceCharge: string;
+  price: string;
+  serviceCharge: string;
   category: string[];
   hashtag: string[];
   helper: helperType[];
@@ -53,10 +53,85 @@ export const REQUEST_MAPPER = [
     },
     amount: 2,
     description: 'ซอสชานม ซอสสังขยา 5',
-    maxPrice: 300,
-    maxServiceCharge: 30,
+    price: 300,
+    serviceCharge: 30,
     payment: 'โอน',
-    rank: 'platinum',
+    category: ['food'],
+    hashtag: ['ขนมปัง', 'สังขยา', 'โชคชัย4'],
+    provideUserId: ['abcde', 'abcdh', 'abcdg']
+  },
+  {
+    requestId: '12345pp',
+    userId: 'abcdf',
+    imageUrl: RequestImage,
+    title: 'หนังควายจี่ แม่อีสา',
+    location: {
+      name: 'เซ็นทรัล ลาดพร้าว',
+      lat: 13.8163,
+      lng: 100.5608
+    },
+    amount: 2,
+    description: '5 ถุงใหญ่',
+    price: 300,
+    serviceCharge: 30,
+    payment: 'โอน',
+    category: ['food'],
+    hashtag: ['ขนมปัง', 'สังขยา', 'โชคชัย4'],
+    provideUserId: ['abcde', 'abcdh', 'abcdg']
+  },
+  {
+    requestId: '12345er',
+    userId: 'abcdf',
+    imageUrl: RequestImage,
+    title: 'ขนมปังสังขยา ไส้ทะลัก โชคชัย5',
+    location: {
+      name: 'เซ็นทรัล ลาดพร้าว',
+      lat: 13.8163,
+      lng: 100.5608
+    },
+    amount: 2,
+    description: 'ซอสชานม ซอสสังขยา 5',
+    price: 300,
+    serviceCharge: 30,
+    payment: 'โอน',
+    category: ['food'],
+    hashtag: ['ขนมปัง', 'สังขยา', 'โชคชัย4'],
+    provideUserId: ['abcde', 'abcdh', 'abcdg']
+  },
+  {
+    requestId: '12345rt',
+    userId: 'abcdf',
+    imageUrl: RequestImage,
+    title: 'ทะเลเผา กุ้งถังกุ้งเต้น',
+    location: {
+      name: 'เซ็นทรัล ลาดพร้าว',
+      lat: 13.8163,
+      lng: 100.5608
+    },
+    amount: 2,
+    description: 'ซอสชานม ซอสสังขยา 5',
+    price: 300,
+    serviceCharge: 30,
+    payment: 'โอน',
+    category: ['food'],
+    hashtag: ['ขนมปัง', 'สังขยา', 'โชคชัย4'],
+    provideUserId: ['abcde', 'abcdh', 'abcdg']
+  },
+  {
+    requestId: '12345en',
+    userId: 'abcdf',
+    imageUrl: RequestImage,
+    title: 'ทะเลทอด',
+    location: {
+      name: 'เซ็นทรัล ลาดพร้าว',
+      lat: 13.8163,
+      lng: 100.5608
+    },
+    amount: 2,
+    description: 'ซอสชานม ซอสสังขยา 5',
+    price: 300,
+    serviceCharge: 30,
+    payment: 'โอน',
     category: ['food'],
     hashtag: ['ขนมปัง', 'สังขยา', 'โชคชัย4'],
     provideUserId: ['abcde', 'abcdh', 'abcdg']
@@ -65,7 +140,7 @@ export const REQUEST_MAPPER = [
     requestId: '12345ww',
     userId: 'abcde',
     imageUrl: RequestImage,
-    title: 'ขนมปังสังขยา ร้านนายเฮ็ง โชคชัย4',
+    title: 'เค้กไข่ ไต้หวัน สาธร',
     location: {
       name: 'เซ็นทรัล ลาดพร้าว',
       lat: 13.8163,
@@ -73,10 +148,10 @@ export const REQUEST_MAPPER = [
     },
     amount: 2,
     description: 'ซอสชานม ซอสสังขยา 5',
-    maxPrice: 300,
-    maxServiceCharge: 30,
+    price: 300,
+    serviceCharge: 30,
     payment: 'โอน',
-    rank: 'platinum',
+    // rank: 'platinum',
     category: ['food'],
     hashtag: ['ขนมปัง', 'สังขยา', 'โชคชัย4'],
     provideUserId: ['abcdf', 'abcdh', 'abcdg']
@@ -85,7 +160,7 @@ export const REQUEST_MAPPER = [
     requestId: '12345aa',
     userId: 'abcde',
     imageUrl: RequestImage,
-    title: 'ขนมปังสังขยา ร้านนายเฮ็ง โชคชัย4',
+    title: 'ขนมไทย บ้านขนมไทย',
     location: {
       name: 'เซ็นทรัล ลาดพร้าว',
       lat: 13.8163,
@@ -93,10 +168,10 @@ export const REQUEST_MAPPER = [
     },
     amount: 2,
     description: 'ซอสชานม ซอสสังขยา 5',
-    maxPrice: 300,
-    maxServiceCharge: 30,
+    price: 300,
+    serviceCharge: 30,
     payment: 'โอน',
-    rank: 'platinum',
+    // rank: 'platinum',
     category: ['food'],
     hashtag: ['ขนมปัง', 'สังขยา', 'โชคชัย4'],
     provideUserId: ['abcdf', 'abcdh', 'abcdg']

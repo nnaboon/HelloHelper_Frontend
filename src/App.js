@@ -17,6 +17,8 @@ import { mediaQueryMobile } from './styles/variables';
 import Chat from 'features/chat/components/Chat/Chat';
 import 'react-multi-carousel/lib/styles.css';
 import './App.css';
+import { ProvideInfoContent } from 'components/Info/ProvideInfoContent';
+import { RequestInfoContent } from 'components/Info/RequestInfoContent';
 
 function App() {
   return (
@@ -45,11 +47,13 @@ function App() {
             component={EditProfilePage}
           />
           <Route path="/chat" component={Chat} />
-          <Route path="/request" component={RequestListPage} />
-          <Route path="/provide" component={ProvideListPage} />
+          <Route path="/request" exact component={RequestListPage} />
+          <Route path="/provide" exact component={ProvideListPage} />
           <Route path="/:id" exact component={SearchResultPage} />
           <Route path="/search" exact component={SearchResultPage} />
-          <Route path="/:title/:id" component={InfoPage} />
+          {/* <Route path="/:title/:id" component={InfoPage} /> */}
+          <Route path="/provide/:title/:id" component={ProvideInfoContent} />
+          <Route path="/request/:title/:id" component={RequestInfoContent} />
         </Switch>
       </BrowserRouter>
     </div>

@@ -5,11 +5,12 @@ import { HelpMenu } from 'components/Menu/const';
 import { RequestInfoContent } from 'components/Info/RequestInfoContent';
 import { ProvideInfoContent } from 'components/Info/ProvideInfoContent';
 import { PROVIDE_MAPPER } from 'data/provide';
+import { WrapperContainer } from 'components/Wrapper/WrapperContainer';
 
 export const InfoPage = () => {
-  const [menu, setMenu] = useState<HelpMenu>(HelpMenu.REQUEST);
+  const [menu, setMenu] = useState<HelpMenu>(HelpMenu.PROVIDE);
   const { state } = useLocation();
-  const currentMenu = ((state as any)?.type || HelpMenu.REQUEST) as HelpMenu;
+  const currentMenu = (state as any)?.type as HelpMenu;
 
   useEffect(() => {
     console.log(state);
