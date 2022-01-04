@@ -106,7 +106,7 @@ export const MyRequestList = ({ data }: any) => {
       key={data.id}
       onClick={() => {
         history.push({
-          pathname: `/${data.title}/${data.id}`,
+          pathname: `/request/${data.title}/${data.requestId}`,
           state: {
             type: 'request'
           }
@@ -117,10 +117,7 @@ export const MyRequestList = ({ data }: any) => {
       <Flex marginY="8px">
         <HelperListHeading>ผู้ให้ความช่วยเหลือ</HelperListHeading>
         <HelperListDetail>
-          {
-            USER_DATA.find((props) => props.userId === data.requesterUserId)
-              .username
-          }
+          {USER_DATA.find((props) => props.userId === data.userId).username}
         </HelperListDetail>
       </Flex>
       <Flex marginY="8px">

@@ -31,6 +31,8 @@ import { ProfileMenu } from '../components/Menu/const';
 import { PostRequestButton } from 'components/Button/PostRequestButton';
 import { myAccountUserId } from 'data/user';
 import { ORDER_DATA } from 'data/order';
+import { PROVIDE_MAPPER } from '../data/provide';
+import { REQUEST_MAPPER } from 'data/request';
 
 const ProfilePageContainer = styled.div`
   box-sizing: border-box;
@@ -449,20 +451,18 @@ export const ProfilePage = () => {
           <ProfilePageUserHelperListSection>
             {menu === HelpMenu.PROVIDE ? (
               <React.Fragment>
-                {ORDER_DATA.filter(
-                  ({ providerUserId }) =>
-                    providerUserId === (query ?? myAccountUserId)
+                {PROVIDE_MAPPER.filter(
+                  ({ userId }) => userId === (query ?? myAccountUserId)
                 ).map((props) => (
-                  <MyProvideList key={props.orderId} data={props} />
+                  <MyProvideList key={props.provideId} data={props} />
                 ))}
               </React.Fragment>
             ) : menu === ProfileMenu.REQUEST ? (
               <React.Fragment>
-                {ORDER_DATA.filter(
-                  ({ requesterUserId }) =>
-                    requesterUserId === (query ?? myAccountUserId)
+                {REQUEST_MAPPER.filter(
+                  ({ userId }) => userId === (query ?? myAccountUserId)
                 ).map((props) => (
-                  <MyRequestList key={props.orderId} data={props} />
+                  <MyRequestList key={props.requestId} data={props} />
                 ))}
               </React.Fragment>
             ) : null}
@@ -471,20 +471,19 @@ export const ProfilePage = () => {
           <ProfilePageUserHelperListSection>
             {menu === HelpMenu.PROVIDE ? (
               <React.Fragment>
-                {ORDER_DATA.filter(
-                  ({ providerUserId }) =>
-                    providerUserId === (query ?? myAccountUserId)
+                {PROVIDE_MAPPER.filter(
+                  ({ userId }) => userId === (query ?? myAccountUserId)
                 ).map((props) => (
-                  <MyProvideList key={props.orderId} data={props} />
+                  // console.log(props)
+                  <MyProvideList key={props.provideId} data={props} />
                 ))}
               </React.Fragment>
             ) : menu === ProfileMenu.REQUEST ? (
               <React.Fragment>
-                {ORDER_DATA.filter(
-                  ({ requesterUserId }) =>
-                    requesterUserId === (query ?? myAccountUserId)
+                {REQUEST_MAPPER.filter(
+                  ({ userId }) => userId === (query ?? myAccountUserId)
                 ).map((props) => (
-                  <MyRequestList key={props.orderId} data={props} />
+                  <MyRequestList key={props.requestId} data={props} />
                 ))}
               </React.Fragment>
             ) : null}

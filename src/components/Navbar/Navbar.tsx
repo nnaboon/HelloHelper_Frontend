@@ -60,6 +60,7 @@ const MyAccount = styled.img`
   height: 40px;
   border-radius: 50%;
   margin-left: 25px;
+  cursor: pointer;
 
   ${mediaQuerySmallTablet} {
     position: absolute;

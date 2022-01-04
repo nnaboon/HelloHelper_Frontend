@@ -22,7 +22,7 @@ const HelperListCard = styled.div`
   box-shadow: 0px 6px 11px rgba(0, 0, 0, 0.15);
   border-radius: 8px;
   height: 360px;
-  margin-top: 30px;
+  margin-top: 35px;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
@@ -108,7 +108,7 @@ export const MyProvideList = ({ data }: any) => {
       key={data.provideId}
       onClick={() => {
         history.push({
-          pathname: `/${data.title}/${data.id}`,
+          pathname: `/provide/${data.title}/${data.provideId}`,
           state: {
             type: 'provide'
           }
@@ -116,34 +116,31 @@ export const MyProvideList = ({ data }: any) => {
       }}
     >
       <HelperListTitle>{data.title}</HelperListTitle>
-      <Flex marginY={isMobile ? 2 : '8px'}>
+      <Flex marginY={isMobile ? '2px' : '8px'}>
         <HelperListHeading>ผู้ให้ความช่วยเหลือ</HelperListHeading>
         <HelperListDetail>
-          {
-            USER_DATA.find((props) => props.userId === data.providerUserId)
-              .username
-          }
+          {USER_DATA.find((props) => props.userId === data.userId).username}
         </HelperListDetail>
       </Flex>
-      <Flex marginY={isMobile ? 2 : '8px'}>
+      <Flex marginY={isMobile ? '2px' : '8px'}>
         <HelperListHeading>สถานที่ให้ความช่วยเหลือ</HelperListHeading>
         <HelperListDetail>{data.location.name}</HelperListDetail>
       </Flex>
-      <Flex marginY={isMobile ? 2 : '8px'}>
+      <Flex marginY={isMobile ? '2px' : '8px'}>
         <HelperListHeading>ยอดการให้ความช่วยเหลือนี้</HelperListHeading>
         <HelperListDetail>{data.provideSum} ครั้ง</HelperListDetail>
       </Flex>
-      <Flex marginY={isMobile ? 2 : '8px'}>
+      <Flex marginY={isMobile ? '2px' : '8px'}>
         <HelperListHeading>คะแนนการให้ความช่วยเหลือนี้</HelperListHeading>
         <HelperListDetail>
           5.0 <Rate count={1} defaultValue={1} />
         </HelperListDetail>
       </Flex>
-      <Flex marginY={isMobile ? 2 : '8px'}>
+      <Flex marginY={isMobile ? '2px' : '8px'}>
         <HelperListHeading>ค่าบริการ</HelperListHeading>
         <HelperListDetail>{data.serviceCharge} บาท</HelperListDetail>
       </Flex>
-      <Flex marginY={isMobile ? 2 : '8px'}>
+      <Flex marginY={isMobile ? '2px' : '8px'}>
         <HelperListHeading>วิธีการชำระเงิน</HelperListHeading>
         <HelperListDetail>{data.payment}</HelperListDetail>
       </Flex>
