@@ -1,42 +1,42 @@
 export const TOP_TEN_SEARCH_WEEKLY = [
-    {
-        name: 'ping pong',
-        searchTime: 300
-    },
-    {
-        name: 'ก๋วยเตี๋ยวเส้นปลาพระนคร2',
-        searchTime: 200
-    },
-    {
-        name: 'ก๋วยเตี๋ยวเส้นปลาพระนคร3',
-        searchTime: 180
-    },
-    {
-        name: 'ก๋วยเตี๋ยวเส้นปลาพระนคร4',
-        searchTime: 130
-    },
-    {
-        name: 'ก๋วยเตี๋ยวเส้นปลาพระนคร5',
-        searchTime: 120
-    },
-    {
-        name: 'ก๋วยเตี๋ยวเส้นปลาพระนคร6',
-        searchTime: 110
-    },
-    {
-        name: 'ก๋วยเตี๋ยวเส้นปลาพระนคร7',
-        searchTime: 100
-    },
-    {
-        name: 'ก๋วยเตี๋ยวเส้นปลาพระนคร8',
-        searchTime: 90
-    },
-    {
-        name: 'ก๋วยเตี๋ยวเส้นปลาพระนคร9',
-        searchTime: 80
-    },
-    {
-        name: 'ก๋วยเตี๋ยวเส้นปลาพระนคร10',
-        searchTime: 50
-    },
-]
+  {
+    name: 'ขนมปังสังขยา',
+    searchTime: 300
+  },
+  {
+    name: 'ข้าวเหนียวดำ',
+    searchTime: 200
+  },
+  {
+    name: 'เสื้อผ้าโรงเกลือ',
+    searchTime: 180
+  },
+  {
+    name: 'ลอดช่องสิงคโปร์',
+    searchTime: 130
+  },
+  {
+    name: 'ข้าวมันไก่เจ๊เจียง',
+    searchTime: 120
+  },
+  {
+    name: 'ขนมไทยยายมี',
+    searchTime: 110
+  },
+  {
+    name: 'ก๋วยเตี๋ยวเรือบางรัก',
+    searchTime: 100
+  },
+  {
+    name: 'กระเป๋าต้นกก',
+    searchTime: 90
+  },
+  {
+    name: 'หมวกชาวเขา',
+    searchTime: 80
+  },
+  {
+    name: 'นายใบ้',
+    searchTime: 50
+  }
+];

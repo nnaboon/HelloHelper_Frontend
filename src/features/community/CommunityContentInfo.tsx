@@ -28,6 +28,8 @@ import { CATEGORY } from 'data/category';
 import { myAccountUserId, USER_DATA } from 'data/user';
 import CommunityImage from 'images/community.jpg';
 import { SwitchCommunity } from 'components/Svg/SwitchCommunity';
+import { CommunityProvideContent } from './CommunityProvideContent';
+import { CommunityRequestContent } from './CommunityRequestContent';
 
 const ProfilePageUserHelperListSection = styled.div`
   width: 100%;
@@ -168,7 +170,7 @@ export const CommunityContentInfo = ({ data }: any) => {
     <WrapperContainer
       css={css`
         ${mediaQueryMobile} {
-          height: calc(100vh - 140px);
+          height: calc(100vh - 140px) !important;
         }
       `}
     >
@@ -397,8 +399,7 @@ export const CommunityContentInfo = ({ data }: any) => {
           </div>
         ) : (
           <div>
-            hello{' '}
-            {/* {menu === CommunityMenu.PROVIDE ? (
+            {menu === CommunityMenu.PROVIDE ? (
               <React.Fragment>
                 <CommunityProvideContent />
               </React.Fragment>
@@ -406,7 +407,7 @@ export const CommunityContentInfo = ({ data }: any) => {
               <React.Fragment>
                 <CommunityRequestContent />
               </React.Fragment>
-            )} */}
+            )}
           </div>
         )}
       </ProfilePageUserHelperListSection>

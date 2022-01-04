@@ -11,6 +11,7 @@ import { Text } from 'components/Text';
 import { PrimaryButton, SecondaryButton } from 'components/Button/Button';
 import { HelperListCard } from 'components/Card/HelperListCard';
 import { SmallSuggestedRequestCard } from 'components/Card/SmallSuggestedRequestCard';
+import { myAccountUserId } from '../../data/user';
 import { InfoMenu } from 'components/Menu/const';
 import UserAvatar from 'images/avatar_helper.png';
 import {
@@ -18,6 +19,7 @@ import {
   MOBILE_WIDTH,
   TABLET_WIDTH,
   mediaQueryMobile,
+  mediaQueryDesktop,
   mediaQuerySmallTablet,
   mediaQueryTablet
 } from 'styles/variables';
@@ -369,42 +371,11 @@ export const RequestInfoContent = ({ data }: any) => {
                   </div>
                 </React.Fragment>
               )}
+
               {(!isTablet || menu === InfoMenu.HELPER_LIST) && (
                 <React.Fragment>
-                  <Text fontSize="26px" fontWeight={400}>
-                    รายชื่อผู้ต้องการช่วยเหลือ
-                  </Text>
-                  <Flex
-                    justify="flex-start"
-                    itemAlign="flex-start"
-                    css={css`
-                      ${mediaQueryTablet} {
-                        flex-direction: column;
-                      }
-                    `}
-                  >
-                    <div
-                      style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'flex-start',
-                        alignItems: 'flex-start',
-                        width: '100%',
-                        marginTop: isTablet ? '20px' : '40px'
-                      }}
-                    >
-                      {provideUserId.map((id) => (
-                        <HelperListCard
-                          id={id}
-                          name={
-                            USER_DATA.filter((props) => props.userId === id)[0]
-                              .username
-                          }
-                          imageUrl={UserAvatar}
-                        />
-                      ))}
-                    </div>
-                    {isTablet && (
+                  {userId !== myAccountUserId ? (
+                    <div>
                       <Divider
                         style={{
                           borderTopColor: '#C4C4C4',
@@ -415,17 +386,115 @@ export const RequestInfoContent = ({ data }: any) => {
                       >
                         คุณอาจจะสนใจสิ่งนี้
                       </Divider>
-                    )}
-                    <Flex
-                      direction="column"
-                      itemAlign={isTablet ? 'center' : 'flex-end'}
-                    >
-                      <SmallSuggestedRequestCard data={[PROVIDE_MAPPER[1]]} />
-                      <SmallSuggestedRequestCard data={[PROVIDE_MAPPER[2]]} />
-                      <SmallSuggestedRequestCard data={[PROVIDE_MAPPER[0]]} />
-                      <SmallSuggestedRequestCard data={[PROVIDE_MAPPER[1]]} />
-                    </Flex>
-                  </Flex>
+
+                      <div
+                        css={css`
+                          display: grid;
+                          grid-template-columns: repeat(3, 1fr);
+                          grid-gap: 10px;
+
+                          ${mediaQueryTablet} {
+                            display: flex;
+                            flex-direction: column;
+                            width: 100%;
+                            align-items: center;
+                          }
+                        `}
+                      >
+                        <SmallSuggestedRequestCard data={[PROVIDE_MAPPER[1]]} />
+                        <SmallSuggestedRequestCard data={[PROVIDE_MAPPER[2]]} />
+                        <SmallSuggestedRequestCard data={[PROVIDE_MAPPER[0]]} />
+                        <SmallSuggestedRequestCard data={[PROVIDE_MAPPER[1]]} />
+                        <SmallSuggestedRequestCard data={[PROVIDE_MAPPER[2]]} />
+                        <SmallSuggestedRequestCard data={[PROVIDE_MAPPER[0]]} />
+                      </div>
+                    </div>
+                  ) : (
+                    <div>
+                      <Text fontSize="26px" fontWeight={400}>
+                        รายชื่อผู้ต้องการช่วยเหลือ
+                      </Text>
+                      <Flex
+                        // justify="flex-start"
+                        itemAlign="flex-start"
+                        css={css`
+                          justify-content: center;
+                          ${mediaQueryDesktop} {
+                            justify-content: flex-start;
+                          }
+                          ${mediaQueryTablet} {
+                            flex-direction: column;
+                          }
+                        `}
+                      >
+                        <div
+                          style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'flex-start',
+                            alignItems: 'flex-start',
+                            // width: '100%',
+                            marginTop: isTablet ? '20px' : '40px'
+                          }}
+                          css={css`
+                            width: unset;
+                            margin-right: 120px;
+
+                            ${mediaQueryDesktop} {
+                              width: 100%;
+                            }
+                          `}
+                        >
+                          {provideUserId.map((id) => (
+                            <HelperListCard
+                              id={id}
+                              name={
+                                USER_DATA.filter(
+                                  (props) => props.userId === id
+                                )[0].username
+                              }
+                              imageUrl={UserAvatar}
+                            />
+                          ))}
+                        </div>
+                        {isTablet && (
+                          <Divider
+                            style={{
+                              borderTopColor: '#C4C4C4',
+                              color: '#7C7A7A',
+                              fontSize: '18px',
+                              fontWeight: 500
+                            }}
+                          >
+                            คุณอาจจะสนใจสิ่งนี้
+                          </Divider>
+                        )}
+                        <Flex
+                          direction="column"
+                          itemAlign={isTablet ? 'center' : 'flex-end'}
+                          css={css`
+                            width: unset;
+                            ${mediaQueryDesktop} {
+                              width: 100%;
+                            }
+                          `}
+                        >
+                          <SmallSuggestedRequestCard
+                            data={[PROVIDE_MAPPER[1]]}
+                          />
+                          <SmallSuggestedRequestCard
+                            data={[PROVIDE_MAPPER[2]]}
+                          />
+                          <SmallSuggestedRequestCard
+                            data={[PROVIDE_MAPPER[0]]}
+                          />
+                          <SmallSuggestedRequestCard
+                            data={[PROVIDE_MAPPER[1]]}
+                          />
+                        </Flex>
+                      </Flex>
+                    </div>
+                  )}
                 </React.Fragment>
               )}
             </WrapperContainer>

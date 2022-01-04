@@ -13,7 +13,7 @@ import {
 const EmptyContainer = styled(Empty)`
     display: flex;
     flex-direction: column;
-    height: 700px;
+    height: 800px;
     align-items: center;
     justify-content: center;
 
@@ -27,11 +27,15 @@ const EmptyContainer = styled(Empty)`
     }
 }`;
 
-export const EmptyData = () => {
+export const Develop = () => {
   return (
     <EmptyContainer
-      image={Empty.PRESENTED_IMAGE_SIMPLE}
-      description={<span>ไม่พบข้อมูล</span>}
+      //   image={Empty.PRESENTED_IMAGE_SIMPLE}
+      description={
+        <span style={{ fontSize: '16px' }}>
+          ขออภัย ส่วนนี้กำลังอยู่ในระหว่างขั้นตอนการพัฒนา
+        </span>
+      }
     />
   );
 };

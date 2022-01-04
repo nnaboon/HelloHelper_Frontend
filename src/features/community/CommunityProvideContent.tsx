@@ -5,9 +5,8 @@ import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
 import { PopularRequestSection } from 'components/Card/PopularRequestCard';
 import { Text } from 'components/Text';
-import { Carousel } from 'antd';
+import Carousel from 'react-multi-carousel';
 import { useMedia, MOBILE_WIDTH, mediaQueryMobile } from 'styles/variables';
-import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { PROVIDE_MAPPER } from 'data/provide';
 
 const CommunityProvideSection = styled.div`
@@ -21,54 +20,34 @@ const CommunityProvideSection = styled.div`
   }
 `;
 
-const ProvideCarousel = styled(Carousel)`
-  .slick-next::before {
-      content: '';
-    }
-  .slick-prev::before {
-      content: '';
-    }
-  }`;
-
 export const CommunityProvideContent = () => {
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
 
-  const SampleNextArrow = (props) => {
-    const { className, style, onClick } = props;
-    return (
-      <div
-        className={className}
-        style={{
-          ...style,
-          color: 'black',
-          fontSize: '15px',
-          top: '125px',
-          marginRight: '5px'
-        }}
-        onClick={onClick}
-      >
-        <RightOutlined />
-      </div>
-    );
-  };
-
-  const SamplePrevArrow = (props) => {
-    const { className, style, onClick } = props;
-    return (
-      <div
-        className={className}
-        style={{
-          ...style,
-          color: 'black',
-          fontSize: '15px',
-          top: '125px',
-          marginLeft: '5px'
-        }}
-        onClick={onClick}
-      >
-        <LeftOutlined />
-      </div>
-    );
+  const responsive = {
+    superLargeDesktop: {
+      breakpoint: { max: 4000, min: 3000 },
+      items: 5
+    },
+    bigDesktop: {
+      breakpoint: { max: 3000, min: 2000 },
+      items: 4
+    },
+    desktop: {
+      breakpoint: { max: 2000, min: 1024 },
+      items: 3
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 768 },
+      items: 2
+    },
+    smallTablet: {
+      breakpoint: { max: 768, min: 464 },
+      items: 2
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1
+    }
   };
 
   return (
@@ -76,36 +55,54 @@ export const CommunityProvideContent = () => {
       <Text fontSize="32px" fontWeight={500}>
         ความช่วยเหลือยอดนิยม
       </Text>
-      {isMobile ? (
-        <ProvideCarousel
-          arrows
-          nextArrow={<SampleNextArrow />}
-          prevArrow={<SamplePrevArrow />}
-        >
-          {PROVIDE_MAPPER.map((items) => (
-            <PopularRequestSection data={[items]} />
-          ))}
-        </ProvideCarousel>
-      ) : (
-        <PopularRequestSection data={PROVIDE_MAPPER} />
-      )}
+      <Carousel
+        responsive={responsive}
+        arrows
+        css={css`
+          .react-multiple-carousel__arrow {
+            z-index: 10;
+          }
+
+          .react-multiple-carousel__arrow--left {
+            left: 0;
+          }
+
+          .react-multiple-carousel__arrow--right {
+            right: 0;
+          }
+        `}
+      >
+        {PROVIDE_MAPPER.map((items) => (
+          <PopularRequestSection data={[items]} />
+        ))}
+      </Carousel>
 
       <Text fontSize="32px" fontWeight={500}>
         Top 10 ความช่วยเหลือประจำสัปดาห์
       </Text>
-      {isMobile ? (
-        <ProvideCarousel
-          arrows
-          nextArrow={<SampleNextArrow />}
-          prevArrow={<SamplePrevArrow />}
-        >
-          {PROVIDE_MAPPER.map((items) => (
-            <PopularRequestSection data={[items]} />
-          ))}
-        </ProvideCarousel>
-      ) : (
-        <PopularRequestSection data={PROVIDE_MAPPER} />
-      )}
+
+      <Carousel
+        responsive={responsive}
+        arrows
+        css={css`
+          .react-multiple-carousel__arrow {
+            z-index: 10;
+          }
+
+          .react-multiple-carousel__arrow--left {
+            left: 0;
+          }
+
+          .react-multiple-carousel__arrow--right {
+            right: 0;
+          }
+        `}
+      >
+        {PROVIDE_MAPPER.map((items) => (
+          <PopularRequestSection data={[items]} />
+        ))}
+      </Carousel>
+
       <Text fontSize="32px" fontWeight={500}>
         ความช่วยเหลือทั้งหมด
       </Text>

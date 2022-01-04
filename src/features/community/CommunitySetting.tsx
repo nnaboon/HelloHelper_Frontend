@@ -25,7 +25,13 @@ export const CommunitySetting = () => {
   }, [currentMenu]);
 
   return (
-    <WrapperContainer>
+    <WrapperContainer
+      css={css`
+        ${mediaQueryMobile} {
+          height: calc(100vh - 180px);
+        }
+      `}
+    >
       <CommunitySettingMenuTab menu={menu} setMenu={setMenu} />
       {currentMenu === CommunitySettingMenu.MANAGE ? (
         <CommunitySettingManageMember

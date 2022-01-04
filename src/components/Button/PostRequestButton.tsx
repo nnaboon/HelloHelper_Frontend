@@ -73,6 +73,7 @@ const RegisterLocationFormSection = styled.div`
 
 export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [isDisable, setIsDisable] = useState<boolean>(false);
   const [tags, setTags] = useState<string[]>([]);
   const [form] = Form.useForm();
   const [location, setLocation] = useState<any>(null);
@@ -251,7 +252,11 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
                 }
               ]}
             >
-              <Select>
+              <Select
+                onSelect={(e) =>
+                  e === 'provide' ? setIsDisable(true) : setIsDisable(false)
+                }
+              >
                 <Select.Option value="provide">ให้ความช่วยเหลือ</Select.Option>
                 <Select.Option value="request">ขอความช่วยเหลือ</Select.Option>
               </Select>
@@ -305,6 +310,7 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
               ]}
             >
               <Input
+                disabled={isDisable}
                 placeholder="ขอบเขตราคาสินค้า"
                 style={{ height: '40px', borderRadius: '12px' }}
               />

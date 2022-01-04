@@ -222,11 +222,11 @@ export const MyRequestList = ({ data }: any) => {
       </Flex>
       <Flex marginY="8px">
         <HelperListHeading>จำนวน</HelperListHeading>
-        <HelperListDetail>{data.amount} บาท</HelperListDetail>
+        <HelperListDetail>{data.amount}</HelperListDetail>
       </Flex>
       <Flex marginY="8px">
         <HelperListHeading>ค่าบริการ</HelperListHeading>
-        <HelperListDetail>{data.maxServiceCharge} บาท</HelperListDetail>
+        <HelperListDetail>{data.serviceCharge} บาท</HelperListDetail>
       </Flex>
       <Flex marginY="8px">
         <HelperListHeading>วิธีการชำระเงิน</HelperListHeading>

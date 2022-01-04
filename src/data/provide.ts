@@ -67,7 +67,7 @@ export const PROVIDE_MAPPER = [
   {
     provideId: 'aabbccuu',
     userId: 'abcdg',
-    title: 'ขนมปังสังขยา โชคชัย4',
+    title: 'แป้งคูชั่นจากมาเลเซีย',
     location: {
       name: 'มหาวิทยาลัยเกษตรศาสตร์ วิทยาเขตเฉลิมพระเกียรติ จังหวัดสกลนคร ตำบล เชียงเครือ อำเภอเมืองสกลนคร สกลนคร ประเทศไทย',
       lat: 13.8476,
@@ -75,10 +75,10 @@ export const PROVIDE_MAPPER = [
     },
     serviceCharge: 30,
     payment: 'โอน',
-    description: 'ไส้ครีม',
-    category: ['food'],
-    hashtag: ['ขนมปัง', 'สังขยา'],
-    provideSum: 300,
+    description: 'สี 01, 02, 04, 09, 99',
+    category: ['beauty'],
+    hashtag: ['แป้ง', 'มาเลเซีย'],
+    provideSum: 20,
     rating: 4
   }
 ];

@@ -438,7 +438,9 @@ export const ProfilePage = () => {
             <ProfileMenuTab menu={menu} setMenu={setMenu} />
             <PostRequestButton
               buttonText={
-                menu === HelpMenu.PROVIDE ? 'ให้ความข่วยเหลือ' : 'ขอคำช่วยเหลือ'
+                menu === HelpMenu.PROVIDE
+                  ? 'ให้ความข่วยเหลือ'
+                  : 'ขอความช่วยเหลือ'
               }
             />
           </Flex>

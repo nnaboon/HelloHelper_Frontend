@@ -6,8 +6,7 @@ import { css, jsx } from '@emotion/react';
 import { REQUEST_MAPPER } from 'data/request';
 import { SuggestedRequestSection } from 'components/Card/SuggestedRequestCard';
 import { useMedia, MOBILE_WIDTH, mediaQueryMobile } from 'styles/variables';
-import { Carousel } from 'antd';
-import { LeftOutlined, RightOutlined } from '@ant-design/icons';
+import Carousel from 'react-multi-carousel';
 
 import { Text } from 'components/Text';
 
@@ -22,89 +21,85 @@ const CommunityRequestSection = styled.div`
   }
 `;
 
-const RequestCarousel = styled(Carousel)`
-  .slick-next::before {
-      content: '';
-    }
-  .slick-prev::before {
-      content: '';
-    }
-  }`;
-
 export const CommunityRequestContent = () => {
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
-
-  const SampleNextArrow = (props) => {
-    const { className, style, onClick } = props;
-    return (
-      <div
-        className={className}
-        style={{
-          ...style,
-          color: 'black',
-          fontSize: '15px',
-          top: '155px',
-          marginRight: '2px'
-        }}
-        onClick={onClick}
-      >
-        <RightOutlined />
-      </div>
-    );
+  const responsive = {
+    superLargeDesktop: {
+      breakpoint: { max: 4000, min: 3000 },
+      items: 5
+    },
+    bigDesktop: {
+      breakpoint: { max: 3000, min: 2000 },
+      items: 4
+    },
+    desktop: {
+      breakpoint: { max: 2000, min: 1024 },
+      items: 3
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 768 },
+      items: 2
+    },
+    smallTablet: {
+      breakpoint: { max: 768, min: 464 },
+      items: 2
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1
+    }
   };
 
-  const SamplePrevArrow = (props) => {
-    const { className, style, onClick } = props;
-    return (
-      <div
-        className={className}
-        style={{
-          ...style,
-          color: 'black',
-          fontSize: '15px',
-          top: '155px',
-          marginLeft: '6px'
-        }}
-        onClick={onClick}
-      >
-        <LeftOutlined />
-      </div>
-    );
-  };
   return (
     <div>
       <Text fontSize="32px" fontWeight={500}>
         ความช่วยเหลือยอดนิยม
       </Text>
-      {isMobile ? (
-        <RequestCarousel
-          arrows
-          nextArrow={<SampleNextArrow />}
-          prevArrow={<SamplePrevArrow />}
-        >
-          {REQUEST_MAPPER.map((items) => (
-            <SuggestedRequestSection data={[items]} />
-          ))}
-        </RequestCarousel>
-      ) : (
-        <SuggestedRequestSection data={REQUEST_MAPPER} />
-      )}
+      <Carousel
+        responsive={responsive}
+        arrows
+        css={css`
+          .react-multiple-carousel__arrow {
+            z-index: 10;
+          }
+
+          .react-multiple-carousel__arrow--left {
+            left: 0;
+          }
+
+          .react-multiple-carousel__arrow--right {
+            right: 0;
+          }
+        `}
+      >
+        {REQUEST_MAPPER.map((items) => (
+          <SuggestedRequestSection data={[items]} />
+        ))}
+      </Carousel>
       <Text fontSize="32px" fontWeight={500}>
         Top 10 ความช่วยเหลือประจำสัปดาห์
       </Text>
-      {isMobile ? (
-        <RequestCarousel
-          arrows
-          nextArrow={<SampleNextArrow />}
-          prevArrow={<SamplePrevArrow />}
-        >
-          {REQUEST_MAPPER.map((items) => (
-            <SuggestedRequestSection data={[items]} />
-          ))}
-        </RequestCarousel>
-      ) : (
-        <SuggestedRequestSection data={REQUEST_MAPPER} />
-      )}
+      <Carousel
+        responsive={responsive}
+        arrows
+        css={css`
+          .react-multiple-carousel__arrow {
+            z-index: 10;
+          }
+
+          .react-multiple-carousel__arrow--left {
+            left: 0;
+          }
+
+          .react-multiple-carousel__arrow--right {
+            right: 0;
+          }
+        `}
+      >
+        {REQUEST_MAPPER.map((items) => (
+          <SuggestedRequestSection data={[items]} />
+        ))}
+      </Carousel>
       <Text fontSize="32px" fontWeight={500}>
         ความช่วยเหลือทั้งหมด
       </Text>

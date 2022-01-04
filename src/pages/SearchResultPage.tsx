@@ -40,7 +40,8 @@ const SearchResultContent = styled.div`
 
 export const SearchResultPage = () => {
   const [menu, setMenu] = useState<HelpMenu>(HelpMenu.PROVIDE);
-  const { state } = useLocation();
+  const { pathname, state } = useLocation();
+  const qs = pathname.split('/')[1];
   const currentMenu = ((state as any)?.menu || HelpMenu.PROVIDE) as HelpMenu;
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
@@ -89,7 +90,13 @@ export const SearchResultPage = () => {
               direction={isMobile ? 'column' : 'row'}
             >
               <Text fontSize="26px" fontWeight={500} marginBottom="20px">
-                ผลการค้นหา ทั้งหมด {PROVIDE_MAPPER.length} รายการ
+                ผลการค้นหา ทั้งหมด{' '}
+                {menu === 'provide'
+                  ? PROVIDE_MAPPER.filter(({ category }) => category[0] === qs)
+                      .length
+                  : REQUEST_MAPPER.filter(({ category }) => category[0] === qs)
+                      .length}{' '}
+                รายการ
               </Text>
               <div
                 css={css`
@@ -111,9 +118,9 @@ export const SearchResultPage = () => {
           </div>
           <SearchResultContent>
             {menu === HelpMenu.PROVIDE
-              ? PROVIDE_MAPPER.map((props) => (
-                  <PopularRequestSection data={[props]} />
-                ))
+              ? PROVIDE_MAPPER.filter(({ category }) => category[0] === qs).map(
+                  (props) => <PopularRequestSection data={[props]} />
+                )
               : REQUEST_MAPPER.map((props) => (
                   <SuggestedRequestSection data={[props]} />
                 ))}

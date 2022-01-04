@@ -17,6 +17,9 @@ import { News } from 'components/News/News';
 import { CATEGORY } from 'data/category';
 import { REQUEST_MAPPER } from '../data/request';
 import { SearchSvg } from 'components/Svg/SearchSvg';
+import CommunityPic from 'images/community_homepage.jpeg';
+import GoodsPic from 'images/goods_homepage.jpeg';
+import EarnMoneyPic from 'images/earn.jpeg';
 import {
   mediaQueryMobile,
   mediaQuerySmallTablet,
@@ -64,11 +67,11 @@ const HomePageContainer = styled.div`
   }
 `;
 
-const HomePagePictureSection = styled.div`
+const HomePagePictureSection = styled.img`
   width: 100%;
   height: 287px;
-  background: #c4c4c4;
   margin-bottom: 30px;
+  object-fit: fill;
   ${mediaQueryMobile} {
     height: 180px;
   }
@@ -142,45 +145,55 @@ export const HomePage = () => {
     }
   };
 
-  const SampleNextArrow = (props) => {
-    const { className, style, onClick } = props;
-    return (
-      <div
-        className={className}
-        style={{
-          ...style,
-          color: 'black',
-          fontSize: '15px',
-          marginRight: '5px'
-        }}
-        onClick={onClick}
-      >
-        <RightOutlined />
-      </div>
-    );
-  };
-
-  const SamplePrevArrow = (props) => {
-    const { className, style, onClick } = props;
-    return (
-      <div
-        className={className}
-        style={{
-          ...style,
-          color: 'black',
-          fontSize: '15px',
-          marginLeft: '10px'
-        }}
-        onClick={onClick}
-      >
-        <LeftOutlined />
-      </div>
-    );
+  const pictureResponsive = {
+    superLargeDesktop: {
+      breakpoint: { max: 4000, min: 3000 },
+      items: 1
+    },
+    bigDesktop: {
+      breakpoint: { max: 3000, min: 2000 },
+      items: 1
+    },
+    desktop: {
+      breakpoint: { max: 2000, min: 1024 },
+      items: 1
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 768 },
+      items: 1
+      // partialVisibilityGutter: 200
+    },
+    smallTablet: {
+      breakpoint: { max: 768, min: 464 },
+      items: 1
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1
+    }
   };
 
   return (
     <HomePageContainer>
-      <HomePagePictureSection>Picture</HomePagePictureSection>
+      <Carousel
+        arrows={false}
+        responsive={pictureResponsive}
+        infinite
+        autoPlay
+        autoPlaySpeed={3000}
+        customTransition="all .5"
+        transitionDuration={1000}
+      >
+        <HomePagePictureSection
+          src={CommunityPic}
+          alt="community in homepage"
+        />
+        <HomePagePictureSection src={GoodsPic} alt="goods in homepage" />
+        <HomePagePictureSection
+          src={EarnMoneyPic}
+          alt="earn money in homepage"
+        />
+      </Carousel>
       {!isMobile && (
         <HomePageCategorySection>
           {CATEGORY.map(({ id, name }) => (

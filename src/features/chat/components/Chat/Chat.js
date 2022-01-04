@@ -1,5 +1,10 @@
+/** @jsxRuntime classic */
+/** @jsx jsx */
+import styled from '@emotion/styled';
+import { css, jsx } from '@emotion/react';
 import React, { useState, useEffect } from 'react';
 import queryString from 'query-string';
+import { Develop } from 'components/Empty/Develop';
 
 import TextContainer from '../TextContainer/TextContainer';
 import Messages from '../Messages/Messages';
@@ -52,17 +57,26 @@ const Chat = ({ location }) => {
   };
 
   return (
-    <div className="outerContainer">
-      <div className="container">
-        <InfoBar room={room} />
-        <Messages messages={messages} name={'กระทิง สีแดง'} />
-        <Input
-          message={message}
-          setMessage={setMessage}
-          sendMessage={sendMessage}
-        />
-      </div>
-      {/* <TextContainer users={['naboon', 'lila']} /> */}
+    // <div className="outerContainer">
+    //   <div className="container">
+    //     <InfoBar room={room} />
+    //     <Messages messages={messages} name={'กระทิง สีแดง'} />
+    //     <Input
+    //       message={message}
+    //       setMessage={setMessage}
+    //       sendMessage={sendMessage}
+    //     />
+    //   </div>
+    //   {/* <TextContainer users={['naboon', 'lila']} /> */}
+    // </div>
+
+    <div
+      css={css`
+        position: relative;
+        top: 200px;
+      `}
+    >
+      <Develop />
     </div>
   );
 };
