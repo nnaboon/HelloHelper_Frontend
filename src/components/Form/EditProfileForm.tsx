@@ -14,7 +14,8 @@ import {
   SMALL_TABLET_WIDTH,
   mediaQueryMobile,
   mediaQuerySmallTablet,
-  mediaQueryTablet
+  mediaQueryTablet,
+  mediaQueryDesktop
 } from 'styles/variables';
 import UserAvatar from 'images/avatar_user.png';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
@@ -88,8 +89,8 @@ export const EditProfileForm = () => {
   return (
     <WrapperContainer
       css={css`
-        height: calc(100vh + 450px);
         display: flex;
+        // height: calc(100vh + 450px);
 
         ${mediaQuerySmallTablet} {
           flex-direction: column-reverse;
@@ -258,19 +259,22 @@ export const EditProfileForm = () => {
             name="ability"
             css={css`
               position: relative;
-              left: 33.333%;
+              left: 15.333%;
               display: flex;
 
               .ant-checkbox-group-item {
                 font-size: 16px;
+                margin-bottom: 20px;
               }
 
               .ant-checkbox {
-                margin-right: 12px !important;
+                margin-right: 40px !important;
               }
 
               .ant-checkbox-group {
-                width: 250px;
+                display: flex;
+                flex-direction: column;
+                width: 450px;
                 font-size: 16px;
                 > label {
                   margin-bottom: 8px;
@@ -366,7 +370,7 @@ export const EditProfileForm = () => {
             <Button icon={<UploadOutlined />}>เลือกรูป</Button>
           </Upload>
         </Form.Item>
-        <Text fontSize="14px" color="#C4C4C4" fontWeight={500} whiteSpace="pre">
+        <Text fontSize="14px" color="#848484" fontWeight={500} whiteSpace="pre">
           ขนาดไฟล์: สูงสุด 1 MB{'\n'}ไฟล์ที่รองรับ: .JPEG, .PNG
         </Text>
         {isSmallTablet && <Divider />}
@@ -375,7 +379,8 @@ export const EditProfileForm = () => {
             css={css`
               width: 100%;
               position: relative;
-              height: 100%;
+              height: 100vh;
+              bottom: 0px;
             `}
           >
             <Button
@@ -392,7 +397,7 @@ export const EditProfileForm = () => {
                 color: #ffff;
                 font-size: 16px;
                 position: absolute;
-                bottom: 30px;
+                bottom: -150px;
 
                 &:hover {
                   background: #ee6400;
