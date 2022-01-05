@@ -58,13 +58,13 @@ export const REQUEST_MAPPER = [
     payment: 'โอน',
     category: ['food'],
     hashtag: ['ขนมปัง', 'สังขยา', 'โชคชัย4'],
-    provideUserId: ['abcde', 'abcdh', 'abcdg']
+    provideUserId: ['abcdh', 'abcdg']
   },
   {
     requestId: '12345pp',
     userId: 'abcdf',
     imageUrl: RequestImage,
-    title: 'หนังควายจี่ แม่อีสา',
+    title: 'เกี๊ยวกุ้ง สุโขทัย แม่อีพิม',
     location: {
       name: 'เซ็นทรัล ลาดพร้าว',
       lat: 13.8163,
@@ -77,7 +77,7 @@ export const REQUEST_MAPPER = [
     payment: 'โอน',
     category: ['food'],
     hashtag: ['ขนมปัง', 'สังขยา', 'โชคชัย4'],
-    provideUserId: ['abcde', 'abcdh', 'abcdg']
+    provideUserId: ['abcdh', 'abcdg']
   },
   {
     requestId: '12345er',
@@ -96,7 +96,7 @@ export const REQUEST_MAPPER = [
     payment: 'โอน',
     category: ['food'],
     hashtag: ['ขนมปัง', 'สังขยา', 'โชคชัย4'],
-    provideUserId: ['abcde', 'abcdh', 'abcdg']
+    provideUserId: ['abcdh', 'abcdg']
   },
   {
     requestId: '12345rt',
@@ -115,7 +115,7 @@ export const REQUEST_MAPPER = [
     payment: 'โอน',
     category: ['food'],
     hashtag: ['ขนมปัง', 'สังขยา', 'โชคชัย4'],
-    provideUserId: ['abcde', 'abcdh', 'abcdg']
+    provideUserId: ['abcdh', 'abcdg']
   },
   {
     requestId: '12345en',
@@ -134,7 +134,7 @@ export const REQUEST_MAPPER = [
     payment: 'โอน',
     category: ['food'],
     hashtag: ['ขนมปัง', 'สังขยา', 'โชคชัย4'],
-    provideUserId: ['abcde', 'abcdh', 'abcdg']
+    provideUserId: ['abcdh', 'abcdg']
   },
   {
     requestId: '12345ww',

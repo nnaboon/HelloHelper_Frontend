@@ -6,7 +6,15 @@ import { css, jsx } from '@emotion/react';
 import ReactECharts from 'echarts-for-react';
 import { useMedia, MOBILE_WIDTH, TABLET_WIDTH } from 'styles/variables';
 
-export const OverallHelpedChart = () => {
+interface OverallHelpedChartProps {
+  provideSum?: number;
+  requestSum?: number;
+}
+
+export const OverallHelpedChart = ({
+  provideSum,
+  requestSum
+}: OverallHelpedChartProps) => {
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
 
@@ -24,8 +32,8 @@ export const OverallHelpedChart = () => {
         type: 'pie',
         radius: '50%',
         data: [
-          { value: 1048, name: 'การให้ความช่วยเหลือ' },
-          { value: 45, name: 'การขอความช่วยเหลือ' }
+          { value: provideSum, name: 'การให้ความช่วยเหลือ' },
+          { value: requestSum, name: 'การขอความช่วยเหลือ' }
         ],
         emphasis: {
           itemStyle: {

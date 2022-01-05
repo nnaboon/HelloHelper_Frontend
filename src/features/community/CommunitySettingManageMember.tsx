@@ -7,6 +7,7 @@ import { Dropdown, Menu } from 'antd';
 import { SecondaryButton, PrimaryButton } from 'components/Button/Button';
 import { Text } from 'components/Text';
 import UserAvatar from 'images/avatar_helper.png';
+import MyAccountAvatar from 'images/avatar_user2.png';
 import {
   useMedia,
   MOBILE_WIDTH,
@@ -14,7 +15,7 @@ import {
   mediaQueryMobile,
   mediaQueryTablet
 } from 'styles/variables';
-import { USER_DATA } from 'data/user';
+import { myAccountUserId, USER_DATA } from 'data/user';
 
 interface CommunitySettingManagerMemberProps {
   member: any[];
@@ -131,7 +132,7 @@ export const CommunitySettingManageMember = ({
             >
               {' '}
               <CommunityMemberImage
-                src={UserAvatar}
+                src={userId === myAccountUserId ? MyAccountAvatar : UserAvatar}
                 alt="community member avatar"
               />
               <UserName>

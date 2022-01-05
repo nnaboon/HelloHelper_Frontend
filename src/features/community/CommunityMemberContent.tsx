@@ -8,13 +8,14 @@ import { PrimaryButton, SecondaryButton } from 'components/Button/Button';
 import { UserSvg } from 'components/Svg/UserSvg';
 import { MessageSvg } from 'components/Svg/MessageSvg';
 import UserAvatar from 'images/avatar_helper.png';
+import MyAccountAvatar from 'images/avatar_user2.png';
 import {
   useMedia,
   MOBILE_WIDTH,
   mediaQueryMobile,
   mediaQuerySmallTablet
 } from 'styles/variables';
-import { USER_DATA } from '../../data/user';
+import { myAccountUserId, USER_DATA } from '../../data/user';
 
 const CommunityMemberCard = styled.div`
   width: 100%;
@@ -119,7 +120,7 @@ export const CommunityMemberContent = ({ member }: any) => {
             >
               {' '}
               <CommunityMemberImage
-                src={UserAvatar}
+                src={userId === myAccountUserId ? MyAccountAvatar : UserAvatar}
                 alt="community member avatar"
               />
               <UserName>

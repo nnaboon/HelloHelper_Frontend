@@ -21,6 +21,7 @@ import { OverallHelpedChart } from 'features/charts/OverallHelpedChart';
 import { LogoutOutlined } from '@ant-design/icons';
 import { TopThreeHelpedChart } from 'features/charts/TopThreeHelpedChart';
 import UserAvatar from 'images/avatar_helper.png';
+import MyAccountAvatar from 'images/avatar_user2.png';
 import {
   mediaQueryMobile,
   MOBILE_WIDTH,
@@ -244,7 +245,14 @@ export const ProfilePage = () => {
                         }
                       `}
                     >
-                      <HelperImageSection src={UserAvatar} alt="user avatar" />
+                      <HelperImageSection
+                        src={
+                          userId === myAccountUserId
+                            ? MyAccountAvatar
+                            : UserAvatar
+                        }
+                        alt="user avatar"
+                      />
                       {Boolean(recommend) && (
                         <SuggestedBadge
                           css={css`
@@ -478,7 +486,20 @@ export const ProfilePage = () => {
                 margin: '40px 0'
               }}
             >
-              <OverallHelpedChart />
+              <OverallHelpedChart
+                provideSum={
+                  USER_DATA.filter(
+                    (props) =>
+                      props.userId === (query ? query : myAccountUserId)
+                  )[0].provideSum
+                }
+                requestSum={
+                  USER_DATA.filter(
+                    (props) =>
+                      props.userId === (query ? query : myAccountUserId)
+                  )[0].requestSum
+                }
+              />
               <TopThreeHelpedChart />
             </div>
           </div>
@@ -488,13 +509,15 @@ export const ProfilePage = () => {
         {!isMobile && (
           <Flex justify="space-between">
             <ProfileMenuTab menu={menu} setMenu={setMenu} />
-            <PostRequestButton
-              buttonText={
-                menu === HelpMenu.PROVIDE
-                  ? 'ให้ความข่วยเหลือ'
-                  : 'ขอความช่วยเหลือ'
-              }
-            />
+            {(query === myAccountUserId || query === undefined) && (
+              <PostRequestButton
+                buttonText={
+                  menu === HelpMenu.PROVIDE
+                    ? 'ให้ความข่วยเหลือ'
+                    : 'ขอความช่วยเหลือ'
+                }
+              />
+            )}
           </Flex>
         )}
         {isMobile ? (
@@ -524,7 +547,6 @@ export const ProfilePage = () => {
                 {PROVIDE_MAPPER?.filter(
                   ({ userId }) => userId === (query ?? myAccountUserId)
                 ).map((props) => (
-                  // console.log(props)
                   <MyProvideList key={props.provideId} data={props} />
                 ))}
               </React.Fragment>

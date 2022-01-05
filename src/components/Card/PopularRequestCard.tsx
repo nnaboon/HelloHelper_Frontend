@@ -15,6 +15,7 @@ import { UserSvg } from 'components/Svg/UserSvg';
 
 import { getStar } from 'components/Star/getStar';
 import UserAvatar from 'images/avatar_helper.png';
+import MyAccountAvatar from 'images/avatar_user2.png';
 
 import {
   useMedia,
@@ -24,7 +25,7 @@ import {
   mediaQueryMobile,
   mediaQuerySmallTablet
 } from 'styles/variables';
-import { USER_DATA } from 'data/user';
+import { myAccountUserId, USER_DATA } from 'data/user';
 
 const RequestHelperCardContainer = styled.div`
   display: flex;
@@ -93,6 +94,7 @@ const HelperImage = styled.img`
   height: 120px;
   border-radius: 50%;
   margin-top: 15px;
+  object-fit: fill;
 
   ${mediaQuerySmallTablet} {
     width: 55px;
@@ -192,7 +194,15 @@ export const PopularRequestSection = ({ data }: any) => {
                       margin-right: 35px;
                     `}
                   >
-                    <HelperImage src={UserAvatar} alt="user" loading="lazy" />
+                    <HelperImage
+                      src={
+                        userId === myAccountUserId
+                          ? MyAccountAvatar
+                          : UserAvatar
+                      }
+                      alt="user"
+                      loading="lazy"
+                    />
                     <SuggestedBadge>แนะนำ</SuggestedBadge>
                     <div
                       style={{

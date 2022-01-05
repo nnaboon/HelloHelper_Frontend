@@ -692,7 +692,7 @@ export const USER_DATA = [
     abilityTags: ['food', 'cloth', 'music', 'sports'],
     followingUserId: ['aaaaa', 'bbbbb', 'ccccc'],
     followerUserId: ['ddddd', 'eeeee', 'ffffff'],
-    provideSum: 1000,
+    provideSum: 100,
     requestSum: 95,
     rank: 'platinum',
     rating: 5,

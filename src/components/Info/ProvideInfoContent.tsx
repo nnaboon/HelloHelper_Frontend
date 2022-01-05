@@ -15,6 +15,8 @@ import { SuggestedBadge } from 'components/Badge/Badge';
 import { RANK_BADGE } from 'components/Badge/const';
 import UserAvatar from 'images/avatar_helper.png';
 import ProvideImage from 'images/request.jpeg';
+import MyAccountAvatar from 'images/avatar_user2.png';
+
 import { RequestFormModal } from 'components/Form/RequestForm';
 import {
   useMedia,
@@ -425,7 +427,12 @@ export const ProvideInfoContent = ({ data }: any) => {
                     }
                   `}
                 >
-                  <HelperImage src={UserAvatar} alt="user avatar" />
+                  <HelperImage
+                    src={
+                      userId === myAccountUserId ? MyAccountAvatar : UserAvatar
+                    }
+                    alt="user avatar"
+                  />
                   {Boolean(1) && (
                     <SuggestedBadge
                       css={css`

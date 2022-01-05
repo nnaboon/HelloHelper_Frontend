@@ -178,7 +178,11 @@ export const ProvideListCard = ({ props }: ProvideListCardProps) => {
         </Flex>
         <Flex itemAlign="flex-start">
           <ProvideListTitle>ที่อยู่</ProvideListTitle>
-          <ProvideListData>{props.receiver.receiverAddress}</ProvideListData>
+          <ProvideListData>
+            {props.receiver.receiverAddress
+              ? props.receiver.receiverAddress
+              : '-'}
+          </ProvideListData>
         </Flex>
         <Flex itemAlign="flex-start">
           <ProvideListTitle>เบอร์โทรศัพท์</ProvideListTitle>

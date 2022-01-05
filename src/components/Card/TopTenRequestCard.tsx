@@ -12,6 +12,8 @@ import { UserSvg } from 'components/Svg/UserSvg';
 import { getStar } from '../Star/getStar';
 import { Rate } from 'antd';
 import UserAvatar from 'images/avatar_helper.png';
+import MyAccountAvatar from 'images/avatar_user2.png';
+import { myAccountUserId } from 'data/user';
 
 const CardContainer = styled.div`
   width: 550px;
@@ -89,7 +91,8 @@ export const TopTenRequestSection = ({ data }: any) => {
           location,
           helpSum,
           rank,
-          rating
+          rating,
+          userId
         }) => (
           <CardContainer key={id}>
             <div
@@ -118,7 +121,12 @@ export const TopTenRequestSection = ({ data }: any) => {
                     margin-right: 35px;
                   `}
                 >
-                  <HelperImage src={UserAvatar} alt="user avatar" />
+                  <HelperImage
+                    src={
+                      userId === myAccountUserId ? MyAccountAvatar : UserAvatar
+                    }
+                    alt="user avatar"
+                  />
                   <SuggestedBadge>แนะนำ</SuggestedBadge>
                   <div
                     style={{

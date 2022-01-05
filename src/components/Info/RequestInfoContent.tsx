@@ -16,6 +16,7 @@ import { myAccountUserId } from '../../data/user';
 import { InfoMenu } from 'components/Menu/const';
 import UserAvatar from 'images/avatar_helper.png';
 import { UserSvg } from 'components/Svg/UserSvg';
+import MyAccountAvatar from 'images/avatar_user2.png';
 import {
   useMedia,
   MOBILE_WIDTH,
@@ -432,7 +433,14 @@ export const RequestInfoContent = ({ data }: any) => {
                         }
                       `}
                     >
-                      <HelperImage src={UserAvatar} alt="user avatar" />
+                      <HelperImage
+                        src={
+                          userId === myAccountUserId
+                            ? MyAccountAvatar
+                            : UserAvatar
+                        }
+                        alt="user avatar"
+                      />
                       {Boolean(1) && (
                         <SuggestedBadge
                           css={css`

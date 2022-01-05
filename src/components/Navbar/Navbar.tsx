@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { Input, Modal } from 'antd';
-import UserPic from '../../images/avatar_user.png';
+import UserPic from 'images/avatar_user.png';
 import Flex from 'components/Flex/Flex';
 import { RegisterForm } from 'features/login/RegisterForm';
 import { LoginForm } from 'features/login/LoginForm';
@@ -15,6 +15,7 @@ import { useMedia, MOBILE_WIDTH, SMALL_TABLET_WIDTH } from 'styles/variables';
 import { MessageOutlined } from '@ant-design/icons';
 import { SideMenu } from 'components/Menu/SideMenu';
 import { USER_DATA } from 'data/user';
+import MyAccountAvatar from 'images/avatar_user2.png';
 
 const NavbarSection = styled.div`
   width: 100%;
@@ -197,7 +198,7 @@ export const Navbar = () => {
           )}
 
           <MyAccount
-            src={USER_DATA[0].imageUrl ?? UserPic}
+            src={USER_DATA[0].imageUrl ?? MyAccountAvatar}
             alt="my account"
             onClick={() => {
               setCollapsed(true);

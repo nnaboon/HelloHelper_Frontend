@@ -13,6 +13,8 @@ import { Rate } from 'antd';
 import { MessageSvg } from 'components/Svg/MessageSvg';
 import { UserSvg } from 'components/Svg/UserSvg';
 import UserAvatar from 'images/avatar_helper.png';
+import MyAccountAvatar from 'images/avatar_user2.png';
+
 import {
   mediaQueryMobile,
   MOBILE_WIDTH,
@@ -20,7 +22,7 @@ import {
   mediaQueryTablet
 } from 'styles/variables';
 import { getStar } from 'components/Star/getStar';
-import { USER_DATA } from 'data/user';
+import { myAccountUserId, USER_DATA } from 'data/user';
 
 const RequestHelperCardContainer = styled.div`
   display: flex;
@@ -172,7 +174,14 @@ export const SmallSuggestedRequestCard = ({ data }: any) => {
                       margin-right: 35px;
                     `}
                   >
-                    <HelperImageSection src={UserAvatar} alt="user avatar" />
+                    <HelperImageSection
+                      src={
+                        userId === myAccountUserId
+                          ? MyAccountAvatar
+                          : UserAvatar
+                      }
+                      alt="user avatar"
+                    />
                     <SuggestedBadge>แนะนำ</SuggestedBadge>
                     <div
                       style={{
