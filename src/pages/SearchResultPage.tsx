@@ -23,6 +23,7 @@ import {
   TABLET_WIDTH
 } from 'styles/variables';
 import { PROVIDE_MAPPER } from 'data/provide';
+import { EmptyData } from 'components/Empty/EmptyData';
 
 const SearchResultContent = styled.div`
   display: grid;
@@ -118,15 +119,31 @@ export const SearchResultPage = () => {
               </div>
             </Flex>
           </div>
-          <SearchResultContent>
-            {menu === HelpMenu.PROVIDE
-              ? PROVIDE_MAPPER.filter(({ category }) => category[0] === qs).map(
-                  (props) => <PopularRequestSection data={[props]} />
+          {menu === HelpMenu.PROVIDE ? (
+            PROVIDE_MAPPER.filter(({ category }) => category[0] === qs).length >
+            0 ? (
+              <SearchResultContent>
+                {PROVIDE_MAPPER.filter(
+                  ({ category }) => category[0] === qs
+                ).map((props) => (
+                  <PopularRequestSection data={[props]} />
+                ))}
+              </SearchResultContent>
+            ) : (
+              <EmptyData />
+            )
+          ) : REQUEST_MAPPER.filter(({ category }) => category[0] === qs)
+              .length > 0 ? (
+            <SearchResultContent>
+              {REQUEST_MAPPER.filter(({ category }) => category[0] === qs).map(
+                (props) => (
+                  <SuggestedRequestSection data={[props]} />
                 )
-              : REQUEST_MAPPER.filter(({ category }) => category[0] === qs).map(
-                  (props) => <SuggestedRequestSection data={[props]} />
-                )}
-          </SearchResultContent>
+              )}
+            </SearchResultContent>
+          ) : (
+            <EmptyData />
+          )}
         </div>
       </div>
     </WrapperContainer>

@@ -18,6 +18,7 @@ import { MessageSvg } from 'components/Svg/MessageSvg';
 import { FollowingSvg } from 'components/Svg/FollowingSvg';
 import { getStar } from 'components/Star/getStar';
 import { OverallHelpedChart } from 'features/charts/OverallHelpedChart';
+import { LogoutOutlined } from '@ant-design/icons';
 import { TopThreeHelpedChart } from 'features/charts/TopThreeHelpedChart';
 import UserAvatar from 'images/avatar_helper.png';
 import {
@@ -305,27 +306,76 @@ export const ProfilePage = () => {
                           position: 'absolute',
                           bottom: '8px',
                           padding: '10px',
-                          left: '10px',
+                          left: '-9px',
                           width: '100%'
                         }}
-                        onClick={() => {
-                          history.push('/user/account/profile');
-                        }}
+                        css={css`
+                          ${mediaQueryMobile} {
+                            left: 0 !important;
+                            justify-content: space-between;
+                            padding: 10px 20px !important;
+                          }
+                        `}
                       >
-                        <SecondaryButton
+                        <PrimaryButton
                           css={css`
-                            width: 95%;
+                            width: 100%;
+
+                            ${mediaQueryMobile} {
+                              width: 47%;
+                            }
+                          `}
+                        >
+                          <LogoutOutlined style={{ marginRight: '10px' }} />
+                          ออกจากระบบ
+                        </PrimaryButton>
+                        <PrimaryButton
+                          css={css`
+                            background: transparent;
                             border: 1px solid #bab8b8;
+                            width: 100%;
                             color: #b9b9b9;
                             &:hover {
                               color: #b9b9b9;
                             }
+                            ${mediaQueryMobile} {
+                              width: 47%;
+                            }
                           `}
+                          onClick={() => {
+                            history.push('/user/account/profile');
+                          }}
                         >
                           แก้ไขโปรไฟล์
-                        </SecondaryButton>
+                        </PrimaryButton>
                       </div>
                     ) : (
+                      // <div
+                      //   style={{
+                      //     display: 'flex',
+                      //     position: 'absolute',
+                      //     bottom: '8px',
+                      //     padding: '10px',
+                      //     left: '10px',
+                      //     width: '100%'
+                      //   }}
+                      //   onClick={() => {
+                      //     history.push('/user/account/profile');
+                      //   }}
+                      // >
+                      //   <SecondaryButton
+                      //     css={css`
+                      //       width: 95%;
+                      //       border: 1px solid #bab8b8;
+                      //       color: #b9b9b9;
+                      //       &:hover {
+                      //         color: #b9b9b9;
+                      //       }
+                      //     `}
+                      //   >
+                      //     แก้ไขโปรไฟล์
+                      //   </SecondaryButton>
+                      // </div>
                       <div
                         style={{
                           display: 'flex',
@@ -451,7 +501,7 @@ export const ProfilePage = () => {
           <ProfilePageUserHelperListSection>
             {menu === HelpMenu.PROVIDE ? (
               <React.Fragment>
-                {PROVIDE_MAPPER.filter(
+                {PROVIDE_MAPPER?.filter(
                   ({ userId }) => userId === (query ?? myAccountUserId)
                 ).map((props) => (
                   <MyProvideList key={props.provideId} data={props} />
@@ -459,7 +509,7 @@ export const ProfilePage = () => {
               </React.Fragment>
             ) : menu === ProfileMenu.REQUEST ? (
               <React.Fragment>
-                {REQUEST_MAPPER.filter(
+                {REQUEST_MAPPER?.filter(
                   ({ userId }) => userId === (query ?? myAccountUserId)
                 ).map((props) => (
                   <MyRequestList key={props.requestId} data={props} />
@@ -471,7 +521,7 @@ export const ProfilePage = () => {
           <ProfilePageUserHelperListSection>
             {menu === HelpMenu.PROVIDE ? (
               <React.Fragment>
-                {PROVIDE_MAPPER.filter(
+                {PROVIDE_MAPPER?.filter(
                   ({ userId }) => userId === (query ?? myAccountUserId)
                 ).map((props) => (
                   // console.log(props)
@@ -480,7 +530,7 @@ export const ProfilePage = () => {
               </React.Fragment>
             ) : menu === ProfileMenu.REQUEST ? (
               <React.Fragment>
-                {REQUEST_MAPPER.filter(
+                {REQUEST_MAPPER?.filter(
                   ({ userId }) => userId === (query ?? myAccountUserId)
                 ).map((props) => (
                   <MyRequestList key={props.requestId} data={props} />

@@ -189,7 +189,6 @@ export const HomePage = () => {
           src={CommunityPic}
           alt="community in homepage"
         />
-        <HomePagePictureSection src={GoodsPic} alt="goods in homepage" />
         <HomePagePictureSection
           src={EarnMoneyPic}
           alt="earn money in homepage"
