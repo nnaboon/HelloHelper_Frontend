@@ -10,10 +10,17 @@ export enum LoginStep {
   REGISTER = 'register'
 }
 
+export type LocationType = {
+  name: string;
+  latitude?: number;
+  longitude?: number;
+};
+
 export type UserCreateBody = {
+  userId?: string;
   email: string;
   password: string;
   username: string;
-  location: string;
+  location: LocationType;
   ability: string[];
 };

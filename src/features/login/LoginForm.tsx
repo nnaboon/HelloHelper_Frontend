@@ -3,15 +3,19 @@
 import { css, jsx, Global } from '@emotion/react';
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
+import { useHistory } from 'react-router-dom';
 import { Input, Button, Form, Divider } from 'antd';
 import { Text } from 'components/Text';
 import { PrimaryButton } from 'components/Button/Button';
 import Flex from 'components/Flex/Flex';
 import { LoginStep } from './const';
 import { mediaQueryMobile } from 'styles/variables';
+import firebase from '../../firebase';
+import axios from 'axios';
 
 interface LoginFormProps {
   setStep: (step: LoginStep) => void;
+  setIsModalVisible: (isModalVisible: boolean) => void;
 }
 
 const LoginSection = styled.div`
@@ -24,9 +28,50 @@ const LoginSection = styled.div`
   }
 `;
 
-export const LoginForm = ({ setStep }: LoginFormProps) => {
-  const onFinish = () => {
-    console.log('success');
+export const LoginForm = ({ setStep, setIsModalVisible }: LoginFormProps) => {
+  const [form] = Form.useForm();
+  const history = useHistory();
+
+  const onFinish = (value) => {
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(value.email, value.password)
+      .then(({ user }) => {
+        user.getIdToken().then((idToken) => {
+          axios
+            .post('http://localhost:5000/users/verify', {
+              idToken: idToken
+            })
+            .then((res) => {
+              window.localStorage.setItem('id', res.data.uid);
+              setIsModalVisible(false);
+            })
+            .catch((error) => {
+              console.log(error.message);
+            });
+          // fetch('http://localhost:5000/users/verify', {
+          //   method: 'POST',
+          //   headers: {
+          //     Accept: 'application/json',
+          //     'Access-Control-Allow-Origin': '*',
+          //     'Content-Type': 'application/json'
+          //   },
+          //   body: JSON.stringify({ idToken })
+          // });
+          // .then((res) => {
+          //   console.log('res', res);
+          // })
+          // .catch((error) => {
+          //   console.log(error);
+          // });
+        });
+      })
+      // .then(() => {
+      //   return firebase.auth().signOut();
+      // })
+      .then((res) => {
+        history.push('/');
+      });
   };
 
   return (
@@ -114,15 +159,31 @@ export const LoginForm = ({ setStep }: LoginFormProps) => {
           />
         </Form.Item>
 
-        <PrimaryButton
+        <Button
+          type="primary"
+          htmlType="submit"
           css={css`
             width: 100%;
             margin-left: 0;
             height: 50px;
+            box-sizing: border-box;
+            background: #ee6400;
+            border-radius: 9px;
+            border: 0;
+            color: #ffff;
+            font-size: 16px;
+            position: relative;
+
+            &:hover {
+              background: #ee6400;
+            }
           `}
+          // onClick={() => {
+          //   onFinish(form.getFieldsValue());
+          // }}
         >
           เข้าสู่ระบบ
-        </PrimaryButton>
+        </Button>
         <Flex justify="center" marginTop="35px">
           เพิ่งเคยใช้บริการใช่ไหม ?{' '}
           <span

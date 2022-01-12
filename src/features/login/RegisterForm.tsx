@@ -5,12 +5,17 @@ import { RegisterAccountForm } from './RegisterAccountForm';
 import { RegisterUsernameForm } from './RegisterUsernameForm';
 import { RegisterLocationForm } from './RegisterLocationForm';
 import { RegisterAbilityForm } from './RegisterAbilityForm';
+import axios from 'axios';
 
 interface RegisterFormProps {
   setProcessStep: (step: LoginStep) => void;
+  setIsModalVisible: (isModalVisible: boolean) => void;
 }
 
-export const RegisterForm = ({ setProcessStep }: RegisterFormProps) => {
+export const RegisterForm = ({
+  setProcessStep,
+  setIsModalVisible
+}: RegisterFormProps) => {
   const [step, setStep] = useState<RegisterStep>(
     RegisterStep.EMAIL_AND_PASSWORD
   );
@@ -23,7 +28,7 @@ export const RegisterForm = ({ setProcessStep }: RegisterFormProps) => {
           <RegisterAccountForm
             userAccountData={createUserData}
             setProcessStep={setProcessStep}
-            onNext={async (userAccountData: UserCreateBody) => {
+            onNext={async (userAccountData) => {
               await setCreateUserData(userAccountData);
               setStep(RegisterStep.USERNAME);
             }}
@@ -58,6 +63,14 @@ export const RegisterForm = ({ setProcessStep }: RegisterFormProps) => {
             userAccountData={createUserData}
             onNext={async (userAccountData: UserCreateBody) => {
               await setCreateUserData(userAccountData);
+              axios
+                .post('http://localhost:5000/users', userAccountData)
+                .then((res) => {
+                  setIsModalVisible(false);
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
             }}
             onBack={() => {
               setStep(RegisterStep.LOCATION);

@@ -3,6 +3,7 @@
 import { css, jsx, Global } from '@emotion/react';
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
+import { useHistory } from 'react-router-dom';
 import { Button, Divider, Form, Input, message, Checkbox } from 'antd';
 import { UserCreateBody } from './const';
 import { FormRule, getRule } from 'utils/form/getRule';
@@ -10,11 +11,15 @@ import { Text } from 'components/Text';
 import { PrimaryButton } from 'components/Button/Button';
 import { LoginStep } from 'components/Navbar/const';
 import { mediaQueryMobile } from 'styles/variables';
+import firebase from '../../firebase';
+import { getAuth } from 'firebase/auth';
+import Cookies from 'js-cookie';
+import axios from 'axios';
 
 type RegisterAccountFormProps = {
   userAccountData: UserCreateBody;
   setProcessStep: (processStep: LoginStep) => void;
-  onNext: (value: UserCreateBody) => void;
+  onNext: (value: any) => void;
 };
 
 const RegisterAccountFormSection = styled.div`
@@ -32,6 +37,7 @@ const RegisterAccountFormSection = styled.div`
 
 export const RegisterAccountForm = (props: RegisterAccountFormProps) => {
   const [form] = Form.useForm();
+  const history = useHistory();
   const { userAccountData, setProcessStep, onNext } = props;
   const [password, setPassword] = useState('');
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -58,24 +64,34 @@ export const RegisterAccountForm = (props: RegisterAccountFormProps) => {
 
   const onFinish = async (value) => {
     setIsSubmitting(true);
-    const data = {
-      email: value.email,
-      password: value.password
-    } as UserCreateBody;
-
+    // const data = {
+    //   email: value.email,
+    //   password: value.password
+    // } as UserCreateBody;
     try {
-      //   const {
-      //     available,
-      //     message: errorMessage
-      //   } = await checkRegisterAvailableEmail(value.email);
-      //   if (!available) {
-      //     message.error(errorMessage, 5);
-      //   } else {
-      //     onNext(data);
-      //   }
-      onNext(data);
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(value.email, value.password)
+        .then(({ user }) => {
+          user.getIdToken().then((idToken) => {
+            axios
+              .post('http://localhost:5000/users/verify', {
+                idToken: idToken
+              })
+              .then((res) => {
+                window.localStorage.setItem('id', res.data.uid);
+                onNext({
+                  userId: res.data.uid,
+                  email: res.data.email
+                });
+              })
+              .catch((error) => {
+                console.log(error.message);
+              });
+          });
+        });
     } catch (e) {
-      message.error('ไม่พบบัญชีในระบบ');
+      message.error('ไม่สามารถลงทะเบียนได้');
     } finally {
       setIsSubmitting(false);
     }

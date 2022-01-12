@@ -36,7 +36,6 @@ export const RegisterAbilityForm = (props: RegisterAbilityFormProps) => {
   const { userAccountData, onNext, onBack } = props;
 
   const toggleChecked = (value) => {
-    console.log(value.includes('ไม่สามารถให้ความช่วยเหลือได้'));
     setCheckedList(value);
 
     if (value.includes('ไม่สามารถให้ความช่วยเหลือได้')) {

@@ -1,7 +1,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { css, jsx, Global } from '@emotion/react';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { Input, Modal } from 'antd';
@@ -16,6 +16,7 @@ import { MessageOutlined } from '@ant-design/icons';
 import { SideMenu } from 'components/Menu/SideMenu';
 import { USER_DATA } from 'data/user';
 import MyAccountAvatar from 'images/avatar_user2.png';
+import firebase from '../../firebase';
 
 const NavbarSection = styled.div`
   width: 100%;
@@ -93,7 +94,7 @@ const SearchBarContainer = styled.div`
 
 export const Navbar = () => {
   // Change to check from key in local storage.
-  const [account, setAccount] = useState<boolean>(true);
+  const [account, setAccount] = useState<boolean>(false);
   const [collapsed, setCollapsed] = useState<boolean>(true);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -108,7 +109,10 @@ export const Navbar = () => {
     setCollapsed(true);
     history.push({
       pathname: '/search',
-      search: `?keyword=${value}`
+      search: `?keyword=${value}`,
+      state: {
+        search: value
+      }
     });
   };
 
@@ -119,6 +123,17 @@ export const Navbar = () => {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
+
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (user && window.localStorage.getItem('id')) {
+        setIsModalVisible(false);
+        setAccount(true);
+      } else {
+        setIsModalVisible(true);
+      }
+    });
+  }, []);
 
   return (
     <NavbarSection>
@@ -197,20 +212,30 @@ export const Navbar = () => {
             </React.Fragment>
           )}
 
-          <MyAccount
-            src={USER_DATA[0].imageUrl ?? MyAccountAvatar}
-            alt="my account"
-            onClick={() => {
-              setCollapsed(true);
-              if (account) {
-                history.push({
-                  pathname: '/profile'
-                });
-              } else {
+          {window.localStorage.getItem('id') ? (
+            <MyAccount
+              src={USER_DATA[0].imageUrl ?? MyAccountAvatar}
+              alt="my account"
+              onClick={() => {
+                setCollapsed(true);
+                if (account) {
+                  history.push({
+                    pathname: '/profile'
+                  });
+                } else {
+                  setIsModalVisible(true);
+                }
+              }}
+            />
+          ) : (
+            <li
+              onClick={() => {
                 setIsModalVisible(true);
-              }
-            }}
-          />
+              }}
+            >
+              ลงทะเบียน/เข้าสู่ระบบ
+            </li>
+          )}
         </NavbarList>
       </Flex>
       <SearchBarContainer>
@@ -234,7 +259,7 @@ export const Navbar = () => {
         centered
         css={css`
           .ant-modal-content {
-            min-height: 664px;
+            min-height: 684px;
             height: max-content;
 
             ${mediaQueryMobile} {
@@ -247,9 +272,15 @@ export const Navbar = () => {
       >
         <div>
           {accountStep === LoginStep.LOGIN ? (
-            <LoginForm setStep={setAccountStep} />
+            <LoginForm
+              setStep={setAccountStep}
+              setIsModalVisible={setIsModalVisible}
+            />
           ) : (
-            <RegisterForm setProcessStep={setAccountStep} />
+            <RegisterForm
+              setProcessStep={setAccountStep}
+              setIsModalVisible={setIsModalVisible}
+            />
           )}
         </div>
       </Modal>

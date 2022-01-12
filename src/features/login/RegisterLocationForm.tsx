@@ -5,13 +5,13 @@ import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { Text } from 'components/Text';
 import { Button, Divider, Form, Input, message, Checkbox } from 'antd';
-import { UserCreateBody } from './const';
+import { LocationType, UserCreateBody } from './const';
 import { mediaQueryMobile } from 'styles/variables';
 import { GoogleMapContent } from 'components/GoogleMap/GoogleMap';
 
 type RegisterLocationFormProps = {
   userAccountData: UserCreateBody;
-  onNext: (value: UserCreateBody) => void;
+  onNext: (value: any) => void;
   onBack: () => void;
 };
 
@@ -30,13 +30,19 @@ const RegisterLocationFormSection = styled.div`
 export const RegisterLocationForm = (props: RegisterLocationFormProps) => {
   const [form] = Form.useForm();
   const { userAccountData, onNext, onBack } = props;
+  const [location, setLocation] = useState<any>(null);
+
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-  const onFinish = async (value) => {
+  const onFinish = async () => {
     setIsSubmitting(true);
     const data = {
-      location: value.location
-    } as UserCreateBody;
+      location: {
+        name: location?.name,
+        latitude: location?.geometry.location.lat(),
+        longitude: location?.geometry.location.lng()
+      }
+    };
 
     try {
       //   const {
@@ -50,7 +56,7 @@ export const RegisterLocationForm = (props: RegisterLocationFormProps) => {
       //   }
       onNext({ ...userAccountData, ...data });
     } catch (e) {
-      message.error('ไม่พบบัญชีในระบบ');
+      message.error('ไม่สามารถเพิ่มสถานที่ให้ความช่วยเหลือได้');
     } finally {
       setIsSubmitting(false);
     }
@@ -93,6 +99,8 @@ export const RegisterLocationForm = (props: RegisterLocationFormProps) => {
           // ]}
         >
           <GoogleMapContent
+            requestLocation={location}
+            setRequestLocation={setLocation}
             width="100%"
             css={css`
               width: 100%;
