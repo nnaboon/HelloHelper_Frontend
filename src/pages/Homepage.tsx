@@ -260,7 +260,7 @@ export const HomePage = () => {
       <React.Fragment>
         {' '}
         {PROVIDE_MAPPER.filter(({ location }) =>
-          searchValue ? location.name === searchValue : true
+          searchValue ? location.name.includes(searchValue) : true
         ).length > 0 ? (
           <React.Fragment
             css={css`
@@ -289,7 +289,7 @@ export const HomePage = () => {
               `}
             >
               {PROVIDE_MAPPER.filter(({ location }) =>
-                searchValue ? location.name === searchValue : true
+                searchValue ? location.name.includes(searchValue) : true
               ).map((items) => (
                 <PopularRequestSection data={[items]} />
               ))}
@@ -345,7 +345,10 @@ export const HomePage = () => {
                 onClick={() => {
                   history.push({
                     pathname: '/search',
-                    search: `?keyword=${name}`
+                    search: `?keyword=${name}`,
+                    state: {
+                      search: name
+                    }
                   });
                 }}
               >
@@ -369,7 +372,10 @@ export const HomePage = () => {
                 onClick={() => {
                   history.push({
                     pathname: '/search',
-                    search: `?keyword=${name}`
+                    search: `?keyword=${name}`,
+                    state: {
+                      search: name
+                    }
                   });
                 }}
               >

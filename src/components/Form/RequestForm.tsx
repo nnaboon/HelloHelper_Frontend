@@ -21,6 +21,7 @@ import { GoogleMapContent } from 'components/GoogleMap/GoogleMap';
 import { InfoSvg } from 'components/Svg/InfoSvg';
 import Flex from 'components/Flex/Flex';
 import { EditableTagGroup } from 'components/Tag/Hashtag';
+import { useUpdateProvide } from 'hooks/provide/useUpdateProvide';
 import {
   mediaQueryMobile,
   useMedia,
@@ -57,6 +58,12 @@ export const RequestFormModal = ({
 
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const [form] = Form.useForm();
+
+  const {
+    data: provide,
+    loading: provideLoading,
+    execute: updateProvide
+  } = useUpdateProvide();
 
   const reset = () => {
     form.resetFields();
@@ -96,22 +103,25 @@ export const RequestFormModal = ({
     setIsSubmitting(true);
 
     const values = form.getFieldsValue();
-    console.log('value', values);
     const data = {
-      type: value.type,
+      userId: window.localStorage.getItem('id'),
       title: value.title,
-      location: location ?? '',
-      message: value.message ?? '',
-      maxPrice: value.maxPrice,
-      maxServiceCharge: value.maxServiceCharge,
+      location: {
+        name: location.name,
+        lat: location.geometry.location.lat(),
+        lng: location.geometry.location.lng()
+      },
+      description: value.message ?? '',
+
+      serviceCharge: value.maxServiceCharge,
       payment: value.payment,
-      category: value.category,
-      hashtag: value.hashtag,
-      image: value.image
-    } as RequestFormBody;
+      category: [value.category],
+      hashtag: tags,
+      imageUrl: values.image
+    };
 
     try {
-      console.log('data', data);
+      updateProvide(requestData.provideId, data);
     } catch (e) {
       message.error('ไม่สามารถโพสต์ขอความช่วยเหลือได้');
     } finally {

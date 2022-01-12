@@ -31,6 +31,8 @@ import {
   mediaQuerySmallTablet,
   SMALL_TABLET_WIDTH
 } from 'styles/variables';
+import { useAddProvide } from 'hooks/provide/useAddProvide';
+import { useAddRequest } from 'hooks/request/useAddRequest';
 import { PROVIDE_MAPPER } from 'data/provide';
 import { REQUEST_MAPPER } from 'data/request';
 import { myAccountUserId } from 'data/user';
@@ -87,6 +89,17 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const isSmallTablet = useMedia(`(max-width: ${SMALL_TABLET_WIDTH}px)`);
 
+  const {
+    data: provide,
+    loading: provideLoading,
+    execute: addProvide
+  } = useAddProvide();
+  const {
+    data: request,
+    loading: requestLoading,
+    execute: addRequest
+  } = useAddProvide();
+
   const uploadButton = (
     <div>
       {loading ? <LoadingOutlined /> : <PlusOutlined />}
@@ -108,12 +121,12 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
     const values = form.getFieldsValue();
     console.log(values, value);
     const data = {
-      userId: myAccountUserId,
+      userId: window.localStorage.getItem('id'),
       title: value.title,
       location: {
         name: location.name,
-        lat: 10.0,
-        lng: 100.8933
+        lat: location.geometry.location.lat(),
+        lng: location.geometry.location.lng()
       },
       description: value.message ?? '',
 
@@ -125,29 +138,20 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
     };
 
     try {
-      setIsModalVisible(false);
       value.type === 'provide'
-        ? PROVIDE_MAPPER?.push({
-            provideId: Math.random().toString(16).slice(2),
-            provideSum: 0,
-            rating: 0,
-            ...data
-          })
-        : REQUEST_MAPPER?.push({
-            requestId: Math.random().toString(16).slice(2),
+        ? addProvide({ provideSum: 0, rating: 0, ...data })
+        : addRequest({
             price: value.maxPrice,
             provideUserId: [''],
             amount: value.amount,
             ...data
           });
-
-      console.log(data);
     } catch (e) {
       message.error('ไม่สามารถโพสต์ขอความช่วยเหลือได้');
     } finally {
       setIsSubmitting(false);
       message.success('สำเร็จ');
-      // setIsModalVisible(false);
+      setIsModalVisible(false);
     }
   };
 
