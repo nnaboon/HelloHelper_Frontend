@@ -6,7 +6,7 @@ export type ReceiverDto = {
   receiverPhoneNumber: string;
 };
 
-export type ProvideGetDto = {
+export type OrderGetDto = {
   id: string;
   orderReferenceType: string;
   orderReferenceId: string;
