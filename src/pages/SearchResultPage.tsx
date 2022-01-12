@@ -40,14 +40,13 @@ const SearchResultContent = styled.div`
 
 export const SearchResultPage = () => {
   const [menu, setMenu] = useState<HelpMenu>(HelpMenu.PROVIDE);
-  const { pathname, state } = useLocation();
+  const { pathname, state, search } = useLocation();
   const qs = pathname.split('/')[1];
   const currentMenu = ((state as any)?.menu || HelpMenu.PROVIDE) as HelpMenu;
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
 
   useEffect(() => {
-    console.log(state?.menu);
     if (state?.menu !== undefined) {
       setMenu(currentMenu);
     }
@@ -120,11 +119,12 @@ export const SearchResultPage = () => {
             </Flex>
           </div>
           {menu === HelpMenu.PROVIDE ? (
-            PROVIDE_MAPPER.filter(({ category }) => category[0] === qs).length >
-            0 ? (
+            PROVIDE_MAPPER.filter(({ category, title }) =>
+              search ? title.includes(state?.search) : category[0] === qs
+            ).length > 0 ? (
               <SearchResultContent>
-                {PROVIDE_MAPPER.filter(
-                  ({ category }) => category[0] === qs
+                {PROVIDE_MAPPER.filter(({ category, title }) =>
+                  search ? title.includes(state?.search) : category[0] === qs
                 ).map((props) => (
                   <PopularRequestSection data={[props]} />
                 ))}
@@ -132,14 +132,15 @@ export const SearchResultPage = () => {
             ) : (
               <EmptyData />
             )
-          ) : REQUEST_MAPPER.filter(({ category }) => category[0] === qs)
-              .length > 0 ? (
+          ) : REQUEST_MAPPER.filter(({ category, title }) =>
+              search ? title.includes(state?.search) : category[0] === qs
+            ).length > 0 ? (
             <SearchResultContent>
-              {REQUEST_MAPPER.filter(({ category }) => category[0] === qs).map(
-                (props) => (
-                  <SuggestedRequestSection data={[props]} />
-                )
-              )}
+              {REQUEST_MAPPER.filter(({ category, title }) =>
+                search ? title.includes(state?.search) : category[0] === qs
+              ).map((props) => (
+                <SuggestedRequestSection data={[props]} />
+              ))}
             </SearchResultContent>
           ) : (
             <EmptyData />
