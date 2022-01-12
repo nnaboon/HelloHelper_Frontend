@@ -13,8 +13,9 @@ export const useUser = () => {
   );
 
   const execute = (userId: string) => {
-    return fire({ url: `http://localhost:5000/users/${userId}` });
+    return fire({ url: `http://localhost:5000/user/${userId}` });
   };
+
   return {
     data: response?.data,
     loading: loading,

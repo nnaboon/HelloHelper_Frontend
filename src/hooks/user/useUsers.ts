@@ -11,7 +11,7 @@ export const useUsers = () => {
     useAxios<UsersListResponse>({}, { manual: true });
 
   const execute = () => {
-    return fire({ url: `http://localhost:5000/users` });
+    return fire({ url: `http://localhost:5000/user` });
   };
 
   return {
