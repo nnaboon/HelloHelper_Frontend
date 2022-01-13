@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { Input, Modal } from 'antd';
+import { observer } from 'mobx-react-lite';
 import UserPic from 'images/avatar_user.png';
 import Flex from 'components/Flex/Flex';
 import { RegisterForm } from 'features/login/RegisterForm';
@@ -17,6 +18,8 @@ import { SideMenu } from 'components/Menu/SideMenu';
 import { USER_DATA } from 'data/user';
 import MyAccountAvatar from 'images/avatar_user2.png';
 import firebase from '../../firebase';
+
+import { userStore } from 'store/userStore';
 
 const NavbarSection = styled.div`
   width: 100%;
@@ -92,7 +95,7 @@ const SearchBarContainer = styled.div`
   }
 `;
 
-export const Navbar = () => {
+export const Navbar = observer(() => {
   // Change to check from key in local storage.
   const [account, setAccount] = useState<boolean>(false);
   const [collapsed, setCollapsed] = useState<boolean>(true);
@@ -101,6 +104,8 @@ export const Navbar = () => {
   const [accountStep, setAccountStep] = useState<LoginStep>(LoginStep.LOGIN);
   const isSmallTablet = useMedia(`(max-width: ${SMALL_TABLET_WIDTH}px)`);
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
+
+  const { userId, setUserId } = userStore;
 
   const history = useHistory();
   const { Search } = Input;
@@ -127,10 +132,17 @@ export const Navbar = () => {
   useEffect(() => {
     firebase.auth().onAuthStateChanged(function (user) {
       if (user && window.localStorage.getItem('id')) {
+        setUserId(window.localStorage.getItem('id'));
         setIsModalVisible(false);
+        setAccount(true);
+      } else if (user) {
+        setAccountStep(LoginStep.REGISTER);
+        setIsModalVisible(true);
         setAccount(true);
       } else {
         setIsModalVisible(true);
+        setAccount(false);
+        setAccountStep(LoginStep.LOGIN);
       }
     });
   }, []);
@@ -259,7 +271,7 @@ export const Navbar = () => {
         centered
         css={css`
           .ant-modal-content {
-            min-height: 684px;
+            min-height: 694px;
             height: max-content;
 
             ${mediaQueryMobile} {
@@ -286,4 +298,4 @@ export const Navbar = () => {
       </Modal>
     </NavbarSection>
   );
-};
+});
