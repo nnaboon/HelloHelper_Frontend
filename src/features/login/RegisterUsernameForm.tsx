@@ -102,7 +102,7 @@ export const RegisterUsernameForm = (props: RegisterUsernameFormProps) => {
             border-radius: 9px;
             border: 0;
             position: absolute;
-            bottom: 0;
+            bottom: -29px;
             right: 20px;
             color: #ffff;
             font-size: 16px;

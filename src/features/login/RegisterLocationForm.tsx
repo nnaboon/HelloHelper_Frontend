@@ -119,7 +119,7 @@ export const RegisterLocationForm = (props: RegisterLocationFormProps) => {
             border-radius: 9px;
             border: 1px solid #ee6400;
             position: absolute;
-            bottom: 0;
+            bottom: -29px;
             right: 140px;
             color: #ee6400;
             font-size: 16px;
@@ -143,7 +143,7 @@ export const RegisterLocationForm = (props: RegisterLocationFormProps) => {
             border-radius: 9px;
             border: 0;
             position: absolute;
-            bottom: 0;
+            bottom: -29px;
             right: 20px;
             color: #ffff;
             font-size: 16px;
