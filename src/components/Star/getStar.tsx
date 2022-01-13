@@ -6,67 +6,67 @@ import { Rate } from 'antd';
 import { mediaQueryMobile } from 'styles/variables';
 
 export const getStar = (count: Number) => {
-  for (let i = 0; i < count; i++) {
-    return (
-      <div>
-        <Rate
-          allowHalf
-          defaultValue={count as number}
-          disabled
-          style={{ minWidth: '153px' }}
-          css={css`
+  // for (let i = 0; i < count; i++) {
+  return (
+    <div>
+      <Rate
+        allowHalf
+        defaultValue={count as number}
+        disabled
+        style={{ minWidth: '153px' }}
+        css={css`
+          .ant-rate-star.ant-rate-star-full svg {
+            width: 24px;
+            height: 24px;
+          }
+          .ant-rate-star.ant-rate-star-zero svg {
+            width: 24px;
+            height: 24px;
+          }
+
+          .ant-rate-star.ant-rate-star-half.ant-rate-star-active svg {
+            width: 24px;
+            height: 24px;
+          }
+          .ant-rate-star.ant-rate-star-full,
+          .ant-rate-star.ant-rate-star-zero,
+          .ant-rate-star.ant-rate-star-half.ant-rate-star-active {
+            transition: transform 0s;
+          }
+
+          .ant-rate-star.ant-rate-star-half.ant-rate-star-active:hover {
+            transform: scale(0.91);
+          }
+
+          .ant-rate-star.ant-rate-star-full:hover {
+            transform: scale(0.91);
+          }
+
+          .ant-rate-star.ant-rate-star-zero:hover {
+            transform: scale(0.91);
+          }
+
+          ${mediaQueryMobile} {
+            .ant-rate-star:not(:last-child) {
+              margin-right: 4px;
+            }
             .ant-rate-star.ant-rate-star-full svg {
-              width: 24px;
-              height: 24px;
+              width: 20px;
+              height: 20px;
             }
             .ant-rate-star.ant-rate-star-zero svg {
-              width: 24px;
-              height: 24px;
+              width: 20px;
+              height: 20px;
             }
 
             .ant-rate-star.ant-rate-star-half.ant-rate-star-active svg {
-              width: 24px;
-              height: 24px;
+              width: 20px;
+              height: 20px;
             }
-            .ant-rate-star.ant-rate-star-full,
-            .ant-rate-star.ant-rate-star-zero,
-            .ant-rate-star.ant-rate-star-half.ant-rate-star-active {
-              transition: transform 0s;
-            }
-
-            .ant-rate-star.ant-rate-star-half.ant-rate-star-active:hover {
-              transform: scale(0.91);
-            }
-
-            .ant-rate-star.ant-rate-star-full:hover {
-              transform: scale(0.91);
-            }
-
-            .ant-rate-star.ant-rate-star-zero:hover {
-              transform: scale(0.91);
-            }
-
-            ${mediaQueryMobile} {
-              .ant-rate-star:not(:last-child) {
-                margin-right: 4px;
-              }
-              .ant-rate-star.ant-rate-star-full svg {
-                width: 20px;
-                height: 20px;
-              }
-              .ant-rate-star.ant-rate-star-zero svg {
-                width: 20px;
-                height: 20px;
-              }
-
-              .ant-rate-star.ant-rate-star-half.ant-rate-star-active svg {
-                width: 20px;
-                height: 20px;
-              }
-            }
-          `}
-        />
-      </div>
-    );
-  }
+          }
+        `}
+      />
+    </div>
+  );
+  // }
 };
