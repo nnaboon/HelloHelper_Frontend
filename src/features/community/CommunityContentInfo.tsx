@@ -27,7 +27,7 @@ import { CommunityMemberContent } from './CommunityMemberContent';
 import { CATEGORY } from 'data/category';
 import { myAccountUserId, USER_DATA } from 'data/user';
 import CommunityImage from 'images/community.jpg';
-import { SwitchCommunity } from 'components/Svg/SwitchCommunity';
+import { SwitchCommunitySvg } from 'components/Svg/SwitchCommunitySvg';
 import { CommunityProvideContent } from './CommunityProvideContent';
 import { CommunityRequestContent } from './CommunityRequestContent';
 
@@ -144,7 +144,10 @@ export const CommunityContentInfo = ({ data }: any) => {
   const onSearch = (value) => {
     history.push({
       pathname: '/search',
-      search: `?keyword=${value}`
+      search: `?keyword=${value}`,
+      state: {
+        search: value
+      }
     });
   };
 
@@ -290,7 +293,7 @@ export const CommunityContentInfo = ({ data }: any) => {
                       }
                     `}
                   >
-                    {/* <SwitchCommunity style={{ marginRight: '10px' }} /> */}
+                    {/* <SwitchCommunitySvg style={{ marginRight: '10px' }} /> */}
                     สลับชุมชน
                   </PrimaryButton>
                 </Dropdown>
