@@ -6,7 +6,7 @@ export type CommunityResponse = {
   message: string;
 };
 
-export const useProvide = () => {
+export const useCommunity = () => {
   const [{ data: response, loading, error }, fire] =
     useAxios<CommunityResponse>({}, { manual: true });
 
