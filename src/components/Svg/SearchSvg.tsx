@@ -11,14 +11,14 @@ export const SearchSvg = (props) => {
         stroke="black"
         stroke-width="2"
         stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinejoin="round"
       />
       <path
         d="M32.3747 32.3747L25.6685 25.6685"
         stroke="black"
         stroke-width="2"
         stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinejoin="round"
       />
     </svg>
   );

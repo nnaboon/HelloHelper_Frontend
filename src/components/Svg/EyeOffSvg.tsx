@@ -14,14 +14,14 @@ export const EyeOffSvg = (props) => {
           stroke="black"
           stroke-width="2"
           stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinejoin="round"
         />
         <path
           d="M1.79889 1.33789L23.7989 23.3379"
           stroke="black"
           stroke-width="2"
           stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinejoin="round"
         />
       </g>
       <defs>

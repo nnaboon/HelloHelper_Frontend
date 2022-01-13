@@ -13,7 +13,7 @@ export const MessageSvg = (props) => {
         stroke="white"
         stroke-width="2"
         stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
