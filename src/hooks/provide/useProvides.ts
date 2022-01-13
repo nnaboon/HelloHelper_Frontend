@@ -7,15 +7,17 @@ export type ProvidesListResponse = {
 };
 
 export const useProvides = () => {
-  const [{ data: response, loading, error }, fire] =
-    useAxios<ProvidesListResponse>({}, { manual: true });
+  const [{ data: response, loading, error }, fire] = useAxios<ProvideGetDto[]>(
+    {},
+    { manual: true }
+  );
 
   const execute = () => {
     return fire({ url: `http://localhost:5000/provide` });
   };
 
   return {
-    data: response?.data as ProvideGetDto[],
+    data: response,
     loading: loading,
     error,
     execute

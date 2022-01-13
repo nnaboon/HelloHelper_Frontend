@@ -18,7 +18,7 @@ export const useUpdateProvide = () => {
     return fire({ url: `http://localhost:5000/provide/${provideId}`, data });
   };
   return {
-    data: response?.data,
+    data: response,
     loading: loading,
     error,
     execute

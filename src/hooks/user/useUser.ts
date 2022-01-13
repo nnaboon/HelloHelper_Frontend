@@ -7,7 +7,7 @@ export type UsersResponse = {
 };
 
 export const useUser = () => {
-  const [{ data: response, loading, error }, fire] = useAxios<UsersResponse>(
+  const [{ data: response, loading, error }, fire] = useAxios(
     {},
     { manual: true }
   );
@@ -17,7 +17,7 @@ export const useUser = () => {
   };
 
   return {
-    data: response?.data,
+    data: response || {},
     loading: loading,
     error,
     execute

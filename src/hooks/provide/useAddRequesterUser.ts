@@ -16,7 +16,7 @@ export const useAddRequesterUser = () => {
     });
   };
   return {
-    data: response?.data,
+    data: response,
     loading,
     error,
     execute

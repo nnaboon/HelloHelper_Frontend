@@ -7,15 +7,17 @@ export type RequestsListResponse = {
 };
 
 export const useRequests = () => {
-  const [{ data: response, loading, error }, fire] =
-    useAxios<RequestsListResponse>({}, { manual: true });
+  const [{ data: response, loading, error }, fire] = useAxios<RequestGetDto[]>(
+    {},
+    { manual: true }
+  );
 
   const execute = () => {
-    return fire({ url: `http://localhost:5000/request}` });
+    return fire({ url: `http://localhost:5000/request` });
   };
 
   return {
-    data: response?.data as RequestGetDto[],
+    data: response,
     loading: loading,
     error,
     execute

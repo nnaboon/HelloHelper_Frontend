@@ -1,14 +1,14 @@
 import useAxios from 'axios-hooks';
 import { ProvideGetDto } from 'models/ProvideGetDto';
 
-export const useProvide = () => {
+export const useMyProvide = () => {
   const [{ data: response, loading, error }, fire] = useAxios(
     {},
     { manual: true }
   );
 
-  const execute = (provideId: string) => {
-    return fire({ url: `http://localhost:5000/provide/${provideId}` });
+  const execute = (userId: string) => {
+    return fire({ url: `http://localhost:5000/provide/me/${userId}` });
   };
 
   return {

@@ -18,7 +18,7 @@ export const useUpdateProvideSum = () => {
     return fire({ url: `http://localhost:5000/provide/sum/${provideId}` });
   };
   return {
-    data: response?.data,
+    data: response,
     loading: loading,
     error,
     execute

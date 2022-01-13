@@ -1,21 +1,20 @@
 import useAxios from 'axios-hooks';
 
-export const useAddProvide = () => {
+export const useAddCommunity = () => {
   const [{ data: response, loading, error }, fire] = useAxios(
     {
       method: 'POST'
     },
     { manual: true }
   );
-  const execute = (data: object) => {
-    return fire({
-      url: `http://localhost:5000/provide`,
-      data
-    });
+
+  const execute = (userId: string, data: object) => {
+    return fire({ url: `http://localhost:5000/user/${userId}`, data });
   };
+
   return {
     data: response,
-    loading,
+    loading: loading,
     error,
     execute
   };

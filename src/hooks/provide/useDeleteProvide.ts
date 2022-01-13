@@ -16,7 +16,7 @@ export const useDeleteProvide = () => {
     });
   };
   return {
-    data: response?.data,
+    data: response,
     loading,
     error,
     execute
