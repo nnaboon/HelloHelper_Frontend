@@ -3,25 +3,30 @@
 import { css, jsx } from '@emotion/react';
 import styled from '@emotion/styled';
 import React, { useState, useEffect } from 'react';
+import { observer } from 'mobx-react-lite';
 import { useHistory, useLocation } from 'react-router-dom';
+import { auth } from '../firebase';
 import { HelpMenu } from 'components/Menu/const';
 import Flex from 'components/Flex/Flex';
 import { USER_DATA } from 'data/user';
-import { SecondaryButton, PrimaryButton } from 'components/Button/Button';
+import { PrimaryButton } from 'components/Button/Button';
 import { Divider } from 'components/Divider/Divider';
 import { SuggestedBadge, RankingBadge } from 'components/Badge/Badge';
+import { Loading } from 'components/Loading/Loading';
 import { MyProvideList } from 'components/Profile/MyProvideList';
 import { MyRequestList } from 'components/Profile/MyRequestList';
 import { RANK_BADGE } from 'components/Badge/const';
 import { ProfileMenuTab } from 'components/Menu/ProfileMenuTab';
 import { MessageSvg } from 'components/Svg/MessageSvg';
 import { FollowingSvg } from 'components/Svg/FollowingSvg';
+import { LogoutSvg } from 'components/Svg/LogoutSvg';
 import { getStar } from 'components/Star/getStar';
 import { OverallHelpedChart } from 'features/charts/OverallHelpedChart';
-import { LogoutOutlined } from '@ant-design/icons';
 import { TopThreeHelpedChart } from 'features/charts/TopThreeHelpedChart';
 import UserAvatar from 'images/avatar_helper.png';
 import MyAccountAvatar from 'images/avatar_user2.png';
+import { useUser } from 'hooks/user/useUser';
+import { userStore } from 'store/userStore';
 import {
   mediaQueryMobile,
   MOBILE_WIDTH,
@@ -35,6 +40,9 @@ import { myAccountUserId } from 'data/user';
 import { ORDER_DATA } from 'data/order';
 import { PROVIDE_MAPPER } from '../data/provide';
 import { REQUEST_MAPPER } from 'data/request';
+import { useMyProvide } from 'hooks/provide/useMyProvide';
+import { useMyRequest } from 'hooks/request/useMyRequest';
+import { EmptyData } from 'components/Empty/EmptyData';
 
 const ProfilePageContainer = styled.div`
   box-sizing: border-box;
@@ -57,7 +65,7 @@ const ProfilePageContainer = styled.div`
 const ProfilePageUserInfoSection = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: center;
 
   ${mediaQueryTablet} {
     flex-direction: column;
@@ -80,13 +88,12 @@ const ProfilePageUserHelperListSection = styled.div`
 `;
 
 const UserCard = styled.div`
-  width: 445px;
+  width: 485px;
   height: 246px;
   background: #ffffff;
   box-shadow: 0px 7px 7px rgba(0, 0, 0, 0.15);
   border-radius: 8px;
   display: flex;
-  margin-left: 50px;
   border-sizing: border-box;
   padding: 20px;
   position: relative;
@@ -94,6 +101,7 @@ const UserCard = styled.div`
   ${mediaQueryTablet} {
     margin-bottom: 40px;
     margin-left: 0;
+    margin-right: 0;
   }
 
   ${mediaQueryMobile} {
@@ -145,9 +153,12 @@ const ProfileInfoContainer = styled.div`
 
 const ProfileInfoSection = styled.div`
   margin-top: 20px;
+  position: relative;
+  left: 130px;
 
   ${mediaQueryTablet} {
     margin-bottom: 30px;
+    left: 0;
   }
 
   ${mediaQueryMobile} {
@@ -180,7 +191,7 @@ const ProfileInfoListDetail = styled.div`
   }
 `;
 
-export const ProfilePage = () => {
+export const ProfilePage = observer(() => {
   const [menu, setMenu] = useState<HelpMenu | ProfileMenu>(HelpMenu.PROVIDE);
   const history = useHistory();
   const { pathname, state } = useLocation();
@@ -191,7 +202,29 @@ export const ProfilePage = () => {
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
 
-  let data = USER_DATA.filter(({ userId }) => userId === myAccountUserId);
+  const { userId } = userStore;
+
+  const { data: user, loading: isUserLoading, execute: getUser } = useUser();
+  const {
+    data: provide,
+    loading: isProvideLoading,
+    execute: getProvide
+  } = useMyProvide();
+  const {
+    data: request,
+    loading: isRequedtLoading,
+    execute: getRequest
+  } = useMyRequest();
+
+  useEffect(() => {
+    if (query || window.localStorage.getItem('id')) {
+      getUser(query ? query : window.localStorage.getItem('id'));
+      getProvide(query ? query : window.localStorage.getItem('id'));
+      getRequest(query ? query : window.localStorage.getItem('id'));
+    } else if (window.localStorage.getItem('id') === null) {
+      history.push('/');
+    }
+  }, [query]);
 
   useEffect(() => {
     if (!isMobile && menu === ProfileMenu.HOME) {
@@ -199,7 +232,7 @@ export const ProfilePage = () => {
     } else {
       setMenu(currentMenu);
     }
-  }, [currentMenu, isMobile]);
+  }, [currentMenu, isMobile, menu]);
 
   useEffect(() => {
     if (isMobile) {
@@ -207,34 +240,23 @@ export const ProfilePage = () => {
     }
   }, []);
 
+  // useEffect(() => {
+  //   getProvide(query ? query : userId);
+  // }, [userId, query]);
   return (
     <React.Fragment>
       <ProfilePageContainer>
         {isMobile && <ProfileMenuTab menu={menu} setMenu={setMenu} />}
         {(!isMobile || menu === ProfileMenu.HOME) && (
           <div>
-            {USER_DATA.filter(
-              (props) => props.userId === (query ? query : myAccountUserId)
-            ).map(
-              ({
-                userId,
-                username,
-                imageUrl,
-                location,
-                followerUserId,
-                followingUserId,
-                provideSum,
-                requestSum,
-                rank,
-                rating,
-                recommend
-              }) => (
-                <ProfilePageUserInfoSection key={userId}>
+            {provide && user && request ? (
+              <div>
+                <ProfilePageUserInfoSection>
                   <UserCard>
                     <div
                       css={css`
                         display: flex;
-                        width: 50%;
+                        width: 40%;
                         flex-direction: column;
                         align-items: center;
                         margin-right: 35px;
@@ -246,14 +268,10 @@ export const ProfilePage = () => {
                       `}
                     >
                       <HelperImageSection
-                        src={
-                          userId === myAccountUserId
-                            ? MyAccountAvatar
-                            : UserAvatar
-                        }
+                        src={user.imageUrl}
                         alt="user avatar"
                       />
-                      {Boolean(recommend) && (
+                      {Boolean(user?.recommend) && (
                         <SuggestedBadge
                           css={css`
                             left: 0 !important;
@@ -274,7 +292,7 @@ export const ProfilePage = () => {
                         margin-top: -50px;
                       `}
                     >
-                      <UserName>{username}</UserName>
+                      <UserName>{user?.username}</UserName>
                       <div
                         style={{
                           display: 'flex',
@@ -290,10 +308,10 @@ export const ProfilePage = () => {
                           }
                         `}
                       >
-                        {getStar(rating)}
+                        {getStar(user?.rating)}
                       </div>
                       <RankingBadge
-                        rankColor={RANK_BADGE[rank].color}
+                        rankColor={RANK_BADGE[user?.rank].color}
                         css={css`
                           ${mediaQueryMobile} {
                             width: max-content !important;
@@ -304,10 +322,11 @@ export const ProfilePage = () => {
                           }
                         `}
                       >
-                        {rank.toUpperCase()}
+                        {user?.rank.toUpperCase()}
                       </RankingBadge>
                     </div>
-                    {myAccountUserId === query || query === undefined ? (
+                    {window.localStorage.getItem('id') === query ||
+                    query === undefined ? (
                       <div
                         style={{
                           display: 'flex',
@@ -333,8 +352,13 @@ export const ProfilePage = () => {
                               width: 47%;
                             }
                           `}
+                          onClick={() => {
+                            window.localStorage.removeItem('id');
+                            auth.signOut();
+                            window.location.assign('/');
+                          }}
                         >
-                          <LogoutOutlined style={{ marginRight: '10px' }} />
+                          <LogoutSvg style={{ marginRight: '10px' }} />
                           ออกจากระบบ
                         </PrimaryButton>
                         <PrimaryButton
@@ -437,7 +461,7 @@ export const ProfilePage = () => {
                         ขอบเขตการช่วยเหลือ
                       </ProfileInfoListHeading>
                       <ProfileInfoListDetail>
-                        {location.name}
+                        {user?.location.name}
                       </ProfileInfoListDetail>
                     </Flex>
                     <ProfileInfoContainer>
@@ -446,7 +470,7 @@ export const ProfilePage = () => {
                           ยอดการให้ช่วยเหลือ
                         </ProfileInfoListHeading>
                         <ProfileInfoListDetail>
-                          {provideSum.toLocaleString()} ครั้ง
+                          {user?.provideSum.toLocaleString()} ครั้ง
                         </ProfileInfoListDetail>
                       </Flex>
                       <Flex>
@@ -454,7 +478,7 @@ export const ProfilePage = () => {
                           ยอดการขอความช่วยเหลือ
                         </ProfileInfoListHeading>
                         <ProfileInfoListDetail>
-                          {requestSum.toLocaleString()} ครั้ง
+                          {user?.requestSum.toLocaleString()} ครั้ง
                         </ProfileInfoListDetail>
                       </Flex>
                       <Flex>
@@ -462,7 +486,7 @@ export const ProfilePage = () => {
                           ผู้ติดตาม
                         </ProfileInfoListHeading>
                         <ProfileInfoListDetail>
-                          {followerUserId.length} คน
+                          {user?.followerUserId} คน
                         </ProfileInfoListDetail>
                       </Flex>
                       <Flex>
@@ -470,35 +494,28 @@ export const ProfilePage = () => {
                           กำลังติดตาม
                         </ProfileInfoListHeading>
                         <ProfileInfoListDetail>
-                          {followingUserId.length} คน
+                          {user?.followingUserId} คน
                         </ProfileInfoListDetail>
                       </Flex>
                     </ProfileInfoContainer>
                   </ProfileInfoSection>
                 </ProfilePageUserInfoSection>
-              )
+              </div>
+            ) : (
+              <Loading />
             )}
             <div
               style={{
                 width: '100%',
                 height: '100%',
                 display: isTablet ? 'block' : 'flex',
-                margin: '40px 0'
+                margin: '40px 0',
+                justifyContent: 'center'
               }}
             >
               <OverallHelpedChart
-                provideSum={
-                  USER_DATA.filter(
-                    (props) =>
-                      props.userId === (query ? query : myAccountUserId)
-                  )[0].provideSum
-                }
-                requestSum={
-                  USER_DATA.filter(
-                    (props) =>
-                      props.userId === (query ? query : myAccountUserId)
-                  )[0].requestSum
-                }
+                provideSum={user?.provideSum}
+                requestSum={user?.requestSum}
               />
               <TopThreeHelpedChart />
             </div>
@@ -520,48 +537,72 @@ export const ProfilePage = () => {
             )}
           </Flex>
         )}
-        {isMobile ? (
-          <ProfilePageUserHelperListSection>
-            {menu === HelpMenu.PROVIDE ? (
-              <React.Fragment>
-                {PROVIDE_MAPPER?.filter(
-                  ({ userId }) => userId === (query ?? myAccountUserId)
-                ).map((props) => (
-                  <MyProvideList key={props.provideId} data={props} />
-                ))}
-              </React.Fragment>
-            ) : menu === ProfileMenu.REQUEST ? (
-              <React.Fragment>
-                {REQUEST_MAPPER?.filter(
-                  ({ userId }) => userId === (query ?? myAccountUserId)
-                ).map((props) => (
-                  <MyRequestList key={props.requestId} data={props} />
-                ))}
-              </React.Fragment>
-            ) : null}
-          </ProfilePageUserHelperListSection>
+        {provide && request ? (
+          <React.Fragment>
+            {isMobile ? (
+              <ProfilePageUserHelperListSection>
+                {menu === HelpMenu.PROVIDE ? (
+                  <React.Fragment>
+                    {provide.length > 0 ? (
+                      <div>
+                        {provide.map((props) => (
+                          <MyProvideList key={props.id} data={props} />
+                        ))}
+                      </div>
+                    ) : (
+                      <EmptyData height="200px" />
+                    )}
+                  </React.Fragment>
+                ) : menu === ProfileMenu.REQUEST ? (
+                  <React.Fragment>
+                    {request.length > 0 ? (
+                      <div>
+                        {' '}
+                        {request.map((props) => (
+                          <MyRequestList key={props.requestId} data={props} />
+                        ))}
+                      </div>
+                    ) : (
+                      <EmptyData height="200px" />
+                    )}
+                  </React.Fragment>
+                ) : null}
+              </ProfilePageUserHelperListSection>
+            ) : (
+              <div>
+                {menu === HelpMenu.PROVIDE ? (
+                  <React.Fragment>
+                    {provide.length > 0 ? (
+                      <ProfilePageUserHelperListSection>
+                        {provide.map((props) => (
+                          <MyProvideList key={props.id} data={props} />
+                        ))}
+                      </ProfilePageUserHelperListSection>
+                    ) : (
+                      <EmptyData height="200px" />
+                    )}
+                  </React.Fragment>
+                ) : menu === ProfileMenu.REQUEST ? (
+                  <React.Fragment>
+                    {request.length > 0 ? (
+                      <ProfilePageUserHelperListSection>
+                        {' '}
+                        {request.map((props) => (
+                          <MyRequestList key={props.requestId} data={props} />
+                        ))}
+                      </ProfilePageUserHelperListSection>
+                    ) : (
+                      <EmptyData height="200px" />
+                    )}
+                  </React.Fragment>
+                ) : null}
+              </div>
+            )}
+          </React.Fragment>
         ) : (
-          <ProfilePageUserHelperListSection>
-            {menu === HelpMenu.PROVIDE ? (
-              <React.Fragment>
-                {PROVIDE_MAPPER?.filter(
-                  ({ userId }) => userId === (query ?? myAccountUserId)
-                ).map((props) => (
-                  <MyProvideList key={props.provideId} data={props} />
-                ))}
-              </React.Fragment>
-            ) : menu === ProfileMenu.REQUEST ? (
-              <React.Fragment>
-                {REQUEST_MAPPER?.filter(
-                  ({ userId }) => userId === (query ?? myAccountUserId)
-                ).map((props) => (
-                  <MyRequestList key={props.requestId} data={props} />
-                ))}
-              </React.Fragment>
-            ) : null}
-          </ProfilePageUserHelperListSection>
+          <Loading />
         )}
       </ProfilePageContainer>
     </React.Fragment>
   );
-};
+});

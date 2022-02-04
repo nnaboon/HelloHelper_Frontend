@@ -1,6 +1,6 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
 import Flex from 'components/Flex/Flex';
@@ -11,12 +11,19 @@ import { WrapperContainer } from 'components/Wrapper/WrapperContainer';
 import { RequestListCard } from 'components/Card/RequestListCard';
 import { mediaQueryMobile, MOBILE_WIDTH, useMedia } from 'styles/variables';
 import { ORDER_DATA } from '../data/order';
+import { useMyRequestOrder } from 'hooks/order/useMyRequestOrder';
 import { myAccountUserId } from 'data/user';
 import { EmptyData } from 'components/Empty/EmptyData';
 
 export const RequestListPage = () => {
   const [currentStatus, setCurrentStatus] = useState<string>('waiting');
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
+  const { data: requestOrders, execute: getRequestOrders } =
+    useMyRequestOrder();
+
+  useEffect(() => {
+    getRequestOrders(window.localStorage.getItem('id'));
+  }, []);
 
   return (
     <WrapperContainer
@@ -29,8 +36,9 @@ export const RequestListPage = () => {
       <Text fontSize="24px" fontWeight={400} marginY="20px">
         รายการขอความช่วยเหลือของฉัน ทั้งหมด{' '}
         {
-          ORDER_DATA.filter(
-            ({ requesterUserId }) => requesterUserId === myAccountUserId
+          requestOrders?.filter(
+            ({ requesterUserId }) =>
+              requesterUserId === window.localStorage.getItem('id')
           ).length
         }{' '}
         รายการ
@@ -63,20 +71,19 @@ export const RequestListPage = () => {
         direction="column"
         marginTop="30px"
       >
-        {ORDER_DATA.filter(
-          ({ status, orderReferenceType }) =>
-            status === currentStatus && orderReferenceType === 'request'
-        ).length > 0 ? (
+        {requestOrders?.length > 0 ? (
           <div>
-            {ORDER_DATA.filter(
-              ({ status, orderReferenceType }) =>
-                status === currentStatus && orderReferenceType === 'request'
-            ).map((props) => (
-              <RequestListCard props={props} />
-            ))}
+            {requestOrders
+              ?.filter(
+                ({ status, orderReferenceType }) =>
+                  status === currentStatus && orderReferenceType === 'request'
+              )
+              .map((props) => (
+                <RequestListCard props={props} />
+              ))}
           </div>
         ) : (
-          <EmptyData />
+          <EmptyData height="300px" />
         )}
       </Flex>
     </WrapperContainer>

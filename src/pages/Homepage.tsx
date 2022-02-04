@@ -29,7 +29,10 @@ import {
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { PROVIDE_MAPPER } from 'data/provide';
 import { useUsers } from 'hooks/user/useUsers';
+import { useProvides } from 'hooks/provide/useProvides';
+import { useRequests } from 'hooks/request/useRequests';
 import { mediaQueryTablet } from '../styles/variables';
+import { Loading } from 'components/Loading/Loading';
 
 const HomePageCategorySection = styled.div`
   display: flex;
@@ -111,8 +114,12 @@ export const HomePage = () => {
   const [searchValue, setSearchValue] = useState<string>();
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const { data: response, execute: getUsers } = useUsers();
+  const { data: provides, execute: getProvides } = useProvides();
+  const { data: requests, execute: getRequests } = useRequests();
   const { Search } = Input;
+
   const onSearch = (value) => {
+    console.log(value);
     setSearchValue(value);
   };
 
@@ -172,6 +179,11 @@ export const HomePage = () => {
       items: 1
     }
   };
+
+  useEffect(() => {
+    getProvides();
+    getRequests();
+  }, []);
 
   return (
     <HomePageContainer>
@@ -246,7 +258,7 @@ export const HomePage = () => {
         />
       </div>
       <Text
-        fontSize={isMobile ? '24px' : '36px'}
+        fontSize={isMobile ? '24px' : '32px'}
         fontWeight={500}
         marginY="10px"
         css={css`
@@ -256,63 +268,74 @@ export const HomePage = () => {
         `}
       >
         ความช่วยเหลือยอดนิยม
-      </Text>{' '}
+      </Text>
       <React.Fragment>
-        {' '}
-        {PROVIDE_MAPPER.filter(({ location }) =>
-          searchValue ? location.name.includes(searchValue) : true
-        ).length > 0 ? (
-          <React.Fragment
-            css={css`
-              .react-multi-carousel-list {
-                position: static;
-              }
-            `}
-          >
-            {' '}
-            <Carousel
-              responsive={responsive}
-              partialVisible={true}
-              arrows
-              css={css`
-                .react-multiple-carousel__arrow {
-                  z-index: 10;
-                }
+        {provides ? (
+          <React.Fragment>
+            {provides?.filter(({ location }) =>
+              searchValue ? location.name.includes(searchValue) : true
+            ).length > 0 ? (
+              <React.Fragment
+                css={css`
+                  .react-multi-carousel-list {
+                    position: static;
+                  }
+                `}
+              >
+                {' '}
+                <Carousel
+                  responsive={responsive}
+                  partialVisible={true}
+                  arrows
+                  css={css`
+                    .react-multiple-carousel__arrow {
+                      z-index: 10;
+                    }
 
-                .react-multiple-carousel__arrow--left {
-                  left: 0;
-                }
+                    .react-multiple-carousel__arrow--left {
+                      left: 0;
+                    }
 
-                .react-multiple-carousel__arrow--right {
-                  right: 0;
-                }
-              `}
-            >
-              {PROVIDE_MAPPER.filter(({ location }) =>
-                searchValue ? location.name.includes(searchValue) : true
-              ).map((items) => (
-                <PopularRequestSection data={[items]} />
-              ))}
-            </Carousel>
+                    .react-multiple-carousel__arrow--right {
+                      right: 0;
+                    }
+                  `}
+                >
+                  {provides
+                    ?.filter(
+                      ({ communityId, location }) =>
+                        communityId === undefined &&
+                        (searchValue
+                          ? location.name.includes(searchValue)
+                          : true)
+                    )
+                    .map((items) => (
+                      <PopularRequestSection key={items.id} data={[items]} />
+                    ))}
+                </Carousel>
+              </React.Fragment>
+            ) : (
+              <EmptyData
+                image={Empty.PRESENTED_IMAGE_SIMPLE}
+                css={css`
+                  .ant-empty {
+                    display: flex;
+                    flex-direction: column;
+                    height: 300px;
+                    align-items: center;
+                    justify-content: center;
+                  }
+                `}
+                description={<span>ไม่พบข้อมูล</span>}
+              />
+            )}
           </React.Fragment>
         ) : (
-          <EmptyData
-            image={Empty.PRESENTED_IMAGE_SIMPLE}
-            css={css`
-              .ant-empty {
-                display: flex;
-                flex-direction: column;
-                height: 300px;
-                align-items: center;
-                justify-content: center;
-              }
-            `}
-            description={<span>ไม่พบข้อมูล</span>}
-          />
+          <Loading />
         )}
       </React.Fragment>
       <Text
-        fontSize={isMobile ? '24px' : '36px'}
+        fontSize={isMobile ? '24px' : '32px'}
         fontWeight={500}
         marginY="30px"
         css={css`
@@ -393,7 +416,7 @@ export const HomePage = () => {
         )}
       </TopTenSearchContainer>
       <Text
-        fontSize={isMobile ? '24px' : '36px'}
+        fontSize={isMobile ? '24px' : '32px'}
         fontWeight={500}
         marginY="30px"
         css={css`
@@ -405,46 +428,72 @@ export const HomePage = () => {
         Top 10 ความช่วยเหลือประจำสัปดาห์
       </Text>
       <React.Fragment>
-        {' '}
-        {PROVIDE_MAPPER.filter(({ location }) =>
-          searchValue ? location.name.includes(searchValue) : true
-        ).length > 0 ? (
+        {provides ? (
           <React.Fragment>
-            {' '}
-            <Carousel
-              responsive={responsive}
-              partialVisible={true}
-              arrows
-              css={css`
-                .react-multiple-carousel__arrow {
-                  z-index: 10;
-                }
+            {provides?.filter(({ location }) =>
+              searchValue ? location.name.includes(searchValue) : true
+            ).length > 0 ? (
+              <React.Fragment
+                css={css`
+                  .react-multi-carousel-list {
+                    position: static;
+                  }
+                `}
+              >
+                {' '}
+                <Carousel
+                  responsive={responsive}
+                  partialVisible={true}
+                  arrows
+                  css={css`
+                    .react-multiple-carousel__arrow {
+                      z-index: 10;
+                    }
 
-                .react-multiple-carousel__arrow--left {
-                  left: 0;
-                }
+                    .react-multiple-carousel__arrow--left {
+                      left: 0;
+                    }
 
-                .react-multiple-carousel__arrow--right {
-                  right: 0;
-                }
-              `}
-            >
-              {PROVIDE_MAPPER.filter(({ location }) =>
-                searchValue ? location.name.includes(searchValue) : true
-              ).map((items) => (
-                <PopularRequestSection data={[items]} />
-              ))}
-            </Carousel>
+                    .react-multiple-carousel__arrow--right {
+                      right: 0;
+                    }
+                  `}
+                >
+                  {provides
+                    ?.filter(
+                      ({ communityId, location }) =>
+                        communityId === undefined &&
+                        (searchValue
+                          ? location.name.includes(searchValue)
+                          : true)
+                    )
+                    .map((items) => (
+                      <PopularRequestSection key={items.id} data={[items]} />
+                    ))}
+                </Carousel>
+              </React.Fragment>
+            ) : (
+              <EmptyData
+                image={Empty.PRESENTED_IMAGE_SIMPLE}
+                css={css`
+                  .ant-empty {
+                    display: flex;
+                    flex-direction: column;
+                    height: 300px;
+                    align-items: center;
+                    justify-content: center;
+                  }
+                `}
+                description={<span>ไม่พบข้อมูล</span>}
+              />
+            )}
           </React.Fragment>
         ) : (
-          <EmptyData
-            image={Empty.PRESENTED_IMAGE_SIMPLE}
-            description={<span>ไม่พบข้อมูล</span>}
-          />
+          <Loading />
         )}
       </React.Fragment>
       <Text
-        fontSize={isMobile ? '24px' : '36px'}
+        fontSize={isMobile ? '24px' : '32px'}
         fontWeight={500}
         marginY="30px"
         css={css`
@@ -456,46 +505,70 @@ export const HomePage = () => {
         ความช่วยเหลือแนะนำ
       </Text>
       <React.Fragment>
-        {' '}
-        {REQUEST_MAPPER.filter(({ location }) =>
-          searchValue ? location.name.includes(searchValue) : true
-        ).length > 0 ? (
+        {requests ? (
           <React.Fragment>
-            {' '}
-            <Carousel
-              arrows
-              partialVisible={true}
-              responsive={responsive}
-              css={css`
-                .react-multiple-carousel__arrow {
-                  z-index: 10;
-                }
+            {requests?.filter(({ location }) =>
+              searchValue ? location.name.includes(searchValue) : true
+            ).length > 0 ? (
+              <React.Fragment
+                css={css`
+                  .react-multi-carousel-list {
+                    position: static;
+                  }
+                `}
+              >
+                {' '}
+                <Carousel
+                  responsive={responsive}
+                  partialVisible={true}
+                  arrows
+                  css={css`
+                    .react-multiple-carousel__arrow {
+                      z-index: 10;
+                    }
 
-                .react-multiple-carousel__arrow--left {
-                  left: 0;
-                }
+                    .react-multiple-carousel__arrow--left {
+                      left: 0;
+                    }
 
-                .react-multiple-carousel__arrow--right {
-                  right: 0;
-                }
-              `}
-            >
-              {REQUEST_MAPPER.filter(({ location }) =>
-                searchValue ? location.name.includes(searchValue) : true
-              ).map((items) => (
-                <SuggestedRequestSection data={[items]} />
-              ))}
-            </Carousel>
+                    .react-multiple-carousel__arrow--right {
+                      right: 0;
+                    }
+                  `}
+                >
+                  {requests
+                    ?.filter(({ communityId, location }) =>
+                      communityId === undefined && searchValue
+                        ? location.name.includes(searchValue)
+                        : true
+                    )
+                    .map((items) => (
+                      <SuggestedRequestSection key={items.id} data={[items]} />
+                    ))}
+                </Carousel>
+              </React.Fragment>
+            ) : (
+              <EmptyData
+                image={Empty.PRESENTED_IMAGE_SIMPLE}
+                css={css`
+                  .ant-empty {
+                    display: flex;
+                    flex-direction: column;
+                    height: 300px;
+                    align-items: center;
+                    justify-content: center;
+                  }
+                `}
+                description={<span>ไม่พบข้อมูล</span>}
+              />
+            )}
           </React.Fragment>
         ) : (
-          <EmptyData
-            image={Empty.PRESENTED_IMAGE_SIMPLE}
-            description={<span>ไม่พบข้อมูล</span>}
-          />
+          <Loading />
         )}
       </React.Fragment>
       <Text
-        fontSize={isMobile ? '24px' : '36px'}
+        fontSize={isMobile ? '24px' : '32px'}
         fontWeight={500}
         marginY="30px"
         css={css`
