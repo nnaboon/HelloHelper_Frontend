@@ -26,6 +26,8 @@ import { useEffect, useState } from 'react';
 //   ${colors.HERO_MARK_GRADIENT_03} 85.47%
 // )`;
 
+export const EXTRA_LARGE_DESKTOP_WIDTH = 2500;
+export const LARGE_DESKTOP_WIDTH = 2000;
 export const DESKTOP_WIDTH = 1440;
 export const MINI_DESKTOP_WIDTH = 1280;
 export const TABLET_WIDTH = 1024;
@@ -34,6 +36,8 @@ export const MOBILE_WIDTH = 600;
 export const MINI_MOBILE_WIDTH = 320;
 export const isClient = typeof window === 'object';
 
+export const mediaQueryExtraLargeDesktop = `@media only screen and (max-width: ${EXTRA_LARGE_DESKTOP_WIDTH}px)`;
+export const mediaQueryLargeDesktop = `@media only screen and (max-width: ${LARGE_DESKTOP_WIDTH}px)`;
 export const mediaQueryDesktop = `@media only screen and (max-width: ${DESKTOP_WIDTH}px)`;
 export const mediaQueryMiniDesktop = `@media only screen and (max-width: ${MINI_DESKTOP_WIDTH}px)`;
 export const mediaQueryTablet = `@media only screen and (max-width: ${TABLET_WIDTH}px)`;
