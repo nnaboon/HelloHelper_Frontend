@@ -10,21 +10,21 @@ export const MenuSvg = (props) => {
     >
       <path
         d="M2.5 10H17.5"
-        stroke="white"
+        stroke="black"
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M2.5 5H17.5"
-        stroke="white"
+        stroke="black"
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M2.5 15H17.5"
-        stroke="white"
+        stroke="black"
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
