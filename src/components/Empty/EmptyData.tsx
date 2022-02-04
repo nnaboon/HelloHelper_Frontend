@@ -10,10 +10,16 @@ import {
   mediaQueryTablet
 } from 'styles/variables';
 
+interface EmptyDataProps {
+  height?: any;
+  text?: string;
+}
+
 const EmptyContainer = styled(Empty)`
     display: flex;
     flex-direction: column;
-    height: 700px;
+    // height: 700px;
+    width: 100%;
     align-items: center;
     justify-content: center;
 
@@ -27,11 +33,28 @@ const EmptyContainer = styled(Empty)`
     }
 }`;
 
-export const EmptyData = () => {
+export const EmptyData = ({ height, text }: EmptyDataProps) => {
   return (
-    <EmptyContainer
+    <Empty
       image={Empty.PRESENTED_IMAGE_SIMPLE}
-      description={<span>ไม่พบข้อมูล</span>}
+      description={<span>{text ? text : 'ไม่พบข้อมูล'}</span>}
+      css={css`
+        display: flex;
+        flex-direction: column;
+        height: ${height ?? '100%'};
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+
+        ${mediaQueryTablet} {
+          height: 100%;
+        }
+
+        ${mediaQueryMobile} {
+          height: 100%;
+          top: 0;
+        }
+      `}
     />
   );
 };
