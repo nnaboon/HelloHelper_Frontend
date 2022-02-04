@@ -1,6 +1,6 @@
 import useAxios from 'axios-hooks';
 
-export const useAddUser = () => {
+export const useUploadUserImage = () => {
   const [{ data: response, loading, error }, fire] = useAxios(
     {
       method: 'POST'
@@ -8,8 +8,8 @@ export const useAddUser = () => {
     { manual: true }
   );
 
-  const execute = (userId: string, data: object) => {
-    return fire({ url: `http://localhost:5000/user`, data });
+  const execute = (data: any) => {
+    return fire({ url: `http://localhost:5000/user/upload`, data });
   };
 
   return {
