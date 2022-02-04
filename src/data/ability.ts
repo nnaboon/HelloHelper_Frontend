@@ -12,3 +12,17 @@ export const ABILITY = [
   'ด้านสุขภาพ',
   'ให้ความช่วยเหลือตามรายการให้ความช่วยเหลือของฉัน'
 ];
+
+export enum Ability {
+  FOOD = 'food',
+  CLOTH = 'cloth',
+  BEAUTY = 'beauty',
+  FURNITURE = 'furniture',
+  ELECTRONIC = 'electronic',
+  AGRICULTURE = 'agriculture',
+  STATIONARY = 'stationary',
+  MUSIC = 'music',
+  MOBILE = 'mobile',
+  SPORTS = 'sports',
+  HEALTH = 'health'
+}

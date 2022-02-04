@@ -1,5 +1,5 @@
 export type OrderProps = {
-  orderId: string;
+  id: string;
   orderReferenceType: string;
   orderReferenceId: string;
   title: string;
@@ -8,7 +8,7 @@ export type OrderProps = {
     lat: number;
     lng: number;
   };
-  amount: number;
+  number: number;
   price: number;
   serviceCharge: number;
   payment: string;
