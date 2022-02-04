@@ -8,6 +8,7 @@ import { RegisterAbilityForm } from './RegisterAbilityForm';
 import { getAuth } from 'firebase/auth';
 import axios from 'axios';
 import { observer } from 'mobx-react-lite';
+import firebase from '../../firebase';
 import { userStore } from 'store/userStore';
 
 interface RegisterFormProps {
@@ -20,14 +21,26 @@ export const RegisterForm = observer(
     const auth = getAuth();
     const user = auth.currentUser;
     const [step, setStep] = useState<RegisterStep>(
-      window.localStorage.getItem('id')
-        ? RegisterStep.LOCATION
-        : user
-        ? RegisterStep.USERNAME
+      user
+        ? user.displayName
+          ? RegisterStep.LOCATION
+          : RegisterStep.USERNAME
         : RegisterStep.EMAIL_AND_PASSWORD
     );
     const [createUserData, setCreateUserData] = useState<UserCreateBody>();
     const { setUserId } = userStore;
+
+    // useEffect(() => {
+    //   if (user) {
+    //     if (user.displayName) {
+    //       setStep(RegisterStep.LOCATION);
+    //     } else {
+    //       setStep(RegisterStep.USERNAME);
+    //     }
+    //   } else {
+    //     setStep(RegisterStep.EMAIL_AND_PASSWORD);
+    //   }
+    // });
 
     useEffect(() => {
       if (window.localStorage.getItem('id')) {
@@ -41,13 +54,14 @@ export const RegisterForm = observer(
         setCreateUserData((prev) => ({
           ...prev,
           userId: user.uid,
-          email: user.email
+          email: user.email,
+          username: user.displayName
         }));
       }
     }, []);
 
     useEffect(() => {
-      if (user?.emailVerified) {
+      if (user?.emailVerified && !user.displayName) {
         setStep(RegisterStep.USERNAME);
       }
     }, [user]);
@@ -105,6 +119,7 @@ export const RegisterForm = observer(
                     .then((res) => {
                       setIsModalVisible(false);
                       setUserId(user.uid);
+                      window.location.reload();
                     })
                     .catch((error) => {
                       console.log(error);
