@@ -7,7 +7,7 @@ export const SecondaryButton = styled.a`
   min-width: 106px;
   height: 40px;
   background: #ffffff;
-  border: 1px solid #ee6400;
+  border: 2px solid #ee6400;
   box-sizing: border-box;
   border-radius: 8px;
   text-decoration: none;
