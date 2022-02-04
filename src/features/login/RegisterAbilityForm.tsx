@@ -47,7 +47,7 @@ export const RegisterAbilityForm = (props: RegisterAbilityFormProps) => {
   const onFinish = async (value) => {
     setIsSubmitting(true);
     const data = {
-      ability: value.ability
+      category: value.ability
     };
 
     try {
