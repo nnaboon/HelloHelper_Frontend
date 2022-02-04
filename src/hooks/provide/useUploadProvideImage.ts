@@ -1,14 +1,15 @@
 import useAxios from 'axios-hooks';
-import { ProvideGetDto } from 'models/ProvideGetDto';
 
-export const useMyProvide = () => {
+export const useUploadProvideImage = () => {
   const [{ data: response, loading, error }, fire] = useAxios(
-    {},
+    {
+      method: 'POST'
+    },
     { manual: true }
   );
 
-  const execute = (userId: string) => {
-    return fire({ url: `http://localhost:5000/provide/me/${userId}` });
+  const execute = (data: any) => {
+    return fire({ url: `http://localhost:5000/provide/upload`, data });
   };
 
   return {

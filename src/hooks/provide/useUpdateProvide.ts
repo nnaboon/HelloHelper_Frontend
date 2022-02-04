@@ -17,6 +17,7 @@ export const useUpdateProvide = () => {
   const execute = (provideId: string, data: object) => {
     return fire({ url: `http://localhost:5000/provide/${provideId}`, data });
   };
+
   return {
     data: response,
     loading: loading,
