@@ -35,9 +35,10 @@ export const RankingBadge = styled.div<{ rankColor: string }>`
   border-radius: 8px;
   max-width: max-content;
   padding: 0 10px;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 500;
   position: relative;
+  margin-top: 4px;
 
   ${mediaQuerySmallTablet} {
     width: 84px;
