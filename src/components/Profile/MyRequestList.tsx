@@ -1,7 +1,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { css, jsx } from '@emotion/react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from '@emotion/styled';
 import Flex from 'components/Flex/Flex';
@@ -14,7 +14,9 @@ import {
   MOBILE_WIDTH,
   TABLET_WIDTH
 } from 'styles/variables';
+import { Skeleton } from 'antd';
 import { USER_DATA } from 'data/user';
+import { useUser } from 'hooks/user/useUser';
 
 const HelperListCard = styled.div`
   background: #ffffff;
@@ -22,8 +24,6 @@ const HelperListCard = styled.div`
   border-radius: 8px;
   height: 360px;
   margin-top: 20px;
-  display: flex;
-  flex-direction: column;
   box-sizing: border-box;
   padding: 35px;
   position: relative;
@@ -31,6 +31,8 @@ const HelperListCard = styled.div`
 
   ${mediaQueryMobile} {
     margin-top: 0;
+    margin-bottom: 30px;
+    padding: 25px;
   }
 `;
 
@@ -100,42 +102,53 @@ const SecondaryHelpButton = styled(SecondaryButton)`
 
 export const MyRequestList = ({ data }: any) => {
   const history = useHistory();
+  const { data: user, execute: getUser } = useUser();
+
+  useEffect(() => {
+    if (data) {
+      getUser(data.userId);
+    }
+  }, [data]);
 
   return (
     <HelperListCard
       key={data.id}
       onClick={() => {
         history.push({
-          pathname: `/request/${data.title}/${data.requestId}`,
+          pathname: `/request/${data.title}/${data.id}`,
           state: {
             type: 'request'
           }
         });
       }}
     >
-      <HelperListTitle>{data.title}</HelperListTitle>
-      <Flex marginY="8px">
-        <HelperListHeading>ผู้ให้ความช่วยเหลือ</HelperListHeading>
-        <HelperListDetail>
-          {USER_DATA.find((props) => props.userId === data.userId).username}
-        </HelperListDetail>
-      </Flex>
-      <Flex marginY="8px">
-        <HelperListHeading>สถานที่ให้ความช่วยเหลือ</HelperListHeading>
-        <HelperListDetail>{data.location.name}</HelperListDetail>
-      </Flex>
-      <Flex marginY="8px">
-        <HelperListHeading>จำนวน</HelperListHeading>
-        <HelperListDetail>{data.amount}</HelperListDetail>
-      </Flex>
-      <Flex marginY="8px">
-        <HelperListHeading>ค่าบริการ</HelperListHeading>
-        <HelperListDetail>{data.serviceCharge} บาท</HelperListDetail>
-      </Flex>
-      <Flex marginY="8px">
-        <HelperListHeading>วิธีการชำระเงิน</HelperListHeading>
-        <HelperListDetail>{data.payment}</HelperListDetail>
-      </Flex>
+      {user ? (
+        <Flex direction="column" justify="flex-start" itemAlign="flex-start">
+          <HelperListTitle>{data.title}</HelperListTitle>
+          <Flex marginY="8px">
+            <HelperListHeading>ผู้ให้ความช่วยเหลือ</HelperListHeading>
+            <HelperListDetail>{user.username}</HelperListDetail>
+          </Flex>
+          <Flex marginY="8px">
+            <HelperListHeading>สถานที่ให้ความช่วยเหลือ</HelperListHeading>
+            <HelperListDetail>{data.location.name}</HelperListDetail>
+          </Flex>
+          <Flex marginY="8px">
+            <HelperListHeading>จำนวน</HelperListHeading>
+            <HelperListDetail>{data.number}</HelperListDetail>
+          </Flex>
+          <Flex marginY="8px">
+            <HelperListHeading>ค่าบริการ</HelperListHeading>
+            <HelperListDetail>{data.serviceCharge} บาท</HelperListDetail>
+          </Flex>
+          <Flex marginY="8px">
+            <HelperListHeading>วิธีการชำระเงิน</HelperListHeading>
+            <HelperListDetail>{data.payment}</HelperListDetail>
+          </Flex>
+        </Flex>
+      ) : (
+        <Skeleton />
+      )}
     </HelperListCard>
   );
 };
