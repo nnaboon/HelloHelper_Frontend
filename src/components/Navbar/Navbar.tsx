@@ -4,9 +4,8 @@ import { css, jsx, Global } from '@emotion/react';
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from '@emotion/styled';
-import { Input, Modal } from 'antd';
+import { Input, Modal, Skeleton } from 'antd';
 import { observer } from 'mobx-react-lite';
-import UserPic from 'images/avatar_user.png';
 import Flex from 'components/Flex/Flex';
 import { RegisterForm } from 'features/login/RegisterForm';
 import { LoginForm } from 'features/login/LoginForm';
@@ -17,6 +16,7 @@ import { MessageOutlined } from '@ant-design/icons';
 import { SideMenu } from 'components/Menu/SideMenu';
 import { USER_DATA } from 'data/user';
 import MyAccountAvatar from 'images/avatar_user2.png';
+import { useUser } from 'hooks/user/useUser';
 import firebase from '../../firebase';
 
 import { userStore } from 'store/userStore';
@@ -98,6 +98,7 @@ const SearchBarContainer = styled.div`
 export const Navbar = observer(() => {
   // Change to check from key in local storage.
   const [account, setAccount] = useState<boolean>(false);
+  const [userImage, setUserImage] = useState<any>('');
   const [collapsed, setCollapsed] = useState<boolean>(true);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -105,7 +106,8 @@ export const Navbar = observer(() => {
   const isSmallTablet = useMedia(`(max-width: ${SMALL_TABLET_WIDTH}px)`);
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
 
-  const { userId, setUserId } = userStore;
+  const { userId, setUserId, me, setMe } = userStore;
+  const { data: response, execute: getUser } = useUser();
 
   const history = useHistory();
   const { Search } = Input;
@@ -133,11 +135,14 @@ export const Navbar = observer(() => {
     firebase.auth().onAuthStateChanged(function (user) {
       if (user && window.localStorage.getItem('id')) {
         setUserId(window.localStorage.getItem('id'));
+        setUserImage(user.photoURL);
+        getUser(user.uid);
         setIsModalVisible(false);
         setAccount(true);
       } else if (user) {
-        setAccountStep(LoginStep.REGISTER);
         setIsModalVisible(true);
+        getUser(user.uid);
+        setAccountStep(LoginStep.REGISTER);
         setAccount(true);
       } else {
         setIsModalVisible(true);
@@ -147,8 +152,17 @@ export const Navbar = observer(() => {
     });
   }, []);
 
+  useEffect(() => {
+    if (response) {
+      setMe(response);
+      setUserId(response?.userId);
+      setIsModalVisible(false);
+    }
+  }, [response]);
+
   return (
     <NavbarSection>
+      {' '}
       <Global
         styles={css`
           .ant-modal-content {
@@ -188,7 +202,13 @@ export const Navbar = observer(() => {
               <li
                 onClick={() => {
                   history.push({
-                    pathname: '/community/zxcvb234'
+                    pathname: `/community/${
+                      response
+                        ? response.communityId
+                          ? response.communityId[0]
+                          : ''
+                        : ''
+                    }`
                   });
                 }}
               >
@@ -197,7 +217,7 @@ export const Navbar = observer(() => {
               <li
                 onClick={() => {
                   history.push({
-                    pathname: '/provide'
+                    pathname: '/order/provide'
                   });
                 }}
               >
@@ -206,7 +226,7 @@ export const Navbar = observer(() => {
               <li
                 onClick={() => {
                   history.push({
-                    pathname: '/request'
+                    pathname: '/order/request'
                   });
                 }}
               >
@@ -225,20 +245,26 @@ export const Navbar = observer(() => {
           )}
 
           {window.localStorage.getItem('id') ? (
-            <MyAccount
-              src={USER_DATA[0].imageUrl ?? MyAccountAvatar}
-              alt="my account"
-              onClick={() => {
-                setCollapsed(true);
-                if (account) {
-                  history.push({
-                    pathname: '/profile'
-                  });
-                } else {
-                  setIsModalVisible(true);
-                }
-              }}
-            />
+            response ? (
+              <React.Fragment>
+                <MyAccount
+                  src={response ? response.imageUrl : undefined}
+                  alt="my account"
+                  onClick={() => {
+                    setCollapsed(true);
+                    if (account) {
+                      history.push({
+                        pathname: '/profile'
+                      });
+                    } else {
+                      setIsModalVisible(true);
+                    }
+                  }}
+                />{' '}
+              </React.Fragment>
+            ) : (
+              <Skeleton.Avatar size="large" shape="circle" />
+            )
           ) : (
             <li
               onClick={() => {
