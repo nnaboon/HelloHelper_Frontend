@@ -77,8 +77,8 @@ const RequestTitle = styled.div`
 `;
 
 const HelperImageSection = styled.img`
-  width: 120px;
-  height: 120px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   margin-top: 15px;
 
@@ -170,7 +170,7 @@ export const SmallSuggestedRequestCard = ({ data }: any) => {
                       width: 32%;
                       flex-direction: column;
                       align-items: center;
-                      margin-top: -13px;
+                      margin-top: -7px;
                       margin-right: 35px;
                     `}
                   >
@@ -186,8 +186,8 @@ export const SmallSuggestedRequestCard = ({ data }: any) => {
                     <div
                       style={{
                         display: 'flex',
-                        marginBottom: '8px',
-                        marginTop: '-4px'
+                        marginBottom: '12px',
+                        marginTop: '0px'
                       }}
                     >
                       {getStar(rating)}

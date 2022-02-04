@@ -23,7 +23,7 @@ const HelperListCardContainer = styled.div`
   box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.09);
   border-radius: 12px;
   box-sizing: border-box;
-  padding: 20px;
+  padding: 20px 50px;
   display: flex;
   justify-content: space-between;
   align-items: center;

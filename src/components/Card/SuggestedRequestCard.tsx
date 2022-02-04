@@ -1,6 +1,6 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { RankingBadge } from '../Badge/Badge';
@@ -18,6 +18,7 @@ import {
   mediaQuerySmallTablet
 } from 'styles/variables';
 import { USER_DATA } from 'data/user';
+import { useUser } from 'hooks/user/useUser';
 
 const RequestHelperCardContainer = styled.div`
   display: flex;
@@ -170,12 +171,17 @@ export const SuggestedRequestSection = ({ data }: any) => {
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
   const isSmallTablet = useMedia(`(max-width: ${SMALL_TABLET_WIDTH}px)`);
+  const { data: user, execute: getUser } = useUser();
+
+  // useEffect(() => {
+  //   getUser(data[0].userId);
+  // }, []);
 
   return (
     <RequestHelperCardContainer>
       {data.map(
         ({
-          requestId,
+          id,
           userId,
           title,
           imageUrl,
@@ -183,13 +189,14 @@ export const SuggestedRequestSection = ({ data }: any) => {
           payment,
           serviceCharge,
           location,
-          rank
+          rank,
+          user
         }) => (
           <CardContainer
-            key={requestId}
+            key={id}
             onClick={() => {
               history.push({
-                pathname: `/request/${title}/${requestId}`,
+                pathname: `/request/${title}/${id}`,
                 state: {
                   type: 'request'
                 }
@@ -217,7 +224,10 @@ export const SuggestedRequestSection = ({ data }: any) => {
                   }
                 `}
               >
-                <RequestImageSection src={RequestImage} alt="request" />
+                <RequestImageSection
+                  src={imageUrl ? imageUrl : RequestImage}
+                  alt="request"
+                />
               </div>
               <div
                 css={css`
@@ -241,26 +251,13 @@ export const SuggestedRequestSection = ({ data }: any) => {
                 <RequestTitle>{title}</RequestTitle>
                 <RequestDataContent>
                   <RequestDataTitle>ชื่อ</RequestDataTitle>
-                  <RequestDataInfo>
-                    {
-                      USER_DATA.filter((props) => props.userId === userId)[0]
-                        .username
-                    }
-                  </RequestDataInfo>
+                  <RequestDataInfo>{user.username}</RequestDataInfo>
                 </RequestDataContent>
                 <RequestDataContent>
                   <RequestDataTitle>ระดับ</RequestDataTitle>
-                  <RankingBadge
-                    rankColor={
-                      RANK_BADGE[
-                        USER_DATA.filter((props) => props.userId === userId)[0]
-                          .rank
-                      ].color
-                    }
-                  >
-                    {USER_DATA.filter(
-                      (props) => props.userId === userId
-                    )[0].rank.toUpperCase()}
+
+                  <RankingBadge rankColor={RANK_BADGE[user.rank].color}>
+                    {user.rank.toUpperCase()}
                   </RankingBadge>
                 </RequestDataContent>
                 <RequestDataContent>

@@ -1,7 +1,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { css, jsx } from '@emotion/react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { SecondaryButton, PrimaryButton } from 'components/Button/Button';
 
@@ -16,6 +16,7 @@ import { UserSvg } from 'components/Svg/UserSvg';
 import { getStar } from 'components/Star/getStar';
 import UserAvatar from 'images/avatar_helper.png';
 import MyAccountAvatar from 'images/avatar_user2.png';
+import { useUser } from 'hooks/user/useUser';
 
 import {
   useMedia,
@@ -26,6 +27,7 @@ import {
   mediaQuerySmallTablet
 } from 'styles/variables';
 import { myAccountUserId, USER_DATA } from 'data/user';
+import { SkeletonLoading } from 'components/Loading/SkeletonLoading';
 
 const RequestHelperCardContainer = styled.div`
   display: flex;
@@ -45,13 +47,13 @@ const RequestHelperCardContainer = styled.div`
 `;
 
 const CardContainer = styled.div`
-  min-width: 400px;
+  min-width: 360px;
   height: 370px;
   width: 95%;
   background: #ffffff;
   box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
-  padding: 40px 30px;
+  padding: 20px 30px;
   box-sizing: border-box;
   position: relative;
   position: relative;
@@ -90,8 +92,8 @@ const RequestTitle = styled.div`
 `;
 
 const HelperImage = styled.img`
-  width: 120px;
-  height: 120px;
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
   margin-top: 15px;
   object-fit: fill;
@@ -125,7 +127,6 @@ const RequestDataInfo = styled.div`
   line-height: 26px;
   color: #000000;
   white-space: wrap;
-  width: 150px;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -153,238 +154,225 @@ export const PopularRequestSection = ({ data }: any) => {
   const history = useHistory();
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const isSmallTablet = useMedia(`(max-width: ${SMALL_TABLET_WIDTH}px)`);
+  const { data: user, execute: getUser } = useUser();
+
+  // useEffect(() => {
+  //   getUser(data[0].userId);
+  // }, []);
 
   return (
     <RequestHelperCardContainer>
-      {data.map(
-        ({
-          provideId,
-          userId,
-          title,
-          serviceCharge,
-          location,
-          provideSum,
-          rating
-        }) => (
-          <CardContainer key={provideId}>
-            <div
-              onClick={() => {
-                history.push({
-                  pathname: `/provide/${title}/${provideId}`,
-                  state: {
-                    type: 'provide'
-                  }
-                });
-              }}
-            >
-              <RequestTitle>{title}</RequestTitle>
-              <div
-                css={css`
-                  display: flex;
-                `}
-              >
-                {!isSmallTablet && (
+      {true ? (
+        <React.Fragment>
+          {data.map(
+            ({
+              id,
+              userId,
+              title,
+              serviceCharge,
+              location,
+              provideSum,
+              rating,
+              user
+            }) => (
+              <CardContainer key={id}>
+                <div
+                  onClick={() => {
+                    history.push({
+                      pathname: `/provide/${title}/${id}`,
+                      state: {
+                        type: 'provide'
+                      }
+                    });
+                  }}
+                >
+                  <RequestTitle>{title}</RequestTitle>
                   <div
                     css={css`
                       display: flex;
-                      width: 32%;
-                      flex-direction: column;
-                      align-items: center;
-                      margin-top: -13px;
-                      margin-right: 35px;
                     `}
                   >
-                    <HelperImage
-                      src={
-                        userId === myAccountUserId
-                          ? MyAccountAvatar
-                          : UserAvatar
-                      }
-                      alt="user"
-                      loading="lazy"
-                    />
-                    <SuggestedBadge>แนะนำ</SuggestedBadge>
-                    <div
-                      style={{
-                        display: 'flex',
-                        marginBottom: '8px',
-                        marginTop: '-4px'
-                      }}
-                    >
-                      {getStar(
-                        USER_DATA.filter((items) => items.userId === userId)[0]
-                          .rating
-                      )}
-                    </div>
-                    <RankingBadge
-                      rankColor={
-                        RANK_BADGE[
-                          USER_DATA.filter(
-                            (props) => props.userId === userId
-                          )[0].rank
-                        ].color
-                      }
-                    >
-                      {USER_DATA.filter(
-                        (props) => props.userId === userId
-                      )[0].rank.toUpperCase()}
-                    </RankingBadge>
-                  </div>
-                )}
-                <div
-                  css={css`
-                    display: flex;
-                    flex-direction: column;
-                    margin-left: -13px;
-
-                    ${mediaQuerySmallTablet} {
-                      margin: 0;
-                    }
-                  `}
-                >
-                  <RequestDataContent>
-                    <RequestDataTitle>ชื่อ</RequestDataTitle>
-                    <RequestDataInfo>
-                      {
-                        USER_DATA.filter((props) => props.userId === userId)[0]
-                          .username
-                      }
-                    </RequestDataInfo>
-                  </RequestDataContent>
-                  <RequestDataContent>
-                    <RequestDataTitle>
-                      {isSmallTablet ? 'สถานที่' : `สถานที่ให้\nความช่วยเหลือ`}
-                    </RequestDataTitle>
-                    <RequestDataInfo>{location.name}</RequestDataInfo>
-                  </RequestDataContent>
-                  <RequestDataContent>
-                    <RequestDataTitle>
-                      {isSmallTablet
-                        ? `การให้ความช่วยเหลือนี้`
-                        : `ยอดการให้\nความช่วยเหลือนี้`}
-                    </RequestDataTitle>
-                    <RequestDataInfo>
-                      {provideSum.toLocaleString()} ครั้ง
-                    </RequestDataInfo>
-                  </RequestDataContent>
-                  {isSmallTablet && (
-                    <div
-                      css={css`
-                        display: flex;
-                        position: absolute;
-                        bottom: 0px;
-                      `}
-                    >
+                    {!isSmallTablet && (
                       <div
                         css={css`
                           display: flex;
+                          width: 30%;
                           flex-direction: column;
-                          margin-right: 10px;
+                          align-items: center;
+                          margin-top: -13px;
+                          margin-right: 35px;
                         `}
                       >
-                        <HelperImage src={UserAvatar} alt="user" />
-                        <SuggestedBadge>แนะนำ</SuggestedBadge>
-                      </div>
-
-                      <div
-                        css={css`
-                          display: flex;
-                          flex-direction: column;
-                        `}
-                      >
-                        {' '}
+                        <HelperImage
+                          src={user.imageUrl}
+                          alt="user"
+                          loading="lazy"
+                        />
+                        {Boolean(user?.recommend) && (
+                          <SuggestedBadge>แนะนำ</SuggestedBadge>
+                        )}
                         <div
                           style={{
                             display: 'flex',
                             marginBottom: '8px',
-                            marginTop: '-4px'
+                            marginTop: '4px'
                           }}
                         >
-                          {getStar(
-                            USER_DATA.filter(
-                              (items) => items.userId === userId
-                            )[0].rating
-                          )}
+                          {getStar(user.rating)}
                         </div>
-                        <RankingBadge
-                          rankColor={
-                            RANK_BADGE[
-                              USER_DATA.filter(
-                                (props) => props.userId === userId
-                              )[0].rank
-                            ].color
-                          }
-                        >
-                          {USER_DATA.filter(
-                            (props) => props.userId === userId
-                          )[0].rank.toUpperCase()}
+
+                        <RankingBadge rankColor={RANK_BADGE[user.rank].color}>
+                          {user.rank.toUpperCase()}
                         </RankingBadge>
                       </div>
-                    </div>
-                  )}
-                  {!isSmallTablet && (
-                    <div>
-                      {' '}
+                    )}
+                    <div
+                      css={css`
+                        display: flex;
+                        flex-direction: column;
+                        margin-left: -13px;
+
+                        ${mediaQuerySmallTablet} {
+                          margin: 0;
+                        }
+                      `}
+                    >
+                      <RequestDataContent>
+                        <RequestDataTitle>ชื่อ</RequestDataTitle>
+                        <RequestDataInfo>{user.username}</RequestDataInfo>
+                      </RequestDataContent>
                       <RequestDataContent>
                         <RequestDataTitle>
-                          คะแนนการให้ความช่วยเหลือนี้
+                          {isSmallTablet
+                            ? 'สถานที่'
+                            : `สถานที่ให้\nความช่วยเหลือ`}
                         </RequestDataTitle>
-                        <RequestDataInfo>
-                          {rating.toFixed(1)}{' '}
-                          <Rate count={1} defaultValue={1} />
-                        </RequestDataInfo>
+                        <RequestDataInfo>{location.name}</RequestDataInfo>
                       </RequestDataContent>
                       <RequestDataContent>
-                        <RequestDataTitle>ค่าบริการ</RequestDataTitle>
-                        <RequestDataInfo>{serviceCharge} บาท</RequestDataInfo>
+                        <RequestDataTitle>
+                          {isSmallTablet
+                            ? `การให้ความช่วยเหลือนี้`
+                            : `ยอดการให้\nความช่วยเหลือนี้`}
+                        </RequestDataTitle>
+                        <RequestDataInfo>
+                          {provideSum.toLocaleString()} ครั้ง
+                        </RequestDataInfo>
                       </RequestDataContent>
+                      {isSmallTablet && (
+                        <div
+                          css={css`
+                            display: flex;
+                            position: absolute;
+                            bottom: 0px;
+                          `}
+                        >
+                          <div
+                            css={css`
+                              display: flex;
+                              flex-direction: column;
+                              margin-right: 10px;
+                            `}
+                          >
+                            <HelperImage src={user.imageUrl} alt="user" />
+                            {Boolean(user.recommend) && (
+                              <SuggestedBadge>แนะนำ</SuggestedBadge>
+                            )}
+                          </div>
+
+                          <div
+                            css={css`
+                              display: flex;
+                              flex-direction: column;
+                            `}
+                          >
+                            {' '}
+                            <div
+                              style={{
+                                display: 'flex',
+                                marginBottom: '8px',
+                                marginTop: '-4px'
+                              }}
+                            >
+                              {getStar(user.rating)}
+                            </div>
+                            <RankingBadge
+                              rankColor={RANK_BADGE[user.rank].color}
+                            >
+                              {user.rank.toUpperCase()}
+                            </RankingBadge>
+                          </div>
+                        </div>
+                      )}
+                      {!isSmallTablet && (
+                        <div>
+                          {' '}
+                          <RequestDataContent>
+                            <RequestDataTitle>
+                              คะแนนการให้ความช่วยเหลือนี้
+                            </RequestDataTitle>
+                            <RequestDataInfo>
+                              {rating.toFixed(1)}{' '}
+                              <Rate count={1} defaultValue={1} />
+                            </RequestDataInfo>
+                          </RequestDataContent>
+                          <RequestDataContent>
+                            <RequestDataTitle>ค่าบริการ</RequestDataTitle>
+                            <RequestDataInfo>
+                              {serviceCharge} บาท
+                            </RequestDataInfo>
+                          </RequestDataContent>
+                        </div>
+                      )}
                     </div>
-                  )}
+                  </div>
                 </div>
-              </div>
-            </div>
-            <div
-              css={css`
-                display: flex;
-                position: absolute;
-                bottom: 10px;
-                right: 20px;
-                align-items: center;
-                z-index: 3;
+                <div
+                  css={css`
+                    display: flex;
+                    position: absolute;
+                    bottom: 15px;
+                    right: 20px;
+                    align-items: center;
+                    z-index: 3;
 
-                ${mediaQueryMobile} {
-                  bottom: 12px;
-                }
-              `}
-            >
-              {!isSmallTablet && (
-                <SecondaryButton
-                  onClick={() => {
-                    history.push({ pathname: `/profile/${userId}` });
-                  }}
+                    ${mediaQueryMobile} {
+                      bottom: 12px;
+                    }
+                  `}
                 >
-                  <UserSvg />
-                  <div>โปรไฟล์</div>
-                </SecondaryButton>
-              )}
+                  {!isSmallTablet && (
+                    <SecondaryButton
+                      onClick={() => {
+                        history.push({ pathname: `/profile/${userId}` });
+                      }}
+                    >
+                      <UserSvg />
+                      <div>โปรไฟล์</div>
+                    </SecondaryButton>
+                  )}
 
-              <PrimaryButton
-                css={css`
-                  ${mediaQuerySmallTablet} {
-                    min-width: 80px;
-                    height: 30px;
-                    border-radius: 5px;
-                    font-size: 16px;
-                    margin: 0;
-                  }
-                `}
-              >
-                <MessageSvg style={{ marginRight: '5px' }} />
-                <div>แชท</div>
-              </PrimaryButton>
-            </div>
-          </CardContainer>
-        )
+                  <PrimaryButton
+                    css={css`
+                      ${mediaQuerySmallTablet} {
+                        min-width: 80px;
+                        height: 30px;
+                        border-radius: 5px;
+                        font-size: 16px;
+                        margin: 0;
+                      }
+                    `}
+                  >
+                    <MessageSvg style={{ marginRight: '5px' }} />
+                    <div>แชท</div>
+                  </PrimaryButton>
+                </div>
+              </CardContainer>
+            )
+          )}
+        </React.Fragment>
+      ) : (
+        <SkeletonLoading />
       )}
     </RequestHelperCardContainer>
   );
