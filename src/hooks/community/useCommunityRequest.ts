@@ -1,14 +1,10 @@
 import useAxios from 'axios-hooks';
-import { RequestGetDto } from 'models/RequestGetDto';
-
-export type CommunityRequestListResponse = {
-  data: Array<RequestGetDto>;
-  message: string;
-};
 
 export const useCommunityRequest = () => {
-  const [{ data: response, loading, error }, fire] =
-    useAxios<CommunityRequestListResponse>({}, { manual: true });
+  const [{ data: response, loading, error }, fire] = useAxios(
+    {},
+    { manual: true }
+  );
 
   const execute = (communityId: string) => {
     return fire({
@@ -17,7 +13,7 @@ export const useCommunityRequest = () => {
   };
 
   return {
-    data: response?.data,
+    data: response,
     loading: loading,
     error,
     execute

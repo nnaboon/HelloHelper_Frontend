@@ -1,6 +1,6 @@
 import useAxios from 'axios-hooks';
 
-export const useCommunityProvide = () => {
+export const useCommunityMember = () => {
   const [{ data: response, loading, error }, fire] = useAxios(
     {},
     { manual: true }
@@ -8,7 +8,7 @@ export const useCommunityProvide = () => {
 
   const execute = (communityId: string) => {
     return fire({
-      url: `http://localhost:5000/community/provide/${communityId}`
+      url: `http://localhost:5000/community/member/${communityId}`
     });
   };
 

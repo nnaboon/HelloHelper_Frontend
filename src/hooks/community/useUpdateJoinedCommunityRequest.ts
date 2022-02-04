@@ -11,7 +11,7 @@ export const useUpdateJoinedCommunityRequest = () => {
   //data = joinedRequestId, status, userId
   const execute = (communityId: string, data: object) => {
     return fire({
-      url: `http://localhost:5000/join/${communityId}`,
+      url: `http://localhost:5000/community/update/join/${communityId}`,
       data
     });
   };

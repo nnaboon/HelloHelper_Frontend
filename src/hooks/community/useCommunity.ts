@@ -7,15 +7,17 @@ export type CommunityResponse = {
 };
 
 export const useCommunity = () => {
-  const [{ data: response, loading, error }, fire] =
-    useAxios<CommunityResponse>({}, { manual: true });
+  const [{ data: response, loading, error }, fire] = useAxios(
+    {},
+    { manual: true }
+  );
 
   const execute = (communityId: string) => {
     return fire({ url: `http://localhost:5000/community/${communityId}` });
   };
 
   return {
-    data: response?.data,
+    data: response,
     loading: loading,
     error,
     execute
