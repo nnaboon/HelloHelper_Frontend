@@ -17,7 +17,7 @@ export const useUser = () => {
   };
 
   return {
-    data: response || {},
+    data: response,
     loading: loading,
     error,
     execute
