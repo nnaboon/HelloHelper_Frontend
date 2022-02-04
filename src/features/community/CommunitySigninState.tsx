@@ -8,12 +8,11 @@ import { CreateCommunityForm } from 'components/Form/CreateCommunityForm';
 import { CommunityForm } from 'components/Form/CommunityForm';
 import { CommunityType } from './const';
 
-export const CommunitySigninState = () => {
-  const [menu, setMenu] = useState<CommunityType>(CommunityType.ALREADY);
-  switch (menu) {
-    case CommunityType.CREATE:
-      return <CreateCommunityForm setMenu={setMenu} />;
-    case CommunityType.ALREADY:
-      return <CommunityForm setMenu={setMenu} />;
-  }
+interface CommunitySigninStateProps {
+  setVisible: (visible: boolean) => void;
+}
+export const CommunitySigninState = ({
+  setVisible
+}: CommunitySigninStateProps) => {
+  return <CreateCommunityForm setVisible={setVisible} />;
 };

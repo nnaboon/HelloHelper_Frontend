@@ -1,11 +1,12 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { css, jsx } from '@emotion/react';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { Text } from 'components/Text';
-import { Button, Form, Input, message, Checkbox, Divider } from 'antd';
+import { Button, Form, Input, message, Divider } from 'antd';
 import { GoogleMapContent } from 'components/GoogleMap/GoogleMap';
+import { FormRule, getRule } from 'utils/form/getRule';
 import {
   useMedia,
   MOBILE_WIDTH,
@@ -15,43 +16,90 @@ import {
   mediaQuerySmallTablet,
   mediaQueryTablet
 } from 'styles/variables';
+import { useUpdateCommunity } from 'hooks/community/useUpdateCommunity';
 
-export const CommunitySettingEditProfile = () => {
+export const CommunitySettingEditProfile = ({ communityData }: any) => {
   const [form] = Form.useForm();
+  const [password, setPassword] = useState('');
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [checkedList, setCheckedList] = useState<string[]>([]);
+  const [location, setLocation] = useState<any>();
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const isSmallTablet = useMedia(`(max-width: ${SMALL_TABLET_WIDTH}px)`);
   const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
+  const { data: community, execute: updateCommunity } = useUpdateCommunity();
 
-  const toggleChecked = (value) => {
-    console.log(value.includes('ไม่สามารถให้ความช่วยเหลือได้'));
-    setCheckedList(value);
+  useEffect(() => {
+    form.setFieldsValue({
+      communityName: communityData.communityName,
+      description: communityData.description,
+      imageUrl: communityData.imageUrl,
+      location: communityData.location
+    });
+  }, [communityData, form]);
 
-    if (value.includes('ไม่สามารถให้ความช่วยเหลือได้')) {
-      setCheckedList([]);
-      value = ['ไม่สามารถให้ความช่วยเหลือได้'];
-    }
-  };
+  useEffect(() => {
+    if (
+      form.getFieldValue('communityCode') &&
+      form.getFieldValue('communityCode') !== form.getFieldValue('confirmCode')
+    )
+      form.setFields([
+        {
+          name: 'confirmCode',
+          errors: ['รหัสผ่านไม่ตรงกัน']
+        }
+      ]);
+    else
+      form.setFields([
+        {
+          name: 'confirmCode',
+          errors: []
+        }
+      ]);
+  }, [password]);
+
+  useEffect(() => {
+    form.setFieldsValue({
+      location: location
+    });
+  }, [form, location]);
 
   const onFinish = async (value) => {
     setIsSubmitting(true);
+    console.log(location);
     const data = {
-      title: value.title,
+      communityName: value.communityName,
       description: value.description,
-      password: value.password,
-      imageUrl: value.imageUrl,
-      location: value.location
+      communityCode: value.communityCode
+        ? value.communityCode
+        : communityData.communityCode,
+      imageUrl: value.imageUrl ?? '',
+      location: {
+        name: location ? location?.name : communityData.location.name,
+        lat: location
+          ? location?.geometry.location.lat()
+          : communityData.location.latitude,
+        lng: location
+          ? location?.geometry.location.lng()
+          : communityData.location.longitude
+      }
     };
 
     try {
-      console.log('data', data);
+      updateCommunity(communityData.communityId, data);
     } catch (e) {
       message.error('ไม่สามารถโพสต์ขอความช่วยเหลือได้');
     } finally {
       setIsSubmitting(false);
+      message.success('สำเร็จ');
     }
   };
+
+  // useEffect(() => {
+  //   if (communityData) {
+  //     setLocation(communityData.location);
+  //   }
+  // }, [communityData]);
+
   return (
     <div
       css={css`
@@ -72,9 +120,15 @@ export const CommunitySettingEditProfile = () => {
         name="basic"
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
-        initialValues={{ remember: true }}
+        // initialValues={{ remember: true }}
         onFinish={onFinish}
         autoComplete="off"
+        initialValues={{
+          communityName: communityData.title,
+          description: communityData.description,
+          imageUrl: communityData.imageUrl,
+          location: communityData.location
+        }}
         css={css`
           height: 100vh;
           .ant-col-8 {
@@ -94,25 +148,33 @@ export const CommunitySettingEditProfile = () => {
               width: 100%;
             }
           }
+
+          ${mediaQueryTablet} {
+            .ant-col-16 {
+              max-width: 100%;
+            }
+          }
         `}
       >
         <Form.Item
-          name="title"
+          name="communityName"
           label="ชื่อ"
-          rules={[
-            {
-              // required: true,
-              message: 'กรุณากรอกชื่อความช่วยเหลือที่คุณต้องการ'
-            }
-          ]}
+          // rules={[
+          //   {
+          //     // required: true,
+          //     message: 'กรุณากรอกชื่อความช่วยเหลือที่คุณต้องการ'
+          //   }
+          // ]}
         >
           <Input
+            defaultValue={communityData.communityName}
             placeholder="ชื่อชุมชนความช่วยเหลือ"
             style={{ height: '40px', borderRadius: '12px' }}
           />
         </Form.Item>
-        <Form.Item name="description" label="ตำอธิบาย">
+        <Form.Item name="description" label="คำอธิบาย">
           <Input
+            defaultValue={communityData ? communityData.description : ''}
             placeholder="ชื่อชุมชนความช่วยเหลือ"
             style={{ height: '40px', borderRadius: '12px' }}
           />
@@ -127,14 +189,14 @@ export const CommunitySettingEditProfile = () => {
           เปลี่ยนรหัสผ่าน
         </Text>
         <Form.Item
-          name="prevPassword"
+          name="code"
           label="รหัสผ่านปัจจุบัน"
-          rules={[
-            {
-              // required: true,
-              message: 'กรุณากรอกรหัสผ่านปัจจุบัน'
-            }
-          ]}
+          // rules={[
+          //   {
+          //     // required: true,
+          //     message: 'กรุณากรอกรหัสผ่านปัจจุบัน'
+          //   }
+          // ]}
         >
           <Input
             placeholder="รหัสผ่านปัจจุบัน"
@@ -142,14 +204,14 @@ export const CommunitySettingEditProfile = () => {
           />
         </Form.Item>{' '}
         <Form.Item
-          name="password"
+          name="communityCode"
           label="รหัสผ่านใหม่"
-          rules={[
-            {
-              // required: true,
-              message: 'กรุณากรอกรหัสผ่านใหม่'
-            }
-          ]}
+          // rules={[
+          //   {
+          //     // required: true,
+          //     message: 'กรุณากรอกรหัสผ่านใหม่'
+          //   }
+          // ]}
         >
           <Input
             placeholder="รหัสผ่านใหม่"
@@ -157,13 +219,19 @@ export const CommunitySettingEditProfile = () => {
           />
         </Form.Item>{' '}
         <Form.Item
-          name="confirmPassword"
+          name="confirmCode"
           label="ยืนยันรหัสผ่านใหม่"
+          normalize={(value) => value.trim()}
           rules={[
-            {
-              // required: true,
-              message: 'กรุณากรอกรหัสผ่านใหม่'
-            }
+            { required: Boolean(form.getFieldValue('communityCode')) },
+            // getRule(FormRule.REQUIRE, 'กรุณากรอกยืนยันรหัสผ่าน'),
+            ({ getFieldValue }) => ({
+              validator(rule, value) {
+                if (value && getFieldValue('communityCode') !== value)
+                  return Promise.reject('รหัสผ่านไม่ตรงกัน');
+                return Promise.resolve();
+              }
+            })
           ]}
         >
           <Input
@@ -180,17 +248,32 @@ export const CommunitySettingEditProfile = () => {
         >
           สถานที่ให้ความช่วยเหลือ
         </Text>
+        {/* <Form.Item
+          name="location"
+          // rules={[
+          //   {
+          //     // required: true,
+          //     message: 'กรุณากรอกสถานที่ที่คุณสามารถให้ความช่วยเหลือได้'
+          //   }
+          // ]}
+        > */}
         <Form.Item
           name="location"
-          rules={[
-            {
-              // required: true,
-              message: 'กรุณากรอกสถานที่ที่คุณสามารถให้ความช่วยเหลือได้'
-            }
-          ]}
+          label="สถานที่"
+          // rules={[
+          //   {
+          //     required: true,
+          //     message: 'กรุณากรอกสถานที่ที่คุณสามารถให้ความช่วยเหลือได้'
+          //   }
+          // ]}
         >
-          <GoogleMapContent width={isTablet ? '100%' : '470px'} />
+          <GoogleMapContent
+            width={isTablet ? '100%' : '470px'}
+            requestLocation={communityData.location}
+            setRequestLocation={setLocation}
+          />
         </Form.Item>
+        {/* </Form.Item> */}
         <div
           css={css`
             width: 100%;

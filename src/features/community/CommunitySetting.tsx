@@ -8,21 +8,56 @@ import { CommunitySettingMenuTab } from 'components/Menu/CommunitySettingMenuTab
 import { CommunitySettingManageMember } from './CommunitySettingManageMember';
 import { WrapperContainer } from 'components/Wrapper/WrapperContainer';
 import { CommunitySettingMenu } from 'components/Menu/const';
-import { COMMUNITY_MAPPER } from 'data/community';
 import { CommunitySettingEditProfile } from './CommunitySettingEditProfile';
 import { mediaQuerySmallTablet, mediaQueryMobile } from 'styles/variables';
+import { useCommunity } from 'hooks/community/useCommunity';
+import { useCommunityMember } from 'hooks/community/useCommunityMember';
+import { useCommunityJoinedRequestUserId } from 'hooks/community/useCommunityJoinedRequestUserId';
+
+import { Loading } from 'components/Loading/Loading';
 
 export const CommunitySetting = () => {
   const [menu, setMenu] = useState<CommunitySettingMenu>(
     CommunitySettingMenu.MANAGE
   );
-  const { state } = useLocation();
+  const { pathname, state } = useLocation();
+  const query = pathname.split('/')[3];
   const currentMenu = ((state as any)?.community_menu ||
     CommunitySettingMenu.MANAGE) as CommunitySettingMenu;
+  const { data: community, execute: getCommunity } = useCommunity();
+  const { data: member, execute: getCommunityMember } = useCommunityMember();
+  const { data: joinedRequestUserId, execute: getCommunityJoinedRequestId } =
+    useCommunityJoinedRequestUserId();
 
   useEffect(() => {
     setMenu(currentMenu);
   }, [currentMenu]);
+
+  useEffect(() => {
+    if (!community && !member) {
+      getCommunity(query);
+      getCommunityMember(query);
+    }
+  }, []);
+
+  const getField = (data: any) => {
+    const joinedRequestUserId = [];
+    for (var i = 0; i < data.joinedRequestUserId.length; i++) {
+      joinedRequestUserId.push(data.joinedRequestUserId[i].userId);
+    }
+
+    const user = {
+      joinedRequestUserId: joinedRequestUserId
+    };
+
+    getCommunityJoinedRequestId(data.communityId, user);
+  };
+
+  useEffect(() => {
+    if (community && !joinedRequestUserId) {
+      getField(community);
+    }
+  }, [community, joinedRequestUserId]);
 
   return (
     <WrapperContainer
@@ -33,13 +68,21 @@ export const CommunitySetting = () => {
       `}
     >
       <CommunitySettingMenuTab menu={menu} setMenu={setMenu} />
-      {currentMenu === CommunitySettingMenu.MANAGE ? (
-        <CommunitySettingManageMember
-          member={COMMUNITY_MAPPER[0].member}
-          joinedRequest={COMMUNITY_MAPPER[0].joinedRequest}
-        />
+      {community && member ? (
+        <div>
+          {' '}
+          {currentMenu === CommunitySettingMenu.MANAGE ? (
+            <CommunitySettingManageMember
+              member={member}
+              joinedRequest={joinedRequestUserId}
+            />
+          ) : (
+            // <CommunitySettingEditProfile communityData={community} />
+            <CommunitySettingEditProfile communityData={community} />
+          )}
+        </div>
       ) : (
-        <CommunitySettingEditProfile />
+        <Loading />
       )}
     </WrapperContainer>
   );

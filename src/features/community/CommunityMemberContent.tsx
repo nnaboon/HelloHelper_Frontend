@@ -87,8 +87,8 @@ export const CommunityMemberContent = ({ member }: any) => {
 
   return (
     <div>
-      {member.map(({ userId, role }) => (
-        <CommunityMemberCard key={userId}>
+      {member.map(({ id, role, username, imageUrl }) => (
+        <CommunityMemberCard key={id}>
           <div
             css={css`
               display: flex;
@@ -120,15 +120,10 @@ export const CommunityMemberContent = ({ member }: any) => {
             >
               {' '}
               <CommunityMemberImage
-                src={userId === myAccountUserId ? MyAccountAvatar : UserAvatar}
+                src={imageUrl}
                 alt="community member avatar"
               />
-              <UserName>
-                {
-                  USER_DATA.filter((props) => props.userId === userId)[0]
-                    .username
-                }
-              </UserName>
+              <UserName>{username}</UserName>
               {Boolean(role) && (
                 <CommunityAdminBadge>ผู้นำชุมชน</CommunityAdminBadge>
               )}
@@ -170,13 +165,14 @@ export const CommunityMemberContent = ({ member }: any) => {
                   style={{ marginLeft: 5 }}
                   onClick={() => {
                     history.push({
-                      pathname: `/profile/${userId}`
+                      pathname: `/profile/${id}`
                     });
                   }}
                 >
                   โปรไฟล์
                 </div>
               </SecondaryButton>
+              {console.log(member)}
               <PrimaryButton
                 css={css`
                   width: 140px;

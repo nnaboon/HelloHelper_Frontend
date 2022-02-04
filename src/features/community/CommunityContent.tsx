@@ -3,12 +3,16 @@ import { useLocation } from 'react-router-dom';
 import { CommunityMenu } from 'components/Menu/const';
 import { CommunityContentInfo } from './CommunityContentInfo';
 import { CommunitySignin } from './CommunitySignin';
-import { USER_DATA } from 'data/user';
-import { COMMUNITY_MAPPER } from 'data/community';
+import { observer } from 'mobx-react-lite';
+import { userStore } from 'store/userStore';
+import { Loading } from 'components/Loading/Loading';
+import { WrapperContainer } from 'components/Wrapper/WrapperContainer';
+import { fontSize } from 'styled-system';
 
-export const CommunityContent = () => {
+export const CommunityContent = observer(() => {
   const [menu, setMenu] = useState<CommunityMenu>(CommunityMenu.PROVIDE);
-  const { state } = useLocation();
+  const { pathname, state } = useLocation();
+  const { me } = userStore;
   const currentMenu = ((state as any)?.menuKey ||
     CommunityMenu.PROVIDE) as CommunityMenu;
 
@@ -18,11 +22,19 @@ export const CommunityContent = () => {
 
   return (
     <div>
-      {USER_DATA[0].community.name ? (
-        <CommunityContentInfo data={COMMUNITY_MAPPER[0]} />
+      {me ? (
+        me.communityId &&
+        pathname.split('/')[1] === 'community' &&
+        pathname.split('/')[2] !== undefined ? (
+          <CommunityContentInfo data={me?.communityId} />
+        ) : (
+          <CommunitySignin />
+        )
       ) : (
-        <CommunitySignin />
+        <WrapperContainer>
+          <Loading height={`calc(100vh - 300px)`} />
+        </WrapperContainer>
       )}
     </div>
   );
-};
+});

@@ -1,8 +1,9 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
+import { useLocation } from 'react-router-dom';
 import { Dropdown, Menu } from 'antd';
 import { SecondaryButton, PrimaryButton } from 'components/Button/Button';
 import { Text } from 'components/Text';
@@ -15,11 +16,12 @@ import {
   mediaQueryMobile,
   mediaQueryTablet
 } from 'styles/variables';
-import { myAccountUserId, USER_DATA } from 'data/user';
+import { useUpdateJoinedCommunityRequest } from '../../hooks/community/useUpdateJoinedCommunityRequest';
+import { EmptyData } from 'components/Empty/EmptyData';
 
 interface CommunitySettingManagerMemberProps {
-  member: any[];
-  joinedRequest: string[];
+  member: any;
+  joinedRequest: any;
 }
 
 const CommunityMemberCard = styled.div`
@@ -79,12 +81,85 @@ const UserName = styled.div`
   }
 `;
 
+const CommunityMemberContainer = styled.div`
+  display: flex;
+  width: 100%;
+  align-items: center;
+  margin-left: 90px;
+  justify-content: space-between;
+
+  ${mediaQueryTablet} {
+    margin-left: 35px;
+  }
+
+  ${mediaQueryMobile} {
+    margin-left: 0;
+    padding: 20px;
+    flex-direction: column;
+  }
+`;
+
+const CommunityMemberImageContainer = styled.div`
+  display: flex;
+  align-items: center;
+
+  ${mediaQueryMobile} {
+    margin-left: 0;
+    align-self: flex-start;
+  }
+`;
+
+const CommunityButtonContainer = styled.div`
+  display: flex;
+  margin-right: 80px;
+
+  ${mediaQueryTablet} {
+    margin-right: 35px;
+  }
+  ${mediaQueryMobile} {
+    margin: 0;
+    position: relative;
+    bottom: -13px;
+    width: 100%;
+    justify-content: space-between;
+  }
+`;
+
+const CommunityPrimaryButton = styled(PrimaryButton)`
+  width: 140px;
+
+  ${mediaQueryTablet} {
+    width: 120px;
+  }
+
+  ${mediaQueryMobile} {
+    width: 45%;
+  }
+`;
+
+const CommunitySecondaryButton = styled(SecondaryButton)`
+  width: 140px;
+
+  ${mediaQueryTablet} {
+    width: 120px;
+    margin-right: 0;
+  }
+
+  ${mediaQueryMobile} {
+    width: 45%;
+  }
+`;
+
 export const CommunitySettingManageMember = ({
   member,
   joinedRequest
 }: CommunitySettingManagerMemberProps) => {
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const isSmallTablet = useMedia(`(max-width: ${SMALL_TABLET_WIDTH}px)`);
+  const { pathname } = useLocation();
+  const query = pathname.split('/')[3];
+  const { execute: updateJoinedCommunityRequest } =
+    useUpdateJoinedCommunityRequest();
 
   const menu = (
     <Menu>
@@ -98,309 +173,171 @@ export const CommunitySettingManageMember = ({
       <Text fontWeight={500} fontSize="28px" marginY="40px">
         ผู้ต้องการเข้าร่วมชุมชน
       </Text>
-      {joinedRequest.map((userId) => (
-        <CommunityMemberCard key={userId}>
-          <div
-            css={css`
-              display: flex;
-              width: 100%;
-              align-items: center;
-              margin-left: 90px;
-              justify-content: space-between;
+      {joinedRequest ? (
+        <div>
+          {' '}
+          {joinedRequest.map(
+            ({ username, userId, joinedRequestId, imageUrl }) => (
+              <CommunityMemberCard key={userId}>
+                <CommunityMemberContainer>
+                  <CommunityMemberImageContainer>
+                    <CommunityMemberImage
+                      src={imageUrl}
+                      alt="community member avatar"
+                    />
+                    <UserName>{username}</UserName>
+                  </CommunityMemberImageContainer>
+                  <CommunityButtonContainer>
+                    <CommunitySecondaryButton
+                      onClick={() => {
+                        updateJoinedCommunityRequest(query, {
+                          joinedRequestId: joinedRequestId,
+                          userId: userId
+                        });
+                      }}
+                    >
+                      <div>ปฏิเสธ</div>
+                    </CommunitySecondaryButton>
+                    <Dropdown overlay={menu}>
+                      <CommunityPrimaryButton
+                        onClick={() => {
+                          updateJoinedCommunityRequest(query, {
+                            joinedRequestId: joinedRequestId,
+                            selected: 1,
+                            userId: userId
+                          });
+                        }}
+                      >
+                        <div>ยอมรับ</div>
+                      </CommunityPrimaryButton>
+                    </Dropdown>
+                  </CommunityButtonContainer>
+                </CommunityMemberContainer>
+              </CommunityMemberCard>
+            )
+          )}
+        </div>
+      ) : (
+        <EmptyData text={`ยังไม่มีสมาชิกในชุมชนความช่วยเหลือนี้`} />
+      )}
 
-              ${mediaQueryTablet} {
-                margin-left: 35px;
-              }
-
-              ${mediaQueryMobile} {
-                margin-left: 0;
-                padding: 20px;
-                flex-direction: column;
-              }
-            `}
-          >
-            <div
-              css={css`
-                display: flex;
-                align-items: center;
-
-                ${mediaQueryMobile} {
-                  margin-left: 0;
-                  align-self: flex-start;
-                }
-              `}
-            >
-              {' '}
-              <CommunityMemberImage
-                src={userId === myAccountUserId ? MyAccountAvatar : UserAvatar}
-                alt="community member avatar"
-              />
-              <UserName>
-                {
-                  USER_DATA.filter((props) => props.userId === userId)[0]
-                    .username
-                }
-              </UserName>
-            </div>
-            <div
-              css={css`
-                display: flex;
-                margin-right: 80px;
-
-                ${mediaQueryTablet} {
-                  margin-right: 35px;
-                }
-                ${mediaQueryMobile} {
-                  margin: 0;
-                  position: relative;
-                  bottom: -13px;
-                  width: 100%;
-                  justify-content: space-between;
-                }
-              `}
-            >
-              {' '}
-              <SecondaryButton
-                css={css`
-                  width: 140px;
-
-                  ${mediaQueryTablet} {
-                    width: 120px;
-                    margin-right: 0;
-                  }
-
-                  ${mediaQueryMobile} {
-                    width: 45%;
-                  }
-                `}
-              >
-                <div>ปฏิเสธ</div>
-              </SecondaryButton>
-              <Dropdown overlay={menu}>
-                <PrimaryButton
-                  css={css`
-                    width: 140px;
-
-                    ${mediaQueryTablet} {
-                      width: 120px;
-                    }
-
-                    ${mediaQueryMobile} {
-                      width: 45%;
-                    }
-                  `}
-                >
-                  <div>ยอมรับ</div>
-                </PrimaryButton>
-              </Dropdown>
-            </div>
-          </div>
-        </CommunityMemberCard>
-      ))}
       <Text fontWeight={500} fontSize="28px" marginY="40px">
         ผู้นำชุมชน
       </Text>
-      {member.map(({ userId }) => (
-        <CommunityMemberCard key={userId}>
-          <div
-            css={css`
-              display: flex;
-              width: 100%;
-              align-items: center;
-              margin-left: 90px;
-              justify-content: space-between;
-
-              ${mediaQueryTablet} {
-                margin-left: 35px;
-              }
-
-              ${mediaQueryMobile} {
-                margin-left: 0;
-                padding: 20px;
-                flex-direction: column;
-              }
-            `}
-          >
-            <div
-              css={css`
-                display: flex;
-                align-items: center;
-                ${mediaQueryMobile} {
-                  margin-left: 0;
-                  align-self: flex-start;
-                }
-              `}
-            >
-              {' '}
-              <CommunityMemberImage
-                src={UserAvatar}
-                alt="community member avatar"
-              />
-              <UserName>
-                {
-                  USER_DATA.filter((props) => props.userId === userId)[0]
-                    .username
-                }
-              </UserName>
-            </div>
-            <div
-              css={css`
-                display: flex;
-                margin-right: 80px;
-
-                ${mediaQueryTablet} {
-                  margin-right: 35px;
-                }
-
-                ${mediaQueryMobile} {
-                  margin: 0;
-                  position: relative;
-                  bottom: -13px;
-                  width: 100%;
-                  justify-content: space-between;
-                }
-              `}
-            >
-              {' '}
-              <SecondaryButton
-                css={css`
-                  width: 140px;
-
-                  ${mediaQueryTablet} {
-                    width: 120px;
-                    margin-right: 0;
-                  }
-
-                  ${mediaQueryMobile} {
-                    width: 45%;
-                  }
-                `}
-              >
-                <div>ลบ</div>
-              </SecondaryButton>
-              <Dropdown overlay={menu}>
-                <PrimaryButton
-                  css={css`
-                    width: 140px;
-
-                    ${mediaQueryTablet} {
-                      width: 120px;
-                    }
-
-                    ${mediaQueryMobile} {
-                      width: 45%;
-                    }
-                  `}
-                >
-                  <div>เปลี่ยนสถานะ</div>
-                </PrimaryButton>
-              </Dropdown>
-            </div>
-          </div>
-        </CommunityMemberCard>
-      ))}
+      {member
+        .filter(({ role }) => role === 1)
+        .map(({ username, userId }) => (
+          <CommunityMemberCard key={userId}>
+            <CommunityMemberContainer>
+              <CommunityMemberImageContainer>
+                {' '}
+                <CommunityMemberImage
+                  src={UserAvatar}
+                  alt="community member avatar"
+                />
+                <UserName>{username}</UserName>
+              </CommunityMemberImageContainer>
+              <CommunityButtonContainer>
+                <CommunitySecondaryButton>
+                  <div>ลบ</div>
+                </CommunitySecondaryButton>
+                <Dropdown overlay={menu}>
+                  <CommunityPrimaryButton>
+                    <div>เปลี่ยนสถานะ</div>
+                  </CommunityPrimaryButton>
+                </Dropdown>
+              </CommunityButtonContainer>
+            </CommunityMemberContainer>
+          </CommunityMemberCard>
+        ))}
+      {/* {member
+        .filter(({ role }) => role === 1)
+        .map(({ username, userId }) => (
+          <CommunityMemberCard key={userId}>
+            <CommunityMemberContainer>
+              <CommunityMemberImageContainer>
+                {' '}
+                <CommunityMemberImage
+                  src={UserAvatar}
+                  alt="community member avatar"
+                />
+                <UserName>{username}</UserName>
+              </CommunityMemberImageContainer>
+              <CommunityButtonContainer>
+                <CommunitySecondaryButton>
+                  <div>ลบ</div>
+                </CommunitySecondaryButton>
+                <Dropdown overlay={menu}>
+                  <CommunityPrimaryButton>
+                    <div>เปลี่ยนสถานะ</div>
+                  </CommunityPrimaryButton>
+                </Dropdown>
+              </CommunityButtonContainer>
+            </CommunityMemberContainer>
+          </CommunityMemberCard>
+        ))} */}
       <Text fontWeight={500} fontSize="28px" marginY="40px">
         สมาชิกในชุมชน
       </Text>
-      {member.map(({ userId }) => (
-        <CommunityMemberCard key={userId}>
-          <div
-            css={css`
-              display: flex;
-              width: 100%;
-              align-items: center;
-              margin-left: 90px;
-              justify-content: space-between;
-
-              ${mediaQueryTablet} {
-                margin-left: 35px;
-              }
-
-              ${mediaQueryMobile} {
-                margin-left: 0;
-                padding: 20px;
-                flex-direction: column;
-              }
-            `}
-          >
-            <div
-              css={css`
-                display: flex;
-                align-items: center;
-                ${mediaQueryMobile} {
-                  margin-left: 0;
-                  align-self: flex-start;
-                }
-              `}
-            >
-              {' '}
-              <CommunityMemberImage
-                src={UserAvatar}
-                alt="community member avatar"
-              />
-              <UserName>
-                {
-                  USER_DATA.filter((props) => props.userId === userId)[0]
-                    .username
-                }
-              </UserName>
-            </div>
-            <div
-              css={css`
-                display: flex;
-                margin-right: 80px;
-
-                ${mediaQueryTablet} {
-                  margin-right: 35px;
-                }
-
-                ${mediaQueryMobile} {
-                  margin: 0;
-                  position: relative;
-                  bottom: -15px;
-                  width: 100%;
-                  justify-content: space-between;
-                }
-              `}
-            >
-              {' '}
-              <SecondaryButton
-                css={css`
-                  width: 140px;
-
-                  ${mediaQueryTablet} {
-                    width: 120px;
-                    margin-right: 0;
-                  }
-
-                  ${mediaQueryMobile} {
-                    width: 45%;
-                  }
-                `}
-              >
-                <div>ลบ</div>
-              </SecondaryButton>
-              <Dropdown overlay={menu}>
-                <PrimaryButton
-                  css={css`
-                    width: 140px;
-
-                    ${mediaQueryTablet} {
-                      width: 120px;
-                    }
-
-                    ${mediaQueryMobile} {
-                      width: 45%;
-                    }
-                  `}
-                >
-                  <div>เปลี่ยนสถานะ</div>
-                </PrimaryButton>
-              </Dropdown>
-            </div>
-          </div>
-        </CommunityMemberCard>
-      ))}
+      {member?.filter(({ role }) => role === 0).length > 0 ? (
+        <React.Fragment>
+          {' '}
+          {member
+            .filter(({ role }) => role === 0)
+            .map(({ username, userId }) => (
+              <CommunityMemberCard key={userId}>
+                <CommunityMemberContainer>
+                  <CommunityMemberImageContainer>
+                    {' '}
+                    <CommunityMemberImage
+                      src={UserAvatar}
+                      alt="community member avatar"
+                    />
+                    <UserName>{username}</UserName>
+                  </CommunityMemberImageContainer>
+                  <CommunityButtonContainer>
+                    <CommunitySecondaryButton>
+                      <div>ลบ</div>
+                    </CommunitySecondaryButton>
+                    <Dropdown overlay={menu}>
+                      <CommunityPrimaryButton>
+                        <div>เปลี่ยนสถานะ</div>
+                      </CommunityPrimaryButton>
+                    </Dropdown>
+                  </CommunityButtonContainer>
+                </CommunityMemberContainer>
+              </CommunityMemberCard>
+            ))}
+        </React.Fragment>
+      ) : (
+        <EmptyData text={`ยังไม่มีสมาชิกในชุมชนความช่วยเหลือนี้`} />
+      )}
+      {/* {member
+        .filter(({ role }) => role === 0)
+        .map(({ username, userId }) => (
+          <CommunityMemberCard key={userId}>
+            <CommunityMemberContainer>
+              <CommunityMemberImageContainer>
+                {' '}
+                <CommunityMemberImage
+                  src={UserAvatar}
+                  alt="community member avatar"
+                />
+                <UserName>{username}</UserName>
+              </CommunityMemberImageContainer>
+              <CommunityButtonContainer>
+                <CommunitySecondaryButton>
+                  <div>ลบ</div>
+                </CommunitySecondaryButton>
+                <Dropdown overlay={menu}>
+                  <CommunityPrimaryButton>
+                    <div>เปลี่ยนสถานะ</div>
+                  </CommunityPrimaryButton>
+                </Dropdown>
+              </CommunityButtonContainer>
+            </CommunityMemberContainer>
+          </CommunityMemberCard>
+        ))} */}
     </div>
   );
 };
