@@ -10,6 +10,7 @@ import { Menu, Dropdown, message, Form, Modal } from 'antd';
 import { StatusBadge } from 'components/Badge/StatusBadge';
 import { RatingForm } from 'components/Form/RatingForm';
 import { PrimaryButton, SecondaryButton } from 'components/Button/Button';
+import { useUpdateOrder } from 'hooks/order/useUpdateOrder';
 import {
   mediaQueryMobile,
   useMedia,
@@ -97,6 +98,7 @@ export const ProvideListCard = ({ props }: ProvideListCardProps) => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
+  const { execute: updateOrder } = useUpdateOrder();
 
   const [form] = Form.useForm();
 
@@ -129,10 +131,58 @@ export const ProvideListCard = ({ props }: ProvideListCardProps) => {
 
   const menu = (
     <Menu>
-      <Menu.Item>รอดำเนินการ</Menu.Item>
-      <Menu.Item>กำลังดำเนินการ</Menu.Item>
-      <Menu.Item>สำเร็จ</Menu.Item>
-      <Menu.Item>ยกเลิก</Menu.Item>
+      <Menu.Item
+        onClick={() => {
+          try {
+            updateOrder(props.id, { status: 'waiting' });
+          } catch (error) {
+            message.error('ไม่สามาถเปลี่ยนสถานะได้');
+          } finally {
+            message.success('สำเร็จ');
+          }
+        }}
+      >
+        รอดำเนินการ
+      </Menu.Item>
+      <Menu.Item
+        onClick={() => {
+          try {
+            updateOrder(props.id, { status: 'pending' });
+          } catch (error) {
+            message.error('ไม่สามาถเปลี่ยนสถานะได้');
+          } finally {
+            message.success('สำเร็จ');
+          }
+        }}
+      >
+        กำลังดำเนินการ
+      </Menu.Item>
+      <Menu.Item
+        onClick={() => {
+          try {
+            updateOrder(props.id, { status: 'complete' });
+          } catch (error) {
+            message.error('ไม่สามาถเปลี่ยนสถานะได้');
+          } finally {
+            message.success('สำเร็จ');
+          }
+        }}
+      >
+        สำเร็จ
+      </Menu.Item>
+      <Menu.Item
+        onClick={() => {
+          try {
+            updateOrder(props.id, { status: 'cancel' });
+          } catch (error) {
+            message.error('ไม่สามาถเปลี่ยนสถานะได้');
+          } finally {
+            message.success('สำเร็จ');
+          }
+        }}
+      >
+        ยกเลิก
+      </Menu.Item>
     </Menu>
   );
 
@@ -154,7 +204,7 @@ export const ProvideListCard = ({ props }: ProvideListCardProps) => {
         </Flex>
         <Flex itemAlign="flex-start">
           <ProvideListTitle>จำนวน</ProvideListTitle>
-          <ProvideListData>{props.amount}</ProvideListData>
+          <ProvideListData>{props.number}</ProvideListData>
         </Flex>
         <Flex itemAlign="flex-start">
           <ProvideListTitle>ราคาสินค้าทั้งหมด</ProvideListTitle>
@@ -222,21 +272,6 @@ export const ProvideListCard = ({ props }: ProvideListCardProps) => {
             `}
           >
             แชท
-          </PrimaryButton>
-          <PrimaryButton
-            css={css`
-              min-width: 160px;
-
-              ${mediaQueryMobile} {
-                min-width: 47%;
-                width: 47%;
-              }
-            `}
-            onClick={() => {
-              setIsModalVisible(true);
-            }}
-          >
-            ช่วยเหลือเสร็จสิ้น
           </PrimaryButton>
         </Flex>
       ) : (

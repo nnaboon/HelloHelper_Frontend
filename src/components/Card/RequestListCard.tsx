@@ -141,7 +141,7 @@ export const RequestListCard = ({ props }: RequestListCardProps) => {
         </Flex>
         <Flex itemAlign="flex-start">
           <RequestListTitle>จำนวน</RequestListTitle>
-          <RequestListData>{props.amount}</RequestListData>
+          <RequestListData>{props.number}</RequestListData>
         </Flex>
         <Flex itemAlign="flex-start">
           <RequestListTitle>ราคาสินค้าทั้งหมด</RequestListTitle>
