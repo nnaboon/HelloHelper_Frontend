@@ -9,11 +9,11 @@ export const useUpdateOrder = () => {
   );
 
   const execute = (orderId: string, data: object) => {
-    return fire({ url: `http://localhost:5000/order/${orderId}`, data });
+    return fire({ url: `http://localhost:5000/order/status/${orderId}`, data });
   };
 
   return {
-    data: response?.data,
+    data: response,
     loading: loading,
     error,
     execute

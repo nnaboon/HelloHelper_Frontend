@@ -3,18 +3,18 @@ import useAxios from 'axios-hooks';
 export const useUpdateRequestSum = () => {
   const [{ data: response, loading, error }, fire] = useAxios(
     {
-      method: 'POST'
+      method: 'PUT'
     },
     { manual: true }
   );
 
-  //data = userId
+  //data = requesterUserId, providerUserId,rating
   const execute = (data: object) => {
-    return fire({ url: `http://localhost:5000/order/request`, data });
+    return fire({ url: `http://localhost:5000/orde/sum/request`, data });
   };
 
   return {
-    data: response?.data,
+    data: response,
     loading: loading,
     error,
     execute

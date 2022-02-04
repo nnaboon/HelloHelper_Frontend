@@ -14,7 +14,7 @@ export const useDeleteOrder = () => {
   };
 
   return {
-    data: response?.data,
+    data: response,
     loading: loading,
     error,
     execute
