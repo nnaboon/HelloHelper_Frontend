@@ -1,14 +1,15 @@
 import useAxios from 'axios-hooks';
-import { RequestGetDto } from 'models/RequestGetDto';
 
-export const useRequest = () => {
+export const useUploadRequestImage = () => {
   const [{ data: response, loading, error }, fire] = useAxios(
-    {},
+    {
+      method: 'POST'
+    },
     { manual: true }
   );
 
-  const execute = (requestId: string) => {
-    return fire({ url: `http://localhost:5000/request/${requestId}` });
+  const execute = (data: any) => {
+    return fire({ url: `http://localhost:5000/request/upload`, data });
   };
 
   return {

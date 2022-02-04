@@ -1,14 +1,13 @@
 import useAxios from 'axios-hooks';
-import { RequestGetDto } from 'models/RequestGetDto';
 
-export const useRequest = () => {
+export const useMyRequest = () => {
   const [{ data: response, loading, error }, fire] = useAxios(
     {},
     { manual: true }
   );
 
-  const execute = (requestId: string) => {
-    return fire({ url: `http://localhost:5000/request/${requestId}` });
+  const execute = (userId: string) => {
+    return fire({ url: `http://localhost:5000/request/me/${userId}` });
   };
 
   return {

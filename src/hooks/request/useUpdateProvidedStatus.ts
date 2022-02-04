@@ -8,14 +8,14 @@ export const useUpdateProvidedStatus = () => {
     { manual: true }
   );
 
-  const execute = (requestId: string, data: object) => {
+  const execute = (requestId: string, provideId: string, data: object) => {
     return fire({
-      url: `http://localhost:5000/request/provided/${requestId}`,
+      url: `http://localhost:5000/request/provided/${requestId}/${provideId}`,
       data
     });
   };
   return {
-    data: response?.data,
+    data: response,
     loading,
     error,
     execute
