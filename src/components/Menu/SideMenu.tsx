@@ -17,6 +17,7 @@ import { CATEGORY } from 'data/category';
 import { MenuSvg } from 'components/Svg/MenuSvg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { mediaQueryMobile, mediaQuerySmallTablet } from 'styles/variables';
+import { auth } from '../../firebase';
 
 interface SideMenuProps {
   collapsed: boolean;
@@ -185,7 +186,15 @@ export const SideMenu = ({ collapsed, setCollapsed }: SideMenuProps) => {
         >
           รายการให้ความช่วยเหลือของฉัน
         </Menu.Item>
-        <Menu.Item key="10" icon={<LogoutOutlined />}>
+        <Menu.Item
+          key="10"
+          icon={<LogoutOutlined />}
+          onClick={() => {
+            window.localStorage.removeItem('id');
+            auth.signOut();
+            window.location.assign('/');
+          }}
+        >
           ออกจากระบบ
         </Menu.Item>
       </Menu>
