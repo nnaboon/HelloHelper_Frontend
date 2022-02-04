@@ -13,7 +13,7 @@ export const getStar = (count: Number) => {
         allowHalf
         defaultValue={count as number}
         disabled
-        style={{ minWidth: '153px' }}
+        style={{ minWidth: '153px', display: 'flex', justifyContent: 'center' }}
         css={css`
           .ant-rate-star.ant-rate-star-full svg {
             width: 24px;
@@ -46,6 +46,9 @@ export const getStar = (count: Number) => {
             transform: scale(0.91);
           }
 
+          .ant-rate-star:not(:last-child) {
+            margin-right: 5px;
+          }
           ${mediaQueryMobile} {
             .ant-rate-star:not(:last-child) {
               margin-right: 4px;
