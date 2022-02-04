@@ -2,6 +2,7 @@
 /** @jsx jsx */
 import { css, jsx, Global } from '@emotion/react';
 import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { Text } from 'components/Text';
 import {
@@ -22,12 +23,16 @@ import { InfoSvg } from 'components/Svg/InfoSvg';
 import Flex from 'components/Flex/Flex';
 import { EditableTagGroup } from 'components/Tag/Hashtag';
 import { useUpdateProvide } from 'hooks/provide/useUpdateProvide';
+import { useUpdateRequest } from 'hooks/request/useUpdateRequest';
 import {
   mediaQueryMobile,
+  mediaQueryTablet,
+  mediaQueryLargeDesktop,
   useMedia,
-  MOBILE_WIDTH,
-  mediaQueryTablet
+  MOBILE_WIDTH
 } from 'styles/variables';
+import { useUploadProvideImage } from 'hooks/provide/useUploadProvideImage';
+import { useUploadRequestImage } from 'hooks/request/useUploadRequestImage';
 
 interface RequestFormModalProps {
   visible?: boolean;
@@ -51,7 +56,8 @@ export const RequestFormModal = ({
 }: RequestFormModalProps) => {
   const [tags, setTags] = useState<string[]>(requestData.hashtag ?? []);
 
-  const [location, setLocation] = useState<any>(null);
+  const [location, setLocation] = useState<any>();
+  const { pathname } = useLocation();
   const [loading, setLoading] = useState<boolean>(false);
   const [imageUrl, setImageUrl] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -59,11 +65,20 @@ export const RequestFormModal = ({
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const [form] = Form.useForm();
 
+  const { execute: uploadProvideImage } = useUploadProvideImage();
+  const { execute: uploadRequestImage } = useUploadRequestImage();
+
   const {
     data: provide,
     loading: provideLoading,
     execute: updateProvide
   } = useUpdateProvide();
+
+  const {
+    data: request,
+    loading: requestLoading,
+    execute: updateRequest
+  } = useUpdateRequest();
 
   const reset = () => {
     form.resetFields();
@@ -77,18 +92,34 @@ export const RequestFormModal = ({
   );
 
   useEffect(() => {
-    form.setFieldsValue({
-      type: requestData.type,
-      title: requestData.title,
-      location: requestData.location,
-      message: requestData.message,
-      maxPrice: requestData.maxPrice,
-      maxServiceCharge: requestData.maxServiceCharge,
-      payment: requestData.payment,
-      category: requestData.category,
-      hashtag: requestData.hashtag,
-      image: requestData.image
-    });
+    setImageUrl(requestData.imageUrl);
+    if (requestData.type === 'provide') {
+      form.setFieldsValue({
+        type: requestData.type,
+        title: requestData.title,
+        location: requestData.location,
+        message: requestData.message,
+        serviceCharge: requestData.serviceCharge,
+        payment: requestData.payment,
+        category: requestData.category,
+        hashtag: requestData.hashtag,
+        image: requestData.imageUrl
+      });
+    } else {
+      form.setFieldsValue({
+        type: requestData.type,
+        title: requestData.title,
+        location: requestData.location,
+        message: requestData.message,
+        price: requestData.price,
+        serviceCharge: requestData.serviceCharge,
+        payment: requestData.payment,
+        category: requestData.category,
+        hashtag: requestData.hashtag,
+        image: requestData.imageUrl,
+        number: requestData.number
+      });
+    }
   }, [requestData, form]);
 
   useEffect(() => {
@@ -99,33 +130,44 @@ export const RequestFormModal = ({
   }, [form, location, tags]);
 
   const onFinish = async (value) => {
-    console.log(value);
     setIsSubmitting(true);
 
-    const values = form.getFieldsValue();
     const data = {
       userId: window.localStorage.getItem('id'),
       title: value.title,
       location: {
-        name: location.name,
-        lat: location.geometry.location.lat(),
-        lng: location.geometry.location.lng()
+        name: location ? location.name : requestData.name,
+        lat: location ? location.geometry.location.lat() : requestData.latitude,
+        lng: location ? location.geometry.location.lng() : requestData.longitude
       },
-      description: value.message ?? '',
-
-      serviceCharge: value.maxServiceCharge,
+      description: value.message,
+      serviceCharge: value.serviceCharge,
       payment: value.payment,
-      category: [value.category],
-      hashtag: tags,
-      imageUrl: values.image
+      category: value.category,
+      hashtag: tags
     };
 
+    var formData = new FormData();
+    formData.append('img', value.image.file.originFileObj);
     try {
-      updateProvide(requestData.provideId, data);
+      requestData.type === 'provide'
+        ? uploadProvideImage(formData).then((res) => {
+            updateProvide(requestData.provideId, {
+              ...data,
+              imageUrl: res.data
+            });
+          })
+        : uploadRequestImage(formData).then((res) => {
+            updateRequest(requestData.requestId, {
+              ...data,
+              number: value.number,
+              price: value.price,
+              imageUrl: res.data
+            });
+          });
     } catch (e) {
       message.error('ไม่สามารถโพสต์ขอความช่วยเหลือได้');
     } finally {
-      form.resetFields();
       form.resetFields();
       setIsSubmitting(false);
       message.success('สำเร็จ');
@@ -154,6 +196,12 @@ export const RequestFormModal = ({
     }
   };
 
+  useEffect(() => {
+    if (requestData) {
+      setLocation(requestData.location);
+    }
+  }, [requestData]);
+
   return (
     <Modal
       visible={visible}
@@ -169,6 +217,10 @@ export const RequestFormModal = ({
       css={css`
         .ant-modal-content {
           height: 950px;
+
+          ${mediaQueryLargeDesktop} {
+            height: 850px;
+          }
 
           ${mediaQueryMobile} {
             height: 480px;
@@ -206,12 +258,13 @@ export const RequestFormModal = ({
             title: requestData.title,
             location: requestData.location,
             message: requestData.description,
-            maxPrice: requestData.price,
-            maxServiceCharge: requestData.serviceCharge,
+            price: requestData.price,
+            serviceCharge: requestData.serviceCharge,
             payment: requestData.payment,
             category: requestData.category,
             hashtag: requestData.hashtag,
-            image: requestData.imageUrl
+            image: requestData.imageUrl,
+            number: requestData.number
           }}
           css={css`
             .ant-form-item-control-input {
@@ -290,7 +343,28 @@ export const RequestFormModal = ({
           </Form.Item>
           {requestData.type === 'request' ? (
             <Form.Item
-              name="maxPrice"
+              name="number"
+              label="จำนวน"
+              rules={[
+                {
+                  required: true,
+                  message: 'กรุณากำหนดจำนวนสินค้า'
+                }
+              ]}
+            >
+              <Input
+                defaultValue={requestData.number}
+                placeholder="จำนวนสินค้า"
+                min="0"
+                type="number"
+                style={{ height: '40px', borderRadius: '12px' }}
+              />
+            </Form.Item>
+          ) : null}
+
+          {requestData.type === 'request' ? (
+            <Form.Item
+              name="price"
               label="ราคาสินค้าสูงสุด"
               rules={[
                 {
@@ -301,10 +375,12 @@ export const RequestFormModal = ({
             >
               <Input
                 defaultValue={
-                  requestData.maxPrice
-                    ? `${requestData.maxPrice} บาท`
-                    : requestData.maxPrice
+                  requestData.price
+                    ? `${requestData.price} บาท`
+                    : requestData.price
                 }
+                type="number"
+                min="0"
                 placeholder="ขอบเขตราคาสินค้า"
                 style={{ height: '40px', borderRadius: '12px' }}
               />
@@ -313,7 +389,7 @@ export const RequestFormModal = ({
 
           {/* <Flex justify="center" itemAlign="center"> */}
           <Form.Item
-            name="maxServiceCharge"
+            name="serviceCharge"
             label="อัตราค่าบริการสูงสุด"
             rules={[
               {
@@ -324,10 +400,12 @@ export const RequestFormModal = ({
             ]}
           >
             <Input
+              type="number"
+              min="0"
               defaultValue={
-                requestData.maxServiceCharge
-                  ? `${requestData.maxServiceCharge} บาท`
-                  : requestData.maxServiceCharge
+                requestData.serviceCharge
+                  ? `${requestData.serviceCharge} บาท`
+                  : requestData.serviceCharge
               }
               placeholder="ขอบเขตราคาค่าบริการ"
               style={{ height: '40px', borderRadius: '12px' }}
@@ -383,10 +461,6 @@ export const RequestFormModal = ({
               { required: !Boolean(tags.length), message: 'กรุณากรอกแฮชแท็ก' }
             ]}
           >
-            {/* <Input
-                placeholder="แฮชแท็ก"
-                style={{ height: '40px', borderRadius: '12px' }}
-              /> */}
             <EditableTagGroup tags={tags} setTags={setTags} />
           </Form.Item>
           <Form.Item
@@ -399,7 +473,6 @@ export const RequestFormModal = ({
               listType="picture-card"
               className="avatar-uploader"
               showUploadList={false}
-              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
               onChange={handleChange}
             >
               {imageUrl ? (
@@ -447,67 +520,6 @@ export const RequestFormModal = ({
             </Button>
           </div>
         </Form>
-        {/* <Modal
-          visible={afterStateModalVisible}
-          onOk={handleOk}
-          onCancel={handleCancel}
-          footer={null}
-          width={380}
-          maskClosable={false}
-          centered
-          css={css`
-            .ant-modal-content {
-              height: 250px;
-            }
-          `}
-        >
-          {requestState ? (
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexDirection: 'column'
-              }}
-            >
-              <img
-                src={Correct}
-                alt="correct sign"
-                style={{ margin: '15px 0' }}
-              />
-              <Text fontSize="24px" fontWeight={500} marginY="6px">
-                สำเร็จ
-              </Text>
-              <Text
-                fontSize="16px"
-                fontWeight={500}
-                style={{ whiteSpace: 'pre-wrap' }}
-                textDecoration="center"
-                textAlign="center"
-              >
-                ความช่วยเหลือจะถูกแจ้งเตือน {'\n'}ไปยังผู้ที่สามารถช่วยได้
-              </Text>
-            </div>
-          ) : (
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexDirection: 'column'
-              }}
-            >
-              <img
-                src={InCorrect}
-                alt="correct sign"
-                style={{ margin: '25px 0' }}
-              />
-              <Text fontSize="24px" fontWeight={500} marginY="6px">
-                บางสิ่งผิดพลาด
-              </Text>
-            </div>
-          )}
-        </Modal> */}
       </RegisterLocationFormSection>
     </Modal>
   );

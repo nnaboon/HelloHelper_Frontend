@@ -1,12 +1,25 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { css, jsx } from '@emotion/react';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text } from 'components/Text';
-import { Button, Form, Input, message, Checkbox, Divider, Upload } from 'antd';
+import {
+  Button,
+  Form,
+  Input,
+  message,
+  Checkbox,
+  Divider,
+  Upload,
+  Col
+} from 'antd';
 import { ABILITY } from 'data/ability';
 import { GoogleMapContent } from 'components/GoogleMap/GoogleMap';
 import { WrapperContainer } from 'components/Wrapper/WrapperContainer';
+import { observer } from 'mobx-react-lite';
+import { userStore } from 'store/userStore';
+import { useUpdateUser } from 'hooks/user/useUpdateUser';
+import { useUploadUserImage } from 'hooks/user/useUploadUserImage';
 import {
   useMedia,
   MOBILE_WIDTH,
@@ -21,8 +34,9 @@ import UserAvatar from 'images/avatar_user.png';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { UploadOutlined } from '@ant-design/icons';
 
-export const EditProfileForm = () => {
+export const EditProfileForm = observer(() => {
   const [form] = Form.useForm();
+  const [location, setLocation] = useState<any>(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [checkedList, setCheckedList] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -30,6 +44,23 @@ export const EditProfileForm = () => {
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const isSmallTablet = useMedia(`(max-width: ${SMALL_TABLET_WIDTH}px)`);
   const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
+  const { me } = userStore;
+  const { execute: updateUser } = useUpdateUser();
+  const { execute: uploadUserImage } = useUploadUserImage();
+
+  const options = [
+    { label: 'ด้านการจัดหาอาหาร', value: 'food' },
+    { label: 'ด้านเครื่องแต่งกาย', value: 'cloth' },
+    { label: 'ด้านความงาม', value: 'beauty' },
+    { label: 'ด้านเครื่องใช้ในบ้าน', value: 'furniture' },
+    { label: 'ด้านเครื่องใช้ไฟฟ้า', value: 'electronic' },
+    { label: 'ด้านอุปกรณ์ทำการเกษตร', value: 'agriculture' },
+    { label: 'ด้านหนังสือและเครื่องเขียน', value: 'stationary' },
+    { label: 'ด้านเพลงและดนตรี', value: 'music' },
+    { label: 'ด้านมือถือและอุปกรณ์เสริม', value: 'mobile' },
+    { label: 'ด้านกีฬาและอุปกรณ์เสริม', value: 'sports' },
+    { label: 'ด้านสุขภาพ', value: 'health' }
+  ];
 
   const uploadButton = (
     <div>
@@ -57,8 +88,8 @@ export const EditProfileForm = () => {
       });
     }
   };
+
   const toggleChecked = (value) => {
-    console.log(value.includes('ไม่สามารถให้ความช่วยเหลือได้'));
     setCheckedList(value);
 
     if (value.includes('ไม่สามารถให้ความช่วยเหลือได้')) {
@@ -73,27 +104,51 @@ export const EditProfileForm = () => {
       title: value.title,
       email: value.email,
       password: value.password,
-      imageUrl: value.imageUrl,
-      location: value.location,
-      ability: value.ability
+      imageUrl: value.image,
+      location: {
+        name: location ? location.name : me.location.name,
+        lat: location ? location.geometry.location.lat() : me.location.latitude,
+        lng: location ? location.geometry.location.lng() : me.location.longitude
+      },
+      category: checkedList.length > 0 ? checkedList : me.category
     };
 
     try {
-      console.log('data', data);
-    } catch (e) {
+      if (value.image) {
+        var formData = new FormData();
+        formData.append('img', value.image.file.originFileObj);
+
+        uploadUserImage(formData).then((res) => {
+          updateUser(window.localStorage.getItem('id'), {
+            ...data,
+            imageUrl: res.data
+          });
+        });
+      } else {
+        updateUser(window.localStorage.getItem('id'), data);
+      }
+    } catch (error) {
       message.error('ไม่สามารถโพสต์ขอความช่วยเหลือได้');
     } finally {
       setIsSubmitting(false);
+      message.success('สำเร็จ');
     }
   };
+
+  useEffect(() => {
+    if (me) {
+      setImageUrl(me.imageUrl);
+    }
+  }, [me]);
+
   return (
     <WrapperContainer
       css={css`
-        display: flex;
+        // display: flex;
         // height: calc(100vh + 450px);
 
         ${mediaQuerySmallTablet} {
-          flex-direction: column-reverse;
+          // flex-direction: column-reverse;
           height: calc(100vh - 220px);
         }
         ${mediaQueryMobile} {
@@ -122,10 +177,22 @@ export const EditProfileForm = () => {
           name="basic"
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 16 }}
-          initialValues={{ remember: true }}
+          initialValues={{
+            title: me.username,
+            email: me.email,
+            location: me.location,
+            category: me.category,
+            imageUrl: me.imageUrl
+          }}
           onFinish={onFinish}
           autoComplete="off"
           css={css`
+            display: flex;
+
+            ${mediaQuerySmallTablet} {
+              flex-direction: column-reverse;
+            }
+
             .ant-form-item-control-input {
               width: 100%;
               margin-bottom: 15px;
@@ -146,116 +213,75 @@ export const EditProfileForm = () => {
             }
           `}
         >
-          <Form.Item
-            name="title"
-            label="ชื่อ"
-            rules={[
-              {
-                // required: true,
-                message: 'กรุณากรอกชื่อความช่วยเหลือที่คุณต้องการ'
-              }
-            ]}
+          <div
+            css={css`
+              width: 100%;
+            `}
           >
-            <Input
-              placeholder="ชื่อ"
-              style={{ height: '40px', borderRadius: '12px' }}
-            />
-          </Form.Item>
-          <Form.Item
-            name="email"
-            label="อีเมล"
-            rules={[
-              {
-                // required: true,
-                message: 'กรุณากรอกอีเมล'
-              }
-            ]}
-          >
-            <Input
-              placeholder="อีเมล"
-              style={{ height: '40px', borderRadius: '12px' }}
-            />
-          </Form.Item>
-          <Divider />
-          <Text
-            fontSize="24px"
-            fontWeight={500}
-            marginBottom="20px"
-            marginTop="10px"
-          >
-            เปลี่ยนรหัสผ่าน
-          </Text>
-          <Form.Item
-            name="prevPassword"
-            label="รหัสผ่านปัจจุบัน"
-            rules={[
-              {
-                // required: true,
-                message: 'กรุณากรอกรหัสผ่านปัจจุบัน'
-              }
-            ]}
-          >
-            <Input
-              placeholder="รหัสผ่านปัจจุบัน"
-              style={{ height: '40px', borderRadius: '12px' }}
-            />
-          </Form.Item>{' '}
-          <Form.Item
-            name="password"
-            label="รหัสผ่านใหม่"
-            rules={[
-              {
-                // required: true,
-                message: 'กรุณากรอกรหัสผ่านใหม่'
-              }
-            ]}
-          >
-            <Input
-              placeholder="รหัสผ่านใหม่"
-              style={{ height: '40px', borderRadius: '12px' }}
-            />
-          </Form.Item>{' '}
-          <Form.Item
-            name="confirmPassword"
-            label="ยืนยันรหัสผ่านใหม่"
-            rules={[
-              {
-                // required: true,
-                message: 'กรุณากรอกรหัสผ่านใหม่'
-              }
-            ]}
-          >
-            <Input
-              placeholder="รหัสผ่านใหม่"
-              style={{ height: '40px', borderRadius: '12px' }}
-            />
-          </Form.Item>
-          <Divider />
-          <Text
-            fontSize="24px"
-            fontWeight={500}
-            marginBottom="20px"
-            marginTop="10px"
-          >
-            สถานที่ให้ความช่วยเหลือ
-          </Text>
-          <Form.Item
-            name="location"
-            label="สถานที่ให้ความช่วยเหลือ"
-            rules={[
-              {
-                // required: true,
-                message: 'กรุณากรอกสถานที่ที่คุณสามารถให้ความช่วยเหลือได้'
-              }
-            ]}
-          >
-            <GoogleMapContent width={isSmallTablet ? '100%' : '470px'} />
-          </Form.Item>
-          <Divider />
-          <Text fontSize="24px" fontWeight={500} marginY="20px">
-            ความสามารถในการช่วยเหลือ
-          </Text>
-          <Form.Item
+            <Form.Item name="title" label="ชื่อ">
+              <Input
+                defaultValue={me.username}
+                placeholder="ชื่อ"
+                style={{ height: '40px', borderRadius: '12px' }}
+              />
+            </Form.Item>
+            <Form.Item name="email" label="อีเมล">
+              <Input
+                placeholder="อีเมล"
+                style={{ height: '40px', borderRadius: '12px' }}
+              />
+            </Form.Item>
+            <Divider />
+            <Text
+              fontSize="24px"
+              fontWeight={500}
+              marginBottom="20px"
+              marginTop="10px"
+            >
+              เปลี่ยนรหัสผ่าน
+            </Text>
+            <Form.Item name="prevPassword" label="รหัสผ่านปัจจุบัน">
+              <Input
+                placeholder="รหัสผ่านปัจจุบัน"
+                style={{ height: '40px', borderRadius: '12px' }}
+              />
+            </Form.Item>{' '}
+            <Form.Item name="password" label="รหัสผ่านใหม่">
+              <Input
+                placeholder="รหัสผ่านใหม่"
+                style={{ height: '40px', borderRadius: '12px' }}
+              />
+            </Form.Item>{' '}
+            <Form.Item name="confirmPassword" label="ยืนยันรหัสผ่านใหม่">
+              <Input
+                placeholder="รหัสผ่านใหม่"
+                style={{ height: '40px', borderRadius: '12px' }}
+              />
+            </Form.Item>
+            <Divider />
+            <Text
+              fontSize="24px"
+              fontWeight={500}
+              marginBottom="20px"
+              marginTop="10px"
+            >
+              สถานที่ให้ความช่วยเหลือ
+            </Text>
+            <Form.Item name="location" label="สถานที่ให้ความช่วยเหลือ">
+              <GoogleMapContent
+                width={isSmallTablet ? '100%' : '470px'}
+                requestLocation={{
+                  lat: me.location.latitude,
+                  lng: me.location.longitude
+                }}
+                setRequestLocation={setLocation}
+              />
+            </Form.Item>
+            <Divider />
+            <Text fontSize="24px" fontWeight={500} marginY="20px">
+              ความสามารถในการช่วยเหลือ
+            </Text>
+            {/* <Form.Item
             name="ability"
             css={css`
               position: relative;
@@ -285,13 +311,118 @@ export const EditProfileForm = () => {
                 left: 0;
               }
             `}
-          >
+          > */}
             <Checkbox.Group
-              options={ABILITY}
-              value={checkedList}
+              options={options}
+              defaultValue={checkedList.length > 0 ? checkedList : me.category}
               onChange={toggleChecked}
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                marginBottom: '50px'
+              }}
             />
-          </Form.Item>
+          </div>
+          <div
+            css={css`
+              display: flex;
+              height: 100% !important;
+              flex-direction: column;
+              align-items: center;
+              width: 100%;
+              position: relative;
+              top: 40px;
+
+              ${mediaQuerySmallTablet} {
+                margin-bottom: 50px;
+              }
+            `}
+          >
+            <img
+              src={imageUrl}
+              alt="user avatar"
+              css={css`
+                width: 140px;
+                height: 140px;
+                border-radius: 50%;
+                margin-bottom: 25px;
+              `}
+            />{' '}
+            <Form.Item name="image">
+              <Upload
+                name="avatar"
+                className="avatar-uploader"
+                showUploadList={false}
+                onChange={handleChange}
+              >
+                <Button icon={<UploadOutlined />}>เลือกรูป</Button>
+              </Upload>
+            </Form.Item>
+            <Text
+              fontSize="14px"
+              color="#848484"
+              fontWeight={500}
+              whiteSpace="pre"
+            >
+              ขนาดไฟล์: สูงสุด 1 MB{'\n'}ไฟล์ที่รองรับ: .JPEG, .PNG
+            </Text>
+            {!isSmallTablet && (
+              <div
+                css={css`
+                  width: 100%;
+                  position: relative;
+                  height: 100vh;
+                  bottom: 0px;
+                `}
+              >
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  css={css`
+                    width: 170px;
+                    height: 40px;
+                    box-sizing: border-box;
+                    background: #ee6400;
+                    border-radius: 9px;
+                    border: 0;
+                    right: 100px;
+                    color: #ffff;
+                    font-size: 16px;
+                    position: absolute;
+                    bottom: 0;
+
+                    &:hover {
+                      background: #ee6400;
+                    }
+
+                    ${mediaQueryTablet} {
+                      width: 120px;
+                      right: 0;
+                      height: 35px;
+                      font-size: 16px;
+                    }
+
+                    ${mediaQueryMobile} {
+                      width: 100px;
+                    }
+                  `}
+                >
+                  สำเร็จ
+                </Button>
+              </div>
+            )}
+          </div>
+          {/* <Form.Item name="image">
+            <Upload
+              name="avatar"
+              className="avatar-uploader"
+              showUploadList={false}
+              onChange={handleChange}
+            >
+              <Button icon={<UploadOutlined />}>เลือกรูป</Button>
+            </Upload>
+          </Form.Item> */}
+          {/* </Form.Item> */}
           {isSmallTablet && (
             <div
               css={css`
@@ -314,7 +445,7 @@ export const EditProfileForm = () => {
                   color: #ffff;
                   font-size: 16px;
                   position: absolute;
-                  bottom: 0;
+                  bottom: 20px;
 
                   &:hover {
                     background: #ee6400;
@@ -338,7 +469,7 @@ export const EditProfileForm = () => {
           )}
         </Form>
       </div>
-      <div
+      {/* <div
         css={css`
           display: flex;
           height: 100% !important;
@@ -364,7 +495,6 @@ export const EditProfileForm = () => {
             name="avatar"
             className="avatar-uploader"
             showUploadList={false}
-            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
             onChange={handleChange}
           >
             <Button icon={<UploadOutlined />}>เลือกรูป</Button>
@@ -393,11 +523,11 @@ export const EditProfileForm = () => {
                 background: #ee6400;
                 border-radius: 9px;
                 border: 0;
-                right: 0;
+                right: 100px;
                 color: #ffff;
                 font-size: 16px;
                 position: absolute;
-                bottom: -150px;
+                bottom: 0;
 
                 &:hover {
                   background: #ee6400;
@@ -419,7 +549,7 @@ export const EditProfileForm = () => {
             </Button>
           </div>
         )}
-      </div>
+      </div> */}
     </WrapperContainer>
   );
-};
+});

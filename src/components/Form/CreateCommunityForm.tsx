@@ -1,39 +1,72 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { css, jsx, Global } from '@emotion/react';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { Text } from 'components/Text';
-import { Button, Form, Input, message, Tooltip, Select, Checkbox } from 'antd';
-import { CommunityType } from '../../features/community/const';
+import { Button, Form, Input, message } from 'antd';
+import { CommunityType } from 'features/community/const';
+import { useAddCommunity } from 'hooks/community/useAddCommunity';
+import { useUpdateUser } from 'hooks/user/useUpdateUser';
+import { observer } from 'mobx-react-lite';
+import { userStore } from 'store/userStore';
+import { GoogleMapContent } from 'components/GoogleMap/GoogleMap';
 
 interface CreateCommunityFormProps {
-  setMenu: (menu: CommunityType) => void;
+  setVisible: (visible: boolean) => void;
 }
 
 const CreateCommunityFormSection = styled.div`
   padding: 1.75rem 2.75rem 1.5rem 2.75rem;
   position: relative;
-  height: 581px;
+  height: 100%;
 `;
 
-export const CreateCommunityForm = ({ setMenu }: CreateCommunityFormProps) => {
+export const CreateCommunityForm = ({
+  setVisible
+}: CreateCommunityFormProps) => {
   const [form] = Form.useForm();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [location, setLocation] = useState<any>();
+  const { me } = userStore;
+  const { data: response, execute: addCommunity } = useAddCommunity();
+  const { execute: updateUser } = useUpdateUser();
+
+  const history = useHistory();
+
+  useEffect(() => {
+    if (location) {
+      form.setFieldsValue({
+        location: location.formatted_address
+      });
+    }
+  }, [form, location]);
 
   const onFinish = async (value) => {
     setIsSubmitting(true);
     const data = {
-      name: value.name,
-      password: value.password
+      communityCode: value.password,
+      communityName: value.name,
+      location: {
+        name: location.name,
+        lat: location.geometry.location.lat(),
+        lng: location.geometry.location.lng()
+      },
+      description: value.description,
+      userId: me?.userId
     };
 
     try {
-      console.log('data', data);
+      addCommunity(data).then((res) => {
+        history.push(`/community/${res.data}`);
+      });
     } catch (e) {
       message.error('ไม่สามารถโพสต์ขอความช่วยเหลือได้');
     } finally {
+      message.success('สำเร็จ');
       setIsSubmitting(false);
+      setVisible(false);
     }
   };
 
@@ -98,19 +131,27 @@ export const CreateCommunityForm = ({ setMenu }: CreateCommunityFormProps) => {
           <li>สามารถเป็น ภาษาอังกฤษ ตัวเลข และอักษรพิเศษ </li>
           <li>ห้ามมีเว้นวรรค</li>
         </ul>
-        <div>
-          หรือ{' '}
-          <span
-            style={{
-              textDecoration: 'underline',
-              color: '#F86800',
-              cursor: 'pointer'
-            }}
-            onClick={() => setMenu(CommunityType.ALREADY)}
-          >
-            ต้องการเข้าร่วมชุมชนความช่วยเหลืออื่น
-          </span>
-        </div>
+        <Form.Item name="description">
+          <Input
+            placeholder="คำอธิบาย"
+            style={{ height: '40px', borderRadius: '12px' }}
+          />
+        </Form.Item>{' '}
+        <Form.Item
+          name="location"
+          rules={[
+            {
+              required: !location,
+              message: 'กรุณากำหนดสถานที่ให้ความช่วยเหลือ'
+            }
+          ]}
+        >
+          <GoogleMapContent
+            requestLocation={location}
+            setRequestLocation={setLocation}
+            width={'100%'}
+          />
+        </Form.Item>
         <div
           css={css`
             width: 100%;
@@ -126,7 +167,7 @@ export const CreateCommunityForm = ({ setMenu }: CreateCommunityFormProps) => {
               background: #ee6400;
               border-radius: 9px;
               border: 0;
-              bottom: 20px;
+              bottom: 0px;
               right: 40px;
               color: #ffff;
               font-size: 16px;

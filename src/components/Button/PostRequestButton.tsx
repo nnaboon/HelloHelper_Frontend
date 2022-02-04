@@ -3,39 +3,30 @@
 import { css, jsx, Global } from '@emotion/react';
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
+import axios from 'axios';
+import { useLocation } from 'react-router-dom';
 import { PrimaryButton } from './Button';
 import { PenRequestSvg } from 'components/Svg/PenRequestSvg';
 import { Text } from 'components/Text';
-import {
-  Button,
-  Form,
-  Input,
-  message,
-  Tooltip,
-  Select,
-  Upload,
-  Modal
-} from 'antd';
+import { Button, Form, Input, message, Select, Upload, Modal } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { CATEGORY } from 'data/category';
-import { RequestFormBody } from 'components/Form/const';
 import { GoogleMapContent } from 'components/GoogleMap/GoogleMap';
-import { InfoSvg } from 'components/Svg/InfoSvg';
-import Flex from 'components/Flex/Flex';
 import { EditableTagGroup } from 'components/Tag/Hashtag';
+import firebase from '../../firebase';
 import {
   useMedia,
   MOBILE_WIDTH,
   mediaQueryMobile,
   mediaQueryTablet,
   mediaQuerySmallTablet,
+  mediaQueryLargeDesktop,
   SMALL_TABLET_WIDTH
 } from 'styles/variables';
 import { useAddProvide } from 'hooks/provide/useAddProvide';
 import { useAddRequest } from 'hooks/request/useAddRequest';
-import { PROVIDE_MAPPER } from 'data/provide';
-import { REQUEST_MAPPER } from 'data/request';
-import { myAccountUserId } from 'data/user';
+import { useUploadProvideImage } from 'hooks/provide/useUploadProvideImage';
+import { useUploadRequestImage } from 'hooks/request/useUploadRequestImage';
 
 interface PostRequestButtonProps {
   buttonText: string;
@@ -89,6 +80,8 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const isSmallTablet = useMedia(`(max-width: ${SMALL_TABLET_WIDTH}px)`);
 
+  const { pathname } = useLocation();
+
   const {
     data: provide,
     loading: provideLoading,
@@ -98,7 +91,9 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
     data: request,
     loading: requestLoading,
     execute: addRequest
-  } = useAddProvide();
+  } = useAddRequest();
+  const { execute: uploadProvideImage } = useUploadProvideImage();
+  const { execute: uploadRequestImage } = useUploadRequestImage();
 
   const uploadButton = (
     <div>
@@ -119,7 +114,6 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
   const onFinish = async (value) => {
     setIsSubmitting(true);
     const values = form.getFieldsValue();
-    console.log(values, value);
     const data = {
       userId: window.localStorage.getItem('id'),
       title: value.title,
@@ -128,23 +122,37 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
         lat: location.geometry.location.lat(),
         lng: location.geometry.location.lng()
       },
+      communityId:
+        pathname.split('/')[1] === 'community'
+          ? pathname.split('/')[2]
+          : undefined,
       description: value.message ?? '',
-
       serviceCharge: value.maxServiceCharge,
       payment: value.payment,
       category: [value.category],
-      hashtag: tags,
-      imageUrl: ''
+      hashtag: tags
     };
 
+    var formData = new FormData();
+    formData.append('img', value.image.file.originFileObj);
     try {
       value.type === 'provide'
-        ? addProvide({ provideSum: 0, rating: 0, ...data })
-        : addRequest({
-            price: value.maxPrice,
-            provideUserId: [''],
-            amount: value.amount,
-            ...data
+        ? uploadProvideImage(formData).then((res) => {
+            addProvide({
+              ...data,
+              imageUrl: res.data,
+              rating: 0,
+              provideSum: 0
+            });
+          })
+        : uploadRequestImage(formData).then((res) => {
+            addRequest({
+              price: value.maxPrice,
+              imageUrl: res.data,
+              provideUserId: [''],
+              number: value.number,
+              ...data
+            });
           });
     } catch (e) {
       message.error('ไม่สามารถโพสต์ขอความช่วยเหลือได้');
@@ -204,6 +212,10 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
         css={css`
           .ant-modal-content {
             height: 950px;
+
+            ${mediaQueryLargeDesktop} {
+              height: 850px;
+            }
 
             ${mediaQueryMobile} {
               height: 480px;
@@ -343,6 +355,7 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
               <Input
                 disabled={isDisable}
                 type="number"
+                min="0"
                 placeholder="ขอบเขตราคาสินค้า"
                 style={{ height: '40px', borderRadius: '12px' }}
               />
@@ -362,6 +375,7 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
               <Input
                 placeholder="ขอบเขตราคาค่าบริการ"
                 type="number"
+                min="0"
                 style={{ height: '40px', borderRadius: '12px' }}
               />
             </Form.Item>
@@ -375,7 +389,7 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
               </Tooltip> */}
             {/* </Flex> */}
             <Form.Item
-              name="amount"
+              name="number"
               label="จำนวน"
               rules={
                 !isDisable
@@ -391,6 +405,7 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
               <Input
                 disabled={isDisable}
                 type="number"
+                min="0"
                 placeholder="จำนวนสินค้า"
                 style={{ height: '40px', borderRadius: '12px' }}
               />
@@ -436,6 +451,7 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
             >
               <EditableTagGroup tags={tags} setTags={setTags} />
             </Form.Item>
+
             <Form.Item
               name="image"
               label="รูปภาพ"
@@ -446,7 +462,6 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
                 listType="picture-card"
                 className="avatar-uploader"
                 showUploadList={false}
-                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
                 onChange={handleChange}
               >
                 {imageUrl ? (
