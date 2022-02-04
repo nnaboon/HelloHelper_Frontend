@@ -70,11 +70,9 @@ export const GoogleMapContent = ({
   const onPlacesChanged = () => {
     const searchLocation = searchBox.getPlaces();
 
-    console.log(searchLocation);
     map.setZoom(20);
     if (searchLocation[0] !== undefined) {
       setRequestLocation(searchLocation[0]);
-      console.log(searchLocation[0]);
       setCenter(searchLocation[0].geometry.location);
     }
   };
