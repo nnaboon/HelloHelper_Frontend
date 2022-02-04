@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
 import { useLocation, useHistory } from 'react-router-dom';
+import { observer } from 'mobx-react-lite';
 import { WrapperContainer } from 'components/Wrapper/WrapperContainer';
 import { Divider, Dropdown, Menu } from 'antd';
 import Flex from 'components/Flex/Flex';
@@ -12,8 +13,8 @@ import { RequestFormModal } from 'components/Form/RequestForm';
 import { PrimaryButton, SecondaryButton } from 'components/Button/Button';
 import { HelperListCard } from 'components/Card/HelperListCard';
 import { SmallSuggestedRequestCard } from 'components/Card/SmallSuggestedRequestCard';
-import { myAccountUserId } from '../../data/user';
 import { InfoMenu } from 'components/Menu/const';
+import { Loading } from 'components/Loading/Loading';
 import UserAvatar from 'images/avatar_helper.png';
 import { UserSvg } from 'components/Svg/UserSvg';
 import MyAccountAvatar from 'images/avatar_user2.png';
@@ -33,12 +34,20 @@ import { SuggestedBadge } from 'components/Badge/Badge';
 import { USER_DATA } from '../../data/user';
 import { PROVIDE_MAPPER } from 'data/provide';
 
+import { useUser } from 'hooks/user/useUser';
+import { useProvides } from 'hooks/provide/useProvides';
+import { useRequest } from 'hooks/request/useRequest';
+import { useAddRequesterUser } from 'hooks/request/useAddRequesterUser';
+
+import { userStore } from 'store/userStore';
+
 import { MoreOutlined } from '@ant-design/icons';
 import { CATEGORY } from 'data/category';
 import { EditSvg } from 'components/Svg/EditSvg';
 import { DeleteSvg } from 'components/Svg/DeleteSvg';
 import { EyeOffSvg } from 'components/Svg/EyeOffSvg';
 import { REQUEST_MAPPER } from 'data/request';
+import { EmptyData } from 'components/Empty/EmptyData';
 
 const RequestImageSection = styled.img`
   width: 420px;
@@ -87,10 +96,10 @@ const RequestInfoContainer = styled.div`
 `;
 
 const HelperImage = styled.img`
-  width: 100px;
-  height: 100px;
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
-  margin-top: 15px;
+  margin-top: 5px;
 
   ${mediaQueryMobile} {
     width: 65px;
@@ -121,6 +130,7 @@ const RequestDetail = styled.div`
   color: #000000;
   min-width: 200px;
   line-height: 31px;
+  white-space: pre-wrap;
 
   ${mediaQueryMobile} {
     font-size: 16px;
@@ -140,7 +150,49 @@ const RequestTitle = styled.div`
   }
 `;
 
-export const RequestInfoContent = ({ data }: any) => {
+const MenuItemContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99;
+`;
+
+const UserProfileCard = styled.div`
+  width: 100%;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.09);
+  border-radius: 12px;
+  justify-content: space-between;
+  margin-top: 40px;
+  margin-bottom: 40px;
+
+  ${mediaQueryMobile} {
+    height: 90px;
+    margin: 0;
+  }
+`;
+
+const UserProfileImageContainer = styled.div`
+  display: flex;
+  width: 20%;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 170px;
+  margin-right: 60px;
+
+  ${mediaQuerySmallTablet} {
+    margin-left: 45px;
+  }
+
+  ${mediaQueryMobile} {
+    margin: 0 30px;
+  }
+`;
+
+export const RequestInfoContent = observer(({ data }: any) => {
   const [menu, setMenu] = useState<InfoMenu>(InfoMenu.INFO);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const history = useHistory();
@@ -149,56 +201,41 @@ export const RequestInfoContent = ({ data }: any) => {
   const currentMenu = ((state as any)?.info_menu || InfoMenu.INFO) as InfoMenu;
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
+  const { data: user, execute: getUser } = useUser();
+  const { data: request, execute: getRequest } = useRequest();
+  const { execute: addRequesterUserId } = useAddRequesterUser();
+
+  // const { data: provides, execute: getProvides } = useProvides();
+  const { me, userId } = userStore;
 
   const dropDownMenu = (
     <Menu
-      // onClick={handleMenuClick}
       css={css`
         z-index: 99;
       `}
     >
-      <Menu.Item key="1">
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-          css={css`
-            z-index: 99;
-          `}
-          onClick={() => {
-            setIsModalVisible(true);
-          }}
-        >
+      <Menu.Item
+        key="1"
+        onClick={() => {
+          setIsModalVisible(true);
+        }}
+      >
+        <MenuItemContainer>
           <EditSvg style={{ marginRight: '8px' }} />
-
           <div>แก้ไข</div>
-        </div>
+        </MenuItemContainer>
       </Menu.Item>
       <Menu.Item key="2">
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-        >
+        <MenuItemContainer>
           <EyeOffSvg style={{ marginRight: '18px' }} />
           <div>ซ่อน</div>
-        </div>
+        </MenuItemContainer>
       </Menu.Item>
       <Menu.Item key="3">
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-        >
+        <MenuItemContainer>
           <DeleteSvg style={{ marginRight: '18px' }} />
           <div>ลบ</div>
-        </div>
+        </MenuItemContainer>
       </Menu.Item>
     </Menu>
   );
@@ -207,26 +244,23 @@ export const RequestInfoContent = ({ data }: any) => {
     setMenu(currentMenu);
   }, [currentMenu]);
 
+  useEffect(() => {
+    // getProvides();
+    getRequest(query);
+  }, []);
+
+  useEffect(() => {
+    if (request) {
+      console.log(request);
+      getUser(request.userId);
+    }
+  }, [request]);
+
   return (
     <React.Fragment>
-      {REQUEST_MAPPER.filter(({ requestId }) => requestId === query).map(
-        ({
-          requestId,
-          userId,
-          imageUrl,
-          title,
-          location,
-          price,
-          description,
-          serviceCharge,
-          category,
-          hashtag,
-          amount,
-          payment,
-          provideUserId
-        }) => (
+      {user && request && userId ? (
+        <div>
           <WrapperContainer
-            key={requestId}
             css={css`
               overflow-y: scroll;
               overflow-x: hidden;
@@ -240,9 +274,8 @@ export const RequestInfoContent = ({ data }: any) => {
               }
             `}
           >
-            {userId === myAccountUserId && (
+            {request.userId === userId && (
               <Dropdown.Button
-                // onClick={handleButtonClick}
                 icon={<MoreOutlined />}
                 overlay={dropDownMenu}
                 css={css`
@@ -309,7 +342,10 @@ export const RequestInfoContent = ({ data }: any) => {
                     itemAlign="flex-start"
                     style={{ width: 'unset', position: 'relative' }}
                   >
-                    <RequestImageSection src={imageUrl} alt="request section" />
+                    <RequestImageSection
+                      src={request.imageUrl}
+                      alt="request section"
+                    />
 
                     <Flex
                       css={css`
@@ -317,7 +353,7 @@ export const RequestInfoContent = ({ data }: any) => {
                         flex-wrap: wrap;
                       `}
                     >
-                      {category.map((items) => (
+                      {request.category.map((items) => (
                         <RequestCategoryButton
                           onClick={() => {
                             history.push({
@@ -335,12 +371,15 @@ export const RequestInfoContent = ({ data }: any) => {
                         flex-wrap: wrap;
                       `}
                     >
-                      {hashtag.map((items) => (
+                      {request.hashtag.map((items) => (
                         <RequestHashtagButton
                           onClick={() => {
                             history.push({
                               pathname: `/search`,
-                              search: `?keyword=${items}`
+                              search: `?keyword=${items}`,
+                              state: {
+                                search: items
+                              }
                             });
                           }}
                         >
@@ -357,91 +396,61 @@ export const RequestInfoContent = ({ data }: any) => {
                   >
                     <RequestInfoContainer>
                       <RequestTitle>ชื่อ</RequestTitle>
-                      <RequestDetail>{title}</RequestDetail>
+                      <RequestDetail>{request.title}</RequestDetail>
                       <RequestTitle>สถานที่ให้ความข่วยเหลือ</RequestTitle>
-                      <RequestDetail>{location.name}</RequestDetail>
+                      <RequestDetail>{request.location.name}</RequestDetail>
                       <React.Fragment>
                         <RequestTitle>จำนวน</RequestTitle>
-                        <RequestDetail>{amount}</RequestDetail>
+                        <RequestDetail>{request.number}</RequestDetail>
                         <RequestTitle>ราคาสินค้าสูงสุด</RequestTitle>
-                        <RequestDetail>{price} บาท</RequestDetail>
+                        <RequestDetail>{request.price} บาท</RequestDetail>
                       </React.Fragment>
                       <RequestTitle>อัตราค่าบริการสูงสุด</RequestTitle>
-                      <RequestDetail>{serviceCharge} บาท</RequestDetail>
+                      <RequestDetail>{request.serviceCharge} บาท</RequestDetail>
                       <RequestTitle>ช่องทางการชำระเงิน</RequestTitle>
-                      <RequestDetail>{payment}</RequestDetail>
+                      <RequestDetail>{request.payment}</RequestDetail>
                       <RequestTitle>คำอธิบาย</RequestTitle>
-                      <RequestDetail>{description}</RequestDetail>
+                      <RequestDetail>
+                        {request.description ? request.description : '-'}
+                      </RequestDetail>
                     </RequestInfoContainer>
-                    <PrimaryButton
-                      css={css`
-                        ${mediaQueryTablet} {
-                          width: 100%;
-                          max-width: 100%;
-                        }
+                    {request.userId !== window.localStorage.getItem('id') && (
+                      <PrimaryButton
+                        css={css`
+                          ${mediaQueryTablet} {
+                            width: 100%;
+                            max-width: 100%;
+                          }
 
-                        ${mediaQueryMobile} {
-                          width: 100%;
-                          position: fixed;
-                          z-index: 4;
-                          bottom: 0;
-                          left: 0;
-                          border-radius: 0 !important;
-                          height: 40px;
-                        }
-                      `}
-                    >
-                      สนใจให้ความช่วยเหลือ
-                    </PrimaryButton>
+                          ${mediaQueryMobile} {
+                            width: 100%;
+                            position: fixed;
+                            z-index: 4;
+                            bottom: 0;
+                            left: 0;
+                            border-radius: 0 !important;
+                            height: 40px;
+                          }
+                        `}
+                        onClick={() => {
+                          addRequesterUserId(request.requestId, {
+                            userId: userId
+                          });
+                        }}
+                      >
+                        สนใจให้ความช่วยเหลือ
+                      </PrimaryButton>
+                    )}
                   </Flex>
                 </div>
-                <div
-                  css={css`
-                    width: 100%;
-                    height: 140px;
-                    display: flex;
-                    align-items: center;
-                    background: #ffffff;
-                    box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.09);
-                    border-radius: 12px;
-                    justify-content: space-between;
-                    margin-top: 40px;
-                    margin-bottom: 40px;
-
-                    ${mediaQueryMobile} {
-                      height: 90px;
-                      margin: 0;
-                    }
-                  `}
-                >
+                <UserProfileCard>
                   <div style={{ display: 'flex' }}>
-                    <div
-                      css={css`
-                        display: flex;
-                        width: 20%;
-                        flex-direction: column;
-                        align-items: center;
-                        margin-left: 170px;
-                        margin-right: 60px;
-
-                        ${mediaQuerySmallTablet} {
-                          margin-left: 45px;
-                        }
-
-                        ${mediaQueryMobile} {
-                          margin: 0 30px;
-                        }
-                      `}
-                    >
+                    <UserProfileImageContainer>
                       <HelperImage
-                        src={
-                          userId === myAccountUserId
-                            ? MyAccountAvatar
-                            : UserAvatar
-                        }
+                        src={user ? user.imageUrl : undefined}
                         alt="user avatar"
                       />
-                      {Boolean(1) && (
+                      {Boolean(user.recommend) && (
                         <SuggestedBadge
                           css={css`
                             ${mediaQueryMobile} {
@@ -452,35 +461,21 @@ export const RequestInfoContent = ({ data }: any) => {
                           แนะนำ
                         </SuggestedBadge>
                       )}
-                    </div>
+                    </UserProfileImageContainer>
                     <div
                       css={css`
                         display: flex;
                         align-items: center;
                       `}
                     >
-                      <UserName>
-                        {
-                          USER_DATA.filter(
-                            (props) => props.userId === userId
-                          )[0].username
-                        }
-                      </UserName>
+                      <UserName>{user.username}</UserName>
                       <RankingBadge
-                        rankColor={
-                          RANK_BADGE[
-                            USER_DATA.filter(
-                              (props) => props.userId === userId
-                            )[0].rank
-                          ].color
-                        }
+                        rankColor={RANK_BADGE[user.rank].color}
                         css={css`
                           margin-top: -10px;
                         `}
                       >
-                        {USER_DATA.filter(
-                          (props) => props.userId === userId
-                        )[0].rank.toUpperCase()}
+                        {user.rank.toUpperCase()}
                       </RankingBadge>
                     </div>
                   </div>
@@ -494,7 +489,7 @@ export const RequestInfoContent = ({ data }: any) => {
                       `}
                       onClick={() => {
                         history.push({
-                          pathname: `/profile/${userId}`
+                          pathname: `/profile/${request.userId}`
                         });
                       }}
                     >
@@ -502,13 +497,13 @@ export const RequestInfoContent = ({ data }: any) => {
                       <div>โปรไฟล์</div>
                     </SecondaryButton>
                   )}
-                </div>
+                </UserProfileCard>
               </React.Fragment>
             )}
 
             {(!isTablet || menu === InfoMenu.HELPER_LIST) && (
               <React.Fragment>
-                {userId !== myAccountUserId ? (
+                {request.userId !== userId ? (
                   <div>
                     <Divider
                       style={{
@@ -549,10 +544,9 @@ export const RequestInfoContent = ({ data }: any) => {
                       รายชื่อผู้ต้องการช่วยเหลือ
                     </Text>
                     <Flex
-                      // justify="flex-start"
                       itemAlign="flex-start"
                       css={css`
-                        justify-content: center;
+                        justify-content: space-between;
                         ${mediaQueryDesktop} {
                           justify-content: flex-start;
                         }
@@ -567,7 +561,7 @@ export const RequestInfoContent = ({ data }: any) => {
                           flexDirection: 'column',
                           justifyContent: 'flex-start',
                           alignItems: 'flex-start',
-                          // width: '100%',
+                          width: '100%',
                           marginTop: isTablet ? '20px' : '40px'
                         }}
                         css={css`
@@ -579,17 +573,22 @@ export const RequestInfoContent = ({ data }: any) => {
                           }
                         `}
                       >
-                        {provideUserId.map((id) => (
-                          <HelperListCard
-                            id={id}
-                            name={
-                              USER_DATA.filter(
-                                (props) => props.userId === id
-                              )[0].username
-                            }
-                            imageUrl={UserAvatar}
-                          />
-                        ))}
+                        {request.requesterUserId.length > 0 ? (
+                          <React.Fragment>
+                            {' '}
+                            {request.requesterUserId.map(
+                              ({ userId, username, imageUrl }) => (
+                                <HelperListCard
+                                  id={userId}
+                                  name={username}
+                                  imageUrl={imageUrl}
+                                />
+                              )
+                            )}
+                          </React.Fragment>
+                        ) : (
+                          <EmptyData />
+                        )}
                       </div>
                       {isTablet && (
                         <Divider
@@ -624,16 +623,33 @@ export const RequestInfoContent = ({ data }: any) => {
               </React.Fragment>
             )}
           </WrapperContainer>
-        )
+          <RequestFormModal
+            visible={isModalVisible}
+            onClose={() => setIsModalVisible(false)}
+            requestData={{
+              ...request,
+              type: 'request'
+            }}
+          />
+        </div>
+      ) : (
+        <WrapperContainer
+          css={css`
+            overflow-y: scroll;
+            overflow-x: hidden;
+
+            ${mediaQueryTablet} {
+              height: calc(100vh - 140px);
+            }
+
+            ${mediaQueryMobile} {
+              height: calc(100vh - 190px);
+            }
+          `}
+        >
+          <Loading />
+        </WrapperContainer>
       )}
-      <RequestFormModal
-        visible={isModalVisible}
-        onClose={() => setIsModalVisible(false)}
-        requestData={{
-          ...REQUEST_MAPPER.filter(({ requestId }) => requestId === query)[0],
-          type: 'request'
-        }}
-      />
     </React.Fragment>
   );
-};
+});

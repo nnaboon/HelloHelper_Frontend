@@ -1,9 +1,10 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
 import { useLocation, useHistory } from 'react-router-dom';
+import { observer } from 'mobx-react-lite';
 import { WrapperContainer } from 'components/Wrapper/WrapperContainer';
 import Flex from 'components/Flex/Flex';
 import { CATEGORY } from 'data/category';
@@ -16,6 +17,9 @@ import { RANK_BADGE } from 'components/Badge/const';
 import UserAvatar from 'images/avatar_helper.png';
 import ProvideImage from 'images/request.jpeg';
 import MyAccountAvatar from 'images/avatar_user2.png';
+import { useProvide } from 'hooks/provide/useProvide';
+import { useUser } from 'hooks/user/useUser';
+import { userStore } from 'store/userStore';
 
 import { RequestFormModal } from 'components/Form/RequestForm';
 import {
@@ -33,6 +37,7 @@ import { PROVIDE_MAPPER } from 'data/provide';
 import { EditSvg } from 'components/Svg/EditSvg';
 import { DeleteSvg } from 'components/Svg/DeleteSvg';
 import { EyeOffSvg } from 'components/Svg/EyeOffSvg';
+import { Loading } from 'components/Loading/Loading';
 
 const ProvideImageSection = styled.img`
   width: 420px;
@@ -72,6 +77,21 @@ const ProvideHashtagButton = styled(SecondaryButton)`
   margin: 10px 8px 10px 0px;
 `;
 
+const ProvideUserCard = styled.div`
+  width: 100%;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.09);
+  border-radius: 12px;
+  justify-content: space-between;
+
+  ${mediaQueryMobile} {
+    height: 90px;
+  }
+`;
+
 const ProvideInfoContainer = styled.div`
   display: grid;
   grid-template-columns: 180px 400px;
@@ -95,6 +115,7 @@ const ProvideDetail = styled.div`
   color: #000000;
   min-width: 200px;
   line-height: 31px;
+  white-space: pre-wrap;
 
   ${mediaQueryMobile} {
     font-size: 16px;
@@ -118,7 +139,6 @@ const HelperImage = styled.img`
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  margin-top: 15px;
 
   ${mediaQueryMobile} {
     width: 65px;
@@ -142,12 +162,22 @@ const UserName = styled.div`
   }
 `;
 
-export const ProvideInfoContent = ({ data }: any) => {
+export const ProvideInfoContent = observer(({ data }: any) => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const { userId } = userStore;
 
   const history = useHistory();
   const { pathname } = useLocation();
   const query = pathname.split('/')[3];
+
+  const {
+    data: provide,
+    loading: isProvideLoading,
+    execute: getProvide
+  } = useProvide();
+
+  const { data: user, loading: isUserLoading, execute: getUser } = useUser();
+
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
 
@@ -204,9 +234,301 @@ export const ProvideInfoContent = ({ data }: any) => {
     </Menu>
   );
 
+  useEffect(() => {
+    if (query || window.localStorage.getItem('id')) {
+      getProvide(query ?? window.localStorage.getItem('id'));
+      // getUser(provide.userId);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (provide) {
+      getUser(provide.userId);
+    }
+  }, [provide]);
+
   return (
     <React.Fragment>
-      {PROVIDE_MAPPER.filter(({ provideId }) => provideId === query).map(
+      {' '}
+      {provide && user ? (
+        <div>
+          {' '}
+          <WrapperContainer
+            css={css`
+              overflow-y: scroll;
+
+              ${mediaQueryTablet} {
+                height: calc(100vh - 200px);
+              }
+
+              ${mediaQueryMobile} {
+                height: calc(100vh - 190px);
+              }
+            `}
+          >
+            {provide.userId === window.localStorage.getItem('id') && (
+              <Dropdown.Button
+                // onClick={handleButtonClick}
+                icon={<MoreOutlined />}
+                overlay={dropDownMenu}
+                css={css`
+                  position: absolute;
+                  z-index: 8;
+                  top: 40px;
+                  color: #0000;
+                  right: 25px;
+
+                  .ant-dropdown-trigger {
+                    border: none;
+                    z-index: 8;
+                  }
+
+                  .ant-dropdown-menu {
+                    z-index: 8;
+                  }
+
+                  .ant-dropdown .ant-dropdown-placement-bottomRight {
+                    z-index: 8;
+                    top: 570px;
+                  }
+
+                  .ant-dropdown-trigger > span {
+                    background-color: white !important;
+                    z-index: 8;
+                  }
+
+                  .ant-dropdown-menu-item,
+                  .ant-dropdown-menu-submenu-title {
+                    z-index: 8;
+                  }
+
+                  &:selection {
+                    color: #fff;
+                    z-index: 8;
+                    background: transparent;
+                  }
+
+                  svg {
+                    font-size: 24px;
+                  }
+
+                  ${mediaQueryMobile} {
+                    right: 8px;
+                    top: 10px;
+                  }
+                `}
+              />
+            )}
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                flexDirection: `${isTablet ? 'column' : 'row'}`
+              }}
+            >
+              <Flex
+                direction="column"
+                justify="flex-start"
+                itemAlign="flex-start"
+                style={{ width: 'unset', position: 'relative' }}
+              >
+                <ProvideImageSection src={provide.imageUrl} alt="provide img" />
+                <Flex
+                  css={css`
+                    width: 600px;
+                    flex-wrap: wrap;
+
+                    ${mediaQueryMobile} {
+                      width: 100%;
+                    }
+                  `}
+                >
+                  {provide?.category.map((items) => (
+                    <ProvideCategoryButton
+                      onClick={() => {
+                        history.push({
+                          pathname: `/${items}`
+                        });
+                      }}
+                    >
+                      {CATEGORY.filter(({ id }) => id === items)[0].name}
+                    </ProvideCategoryButton>
+                  ))}
+                </Flex>
+                <Flex
+                  css={css`
+                    width: 600px;
+                    flex-wrap: wrap;
+
+                    ${mediaQueryMobile} {
+                      width: 100%;
+                    }
+                  `}
+                >
+                  {provide?.hashtag.map((items) => (
+                    <ProvideHashtagButton
+                      onClick={() => {
+                        history.push({
+                          pathname: `/search`,
+                          search: `?keyword=${items}`,
+                          state: {
+                            search: items
+                          }
+                        });
+                      }}
+                    >
+                      #{items}
+                    </ProvideHashtagButton>
+                  ))}
+                </Flex>
+              </Flex>
+              <Flex
+                direction="column"
+                marginTop="30px"
+                style={{ width: 'unset' }}
+                itemAlign={isTablet ? 'flex-start' : 'center'}
+              >
+                <ProvideInfoContainer>
+                  <ProvideTitle>ชื่อ</ProvideTitle>
+                  <ProvideDetail>{provide.title}</ProvideDetail>
+                  <ProvideTitle>
+                    {isMobile ? 'สถานที่' : 'สถานที่ให้ความข่วยเหลือ'}
+                  </ProvideTitle>
+                  <ProvideDetail>{provide?.location.name}</ProvideDetail>
+                  <ProvideTitle>ยอดการช่วยเหลือ</ProvideTitle>
+                  <ProvideDetail>{provide?.provideSum} ครั้ง</ProvideDetail>
+                  <ProvideTitle>อัตราค่าบริการ</ProvideTitle>
+                  <ProvideDetail>{provide?.serviceCharge} บาท</ProvideDetail>
+                  <ProvideTitle>ช่องทางการชำระเงิน</ProvideTitle>
+                  <ProvideDetail>{provide?.payment}</ProvideDetail>
+                  <ProvideTitle>คำอธิบาย</ProvideTitle>
+                  <ProvideDetail>
+                    {provide?.description ? provide?.description : '-'}
+                  </ProvideDetail>
+                </ProvideInfoContainer>
+                <Flex>
+                  <PrimaryButton
+                    style={{ height: '45px' }}
+                    css={css`
+                      ${mediaQueryTablet} {
+                        width: 100%;
+                        max-width: 100%;
+                      }
+                      ${mediaQueryMobile} {
+                        position: fixed;
+                        z-index: 4;
+                        bottom: 0;
+                        left: 0;
+                        border-radius: 0 !important;
+                      }
+                    `}
+                  >
+                    ขอความช่วยเหลือ
+                  </PrimaryButton>
+                </Flex>
+              </Flex>
+            </div>
+            <Divider />
+            <ProvideUserCard>
+              <div style={{ display: 'flex' }}>
+                <div
+                  css={css`
+                    display: flex;
+                    width: 20%;
+                    flex-direction: column;
+                    align-items: center;
+                    margin-left: 170px;
+                    margin-right: 60px;
+
+                    ${mediaQuerySmallTablet} {
+                      margin-left: 45px;
+                    }
+
+                    ${mediaQueryMobile} {
+                      margin: 0 30px;
+                    }
+                  `}
+                >
+                  <HelperImage
+                    src={user ? user.imageUrl : undefined}
+                    alt="user avatar"
+                  />
+                  {Boolean(user?.recommend) && (
+                    <SuggestedBadge
+                      css={css`
+                        ${mediaQueryMobile} {
+                          left: 0;
+                        }
+                      `}
+                    >
+                      แนะนำ
+                    </SuggestedBadge>
+                  )}
+                </div>
+                <div
+                  css={css`
+                    display: flex;
+                    align-items: center;
+                  `}
+                >
+                  <UserName>{user.username}</UserName>
+                  <RankingBadge
+                    rankColor={RANK_BADGE[user.rank].color}
+                    css={css`
+                      margin-top: -10px;
+                    `}
+                  >
+                    {user.rank.toUpperCase()}
+                  </RankingBadge>
+                </div>
+              </div>
+
+              {!isTablet && (
+                <SecondaryButton
+                  css={css`
+                    margin-right: 100px;
+                    width: 140px;
+                    z-index: 5;
+                  `}
+                  onClick={() => {
+                    history.push({
+                      pathname: `/profile/${provide.userId}`
+                    });
+                  }}
+                >
+                  <UserSvg />
+                  <div>โปรไฟล์</div>
+                </SecondaryButton>
+              )}
+            </ProvideUserCard>
+          </WrapperContainer>
+          <RequestFormModal
+            visible={isModalVisible}
+            onClose={() => setIsModalVisible(false)}
+            requestData={{
+              ...provide,
+              type: 'provide'
+            }}
+          />
+        </div>
+      ) : (
+        <WrapperContainer
+          css={css`
+            overflow-y: scroll;
+
+            ${mediaQueryTablet} {
+              height: calc(100vh - 200px);
+            }
+
+            ${mediaQueryMobile} {
+              height: calc(100vh - 190px);
+            }
+          `}
+        >
+          <Loading />
+        </WrapperContainer>
+      )}
+      {/* {PROVIDE_MAPPER.filter(({ provideId }) => provideId === query).map(
         ({
           provideId,
           userId,
@@ -338,7 +660,10 @@ export const ProvideInfoContent = ({ data }: any) => {
                       onClick={() => {
                         history.push({
                           pathname: `/search`,
-                          search: `?keyword=${items}`
+                          search: `?keyword=${items}`,
+                          state: {
+                            search: items
+                          }
                         });
                       }}
                     >
@@ -495,15 +820,15 @@ export const ProvideInfoContent = ({ data }: any) => {
             </div>
           </WrapperContainer>
         )
-      )}
-      <RequestFormModal
+      )} */}
+      {/* <RequestFormModal
         visible={isModalVisible}
         onClose={() => setIsModalVisible(false)}
         requestData={{
-          ...PROVIDE_MAPPER.filter(({ provideId }) => provideId === query)[0],
+          // provide,
           type: 'provide'
         }}
-      />
+      /> */}
     </React.Fragment>
   );
-};
+});
