@@ -5,7 +5,6 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { css, jsx } from '@emotion/react';
 import { HomePage } from 'pages/Homepage';
 import { ProfilePage } from 'pages/ProfilePage';
-import { InfoPage } from 'pages/Infopage';
 import { SearchResultPage } from './pages/SearchResultPage';
 import { Navbar } from 'components/Navbar/Navbar';
 import { ProvideListPage } from './pages/ProvideListpage';
@@ -20,7 +19,7 @@ import './App.css';
 import { ProvideInfoContent } from 'components/Info/ProvideInfoContent';
 import { RequestInfoContent } from 'components/Info/RequestInfoContent';
 
-function App() {
+const App = () => {
   return (
     <div
       css={css`
@@ -39,16 +38,16 @@ function App() {
         <Switch>
           <Route path="/" exact component={HomePage} />
           <Route path="/profile" component={ProfilePage} />
-          <Route path="/community/:id" component={CommunityPage} />
-          <Route path="/user/community" component={CommunitySetting} />
+          <Route path="/community/" component={CommunityPage} />
+          <Route path="/user/community/:id" component={CommunitySetting} />
           <Route
             path="/user/account/profile"
             exact
             component={EditProfilePage}
           />
           <Route path="/chat" component={Chat} />
-          <Route path="/request" exact component={RequestListPage} />
-          <Route path="/provide" exact component={ProvideListPage} />
+          <Route path="/order/request" exact component={RequestListPage} />
+          <Route path="/order/provide" exact component={ProvideListPage} />
           <Route path="/:id" exact component={SearchResultPage} />
           <Route path="/search" exact component={SearchResultPage} />
           {/* <Route path="/:title/:id" component={InfoPage} /> */}
@@ -58,6 +57,6 @@ function App() {
       </BrowserRouter>
     </div>
   );
-}
+};
 
 export default App;
