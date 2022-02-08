@@ -1,5 +1,6 @@
 import useAxios from 'axios-hooks';
 import { UsersGetDto } from 'models/UserGetDto';
+import { REACT_APP_API } from 'config';
 
 export type UsersResponse = {
   data: UsersGetDto;
@@ -13,7 +14,7 @@ export const useUser = () => {
   );
 
   const execute = (userId: string) => {
-    return fire({ url: `http://localhost:5000/user/${userId}` });
+    return fire({ url: `${REACT_APP_API}/user/${userId}` });
   };
 
   return {

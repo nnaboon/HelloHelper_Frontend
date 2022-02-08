@@ -9,7 +9,9 @@ import { getAuth } from 'firebase/auth';
 import axios from 'axios';
 import { observer } from 'mobx-react-lite';
 import firebase from '../../firebase';
+import { message } from 'antd';
 import { userStore } from 'store/userStore';
+import { REACT_APP_API } from 'config';
 
 interface RegisterFormProps {
   setProcessStep: (step: LoginStep) => void;
@@ -75,7 +77,7 @@ export const RegisterForm = observer(
               setProcessStep={setProcessStep}
               onNext={async (userAccountData) => {
                 await setCreateUserData(userAccountData);
-                // axios.post('http://localhost:5000/user/create', {
+                // axios.post('${REACT_APP_API}/user/create', {
                 //   email: userAccountData.email,
                 //   password: userAccountData?.password
                 // });
@@ -112,18 +114,22 @@ export const RegisterForm = observer(
               onNext={async (userAccountData: UserCreateBody) => {
                 await setCreateUserData(userAccountData);
                 if (user?.emailVerified) {
-                  console.log(userAccountData);
-
                   axios
-                    .post('http://localhost:5000/user', userAccountData)
+                    .post(`${REACT_APP_API}/user`, userAccountData)
                     .then((res) => {
                       setIsModalVisible(false);
                       setUserId(user.uid);
                       window.location.reload();
+                      message.success('สร้างบัญชีผู้ใช้สำเร็จ');
                     })
                     .catch((error) => {
                       console.log(error);
+                      message.error('สร้างบัญชีผู้ใช้ไม่สำเร็จ');
                     });
+                } else {
+                  setIsModalVisible(false);
+                  message.error('อีเมล์์ของคุณยังไม่ถูกยืนยัน');
+                  auth.signOut();
                 }
               }}
               onBack={() => {

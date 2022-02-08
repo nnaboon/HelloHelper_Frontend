@@ -1,4 +1,5 @@
 import useAxios from 'axios-hooks';
+import { REACT_APP_API } from 'config';
 
 export const useOrder = () => {
   const [{ data: response, loading, error }, fire] = useAxios(
@@ -7,7 +8,7 @@ export const useOrder = () => {
   );
 
   const execute = (orderId: string) => {
-    return fire({ url: `http://localhost:5000/order/${orderId}` });
+    return fire({ url: `${REACT_APP_API}/order/${orderId}` });
   };
 
   return {

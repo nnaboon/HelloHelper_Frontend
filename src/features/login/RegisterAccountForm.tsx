@@ -16,6 +16,7 @@ import { getAuth } from 'firebase/auth';
 
 import firebase from '../../firebase';
 import axios from 'axios';
+import { REACT_APP_API } from 'config';
 
 type RegisterAccountFormProps = {
   userAccountData: UserCreateBody;
@@ -78,7 +79,7 @@ export const RegisterAccountForm = observer(
           .then(async ({ user }) => {
             user.getIdToken().then((idToken) => {
               axios
-                .post('http://localhost:5000/user/verify', {
+                .post(`${REACT_APP_API}/user/verify`, {
                   idToken: idToken
                 })
                 .then((res) => {
@@ -132,6 +133,7 @@ export const RegisterAccountForm = observer(
           เริ่มลงทะเบียน
         </Text>
         <Form
+          form={form}
           name="basic"
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 16 }}

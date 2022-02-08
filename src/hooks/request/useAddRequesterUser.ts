@@ -1,4 +1,5 @@
 import useAxios from 'axios-hooks';
+import { REACT_APP_API } from 'config';
 
 export const useAddRequesterUser = () => {
   const [{ data: response, loading, error }, fire] = useAxios(
@@ -10,7 +11,7 @@ export const useAddRequesterUser = () => {
 
   const execute = (requestId: string, data: object) => {
     return fire({
-      url: `http://localhost:5000/request/requester/${requestId}`,
+      url: `${REACT_APP_API}/request/requester/${requestId}`,
       data
     });
   };

@@ -1,5 +1,6 @@
 import useAxios from 'axios-hooks';
 import { ProvideGetDto } from 'models/ProvideGetDto';
+import { REACT_APP_API } from 'config';
 
 export const useMyProvide = () => {
   const [{ data: response, loading, error }, fire] = useAxios(
@@ -8,7 +9,7 @@ export const useMyProvide = () => {
   );
 
   const execute = (userId: string) => {
-    return fire({ url: `http://localhost:5000/provide/me/${userId}` });
+    return fire({ url: `${REACT_APP_API}/provide/me/${userId}` });
   };
 
   return {

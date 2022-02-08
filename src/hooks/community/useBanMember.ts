@@ -1,4 +1,5 @@
 import useAxios from 'axios-hooks';
+import { REACT_APP_API } from 'config';
 
 export const useBanMember = () => {
   const [{ data: response, loading, error }, fire] = useAxios(
@@ -9,7 +10,7 @@ export const useBanMember = () => {
   //data = userId
   const execute = (communityId: string, userId: string, data: object) => {
     return fire({
-      url: `http://localhost:5000/community/ban/${communityId}/${userId}`,
+      url: `${REACT_APP_API}/community/ban/${communityId}/${userId}`,
       data
     });
   };

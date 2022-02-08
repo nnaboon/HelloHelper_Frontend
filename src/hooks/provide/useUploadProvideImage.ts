@@ -1,4 +1,5 @@
 import useAxios from 'axios-hooks';
+import { REACT_APP_API } from 'config';
 
 export const useUploadProvideImage = () => {
   const [{ data: response, loading, error }, fire] = useAxios(
@@ -9,7 +10,7 @@ export const useUploadProvideImage = () => {
   );
 
   const execute = (data: any) => {
-    return fire({ url: `http://localhost:5000/provide/upload`, data });
+    return fire({ url: `${REACT_APP_API}/provide/upload`, data });
   };
 
   return {

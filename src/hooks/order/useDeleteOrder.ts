@@ -1,4 +1,5 @@
 import useAxios from 'axios-hooks';
+import { REACT_APP_API } from 'config';
 
 export const useDeleteOrder = () => {
   const [{ data: response, loading, error }, fire] = useAxios(
@@ -10,7 +11,7 @@ export const useDeleteOrder = () => {
 
   //data: userId
   const execute = (orderId: string, data: object) => {
-    return fire({ url: `http://localhost:5000/order/delete/${orderId}`, data });
+    return fire({ url: `${REACT_APP_API}/order/delete/${orderId}`, data });
   };
 
   return {

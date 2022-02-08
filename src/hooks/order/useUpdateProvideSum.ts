@@ -1,4 +1,5 @@
 import useAxios from 'axios-hooks';
+import { REACT_APP_API } from 'config';
 
 export const useUpdateProvideSum = () => {
   const [{ data: response, loading, error }, fire] = useAxios(
@@ -10,7 +11,7 @@ export const useUpdateProvideSum = () => {
 
   //data = userId, provideId, rating
   const execute = (data: object) => {
-    return fire({ url: `http://localhost:5000/order/sum/provide`, data });
+    return fire({ url: `${REACT_APP_API}/order/sum/provide`, data });
   };
 
   return {

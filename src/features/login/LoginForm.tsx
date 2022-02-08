@@ -11,10 +11,11 @@ import { PrimaryButton } from 'components/Button/Button';
 import Flex from 'components/Flex/Flex';
 import { LoginStep } from './const';
 import { mediaQueryMobile } from 'styles/variables';
-import firebase, { signInWithGoogle } from '../../firebase';
+import firebase, { signInWithGoogle, signInWithFacebook } from '../../firebase';
 import axios from 'axios';
 import { useUser } from 'hooks/user/useUser';
 import { userStore } from 'store/userStore';
+import { REACT_APP_API } from 'config';
 
 interface LoginFormProps {
   setStep: (step: LoginStep) => void;
@@ -65,7 +66,7 @@ export const LoginForm = observer(
         .then(({ user }) => {
           user.getIdToken().then((idToken) => {
             axios
-              .post('http://localhost:5000/user/verify', {
+              .post(`${REACT_APP_API}/user/verify`, {
                 idToken: idToken
               })
               .then((res) => {
@@ -76,7 +77,7 @@ export const LoginForm = observer(
               .catch((error) => {
                 console.log(error.message);
               });
-            // fetch('http://localhost:5000/users/verify', {
+            // fetch('${REACT_APP_API}/users/verify', {
             //   method: 'POST',
             //   headers: {
             //     Accept: 'application/json',
@@ -137,6 +138,7 @@ export const LoginForm = observer(
               margin: 10px 0 !important;
             }
           `}
+          onClick={signInWithFacebook}
         >
           Facebook
         </PrimaryButton>
@@ -156,6 +158,7 @@ export const LoginForm = observer(
           หรือ
         </Divider>
         <Form
+          form={form}
           name="basic"
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 16 }}

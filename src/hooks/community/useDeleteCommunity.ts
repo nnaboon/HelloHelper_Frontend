@@ -1,4 +1,5 @@
 import useAxios from 'axios-hooks';
+import { REACT_APP_API } from 'config';
 
 export const useDeleteCommunity = () => {
   const [{ data: response, loading, error }, fire] = useAxios(
@@ -9,7 +10,7 @@ export const useDeleteCommunity = () => {
   //Data = userId
   const execute = (communityId: string, data: object) => {
     return fire({
-      url: `http://localhost:5000/community/delete/${communityId}`,
+      url: `${REACT_APP_API}/community/delete/${communityId}`,
       data
     });
   };

@@ -1,4 +1,5 @@
 import useAxios from 'axios-hooks';
+import { REACT_APP_API } from 'config';
 
 export const useUpdateUser = () => {
   const [{ data: response, loading, error }, fire] = useAxios(
@@ -10,7 +11,7 @@ export const useUpdateUser = () => {
 
   const execute = (userId: string, data: object) => {
     return fire({
-      url: `http://localhost:5000/user/${userId}`,
+      url: `${REACT_APP_API}/user/${userId}`,
       data
     });
   };

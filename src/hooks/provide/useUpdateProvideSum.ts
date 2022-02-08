@@ -1,5 +1,6 @@
 import useAxios from 'axios-hooks';
 import { ProvideGetDto } from 'models/ProvideGetDto';
+import { REACT_APP_API } from 'config';
 
 export type ProvideResponse = {
   data: ProvideGetDto;
@@ -15,7 +16,7 @@ export const useUpdateProvideSum = () => {
   );
 
   const execute = (provideId: string) => {
-    return fire({ url: `http://localhost:5000/provide/sum/${provideId}` });
+    return fire({ url: `${REACT_APP_API}/provide/sum/${provideId}` });
   };
   return {
     data: response,

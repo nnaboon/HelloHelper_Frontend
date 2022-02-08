@@ -1,4 +1,5 @@
 import useAxios from 'axios-hooks';
+import { REACT_APP_API } from 'config';
 
 export const useCommunityProvide = () => {
   const [{ data: response, loading, error }, fire] = useAxios(
@@ -8,7 +9,7 @@ export const useCommunityProvide = () => {
 
   const execute = (communityId: string) => {
     return fire({
-      url: `http://localhost:5000/community/provide/${communityId}`
+      url: `${REACT_APP_API}/community/provide/${communityId}`
     });
   };
 

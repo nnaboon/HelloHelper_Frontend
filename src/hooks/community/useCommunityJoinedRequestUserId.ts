@@ -1,4 +1,5 @@
 import useAxios from 'axios-hooks';
+import { REACT_APP_API } from 'config';
 
 export const useCommunityJoinedRequestUserId = () => {
   const [{ data: response, loading, error }, fire] = useAxios(
@@ -7,10 +8,9 @@ export const useCommunityJoinedRequestUserId = () => {
   );
 
   const execute = (communityId: string, data: any) => {
-    console.log(data.joinedRequestUserId);
     if (data.joinedRequestUserId.length > 0) {
       return fire({
-        url: `http://localhost:5000/community/joined/${communityId}`,
+        url: `${REACT_APP_API}/community/joined/${communityId}`,
         data
       });
     } else {

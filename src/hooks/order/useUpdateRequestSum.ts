@@ -1,4 +1,5 @@
 import useAxios from 'axios-hooks';
+import { REACT_APP_API } from 'config';
 
 export const useUpdateRequestSum = () => {
   const [{ data: response, loading, error }, fire] = useAxios(
@@ -10,7 +11,7 @@ export const useUpdateRequestSum = () => {
 
   //data = requesterUserId, providerUserId,rating
   const execute = (data: object) => {
-    return fire({ url: `http://localhost:5000/orde/sum/request`, data });
+    return fire({ url: `${REACT_APP_API}/orde/sum/request`, data });
   };
 
   return {
