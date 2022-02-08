@@ -96,7 +96,7 @@ const HelperImage = styled.img`
   height: 90px;
   border-radius: 50%;
   margin-top: 15px;
-  object-fit: fill;
+  object-fit: cover;
 
   ${mediaQuerySmallTablet} {
     width: 55px;
