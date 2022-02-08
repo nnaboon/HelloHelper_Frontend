@@ -100,6 +100,7 @@ const HelperImage = styled.img`
   height: 90px;
   border-radius: 50%;
   margin-top: 5px;
+  object-fit: cover;
 
   ${mediaQueryMobile} {
     width: 65px;
