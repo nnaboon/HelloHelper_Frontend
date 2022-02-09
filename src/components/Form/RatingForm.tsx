@@ -42,6 +42,7 @@ export const RatingForm = () => {
         ให้คะแนน
       </Text>
       <Form
+        form={form}
         name="basic"
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}

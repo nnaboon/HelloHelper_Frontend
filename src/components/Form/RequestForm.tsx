@@ -248,6 +248,7 @@ export const RequestFormModal = ({
           ขอความช่วยเหลือ
         </Text>
         <Form
+          form={form}
           name="basic"
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 16 }}

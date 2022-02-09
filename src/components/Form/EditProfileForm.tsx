@@ -3,19 +3,8 @@
 import { css, jsx } from '@emotion/react';
 import React, { useState, useEffect } from 'react';
 import { Text } from 'components/Text';
-import {
-  Button,
-  Form,
-  Input,
-  message,
-  Checkbox,
-  Divider,
-  Upload,
-  Col
-} from 'antd';
-import { ABILITY } from 'data/ability';
+import { Button, Form, Input, message, Checkbox, Divider, Upload } from 'antd';
 import { GoogleMapContent } from 'components/GoogleMap/GoogleMap';
-import { WrapperContainer } from 'components/Wrapper/WrapperContainer';
 import { observer } from 'mobx-react-lite';
 import { userStore } from 'store/userStore';
 import { useUpdateUser } from 'hooks/user/useUpdateUser';
@@ -30,21 +19,29 @@ import {
   mediaQueryTablet,
   mediaQueryDesktop
 } from 'styles/variables';
-import UserAvatar from 'images/avatar_user.png';
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
-import { UploadOutlined } from '@ant-design/icons';
+import DefaultImage from 'images/default.png';
+import {
+  LoadingOutlined,
+  PlusOutlined,
+  UploadOutlined
+} from '@ant-design/icons';
+import { Loading } from 'components/Loading/Loading';
+import { useUser } from 'hooks/user/useUser';
 
 export const EditProfileForm = observer(() => {
   const [form] = Form.useForm();
   const [location, setLocation] = useState<any>(null);
+  const [selectedMyProvide, setSelectedMyProvide] = useState<Boolean>(false);
+
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [checkedList, setCheckedList] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const [imageUrl, setImageUrl] = useState<string>(UserAvatar);
+  const [imageUrl, setImageUrl] = useState<string>(DefaultImage);
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const isSmallTablet = useMedia(`(max-width: ${SMALL_TABLET_WIDTH}px)`);
   const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
-  const { me } = userStore;
+  const { me, setMe, loginType } = userStore;
+  const { data: user, execute: getUser } = useUser();
   const { execute: updateUser } = useUpdateUser();
   const { execute: uploadUserImage } = useUploadUserImage();
 
@@ -60,6 +57,10 @@ export const EditProfileForm = observer(() => {
     { label: 'ด้านมือถือและอุปกรณ์เสริม', value: 'mobile' },
     { label: 'ด้านกีฬาและอุปกรณ์เสริม', value: 'sports' },
     { label: 'ด้านสุขภาพ', value: 'health' }
+    // {
+    //   label: 'ให้ความช่วยเหลือตามรายการให้ความช่วยเหลือของฉัน',
+    //   value: undefined
+    // }
   ];
 
   const uploadButton = (
@@ -92,10 +93,15 @@ export const EditProfileForm = observer(() => {
   const toggleChecked = (value) => {
     setCheckedList(value);
 
-    if (value.includes('ไม่สามารถให้ความช่วยเหลือได้')) {
-      setCheckedList([]);
-      value = ['ไม่สามารถให้ความช่วยเหลือได้'];
-    }
+    // console.log(value);
+    // if (value.includes('ให้ความช่วยเหลือตามรายการให้ความช่วยเหลือของฉัน')) {
+    //   setCheckedList([]);
+    //   setSelectedMyProvide(true);
+    //   value = [];
+    //   // value = ['ไม่สามารถให้ความช่วยเหลือได้'];
+    // } else {
+    //   setSelectedMyProvide(false);
+    // }
   };
 
   const onFinish = async (value) => {
@@ -103,14 +109,23 @@ export const EditProfileForm = observer(() => {
     const data = {
       title: value.title,
       email: value.email,
-      password: value.password,
-      imageUrl: value.image,
       location: {
-        name: location ? location.name : me.location.name,
-        lat: location ? location.geometry.location.lat() : me.location.latitude,
-        lng: location ? location.geometry.location.lng() : me.location.longitude
+        name: location
+          ? location.name ?? location.formatted_address
+          : me.location.name,
+        latitude: location
+          ? location.geometry.location.lat()
+          : me.location.latitude,
+        longitude: location
+          ? location.geometry.location.lng()
+          : me.location.longitude
       },
-      category: checkedList.length > 0 ? checkedList : me.category
+      category:
+        checkedList.length > 0
+          ? checkedList
+          : selectedMyProvide
+          ? checkedList
+          : me.category
     };
 
     try {
@@ -118,20 +133,29 @@ export const EditProfileForm = observer(() => {
         var formData = new FormData();
         formData.append('img', value.image.file.originFileObj);
 
-        uploadUserImage(formData).then((res) => {
-          updateUser(window.localStorage.getItem('id'), {
-            ...data,
-            imageUrl: res.data
+        uploadUserImage(formData)
+          .then((res) => {
+            updateUser(window.localStorage.getItem('id'), {
+              ...data,
+              imageUrl: res.data
+            }).then(() => {
+              getUser(window.localStorage.getItem('id'));
+              message.success('สำเร็จ');
+            });
+          })
+          .catch((error) => {
+            message.error('ประเภทของรูปภาพจะต้องเป็น .JPEG, .PNG');
           });
-        });
       } else {
-        updateUser(window.localStorage.getItem('id'), data);
+        updateUser(window.localStorage.getItem('id'), data).then(() => {
+          message.success('สำเร็จ');
+          getUser(window.localStorage.getItem('id'));
+        });
       }
     } catch (error) {
-      message.error('ไม่สามารถโพสต์ขอความช่วยเหลือได้');
+      message.error('ไม่สามารถแก้ไขโปรไฟล์ได้');
     } finally {
       setIsSubmitting(false);
-      message.success('สำเร็จ');
     }
   };
 
@@ -141,147 +165,150 @@ export const EditProfileForm = observer(() => {
     }
   }, [me]);
 
+  useEffect(() => {
+    if (user) {
+      setMe(user);
+    }
+  }, [user]);
+
   return (
-    <WrapperContainer
-      css={css`
-        // display: flex;
-        // height: calc(100vh + 450px);
-
-        ${mediaQuerySmallTablet} {
-          // flex-direction: column-reverse;
-          height: calc(100vh - 220px);
-        }
-        ${mediaQueryMobile} {
-          height: calc(100vh - 140px);
-        }
-      `}
-    >
-      <div
-        css={css`
-          width: 100%;
-
-          ${mediaQueryTablet} {
-            margin-top: 40px;
-          }
-        `}
-      >
-        <Text
-          fontSize="24px"
-          marginTop="10px"
-          marginBottom="20px"
-          fontWeight={500}
-        >
-          ข้อมูลของฉัน
-        </Text>
-        <Form
-          name="basic"
-          labelCol={{ span: 8 }}
-          wrapperCol={{ span: 16 }}
-          initialValues={{
-            title: me.username,
-            email: me.email,
-            location: me.location,
-            category: me.category,
-            imageUrl: me.imageUrl
-          }}
-          onFinish={onFinish}
-          autoComplete="off"
+    <React.Fragment>
+      {me ? (
+        <div
           css={css`
-            display: flex;
-
-            ${mediaQuerySmallTablet} {
-              flex-direction: column-reverse;
-            }
-
-            .ant-form-item-control-input {
-              width: 100%;
-              margin-bottom: 15px;
-            }
+            width: 100%;
 
             ${mediaQueryTablet} {
-              .ant-col-8 {
-                max-width: 100%;
-                flex: 0 0 100%;
-              }
-
-              .ant-col-16 {
-                max-width: 100%;
-              }
-              .ant-form-item-label {
-                text-align: left;
-              }
+              margin-top: 40px;
             }
           `}
         >
-          <div
+          <Text
+            fontSize="24px"
+            marginTop="20px"
+            marginBottom="20px"
+            fontWeight={500}
+          >
+            ข้อมูลของฉัน
+          </Text>
+          <Form
+            form={form}
+            name="basic"
+            labelCol={{ span: 8 }}
+            wrapperCol={{ span: 16 }}
+            initialValues={{
+              title: me.username,
+              email: me.email,
+              location: me.location,
+              category: me.category,
+              imageUrl: me.imageUrl
+            }}
+            onFinish={onFinish}
+            autoComplete="off"
             css={css`
-              width: 100%;
+              display: flex;
+
+              ${mediaQuerySmallTablet} {
+                flex-direction: column-reverse;
+              }
+
+              .ant-form-item-control-input {
+                width: 100%;
+                margin-bottom: 15px;
+              }
+
+              ${mediaQueryTablet} {
+                .ant-col-8 {
+                  max-width: 100%;
+                  flex: 0 0 100%;
+                }
+
+                .ant-col-16 {
+                  max-width: 100%;
+                }
+                .ant-form-item-label {
+                  text-align: left;
+                }
+              }
             `}
           >
-            <Form.Item name="title" label="ชื่อ">
-              <Input
-                defaultValue={me.username}
-                placeholder="ชื่อ"
-                style={{ height: '40px', borderRadius: '12px' }}
-              />
-            </Form.Item>
-            <Form.Item name="email" label="อีเมล">
-              <Input
-                placeholder="อีเมล"
-                style={{ height: '40px', borderRadius: '12px' }}
-              />
-            </Form.Item>
-            <Divider />
-            <Text
-              fontSize="24px"
-              fontWeight={500}
-              marginBottom="20px"
-              marginTop="10px"
+            <div
+              css={css`
+                width: 100%;
+              `}
             >
-              เปลี่ยนรหัสผ่าน
-            </Text>
-            <Form.Item name="prevPassword" label="รหัสผ่านปัจจุบัน">
-              <Input
-                placeholder="รหัสผ่านปัจจุบัน"
-                style={{ height: '40px', borderRadius: '12px' }}
-              />
-            </Form.Item>{' '}
-            <Form.Item name="password" label="รหัสผ่านใหม่">
-              <Input
-                placeholder="รหัสผ่านใหม่"
-                style={{ height: '40px', borderRadius: '12px' }}
-              />
-            </Form.Item>{' '}
-            <Form.Item name="confirmPassword" label="ยืนยันรหัสผ่านใหม่">
-              <Input
-                placeholder="รหัสผ่านใหม่"
-                style={{ height: '40px', borderRadius: '12px' }}
-              />
-            </Form.Item>
-            <Divider />
-            <Text
-              fontSize="24px"
-              fontWeight={500}
-              marginBottom="20px"
-              marginTop="10px"
-            >
-              สถานที่ให้ความช่วยเหลือ
-            </Text>
-            <Form.Item name="location" label="สถานที่ให้ความช่วยเหลือ">
-              <GoogleMapContent
-                width={isSmallTablet ? '100%' : '470px'}
-                requestLocation={{
-                  lat: me.location.latitude,
-                  lng: me.location.longitude
-                }}
-                setRequestLocation={setLocation}
-              />
-            </Form.Item>
-            <Divider />
-            <Text fontSize="24px" fontWeight={500} marginY="20px">
-              ความสามารถในการช่วยเหลือ
-            </Text>
-            {/* <Form.Item
+              <Form.Item name="title" label="ชื่อ">
+                <Input
+                  defaultValue={me.username}
+                  placeholder="ชื่อ"
+                  style={{ height: '40px', borderRadius: '12px' }}
+                />
+              </Form.Item>
+              <Form.Item name="email" label="อีเมล">
+                <Input
+                  disabled={Boolean(
+                    loginType === 'facebook.com' || loginType === 'google.com'
+                  )}
+                  placeholder="อีเมล"
+                  style={{ height: '40px', borderRadius: '12px' }}
+                />
+              </Form.Item>
+
+              {loginType === 'password' && (
+                <React.Fragment>
+                  <Divider />
+                  <Text
+                    fontSize="24px"
+                    fontWeight={500}
+                    marginBottom="20px"
+                    marginTop="10px"
+                  >
+                    เปลี่ยนรหัสผ่าน
+                  </Text>
+                  <Form.Item name="prevPassword" label="รหัสผ่านปัจจุบัน">
+                    <Input
+                      placeholder="รหัสผ่านปัจจุบัน"
+                      style={{ height: '40px', borderRadius: '12px' }}
+                    />
+                  </Form.Item>{' '}
+                  <Form.Item name="password" label="รหัสผ่านใหม่">
+                    <Input
+                      placeholder="รหัสผ่านใหม่"
+                      style={{ height: '40px', borderRadius: '12px' }}
+                    />
+                  </Form.Item>{' '}
+                  <Form.Item name="confirmPassword" label="ยืนยันรหัสผ่านใหม่">
+                    <Input
+                      placeholder="รหัสผ่านใหม่"
+                      style={{ height: '40px', borderRadius: '12px' }}
+                    />
+                  </Form.Item>
+                </React.Fragment>
+              )}
+              <Divider />
+              <Text
+                fontSize="24px"
+                fontWeight={500}
+                marginBottom="20px"
+                marginTop="10px"
+              >
+                สถานที่ให้ความช่วยเหลือ
+              </Text>
+              <Form.Item name="location" label="สถานที่ให้ความช่วยเหลือ">
+                <GoogleMapContent
+                  width={isSmallTablet ? '100%' : '470px'}
+                  requestLocation={{
+                    lat: me.location.latitude,
+                    lng: me.location.longitude
+                  }}
+                  setRequestLocation={setLocation}
+                />
+              </Form.Item>
+              <Divider />
+              <Text fontSize="24px" fontWeight={500} marginY="20px">
+                ความสามารถในการช่วยเหลือ
+              </Text>
+              {/* <Form.Item
             name="ability"
             css={css`
               position: relative;
@@ -312,67 +339,139 @@ export const EditProfileForm = observer(() => {
               }
             `}
           > */}
-            <Checkbox.Group
-              options={options}
-              defaultValue={checkedList.length > 0 ? checkedList : me.category}
-              onChange={toggleChecked}
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                marginBottom: '50px'
-              }}
-            />
-          </div>
-          <div
-            css={css`
-              display: flex;
-              height: 100% !important;
-              flex-direction: column;
-              align-items: center;
-              width: 100%;
-              position: relative;
-              top: 40px;
-
-              ${mediaQuerySmallTablet} {
-                margin-bottom: 50px;
-              }
-            `}
-          >
-            <img
-              src={imageUrl}
-              alt="user avatar"
+              <Form.Item label="ความสามารถในการช่วยเหลือ" name="category">
+                <Checkbox.Group
+                  options={options}
+                  value={
+                    checkedList.length > 0
+                      ? checkedList
+                      : // : selectedMyProvide
+                        // ? ['ให้ความช่วยเหลือตามรายการให้ความช่วยเหลือของฉัน']
+                        me.category
+                  }
+                  defaultValue={
+                    checkedList.length > 0
+                      ? checkedList
+                      : // : selectedMyProvide
+                        // ? ['ให้ความช่วยเหลือตามรายการให้ความช่วยเหลือของฉัน']
+                        me.category
+                  }
+                  onChange={toggleChecked}
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    marginBottom: '50px'
+                  }}
+                />
+              </Form.Item>
+            </div>
+            <div
               css={css`
-                width: 140px;
-                height: 140px;
-                border-radius: 50%;
-                margin-bottom: 25px;
+                display: flex;
+                height: 100% !important;
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+                position: relative;
+                top: 40px;
+
+                ${mediaQuerySmallTablet} {
+                  margin-bottom: 50px;
+                }
               `}
-            />{' '}
-            <Form.Item name="image">
-              <Upload
-                name="avatar"
-                className="avatar-uploader"
-                showUploadList={false}
-                onChange={handleChange}
-              >
-                <Button icon={<UploadOutlined />}>เลือกรูป</Button>
-              </Upload>
-            </Form.Item>
-            <Text
-              fontSize="14px"
-              color="#848484"
-              fontWeight={500}
-              whiteSpace="pre"
             >
-              ขนาดไฟล์: สูงสุด 1 MB{'\n'}ไฟล์ที่รองรับ: .JPEG, .PNG
-            </Text>
-            {!isSmallTablet && (
+              <img
+                src={imageUrl}
+                alt="user avatar"
+                css={css`
+                  width: 140px;
+                  height: 140px;
+                  border-radius: 50%;
+                  margin-bottom: 25px;
+                  object-fit: cover;
+                `}
+              />{' '}
+              <Form.Item name="image">
+                <Upload
+                  name="avatar"
+                  className="avatar-uploader"
+                  showUploadList={false}
+                  onChange={handleChange}
+                >
+                  <Button icon={<UploadOutlined />}>เลือกรูป</Button>
+                </Upload>
+              </Form.Item>
+              <Text
+                fontSize="14px"
+                color="#848484"
+                fontWeight={500}
+                whiteSpace="pre"
+              >
+                ขนาดไฟล์: สูงสุด 1 MB{'\n'}ไฟล์ที่รองรับ: .JPEG, .PNG
+              </Text>
+              {!isSmallTablet && (
+                <div
+                  css={css`
+                    width: 100%;
+                    position: relative;
+                    height: 100vh;
+                    bottom: 0px;
+                  `}
+                >
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    css={css`
+                      width: 170px;
+                      height: 40px;
+                      box-sizing: border-box;
+                      background: #ee6400;
+                      border-radius: 9px;
+                      border: 0;
+                      right: 100px;
+                      color: #ffff;
+                      font-size: 16px;
+                      position: absolute;
+                      bottom: 40px;
+
+                      &:hover {
+                        background: #ee6400;
+                      }
+
+                      ${mediaQueryTablet} {
+                        width: 120px;
+                        right: 0;
+                        height: 35px;
+                        font-size: 16px;
+                      }
+
+                      ${mediaQueryMobile} {
+                        width: 100px;
+                      }
+                    `}
+                  >
+                    สำเร็จ
+                  </Button>
+                </div>
+              )}
+            </div>
+            {/* <Form.Item name="image">
+            <Upload
+              name="avatar"
+              className="avatar-uploader"
+              showUploadList={false}
+              onChange={handleChange}
+            >
+              <Button icon={<UploadOutlined />}>เลือกรูป</Button>
+            </Upload>
+          </Form.Item> */}
+            {/* </Form.Item> */}
+            {isSmallTablet && (
               <div
                 css={css`
                   width: 100%;
                   position: relative;
-                  height: 100vh;
-                  bottom: 0px;
+                  height: 100%;
                 `}
               >
                 <Button
@@ -385,11 +484,11 @@ export const EditProfileForm = observer(() => {
                     background: #ee6400;
                     border-radius: 9px;
                     border: 0;
-                    right: 100px;
+                    right: 39%;
                     color: #ffff;
                     font-size: 16px;
                     position: absolute;
-                    bottom: 0;
+                    bottom: 20px;
 
                     &:hover {
                       background: #ee6400;
@@ -411,145 +510,11 @@ export const EditProfileForm = observer(() => {
                 </Button>
               </div>
             )}
-          </div>
-          {/* <Form.Item name="image">
-            <Upload
-              name="avatar"
-              className="avatar-uploader"
-              showUploadList={false}
-              onChange={handleChange}
-            >
-              <Button icon={<UploadOutlined />}>เลือกรูป</Button>
-            </Upload>
-          </Form.Item> */}
-          {/* </Form.Item> */}
-          {isSmallTablet && (
-            <div
-              css={css`
-                width: 100%;
-                position: relative;
-                height: 100%;
-              `}
-            >
-              <Button
-                type="primary"
-                htmlType="submit"
-                css={css`
-                  width: 170px;
-                  height: 40px;
-                  box-sizing: border-box;
-                  background: #ee6400;
-                  border-radius: 9px;
-                  border: 0;
-                  right: 39%;
-                  color: #ffff;
-                  font-size: 16px;
-                  position: absolute;
-                  bottom: 20px;
-
-                  &:hover {
-                    background: #ee6400;
-                  }
-
-                  ${mediaQueryTablet} {
-                    width: 120px;
-                    right: 0;
-                    height: 35px;
-                    font-size: 16px;
-                  }
-
-                  ${mediaQueryMobile} {
-                    width: 100px;
-                  }
-                `}
-              >
-                สำเร็จ
-              </Button>
-            </div>
-          )}
-        </Form>
-      </div>
-      {/* <div
-        css={css`
-          display: flex;
-          height: 100% !important;
-          flex-direction: column;
-          align-items: center;
-          width: 100%;
-          position: relative;
-          top: 40px;
-        `}
-      >
-        <img
-          src={imageUrl}
-          alt="user avatar"
-          css={css`
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            margin-bottom: 25px;
-          `}
-        />{' '}
-        <Form.Item name="image">
-          <Upload
-            name="avatar"
-            className="avatar-uploader"
-            showUploadList={false}
-            onChange={handleChange}
-          >
-            <Button icon={<UploadOutlined />}>เลือกรูป</Button>
-          </Upload>
-        </Form.Item>
-        <Text fontSize="14px" color="#848484" fontWeight={500} whiteSpace="pre">
-          ขนาดไฟล์: สูงสุด 1 MB{'\n'}ไฟล์ที่รองรับ: .JPEG, .PNG
-        </Text>
-        {isSmallTablet && <Divider />}
-        {!isSmallTablet && (
-          <div
-            css={css`
-              width: 100%;
-              position: relative;
-              height: 100vh;
-              bottom: 0px;
-            `}
-          >
-            <Button
-              type="primary"
-              htmlType="submit"
-              css={css`
-                width: 170px;
-                height: 40px;
-                box-sizing: border-box;
-                background: #ee6400;
-                border-radius: 9px;
-                border: 0;
-                right: 100px;
-                color: #ffff;
-                font-size: 16px;
-                position: absolute;
-                bottom: 0;
-
-                &:hover {
-                  background: #ee6400;
-                }
-
-                ${mediaQueryTablet} {
-                  width: 120px;
-                  right: 0;
-                  height: 35px;
-                  font-size: 16px;
-                }
-
-                ${mediaQueryMobile} {
-                  width: 100px;
-                }
-              `}
-            >
-              สำเร็จ
-            </Button>
-          </div>
-        )}
-      </div> */}
-    </WrapperContainer>
+          </Form>
+        </div>
+      ) : (
+        <Loading />
+      )}
+    </React.Fragment>
   );
 });

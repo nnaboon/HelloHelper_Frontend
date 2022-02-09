@@ -3,7 +3,6 @@
 import { css, jsx, Global } from '@emotion/react';
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
-import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 import { PrimaryButton } from './Button';
 import { PenRequestSvg } from 'components/Svg/PenRequestSvg';
@@ -13,7 +12,6 @@ import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { CATEGORY } from 'data/category';
 import { GoogleMapContent } from 'components/GoogleMap/GoogleMap';
 import { EditableTagGroup } from 'components/Tag/Hashtag';
-import firebase from '../../firebase';
 import {
   useMedia,
   MOBILE_WIDTH,
@@ -113,7 +111,6 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
 
   const onFinish = async (value) => {
     setIsSubmitting(true);
-    const values = form.getFieldsValue();
     const data = {
       userId: window.localStorage.getItem('id'),
       title: value.title,
@@ -143,7 +140,13 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
               imageUrl: res.data,
               rating: 0,
               provideSum: 0
-            });
+            })
+              .then(() => {
+                message.success('สำเร็จ');
+              })
+              .catch((error) => {
+                message.error('ไม่สามารถโพสต์ขอความช่วยเหลือได้');
+              });
           })
         : uploadRequestImage(formData).then((res) => {
             addRequest({
@@ -152,14 +155,20 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
               provideUserId: [''],
               number: value.number,
               ...data
-            });
+            })
+              .then(() => {
+                message.success('สำเร็จ');
+              })
+              .catch((error) => {
+                message.error('ไม่สามารถโพสต์ขอความช่วยเหลือได้');
+              });
           });
     } catch (e) {
       message.error('ไม่สามารถโพสต์ขอความช่วยเหลือได้');
     } finally {
       setIsSubmitting(false);
-      message.success('สำเร็จ');
       setIsModalVisible(false);
+      form.resetFields();
     }
   };
 
@@ -205,6 +214,9 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
         visible={isModalVisible}
         onOk={onModalOpen}
         onCancel={onModalClose}
+        afterClose={() => {
+          form.resetFields();
+        }}
         footer={null}
         width={isMobile ? '80%' : '800px'}
         maskClosable={false}
@@ -264,12 +276,12 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
             ขอความช่วยเหลือ
           </Text>
           <Form
+            form={form}
             name="basic"
             labelCol={{ span: 8 }}
             wrapperCol={{ span: 16 }}
-            initialValues={{ remember: true }}
+            // initialValues={{ remember: true }}
             onFinish={onFinish}
-            autoComplete="off"
             css={css`
               .ant-form-item-control-input {
                 width: 460px;
@@ -299,6 +311,7 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
                 <Select.Option value="request">ขอความช่วยเหลือ</Select.Option>
               </Select>
             </Form.Item>
+
             <Form.Item
               name="title"
               label="ชื่อ"
@@ -505,75 +518,11 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
                     width: 144px;
                   }
                 `}
-                // onClick={() => {
-                //   onFinish(form.getFieldsValue());
-                // }}
               >
                 ขอความช่วยเหลือ
               </Button>
             </div>
           </Form>
-          {/* <Modal
-            visible={afterStateModalVisible}
-            onOk={handleOk}
-            onCancel={handleCancel}
-            footer={null}
-            width={380}
-            maskClosable={false}
-            centered
-            css={css`
-              .ant-modal-content {
-                height: 250px;
-              }
-            `}
-          >
-            {requestState ? (
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  flexDirection: 'column'
-                }}
-              >
-                <img
-                  src={Correct}
-                  alt="correct sign"
-                  style={{ margin: '15px 0' }}
-                />
-                <Text fontSize="24px" fontWeight={500} marginY="6px">
-                  สำเร็จ
-                </Text>
-                <Text
-                  fontSize="16px"
-                  fontWeight={500}
-                  style={{ whiteSpace: 'pre-wrap' }}
-                  textDecoration="center"
-                  textAlign="center"
-                >
-                  ความช่วยเหลือจะถูกแจ้งเตือน {'\n'}ไปยังผู้ที่สามารถช่วยได้
-                </Text>
-              </div>
-            ) : (
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  flexDirection: 'column'
-                }}
-              >
-                <img
-                  src={InCorrect}
-                  alt="correct sign"
-                  style={{ margin: '25px 0' }}
-                />
-                <Text fontSize="24px" fontWeight={500} marginY="6px">
-                  บางสิ่งผิดพลาด
-                </Text>
-              </div>
-            )}
-          </Modal> */}
         </RegisterLocationFormSection>
       </Modal>
     </React.Fragment>
