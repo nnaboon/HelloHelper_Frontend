@@ -9,15 +9,17 @@ import { SearchResultPage } from './pages/SearchResultPage';
 import { Navbar } from 'components/Navbar/Navbar';
 import { ProvideListPage } from './pages/ProvideListpage';
 import { RequestListPage } from './pages/RequestListpage';
-import { EditProfilePage } from './pages/EditProfilePage';
 import { CommunityPage } from './pages/CommunityPage';
 import { CommunitySetting } from 'features/community/CommunitySetting';
 import { mediaQueryMobile } from './styles/variables';
 import Chat from 'features/chat/components/Chat/Chat';
-import 'react-multi-carousel/lib/styles.css';
-import './App.css';
 import { ProvideInfoContent } from 'components/Info/ProvideInfoContent';
 import { RequestInfoContent } from 'components/Info/RequestInfoContent';
+import { OrderInfoPage } from 'pages/OrderInfoPage';
+import { SettingPage } from './pages/SettingPage';
+import 'react-multi-carousel/lib/styles.css';
+import './App.css';
+import { Messenger } from 'features/chat/client/src/pages/messenger/Messenger';
 
 const App = () => {
   return (
@@ -28,6 +30,7 @@ const App = () => {
         height: 100vh;
         overflow-y: scroll;
         background: #f9f9f9;
+
         ${mediaQueryMobile} {
           overflow-y: hidden;
         }
@@ -40,14 +43,11 @@ const App = () => {
           <Route path="/profile" component={ProfilePage} />
           <Route path="/community/" component={CommunityPage} />
           <Route path="/user/community/:id" component={CommunitySetting} />
-          <Route
-            path="/user/account/profile"
-            exact
-            component={EditProfilePage}
-          />
-          <Route path="/chat" component={Chat} />
+          <Route path="/user/account/setting" exact component={SettingPage} />
+          <Route path="/chat" component={Messenger} />
           <Route path="/order/request" exact component={RequestListPage} />
           <Route path="/order/provide" exact component={ProvideListPage} />
+          <Route path="/order" component={OrderInfoPage} />
           <Route path="/:id" exact component={SearchResultPage} />
           <Route path="/search" exact component={SearchResultPage} />
           {/* <Route path="/:title/:id" component={InfoPage} /> */}
