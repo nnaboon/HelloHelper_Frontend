@@ -75,6 +75,7 @@ export const RegisterAbilityForm = (props: RegisterAbilityFormProps) => {
   return (
     <RegisterAbilityFormSection>
       <Form
+        form={form}
         name="basic"
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}

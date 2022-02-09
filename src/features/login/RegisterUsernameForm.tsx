@@ -68,6 +68,7 @@ export const RegisterUsernameForm = (props: RegisterUsernameFormProps) => {
         ชื่อ
       </Text>
       <Form
+        form={form}
         name="basic"
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}

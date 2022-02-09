@@ -75,6 +75,7 @@ export const RegisterLocationForm = (props: RegisterLocationFormProps) => {
         สถานที่ที่คุณสามารถให้ความช่วยเหลือได้
       </Text>
       <Form
+        form={form}
         name="basic"
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
