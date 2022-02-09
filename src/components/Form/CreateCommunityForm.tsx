@@ -5,13 +5,21 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { Text } from 'components/Text';
-import { Button, Form, Input, message } from 'antd';
+import { Button, Form, Input, Upload, message } from 'antd';
 import { CommunityType } from 'features/community/const';
 import { useAddCommunity } from 'hooks/community/useAddCommunity';
 import { useUpdateUser } from 'hooks/user/useUpdateUser';
 import { observer } from 'mobx-react-lite';
 import { userStore } from 'store/userStore';
 import { GoogleMapContent } from 'components/GoogleMap/GoogleMap';
+import { useUploadUserImage } from 'hooks/user/useUploadUserImage';
+import DefaultImage from 'images/default.png';
+import { mediaQueryMobile } from 'styles/variables';
+import {
+  LoadingOutlined,
+  PlusOutlined,
+  UploadOutlined
+} from '@ant-design/icons';
 
 interface CreateCommunityFormProps {
   setVisible: (visible: boolean) => void;
@@ -28,25 +36,47 @@ export const CreateCommunityForm = ({
 }: CreateCommunityFormProps) => {
   const [form] = Form.useForm();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [imageUrl, setImageUrl] = useState<string>(DefaultImage);
   const [location, setLocation] = useState<any>();
   const { me } = userStore;
   const { data: response, execute: addCommunity } = useAddCommunity();
   const { execute: updateUser } = useUpdateUser();
+  const { execute: uploadUserImage } = useUploadUserImage();
 
   const history = useHistory();
 
-  useEffect(() => {
-    if (location) {
-      form.setFieldsValue({
-        location: location.formatted_address
+  const uploadButton = (
+    <div>
+      {loading ? <LoadingOutlined /> : <PlusOutlined />}
+      <div style={{ marginTop: 8 }}>Upload</div>
+    </div>
+  );
+  function getBase64(img, callback) {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => callback(reader.result));
+    reader.readAsDataURL(img);
+  }
+
+  const handleChange = (info) => {
+    // Change condition
+    if (info.file.status === 'done') {
+      setLoading(true);
+      return;
+    }
+    if (info.file.status === 'uploading') {
+      // Get this url from response in real world.
+      getBase64(info.file.originFileObj, (imageUrl) => {
+        setLoading(false);
+        setImageUrl(imageUrl);
       });
     }
-  }, [form, location]);
+  };
 
   const onFinish = async (value) => {
     setIsSubmitting(true);
     const data = {
-      communityCode: value.password,
+      // communityCode: value.password,
       communityName: value.name,
       location: {
         name: location.name,
@@ -58,8 +88,13 @@ export const CreateCommunityForm = ({
     };
 
     try {
-      addCommunity(data).then((res) => {
-        history.push(`/community/${res.data}`);
+      var formData = new FormData();
+      formData.append('img', value.image.file.originFileObj);
+
+      uploadUserImage(formData).then((res) => {
+        addCommunity({ ...data, imageUrl: res.data }).then((res) => {
+          history.push(`/community/${res.data}`);
+        });
       });
     } catch (e) {
       message.error('ไม่สามารถโพสต์ขอความช่วยเหลือได้');
@@ -69,6 +104,14 @@ export const CreateCommunityForm = ({
       setVisible(false);
     }
   };
+
+  useEffect(() => {
+    if (location) {
+      form.setFieldsValue({
+        location: location.formatted_address
+      });
+    }
+  }, [form, location]);
 
   return (
     <CreateCommunityFormSection>
@@ -85,6 +128,7 @@ export const CreateCommunityForm = ({
         คุณสามารถสร้างชุมชนความช่วยเหลือใหม่ได้แล้ว
       </Text>
       <Form
+        form={form}
         name="basic"
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
@@ -97,8 +141,51 @@ export const CreateCommunityForm = ({
           .ant-form-item-control-input {
             width: 360px;
           }
+
+          ${mediaQueryMobile} {
+            .ant-form-item-control-input {
+              width: 100%;
+            }
+          }
         `}
       >
+        <div
+          css={css`
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+          `}
+        >
+          {' '}
+          <img
+            src={imageUrl}
+            alt="user avatar"
+            css={css`
+              width: 100px;
+              height: 100px;
+              border-radius: 50%;
+              margin-bottom: 15px;
+              object-fit: cover;
+            `}
+          />
+          <Form.Item name="image">
+            <Upload
+              name="avatar"
+              className="avatar-uploader"
+              showUploadList={false}
+              onChange={handleChange}
+              css={css`
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+              `}
+            >
+              <Button icon={<UploadOutlined />}>เลือกรูป</Button>
+            </Upload>
+          </Form.Item>
+        </div>
         <Form.Item
           name="name"
           rules={[
@@ -113,7 +200,7 @@ export const CreateCommunityForm = ({
             style={{ height: '40px', borderRadius: '12px' }}
           />
         </Form.Item>
-        <Form.Item
+        {/* <Form.Item
           name="password"
           rules={[
             {
@@ -130,7 +217,7 @@ export const CreateCommunityForm = ({
         <ul style={{ color: '#939393' }}>
           <li>สามารถเป็น ภาษาอังกฤษ ตัวเลข และอักษรพิเศษ </li>
           <li>ห้ามมีเว้นวรรค</li>
-        </ul>
+        </ul> */}
         <Form.Item name="description">
           <Input
             placeholder="คำอธิบาย"

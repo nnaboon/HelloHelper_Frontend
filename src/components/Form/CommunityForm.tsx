@@ -66,6 +66,7 @@ export const CommunityForm = observer(
           ชุมชนความช่วยเหลือของคุณขณะนี้
         </Text>
         <Form
+          form={form}
           name="basic"
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 16 }}
