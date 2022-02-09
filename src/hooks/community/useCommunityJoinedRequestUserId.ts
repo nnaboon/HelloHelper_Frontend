@@ -10,7 +10,7 @@ export const useCommunityJoinedRequestUserId = () => {
   const execute = (communityId: string, data: any) => {
     if (data.joinedRequestUserId.length > 0) {
       return fire({
-        url: `${REACT_APP_API}/community/joined/${communityId}`,
+        url: `${REACT_APP_API}/community/${communityId}/joined`,
         data
       });
     } else {

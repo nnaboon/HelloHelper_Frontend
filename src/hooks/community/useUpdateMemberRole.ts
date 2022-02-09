@@ -10,13 +10,13 @@ export const useUpdateMemberRole = () => {
   // data = role, userId
   const execute = (communityId: string, userId: string, data: object) => {
     return fire({
-      url: `${REACT_APP_API}/community/request/${communityId}/${userId}`,
+      url: `${REACT_APP_API}/community/${communityId}/member/${userId}`,
       data
     });
   };
 
   return {
-    data: response?.data,
+    data: response,
     loading: loading,
     error,
     execute

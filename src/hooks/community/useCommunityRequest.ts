@@ -9,7 +9,7 @@ export const useCommunityRequest = () => {
 
   const execute = (communityId: string) => {
     return fire({
-      url: `${REACT_APP_API}/community/request/${communityId}`
+      url: `${REACT_APP_API}/community/${communityId}/request`
     });
   };
 

@@ -1,7 +1,7 @@
 import useAxios from 'axios-hooks';
 import { REACT_APP_API } from 'config';
 
-export const useDeleteUser = () => {
+export const useDisableProvide = () => {
   const [{ data: response, loading, error }, fire] = useAxios(
     {
       method: 'PUT'
@@ -9,15 +9,16 @@ export const useDeleteUser = () => {
     { manual: true }
   );
 
-  const execute = (requestId: string, data: object) => {
+  // data = userId (deleted by who)
+  const execute = (provideId: string, data: object) => {
     return fire({
-      url: `${REACT_APP_API}/delete/${requestId}`,
+      url: `${REACT_APP_API}/provide/${provideId}/disable`,
       data
     });
   };
 
   return {
-    data: response?.data,
+    data: response,
     loading,
     error,
     execute

@@ -10,7 +10,7 @@ export const useUpdateOrder = () => {
   );
 
   const execute = (orderId: string, data: object) => {
-    return fire({ url: `${REACT_APP_API}/order/status/${orderId}`, data });
+    return fire({ url: `${REACT_APP_API}/order/${orderId}/status`, data });
   };
 
   return {

@@ -9,15 +9,15 @@ export const useAddProvidedUser = () => {
     { manual: true }
   );
 
-  // data = userId (deleted by who)
-  const execute = (requestId: string, data: object) => {
+  // data = userId of owner
+  const execute = (requestId: string, userId: string, data: object) => {
     return fire({
-      url: `${REACT_APP_API}/request/provided/${requestId}`,
+      url: `${REACT_APP_API}/request/${requestId}/provided/${userId}`,
       data
     });
   };
   return {
-    data: response?.data,
+    data: response,
     loading,
     error,
     execute

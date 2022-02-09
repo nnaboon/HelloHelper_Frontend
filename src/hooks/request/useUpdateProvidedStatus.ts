@@ -9,12 +9,14 @@ export const useUpdateProvidedStatus = () => {
     { manual: true }
   );
 
+  //data: my userId
   const execute = (requestId: string, provideId: string, data: object) => {
     return fire({
-      url: `${REACT_APP_API}/request/provided/${requestId}/${provideId}`,
+      url: `${REACT_APP_API}/request/${requestId}/provided/${provideId}`,
       data
     });
   };
+
   return {
     data: response,
     loading,

@@ -17,7 +17,7 @@ export const useUpdateRequest = () => {
     });
   };
   return {
-    data: response?.data,
+    data: response,
     loading,
     error,
     execute

@@ -16,7 +16,7 @@ export const useUsers = () => {
   };
 
   return {
-    data: response?.data as UsersGetDto[],
+    data: response,
     loading: loading,
     error,
     execute

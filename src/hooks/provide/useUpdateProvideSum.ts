@@ -16,7 +16,7 @@ export const useUpdateProvideSum = () => {
   );
 
   const execute = (provideId: string) => {
-    return fire({ url: `${REACT_APP_API}/provide/sum/${provideId}` });
+    return fire({ url: `${REACT_APP_API}/provide/${provideId}/sum` });
   };
   return {
     data: response,

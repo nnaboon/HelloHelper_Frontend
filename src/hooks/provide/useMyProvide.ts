@@ -9,7 +9,7 @@ export const useMyProvide = () => {
   );
 
   const execute = (userId: string) => {
-    return fire({ url: `${REACT_APP_API}/provide/me/${userId}` });
+    return fire({ url: `${REACT_APP_API}/provide/user/${userId}` });
   };
 
   return {

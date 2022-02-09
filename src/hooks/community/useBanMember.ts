@@ -10,13 +10,13 @@ export const useBanMember = () => {
   //data = userId
   const execute = (communityId: string, userId: string, data: object) => {
     return fire({
-      url: `${REACT_APP_API}/community/ban/${communityId}/${userId}`,
+      url: `${REACT_APP_API}/community/${communityId}/ban/${userId}`,
       data
     });
   };
 
   return {
-    data: response?.data,
+    data: response,
     loading: loading,
     error,
     execute

@@ -16,7 +16,7 @@ export const useOrders = () => {
   };
 
   return {
-    data: response?.data as OrderGetDto[],
+    data: response,
     loading: loading,
     error,
     execute

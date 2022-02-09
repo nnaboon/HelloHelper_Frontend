@@ -14,7 +14,7 @@ export const useAddCommunity = () => {
   };
 
   return {
-    data: response?.data,
+    data: response,
     loading: loading,
     error,
     execute

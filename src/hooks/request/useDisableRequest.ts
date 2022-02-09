@@ -1,21 +1,24 @@
 import useAxios from 'axios-hooks';
 import { REACT_APP_API } from 'config';
 
-export const useCommunityMember = () => {
+export const useDisableRequest = () => {
   const [{ data: response, loading, error }, fire] = useAxios(
-    {},
+    {
+      method: 'PUT'
+    },
     { manual: true }
   );
 
-  const execute = (communityId: string) => {
+  const execute = (requestId: string, data: object) => {
     return fire({
-      url: `${REACT_APP_API}/community/${communityId}/member`
+      url: `${REACT_APP_API}/request/${requestId}/disable`,
+      data
     });
   };
 
   return {
     data: response,
-    loading: loading,
+    loading,
     error,
     execute
   };

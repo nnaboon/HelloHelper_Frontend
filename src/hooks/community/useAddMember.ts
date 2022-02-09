@@ -12,13 +12,13 @@ export const useAddCommunity = () => {
   // data = userId
   const execute = (communityId: string, data: object) => {
     return fire({
-      url: `${REACT_APP_API}/community/member/${communityId}`,
+      url: `${REACT_APP_API}/community/${communityId}/member`,
       data
     });
   };
 
   return {
-    data: response?.data,
+    data: response,
     loading: loading,
     error,
     execute

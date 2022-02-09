@@ -1,7 +1,7 @@
 import useAxios from 'axios-hooks';
 import { REACT_APP_API } from 'config';
 
-export const useDeleteOrder = () => {
+export const useDisableUser = () => {
   const [{ data: response, loading, error }, fire] = useAxios(
     {
       method: 'PUT'
@@ -9,14 +9,15 @@ export const useDeleteOrder = () => {
     { manual: true }
   );
 
-  //data: userId
-  const execute = (orderId: string, data: object) => {
-    return fire({ url: `${REACT_APP_API}/order/delete/${orderId}`, data });
+  const execute = (userId: string) => {
+    return fire({
+      url: `${REACT_APP_API}/user/${userId}/disable`
+    });
   };
 
   return {
     data: response,
-    loading: loading,
+    loading,
     error,
     execute
   };

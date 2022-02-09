@@ -8,7 +8,7 @@ export const useMyRequest = () => {
   );
 
   const execute = (userId: string) => {
-    return fire({ url: `${REACT_APP_API}/request/me/${userId}` });
+    return fire({ url: `${REACT_APP_API}/request/user/${userId}` });
   };
 
   return {

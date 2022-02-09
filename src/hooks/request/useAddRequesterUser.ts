@@ -9,14 +9,15 @@ export const useAddRequesterUser = () => {
     { manual: true }
   );
 
-  const execute = (requestId: string, data: object) => {
+  //data: myUserId
+  const execute = (requestId: string, userId: string, data: object) => {
     return fire({
-      url: `${REACT_APP_API}/request/requester/${requestId}`,
+      url: `${REACT_APP_API}/request/${requestId}/requester/${userId}`,
       data
     });
   };
   return {
-    data: response?.data,
+    data: response,
     loading,
     error,
     execute
