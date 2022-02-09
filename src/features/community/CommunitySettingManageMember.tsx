@@ -7,8 +7,7 @@ import { useLocation } from 'react-router-dom';
 import { Dropdown, Menu } from 'antd';
 import { SecondaryButton, PrimaryButton } from 'components/Button/Button';
 import { Text } from 'components/Text';
-import UserAvatar from 'images/avatar_helper.png';
-import MyAccountAvatar from 'images/avatar_user2.png';
+import DefaultImage from 'images/default.png';
 import {
   useMedia,
   MOBILE_WIDTH,
@@ -173,16 +172,16 @@ export const CommunitySettingManageMember = ({
       <Text fontWeight={500} fontSize="28px" marginY="40px">
         ผู้ต้องการเข้าร่วมชุมชน
       </Text>
-      {joinedRequest ? (
+      {joinedRequest.length > 0 ? (
         <div>
           {' '}
           {joinedRequest.map(
-            ({ username, userId, joinedRequestId, imageUrl }) => (
+            ({ id, username, userId, joinedRequestId, imageUrl }) => (
               <CommunityMemberCard key={userId}>
                 <CommunityMemberContainer>
                   <CommunityMemberImageContainer>
                     <CommunityMemberImage
-                      src={imageUrl}
+                      src={imageUrl ?? DefaultImage}
                       alt="community member avatar"
                     />
                     <UserName>{username}</UserName>
@@ -191,26 +190,26 @@ export const CommunitySettingManageMember = ({
                     <CommunitySecondaryButton
                       onClick={() => {
                         updateJoinedCommunityRequest(query, {
-                          joinedRequestId: joinedRequestId,
+                          joinedRequestId: id,
                           userId: userId
                         });
                       }}
                     >
                       <div>ปฏิเสธ</div>
                     </CommunitySecondaryButton>
-                    <Dropdown overlay={menu}>
-                      <CommunityPrimaryButton
-                        onClick={() => {
-                          updateJoinedCommunityRequest(query, {
-                            joinedRequestId: joinedRequestId,
-                            selected: 1,
-                            userId: userId
-                          });
-                        }}
-                      >
-                        <div>ยอมรับ</div>
-                      </CommunityPrimaryButton>
-                    </Dropdown>
+                    <CommunityPrimaryButton
+                      onClick={() => {
+                        updateJoinedCommunityRequest(query, {
+                          joinedRequestId: id,
+                          status: 1,
+                          requesterUserId: userId,
+                          communityAdminUserId:
+                            window.localStorage.getItem('id')
+                        });
+                      }}
+                    >
+                      <div>ยอมรับ</div>
+                    </CommunityPrimaryButton>
                   </CommunityButtonContainer>
                 </CommunityMemberContainer>
               </CommunityMemberCard>
@@ -226,13 +225,13 @@ export const CommunitySettingManageMember = ({
       </Text>
       {member
         .filter(({ role }) => role === 1)
-        .map(({ username, userId }) => (
-          <CommunityMemberCard key={userId}>
+        .map(({ id, username, imageUrl, userId }) => (
+          <CommunityMemberCard key={id}>
             <CommunityMemberContainer>
               <CommunityMemberImageContainer>
                 {' '}
                 <CommunityMemberImage
-                  src={UserAvatar}
+                  src={imageUrl ?? DefaultImage}
                   alt="community member avatar"
                 />
                 <UserName>{username}</UserName>
@@ -284,13 +283,13 @@ export const CommunitySettingManageMember = ({
           {' '}
           {member
             .filter(({ role }) => role === 0)
-            .map(({ username, userId }) => (
-              <CommunityMemberCard key={userId}>
+            .map(({ id, username, imageUrl, userId }) => (
+              <CommunityMemberCard key={id}>
                 <CommunityMemberContainer>
                   <CommunityMemberImageContainer>
                     {' '}
                     <CommunityMemberImage
-                      src={UserAvatar}
+                      src={imageUrl ?? DefaultImage}
                       alt="community member avatar"
                     />
                     <UserName>{username}</UserName>

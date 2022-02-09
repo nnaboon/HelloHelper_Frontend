@@ -16,7 +16,9 @@ import { useCommunities } from 'hooks/community/useCommunities';
 import { useUpdateJoinedCommunityRequest } from 'hooks/community/useUpdateJoinedCommunityRequest';
 import { useJoinCommunity } from 'hooks/community/useJoinCommunity';
 import { CommunitySigninState } from './CommunitySigninState';
+import { CheckOutlined } from '@ant-design/icons';
 import { Loading } from 'components/Loading/Loading';
+import DefaultImage from 'images/default.png';
 import {
   useMedia,
   MOBILE_WIDTH,
@@ -27,6 +29,7 @@ import {
   mediaQueryTablet
 } from 'styles/variables';
 import { userStore } from 'store/userStore';
+import { EmptyData } from 'components/Empty/EmptyData';
 
 const RequestImageSection = styled.img`
   width: 420px;
@@ -79,6 +82,7 @@ const HelperImage = styled.img`
   height: 90px;
   border-radius: 50%;
   margin-top: 5px;
+  object-fit: cover;
 
   ${mediaQueryMobile} {
     width: 65px;
@@ -175,9 +179,16 @@ export const CommunitySignin = observer(() => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [search, setSearch] = useState<any>();
   const { data: communities, execute: getCommunities } = useCommunities();
-  const { data: response, execute: joinCommunity } = useJoinCommunity();
-  const { execute: updateJoinedCommunityRequest } =
-    useUpdateJoinedCommunityRequest();
+  const {
+    data: response,
+    loading: updateJoinCommunityLoading,
+    execute: joinCommunity
+  } = useJoinCommunity();
+  const {
+    data: updateJoinRequest,
+    loading: updateJoinRequestLoading,
+    execute: updateJoinedCommunityRequest
+  } = useUpdateJoinedCommunityRequest();
 
   const history = useHistory();
   const { pathname, state } = useLocation();
@@ -188,7 +199,6 @@ export const CommunitySignin = observer(() => {
   const { Search } = Input;
 
   const onSearch = (value) => {
-    console.log(value);
     setSearch(value);
   };
 
@@ -202,7 +212,7 @@ export const CommunitySignin = observer(() => {
 
   useEffect(() => {
     getCommunities();
-  }, []);
+  }, [updateJoinCommunityLoading, updateJoinRequestLoading]);
 
   return (
     <WrapperContainer>
@@ -229,7 +239,119 @@ export const CommunitySignin = observer(() => {
             size="large"
             style={{ width: isMobile ? '200px' : '462px', height: '60px' }}
           />
-          {communities
+          {communities.filter(
+            ({ communityName, location }) =>
+              communityName.includes(search) || location.name.includes(search)
+          ).length > 0
+            ? communities
+                .filter(
+                  ({ communityName, location }) =>
+                    communityName.includes(search) ||
+                    location.name.includes(search)
+                )
+                .map(
+                  ({
+                    communityName,
+                    id,
+                    createdBy,
+                    joinedRequestUserId,
+                    imageUrl
+                  }) => (
+                    <UserProfileCard key={id}>
+                      <div style={{ display: 'flex' }}>
+                        <UserProfileImageContainer>
+                          <HelperImage
+                            src={imageUrl ?? DefaultImage}
+                            alt="community pic"
+                          />
+                        </UserProfileImageContainer>
+                        <div
+                          css={css`
+                            display: flex;
+                            align-items: center;
+                          `}
+                        >
+                          <UserName>{communityName}</UserName>
+                        </div>
+                      </div>
+
+                      {me.communityId.includes(id) ? (
+                        <PrimaryButton
+                          onClick={() => {
+                            history.push(`/community/${id}`);
+                          }}
+                          css={css`
+                            margin-right: 100px;
+                            width: 180px;
+                            z-index: 5;
+                          `}
+                        >
+                          <div>ดูชุมชนความช่วยเหลือ</div>
+                        </PrimaryButton>
+                      ) : (
+                        <SecondaryButton
+                          css={css`
+                            margin-right: 100px;
+                            width: 180px;
+                            z-index: 5;
+                          `}
+                          onClick={() => {
+                            if (
+                              joinedRequestUserId?.filter(({ userId }) =>
+                                userId.includes(
+                                  window.localStorage.getItem('id')
+                                )
+                              ).length > 0
+                            ) {
+                              try {
+                                updateJoinedCommunityRequest(id, {
+                                  joinedRequestId: joinedRequestUserId?.filter(
+                                    ({ userId }) =>
+                                      userId.includes(
+                                        window.localStorage.getItem('id')
+                                      )
+                                  )[0].id,
+                                  status: 0
+                                });
+                              } catch (e) {
+                                message.error('ไม่สามารถส่งคำขอได้');
+                              } finally {
+                                message.success('สำเร็จ');
+                              }
+                            } else {
+                              try {
+                                joinCommunity({
+                                  userId: window.localStorage.getItem('id'),
+                                  communityId: id,
+                                  communityAdminUserId: createdBy
+                                });
+                              } catch (e) {
+                                message.error('ไม่สามารถส่งคำขอได้');
+                              } finally {
+                                message.success('สำเร็จ');
+                              }
+                            }
+                          }}
+                        >
+                          <div>
+                            {joinedRequestUserId?.filter(({ userId }) =>
+                              userId.includes(window.localStorage.getItem('id'))
+                            ).length > 0 ? (
+                              <Flex>
+                                <CheckOutlined style={{ marginRight: '7px' }} />
+                                <div>ได้ส่งคำขอแล้ว</div>
+                              </Flex>
+                            ) : (
+                              'ส่งคำขอเข้าร่วม'
+                            )}
+                          </div>
+                        </SecondaryButton>
+                      )}
+                    </UserProfileCard>
+                  )
+                )
+            : search && <EmptyData height="400px" />}
+          {/* {communities
             .filter(
               ({ communityName, location }) =>
                 communityName.includes(search) || location.name.includes(search)
@@ -274,7 +396,7 @@ export const CommunitySignin = observer(() => {
                       if (
                         joinedRequestUserId?.filter(({ userId }) =>
                           userId.includes(window.localStorage.getItem('id'))
-                        )
+                        ).length > 0
                       ) {
                         try {
                           updateJoinedCommunityRequest(id, {
@@ -307,17 +429,21 @@ export const CommunitySignin = observer(() => {
                     }}
                   >
                     <div>
-                      {console.log(joinedRequestUserId)}
                       {joinedRequestUserId?.filter(({ userId }) =>
                         userId.includes(window.localStorage.getItem('id'))
-                      )
-                        ? 'ได้ส่งคำขอแล้ว'
-                        : 'ส่งคำขอเข้าร่วม'}
+                      ).length > 0 ? (
+                        <Flex>
+                          <CheckOutlined style={{ marginRight: '7px' }} />
+                          <div>ได้ส่งคำขอแล้ว</div>
+                        </Flex>
+                      ) : (
+                        'ส่งคำขอเข้าร่วม'
+                      )}
                     </div>
                   </SecondaryButton>
                 )}
               </UserProfileCard>
-            ))}
+            ))} */}
 
           <Modal
             visible={isModalVisible}
@@ -330,6 +456,7 @@ export const CommunitySignin = observer(() => {
             css={css`
               .ant-modal-content {
                 height: 850px;
+                overflow-y: scroll;
               }
 
               .ant-modal-body {

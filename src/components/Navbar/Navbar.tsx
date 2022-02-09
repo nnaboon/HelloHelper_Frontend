@@ -14,8 +14,7 @@ import { mediaQueryMobile, mediaQuerySmallTablet } from 'styles/variables';
 import { useMedia, MOBILE_WIDTH, SMALL_TABLET_WIDTH } from 'styles/variables';
 import { MessageOutlined } from '@ant-design/icons';
 import { SideMenu } from 'components/Menu/SideMenu';
-import { USER_DATA } from 'data/user';
-import MyAccountAvatar from 'images/avatar_user2.png';
+import DefaultImage from 'images/default.png';
 import { useUser } from 'hooks/user/useUser';
 import firebase from '../../firebase';
 
@@ -106,7 +105,7 @@ export const Navbar = observer(() => {
   const isSmallTablet = useMedia(`(max-width: ${SMALL_TABLET_WIDTH}px)`);
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
 
-  const { userId, setUserId, me, setMe } = userStore;
+  const { userId, setUserId, me, setMe, setLoginType } = userStore;
   const { data: response, execute: getUser } = useUser();
 
   const history = useHistory();
@@ -133,6 +132,7 @@ export const Navbar = observer(() => {
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged(function (user) {
+      setLoginType(user.providerData[0].providerId);
       if (user && window.localStorage.getItem('id')) {
         setUserId(window.localStorage.getItem('id'));
         setUserImage(user.photoURL);
@@ -248,7 +248,7 @@ export const Navbar = observer(() => {
             response ? (
               <React.Fragment>
                 <MyAccount
-                  src={response ? response.imageUrl : undefined}
+                  src={response ? response.imageUrl : DefaultImage}
                   alt="my account"
                   onClick={() => {
                     setCollapsed(true);
@@ -263,7 +263,26 @@ export const Navbar = observer(() => {
                 />{' '}
               </React.Fragment>
             ) : (
-              <Skeleton.Avatar size="large" shape="circle" />
+              <Skeleton.Avatar
+                size="large"
+                shape="circle"
+                css={css`
+                  position: relative;
+                  right: 15px;
+                  margin-left: 15px;
+
+                  ${mediaQuerySmallTablet} {
+                    position: absolute;
+                    right: 15px;
+                    top: 22px;
+                    z-index: 10;
+                  }
+
+                  ${mediaQueryMobile} {
+                    top: 12px;
+                  }
+                `}
+              />
             )
           ) : (
             <li
