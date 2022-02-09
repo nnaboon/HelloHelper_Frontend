@@ -9,14 +9,12 @@ import { WrapperContainer } from 'components/Wrapper/WrapperContainer';
 import Flex from 'components/Flex/Flex';
 import { CATEGORY } from 'data/category';
 import { PrimaryButton, SecondaryButton } from 'components/Button/Button';
+import DefaultImage from 'images/default.png';
 import { UserSvg } from 'components/Svg/UserSvg';
-import { Divider, Dropdown, Menu } from 'antd';
+import { Divider, Dropdown, Menu, message } from 'antd';
 import { RankingBadge } from 'components/Badge/Badge';
 import { SuggestedBadge } from 'components/Badge/Badge';
 import { RANK_BADGE } from 'components/Badge/const';
-import UserAvatar from 'images/avatar_helper.png';
-import ProvideImage from 'images/request.jpeg';
-import MyAccountAvatar from 'images/avatar_user2.png';
 import { useProvide } from 'hooks/provide/useProvide';
 import { useUser } from 'hooks/user/useUser';
 import { userStore } from 'store/userStore';
@@ -31,18 +29,17 @@ import {
   mediaQueryTablet
 } from 'styles/variables';
 import { MoreOutlined } from '@ant-design/icons';
-
-import { myAccountUserId, USER_DATA } from 'data/user';
-import { PROVIDE_MAPPER } from 'data/provide';
 import { EditSvg } from 'components/Svg/EditSvg';
 import { DeleteSvg } from 'components/Svg/DeleteSvg';
 import { EyeOffSvg } from 'components/Svg/EyeOffSvg';
 import { Loading } from 'components/Loading/Loading';
+import { useUpdateProvide } from 'hooks/provide/useUpdateProvide';
 
 const ProvideImageSection = styled.img`
   width: 420px;
   height: 510px;
   margin-bottom: 20px;
+  object-fit: cover;
 
   ${mediaQueryTablet} {
     width: 100%;
@@ -165,19 +162,18 @@ const UserName = styled.div`
 
 export const ProvideInfoContent = observer(({ data }: any) => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-  const { userId } = userStore;
-
   const history = useHistory();
   const { pathname } = useLocation();
   const query = pathname.split('/')[3];
+  const { userId } = userStore;
 
+  const { data: user, loading: isUserLoading, execute: getUser } = useUser();
+  const { execute: updateProvide } = useUpdateProvide();
   const {
     data: provide,
     loading: isProvideLoading,
     execute: getProvide
   } = useProvide();
-
-  const { data: user, loading: isUserLoading, execute: getUser } = useUser();
 
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
@@ -215,9 +211,32 @@ export const ProvideInfoContent = observer(({ data }: any) => {
             alignItems: 'center',
             justifyContent: 'center'
           }}
+          onClick={() => {
+            if (provide.visibility === 0) {
+              updateProvide(query, {
+                userId: window.localStorage.getItem('id'),
+                visibility: 1
+              })
+                .then(() => {
+                  message.success('สำเร็จ');
+                  getProvide(query);
+                })
+                .catch((error) => message.error('ไม่สำเร็จ'));
+            } else {
+              updateProvide(query, {
+                userId: window.localStorage.getItem('id'),
+                visibility: 0
+              })
+                .then(() => {
+                  message.success('สำเร็จ');
+                  getProvide(query);
+                })
+                .catch((error) => message.error('ไม่สำเร็จ'));
+            }
+          }}
         >
           <EyeOffSvg style={{ marginRight: '18px' }} />
-          <div>ซ่อน</div>
+          <div>{Boolean(provide?.visibility) ? 'ซ่อน' : 'เลิกซ่อน'}</div>
         </div>
       </Menu.Item>
       <Menu.Item key="3">
@@ -333,7 +352,10 @@ export const ProvideInfoContent = observer(({ data }: any) => {
                 itemAlign="flex-start"
                 style={{ width: 'unset', position: 'relative' }}
               >
-                <ProvideImageSection src={provide.imageUrl} alt="provide img" />
+                <ProvideImageSection
+                  src={provide.imageUrl ?? DefaultImage}
+                  alt="provide img"
+                />
                 <Flex
                   css={css`
                     width: 600px;
@@ -451,7 +473,7 @@ export const ProvideInfoContent = observer(({ data }: any) => {
                   `}
                 >
                   <HelperImage
-                    src={user ? user.imageUrl : undefined}
+                    src={user ? user.imageUrl : DefaultImage}
                     alt="user avatar"
                   />
                   {Boolean(user?.recommend) && (

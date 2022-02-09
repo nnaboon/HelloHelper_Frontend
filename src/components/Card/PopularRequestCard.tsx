@@ -14,8 +14,7 @@ import { MessageSvg } from 'components/Svg/MessageSvg';
 import { UserSvg } from 'components/Svg/UserSvg';
 
 import { getStar } from 'components/Star/getStar';
-import UserAvatar from 'images/avatar_helper.png';
-import MyAccountAvatar from 'images/avatar_user2.png';
+import DefaultImage from 'images/default.png';
 import { useUser } from 'hooks/user/useUser';
 
 import {
@@ -204,7 +203,7 @@ export const PopularRequestSection = ({ data }: any) => {
                         `}
                       >
                         <HelperImage
-                          src={user.imageUrl}
+                          src={user.imageUrl ?? DefaultImage}
                           alt="user"
                           loading="lazy"
                         />
@@ -274,7 +273,10 @@ export const PopularRequestSection = ({ data }: any) => {
                               margin-right: 10px;
                             `}
                           >
-                            <HelperImage src={user.imageUrl} alt="user" />
+                            <HelperImage
+                              src={user.imageUrl ?? DefaultImage}
+                              alt="user"
+                            />
                             {Boolean(user.recommend) && (
                               <SuggestedBadge>แนะนำ</SuggestedBadge>
                             )}

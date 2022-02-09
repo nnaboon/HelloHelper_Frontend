@@ -13,7 +13,7 @@ import { Rate } from 'antd';
 import { MessageSvg } from 'components/Svg/MessageSvg';
 import { UserSvg } from 'components/Svg/UserSvg';
 import UserAvatar from 'images/avatar_helper.png';
-import MyAccountAvatar from 'images/avatar_user2.png';
+import DefaultImage from 'images/default.png';
 
 import {
   mediaQueryMobile,
@@ -44,13 +44,14 @@ const CardContainer = styled.div`
   background: #ffffff;
   box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
-  padding: 40px 30px;
+  padding: 20px 30px;
   box-sizing: border-box;
   position: relative;
   margin-right: 20px;
   position: relative;
   top: -20px;
   margin-top: 20px;
+  margin-bottom: 10px;
   cursor: pointer;
 
   ${mediaQueryTablet} {
@@ -77,10 +78,11 @@ const RequestTitle = styled.div`
 `;
 
 const HelperImageSection = styled.img`
-  width: 100px;
-  height: 100px;
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
   margin-top: 15px;
+  object-fit: cover;
 
   ${mediaQueryMobile} {
     width: 55px;
@@ -138,19 +140,21 @@ export const SmallSuggestedRequestCard = ({ data }: any) => {
     <RequestHelperCardContainer>
       {data.map(
         ({
-          provideId,
+          id,
+          imageUrl,
           userId,
           title,
           serviceCharge,
           location,
           provideSum,
-          rating
+          rating,
+          user
         }) => (
-          <CardContainer key={provideId}>
+          <CardContainer key={id}>
             <div
               onClick={() => {
                 history.push({
-                  pathname: `/provide/${title}/${provideId}`,
+                  pathname: `/provide/${title}/${id}`,
                   state: {
                     type: 'provide'
                   }
@@ -175,14 +179,12 @@ export const SmallSuggestedRequestCard = ({ data }: any) => {
                     `}
                   >
                     <HelperImageSection
-                      src={
-                        userId === myAccountUserId
-                          ? MyAccountAvatar
-                          : UserAvatar
-                      }
+                      src={user.imageUrl ?? DefaultImage}
                       alt="user avatar"
                     />
-                    <SuggestedBadge>แนะนำ</SuggestedBadge>
+                    {Boolean(user.recommend) && (
+                      <SuggestedBadge>แนะนำ</SuggestedBadge>
+                    )}
                     <div
                       style={{
                         display: 'flex',
@@ -192,18 +194,8 @@ export const SmallSuggestedRequestCard = ({ data }: any) => {
                     >
                       {getStar(rating)}
                     </div>
-                    <RankingBadge
-                      rankColor={
-                        RANK_BADGE[
-                          USER_DATA.filter(
-                            (props) => props.userId === userId
-                          )[0].rank
-                        ].color
-                      }
-                    >
-                      {USER_DATA.filter(
-                        (props) => props.userId === userId
-                      )[0].rank.toUpperCase()}
+                    <RankingBadge rankColor={RANK_BADGE[user.rank].color}>
+                      {user.rank.toUpperCase()}
                     </RankingBadge>
                   </div>
                 )}
@@ -216,12 +208,7 @@ export const SmallSuggestedRequestCard = ({ data }: any) => {
                 >
                   <RequestDataContent>
                     <RequestDataTitle>ชื่อ</RequestDataTitle>
-                    <RequestDataInfo>
-                      {
-                        USER_DATA.filter((props) => props.userId === userId)[0]
-                          .username
-                      }
-                    </RequestDataInfo>
+                    <RequestDataInfo>{user.username}</RequestDataInfo>
                   </RequestDataContent>
                   <RequestDataContent>
                     <RequestDataTitle>
@@ -252,8 +239,13 @@ export const SmallSuggestedRequestCard = ({ data }: any) => {
                           margin-right: 10px;
                         `}
                       >
-                        <HelperImageSection src={UserAvatar} alt="user" />
-                        <SuggestedBadge>แนะนำ</SuggestedBadge>
+                        <HelperImageSection
+                          src={user.imageUrl ?? DefaultImage}
+                          alt="user"
+                        />
+                        {Boolean(user.recommend) && (
+                          <SuggestedBadge>แนะนำ</SuggestedBadge>
+                        )}
                       </div>
 
                       <div
@@ -272,18 +264,8 @@ export const SmallSuggestedRequestCard = ({ data }: any) => {
                         >
                           {getStar(rating)}
                         </div>
-                        <RankingBadge
-                          rankColor={
-                            RANK_BADGE[
-                              USER_DATA.filter(
-                                (props) => props.userId === userId
-                              )[0].rank
-                            ].color
-                          }
-                        >
-                          {USER_DATA.filter(
-                            (props) => props.userId === userId
-                          )[0].rank.toUpperCase()}
+                        <RankingBadge rankColor={RANK_BADGE[user.rank].color}>
+                          {user.rank.toUpperCase()}
                         </RankingBadge>
                       </div>
                     </div>

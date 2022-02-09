@@ -15,9 +15,8 @@ import { HelperListCard } from 'components/Card/HelperListCard';
 import { SmallSuggestedRequestCard } from 'components/Card/SmallSuggestedRequestCard';
 import { InfoMenu } from 'components/Menu/const';
 import { Loading } from 'components/Loading/Loading';
-import UserAvatar from 'images/avatar_helper.png';
+import DefaultImage from 'images/default.png';
 import { UserSvg } from 'components/Svg/UserSvg';
-import MyAccountAvatar from 'images/avatar_user2.png';
 import {
   useMedia,
   MOBILE_WIDTH,
@@ -53,6 +52,7 @@ const RequestImageSection = styled.img`
   width: 420px;
   height: 510px;
   margin-bottom: 20px;
+  object-fit: cover;
 
   ${mediaQueryTablet} {
     width: 100%;
@@ -100,7 +100,6 @@ const HelperImage = styled.img`
   height: 90px;
   border-radius: 50%;
   margin-top: 5px;
-  object-fit: cover;
 
   ${mediaQueryMobile} {
     width: 65px;
@@ -206,7 +205,7 @@ export const RequestInfoContent = observer(({ data }: any) => {
   const { data: request, execute: getRequest } = useRequest();
   const { execute: addRequesterUserId } = useAddRequesterUser();
 
-  // const { data: provides, execute: getProvides } = useProvides();
+  const { data: provides, execute: getProvides } = useProvides();
   const { me, userId } = userStore;
 
   const dropDownMenu = (
@@ -246,7 +245,7 @@ export const RequestInfoContent = observer(({ data }: any) => {
   }, [currentMenu]);
 
   useEffect(() => {
-    // getProvides();
+    getProvides();
     getRequest(query);
   }, []);
 
@@ -259,7 +258,7 @@ export const RequestInfoContent = observer(({ data }: any) => {
 
   return (
     <React.Fragment>
-      {user && request && userId ? (
+      {user && request && userId && provides ? (
         <div>
           <WrapperContainer
             css={css`
@@ -344,7 +343,7 @@ export const RequestInfoContent = observer(({ data }: any) => {
                     style={{ width: 'unset', position: 'relative' }}
                   >
                     <RequestImageSection
-                      src={request.imageUrl}
+                      src={request.imageUrl ?? DefaultImage}
                       alt="request section"
                     />
 
@@ -434,9 +433,13 @@ export const RequestInfoContent = observer(({ data }: any) => {
                           }
                         `}
                         onClick={() => {
-                          addRequesterUserId(request.requestId, {
-                            userId: userId
-                          });
+                          addRequesterUserId(
+                            request.requestId,
+                            request.userId,
+                            {
+                              userId: window.localStorage.getItem('id')
+                            }
+                          );
                         }}
                       >
                         สนใจให้ความช่วยเหลือ
@@ -613,10 +616,10 @@ export const RequestInfoContent = observer(({ data }: any) => {
                           }
                         `}
                       >
-                        <SmallSuggestedRequestCard data={[PROVIDE_MAPPER[1]]} />
-                        <SmallSuggestedRequestCard data={[PROVIDE_MAPPER[2]]} />
-                        <SmallSuggestedRequestCard data={[PROVIDE_MAPPER[0]]} />
-                        <SmallSuggestedRequestCard data={[PROVIDE_MAPPER[3]]} />
+                        <SmallSuggestedRequestCard data={[provides[1]]} />
+                        <SmallSuggestedRequestCard data={[provides[2]]} />
+                        <SmallSuggestedRequestCard data={[provides[0]]} />
+                        <SmallSuggestedRequestCard data={[provides[3]]} />
                       </Flex>
                     </Flex>
                   </div>

@@ -7,7 +7,7 @@ import { RankingBadge } from '../Badge/Badge';
 import { RANK_BADGE } from 'components/Badge/const';
 import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
-import RequestImage from 'images/request.jpeg';
+import DefaultImage from 'images/default.png';
 import {
   useMedia,
   mediaQueryMobile,
@@ -106,6 +106,7 @@ const RequestImageSection = styled.img`
   height: 100%;
   border-top-left-radius: 12px;
   border-bottom-left-radius: 12px;
+  object-fit: cover;
 
   ${mediaQuerySmallTablet} {
     position: absolute;
@@ -225,7 +226,7 @@ export const SuggestedRequestSection = ({ data }: any) => {
                 `}
               >
                 <RequestImageSection
-                  src={imageUrl ? imageUrl : RequestImage}
+                  src={imageUrl ? imageUrl : DefaultImage}
                   alt="request"
                 />
               </div>
