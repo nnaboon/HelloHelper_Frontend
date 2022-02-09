@@ -15,7 +15,6 @@ const Messages = ({ messages, name }) => (
       </div>{' '}
       {messages.map((message, i) => (
         <div key={i}>
-          {console.log('message', message)}
           <Message message={message} name={name} />
         </div>
       ))}

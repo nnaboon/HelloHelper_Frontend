@@ -57,27 +57,27 @@ const Chat = ({ location }) => {
   };
 
   return (
-    // <div className="outerContainer">
-    //   <div className="container">
-    //     <InfoBar room={room} />
-    //     <Messages messages={messages} name={'กระทิง สีแดง'} />
-    //     <Input
-    //       message={message}
-    //       setMessage={setMessage}
-    //       sendMessage={sendMessage}
-    //     />
-    //   </div>
-    //   {/* <TextContainer users={['naboon', 'lila']} /> */}
-    // </div>
-
-    <div
-      css={css`
-        position: relative;
-        top: 200px;
-      `}
-    >
-      <Develop />
+    <div className="outerContainer">
+      <div className="container">
+        <InfoBar room={room} />
+        <Messages messages={messages} name={'กระทิง สีแดง'} />
+        <Input
+          message={message}
+          setMessage={setMessage}
+          sendMessage={sendMessage}
+        />
+      </div>
+      {/* <TextContainer users={['naboon', 'lila']} /> */}
     </div>
+
+    // <div
+    //   css={css`
+    //     position: relative;
+    //     top: 200px;
+    //   `}
+    // >
+    //   <Develop />
+    // </div>
   );
 };
 

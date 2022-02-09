@@ -21,6 +21,7 @@ const InfoBar = ({ room }) => {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
+
   return (
     <React.Fragment>
       <div className="infoBar">
