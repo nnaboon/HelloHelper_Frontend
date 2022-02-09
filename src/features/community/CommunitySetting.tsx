@@ -73,8 +73,8 @@ export const CommunitySetting = () => {
           {' '}
           {currentMenu === CommunitySettingMenu.MANAGE ? (
             <CommunitySettingManageMember
-              member={member}
-              joinedRequest={joinedRequestUserId}
+              member={community.member}
+              joinedRequest={community.joinedRequestUserId}
             />
           ) : (
             // <CommunitySettingEditProfile communityData={community} />

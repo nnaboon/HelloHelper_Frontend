@@ -19,6 +19,7 @@ import {
 import Flex from 'components/Flex/Flex';
 import { SettingSvg } from 'components/Svg/SettingSvg';
 import { LogoutSvg } from 'components/Svg/LogoutSvg';
+import { PlusOutlined } from '@ant-design/icons';
 import { observer } from 'mobx-react-lite';
 import { userStore } from 'store/userStore';
 import { CommunityMenuTab } from 'components/Menu/CommunityMenuTab';
@@ -26,7 +27,6 @@ import { CommunityMenu } from 'components/Menu/const';
 import { PostRequestButton } from 'components/Button/PostRequestButton';
 import { CommunityMemberContent } from './CommunityMemberContent';
 import { CATEGORY } from 'data/category';
-import CommunityImage from 'images/community.jpg';
 import { CommunityProvideContent } from './CommunityProvideContent';
 import { CommunityRequestContent } from './CommunityRequestContent';
 import { useCommunity } from 'hooks/community/useCommunity';
@@ -84,14 +84,15 @@ const UserCard = styled.div`
 `;
 
 const CommunityImageSection = styled.img`
-  width: 130px;
-  height: 130px;
+  width: 115px;
+  height: 115px;
   border-radius: 50%;
   margin-top: 15px;
+  object-fit: cover;
 
   ${mediaQueryMobile} {
-    width: 120px;
-    height: 120px;
+    width: 90px;
+    height: 90px;
   }
 `;
 
@@ -124,7 +125,7 @@ const ProfileInfoListDetail = styled.div`
   line-height: 21px;
   color: #e56101;
   margin-left: 12px;
-  max-width: 400px;
+  width: 350px;
 
   ${mediaQueryMobile} {
     font-size: 18px;
@@ -138,7 +139,7 @@ export const CommunityContentInfo = observer(({ data }: any) => {
   const { data: member, execute: getCommunityMember } = useCommunityMember();
   const { data: community, execute: getCommunity } = useCommunity();
   const [selectedCommunity, setSetSelectedCommunity] = useState<string>(
-    data[0]
+    data[0].communityId
   );
   const history = useHistory();
   const { pathname, state } = useLocation();
@@ -162,13 +163,13 @@ export const CommunityContentInfo = observer(({ data }: any) => {
 
   const dropDownMenu = (
     <Menu>
-      {me.communityId.map((items) => (
+      {data.map(({ communityId, communityName }) => (
         <Menu.Item
           onClick={() => {
-            history.push(`/community/${items}`);
+            history.push(`/community/${communityId}`);
           }}
         >
-          {items}
+          {communityName}
         </Menu.Item>
       ))}
       <Menu.Item
@@ -176,7 +177,10 @@ export const CommunityContentInfo = observer(({ data }: any) => {
           history.push(`/community`);
         }}
       >
-        เพิ่มชุมชนความช่วยเหลือ
+        <Flex>
+          <PlusOutlined />
+          <div>เพิ่มชุมชนความช่วยเหลือ</div>
+        </Flex>
       </Menu.Item>
     </Menu>
   );
@@ -208,41 +212,47 @@ export const CommunityContentInfo = observer(({ data }: any) => {
         <React.Fragment>
           <ProfilePageUserInfoSection>
             <UserCard>
-              <SettingSvg
-                style={{
-                  marginRight: '10px',
-                  position: 'absolute',
-                  top: '20px',
-                  right: '8px',
-                  cursor: 'pointer',
-                  transition: 'transform .7s ease-in-out'
-                }}
-                css={css`
-                  &:hover {
-                    transform: rotate(90deg);
-                  }
-                `}
-                onClick={() => {
-                  history.push({
-                    pathname: `/user/community/${community.communityId}`
-                  });
-                }}
-              />
+              {member.filter(
+                ({ id }) => id === window.localStorage.getItem('id')
+              )[0].role === 1 && (
+                <SettingSvg
+                  style={{
+                    marginRight: '10px',
+                    position: 'absolute',
+                    top: '20px',
+                    right: '8px',
+                    cursor: 'pointer',
+                    transition: 'transform .7s ease-in-out'
+                  }}
+                  css={css`
+                    &:hover {
+                      transform: rotate(90deg);
+                    }
+                  `}
+                  onClick={() => {
+                    history.push({
+                      pathname: `/user/community/${community.communityId}`
+                    });
+                  }}
+                />
+              )}
 
               <div
                 css={css`
                   display: flex;
-                  width: 50%;
+                  width: 100%;
                   flex-direction: column;
                   align-items: center;
-                  margin-right: 35px;
 
                   ${mediaQueryMobile} {
                     margin-right: 10px;
                   }
                 `}
               >
-                <CommunityImageSection src={CommunityImage} alt="community" />
+                <CommunityImageSection
+                  src={community.imageUrl}
+                  alt="community"
+                />
               </div>
               <div
                 css={css`
@@ -251,6 +261,7 @@ export const CommunityContentInfo = observer(({ data }: any) => {
                   align-items: center;
                   justify-content: center;
                   margin-top: -50px;
+                  width: 100%;
                 `}
               >
                 <UserName>{community.communityName}</UserName>
@@ -302,7 +313,7 @@ export const CommunityContentInfo = observer(({ data }: any) => {
                     <LogoutSvg style={{ marginRight: '10px' }} />
                     ออกจากขุมชน
                   </PrimaryButton>
-                  <Dropdown overlay={dropDownMenu}>
+                  <Dropdown trigger={['click']} overlay={dropDownMenu}>
                     <PrimaryButton
                       css={css`
                         width: 100%;
@@ -324,7 +335,7 @@ export const CommunityContentInfo = observer(({ data }: any) => {
             </UserCard>
             <div>
               <Flex
-                marginBottom={isSmallTablet ? '40px' : '30px'}
+                marginBottom="40px"
                 marginTop={isMobile ? '40px' : 0}
                 itemAlign={isMobile ? 'center' : 'flex-end'}
               >

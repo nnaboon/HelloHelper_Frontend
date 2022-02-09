@@ -8,6 +8,7 @@ import { userStore } from 'store/userStore';
 import { Loading } from 'components/Loading/Loading';
 import { WrapperContainer } from 'components/Wrapper/WrapperContainer';
 import { fontSize } from 'styled-system';
+import { useMyCommunity } from 'hooks/community/useMyCommunity';
 
 export const CommunityContent = observer(() => {
   const [menu, setMenu] = useState<CommunityMenu>(CommunityMenu.PROVIDE);
@@ -15,10 +16,17 @@ export const CommunityContent = observer(() => {
   const { me } = userStore;
   const currentMenu = ((state as any)?.menuKey ||
     CommunityMenu.PROVIDE) as CommunityMenu;
+  const { data: myCommunity, execute: getMyCommunity } = useMyCommunity();
 
   useEffect(() => {
     setMenu(currentMenu);
   }, [currentMenu]);
+
+  useEffect(() => {
+    if (me) {
+      getMyCommunity(me?.userId);
+    }
+  }, [me]);
 
   return (
     <div>
@@ -26,7 +34,11 @@ export const CommunityContent = observer(() => {
         me.communityId &&
         pathname.split('/')[1] === 'community' &&
         pathname.split('/')[2] !== undefined ? (
-          <CommunityContentInfo data={me?.communityId} />
+          myCommunity ? (
+            <CommunityContentInfo data={myCommunity} />
+          ) : (
+            <Loading height="300px" />
+          )
         ) : (
           <CommunitySignin />
         )

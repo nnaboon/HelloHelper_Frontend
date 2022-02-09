@@ -93,20 +93,14 @@ export const CommunityProvideContent = () => {
           }
         `}
       >
-        {/* {provide ? (
-        provide?.length > 0 ? (
-          provide.map((items) => <PopularRequestSection data={[items]} />)
+        {provide ? (
+          provide.length > 0 ? (
+            provide.map((items) => <PopularRequestSection data={[items]} />)
+          ) : (
+            <EmptyData height="200px" />
+          )
         ) : (
-          <EmptyData />
-        )
-        ) : (
-          <Loading />
-        )} */}
-
-        {provide?.length > 0 ? (
-          provide.map((items) => <PopularRequestSection data={[items]} />)
-        ) : (
-          <EmptyData height="200px" />
+          <Loading height="200px" />
         )}
       </Carousel>
 
@@ -148,7 +142,7 @@ export const CommunityProvideContent = () => {
             <EmptyData height="200px" />
           )
         ) : (
-          <Loading />
+          <Loading height="200px" />
         )}
       </Carousel>
 
@@ -180,7 +174,7 @@ export const CommunityProvideContent = () => {
             <EmptyData height="200px" />
           )
         ) : (
-          <Loading />
+          <Loading height="200px" />
         )}
       </CommunityProvideSection>
     </div>

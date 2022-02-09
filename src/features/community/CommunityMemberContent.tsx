@@ -172,7 +172,6 @@ export const CommunityMemberContent = ({ member }: any) => {
                   โปรไฟล์
                 </div>
               </SecondaryButton>
-              {console.log(member)}
               <PrimaryButton
                 css={css`
                   width: 140px;

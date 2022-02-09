@@ -4,7 +4,7 @@ import { css, jsx } from '@emotion/react';
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { Text } from 'components/Text';
-import { Button, Form, Input, message, Divider } from 'antd';
+import { Button, Form, Input, message, Divider, Upload } from 'antd';
 import { GoogleMapContent } from 'components/GoogleMap/GoogleMap';
 import { FormRule, getRule } from 'utils/form/getRule';
 import {
@@ -16,17 +16,54 @@ import {
   mediaQuerySmallTablet,
   mediaQueryTablet
 } from 'styles/variables';
+import {
+  LoadingOutlined,
+  PlusOutlined,
+  UploadOutlined
+} from '@ant-design/icons';
+import DefaultImage from 'images/default.png';
 import { useUpdateCommunity } from 'hooks/community/useUpdateCommunity';
+import { useUploadCommunityImage } from 'hooks/community/useUploadCommunityImage';
 
 export const CommunitySettingEditProfile = ({ communityData }: any) => {
   const [form] = Form.useForm();
+  const [loading, setLoading] = useState<boolean>(false);
   const [password, setPassword] = useState('');
+  const [imageUrl, setImageUrl] = useState<string>(DefaultImage);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [location, setLocation] = useState<any>();
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const isSmallTablet = useMedia(`(max-width: ${SMALL_TABLET_WIDTH}px)`);
   const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
-  const { data: community, execute: updateCommunity } = useUpdateCommunity();
+  const { execute: uploadCommunityImage } = useUploadCommunityImage();
+  const { execute: updateCommunity } = useUpdateCommunity();
+
+  const uploadButton = (
+    <div>
+      {loading ? <LoadingOutlined /> : <PlusOutlined />}
+      <div style={{ marginTop: 8 }}>Upload</div>
+    </div>
+  );
+  function getBase64(img, callback) {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => callback(reader.result));
+    reader.readAsDataURL(img);
+  }
+
+  const handleChange = (info) => {
+    // Change condition
+    if (info.file.status === 'done') {
+      setLoading(true);
+      return;
+    }
+    if (info.file.status === 'uploading') {
+      // Get this url from response in real world.
+      getBase64(info.file.originFileObj, (imageUrl) => {
+        setLoading(false);
+        setImageUrl(imageUrl);
+      });
+    }
+  };
 
   useEffect(() => {
     form.setFieldsValue({
@@ -65,14 +102,12 @@ export const CommunitySettingEditProfile = ({ communityData }: any) => {
 
   const onFinish = async (value) => {
     setIsSubmitting(true);
-    console.log(location);
     const data = {
       communityName: value.communityName,
       description: value.description,
-      communityCode: value.communityCode
-        ? value.communityCode
-        : communityData.communityCode,
-      imageUrl: value.imageUrl ?? '',
+      // communityCode: value.communityCode
+      //   ? value.communityCode
+      //   : communityData.communityCode,
       location: {
         name: location ? location?.name : communityData.location.name,
         lat: location
@@ -85,7 +120,24 @@ export const CommunitySettingEditProfile = ({ communityData }: any) => {
     };
 
     try {
-      updateCommunity(communityData.communityId, data);
+      if (value.image) {
+        var formData = new FormData();
+        formData.append('img', value.image.file.originFileObj);
+
+        uploadCommunityImage(formData)
+          .then((res) => {
+            console.log(res);
+            updateCommunity(communityData.communityId, {
+              ...data,
+              imageUrl: res.data
+            });
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      } else {
+        updateCommunity(communityData.communityId, data);
+      }
     } catch (e) {
       message.error('ไม่สามารถโพสต์ขอความช่วยเหลือได้');
     } finally {
@@ -94,15 +146,21 @@ export const CommunitySettingEditProfile = ({ communityData }: any) => {
     }
   };
 
-  // useEffect(() => {
-  //   if (communityData) {
-  //     setLocation(communityData.location);
-  //   }
-  // }, [communityData]);
+  useEffect(() => {
+    if (communityData) {
+      setImageUrl(communityData.imageUrl);
+    }
+  }, [communityData]);
 
   return (
     <div
       css={css`
+        width: 100%;
+
+        ${mediaQueryTablet} {
+          margin-top: 40px;
+        }
+
         ${mediaQueryMobile} {
           padding: 20px 20px 30px 20px;
         }
@@ -120,7 +178,6 @@ export const CommunitySettingEditProfile = ({ communityData }: any) => {
         name="basic"
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
-        // initialValues={{ remember: true }}
         onFinish={onFinish}
         autoComplete="off"
         initialValues={{
@@ -130,191 +187,226 @@ export const CommunitySettingEditProfile = ({ communityData }: any) => {
           location: communityData.location
         }}
         css={css`
-          height: 100vh;
-          .ant-col-8 {
-            ${mediaQuerySmallTablet} {
-              max-width: 20%;
-            }
+          display: flex;
 
-            ${mediaQueryMobile} {
-              max-width: 33.3333%;
-            }
+          ${mediaQuerySmallTablet} {
+            flex-direction: column-reverse;
           }
 
           .ant-form-item-control-input {
-            width: 460px;
-
-            ${mediaQueryMobile} {
-              width: 100%;
-            }
+            width: 100%;
+            margin-bottom: 15px;
           }
 
           ${mediaQueryTablet} {
+            .ant-col-8 {
+              max-width: 100%;
+              flex: 0 0 100%;
+            }
+
             .ant-col-16 {
               max-width: 100%;
             }
+            .ant-form-item-label {
+              text-align: left;
+            }
           }
+
+          // .ant-col-8 {
+          //   ${mediaQuerySmallTablet} {
+          //     max-width: 20%;
+          //   }
+
+          //   ${mediaQueryMobile} {
+          //     max-width: 33.3333%;
+          //   }
+          // }
+
+          // .ant-form-item-control-input {
+          //   width: 460px;
+
+          //   ${mediaQueryMobile} {
+          //     width: 100%;
+          //   }
+          // }
+
+          // ${mediaQueryTablet} {
+          //   .ant-col-16 {
+          //     max-width: 100%;
+          //   }
+          // }
         `}
       >
-        <Form.Item
-          name="communityName"
-          label="ชื่อ"
-          // rules={[
-          //   {
-          //     // required: true,
-          //     message: 'กรุณากรอกชื่อความช่วยเหลือที่คุณต้องการ'
-          //   }
-          // ]}
-        >
-          <Input
-            defaultValue={communityData.communityName}
-            placeholder="ชื่อชุมชนความช่วยเหลือ"
-            style={{ height: '40px', borderRadius: '12px' }}
-          />
-        </Form.Item>
-        <Form.Item name="description" label="คำอธิบาย">
-          <Input
-            defaultValue={communityData ? communityData.description : ''}
-            placeholder="ชื่อชุมชนความช่วยเหลือ"
-            style={{ height: '40px', borderRadius: '12px' }}
-          />
-        </Form.Item>
-        <Divider />
-        <Text
-          fontSize={isMobile ? '24px' : '28px'}
-          fontWeight={500}
-          marginLeft={isSmallTablet ? 0 : '60px'}
-          marginY={isMobile ? '20px' : '40px'}
-        >
-          เปลี่ยนรหัสผ่าน
-        </Text>
-        <Form.Item
-          name="code"
-          label="รหัสผ่านปัจจุบัน"
-          // rules={[
-          //   {
-          //     // required: true,
-          //     message: 'กรุณากรอกรหัสผ่านปัจจุบัน'
-          //   }
-          // ]}
-        >
-          <Input
-            placeholder="รหัสผ่านปัจจุบัน"
-            style={{ height: '40px', borderRadius: '12px' }}
-          />
-        </Form.Item>{' '}
-        <Form.Item
-          name="communityCode"
-          label="รหัสผ่านใหม่"
-          // rules={[
-          //   {
-          //     // required: true,
-          //     message: 'กรุณากรอกรหัสผ่านใหม่'
-          //   }
-          // ]}
-        >
-          <Input
-            placeholder="รหัสผ่านใหม่"
-            style={{ height: '40px', borderRadius: '12px' }}
-          />
-        </Form.Item>{' '}
-        <Form.Item
-          name="confirmCode"
-          label="ยืนยันรหัสผ่านใหม่"
-          normalize={(value) => value.trim()}
-          rules={[
-            { required: Boolean(form.getFieldValue('communityCode')) },
-            // getRule(FormRule.REQUIRE, 'กรุณากรอกยืนยันรหัสผ่าน'),
-            ({ getFieldValue }) => ({
-              validator(rule, value) {
-                if (value && getFieldValue('communityCode') !== value)
-                  return Promise.reject('รหัสผ่านไม่ตรงกัน');
-                return Promise.resolve();
-              }
-            })
-          ]}
-        >
-          <Input
-            placeholder="รหัสผ่านใหม่"
-            style={{ height: '40px', borderRadius: '12px' }}
-          />
-        </Form.Item>
-        <Divider />
-        <Text
-          fontSize={isMobile ? '24px' : '28px'}
-          fontWeight={500}
-          marginLeft={isSmallTablet ? 0 : '60px'}
-          marginY={isMobile ? '30px' : '40px'}
-        >
-          สถานที่ให้ความช่วยเหลือ
-        </Text>
-        {/* <Form.Item
-          name="location"
-          // rules={[
-          //   {
-          //     // required: true,
-          //     message: 'กรุณากรอกสถานที่ที่คุณสามารถให้ความช่วยเหลือได้'
-          //   }
-          // ]}
-        > */}
-        <Form.Item
-          name="location"
-          label="สถานที่"
-          // rules={[
-          //   {
-          //     required: true,
-          //     message: 'กรุณากรอกสถานที่ที่คุณสามารถให้ความช่วยเหลือได้'
-          //   }
-          // ]}
-        >
-          <GoogleMapContent
-            width={isTablet ? '100%' : '470px'}
-            requestLocation={communityData.location}
-            setRequestLocation={setLocation}
-          />
-        </Form.Item>
-        {/* </Form.Item> */}
         <div
           css={css`
             width: 100%;
-            position: relative;
           `}
         >
-          <Button
-            type="primary"
-            htmlType="submit"
+          <Form.Item name="communityName" label="ชื่อ">
+            <Input
+              defaultValue={communityData.communityName}
+              placeholder="ชื่อชุมชนความช่วยเหลือ"
+              style={{ height: '40px', borderRadius: '12px' }}
+            />
+          </Form.Item>
+          <Form.Item name="description" label="คำอธิบาย">
+            <Input
+              defaultValue={communityData ? communityData.description : ''}
+              placeholder="ชื่อชุมชนความช่วยเหลือ"
+              style={{ height: '40px', borderRadius: '12px' }}
+            />
+          </Form.Item>
+          <Divider />
+          <Text
+            fontSize={isMobile ? '24px' : '28px'}
+            fontWeight={500}
+            marginLeft={isSmallTablet ? 0 : '60px'}
+            marginY={isMobile ? '30px' : '40px'}
+          >
+            สถานที่ให้ความช่วยเหลือ
+          </Text>
+
+          <Form.Item name="location" label="สถานที่">
+            <GoogleMapContent
+              width={isTablet ? '100%' : '470px'}
+              requestLocation={communityData.location}
+              setRequestLocation={setLocation}
+            />
+          </Form.Item>
+        </div>
+        <div
+          css={css`
+            display: flex;
+            height: 100% !important;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            position: relative;
+
+            ${mediaQuerySmallTablet} {
+              margin-bottom: 50px;
+            }
+          `}
+        >
+          <img
+            src={imageUrl}
+            alt="community pic"
             css={css`
-              width: 170px;
-              height: 40px;
-              box-sizing: border-box;
-              background: #ee6400;
-              border-radius: 9px;
-              border: 0;
-              right: 44px;
-              color: #ffff;
-              font-size: 16px;
-              position: absolute;
-              bottom: -50px;
+              width: 120px;
+              height: 120px;
+              border-radius: 50%;
+              margin-bottom: 25px;
+              object-fit: cover;
+            `}
+          />{' '}
+          <Form.Item name="image">
+            <Upload
+              name="avatar"
+              className="avatar-uploader"
+              showUploadList={false}
+              onChange={handleChange}
+            >
+              <Button icon={<UploadOutlined />}>เลือกรูป</Button>
+            </Upload>
+          </Form.Item>
+          <Text
+            fontSize="14px"
+            color="#848484"
+            fontWeight={500}
+            whiteSpace="pre"
+          >
+            ขนาดไฟล์: สูงสุด 1 MB{'\n'}ไฟล์ที่รองรับ: .JPEG, .PNG
+          </Text>
+          {!isSmallTablet && (
+            <div
+              css={css`
+                width: 100%;
+                position: relative;
+                height: 100vh;
+                bottom: 0px;
+              `}
+            >
+              <Button
+                type="primary"
+                htmlType="submit"
+                css={css`
+                  width: 170px;
+                  height: 40px;
+                  box-sizing: border-box;
+                  background: #ee6400;
+                  border-radius: 9px;
+                  border: 0;
+                  right: 100px;
+                  color: #ffff;
+                  font-size: 16px;
+                  position: absolute;
+                  bottom: 40px;
 
-              &:hover {
-                background: #ee6400;
-              }
+                  &:hover {
+                    background: #ee6400;
+                  }
 
-              ${mediaQueryTablet} {
-                width: 120px;
-                right: 0;
-                height: 35px;
-                font-size: 16px;
-              }
+                  ${mediaQueryTablet} {
+                    width: 120px;
+                    right: 0;
+                    height: 35px;
+                    font-size: 16px;
+                  }
 
-              ${mediaQueryMobile} {
-                width: 100px;
-              }
+                  ${mediaQueryMobile} {
+                    width: 100px;
+                  }
+                `}
+              >
+                สำเร็จ
+              </Button>
+            </div>
+          )}
+        </div>
+        {/* </Form.Item> */}
+        {isSmallTablet && (
+          <div
+            css={css`
+              width: 100%;
+              position: relative;
             `}
           >
-            สำเร็จ
-          </Button>
-        </div>
+            <Button
+              type="primary"
+              htmlType="submit"
+              css={css`
+                width: 170px;
+                height: 40px;
+                box-sizing: border-box;
+                background: #ee6400;
+                border-radius: 9px;
+                border: 0;
+                right: 44px;
+                color: #ffff;
+                font-size: 16px;
+                position: absolute;
+                bottom: -50px;
+
+                &:hover {
+                  background: #ee6400;
+                }
+
+                ${mediaQueryTablet} {
+                  width: 120px;
+                  right: 0;
+                  height: 35px;
+                  font-size: 16px;
+                }
+
+                ${mediaQueryMobile} {
+                  width: 100px;
+                }
+              `}
+            >
+              สำเร็จ
+            </Button>
+          </div>
+        )}
       </Form>
     </div>
   );
