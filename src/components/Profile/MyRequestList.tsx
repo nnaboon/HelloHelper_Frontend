@@ -23,7 +23,8 @@ const HelperListCard = styled.div`
   box-shadow: 0px 6px 11px rgba(0, 0, 0, 0.15);
   border-radius: 8px;
   height: 360px;
-  margin-top: 20px;
+  margin-top: 25px;
+  margin-bottom: 20px;
   box-sizing: border-box;
   padding: 35px;
   position: relative;
