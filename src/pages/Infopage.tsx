@@ -13,7 +13,6 @@ export const InfoPage = () => {
   const currentMenu = (state as any)?.type as HelpMenu;
 
   useEffect(() => {
-    console.log(state);
     setMenu(currentMenu);
   }, [currentMenu]);
 

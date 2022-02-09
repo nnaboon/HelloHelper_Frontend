@@ -119,7 +119,6 @@ export const HomePage = () => {
   const { Search } = Input;
 
   const onSearch = (value) => {
-    console.log(value);
     setSearchValue(value);
   };
 
@@ -187,248 +186,90 @@ export const HomePage = () => {
 
   return (
     <HomePageContainer>
-      <Carousel
-        arrows={false}
-        responsive={pictureResponsive}
-        infinite
-        autoPlay
-        autoPlaySpeed={3000}
-        customTransition="all .5"
-        transitionDuration={500}
-        containerClass="carousel-container"
-      >
-        <HomePagePictureSection
-          src={CommunityPic}
-          alt="community in homepage"
-        />
-        <HomePagePictureSection
-          src={EarnMoneyPic}
-          alt="earn money in homepage"
-        />
-      </Carousel>
-      {!isMobile && (
-        <HomePageCategorySection>
-          {CATEGORY.map(({ id, name }) => (
-            <SecondaryButton
-              key={id}
-              css={css`
-                min-width: 350px;
-                margin-right: 20px;
-                border-sizing: border-box;
-                padding: 0 10px;
-                margin-bottom: 30px;
-                margin-top: 20px;
-
-                &:hover {
-                  box-shadow: 0px 0px 20px 8px rgba(255, 135, 48, 0.21);
-                }
-              `}
-              onClick={() => {
-                history.push({
-                  pathname: `/${id}`
-                });
-              }}
-            >
-              ความช่วยเหลือ{name}
-            </SecondaryButton>
-          ))}
-        </HomePageCategorySection>
-      )}
-      <div
-        css={css`
-          justify-content: space-between;
-          display: flex;
-          margin-top: 30px;
-        `}
-      >
-        <Search
-          placeholder="ค้นหาสถานที่"
-          onSearch={onSearch}
-          size="large"
-          style={{ width: isMobile ? '200px' : '462px', height: '60px' }}
-        />
-        <PostRequestButton
-          buttonText="เขียนความช่วยเหลือ"
-          css={css`
-            a {
-              width: max-content !important;
-              min-width: max-content !important;
-            }
-          `}
-        />
-      </div>
-      <Text
-        fontSize={isMobile ? '24px' : '32px'}
-        fontWeight={500}
-        marginY="10px"
-        css={css`
-          ${mediaQueryMobile} {
-            font-size: 24px;
-          }
-        `}
-      >
-        ความช่วยเหลือยอดนิยม
-      </Text>
-      <React.Fragment>
-        {provides ? (
-          <React.Fragment>
-            {provides?.filter(({ location }) =>
-              searchValue ? location.name.includes(searchValue) : true
-            ).length > 0 ? (
-              <React.Fragment
-                css={css`
-                  .react-multi-carousel-list {
-                    position: static;
-                  }
-                `}
-              >
-                {' '}
-                <Carousel
-                  responsive={responsive}
-                  partialVisible={true}
-                  arrows
+      {provides && requests ? (
+        <React.Fragment>
+          <Carousel
+            arrows={false}
+            responsive={pictureResponsive}
+            infinite
+            autoPlay
+            autoPlaySpeed={3000}
+            customTransition="all .5"
+            transitionDuration={500}
+            containerClass="carousel-container"
+          >
+            <HomePagePictureSection
+              src={CommunityPic}
+              alt="community in homepage"
+            />
+            <HomePagePictureSection
+              src={EarnMoneyPic}
+              alt="earn money in homepage"
+            />
+          </Carousel>
+          {!isMobile && (
+            <HomePageCategorySection>
+              {CATEGORY.map(({ id, name }) => (
+                <SecondaryButton
+                  key={id}
                   css={css`
-                    .react-multiple-carousel__arrow {
-                      z-index: 10;
-                    }
+                    min-width: 350px;
+                    margin-right: 20px;
+                    border-sizing: border-box;
+                    padding: 0 10px;
+                    margin-bottom: 30px;
+                    margin-top: 20px;
 
-                    .react-multiple-carousel__arrow--left {
-                      left: 0;
-                    }
-
-                    .react-multiple-carousel__arrow--right {
-                      right: 0;
+                    &:hover {
+                      box-shadow: 0px 0px 20px 8px rgba(255, 135, 48, 0.21);
                     }
                   `}
+                  onClick={() => {
+                    history.push({
+                      pathname: `/${id}`
+                    });
+                  }}
                 >
-                  {provides
-                    ?.filter(
-                      ({ communityId, location }) =>
-                        communityId === undefined &&
-                        (searchValue
-                          ? location.name.includes(searchValue)
-                          : true)
-                    )
-                    .map((items) => (
-                      <PopularRequestSection key={items.id} data={[items]} />
-                    ))}
-                </Carousel>
-              </React.Fragment>
-            ) : (
-              <EmptyData
-                image={Empty.PRESENTED_IMAGE_SIMPLE}
-                css={css`
-                  .ant-empty {
-                    display: flex;
-                    flex-direction: column;
-                    height: 300px;
-                    align-items: center;
-                    justify-content: center;
-                  }
-                `}
-                description={<span>ไม่พบข้อมูล</span>}
-              />
-            )}
-          </React.Fragment>
-        ) : (
-          <Loading />
-        )}
-      </React.Fragment>
-      <Text
-        fontSize={isMobile ? '24px' : '32px'}
-        fontWeight={500}
-        marginY="30px"
-        css={css`
-          ${mediaQueryMobile} {
-            font-size: 26px;
-          }
-        `}
-      >
-        Top 10 การค้นหาติดอันดับ
-      </Text>
-      <TopTenSearchContainer>
-        {isMobile ? (
+                  ความช่วยเหลือ{name}
+                </SecondaryButton>
+              ))}
+            </HomePageCategorySection>
+          )}
           <div
             css={css`
-              width: 100%;
-              height: 100%;
-              position: relative;
-              background: rgb(247, 249, 249);
-              border-radius: 8px;
+              justify-content: space-between;
+              display: flex;
+              margin-top: 30px;
             `}
           >
-            {TOP_TEN_SEARCH_WEEKLY.map(({ name }) => (
-              <div
-                style={{
-                  display: 'flex',
-                  margin: '15px',
-                  fontWeight: 700
-                }}
-                key={name}
-                onClick={() => {
-                  history.push({
-                    pathname: '/search',
-                    search: `?keyword=${name}`,
-                    state: {
-                      search: name
-                    }
-                  });
-                }}
-              >
-                <SearchSvg
-                  style={{
-                    marginRight: '10px',
-                    width: isMobile ? '20px' : '25px',
-                    height: isMobile ? '20px' : '25px'
-                  }}
-                />
-                {name}
-              </div>
-            ))}
+            <Search
+              placeholder="ค้นหาสถานที่"
+              onSearch={onSearch}
+              size="large"
+              style={{ width: isMobile ? '200px' : '462px', height: '60px' }}
+            />
+            <PostRequestButton
+              buttonText="เขียนความช่วยเหลือ"
+              css={css`
+                a {
+                  width: max-content !important;
+                  min-width: max-content !important;
+                }
+              `}
+            />
           </div>
-        ) : (
-          <React.Fragment>
-            {' '}
-            {TOP_TEN_SEARCH_WEEKLY.map(({ name }) => (
-              <TopSearchButton
-                key={name}
-                onClick={() => {
-                  history.push({
-                    pathname: '/search',
-                    search: `?keyword=${name}`,
-                    state: {
-                      search: name
-                    }
-                  });
-                }}
-              >
-                <SearchSvg
-                  style={{
-                    marginRight: '10px',
-                    width: isMobile ? '20px' : '25px',
-                    height: isMobile ? '20px' : '25px'
-                  }}
-                />
-                {name}
-              </TopSearchButton>
-            ))}
-          </React.Fragment>
-        )}
-      </TopTenSearchContainer>
-      <Text
-        fontSize={isMobile ? '24px' : '32px'}
-        fontWeight={500}
-        marginY="30px"
-        css={css`
-          ${mediaQueryMobile} {
-            font-size: 26px;
-          }
-        `}
-      >
-        Top 10 ความช่วยเหลือประจำสัปดาห์
-      </Text>
-      <React.Fragment>
-        {provides ? (
+          <Text
+            fontSize={isMobile ? '24px' : '32px'}
+            fontWeight={500}
+            marginY="10px"
+            css={css`
+              ${mediaQueryMobile} {
+                font-size: 24px;
+              }
+            `}
+          >
+            ความช่วยเหลือยอดนิยม
+          </Text>
           <React.Fragment>
             {provides?.filter(({ location }) =>
               searchValue ? location.name.includes(searchValue) : true
@@ -462,7 +303,7 @@ export const HomePage = () => {
                   {provides
                     ?.filter(
                       ({ communityId, location }) =>
-                        communityId === undefined &&
+                        !communityId === true &&
                         (searchValue
                           ? location.name.includes(searchValue)
                           : true)
@@ -488,24 +329,170 @@ export const HomePage = () => {
               />
             )}
           </React.Fragment>
-        ) : (
-          <Loading />
-        )}
-      </React.Fragment>
-      <Text
-        fontSize={isMobile ? '24px' : '32px'}
-        fontWeight={500}
-        marginY="30px"
-        css={css`
-          ${mediaQueryMobile} {
-            font-size: 26px;
-          }
-        `}
-      >
-        ความช่วยเหลือแนะนำ
-      </Text>
-      <React.Fragment>
-        {requests ? (
+          <Text
+            fontSize={isMobile ? '24px' : '32px'}
+            fontWeight={500}
+            marginY="30px"
+            css={css`
+              ${mediaQueryMobile} {
+                font-size: 26px;
+              }
+            `}
+          >
+            Top 10 การค้นหาติดอันดับ
+          </Text>
+          <TopTenSearchContainer>
+            {isMobile ? (
+              <div
+                css={css`
+                  width: 100%;
+                  height: 100%;
+                  position: relative;
+                  background: rgb(247, 249, 249);
+                  border-radius: 8px;
+                `}
+              >
+                {TOP_TEN_SEARCH_WEEKLY.map(({ name }) => (
+                  <div
+                    style={{
+                      display: 'flex',
+                      margin: '15px',
+                      fontWeight: 700
+                    }}
+                    key={name}
+                    onClick={() => {
+                      history.push({
+                        pathname: '/search',
+                        search: `?keyword=${name}`,
+                        state: {
+                          search: name
+                        }
+                      });
+                    }}
+                  >
+                    <SearchSvg
+                      style={{
+                        marginRight: '10px',
+                        width: isMobile ? '20px' : '25px',
+                        height: isMobile ? '20px' : '25px'
+                      }}
+                    />
+                    {name}
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <React.Fragment>
+                {' '}
+                {TOP_TEN_SEARCH_WEEKLY.map(({ name }) => (
+                  <TopSearchButton
+                    key={name}
+                    onClick={() => {
+                      history.push({
+                        pathname: '/search',
+                        search: `?keyword=${name}`,
+                        state: {
+                          search: name
+                        }
+                      });
+                    }}
+                  >
+                    <SearchSvg
+                      style={{
+                        marginRight: '10px',
+                        width: isMobile ? '20px' : '25px',
+                        height: isMobile ? '20px' : '25px'
+                      }}
+                    />
+                    {name}
+                  </TopSearchButton>
+                ))}
+              </React.Fragment>
+            )}
+          </TopTenSearchContainer>
+          <Text
+            fontSize={isMobile ? '24px' : '32px'}
+            fontWeight={500}
+            marginY="30px"
+            css={css`
+              ${mediaQueryMobile} {
+                font-size: 26px;
+              }
+            `}
+          >
+            Top 10 ความช่วยเหลือประจำสัปดาห์
+          </Text>
+          <React.Fragment>
+            {provides?.filter(({ location }) =>
+              searchValue ? location.name.includes(searchValue) : true
+            ).length > 0 ? (
+              <React.Fragment
+                css={css`
+                  .react-multi-carousel-list {
+                    position: static;
+                  }
+                `}
+              >
+                {' '}
+                <Carousel
+                  responsive={responsive}
+                  partialVisible={true}
+                  arrows
+                  css={css`
+                    .react-multiple-carousel__arrow {
+                      z-index: 10;
+                    }
+
+                    .react-multiple-carousel__arrow--left {
+                      left: 0;
+                    }
+
+                    .react-multiple-carousel__arrow--right {
+                      right: 0;
+                    }
+                  `}
+                >
+                  {provides
+                    ?.filter(
+                      ({ communityId, location }) =>
+                        !communityId === true &&
+                        (searchValue
+                          ? location.name.includes(searchValue)
+                          : true)
+                    )
+                    .map((items) => (
+                      <PopularRequestSection key={items.id} data={[items]} />
+                    ))}
+                </Carousel>
+              </React.Fragment>
+            ) : (
+              <EmptyData
+                image={Empty.PRESENTED_IMAGE_SIMPLE}
+                css={css`
+                  .ant-empty {
+                    display: flex;
+                    flex-direction: column;
+                    height: 300px;
+                    align-items: center;
+                    justify-content: center;
+                  }
+                `}
+                description={<span>ไม่พบข้อมูล</span>}
+              />
+            )}
+          </React.Fragment>
+          <Text
+            fontSize={isMobile ? '24px' : '32px'}
+            fontWeight={500}
+            marginY="30px"
+            css={css`
+              ${mediaQueryMobile} {
+                font-size: 26px;
+              }
+            `}
+          >
+            ความช่วยเหลือแนะนำ
+          </Text>
           <React.Fragment>
             {requests?.filter(({ location }) =>
               searchValue ? location.name.includes(searchValue) : true
@@ -538,7 +525,7 @@ export const HomePage = () => {
                 >
                   {requests
                     ?.filter(({ communityId, location }) =>
-                      communityId === undefined && searchValue
+                      !communityId === true && searchValue
                         ? location.name.includes(searchValue)
                         : true
                     )
@@ -563,29 +550,29 @@ export const HomePage = () => {
               />
             )}
           </React.Fragment>
-        ) : (
-          <Loading />
-        )}
-      </React.Fragment>
-      <Text
-        fontSize={isMobile ? '24px' : '32px'}
-        fontWeight={500}
-        marginY="30px"
-        css={css`
-          ${mediaQueryMobile} {
-            font-size: 26px;
-          }
-        `}
-      >
-        ข่าวน่าสนใจ
-      </Text>
-      <div
-        css={css`
-          display: flex;
-        `}
-      >
-        <News />
-      </div>
+          <Text
+            fontSize={isMobile ? '24px' : '32px'}
+            fontWeight={500}
+            marginY="30px"
+            css={css`
+              ${mediaQueryMobile} {
+                font-size: 26px;
+              }
+            `}
+          >
+            ข่าวน่าสนใจ
+          </Text>
+          <div
+            css={css`
+              display: flex;
+            `}
+          >
+            <News />
+          </div>
+        </React.Fragment>
+      ) : (
+        <Loading height="calc(100vh - 265px)" />
+      )}
     </HomePageContainer>
   );
 };

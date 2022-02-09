@@ -5,14 +5,11 @@ import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
 import Flex from 'components/Flex/Flex';
 import { Text } from 'components/Text';
-import { StatusButton } from 'components/Button/StatusButton';
-import { STATUS_MAPPER } from 'components/Button/const';
+import { Menu } from 'antd';
 import { WrapperContainer } from 'components/Wrapper/WrapperContainer';
 import { RequestListCard } from 'components/Card/RequestListCard';
 import { mediaQueryMobile, MOBILE_WIDTH, useMedia } from 'styles/variables';
-import { ORDER_DATA } from '../data/order';
 import { useMyRequestOrder } from 'hooks/order/useMyRequestOrder';
-import { myAccountUserId } from 'data/user';
 import { EmptyData } from 'components/Empty/EmptyData';
 
 export const RequestListPage = () => {
@@ -20,6 +17,10 @@ export const RequestListPage = () => {
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const { data: requestOrders, execute: getRequestOrders } =
     useMyRequestOrder();
+
+  const handleClick = (e) => {
+    setCurrentStatus(e.key);
+  };
 
   useEffect(() => {
     getRequestOrders(window.localStorage.getItem('id'));
@@ -43,47 +44,36 @@ export const RequestListPage = () => {
         }{' '}
         รายการ
       </Text>
-      <Flex itemAlign="center" overflowX={isMobile ? 'scroll' : 'unset'}>
-        <StatusButton
-          status={STATUS_MAPPER['waiting'].status}
-          color={STATUS_MAPPER['waiting'].color}
-          onClick={() => setCurrentStatus('waiting')}
-        />
-        <StatusButton
-          status={STATUS_MAPPER['pending'].status}
-          color={STATUS_MAPPER['pending'].color}
-          onClick={() => setCurrentStatus('pending')}
-        />
-        <StatusButton
-          status={STATUS_MAPPER['complete'].status}
-          color={STATUS_MAPPER['complete'].color}
-          onClick={() => setCurrentStatus('complete')}
-        />
-        <StatusButton
-          status={STATUS_MAPPER['cancel'].status}
-          color={STATUS_MAPPER['cancel'].color}
-          onClick={() => setCurrentStatus('cancel')}
-        />
-      </Flex>
+      <Menu
+        onClick={handleClick}
+        selectedKeys={[currentStatus]}
+        mode="horizontal"
+      >
+        <Menu.Item key="waiting">รอดำเนินการ</Menu.Item>
+        <Menu.Item key="pending">กำลังดำเนินการ</Menu.Item>
+        <Menu.Item key="complete">สำเร็จ</Menu.Item>
+        <Menu.Item key="cancel">ยกเลิก</Menu.Item>
+      </Menu>
       <Flex
         itemAlign="center"
         justify="center"
         direction="column"
         marginTop="30px"
       >
-        {requestOrders?.length > 0 ? (
-          <div>
-            {requestOrders
+        {requestOrders ? (
+          requestOrders?.filter(
+            ({ status, orderReferenceType }) => status === currentStatus
+          ).length > 0 ? (
+            requestOrders
               ?.filter(
-                ({ status, orderReferenceType }) =>
-                  status === currentStatus && orderReferenceType === 'request'
+                ({ status, orderReferenceType }) => status === currentStatus
               )
-              .map((props) => (
-                <RequestListCard props={props} />
-              ))}
-          </div>
+              .map((props) => <RequestListCard key={props.id} props={props} />)
+          ) : (
+            <EmptyData height="400px" />
+          )
         ) : (
-          <EmptyData height="300px" />
+          <EmptyData height="400px" />
         )}
       </Flex>
     </WrapperContainer>

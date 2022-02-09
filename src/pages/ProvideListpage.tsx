@@ -3,28 +3,29 @@
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
+import { Menu } from 'antd';
 import Flex from 'components/Flex/Flex';
 import { Text } from 'components/Text';
-import { StatusButton } from 'components/Button/StatusButton';
-import { STATUS_MAPPER } from 'components/Button/const';
 import { WrapperContainer } from 'components/Wrapper/WrapperContainer';
 import { ProvideListCard } from 'components/Card/ProvideListCard';
-import { PROVIDE_MAPPER } from 'data/provide';
 import { mediaQueryMobile, useMedia, MOBILE_WIDTH } from 'styles/variables';
 import { useMyProvideOrder } from 'hooks/order/useMyProvideOrder';
-import { ORDER_DATA } from '../data/order';
-import { myAccountUserId } from 'data/user';
 import { EmptyData } from '../components/Empty/EmptyData';
 
 export const ProvideListPage = () => {
   const [currentStatus, setCurrentStatus] = useState<string>('waiting');
+  const [status, setStatus] = useState<string>();
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const { data: provideOrders, execute: getProvideOrders } =
     useMyProvideOrder();
 
   useEffect(() => {
     getProvideOrders(window.localStorage.getItem('id'));
-  }, []);
+  }, [status]);
+
+  const handleClick = (e) => {
+    setCurrentStatus(e.key);
+  };
 
   return (
     <WrapperContainer
@@ -44,50 +45,39 @@ export const ProvideListPage = () => {
         }{' '}
         รายการ
       </Text>
-      <Flex itemAlign="center" overflowX={isMobile ? 'scroll' : 'unset'}>
-        <StatusButton
-          status={STATUS_MAPPER['waiting'].status}
-          color={STATUS_MAPPER['waiting'].color}
-          onClick={() => setCurrentStatus('waiting')}
-        />
-        <StatusButton
-          status={STATUS_MAPPER['pending'].status}
-          color={STATUS_MAPPER['pending'].color}
-          onClick={() => setCurrentStatus('pending')}
-        />
-        <StatusButton
-          status={STATUS_MAPPER['complete'].status}
-          color={STATUS_MAPPER['complete'].color}
-          onClick={() => setCurrentStatus('complete')}
-        />
-        <StatusButton
-          status={STATUS_MAPPER['cancel'].status}
-          color={STATUS_MAPPER['cancel'].color}
-          onClick={() => setCurrentStatus('cancel')}
-        />
-      </Flex>
+      <Menu
+        onClick={handleClick}
+        selectedKeys={[currentStatus]}
+        mode="horizontal"
+      >
+        <Menu.Item key="waiting">รอดำเนินการ</Menu.Item>
+        <Menu.Item key="pending">กำลังดำเนินการ</Menu.Item>
+        <Menu.Item key="complete">สำเร็จ</Menu.Item>
+        <Menu.Item key="cancel">ยกเลิก</Menu.Item>
+      </Menu>
       <Flex
         itemAlign="center"
         justify="center"
         direction="column"
         marginTop="30px"
       >
-        {provideOrders?.length > 0 ? (
-          <div>
-            {' '}
-            {provideOrders
-              ?.filter(
-                ({ status, orderReferenceType }) =>
-                  status === currentStatus && orderReferenceType === 'provide'
-              )
+        {provideOrders ? (
+          provideOrders?.filter(({ status }) => status === currentStatus)
+            .length > 0 ? (
+            provideOrders
+              ?.filter(({ status }) => status === currentStatus)
               .map((props) => (
-                <ProvideListCard props={props} />
-              ))}
-          </div>
+                <ProvideListCard
+                  key={props.id}
+                  props={props}
+                  setStatus={setStatus}
+                />
+              ))
+          ) : (
+            <EmptyData height="400px" />
+          )
         ) : (
-          <div>
-            <EmptyData height="calc(100vh - 300px)" />
-          </div>
+          <EmptyData height="400px" />
         )}
       </Flex>
     </WrapperContainer>
