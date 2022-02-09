@@ -20,6 +20,9 @@ export const firestore = firebase.firestore();
 export const auth = firebase.auth();
 
 export const provider = new firebase.auth.GoogleAuthProvider();
+export const facebookProvider = new firebase.auth.FacebookAuthProvider();
+
 export const signInWithGoogle = () => auth.signInWithPopup(provider);
+export const signInWithFacebook = () => auth.signInWithPopup(facebookProvider);
 
 export default firebase;
