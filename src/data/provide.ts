@@ -112,7 +112,7 @@ export const PROVIDE_MAPPER = [
       lat: 13.8476,
       lng: 100.5696
     },
-    imageUrl: '',
+    imageUrl: undefined,
     serviceCharge: 30,
     payment: 'โอน',
     description: 'สี 01, 02, 04, 09, 99',

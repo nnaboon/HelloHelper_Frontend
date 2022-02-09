@@ -14,9 +14,9 @@ export type OrderProps = {
   payment: string;
   description: string;
   receiver: {
-    receiverName: string;
-    receiverAddress: string;
-    receiverPhoneNumber: string;
+    name: string;
+    address: string;
+    phoneNumber: string;
   };
   providerUserId: string;
   requesterUserId: string;
