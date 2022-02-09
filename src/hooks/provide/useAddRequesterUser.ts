@@ -10,9 +10,9 @@ export const useAddRequesterUser = () => {
   );
 
   // data = userId (deleted by who)
-  const execute = (provideId: string, data: object) => {
+  const execute = (provideId: string, userId: string, data: object) => {
     return fire({
-      url: `${REACT_APP_API}/provide/requester/${provideId}`,
+      url: `${REACT_APP_API}/provide/${provideId}/requester/${userId}`,
       data
     });
   };
