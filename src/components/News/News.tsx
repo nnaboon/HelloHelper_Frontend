@@ -23,7 +23,7 @@ const NewsSection = styled.div`
 `;
 
 const NewsContainer = styled.div`
-  width: 96%;
+  width: 100%;
   height: 384px;
   background: #f5f5f5;
 
