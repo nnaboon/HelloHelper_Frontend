@@ -3,10 +3,11 @@
 import { css, jsx } from '@emotion/react';
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
+import { useHistory } from 'react-router-dom';
 import Flex from 'components/Flex/Flex';
 import { STATUS_MAPPER } from 'components/Button/const';
 import { StatusType } from 'components/Button/const';
-import { Form, Modal, message } from 'antd';
+import { Form, Modal, message, Divider } from 'antd';
 import { StatusBadge } from 'components/Badge/StatusBadge';
 import { RequestListProps } from 'data/request';
 import { PrimaryButton, SecondaryButton } from '../Button/Button';
@@ -21,7 +22,6 @@ import {
   mediaQueryTablet
 } from 'styles/variables';
 import { OrderProps } from 'data/order';
-import { USER_DATA } from '../../data/user';
 
 type RequestListCardProps = {
   props: OrderProps;
@@ -29,17 +29,15 @@ type RequestListCardProps = {
 
 const RequestListContainer = styled.div`
   position: relative;
-  width: 820px;
-  min-height: 430px;
+  width: 100%;
+  min-height: 310px;
   background: #ffffff;
-  border-top: 8px solid #ff8730;
   box-sizing: border-box;
   border-radius: 12px;
   box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.1);
-  margin-bottom: 40px;
+  margin-bottom: 30px;
   margin-top: 20px;
-  padding: 20px 30px 30px 30px;
-
+  padding: 30px 40px;
   ${mediaQueryTablet} {
     width: 100%;
     padding: 20px;
@@ -47,11 +45,8 @@ const RequestListContainer = styled.div`
 `;
 
 const RequestListContent = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 30px;
-  margin-top: 40px;
   text-align: start;
+  cursor: pointer;
 
   ${mediaQueryMobile} {
     display: flex;
@@ -60,10 +55,8 @@ const RequestListContent = styled.div`
 `;
 
 const RequestListTitle = styled.div`
-  width: 130px;
   font-weight: 400;
   font-size: 14px;
-  line-height: 16px;
   text-align: right;
   color: #b9b9b9;
   text-align: end;
@@ -76,17 +69,9 @@ const RequestListTitle = styled.div`
 
 const RequestListData = styled.div`
   font-weight: 500;
-  font-size: 18px;
-  line-height: 21px;
-  color: #000000;
-  width: 200px;
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.54);
 
-  width: 150px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
   ${mediaQueryMobile} {
     font-size: 16px;
     width: 185px;
@@ -99,6 +84,7 @@ export const RequestListCard = ({ props }: RequestListCardProps) => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [form] = Form.useForm();
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
+  const history = useHistory();
 
   const handleOk = () => {
     setIsModalVisible(false);
@@ -128,54 +114,85 @@ export const RequestListCard = ({ props }: RequestListCardProps) => {
       <StatusBadge
         status={STATUS_MAPPER[props.status].status}
         color={STATUS_MAPPER[props.status].color}
-        style={{ position: 'absolute', right: '20px', top: '13px' }}
+        style={{ position: 'absolute', right: '40px', top: '34px' }}
       />
-      <RequestListContent>
-        <Flex itemAlign="flex-start">
-          <RequestListTitle>ชื่อความช่วยเหลือ</RequestListTitle>
-          <RequestListData>{props.title}</RequestListData>
-        </Flex>
-        <Flex itemAlign="flex-start">
-          <RequestListTitle>สถานที่ให้ความข่วยเหลือ</RequestListTitle>
+      <RequestListContent
+        onClick={() => {
+          history.push(`/order/request/${props.id}`);
+        }}
+      >
+        {/* <Flex itemAlign="flex-start"> */}
+        {/* <RequestListTitle>ชื่อความช่วยเหลือ</RequestListTitle> */}
+        <RequestListData
+          css={css`
+            font-weight: 700;
+            font-size: 24px;
+            color: black;
+          `}
+        >
+          {props.title}
+        </RequestListData>
+        {/* </Flex> */}
+        <Flex itemAlign="flex-start" marginY="4px">
+          {/* <RequestListTitle>สถานที่ให้ความข่วยเหลือ</RequestListTitle> */}
           <RequestListData>{props.location.name}</RequestListData>
         </Flex>
-        <Flex itemAlign="flex-start">
-          <RequestListTitle>จำนวน</RequestListTitle>
-          <RequestListData>{props.number}</RequestListData>
+        <Flex itemAlign="flex-start" marginY="4px">
+          {/* <RequestListTitle>จำนวน</RequestListTitle> */}
+          <RequestListData>x{props.number}</RequestListData>
         </Flex>
-        <Flex itemAlign="flex-start">
+        {/* <Flex itemAlign="flex-start">
           <RequestListTitle>ราคาสินค้าทั้งหมด</RequestListTitle>
           <RequestListData>{props.price} บาท</RequestListData>
         </Flex>
         <Flex itemAlign="flex-start">
           <RequestListTitle>อัตราค่าบริการ</RequestListTitle>
-          <RequestListData>{props.serviceCharge}</RequestListData>
-        </Flex>
-        <Flex itemAlign="flex-start">
-          <RequestListTitle>ข้อความ</RequestListTitle>
+          <RequestListData>{props.serviceCharge} บาท</RequestListData>
+        </Flex> */}
+        <Flex itemAlign="flex-start" marginY="4px">
+          {/* <RequestListTitle>ข้อความ</RequestListTitle> */}
           <RequestListData>{props.description}</RequestListData>
         </Flex>
-        <Flex itemAlign="flex-start">
+        {/* <Flex itemAlign="flex-start">
           <RequestListTitle>รูปแบบการชำระเงิน</RequestListTitle>
           <RequestListData>{props.payment}</RequestListData>
-        </Flex>
-        <Flex itemAlign="flex-start">
-          <RequestListTitle>ชื่อ-นามสกุลผู้ให้ความช่วยเหลือ</RequestListTitle>
-          <RequestListData>
-            {
-              USER_DATA.find(({ userId }) => userId === props.providerUserId)
-                .username
-            }
+        </Flex> */}
+        {/* <Flex itemAlign="flex-end" justify="flex-end">
+          <RequestListTitle>ราคาสินค้า</RequestListTitle>
+          <RequestListData
+            css={css`
+              width: unset;
+              font-size: 24px;
+              color: black;
+            `}
+          >
+            ฿{props.price}
           </RequestListData>
         </Flex>
-        <Flex itemAlign="flex-start">
-          <RequestListTitle>เบอร์โทรศัพท์ผู้ให้ความช่วยเหลือ</RequestListTitle>
-          <RequestListData>
-            {' '}
-            {
-              USER_DATA.find(({ userId }) => userId === props.providerUserId)
-                .phoneNumber
-            }
+        <Flex itemAlign="flex-end" justify="flex-end">
+          <RequestListTitle>อัตราค่าบริการ</RequestListTitle>
+          <RequestListData
+            css={css`
+              width: unset;
+              font-size: 24px;
+              color: black;
+            `}
+          >
+            ฿{props.serviceCharge}
+          </RequestListData>
+        </Flex> */}
+        <Divider style={{ margin: '18px' }} />
+        <Flex itemAlign="center" justify="flex-end">
+          <RequestListTitle>ยอดคำสั่งซื้อทั้งหมด</RequestListTitle>
+          <RequestListData
+            css={css`
+              width: unset;
+              font-size: 24px;
+              font-weight: 600;
+              color: black;
+            `}
+          >
+            ฿{props.serviceCharge + props.price}
           </RequestListData>
         </Flex>
       </RequestListContent>
@@ -243,13 +260,14 @@ export const RequestListCard = ({ props }: RequestListCardProps) => {
             }
           `}
         >
-          <PrimaryButton
+          <SecondaryButton
             css={css`
-              min-width: 180px;
-              background: #0047ff;
+              min-width: 140px;
+              height: 45px;
+              z-index: 10;
 
               ${mediaQueryTablet} {
-                min-width: 170px;
+                min-width: 130px;
               }
 
               ${mediaQueryMobile} {
@@ -258,14 +276,16 @@ export const RequestListCard = ({ props }: RequestListCardProps) => {
               }
             `}
           >
-            แขท
-          </PrimaryButton>
+            แชท
+          </SecondaryButton>
           <PrimaryButton
             css={css`
-              min-width: 180px;
+              min-width: 140px;
+              height: 45px;
+              z-index: 10;
 
               ${mediaQueryTablet} {
-                min-width: 170px;
+                min-width: 130px;
               }
 
               ${mediaQueryMobile} {
@@ -277,7 +297,7 @@ export const RequestListCard = ({ props }: RequestListCardProps) => {
               setIsModalVisible(true);
             }}
           >
-            ยืนยันการรับสินค้า
+            ให้คะแนน
           </PrimaryButton>
         </Flex>
       )}

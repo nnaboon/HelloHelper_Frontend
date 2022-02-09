@@ -4,9 +4,10 @@ import { css, jsx } from '@emotion/react';
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import Flex from 'components/Flex/Flex';
+import { useHistory, useLocation } from 'react-router-dom';
 import { STATUS_MAPPER } from 'components/Button/const';
 import { StatusType } from 'components/Button/const';
-import { Menu, Dropdown, message, Form, Modal } from 'antd';
+import { Menu, Dropdown, message, Form, Modal, Divider } from 'antd';
 import { StatusBadge } from 'components/Badge/StatusBadge';
 import { RatingForm } from 'components/Form/RatingForm';
 import { PrimaryButton, SecondaryButton } from 'components/Button/Button';
@@ -20,22 +21,23 @@ import {
   mediaQuerySmallTablet,
   mediaQueryTablet
 } from 'styles/variables';
+import { useOrder } from 'hooks/order/useOrder';
 import { OrderProps } from 'data/order';
 
 type ProvideListCardProps = {
   props: OrderProps;
+  setStatus: (status: string) => void;
 };
 
 const ProvideListContainer = styled.div`
   position: relative;
-  width: 820px;
-  min-height: 430px;
+  width: 100%;
+  min-height: 310px;
   background: #ffffff;
-  border-top: 8px solid #ff8730;
   box-sizing: border-box;
   border-radius: 12px;
   box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.1);
-  margin-bottom: 40px;
+  margin-bottom: 30px;
   margin-top: 20px;
   padding: 20px 30px 30px 30px;
 
@@ -46,11 +48,8 @@ const ProvideListContainer = styled.div`
 `;
 
 const ProvideListContent = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 30px;
-  margin-top: 40px;
   text-align: start;
+  cursor: pointer;
 
   ${mediaQueryMobile} {
     display: flex;
@@ -75,18 +74,9 @@ const ProvideListTitle = styled.div`
 
 const ProvideListData = styled.div`
   font-weight: 500;
-  font-size: 18px;
-  line-height: 21px;
-  color: #000000;
-  width: 200px;
-  text-align: start;
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.54);
 
-  width: 150px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
   ${mediaQueryMobile} {
     font-size: 16px;
     width: 185px;
@@ -94,11 +84,15 @@ const ProvideListData = styled.div`
   }
 `;
 
-export const ProvideListCard = ({ props }: ProvideListCardProps) => {
+export const ProvideListCard = ({ props, setStatus }: ProvideListCardProps) => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const { execute: updateOrder } = useUpdateOrder();
+  const { data: order, execute: getOrder } = useOrder();
+  const history = useHistory();
+  const { pathname } = useLocation();
+  const query = pathname.split('/')[3];
 
   const [form] = Form.useForm();
 
@@ -114,31 +108,20 @@ export const ProvideListCard = ({ props }: ProvideListCardProps) => {
     setIsModalVisible(false);
   };
 
-  const onFinish = async (value) => {
-    setIsSubmitting(true);
-    const data = {
-      rating: value.rating
-    };
-
-    try {
-      console.log('data', data);
-    } catch (e) {
-      message.error('ไม่สามารถโพสต์ขอความช่วยเหลือได้');
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
   const menu = (
     <Menu>
       <Menu.Item
         onClick={() => {
-          try {
-            updateOrder(props.id, { status: 'waiting' });
-          } catch (error) {
-            message.error('ไม่สามาถเปลี่ยนสถานะได้');
-          } finally {
-            message.success('สำเร็จ');
+          if (props.status !== 'waiting') {
+            try {
+              updateOrder(props.id, { status: 'waiting' }).then(() => {
+                setStatus('waiting');
+              });
+            } catch (error) {
+              message.error('ไม่สามาถเปลี่ยนสถานะได้');
+            } finally {
+              message.success('สำเร็จ');
+            }
           }
         }}
       >
@@ -146,12 +129,16 @@ export const ProvideListCard = ({ props }: ProvideListCardProps) => {
       </Menu.Item>
       <Menu.Item
         onClick={() => {
-          try {
-            updateOrder(props.id, { status: 'pending' });
-          } catch (error) {
-            message.error('ไม่สามาถเปลี่ยนสถานะได้');
-          } finally {
-            message.success('สำเร็จ');
+          if (props.status !== 'pending') {
+            try {
+              updateOrder(props.id, { status: 'pending' }).then(() => {
+                setStatus('pending');
+              });
+            } catch (error) {
+              message.error('ไม่สามาถเปลี่ยนสถานะได้');
+            } finally {
+              message.success('สำเร็จ');
+            }
           }
         }}
       >
@@ -159,12 +146,16 @@ export const ProvideListCard = ({ props }: ProvideListCardProps) => {
       </Menu.Item>
       <Menu.Item
         onClick={() => {
-          try {
-            updateOrder(props.id, { status: 'complete' });
-          } catch (error) {
-            message.error('ไม่สามาถเปลี่ยนสถานะได้');
-          } finally {
-            message.success('สำเร็จ');
+          if (props.status !== 'complete') {
+            try {
+              updateOrder(props.id, { status: 'complete' }).then(() => {
+                setStatus('complete');
+              });
+            } catch (error) {
+              message.error('ไม่สามาถเปลี่ยนสถานะได้');
+            } finally {
+              message.success('สำเร็จ');
+            }
           }
         }}
       >
@@ -172,12 +163,16 @@ export const ProvideListCard = ({ props }: ProvideListCardProps) => {
       </Menu.Item>
       <Menu.Item
         onClick={() => {
-          try {
-            updateOrder(props.id, { status: 'cancel' });
-          } catch (error) {
-            message.error('ไม่สามาถเปลี่ยนสถานะได้');
-          } finally {
-            message.success('สำเร็จ');
+          if (props.status !== 'cancel') {
+            try {
+              updateOrder(props.id, { status: 'cancel' }).then(() => {
+                setStatus('cancel');
+              });
+            } catch (error) {
+              message.error('ไม่สามาถเปลี่ยนสถานะได้');
+            } finally {
+              message.success('สำเร็จ');
+            }
           }
         }}
       >
@@ -191,53 +186,85 @@ export const ProvideListCard = ({ props }: ProvideListCardProps) => {
       <StatusBadge
         status={STATUS_MAPPER[props.status].status}
         color={STATUS_MAPPER[props.status].color}
-        style={{ position: 'absolute', right: '20px', top: '13px' }}
+        style={{ position: 'absolute', right: '20px', top: '20px' }}
       />
-      <ProvideListContent>
-        <Flex itemAlign="flex-start">
-          <ProvideListTitle>ชื่อความช่วยเหลือ</ProvideListTitle>
-          <ProvideListData>{props.title}</ProvideListData>
-        </Flex>
-        <Flex itemAlign="flex-start">
-          <ProvideListTitle>สถานที่ให้ความข่วยเหลือ</ProvideListTitle>
+      <ProvideListContent
+        onClick={() => {
+          history.push(`/order/provide/${props.id}`);
+        }}
+      >
+        {/* <Flex itemAlign="flex-start"> */}
+        {/* <ProvideListTitle>ชื่อความช่วยเหลือ</ProvideListTitle> */}
+        <ProvideListData
+          css={css`
+            font-weight: 700;
+            font-size: 24px;
+            color: black;
+          `}
+        >
+          {props.title}
+        </ProvideListData>
+        {/* </Flex> */}
+        <Flex itemAlign="flex-start" marginY="4px">
+          {/* <ProvideListTitle>สถานที่ให้ความข่วยเหลือ</ProvideListTitle> */}
           <ProvideListData>{props.location.name}</ProvideListData>
         </Flex>
-        <Flex itemAlign="flex-start">
-          <ProvideListTitle>จำนวน</ProvideListTitle>
-          <ProvideListData>{props.number}</ProvideListData>
+        <Flex itemAlign="flex-start" marginY="4px">
+          {/* <ProvideListTitle>จำนวน</ProvideListTitle> */}
+          <ProvideListData>x{props.number}</ProvideListData>
         </Flex>
-        <Flex itemAlign="flex-start">
+        {/* <Flex itemAlign="flex-start">
           <ProvideListTitle>ราคาสินค้าทั้งหมด</ProvideListTitle>
           <ProvideListData>{props.price} บาท</ProvideListData>
         </Flex>
         <Flex itemAlign="flex-start">
           <ProvideListTitle>อัตราค่าบริการ</ProvideListTitle>
           <ProvideListData>{props.serviceCharge} บาท</ProvideListData>
-        </Flex>
-        <Flex itemAlign="flex-start">
-          <ProvideListTitle>ข้อความ</ProvideListTitle>
+        </Flex> */}
+        <Flex itemAlign="flex-start" marginY="4px">
+          {/* <ProvideListTitle>ข้อความ</ProvideListTitle> */}
           <ProvideListData>{props.description}</ProvideListData>
         </Flex>
-        <Flex itemAlign="flex-start">
+        {/* <Flex itemAlign="flex-start">
           <ProvideListTitle>รูปแบบการชำระเงิน</ProvideListTitle>
           <ProvideListData>{props.payment}</ProvideListData>
-        </Flex>
-        <Flex itemAlign="flex-start">
-          <ProvideListTitle>ชื่อ-นามสกุลผู้รับ</ProvideListTitle>
-          <ProvideListData>{props.receiver.receiverName}</ProvideListData>
-        </Flex>
-        <Flex itemAlign="flex-start">
-          <ProvideListTitle>ที่อยู่</ProvideListTitle>
-          <ProvideListData>
-            {props.receiver.receiverAddress
-              ? props.receiver.receiverAddress
-              : '-'}
+        </Flex> */}
+        {/* <Flex itemAlign="flex-end" justify="flex-end">
+          <ProvideListTitle>ราคาสินค้า</ProvideListTitle>
+          <ProvideListData
+            css={css`
+              width: unset;
+              font-size: 24px;
+              color: black;
+            `}
+          >
+            ฿{props.price}
           </ProvideListData>
         </Flex>
-        <Flex itemAlign="flex-start">
-          <ProvideListTitle>เบอร์โทรศัพท์</ProvideListTitle>
-          <ProvideListData>
-            {props.receiver.receiverPhoneNumber}
+        <Flex itemAlign="flex-end" justify="flex-end">
+          <ProvideListTitle>อัตราค่าบริการ</ProvideListTitle>
+          <ProvideListData
+            css={css`
+              width: unset;
+              font-size: 24px;
+              color: black;
+            `}
+          >
+            ฿{props.serviceCharge}
+          </ProvideListData>
+        </Flex> */}
+        <Divider style={{ margin: '18px' }} />
+        <Flex itemAlign="center" justify="flex-end">
+          <ProvideListTitle>ยอดคำสั่งซื้อทั้งหมด</ProvideListTitle>
+          <ProvideListData
+            css={css`
+              width: unset;
+              font-size: 24px;
+              font-weight: 600;
+              color: black;
+            `}
+          >
+            ฿{props.serviceCharge + props.price}
           </ProvideListData>
         </Flex>
       </ProvideListContent>
