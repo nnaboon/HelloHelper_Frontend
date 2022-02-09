@@ -17,6 +17,7 @@ import {
   mediaQuerySmallTablet
 } from 'styles/variables';
 import Flex from 'components/Flex/Flex';
+import DefaultImage from 'images/default.png';
 import { SettingSvg } from 'components/Svg/SettingSvg';
 import { LogoutSvg } from 'components/Svg/LogoutSvg';
 import { PlusOutlined } from '@ant-design/icons';
@@ -250,7 +251,7 @@ export const CommunityContentInfo = observer(({ data }: any) => {
                 `}
               >
                 <CommunityImageSection
-                  src={community.imageUrl}
+                  src={community.imageUrl ?? DefaultImage}
                   alt="community"
                 />
               </div>

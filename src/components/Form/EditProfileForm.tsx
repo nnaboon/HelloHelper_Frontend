@@ -161,7 +161,7 @@ export const EditProfileForm = observer(() => {
 
   useEffect(() => {
     if (me) {
-      setImageUrl(me.imageUrl);
+      setImageUrl(me.imageUrl ?? DefaultImage);
     }
   }, [me]);
 

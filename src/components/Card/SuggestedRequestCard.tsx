@@ -226,6 +226,7 @@ export const SuggestedRequestSection = ({ data }: any) => {
                 `}
               >
                 <RequestImageSection
+                  loading="lazy"
                   src={imageUrl ? imageUrl : DefaultImage}
                   alt="request"
                 />

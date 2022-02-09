@@ -62,6 +62,7 @@ export const CommunitySetting = () => {
   return (
     <WrapperContainer
       css={css`
+        height: 100%;
         ${mediaQueryMobile} {
           height: calc(100vh - 180px);
         }
@@ -77,7 +78,6 @@ export const CommunitySetting = () => {
               joinedRequest={community.joinedRequestUserId}
             />
           ) : (
-            // <CommunitySettingEditProfile communityData={community} />
             <CommunitySettingEditProfile communityData={community} />
           )}
         </div>

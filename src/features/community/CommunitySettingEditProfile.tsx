@@ -148,7 +148,7 @@ export const CommunitySettingEditProfile = ({ communityData }: any) => {
 
   useEffect(() => {
     if (communityData) {
-      setImageUrl(communityData.imageUrl);
+      setImageUrl(communityData.imageUrl ?? DefaultImage);
     }
   }, [communityData]);
 
@@ -156,6 +156,7 @@ export const CommunitySettingEditProfile = ({ communityData }: any) => {
     <div
       css={css`
         width: 100%;
+        height: 100%;
 
         ${mediaQueryTablet} {
           margin-top: 40px;
@@ -188,6 +189,7 @@ export const CommunitySettingEditProfile = ({ communityData }: any) => {
         }}
         css={css`
           display: flex;
+          height: 100%;
 
           ${mediaQuerySmallTablet} {
             flex-direction: column-reverse;

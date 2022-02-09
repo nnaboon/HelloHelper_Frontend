@@ -21,11 +21,11 @@ export const MenuTab = ({ menu, setMenu }: MenuTabProps) => {
           isActive={menu === key}
           onClick={() => {
             setMenu(key);
-            history.push({
-              state: {
-                menu: key
-              }
-            });
+            // history.push({
+            //   state: {
+            //     menu: key
+            //   }
+            // });
           }}
         >
           {HELP_MENU_MAPPER[key]}

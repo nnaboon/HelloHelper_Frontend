@@ -534,12 +534,12 @@ export const RequestInfoContent = observer(({ data }: any) => {
                         }
                       `}
                     >
-                      <SmallSuggestedRequestCard data={[PROVIDE_MAPPER[0]]} />
-                      <SmallSuggestedRequestCard data={[PROVIDE_MAPPER[1]]} />
-                      <SmallSuggestedRequestCard data={[PROVIDE_MAPPER[2]]} />
-                      <SmallSuggestedRequestCard data={[PROVIDE_MAPPER[3]]} />
-                      <SmallSuggestedRequestCard data={[PROVIDE_MAPPER[4]]} />
-                      <SmallSuggestedRequestCard data={[PROVIDE_MAPPER[5]]} />
+                      <SmallSuggestedRequestCard data={[provides[1]]} />
+                      <SmallSuggestedRequestCard data={[provides[2]]} />
+                      <SmallSuggestedRequestCard data={[provides[0]]} />
+                      <SmallSuggestedRequestCard data={[provides[3]]} />
+                      <SmallSuggestedRequestCard data={[provides[4]]} />
+                      <SmallSuggestedRequestCard data={[provides[5]]} />
                     </div>
                   </div>
                 ) : (

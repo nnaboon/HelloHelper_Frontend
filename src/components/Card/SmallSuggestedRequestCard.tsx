@@ -141,7 +141,6 @@ export const SmallSuggestedRequestCard = ({ data }: any) => {
       {data.map(
         ({
           id,
-          imageUrl,
           userId,
           title,
           serviceCharge,
@@ -179,6 +178,7 @@ export const SmallSuggestedRequestCard = ({ data }: any) => {
                     `}
                   >
                     <HelperImageSection
+                      loading="lazy"
                       src={user.imageUrl ?? DefaultImage}
                       alt="user avatar"
                     />
