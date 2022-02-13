@@ -22,7 +22,32 @@ export const auth = firebase.auth();
 export const provider = new firebase.auth.GoogleAuthProvider();
 export const facebookProvider = new firebase.auth.FacebookAuthProvider();
 
-export const signInWithGoogle = () => auth.signInWithPopup(provider);
-export const signInWithFacebook = () => auth.signInWithPopup(facebookProvider);
+export const signInWithGoogle = () =>
+  auth.signInWithPopup(provider).then(async ({ user }) => {
+    const firebaseIdToken = await firebase.auth().currentUser.getIdToken();
+
+    console.log(firebaseIdToken);
+    window.localStorage.setItem('access_token', firebaseIdToken);
+
+    // user.getIdToken().then((idToken) => {
+    //   console.log(idToken);
+    //   window.localStorage.setItem('access_token', idToken);
+    // });
+  });
+export const signInWithFacebook = () =>
+  auth
+    .signInWithPopup(facebookProvider)
+    .then(function (result) {
+      var token = result.credential.accessToken;
+      var user = result.user;
+      window.localStorage.setItem('access_token', token);
+
+      console.log(token);
+      console.log(user);
+    })
+    .catch(function (error) {
+      console.log(error.code);
+      console.log(error.message);
+    });
 
 export default firebase;

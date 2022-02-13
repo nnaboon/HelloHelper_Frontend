@@ -4,7 +4,10 @@ import { REACT_APP_API } from '../../config';
 export const useAddCommunity = () => {
   const [{ data: response, loading, error }, fire] = useAxios(
     {
-      method: 'POST'
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${window.localStorage.getItem('access_token')}`
+      }
     },
     { manual: true }
   );

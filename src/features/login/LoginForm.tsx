@@ -65,6 +65,7 @@ export const LoginForm = observer(
         .signInWithEmailAndPassword(value.email, value.password)
         .then(({ user }) => {
           user.getIdToken().then((idToken) => {
+            window.localStorage.setItem('access_token', idToken);
             axios
               .post(`${REACT_APP_API}/user/verify`, {
                 idToken: idToken
