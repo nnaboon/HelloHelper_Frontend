@@ -8,6 +8,7 @@ import { MessageSvg } from 'components/Svg/MessageSvg';
 import { UserSvg } from 'components/Svg/UserSvg';
 import { useMedia, mediaQueryMobile, mediaQueryTablet } from 'styles/variables';
 import { useHistory } from 'react-router-dom';
+import { useAddChatRoom } from 'hooks/chat/useAddChatRoom';
 
 interface HelperListCardProps {
   id: string;
@@ -73,6 +74,7 @@ const HelperName = styled.div`
 
 export const HelperListCard = ({ id, name, imageUrl }: HelperListCardProps) => {
   const history = useHistory();
+  const { execute: addChatRoom } = useAddChatRoom();
 
   return (
     <HelperListCardContainer>
@@ -115,16 +117,26 @@ export const HelperListCard = ({ id, name, imageUrl }: HelperListCardProps) => {
           <UserSvg />
           <div>โปรไฟล์</div>
         </SecondaryButton>
-        <PrimaryButton
-          css={css`
-            ${mediaQueryMobile} {
-              width: 50%;
-            }
-          `}
-        >
-          <MessageSvg style={{ marginRight: '5px' }} />
-          <div>แชท</div>
-        </PrimaryButton>
+        {id !== window.localStorage.getItem('id') && (
+          <PrimaryButton
+            css={css`
+              ${mediaQueryMobile} {
+                width: 50%;
+              }
+            `}
+            onClick={() => {
+              addChatRoom({
+                providerUserId: id,
+                requesterUserId: window.localStorage.getItem('id')
+              }).then((res) => {
+                history.push(`/chat/${res.data}`);
+              });
+            }}
+          >
+            <MessageSvg style={{ marginRight: '5px' }} />
+            <div>แชท</div>
+          </PrimaryButton>
+        )}
       </div>
     </HelperListCardContainer>
   );

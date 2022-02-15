@@ -1,16 +1,17 @@
 export enum StatusType {
   WAITING = 'waiting',
   PENDING = 'pending',
+  PROGRESS = 'progress',
   COMPLETE = 'complete',
   CANCEL = 'cancel'
 }
 
 export const STATUS_MAPPER = {
-  [StatusType.WAITING]: {
+  [StatusType.PENDING]: {
     status: 'รอดำเนินการ',
     color: '#FFC700'
   },
-  [StatusType.PENDING]: {
+  [StatusType.PROGRESS]: {
     status: 'กำลังดำเนินการ',
     color: '#FF7A00'
   },

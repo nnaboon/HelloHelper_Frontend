@@ -6,7 +6,7 @@ import styled from '@emotion/styled';
 import { Button, Form, Input, message } from 'antd';
 import { Text } from 'components/Text';
 import { UserCreateBody } from './const';
-import { mediaQueryMobile } from 'styles/variables';
+import { mediaQueryMobile, mediaQueryLargeDesktop } from 'styles/variables';
 
 type RegisterUsernameFormProps = {
   userAccountData: UserCreateBody;
@@ -17,12 +17,10 @@ const RegisterUsernameFormSection = styled.div`
   display: flex;
   flex-direction: column;
   padding: 2.55rem 2.75rem 1.5rem 2.75rem;
-  position: relative;
-  height: 620px;
+  height: 100%;
 
   ${mediaQueryMobile} {
     padding: 0;
-    height: 360px;
   }
 `;
 
@@ -64,7 +62,17 @@ export const RegisterUsernameForm = (props: RegisterUsernameFormProps) => {
           }
         `}
       />
-      <Text fontSize="24px" marginTop="10px" marginBottom="20px">
+      <Text
+        marginTop="10px"
+        marginBottom="20px"
+        css={css`
+          font-size: 2.2rem;
+
+          ${mediaQueryLargeDesktop} {
+            font-size: 24px;
+          }
+        `}
+      >
         ชื่อ
       </Text>
       <Form
@@ -77,9 +85,58 @@ export const RegisterUsernameForm = (props: RegisterUsernameFormProps) => {
         autoComplete="off"
         css={css`
           .ant-form-item-control-input {
-            ${mediaQueryMobile} {
+            width: 100%;
+          }
+          .ant-form-item-label > label {
+            font-size: 1.5rem;
+          }
+
+          .ant-form-item {
+            margin-bottom: 32px;
+          }
+
+          .ant-select-single:not(.ant-select-customize-input)
+            .ant-select-selector {
+            height: 40px;
+          }
+
+          .ant-upload.ant-upload-select-picture-card {
+            width: 170px;
+            height: 170px;
+          }
+
+          .ant-col-16 {
+            max-width: 100%;
+          }
+
+          ${mediaQueryLargeDesktop} {
+            font-size: 24px;
+
+            .ant-select-single:not(.ant-select-customize-input)
+              .ant-select-selector {
+              height: 32px;
+            }
+
+            .ant-form-item {
+              margin-bottom: 24px;
+            }
+
+            .ant-form-item-control-input {
               width: 100%;
             }
+
+            .ant-form-item-label > label {
+              font-size: 16px;
+            }
+
+            .ant-upload.ant-upload-select-picture-card {
+              width: 104px;
+              height: 104px;
+            }
+          }
+
+          ${mediaQueryMobile} {
+            width: 100%;
           }
         `}
       >
@@ -89,7 +146,16 @@ export const RegisterUsernameForm = (props: RegisterUsernameFormProps) => {
         >
           <Input
             placeholder="ชื่อ"
-            style={{ height: '40px', borderRadius: '12px' }}
+            style={{ borderRadius: '12px' }}
+            css={css`
+              height: 50px;
+              font-size: 1.5rem;
+
+              ${mediaQueryLargeDesktop} {
+                height: 40px;
+                font-size: 14px;
+              }
+            `}
           />
         </Form.Item>
         <Button
@@ -97,19 +163,24 @@ export const RegisterUsernameForm = (props: RegisterUsernameFormProps) => {
           htmlType="submit"
           css={css`
             width: 106px;
-            height: 40px;
+            height: 50px;
+            font-size: 1.5rem;
             box-sizing: border-box;
             background: #ee6400;
             border-radius: 9px;
             border: 0;
             position: absolute;
-            bottom: -29px;
-            right: 20px;
+            bottom: 20px;
+            right: 64px;
             color: #ffff;
-            font-size: 16px;
 
             &:hover {
               background: #ee6400;
+            }
+
+            ${mediaQueryLargeDesktop} {
+              height: 40px;
+              font-size: 16px;
             }
 
             ${mediaQueryMobile} {

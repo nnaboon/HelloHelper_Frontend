@@ -1,15 +1,21 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
+import Flex from 'components/Flex/Flex';
+import { LeftOutlined } from '@ant-design/icons';
 import { CommunitySettingMenuTab } from 'components/Menu/CommunitySettingMenuTab';
 import { CommunitySettingManageMember } from './CommunitySettingManageMember';
 import { WrapperContainer } from 'components/Wrapper/WrapperContainer';
 import { CommunitySettingMenu } from 'components/Menu/const';
 import { CommunitySettingEditProfile } from './CommunitySettingEditProfile';
-import { mediaQuerySmallTablet, mediaQueryMobile } from 'styles/variables';
+import {
+  mediaQuerySmallTablet,
+  mediaQueryMobile,
+  mediaQueryLargeDesktop
+} from 'styles/variables';
 import { useCommunity } from 'hooks/community/useCommunity';
 import { useCommunityMember } from 'hooks/community/useCommunityMember';
 import { useCommunityJoinedRequestUserId } from 'hooks/community/useCommunityJoinedRequestUserId';
@@ -20,6 +26,7 @@ export const CommunitySetting = () => {
   const [menu, setMenu] = useState<CommunitySettingMenu>(
     CommunitySettingMenu.MANAGE
   );
+  const history = useHistory();
   const { pathname, state } = useLocation();
   const query = pathname.split('/')[3];
   const currentMenu = ((state as any)?.community_menu ||
@@ -68,6 +75,36 @@ export const CommunitySetting = () => {
         }
       `}
     >
+      <Flex
+        css={css`
+          cursor: pointer;
+        `}
+        onClick={() => {
+          history.push(`/community/${query}`);
+        }}
+      >
+        <LeftOutlined
+          style={{ marginRight: '10px' }}
+          css={css`
+            font-size: 2.2rem;
+
+            ${mediaQueryLargeDesktop} {
+              font-size: 20px;
+            }
+          `}
+        />
+        <div
+          css={css`
+            font-size: 2.4rem;
+
+            ${mediaQueryLargeDesktop} {
+              font-size: 20px;
+            }
+          `}
+        >
+          ย้อนกลับ
+        </div>
+      </Flex>
       <CommunitySettingMenuTab menu={menu} setMenu={setMenu} />
       {community && member ? (
         <div>
@@ -82,7 +119,7 @@ export const CommunitySetting = () => {
           )}
         </div>
       ) : (
-        <Loading />
+        <Loading height="calc(100vh - 265px)" />
       )}
     </WrapperContainer>
   );

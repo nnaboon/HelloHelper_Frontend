@@ -1,14 +1,14 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { css, jsx, Global } from '@emotion/react';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { Text } from 'components/Text';
 import { Checkbox, Button, Form, message } from 'antd';
 import { UserCreateBody } from './const';
 import { useHistory } from 'react-router-dom';
 import { ABILITY } from '../../data/ability';
-import { mediaQueryMobile } from 'styles/variables';
+import { mediaQueryMobile, mediaQueryLargeDesktop } from 'styles/variables';
 
 type RegisterAbilityFormProps = {
   userAccountData: UserCreateBody;
@@ -21,7 +21,6 @@ const RegisterAbilityFormSection = styled.div`
   flex-direction: column;
   padding: 2.55rem 2.75rem 1.5rem 2.75rem;
   position: relative;
-  height: 620px;
 
   ${mediaQueryMobile} {
     padding: 0;
@@ -51,16 +50,6 @@ export const RegisterAbilityForm = (props: RegisterAbilityFormProps) => {
     };
 
     try {
-      //   const {
-      //     available,
-      //     message: errorMessage
-      //   } = await checkRegisterAvailableEmail(value.email);
-      //   if (!available) {
-      //     message.error(errorMessage, 5);
-      //   } else {
-      //     onNext(data);
-      //   }
-
       onNext({ ...userAccountData, ...data });
       history.push({
         pathname: '/'
@@ -83,12 +72,87 @@ export const RegisterAbilityForm = (props: RegisterAbilityFormProps) => {
         onFinish={onFinish}
         autoComplete="off"
         css={css`
-          .ant-form-item {
-            width: 475px;
+          .ant-modal .ant-form-item-control-input {
+            width: 100%;
+          }
+          .ant-form-item-label > label {
+            font-size: 1.5rem;
+          }
 
-            ${mediaQueryMobile} {
-              width: 100%;
+          .ant-form-item {
+            margin-bottom: 32px;
+          }
+
+          .ant-select-single:not(.ant-select-customize-input)
+            .ant-select-selector {
+            height: 40px;
+          }
+
+          .ant-upload.ant-upload-select-picture-card {
+            width: 170px;
+            height: 170px;
+          }
+
+          .ant-col-16 {
+            max-width: 100%;
+          }
+
+          .ant-form-item-label > label {
+            font-size: 1.68rem;
+          }
+
+          .ant-checkbox + span {
+            font-size: 2rem;
+          }
+
+          .ant-checkbox-inner {
+            width: 30px;
+            height: 30px;
+          }
+
+          ${mediaQueryLargeDesktop} {
+            .ant-form-item-label > label {
+              font-size: 14px;
             }
+
+            .ant-checkbox + span {
+              font-size: 16px;
+            }
+
+            .ant-checkbox-inner {
+              width: 16px;
+              height: 16px;
+            }
+          }
+
+          ${mediaQueryLargeDesktop} {
+            font-size: 24px;
+
+            .ant-select-single:not(.ant-select-customize-input)
+              .ant-select-selector {
+              height: 32px;
+            }
+
+            .ant-form-item {
+              margin-bottom: 24px;
+            }
+
+            .ant-form-item-control-input {
+              width: 460px;
+            }
+
+            .ant-form-item-label > label {
+              font-size: 16px;
+            }
+
+            .ant-upload.ant-upload-select-picture-card {
+              width: 104px;
+              height: 104px;
+            }
+          }
+
+          ${mediaQueryMobile} {
+            width: 100%;
           }
         `}
       >
@@ -100,7 +164,19 @@ export const RegisterAbilityForm = (props: RegisterAbilityFormProps) => {
             }
           `}
         />
-        <Text fontSize="24px" marginTop="10px" marginBottom="20px">
+        <Text
+          marginTop="10px"
+          marginBottom="50px"
+          css={css`
+            height: 50px;
+            font-size: 2.2rem;
+
+            ${mediaQueryLargeDesktop} {
+              height: 40px;
+              font-size: 24px;
+            }
+          `}
+        >
           ท่านยินดีให้ความช่วยเหลือในหมวดหมู่ใดบ้าง
         </Text>
         <Form.Item name="ability">
@@ -108,6 +184,11 @@ export const RegisterAbilityForm = (props: RegisterAbilityFormProps) => {
             options={ABILITY}
             value={checkedList}
             onChange={toggleChecked}
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              marginBottom: '50px'
+            }}
           />
         </Form.Item>
         <Button
@@ -121,7 +202,7 @@ export const RegisterAbilityForm = (props: RegisterAbilityFormProps) => {
             border-radius: 9px;
             border: 1px solid #ee6400;
             position: absolute;
-            bottom: -29px;
+            bottom: 20px;
             right: 140px;
             color: #ee6400;
             font-size: 16px;
@@ -145,7 +226,7 @@ export const RegisterAbilityForm = (props: RegisterAbilityFormProps) => {
             border-radius: 9px;
             border: 0;
             position: absolute;
-            bottom: -29px;
+            bottom: 20px;
             right: 20px;
             color: #ffff;
             font-size: 16px;

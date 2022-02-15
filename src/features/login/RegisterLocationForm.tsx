@@ -8,6 +8,7 @@ import { Button, Divider, Form, Input, message, Checkbox } from 'antd';
 import { LocationType, UserCreateBody } from './const';
 import { mediaQueryMobile } from 'styles/variables';
 import { GoogleMapContent } from 'components/GoogleMap/GoogleMap';
+import { mediaQueryLargeDesktop } from '../../styles/variables';
 
 type RegisterLocationFormProps = {
   userAccountData: UserCreateBody;
@@ -19,8 +20,6 @@ const RegisterLocationFormSection = styled.div`
   display: flex;
   flex-direction: column;
   padding: 2.55rem 2.75rem 1.5rem 2.75rem;
-  position: relative;
-  height: 620px;
 
   ${mediaQueryMobile} {
     padding: 0;
@@ -71,7 +70,17 @@ export const RegisterLocationForm = (props: RegisterLocationFormProps) => {
           }
         `}
       />
-      <Text fontSize="24px" marginTop="10px" marginBottom="20px">
+      <Text
+        marginTop="10px"
+        marginBottom="20px"
+        css={css`
+          font-size: 2.2rem;
+
+          ${mediaQueryLargeDesktop} {
+            font-size: 24px;
+          }
+        `}
+      >
         สถานที่ที่คุณสามารถให้ความช่วยเหลือได้
       </Text>
       <Form
@@ -83,6 +92,10 @@ export const RegisterLocationForm = (props: RegisterLocationFormProps) => {
         onFinish={onFinish}
         autoComplete="off"
         css={css`
+          .ant-col-16 {
+            max-width: 100%;
+          }
+
           .ant-form-item-control-input {
             ${mediaQueryMobile} {
               width: 100%;
@@ -90,7 +103,7 @@ export const RegisterLocationForm = (props: RegisterLocationFormProps) => {
           }
         `}
       >
-        <Form.Item
+        {/* <Form.Item
           name="location"
           // rules={[
           //   {
@@ -98,17 +111,18 @@ export const RegisterLocationForm = (props: RegisterLocationFormProps) => {
           //     message: 'กรุณากรอกสถานที่ที่คุณสามารถให้ความช่วยเหลือได้'
           //   }
           // ]}
-        >
-          <GoogleMapContent
-            requestLocation={location}
-            setRequestLocation={setLocation}
-            width="100%"
-            css={css`
-              width: 100%;
-              min-width: 100%;
-            `}
-          />
-        </Form.Item>
+        > */}
+        <GoogleMapContent
+          requestLocation={location}
+          setRequestLocation={setLocation}
+          width="100%"
+          height="390px"
+          css={css`
+            width: 100%;
+            min-width: 100%;
+          `}
+        />
+        {/* </Form.Item> */}
         <Button
           type="primary"
           htmlType="submit"
@@ -120,8 +134,8 @@ export const RegisterLocationForm = (props: RegisterLocationFormProps) => {
             border-radius: 9px;
             border: 1px solid #ee6400;
             position: absolute;
-            bottom: -29px;
-            right: 140px;
+            right: 190px;
+            bottom: 20px;
             color: #ee6400;
             font-size: 16px;
 
@@ -144,8 +158,8 @@ export const RegisterLocationForm = (props: RegisterLocationFormProps) => {
             border-radius: 9px;
             border: 0;
             position: absolute;
-            bottom: -29px;
-            right: 20px;
+            right: 64px;
+            bottom: 20px;
             color: #ffff;
             font-size: 16px;
 

@@ -2,7 +2,7 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/react';
 import { useHistory } from 'react-router-dom';
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 import Flex from 'components/Flex/Flex';
 import { SecondaryButton } from 'components/Button/Button';
@@ -11,25 +11,34 @@ import {
   mediaQueryMobile,
   mediaQueryTablet,
   mediaQuerySmallTablet,
+  mediaQueryLargeDesktop,
+  mediaQueryExtraLargeDesktop,
   useMedia,
-  MOBILE_WIDTH,
-  TABLET_WIDTH
+  MOBILE_WIDTH
 } from 'styles/variables';
-import { useUser } from 'hooks/user/useUser';
+
+interface MyProvideListProps {
+  data: any;
+  user: any;
+}
 
 const HelperListCard = styled.div`
   background: #ffffff;
   box-shadow: 0px 6px 11px rgba(0, 0, 0, 0.15);
   border-radius: 8px;
-  height: 370px;
+  height: 400px;
   margin-top: 25px;
   margin-bottom: 20px;
-  // display: flex;
-  // flex-direction: column;
+  display: flex;
+
   box-sizing: border-box;
   padding: 35px;
   position: relative;
   cursor: pointer;
+
+  ${mediaQueryLargeDesktop} {
+    height: 370px;
+  }
 
   ${mediaQueryMobile} {
     margin-top: 0;
@@ -40,9 +49,13 @@ const HelperListCard = styled.div`
 
 const HelperListTitle = styled.div`
   font-weight: 700;
-  font-size: 24px;
+  font-size: 1.8rem;
   color: #f86800;
   margin-bottom: 8px;
+
+  ${mediaQueryLargeDesktop} {
+    font-size: 24px;
+  }
 
   ${mediaQueryMobile} {
     font-size: 18px;
@@ -50,10 +63,15 @@ const HelperListTitle = styled.div`
 `;
 
 const HelperListHeading = styled.div`
-  font-size: 12px;
+  font-size: 1rem;
   line-height: 26px;
   color: #c4c4c4;
-  min-width: 170px;
+  min-width: 215px;
+
+  ${mediaQueryLargeDesktop} {
+    font-size: 14px;
+    min-width: 190px;
+  }
 
   ${mediaQueryMobile} {
     width: max-content;
@@ -63,16 +81,19 @@ const HelperListHeading = styled.div`
 `;
 
 const HelperListDetail = styled.div`
-  font-size: 18px;
+  font-size: 1.5rem;
   line-height: 26px;
   color: #000000;
 
-  width: 270px;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+
+  ${mediaQueryLargeDesktop} {
+    font-size: 18px;
+  }
 
   ${mediaQueryTablet} {
     width: 500px;
@@ -102,16 +123,9 @@ const SecondaryHelpButton = styled(SecondaryButton)`
   }
 `;
 
-export const MyProvideList = ({ data }: any) => {
+export const MyProvideList = ({ data, user }: MyProvideListProps) => {
   const history = useHistory();
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
-  const { data: user, execute: getUser } = useUser();
-
-  useEffect(() => {
-    if (data) {
-      getUser(data.userId);
-    }
-  }, [data]);
 
   return (
     <HelperListCard

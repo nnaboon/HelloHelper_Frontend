@@ -10,12 +10,14 @@ import {
 
 interface GoogleMapContentProps {
   width?: string;
+  height?: string;
   requestLocation?: any;
   setRequestLocation?: (location: any) => void;
 }
 
 export const GoogleMapContent = ({
   width,
+  height,
   requestLocation,
   setRequestLocation
 }: GoogleMapContentProps) => {
@@ -23,7 +25,7 @@ export const GoogleMapContent = ({
   const [myLocation, setMyLocation] = useState<google.maps.LatLng>();
   const [center, setCenter] = useState<google.maps.LatLng>();
   const [searchBox, setSearchBox] = useState<any>(null);
-  const [currentZoom, setCurrentZoom] = useState(20);
+  const [currentZoom, setCurrentZoom] = useState(40);
 
   const onLoad = React.useCallback(function callback(map) {
     const bounds = new window.google.maps.LatLngBounds();
@@ -56,7 +58,7 @@ export const GoogleMapContent = ({
 
   const containerStyle = {
     width: width ?? '470px',
-    height: '300px'
+    height: height ?? '300px'
   };
 
   const { isLoaded } = useJsApiLoader({
@@ -81,7 +83,7 @@ export const GoogleMapContent = ({
     <GoogleMap
       mapContainerStyle={containerStyle}
       center={center ? center : myLocation}
-      zoom={17}
+      zoom={21}
       onLoad={onLoad}
       onZoomChanged={() => {
         setCurrentZoom(14);

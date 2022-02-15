@@ -26,15 +26,16 @@ export const RANK_BADGE = {
 export enum StatusType {
   WAITING = 'waiting',
   PENDING = 'pending',
+  PROGRESS = 'progress',
   COMPLETE = 'complete'
 }
 
 export const STATUS_MAPPER = {
-  [StatusType.WAITING]: {
+  [StatusType.PENDING]: {
     status: 'รอดำเนินการ',
     color: '#FFC700'
   },
-  [StatusType.PENDING]: {
+  [StatusType.PROGRESS]: {
     status: 'กำลังดำเนินการ',
     color: '#FF7A00'
   },

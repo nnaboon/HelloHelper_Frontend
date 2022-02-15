@@ -10,7 +10,7 @@ import { UserCreateBody } from './const';
 import { FormRule, getRule } from 'utils/form/getRule';
 import { Text } from 'components/Text';
 import { LoginStep } from 'components/Navbar/const';
-import { mediaQueryMobile } from 'styles/variables';
+import { mediaQueryMobile, mediaQueryLargeDesktop } from 'styles/variables';
 import { userStore } from 'store/userStore';
 import { getAuth } from 'firebase/auth';
 
@@ -28,12 +28,9 @@ const RegisterAccountFormSection = styled.div`
   display: flex;
   flex-direction: column;
   padding: 2.55rem 2.75rem 1.5rem 2.75rem;
-  position: relative;
-  height: 620px;
 
   ${mediaQueryMobile} {
     padding: 0;
-    height: 360px;
   }
 `;
 
@@ -93,7 +90,6 @@ export const RegisterAccountForm = observer(
                   console.log(error.message);
                 });
             });
-
             await auth.currentUser
               .sendEmailVerification()
               .then(() => {
@@ -103,6 +99,9 @@ export const RegisterAccountForm = observer(
               .catch((error) => {
                 console.error(error);
               });
+          })
+          .catch((error) => {
+            message.error('อีเมลนี้ถูกใช้แล้ว');
           });
       } catch (e) {
         message.error('ไม่สามารถลงทะเบียนได้');
@@ -129,7 +128,17 @@ export const RegisterAccountForm = observer(
             }
           `}
         />
-        <Text fontSize="24px" marginTop="10px" marginBottom="20px">
+        <Text
+          marginTop="10px"
+          marginBottom="20px"
+          css={css`
+            font-size: 2.2rem;
+
+            ${mediaQueryLargeDesktop} {
+              font-size: 24px;
+            }
+          `}
+        >
           เริ่มลงทะเบียน
         </Text>
         <Form
@@ -142,9 +151,58 @@ export const RegisterAccountForm = observer(
           autoComplete="off"
           css={css`
             .ant-form-item-control-input {
-              ${mediaQueryMobile} {
+              width: 100%;
+            }
+            .ant-form-item-label > label {
+              font-size: 1.5rem;
+            }
+
+            .ant-form-item {
+              margin-bottom: 32px;
+            }
+
+            .ant-select-single:not(.ant-select-customize-input)
+              .ant-select-selector {
+              height: 40px;
+            }
+
+            .ant-upload.ant-upload-select-picture-card {
+              width: 170px;
+              height: 170px;
+            }
+
+            .ant-col-16 {
+              max-width: 100%;
+            }
+
+            ${mediaQueryLargeDesktop} {
+              font-size: 24px;
+
+              .ant-select-single:not(.ant-select-customize-input)
+                .ant-select-selector {
+                height: 32px;
+              }
+
+              .ant-form-item {
+                margin-bottom: 24px;
+              }
+
+              .ant-form-item-control-input {
                 width: 100%;
               }
+
+              .ant-form-item-label > label {
+                font-size: 16px;
+              }
+
+              .ant-upload.ant-upload-select-picture-card {
+                width: 104px;
+                height: 104px;
+              }
+            }
+
+            ${mediaQueryMobile} {
+              width: 100%;
             }
           `}
         >
@@ -154,7 +212,16 @@ export const RegisterAccountForm = observer(
           >
             <Input
               placeholder="อีเมล"
-              style={{ height: '40px', borderRadius: '12px' }}
+              style={{ borderRadius: '12px' }}
+              css={css`
+                height: 50px;
+                font-size: 1.5rem;
+
+                ${mediaQueryLargeDesktop} {
+                  height: 40px;
+                  font-size: 14px;
+                }
+              `}
             />
           </Form.Item>
 
@@ -164,7 +231,22 @@ export const RegisterAccountForm = observer(
           >
             <Input.Password
               placeholder="รหัสผ่าน"
-              style={{ height: '40px', borderRadius: '12px' }}
+              style={{ borderRadius: '12px' }}
+              css={css`
+                height: 50px;
+
+                .ant-input {
+                  font-size: 1.5rem;
+                }
+
+                ${mediaQueryLargeDesktop} {
+                  height: 40px;
+
+                  .ant-input {
+                    font-size: 14px;
+                  }
+                }
+              `}
             />
           </Form.Item>
           <Form.Item
@@ -183,14 +265,34 @@ export const RegisterAccountForm = observer(
           >
             <Input.Password
               placeholder="ยืนยันรหัสผ่าน"
-              style={{ height: '40px', borderRadius: '12px' }}
+              style={{ borderRadius: '12px' }}
+              css={css`
+                height: 50px;
+
+                .ant-input {
+                  font-size: 1.5rem;
+                }
+
+                ${mediaQueryLargeDesktop} {
+                  height: 40px;
+
+                  .ant-input {
+                    font-size: 14px;
+                  }
+                }
+              `}
             />
           </Form.Item>
           <div
             css={css`
               position: absolute;
-              bottom: 10px;
-              left: 2.75rem;
+              bottom: 30px;
+              left: 64px;
+              font-size: 1.3rem;
+
+              ${mediaQueryLargeDesktop} {
+                font-size: 14px;
+              }
 
               ${mediaQueryMobile} {
                 left: 0px;
@@ -209,23 +311,39 @@ export const RegisterAccountForm = observer(
               เข้าสู่ระบบ
             </span>
           </div>
+          {/* <div
+            css={css`
+              position: relative;
+              width: 100%;
+              height: 100%;
+              display: flex;
+              align-items: flex-end;
+              justify-content: flex-end;
+            `}
+          > */}
           <Button
             type="primary"
             htmlType="submit"
             css={css`
               width: 106px;
-              height: 40px;
+              height: 50px;
+              font-size: 1.5rem;
               box-sizing: border-box;
               background: #ee6400;
               border-radius: 9px;
               border: 0;
-              position: absolute;
-              bottom: -29px;
-              right: 20px;
+              bottom: 20px;
+              right: 64px;
               color: #ffff;
+              position: absolute;
 
               &:hover {
                 background: #ee6400;
+              }
+
+              ${mediaQueryLargeDesktop} {
+                height: 40px;
+                font-size: 16px;
               }
 
               ${mediaQueryMobile} {
@@ -235,6 +353,7 @@ export const RegisterAccountForm = observer(
           >
             ถัดไป
           </Button>
+          {/* </div> */}
         </Form>
       </RegisterAccountFormSection>
     );

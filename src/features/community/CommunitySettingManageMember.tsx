@@ -13,9 +13,10 @@ import {
   MOBILE_WIDTH,
   SMALL_TABLET_WIDTH,
   mediaQueryMobile,
-  mediaQueryTablet
+  mediaQueryTablet,
+  mediaQueryLargeDesktop
 } from 'styles/variables';
-import { useUpdateJoinedCommunityRequest } from '../../hooks/community/useUpdateJoinedCommunityRequest';
+import { useUpdateJoinedCommunityRequest } from 'hooks/community/useUpdateJoinedCommunityRequest';
 import { EmptyData } from 'components/Empty/EmptyData';
 
 interface CommunitySettingManagerMemberProps {
@@ -53,9 +54,14 @@ const CommunityAdminBadge = styled.div`
 
 const CommunityMemberImage = styled.img`
   border-radius: 50%;
-  width: 74px;
-  height: 74px;
+  width: 90px;
+  height: 90px;
   margin-right: 55px;
+
+  ${mediaQueryLargeDesktop} {
+    width: 74px;
+    height: 74px;
+  }
 
   ${mediaQueryMobile} {
     width: 60px;
@@ -67,10 +73,14 @@ const CommunityMemberImage = styled.img`
 
 const UserName = styled.div`
   font-weight: 700;
-  font-size: 24px;
+  font-size: 1.7rem;
   color: #000000;
   margin-bottom: 5px;
   margin-right: 30px;
+
+  ${mediaQueryLargeDesktop} {
+    font-size: 24px;
+  }
 
   ${mediaQueryMobile} {
     font-size: 16px;
@@ -125,7 +135,11 @@ const CommunityButtonContainer = styled.div`
 `;
 
 const CommunityPrimaryButton = styled(PrimaryButton)`
-  width: 140px;
+  width: 165px;
+
+  ${mediaQueryLargeDesktop} {
+    width: 140px;
+  }
 
   ${mediaQueryTablet} {
     width: 120px;
@@ -137,7 +151,11 @@ const CommunityPrimaryButton = styled(PrimaryButton)`
 `;
 
 const CommunitySecondaryButton = styled(SecondaryButton)`
-  width: 140px;
+  width: 165px;
+
+  ${mediaQueryLargeDesktop} {
+    width: 140px;
+  }
 
   ${mediaQueryTablet} {
     width: 120px;
@@ -169,7 +187,19 @@ export const CommunitySettingManageMember = ({
 
   return (
     <div style={{ margin: isSmallTablet ? 0 : '40px 60px' }}>
-      <Text fontWeight={500} fontSize="28px" marginY="40px">
+      <Text
+        fontWeight={500}
+        marginY="40px"
+        css={css`
+          font-size: 2.8rem;
+          margin-bottom: 35px;
+
+          ${mediaQueryLargeDesktop} {
+            margin-bottom: 15px;
+            font-size: 20px;
+          }
+        `}
+      >
         ผู้ต้องการเข้าร่วมชุมชน
       </Text>
       {joinedRequest.length > 0 ? (

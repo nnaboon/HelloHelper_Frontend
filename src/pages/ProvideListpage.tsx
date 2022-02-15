@@ -8,12 +8,18 @@ import Flex from 'components/Flex/Flex';
 import { Text } from 'components/Text';
 import { WrapperContainer } from 'components/Wrapper/WrapperContainer';
 import { ProvideListCard } from 'components/Card/ProvideListCard';
-import { mediaQueryMobile, useMedia, MOBILE_WIDTH } from 'styles/variables';
+import {
+  mediaQueryMobile,
+  mediaQueryLargeDesktop,
+  useMedia,
+  MOBILE_WIDTH
+} from 'styles/variables';
 import { useMyProvideOrder } from 'hooks/order/useMyProvideOrder';
 import { EmptyData } from '../components/Empty/EmptyData';
+import { Loading } from 'components/Loading/Loading';
 
 export const ProvideListPage = () => {
-  const [currentStatus, setCurrentStatus] = useState<string>('waiting');
+  const [currentStatus, setCurrentStatus] = useState<string>('pending');
   const [status, setStatus] = useState<string>();
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const { data: provideOrders, execute: getProvideOrders } =
@@ -35,51 +41,70 @@ export const ProvideListPage = () => {
         }
       `}
     >
-      <Text fontSize="24px" fontWeight={400} marginY="20px">
-        รายการให้ความช่วยเหลือของฉัน ทั้งหมด{' '}
-        {
-          provideOrders?.filter(
-            ({ providerUserId }) =>
-              providerUserId === window.localStorage.getItem('id')
-          ).length
-        }{' '}
-        รายการ
-      </Text>
-      <Menu
-        onClick={handleClick}
-        selectedKeys={[currentStatus]}
-        mode="horizontal"
-      >
-        <Menu.Item key="waiting">รอดำเนินการ</Menu.Item>
-        <Menu.Item key="pending">กำลังดำเนินการ</Menu.Item>
-        <Menu.Item key="complete">สำเร็จ</Menu.Item>
-        <Menu.Item key="cancel">ยกเลิก</Menu.Item>
-      </Menu>
-      <Flex
-        itemAlign="center"
-        justify="center"
-        direction="column"
-        marginTop="30px"
-      >
-        {provideOrders ? (
-          provideOrders?.filter(({ status }) => status === currentStatus)
-            .length > 0 ? (
-            provideOrders
-              ?.filter(({ status }) => status === currentStatus)
-              .map((props) => (
-                <ProvideListCard
-                  key={props.id}
-                  props={props}
-                  setStatus={setStatus}
-                />
-              ))
-          ) : (
-            <EmptyData height="400px" />
-          )
-        ) : (
-          <EmptyData height="400px" />
-        )}
-      </Flex>
+      {provideOrders ? (
+        <React.Fragment>
+          <Text
+            fontSize="24px"
+            fontWeight={400}
+            marginY="20px"
+            css={css`
+              font-size: 2.2rem;
+
+              ${mediaQueryLargeDesktop} {
+                font-size: 20px;
+              }
+            `}
+          >
+            รายการให้ความช่วยเหลือของฉัน ทั้งหมด{' '}
+            {
+              provideOrders?.filter(
+                ({ providerUserId, status }) =>
+                  providerUserId === window.localStorage.getItem('id') &&
+                  status !== 'waiting'
+              ).length
+            }{' '}
+            รายการ
+          </Text>
+          <Menu
+            onClick={handleClick}
+            selectedKeys={[currentStatus]}
+            mode="horizontal"
+          >
+            <Menu.Item key="pending">รอดำเนินการ</Menu.Item>
+            <Menu.Item key="progress">กำลังดำเนินการ</Menu.Item>
+            <Menu.Item key="complete">สำเร็จ</Menu.Item>
+            <Menu.Item key="cancel">ยกเลิก</Menu.Item>
+          </Menu>
+          <Flex
+            itemAlign="center"
+            justify="center"
+            direction="column"
+            marginTop="30px"
+          >
+            {provideOrders ? (
+              provideOrders?.filter(
+                ({ status }) => status === currentStatus && status !== 'waiting'
+              ).length > 0 ? (
+                provideOrders
+                  ?.filter(({ status }) => status === currentStatus)
+                  .map((props) => (
+                    <ProvideListCard
+                      key={props.id}
+                      props={props}
+                      setStatus={setStatus}
+                    />
+                  ))
+              ) : (
+                <EmptyData />
+              )
+            ) : (
+              <EmptyData />
+            )}
+          </Flex>
+        </React.Fragment>
+      ) : (
+        <Loading height="calc(100vh - 265px)" />
+      )}
     </WrapperContainer>
   );
 };

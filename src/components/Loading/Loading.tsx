@@ -3,6 +3,7 @@
 import { css, jsx } from '@emotion/react';
 import React from 'react';
 import { Spin } from 'antd';
+import { mediaQueryLargeDesktop } from '../../styles/variables';
 import { LoadingOutlined } from '@ant-design/icons';
 
 interface LoadingProps {
@@ -23,7 +24,13 @@ export const Loading = ({ height }: LoadingProps) => {
         justify-content: center;
 
         svg {
-          font-size: 30px;
+          font-size: 3.5rem;
+        }
+
+        ${mediaQueryLargeDesktop} {
+          svg {
+            font-size: 30px;
+          }
         }
       `}
     />

@@ -156,7 +156,9 @@ export const SideMenu = ({ collapsed, setCollapsed }: SideMenuProps) => {
           onClick={() => {
             setCollapsed(true);
             history.push({
-              pathname: '/community/zxcvb234'
+              pathname: `/community/${window.localStorage.getItem(
+                'selectedCommunity'
+              )}`
             });
           }}
         >

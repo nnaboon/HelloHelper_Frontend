@@ -15,7 +15,7 @@ import { EditProfilePage } from './EditProfilePage';
 import { EditPasswordPage } from './EditPasswordPage';
 
 export const SettingPage = () => {
-  const [currentStatus, setCurrentStatus] = useState<string>('waiting');
+  const [currentStatus, setCurrentStatus] = useState<string>('profile');
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const { data: provideOrders, execute: getProvideOrders } =
     useMyProvideOrder();
@@ -52,9 +52,9 @@ export const SettingPage = () => {
         mode="horizontal"
       >
         <Menu.Item key="profile">แก้ไขโปรไฟล์</Menu.Item>
-        {window.localStorage.getItem('loginType') === 'password' && (
-          <Menu.Item key="password">เปลี่ยนรหัสผ่าน</Menu.Item>
-        )}
+        {/* {window.localStorage.getItem('loginType') === 'password' && ( */}
+        <Menu.Item key="password">เปลี่ยนรหัสผ่าน</Menu.Item>
+        {/* )} */}
       </Menu>
       <div>{renderSetting(currentStatus)}</div>
     </WrapperContainer>

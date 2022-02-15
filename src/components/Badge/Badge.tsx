@@ -1,6 +1,10 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { mediaQueryMobile, mediaQuerySmallTablet } from 'styles/variables';
+import {
+  mediaQueryMobile,
+  mediaQuerySmallTablet,
+  mediaQueryLargeDesktop
+} from 'styles/variables';
 
 export const SuggestedBadge = styled.div`
   position: relative;
@@ -35,16 +39,20 @@ export const RankingBadge = styled.div<{ rankColor: string }>`
   border-radius: 8px;
   max-width: max-content;
   padding: 0 10px;
-  font-size: 18px;
+  font-size: 1.5rem;
   font-weight: 500;
   position: relative;
   margin-top: 4px;
 
+  ${mediaQueryLargeDesktop} {
+    font-size: 18px;
+  }
+
   ${mediaQuerySmallTablet} {
     width: 84px;
-    height: 20px;
-    font-size: 14px;
-    border-radius: 4px;
+    height: 25px;
+    font-size: 16px;
+    border-radius: 6px;
     margin-left: 14px;
   }
 `;

@@ -12,8 +12,10 @@ import {
   MOBILE_WIDTH,
   TABLET_WIDTH,
   SMALL_TABLET_WIDTH,
+  LARGE_DESKTOP_WIDTH,
   mediaQueryMobile,
   mediaQuerySmallTablet,
+  mediaQueryLargeDesktop,
   mediaQueryTablet
 } from 'styles/variables';
 import {
@@ -32,11 +34,12 @@ export const CommunitySettingEditProfile = ({ communityData }: any) => {
   const [imageUrl, setImageUrl] = useState<string>(DefaultImage);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [location, setLocation] = useState<any>();
+  const { execute: uploadCommunityImage } = useUploadCommunityImage();
+  const { execute: updateCommunity } = useUpdateCommunity();
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const isSmallTablet = useMedia(`(max-width: ${SMALL_TABLET_WIDTH}px)`);
   const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
-  const { execute: uploadCommunityImage } = useUploadCommunityImage();
-  const { execute: updateCommunity } = useUpdateCommunity();
+  const isLargeDesktop = useMedia(`(max-width: ${LARGE_DESKTOP_WIDTH}px)`);
 
   const uploadButton = (
     <div>
@@ -110,10 +113,10 @@ export const CommunitySettingEditProfile = ({ communityData }: any) => {
       //   : communityData.communityCode,
       location: {
         name: location ? location?.name : communityData.location.name,
-        lat: location
+        latitude: location
           ? location?.geometry.location.lat()
           : communityData.location.latitude,
-        lng: location
+        longitude: location
           ? location?.geometry.location.lng()
           : communityData.location.longitude
       }
@@ -168,10 +171,18 @@ export const CommunitySettingEditProfile = ({ communityData }: any) => {
       `}
     >
       <Text
-        fontSize={isMobile ? '24px' : '28px'}
         marginY={isMobile ? '20px' : '40px'}
         marginLeft={isSmallTablet ? 0 : '60px'}
         fontWeight={500}
+        css={css`
+          font-size: 2.8rem;
+          margin-bottom: 35px;
+
+          ${mediaQueryLargeDesktop} {
+            margin-bottom: 15px;
+            font-size: 20px;
+          }
+        `}
       >
         ข้อมูลชุมชนความช่วยเหลือ
       </Text>
@@ -260,30 +271,54 @@ export const CommunitySettingEditProfile = ({ communityData }: any) => {
           </Form.Item>
           <Divider />
           <Text
-            fontSize={isMobile ? '24px' : '28px'}
+            // fontSize={isMobile ? '24px' : '24px'}
             fontWeight={500}
             marginLeft={isSmallTablet ? 0 : '60px'}
             marginY={isMobile ? '30px' : '40px'}
+            css={css`
+              font-size: 2.8rem;
+              margin-bottom: 35px;
+
+              ${mediaQueryLargeDesktop} {
+                margin-bottom: 15px;
+                font-size: 20px;
+              }
+            `}
           >
             สถานที่ให้ความช่วยเหลือ
           </Text>
 
           <Form.Item name="location" label="สถานที่">
             <GoogleMapContent
-              width={isTablet ? '100%' : '470px'}
-              requestLocation={communityData.location}
+              width="100%"
+              height={isLargeDesktop ? '350px' : '460px'}
+              requestLocation={{
+                lat: communityData.location.latitude,
+                lng: communityData.location.longitude
+              }}
               setRequestLocation={setLocation}
             />
           </Form.Item>
         </div>
         <div
           css={css`
+            // display: flex;
+            // height: 100%;
+            // flex-direction: column;
+            // align-items: center;
+            // width: 100%;
+            // position: relative;
+
+            // ${mediaQuerySmallTablet} {
+            //   margin-bottom: 50px;
+            // }
+
             display: flex;
-            height: 100% !important;
             flex-direction: column;
             align-items: center;
             width: 100%;
             position: relative;
+            top: 40px;
 
             ${mediaQuerySmallTablet} {
               margin-bottom: 50px;
@@ -312,10 +347,16 @@ export const CommunitySettingEditProfile = ({ communityData }: any) => {
             </Upload>
           </Form.Item>
           <Text
-            fontSize="14px"
             color="#848484"
             fontWeight={500}
             whiteSpace="pre"
+            css={css`
+              font-size: 1.5rem;
+
+              ${mediaQueryLargeDesktop} {
+                font-size: 14px;
+              }
+            `}
           >
             ขนาดไฟล์: สูงสุด 1 MB{'\n'}ไฟล์ที่รองรับ: .JPEG, .PNG
           </Text>
@@ -324,7 +365,7 @@ export const CommunitySettingEditProfile = ({ communityData }: any) => {
               css={css`
                 width: 100%;
                 position: relative;
-                height: 100vh;
+                height: 100%;
                 bottom: 0px;
               `}
             >
@@ -371,6 +412,8 @@ export const CommunitySettingEditProfile = ({ communityData }: any) => {
             css={css`
               width: 100%;
               position: relative;
+              height: 100%;
+              bottom: 0px;
             `}
           >
             <Button

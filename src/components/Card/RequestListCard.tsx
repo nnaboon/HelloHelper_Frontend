@@ -18,7 +18,9 @@ import {
   MOBILE_WIDTH,
   SMALL_TABLET_WIDTH,
   TABLET_WIDTH,
+  LARGE_DESKTOP_WIDTH,
   mediaQuerySmallTablet,
+  mediaQueryLargeDesktop,
   mediaQueryTablet
 } from 'styles/variables';
 import { OrderProps } from 'data/order';
@@ -83,8 +85,10 @@ export const RequestListCard = ({ props }: RequestListCardProps) => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [form] = Form.useForm();
-  const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
+
   const history = useHistory();
+  const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
+  const isLargeDesktop = useMedia(`(max-width: ${LARGE_DESKTOP_WIDTH}px)`);
 
   const handleOk = () => {
     setIsModalVisible(false);
@@ -238,6 +242,9 @@ export const RequestListCard = ({ props }: RequestListCardProps) => {
                 width: 47%;
               }
             `}
+            onClick={() => {
+              history.push(`/chat/${props.chatId}`);
+            }}
           >
             แชท
           </PrimaryButton>
@@ -261,6 +268,9 @@ export const RequestListCard = ({ props }: RequestListCardProps) => {
           `}
         >
           <SecondaryButton
+            onClick={() => {
+              history.push(`/chat/${props.chatId}`);
+            }}
             css={css`
               min-width: 140px;
               height: 45px;
@@ -307,12 +317,22 @@ export const RequestListCard = ({ props }: RequestListCardProps) => {
         onOk={handleOk}
         onCancel={handleCancel}
         footer={null}
-        width={400}
+        width={isMobile ? '400px' : isLargeDesktop ? '400px' : '25%'}
         maskClosable={false}
         centered
         css={css`
           .ant-modal-content {
-            height: 220px;
+            height: 320px;
+          }
+
+          .ant-modal-body {
+            height: 100%;
+          }
+
+          ${mediaQueryLargeDesktop} {
+            .ant-modal-content {
+              height: 220px;
+            }
           }
         `}
       >

@@ -16,7 +16,7 @@ export const CommunityContent = observer(() => {
   const { me } = userStore;
   const currentMenu = ((state as any)?.menuKey ||
     CommunityMenu.PROVIDE) as CommunityMenu;
-  const { data: myCommunity, execute: getMyCommunity } = useMyCommunity();
+  const { data: community, execute: getMyCommunity } = useMyCommunity();
 
   useEffect(() => {
     setMenu(currentMenu);
@@ -29,24 +29,20 @@ export const CommunityContent = observer(() => {
   }, [me]);
 
   return (
-    <div>
-      {me ? (
+    <>
+      {me && community ? (
         me.communityId &&
         pathname.split('/')[1] === 'community' &&
         pathname.split('/')[2] !== undefined ? (
-          myCommunity ? (
-            <CommunityContentInfo data={myCommunity} />
-          ) : (
-            <Loading height="300px" />
-          )
+          <CommunityContentInfo data={community} />
         ) : (
           <CommunitySignin />
         )
       ) : (
         <WrapperContainer>
-          <Loading height={`calc(100vh - 300px)`} />
+          <Loading height="calc(100vh - 265px)" />
         </WrapperContainer>
       )}
-    </div>
+    </>
   );
 });

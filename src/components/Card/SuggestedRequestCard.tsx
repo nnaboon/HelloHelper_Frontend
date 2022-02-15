@@ -12,12 +12,12 @@ import {
   useMedia,
   mediaQueryMobile,
   mediaQueryTablet,
+  mediaQuerySmallTablet,
+  mediaQueryLargeDesktop,
   MOBILE_WIDTH,
   TABLET_WIDTH,
-  SMALL_TABLET_WIDTH,
-  mediaQuerySmallTablet
+  SMALL_TABLET_WIDTH
 } from 'styles/variables';
-import { USER_DATA } from 'data/user';
 import { useUser } from 'hooks/user/useUser';
 
 const RequestHelperCardContainer = styled.div`
@@ -38,7 +38,7 @@ const RequestHelperCardContainer = styled.div`
 
 const CardContainer = styled.div`
   min-width: 448px;
-  height: 370px;
+  height: 425px;
   width: 95%;
   background: #ffffff;
   box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.1);
@@ -50,8 +50,14 @@ const CardContainer = styled.div`
   top: -20px;
   margin-top: 20px;
   cursor: pointer;
-  max-width: 550px;
+  max-width: 600px;
   margin-left: 5px;
+
+  ${mediaQueryLargeDesktop} {
+    min-width: 360px;
+    height: 370px;
+    max-width: 550px;
+  }
 
   ${mediaQueryTablet} {
     min-width: 430px;
@@ -76,10 +82,14 @@ const CardContainer = styled.div`
 
 const RequestTitle = styled.div`
   font-weight: 800;
-  font-size: 24px;
   line-height: 28px;
-  margin-bottom: 20px;
+  font-size: 2rem;
+  margin-bottom: 10px;
 
+  ${mediaQueryLargeDesktop} {
+    font-size: 1.5rem;
+    margin-left: 10px;
+  }
   ${mediaQueryTablet} {
     overflow-wrap: break-word;
     width: 90%;
@@ -102,11 +112,15 @@ const RequestImageSection = styled.img`
   top: 0;
   left: 0;
   min-width: 200px;
-  width: 45%;
+  width: 44%;
   height: 100%;
   border-top-left-radius: 12px;
   border-bottom-left-radius: 12px;
   object-fit: cover;
+
+  ${mediaQueryLargeDesktop} {
+    width: 45%:
+  }
 
   ${mediaQuerySmallTablet} {
     position: absolute;
@@ -124,13 +138,17 @@ const RequestImageSection = styled.img`
 `;
 
 const RequestDataTitle = styled.div`
-  font-size: 12px;
+  font-size: 0.85rem;
   line-height: 16px;
   color: #c4c4c4;
-  max-width: 91px;
+  max-width: 105px;
   margin-right: 13px;
-  width: 80px;
+  width: 90px;
   text-align: end;
+
+  ${mediaQueryLargeDesktop} {
+    width: 90px;
+  }
 
   ${mediaQuerySmallTablet} {
     max-width: unset;
@@ -140,7 +158,7 @@ const RequestDataTitle = styled.div`
 `;
 
 const RequestDataInfo = styled.div`
-  font-size: 18px;
+  font-size: 1.5rem;
   line-height: 26px;
   color: #000000;
 
@@ -151,6 +169,11 @@ const RequestDataInfo = styled.div`
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+
+  ${mediaQueryLargeDesktop} {
+    font-size: 1.2rem;
+  }
+
   ${mediaQuerySmallTablet} {
     font-size: 16px;
     width: 185px;
@@ -160,7 +183,11 @@ const RequestDataInfo = styled.div`
 const RequestDataContent = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 14px;
+  margin-bottom: 18px;
+
+  ${mediaQueryLargeDesktop} {
+    margin-bottom: 14px;
+  }
 
   ${mediaQueryTablet} {
     margin-bottom: 12px;
@@ -181,18 +208,7 @@ export const SuggestedRequestSection = ({ data }: any) => {
   return (
     <RequestHelperCardContainer>
       {data.map(
-        ({
-          id,
-          userId,
-          title,
-          imageUrl,
-          name,
-          payment,
-          serviceCharge,
-          location,
-          rank,
-          user
-        }) => (
+        ({ id, title, imageUrl, payment, serviceCharge, location, user }) => (
           <CardContainer
             key={id}
             onClick={() => {
@@ -218,7 +234,11 @@ export const SuggestedRequestSection = ({ data }: any) => {
               <div
                 css={css`
                   display: flex;
-                  width: 90%;
+                  width: 100%;
+
+                  ${mediaQueryLargeDesktop} {
+                    width: 90%;
+                  }
 
                   ${mediaQueryTablet} {
                     width: 100%;
@@ -236,7 +256,10 @@ export const SuggestedRequestSection = ({ data }: any) => {
                   display: flex;
                   flex-direction: column;
                   position: relative;
-                  left: 20px;
+
+                  ${mediaQueryLargeDesktop} {
+                    left: 15px;
+                  }
 
                   ${mediaQuerySmallTablet} {
                     position: absolute;

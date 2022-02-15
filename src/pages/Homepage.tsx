@@ -31,7 +31,7 @@ import { PROVIDE_MAPPER } from 'data/provide';
 import { useUsers } from 'hooks/user/useUsers';
 import { useProvides } from 'hooks/provide/useProvides';
 import { useRequests } from 'hooks/request/useRequests';
-import { mediaQueryTablet } from '../styles/variables';
+import { mediaQueryTablet, mediaQueryLargeDesktop } from '../styles/variables';
 import { Loading } from 'components/Loading/Loading';
 
 const HomePageCategorySection = styled.div`
@@ -72,9 +72,14 @@ const HomePageContainer = styled.div`
 
 const HomePagePictureSection = styled.img`
   width: 100%;
-  height: 287px;
+  height: 350px;
   margin-bottom: 30px;
   object-fit: fill;
+
+  ${mediaQueryLargeDesktop} {
+    height: 287px;
+  }
+
   ${mediaQueryMobile} {
     height: 180px;
   }
@@ -129,8 +134,7 @@ export const HomePage = () => {
     },
     bigDesktop: {
       breakpoint: { max: 3000, min: 2000 },
-      items: 4,
-      partialVisibilityGutter: 30
+      items: 4
     },
     desktop: {
       breakpoint: { max: 2000, min: 1024 },
@@ -213,7 +217,16 @@ export const HomePage = () => {
                 <SecondaryButton
                   key={id}
                   css={css`
-                    min-width: 350px;
+                    height: 55px;
+                    min-width: 390px;
+                    font-size: 1.32rem;
+
+                    ${mediaQueryLargeDesktop} {
+                      min-width: 350px;
+                      font-size: 18px;
+                      height: 40px;
+                    }
+
                     margin-right: 20px;
                     border-sizing: border-box;
                     padding: 0 10px;
@@ -259,10 +272,14 @@ export const HomePage = () => {
             />
           </div>
           <Text
-            fontSize={isMobile ? '24px' : '32px'}
+            fontSize={isMobile ? '24px' : '2rem'}
             fontWeight={500}
             marginY="10px"
             css={css`
+              font-size: 2.5rem;
+              ${mediaQueryLargeDesktop} {
+                font-size: 2rem;
+              }
               ${mediaQueryMobile} {
                 font-size: 24px;
               }
@@ -330,10 +347,14 @@ export const HomePage = () => {
             )}
           </React.Fragment>
           <Text
-            fontSize={isMobile ? '24px' : '32px'}
+            fontSize={isMobile ? '24px' : '2rem'}
             fontWeight={500}
             marginY="30px"
             css={css`
+              font-size: 2.5rem;
+              ${mediaQueryLargeDesktop} {
+                font-size: 2rem;
+              }
               ${mediaQueryMobile} {
                 font-size: 26px;
               }
@@ -411,10 +432,14 @@ export const HomePage = () => {
             )}
           </TopTenSearchContainer>
           <Text
-            fontSize={isMobile ? '24px' : '32px'}
+            fontSize={isMobile ? '24px' : '2rem'}
             fontWeight={500}
             marginY="30px"
             css={css`
+              font-size: 2.5rem;
+              ${mediaQueryLargeDesktop} {
+                font-size: 2rem;
+              }
               ${mediaQueryMobile} {
                 font-size: 26px;
               }
@@ -482,10 +507,14 @@ export const HomePage = () => {
             )}
           </React.Fragment>
           <Text
-            fontSize={isMobile ? '24px' : '32px'}
+            fontSize={isMobile ? '24px' : '2rem'}
             fontWeight={500}
             marginY="30px"
             css={css`
+              font-size: 2.5rem;
+              ${mediaQueryLargeDesktop} {
+                font-size: 2rem;
+              }
               ${mediaQueryMobile} {
                 font-size: 26px;
               }
@@ -551,10 +580,14 @@ export const HomePage = () => {
             )}
           </React.Fragment>
           <Text
-            fontSize={isMobile ? '24px' : '32px'}
+            fontSize={isMobile ? '24px' : '2rem'}
             fontWeight={500}
             marginY="30px"
             css={css`
+              font-size: 2.5rem;
+              ${mediaQueryLargeDesktop} {
+                font-size: 2rem;
+              }
               ${mediaQueryMobile} {
                 font-size: 26px;
               }

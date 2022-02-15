@@ -7,7 +7,12 @@ import { useLocation } from 'react-router-dom';
 import { PopularRequestSection } from 'components/Card/PopularRequestCard';
 import { Text } from 'components/Text';
 import Carousel from 'react-multi-carousel';
-import { useMedia, MOBILE_WIDTH, mediaQueryMobile } from 'styles/variables';
+import {
+  useMedia,
+  MOBILE_WIDTH,
+  mediaQueryMobile,
+  mediaQueryLargeDesktop
+} from 'styles/variables';
 import { useCommunityProvide } from 'hooks/community/useCommunityProvide';
 import { Loading } from 'components/Loading/Loading';
 import { EmptyData } from 'components/Empty/EmptyData';
@@ -33,11 +38,11 @@ export const CommunityProvideContent = () => {
   const responsive = {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },
-      items: 5
+      items: provide ? (provide.length > 0 ? 5 : 1) : 1
     },
     bigDesktop: {
       breakpoint: { max: 3000, min: 2000 },
-      items: 4
+      items: provide ? (provide.length > 0 ? 4 : 1) : 1
     },
     desktop: {
       breakpoint: { max: 2000, min: 1024 },
@@ -64,11 +69,14 @@ export const CommunityProvideContent = () => {
   return (
     <div>
       <Text
-        marginTop="30px"
-        marginBottom="10px"
-        fontSize={isMobile ? '24px' : '32px'}
+        fontSize={isMobile ? '24px' : '2rem'}
         fontWeight={500}
+        marginY="10px"
         css={css`
+          font-size: 2.5rem;
+          ${mediaQueryLargeDesktop} {
+            font-size: 2rem;
+          }
           ${mediaQueryMobile} {
             font-size: 24px;
           }
@@ -97,19 +105,21 @@ export const CommunityProvideContent = () => {
           provide.length > 0 ? (
             provide.map((items) => <PopularRequestSection data={[items]} />)
           ) : (
-            <EmptyData height="200px" />
+            <EmptyData height="375px" />
           )
         ) : (
-          <Loading height="200px" />
+          <Loading height="375px" />
         )}
       </Carousel>
-
       <Text
-        marginTop="30px"
-        marginBottom="10px"
-        fontSize={isMobile ? '24px' : '32px'}
+        fontSize={isMobile ? '24px' : '2rem'}
         fontWeight={500}
+        marginY="10px"
         css={css`
+          font-size: 2.5rem;
+          ${mediaQueryLargeDesktop} {
+            font-size: 2rem;
+          }
           ${mediaQueryMobile} {
             font-size: 24px;
           }
@@ -139,19 +149,21 @@ export const CommunityProvideContent = () => {
           provide.length > 0 ? (
             provide.map((items) => <PopularRequestSection data={[items]} />)
           ) : (
-            <EmptyData height="200px" />
+            <EmptyData height="375px" />
           )
         ) : (
-          <Loading height="200px" />
+          <Loading height="375px" />
         )}
       </Carousel>
-
       <Text
-        marginTop="30px"
-        marginBottom="10px"
-        fontSize={isMobile ? '24px' : '32px'}
+        fontSize={isMobile ? '24px' : '2rem'}
         fontWeight={500}
+        marginY="10px"
         css={css`
+          font-size: 2.5rem;
+          ${mediaQueryLargeDesktop} {
+            font-size: 2rem;
+          }
           ${mediaQueryMobile} {
             font-size: 24px;
           }
@@ -171,10 +183,10 @@ export const CommunityProvideContent = () => {
               />
             ))
           ) : (
-            <EmptyData height="200px" />
+            <EmptyData height="375px" />
           )
         ) : (
-          <Loading height="200px" />
+          <Loading height="375px" />
         )}
       </CommunityProvideSection>
     </div>

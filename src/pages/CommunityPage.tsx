@@ -19,7 +19,7 @@ export const CommunityPage = () => {
         <CommunityContent />
       ) : (
         <WrapperContainer>
-          <Loading />
+          <Loading height="calc(100vh - 265px)" />
         </WrapperContainer>
       )}
     </React.Fragment>

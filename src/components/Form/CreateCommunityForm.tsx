@@ -14,7 +14,12 @@ import { userStore } from 'store/userStore';
 import { GoogleMapContent } from 'components/GoogleMap/GoogleMap';
 import { useUploadUserImage } from 'hooks/user/useUploadUserImage';
 import DefaultImage from 'images/default.png';
-import { mediaQueryMobile } from 'styles/variables';
+import {
+  LARGE_DESKTOP_WIDTH,
+  mediaQueryMobile,
+  mediaQueryLargeDesktop,
+  useMedia
+} from 'styles/variables';
 import {
   LoadingOutlined,
   PlusOutlined,
@@ -43,6 +48,8 @@ export const CreateCommunityForm = ({
   const { data: response, execute: addCommunity } = useAddCommunity();
   const { execute: updateUser } = useUpdateUser();
   const { execute: uploadUserImage } = useUploadUserImage();
+
+  const isLargeDesktop = useMedia(`(max-width: ${LARGE_DESKTOP_WIDTH}px)`);
 
   const history = useHistory();
 
@@ -80,8 +87,8 @@ export const CreateCommunityForm = ({
       communityName: value.name,
       location: {
         name: location.name,
-        lat: location.geometry.location.lat(),
-        lng: location.geometry.location.lng()
+        latitude: location.geometry.location.lat(),
+        longitude: location.geometry.location.lng()
       },
       description: value.description,
       userId: me?.userId
@@ -115,15 +122,33 @@ export const CreateCommunityForm = ({
 
   return (
     <CreateCommunityFormSection>
-      <Text fontSize="24px" marginTop="10px">
+      <Text
+        marginTop="10px"
+        css={css`
+          font-size: 2rem;
+          margin-bottom: 15px;
+
+          ${mediaQueryLargeDesktop} {
+            font-size: 24px;
+            margin-bottom: 20px;
+          }
+        `}
+      >
         สร้างชุมชนความช่วยเหลือ
       </Text>
       <Text
-        fontSize="16px"
         marginTop="10px"
-        marginBottom="10px"
         fontWeight={500}
         color="#F86800"
+        css={css`
+          font-size: 1.5rem;
+          margin-bottom: 25px;
+
+          ${mediaQueryLargeDesktop} {
+            font-size: 15px;
+            margin-bottom: 10px;
+          }
+        `}
       >
         คุณสามารถสร้างชุมชนความช่วยเหลือใหม่ได้แล้ว
       </Text>
@@ -136,10 +161,49 @@ export const CreateCommunityForm = ({
         onFinish={onFinish}
         autoComplete="off"
         css={css`
-          margin: 26px 0;
+          .ant-form-item-label > label {
+            font-size: 1.5rem;
+          }
+
+          .ant-form-item {
+            margin-bottom: 35px;
+          }
 
           .ant-form-item-control-input {
-            width: 360px;
+            width: 100%;
+          }
+
+          .ant-col-16 {
+            max-width: 100%;
+          }
+          ${mediaQueryLargeDesktop} {
+            font-size: 24px;
+
+            .ant-col-16 {
+              max-width: 66.6667%;
+            }
+
+            .ant-select-single:not(.ant-select-customize-input)
+              .ant-select-selector {
+              height: 32px;
+            }
+
+            .ant-form-item {
+              margin-bottom: 24px;
+            }
+
+            .ant-form-item-control-input {
+              width: 360px;
+            }
+
+            .ant-form-item-label > label {
+              font-size: 16px;
+            }
+
+            .ant-upload.ant-upload-select-picture-card {
+              width: 104px;
+              height: 104px;
+            }
           }
 
           ${mediaQueryMobile} {
@@ -162,11 +226,16 @@ export const CreateCommunityForm = ({
             src={imageUrl}
             alt="user avatar"
             css={css`
-              width: 100px;
-              height: 100px;
+              width: 120px;
+              height: 120px;
               border-radius: 50%;
               margin-bottom: 15px;
               object-fit: cover;
+
+              ${mediaQueryLargeDesktop} {
+                width: 100px;
+                height: 100px;
+              }
             `}
           />
           <Form.Item name="image">
@@ -197,7 +266,16 @@ export const CreateCommunityForm = ({
         >
           <Input
             placeholder="ชื่อขุมชนความช่วยเหลือ"
-            style={{ height: '40px', borderRadius: '12px' }}
+            style={{ borderRadius: '12px' }}
+            css={css`
+              height: 50px;
+              font-size: 1.5rem;
+
+              ${mediaQueryLargeDesktop} {
+                height: 40px;
+                font-size: 14px;
+              }
+            `}
           />
         </Form.Item>
         {/* <Form.Item
@@ -221,7 +299,16 @@ export const CreateCommunityForm = ({
         <Form.Item name="description">
           <Input
             placeholder="คำอธิบาย"
-            style={{ height: '40px', borderRadius: '12px' }}
+            style={{ borderRadius: '12px' }}
+            css={css`
+              height: 50px;
+              font-size: 1.5rem;
+
+              ${mediaQueryLargeDesktop} {
+                height: 40px;
+                font-size: 14px;
+              }
+            `}
           />
         </Form.Item>{' '}
         <Form.Item
@@ -237,11 +324,14 @@ export const CreateCommunityForm = ({
             requestLocation={location}
             setRequestLocation={setLocation}
             width={'100%'}
+            height={isLargeDesktop ? '350px' : '460px'}
           />
         </Form.Item>
         <div
           css={css`
             width: 100%;
+            display: flex;
+            justify-content: flex-end;
           `}
         >
           <Button
@@ -255,10 +345,9 @@ export const CreateCommunityForm = ({
               border-radius: 9px;
               border: 0;
               bottom: 0px;
-              right: 40px;
+              right: 0;
               color: #ffff;
               font-size: 16px;
-              position: absolute;
 
               &:hover {
                 background: #ee6400;

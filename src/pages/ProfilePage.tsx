@@ -28,17 +28,18 @@ import { useUser } from 'hooks/user/useUser';
 import { userStore } from 'store/userStore';
 import {
   mediaQueryMobile,
+  mediaQueryTablet,
+  mediaQueryExtraLargeDesktop,
   MOBILE_WIDTH,
   useMedia,
-  mediaQueryTablet,
   TABLET_WIDTH
 } from 'styles/variables';
 import { ProfileMenu } from '../components/Menu/const';
 import { PostRequestButton } from 'components/Button/PostRequestButton';
-import { myAccountUserId } from 'data/user';
 import { useMyProvide } from 'hooks/provide/useMyProvide';
 import { useMyRequest } from 'hooks/request/useMyRequest';
 import { EmptyData } from 'components/Empty/EmptyData';
+import { mediaQueryLargeDesktop } from '../styles/variables';
 
 const ProfilePageContainer = styled.div`
   box-sizing: border-box;
@@ -71,21 +72,32 @@ const ProfilePageUserInfoSection = styled.div`
 
 const ProfilePageUserHelperListSection = styled.div`
   display: grid;
-  grid-template-columns: minmax(auto, 510px) minmax(auto, 510px) minmax(
-      auto,
-      510px
-    );
-  grid-gap: 30px;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 2rem;
+
+  ${mediaQueryExtraLargeDesktop} {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  ${mediaQueryLargeDesktop} {
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 2rem;
+  }
 
   ${mediaQueryTablet} {
     display: flex;
     flex-direction: column;
   }
+
+  @media screen and (min-width: 3000px) {
+    grid-template-columns: repeat(5, 1fr);
+  }
 `;
 
 const UserCard = styled.div`
-  width: 485px;
-  height: 246px;
+  width: 23%;
+  height: 290px;
+  min-width: 650px;
   background: #ffffff;
   box-shadow: 0px 7px 7px rgba(0, 0, 0, 0.15);
   border-radius: 8px;
@@ -93,6 +105,12 @@ const UserCard = styled.div`
   border-sizing: border-box;
   padding: 20px;
   position: relative;
+
+  ${mediaQueryLargeDesktop} {
+    width: 500px;
+    height: 246px;
+    min-width: unset;
+  }
 
   ${mediaQueryTablet} {
     margin-bottom: 40px;
@@ -107,11 +125,15 @@ const UserCard = styled.div`
 `;
 
 const HelperImageSection = styled.img`
-  width: 120px;
-  height: 120px;
+  width: 160px;
+  height: 160px;
   border-radius: 50%;
   margin-top: 15px;
 
+  ${mediaQueryLargeDesktop} {
+    width: 120px;
+    height: 120px;
+  }
   ${mediaQueryMobile} {
     width: 100px;
     height: 100px;
@@ -120,10 +142,14 @@ const HelperImageSection = styled.img`
 
 const UserName = styled.div`
   font-weight: 700;
-  font-size: 24px;
+  font-size: 2rem;
   color: #000000;
   margin-bottom: 5px;
   word-wrap: break-word;
+
+  ${mediaQueryLargeDesktop} {
+    font-size: 24px;
+  }
 
   ${mediaQueryMobile} {
     text-align: center;
@@ -164,9 +190,13 @@ const ProfileInfoSection = styled.div`
 
 const ProfileInfoListHeading = styled.div`
   font-weight: 500;
-  font-size: 16px;
+  font-size: 1.25rem;
   line-height: 14px;
   color: #5a5a5a;
+
+  ${mediaQueryLargeDesktop} {
+    font-size: 16px;
+  }
 
   ${mediaQueryMobile} {
     font-size: 16px;
@@ -176,10 +206,14 @@ const ProfileInfoListHeading = styled.div`
 
 const ProfileInfoListDetail = styled.div`
   font-weight: 600;
-  font-size: 24px;
+  font-size: 2rem;
   line-height: 21px;
   color: #e56101;
   margin-left: 12px;
+
+  ${mediaQueryLargeDesktop} {
+    font-size: 24px;
+  }
 
   ${mediaQueryMobile} {
     font-size: 18px;
@@ -198,19 +232,11 @@ export const ProfilePage = observer(() => {
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
 
-  const { userId } = userStore;
+  const { me } = userStore;
 
-  const { data: user, loading: isUserLoading, execute: getUser } = useUser();
-  const {
-    data: provide,
-    loading: isProvideLoading,
-    execute: getProvide
-  } = useMyProvide();
-  const {
-    data: request,
-    loading: isRequedtLoading,
-    execute: getRequest
-  } = useMyRequest();
+  const { data: user, execute: getUser } = useUser();
+  const { data: provide, execute: getProvide } = useMyProvide();
+  const { data: request, execute: getRequest } = useMyRequest();
 
   useEffect(() => {
     if (query || window.localStorage.getItem('id')) {
@@ -236,9 +262,6 @@ export const ProfilePage = observer(() => {
     }
   }, []);
 
-  // useEffect(() => {
-  //   getProvide(query ? query : userId);
-  // }, [userId, query]);
   return (
     <ProfilePageContainer>
       {provide && user && request ? (
@@ -308,6 +331,14 @@ export const ProfilePage = observer(() => {
                     <RankingBadge
                       rankColor={RANK_BADGE[user?.rank].color}
                       css={css`
+                        font-size: 1.85rem;
+                        height: 37px;
+
+                        ${mediaQueryLargeDesktop} {
+                          font-size: 20px;
+                          height: 32px;
+                        }
+
                         ${mediaQueryMobile} {
                           width: max-content !important;
                           height: 32px !important;
@@ -342,6 +373,13 @@ export const ProfilePage = observer(() => {
                       <PrimaryButton
                         css={css`
                           width: 100%;
+                          font-size: 1.5rem;
+                          height: 45px;
+
+                          ${mediaQueryLargeDesktop} {
+                            font-size: 18px;
+                            height: 40px;
+                          }
 
                           ${mediaQueryMobile} {
                             width: 47%;
@@ -350,6 +388,8 @@ export const ProfilePage = observer(() => {
                         onClick={() => {
                           window.localStorage.removeItem('id');
                           window.localStorage.removeItem('loginType');
+                          window.localStorage.removeItem('access_token');
+                          window.localStorage.removeItem('selectedCommunity');
 
                           auth.signOut();
                           window.location.assign('/');
@@ -469,7 +509,7 @@ export const ProfilePage = observer(() => {
                   <ProfileInfoContainer>
                     <Flex>
                       <ProfileInfoListHeading>
-                        ยอดการให้ช่วยเหลือ
+                        จำนวนการให้ช่วยเหลือ
                       </ProfileInfoListHeading>
                       <ProfileInfoListDetail>
                         {user?.provideSum.toLocaleString()} ครั้ง
@@ -477,7 +517,7 @@ export const ProfilePage = observer(() => {
                     </Flex>
                     <Flex>
                       <ProfileInfoListHeading>
-                        ยอดการขอความช่วยเหลือ
+                        จำนวนการขอความช่วยเหลือ
                       </ProfileInfoListHeading>
                       <ProfileInfoListDetail>
                         {user?.requestSum.toLocaleString()} ครั้ง
@@ -523,7 +563,8 @@ export const ProfilePage = observer(() => {
           {!isMobile && (
             <Flex justify="space-between">
               <ProfileMenuTab menu={menu} setMenu={setMenu} />
-              {(query === myAccountUserId || query === undefined) && (
+              {(query === window.localStorage.getItem('id') ||
+                query === undefined) && (
                 <PostRequestButton
                   buttonText={
                     menu === HelpMenu.PROVIDE
@@ -541,7 +582,11 @@ export const ProfilePage = observer(() => {
                   {provide.length > 0 ? (
                     <div>
                       {provide.map((props) => (
-                        <MyProvideList key={props.id} data={props} />
+                        <MyProvideList
+                          key={props.id}
+                          data={props}
+                          user={user}
+                        />
                       ))}
                     </div>
                   ) : (
@@ -554,7 +599,11 @@ export const ProfilePage = observer(() => {
                     <div>
                       {' '}
                       {request.map((props) => (
-                        <MyRequestList key={props.requestId} data={props} />
+                        <MyRequestList
+                          key={props.requestId}
+                          data={props}
+                          user={user}
+                        />
                       ))}
                     </div>
                   ) : (
@@ -570,7 +619,11 @@ export const ProfilePage = observer(() => {
                   {provide.length > 0 ? (
                     <ProfilePageUserHelperListSection>
                       {provide.map((props) => (
-                        <MyProvideList key={props.id} data={props} />
+                        <MyProvideList
+                          key={props.id}
+                          data={props}
+                          user={user}
+                        />
                       ))}
                     </ProfilePageUserHelperListSection>
                   ) : (
@@ -583,7 +636,11 @@ export const ProfilePage = observer(() => {
                     <ProfilePageUserHelperListSection>
                       {' '}
                       {request.map((props) => (
-                        <MyRequestList key={props.requestId} data={props} />
+                        <MyRequestList
+                          key={props.requestId}
+                          data={props}
+                          user={user}
+                        />
                       ))}
                     </ProfilePageUserHelperListSection>
                   ) : (

@@ -12,11 +12,12 @@ import { Rate } from 'antd';
 
 import { MessageSvg } from 'components/Svg/MessageSvg';
 import { UserSvg } from 'components/Svg/UserSvg';
-import UserAvatar from 'images/avatar_helper.png';
 import DefaultImage from 'images/default.png';
+import { useAddChatRoom } from 'hooks/chat/useAddChatRoom';
 
 import {
   mediaQueryMobile,
+  mediaQueryLargeDesktop,
   MOBILE_WIDTH,
   useMedia,
   mediaQueryTablet
@@ -31,15 +32,14 @@ const RequestHelperCardContainer = styled.div`
 
   ${mediaQueryMobile} {
     overflow-x: visible;
-    margin-bottom: 30px;
     width: 100%;
   }
 `;
 
 const CardContainer = styled.div`
   min-width: 500px;
-  height: 380px;
-  width: 95%;
+  height: 440px;
+  width: 100%;
   max-width: 600px;
   background: #ffffff;
   box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.1);
@@ -47,12 +47,17 @@ const CardContainer = styled.div`
   padding: 20px 30px;
   box-sizing: border-box;
   position: relative;
-  margin-right: 20px;
   position: relative;
   top: -20px;
   margin-top: 20px;
   margin-bottom: 10px;
   cursor: pointer;
+
+  ${mediaQueryLargeDesktop} {
+    min-width: 360px;
+    height: 380px;
+    max-width: 550px;
+  }
 
   ${mediaQueryTablet} {
     margin-right: 0;
@@ -68,8 +73,12 @@ const CardContainer = styled.div`
 
 const RequestTitle = styled.div`
   font-weight: 800;
-  font-size: 24px;
+  font-size: 2rem;
   margin-bottom: 10px;
+
+  ${mediaQueryLargeDesktop} {
+    font-size: 1.5rem;
+  }
 
   ${mediaQueryMobile} {
     font-size: 18px;
@@ -78,11 +87,17 @@ const RequestTitle = styled.div`
 `;
 
 const HelperImageSection = styled.img`
-  width: 90px;
-  height: 90px;
+  width: 120px;
+  height: 120px;
+
   border-radius: 50%;
   margin-top: 15px;
   object-fit: cover;
+
+  ${mediaQueryLargeDesktop} {
+    width: 90px;
+    height: 90px;
+  }
 
   ${mediaQueryMobile} {
     width: 55px;
@@ -92,14 +107,18 @@ const HelperImageSection = styled.img`
 `;
 
 const RequestDataTitle = styled.div`
-  font-size: 14px;
+  font-size: 0.85rem;
   white-space: pre-wrap;
   line-height: 20px;
   color: #c4c4c4;
-  max-width: 110px;
+  // max-width: 120px;
   margin-right: 15px;
-  width: 95px;
+  width: 111px;
   text-align: end;
+
+  ${mediaQueryLargeDesktop} {
+    font-size: 14px;
+  }
 
   ${mediaQueryMobile} {
     max-width: unset;
@@ -109,16 +128,20 @@ const RequestDataTitle = styled.div`
 `;
 
 const RequestDataInfo = styled.div`
-  font-size: 18px;
+  font-size: 1.4rem;
   line-height: 26px;
   color: #000000;
-
-  width: 150px;
+  white-space: wrap;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+
+  ${mediaQueryLargeDesktop} {
+    font-size: 1.2rem;
+  }
+
   ${mediaQueryMobile} {
     font-size: 16px;
     width: 185px;
@@ -129,12 +152,17 @@ const RequestDataInfo = styled.div`
 const RequestDataContent = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+
+  ${mediaQueryLargeDesktop} {
+    margin-bottom: 10px;
+  }
 `;
 
 export const SmallSuggestedRequestCard = ({ data }: any) => {
   const history = useHistory();
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
+  const { execute: addChatRoom } = useAddChatRoom();
 
   return (
     <RequestHelperCardContainer>
@@ -175,6 +203,7 @@ export const SmallSuggestedRequestCard = ({ data }: any) => {
                       align-items: center;
                       margin-top: -7px;
                       margin-right: 35px;
+                      align-items: center;
                     `}
                   >
                     <HelperImageSection
@@ -194,7 +223,15 @@ export const SmallSuggestedRequestCard = ({ data }: any) => {
                     >
                       {getStar(rating)}
                     </div>
-                    <RankingBadge rankColor={RANK_BADGE[user.rank].color}>
+                    <RankingBadge
+                      rankColor={RANK_BADGE[user.rank].color}
+                      css={css`
+                        ${mediaQueryMobile} {
+                          margin-left: 0;
+                          margin-top: -5px;
+                        }
+                      `}
+                    >
                       {user.rank.toUpperCase()}
                     </RankingBadge>
                   </div>
@@ -230,6 +267,10 @@ export const SmallSuggestedRequestCard = ({ data }: any) => {
                         display: flex;
                         position: absolute;
                         bottom: 0px;
+
+                        ${mediaQueryMobile} {
+                          bottom: 9px;
+                        }
                       `}
                     >
                       <div
@@ -315,10 +356,21 @@ export const SmallSuggestedRequestCard = ({ data }: any) => {
                   <div>โปรไฟล์</div>
                 </SecondaryButton>
               )}
-              <PrimaryButton>
-                <MessageSvg style={{ marginRight: '5px' }} />
-                <div>แชท</div>
-              </PrimaryButton>
+              {userId !== window.localStorage.getItem('id') && (
+                <PrimaryButton
+                  onClick={() => {
+                    addChatRoom({
+                      providerUserId: userId,
+                      requesterUserId: window.localStorage.getItem('id')
+                    }).then((res) => {
+                      history.push(`/chat/${res.data}`);
+                    });
+                  }}
+                >
+                  <MessageSvg style={{ marginRight: '5px' }} />
+                  <div>แชท</div>
+                </PrimaryButton>
+              )}
             </div>
           </CardContainer>
         )

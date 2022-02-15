@@ -1,6 +1,8 @@
 import { Tag, Input, Tooltip } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import React, { useState, useRef } from 'react';
+import { mediaQueryLargeDesktop } from 'styles/variables';
+import { useMedia, LARGE_DESKTOP_WIDTH } from '../../styles/variables';
 import styled from '@emotion/styled';
 
 interface EditableTagGroupProps {
@@ -10,16 +12,54 @@ interface EditableTagGroupProps {
 const TagPlus = styled(Tag)`
   background: #fff;
   border-style: dashed;
+  font-size: 1.5rem;
+  height: 1.8rem;
+  .ant-tag {
+    font-size: 1.5rem !important;
+  }
+
+  ${mediaQueryLargeDesktop} {
+    font-size: 14px;
+    height: auto;
+    .ant-tag {
+      font-size: 14px !important;
+    }
+  }
 `;
 
 const TagInput = styled(Input)`
   width: 78px;
   margin-right: 8px;
   vertical-align: top;
+
+  font-size: 1.5rem;
+  height: 1.8rem;
+
+  .ant-tag {
+    font-size: 1.5rem !important;
+  }
+
+  ${mediaQueryLargeDesktop} {
+    font-size: 14px;
+    height: auto;
+    .ant-tag {
+      font-size: 14px !important;
+    }
+  }
 `;
 
 const EditTag = styled(Tag)`
   user-select: none;
+  font-size: 1.5rem;
+  height: 1.8rem;
+
+  ${mediaQueryLargeDesktop} {
+    font-size: 14px;
+    height: auto;
+    .ant-tag {
+      font-size: 14px !important;
+    }
+  }
 `;
 
 export const EditableTagGroup = ({ tags, setTags }: EditableTagGroupProps) => {
@@ -30,6 +70,8 @@ export const EditableTagGroup = ({ tags, setTags }: EditableTagGroupProps) => {
   const [editInputValue, setEditInputValue] = useState<string>('');
   const saveInputRef = useRef(null);
   const saveEditInputRef = useRef(null);
+
+  const isLargeDesktop = useMedia(`(max-width: ${LARGE_DESKTOP_WIDTH}px)`);
 
   const handleClose = (removedTag: any) => {
     const currentTags = tags.filter((tag) => tag !== removedTag);
@@ -73,7 +115,8 @@ export const EditableTagGroup = ({ tags, setTags }: EditableTagGroupProps) => {
             <TagInput
               ref={saveEditInputRef}
               key={tag}
-              size="small"
+              size="large"
+              // size={isLargeDesktop ? 'small' : 'large'}
               value={editInputValue}
               onChange={handleEditInputChange}
               onBlur={handleEditInputConfirm}
@@ -109,7 +152,8 @@ export const EditableTagGroup = ({ tags, setTags }: EditableTagGroupProps) => {
         <TagInput
           ref={saveInputRef}
           type="text"
-          size="small"
+          size="large"
+          // size={isLargeDesktop ? 'small' : 'large'}
           value={inputValue}
           onChange={handleInputChange}
           onBlur={handleInputConfirm}

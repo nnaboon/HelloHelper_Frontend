@@ -6,7 +6,7 @@ import { css, jsx } from '@emotion/react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import { WrapperContainer } from 'components/Wrapper/WrapperContainer';
-import { Divider, Dropdown, Menu } from 'antd';
+import { Divider, Dropdown, Menu, message } from 'antd';
 import Flex from 'components/Flex/Flex';
 import { Text } from 'components/Text';
 import { RequestFormModal } from 'components/Form/RequestForm';
@@ -23,15 +23,15 @@ import {
   TABLET_WIDTH,
   mediaQueryMobile,
   mediaQueryDesktop,
+  mediaQueryLargeDesktop,
   mediaQuerySmallTablet,
+  mediaQueryExtraLargeDesktop,
   mediaQueryTablet
 } from 'styles/variables';
 import { InfoMenuTab } from 'components/Menu/InfoMenuTab';
 import { RANK_BADGE } from 'components/Badge/const';
 import { RankingBadge } from 'components/Badge/Badge';
 import { SuggestedBadge } from 'components/Badge/Badge';
-import { USER_DATA } from '../../data/user';
-import { PROVIDE_MAPPER } from 'data/provide';
 
 import { useUser } from 'hooks/user/useUser';
 import { useProvides } from 'hooks/provide/useProvides';
@@ -45,14 +45,19 @@ import { CATEGORY } from 'data/category';
 import { EditSvg } from 'components/Svg/EditSvg';
 import { DeleteSvg } from 'components/Svg/DeleteSvg';
 import { EyeOffSvg } from 'components/Svg/EyeOffSvg';
-import { REQUEST_MAPPER } from 'data/request';
 import { EmptyData } from 'components/Empty/EmptyData';
+import { mediaQueryMiniDesktop } from '../../styles/variables';
 
 const RequestImageSection = styled.img`
-  width: 420px;
-  height: 510px;
+  width: 520px;
+  height: 100%;
   margin-bottom: 20px;
   object-fit: cover;
+
+  ${mediaQueryLargeDesktop} {
+    width: 420px;
+    height: 500px;
+  }
 
   ${mediaQueryTablet} {
     width: 100%;
@@ -71,23 +76,37 @@ const RequestCategoryButton = styled(PrimaryButton)`
   width: max-content;
   min-width: 140px;
   padding: 10px 15px;
-  height: 40px;
+  height: 45px;
   margin: 10px 8px 10px 0px;
+  font-size: 1.7rem;
+
+  ${mediaQueryLargeDesktop} {
+    height: 40px;
+  }
 `;
 
 const RequestHashtagButton = styled(SecondaryButton)`
   width: max-content;
   min-width: 80px;
   padding: 10px 15px;
-  height: 40px;
+  height: 45px;
   margin: 10px 8px 10px 0px;
+  font-size: 1.7rem;
+
+  ${mediaQueryLargeDesktop} {
+    height: 40px;
+  }
 `;
 
 const RequestInfoContainer = styled.div`
   display: grid;
-  grid-template-columns: 180px 400px;
+  grid-template-columns: 300px 450px;
   grid-gap: 40px;
   margin-bottom: 60px;
+
+  ${mediaQueryLargeDesktop} {
+    grid-template-columns: 180px 400px;
+  }
 
   ${mediaQueryMobile} {
     grid-template-columns: auto auto;
@@ -100,6 +119,7 @@ const HelperImage = styled.img`
   height: 90px;
   border-radius: 50%;
   margin-top: 5px;
+  object-fit: cover;
 
   ${mediaQueryMobile} {
     width: 65px;
@@ -125,12 +145,18 @@ const UserName = styled.div`
 
 const RequestDetail = styled.div`
   font-weight: 700;
-  font-size: 24px;
-  line-height: 28px;
-  color: #000000;
-  min-width: 200px;
   line-height: 31px;
+  font-size: 2rem;
+  color: #000000;
+  min-width: 400px;
+  line-height: 60px;
   white-space: pre-wrap;
+
+  ${mediaQueryLargeDesktop} {
+    font-size: 24px;
+    min-width: 200px;
+    line-height: 31px;
+  }
 
   ${mediaQueryMobile} {
     font-size: 16px;
@@ -138,11 +164,17 @@ const RequestDetail = styled.div`
 `;
 
 const RequestTitle = styled.div`
-  font-size: 14px;
-  line-height: 26px;
+  font-size: 1.5rem;
+  line-height: 60px;
   color: #848484;
   min-width: 90px;
-  max-width: 150px;
+  max-width: 250px;
+
+  ${mediaQueryLargeDesktop} {
+    max-width: 150px;
+    font-size: 14px;
+    line-height: 26px;
+  }
 
   ${mediaQueryMobile} {
     min-width: unset;
@@ -165,9 +197,13 @@ const UserProfileCard = styled.div`
   background: #ffffff;
   box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.09);
   border-radius: 12px;
-  justify-content: space-between;
   margin-top: 40px;
   margin-bottom: 40px;
+  justify-content: space-around;
+
+  ${mediaQueryLargeDesktop} {
+    justify-content: space-between;
+  }
 
   ${mediaQueryMobile} {
     height: 90px;
@@ -251,7 +287,6 @@ export const RequestInfoContent = observer(({ data }: any) => {
 
   useEffect(() => {
     if (request) {
-      console.log(request);
       getUser(request.userId);
     }
   }, [request]);
@@ -439,7 +474,15 @@ export const RequestInfoContent = observer(({ data }: any) => {
                             {
                               userId: window.localStorage.getItem('id')
                             }
-                          );
+                          )
+                            .then(() => {
+                              message.success(
+                                'เรากำลังส่งความช่วยเหลือของคุณให้เจ้าของโพสต์ได้รับทราบ'
+                              );
+                            })
+                            .catch(() => {
+                              message.error('ไม่สำเร็จ');
+                            });
                         }}
                       >
                         สนใจให้ความช่วยเหลือ
@@ -514,7 +557,8 @@ export const RequestInfoContent = observer(({ data }: any) => {
                         borderTopColor: '#C4C4C4',
                         color: '#7C7A7A',
                         fontSize: '18px',
-                        fontWeight: 500
+                        fontWeight: 500,
+                        marginBottom: '35px'
                       }}
                     >
                       คุณอาจจะสนใจสิ่งนี้
@@ -523,14 +567,40 @@ export const RequestInfoContent = observer(({ data }: any) => {
                     <div
                       css={css`
                         display: grid;
-                        grid-template-columns: repeat(3, 1fr);
-                        grid-gap: 10px;
+                        grid-template-columns: repeat(5, 1fr);
+                        grid-gap: 2rem;
+
+                        ${mediaQueryExtraLargeDesktop} {
+                          grid-template-columns: repeat(4, 1fr);
+                          grid-gap: 20px;
+                        }
+
+                        ${mediaQueryLargeDesktop} {
+                          grid-template-columns: repeat(3, 1fr);
+                        }
+
+                        ${mediaQueryDesktop} {
+                          grid-template-columns: repeat(2, 1fr);
+                        }
+
+                        ${mediaQueryMiniDesktop} {
+                          grid-template-columns: repeat(2, 1fr);
+                        }
 
                         ${mediaQueryTablet} {
                           display: flex;
                           flex-direction: column;
                           width: 100%;
                           align-items: center;
+                        }
+
+                        @media screen and (max-width: 2700px) and (min-width: 2600px) {
+                          grid-template-columns: repeat(4, 1fr);
+                        }
+
+                        @media screen and (max-width: 2600px) and (min-width: 2000px) {
+                          grid-template-columns: repeat(3, 1fr);
+                          grid-gap: 20px;
                         }
                       `}
                     >
@@ -544,13 +614,25 @@ export const RequestInfoContent = observer(({ data }: any) => {
                   </div>
                 ) : (
                   <div>
-                    <Text fontSize="26px" fontWeight={400}>
+                    {/* <Text
+                      fontWeight={400}
+                      css={css`
+                        font-size: 2.3rem;
+                        ${mediaQueryLargeDesktop} {
+                          font-size: 26px;
+                        }
+                      `}
+                    >
                       รายชื่อผู้ต้องการช่วยเหลือ
-                    </Text>
+                    </Text> */}
                     <Flex
                       itemAlign="flex-start"
                       css={css`
-                        justify-content: space-between;
+                        justify-content: space-around;
+
+                        ${mediaQueryLargeDesktop} {
+                          justify-content: space-between;
+                        }
                         ${mediaQueryDesktop} {
                           justify-content: flex-start;
                         }
@@ -565,18 +647,28 @@ export const RequestInfoContent = observer(({ data }: any) => {
                           flexDirection: 'column',
                           justifyContent: 'flex-start',
                           alignItems: 'flex-start',
-                          width: '100%',
                           marginTop: isTablet ? '20px' : '40px'
                         }}
                         css={css`
                           width: unset;
                           margin-right: 120px;
 
-                          ${mediaQueryDesktop} {
+                          ${mediaQueryLargeDesktop} {
                             width: 100%;
                           }
                         `}
                       >
+                        <Text
+                          fontWeight={400}
+                          css={css`
+                            font-size: 2.3rem;
+                            ${mediaQueryLargeDesktop} {
+                              font-size: 26px;
+                            }
+                          `}
+                        >
+                          รายชื่อผู้ต้องการช่วยเหลือ
+                        </Text>
                         {request.requesterUserId.length > 0 ? (
                           <React.Fragment>
                             {' '}
@@ -600,7 +692,8 @@ export const RequestInfoContent = observer(({ data }: any) => {
                             borderTopColor: '#C4C4C4',
                             color: '#7C7A7A',
                             fontSize: '18px',
-                            fontWeight: 500
+                            fontWeight: 500,
+                            marginBottom: '35px'
                           }}
                         >
                           คุณอาจจะสนใจสิ่งนี้
@@ -651,7 +744,7 @@ export const RequestInfoContent = observer(({ data }: any) => {
             }
           `}
         >
-          <Loading />
+          <Loading height="calc(100vh - 265px)" />
         </WrapperContainer>
       )}
     </React.Fragment>

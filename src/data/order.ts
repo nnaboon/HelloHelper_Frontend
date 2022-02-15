@@ -1,5 +1,6 @@
 export type OrderProps = {
   id: string;
+  chatId: string;
   orderReferenceType: string;
   orderReferenceId: string;
   title: string;

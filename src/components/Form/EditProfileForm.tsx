@@ -14,10 +14,12 @@ import {
   MOBILE_WIDTH,
   TABLET_WIDTH,
   SMALL_TABLET_WIDTH,
+  LARGE_DESKTOP_WIDTH,
   mediaQueryMobile,
   mediaQuerySmallTablet,
   mediaQueryTablet,
-  mediaQueryDesktop
+  mediaQueryLargeDesktop,
+  mediaQueryExtraLargeDesktop
 } from 'styles/variables';
 import DefaultImage from 'images/default.png';
 import {
@@ -40,6 +42,7 @@ export const EditProfileForm = observer(() => {
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const isSmallTablet = useMedia(`(max-width: ${SMALL_TABLET_WIDTH}px)`);
   const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
+  const isLargeDesktop = useMedia(`(max-width: ${LARGE_DESKTOP_WIDTH}px)`);
   const { me, setMe, loginType } = userStore;
   const { data: user, execute: getUser } = useUser();
   const { execute: updateUser } = useUpdateUser();
@@ -138,8 +141,9 @@ export const EditProfileForm = observer(() => {
             updateUser(window.localStorage.getItem('id'), {
               ...data,
               imageUrl: res.data
-            }).then(() => {
-              getUser(window.localStorage.getItem('id'));
+            }).then((res) => {
+              setMe(res.data);
+              // getUser(window.localStorage.getItem('id'));
               message.success('สำเร็จ');
             });
           })
@@ -167,6 +171,7 @@ export const EditProfileForm = observer(() => {
 
   useEffect(() => {
     if (user) {
+      setLocation(user.location);
       setMe(user);
     }
   }, [user]);
@@ -184,10 +189,18 @@ export const EditProfileForm = observer(() => {
           `}
         >
           <Text
-            fontSize="24px"
             marginTop="20px"
             marginBottom="20px"
             fontWeight={500}
+            css={css`
+              font-size: 2.8rem;
+              margin-bottom: 25px;
+
+              ${mediaQueryLargeDesktop} {
+                margin-bottom: 15px;
+                font-size: 20px;
+              }
+            `}
           >
             ข้อมูลของฉัน
           </Text>
@@ -207,6 +220,34 @@ export const EditProfileForm = observer(() => {
             autoComplete="off"
             css={css`
               display: flex;
+
+              .ant-form-item-label > label {
+                font-size: 1.68rem;
+              }
+
+              .ant-checkbox + span {
+                font-size: 2rem;
+              }
+
+              .ant-checkbox-inner {
+                width: 30px;
+                height: 30px;
+              }
+
+              ${mediaQueryExtraLargeDesktop} {
+                .ant-form-item-label > label {
+                  font-size: 14px;
+                }
+
+                .ant-checkbox + span {
+                  font-size: 16px;
+                }
+
+                .ant-checkbox-inner {
+                  width: 16px;
+                  height: 16px;
+                }
+              }
 
               ${mediaQuerySmallTablet} {
                 flex-direction: column-reverse;
@@ -241,7 +282,11 @@ export const EditProfileForm = observer(() => {
                 <Input
                   defaultValue={me.username}
                   placeholder="ชื่อ"
-                  style={{ height: '40px', borderRadius: '12px' }}
+                  style={{
+                    height: isLargeDesktop ? '40px' : '70px',
+                    fontSize: isLargeDesktop ? '14px' : '1.8rem',
+                    borderRadius: '12px'
+                  }}
                 />
               </Form.Item>
               <Form.Item name="email" label="อีเมล">
@@ -250,18 +295,29 @@ export const EditProfileForm = observer(() => {
                     loginType === 'facebook.com' || loginType === 'google.com'
                   )}
                   placeholder="อีเมล"
-                  style={{ height: '40px', borderRadius: '12px' }}
+                  style={{
+                    height: isLargeDesktop ? '40px' : '70px',
+                    fontSize: isLargeDesktop ? '14px' : '1.8rem',
+                    borderRadius: '12px'
+                  }}
                 />
               </Form.Item>
 
-              {loginType === 'password' && (
+              {/* {loginType === 'password' && (
                 <React.Fragment>
                   <Divider />
                   <Text
-                    fontSize="24px"
                     fontWeight={500}
                     marginBottom="20px"
                     marginTop="10px"
+                    css={css`
+                      font-size: 2.8rem;
+                      margin-bottom: 25px;
+
+                      ${mediaQueryLargeDesktop} {
+                        font-size: 24px;
+                      }
+                    `}
                   >
                     เปลี่ยนรหัสผ่าน
                   </Text>
@@ -284,19 +340,30 @@ export const EditProfileForm = observer(() => {
                     />
                   </Form.Item>
                 </React.Fragment>
-              )}
+              )}*/}
               <Divider />
               <Text
-                fontSize="24px"
                 fontWeight={500}
                 marginBottom="20px"
                 marginTop="10px"
+                css={css`
+                  font-size: 2.8rem;
+                  margin-bottom: 35px;
+
+                  ${mediaQueryLargeDesktop} {
+                    margin-bottom: 15px;
+                    font-size: 20px;
+                  }
+                `}
               >
                 สถานที่ให้ความช่วยเหลือ
               </Text>
               <Form.Item name="location" label="สถานที่ให้ความช่วยเหลือ">
                 <GoogleMapContent
-                  width={isSmallTablet ? '100%' : '470px'}
+                  width={
+                    isSmallTablet ? '100%' : isLargeDesktop ? '470px' : '100%'
+                  }
+                  height={isLargeDesktop ? '300px' : '600px'}
                   requestLocation={{
                     lat: me.location.latitude,
                     lng: me.location.longitude
@@ -305,7 +372,19 @@ export const EditProfileForm = observer(() => {
                 />
               </Form.Item>
               <Divider />
-              <Text fontSize="24px" fontWeight={500} marginY="20px">
+              <Text
+                fontWeight={500}
+                marginY="20px"
+                css={css`
+                  font-size: 2.8rem;
+                  margin-bottom: 35px;
+
+                  ${mediaQueryLargeDesktop} {
+                    margin-bottom: 15px;
+                    font-size: 20px;
+                  }
+                `}
+              >
                 ความสามารถในการช่วยเหลือ
               </Text>
               {/* <Form.Item
@@ -368,7 +447,6 @@ export const EditProfileForm = observer(() => {
             <div
               css={css`
                 display: flex;
-                height: 100% !important;
                 flex-direction: column;
                 align-items: center;
                 width: 100%;
@@ -384,11 +462,16 @@ export const EditProfileForm = observer(() => {
                 src={imageUrl}
                 alt="user avatar"
                 css={css`
-                  width: 140px;
-                  height: 140px;
+                  width: 180px;
+                  height: 180px;
                   border-radius: 50%;
                   margin-bottom: 25px;
                   object-fit: cover;
+
+                  ${mediaQueryExtraLargeDesktop} {
+                    width: 140px;
+                    height: 140px;
+                  }
                 `}
               />{' '}
               <Form.Item name="image">
@@ -402,10 +485,16 @@ export const EditProfileForm = observer(() => {
                 </Upload>
               </Form.Item>
               <Text
-                fontSize="14px"
                 color="#848484"
                 fontWeight={500}
                 whiteSpace="pre"
+                css={css`
+                  font-size: 1.5rem;
+
+                  ${mediaQueryLargeDesktop} {
+                    font-size: 14px;
+                  }
+                `}
               >
                 ขนาดไฟล์: สูงสุด 1 MB{'\n'}ไฟล์ที่รองรับ: .JPEG, .PNG
               </Text>
@@ -413,9 +502,10 @@ export const EditProfileForm = observer(() => {
                 <div
                   css={css`
                     width: 100%;
-                    position: relative;
-                    height: 100vh;
-                    bottom: 0px;
+
+                    // @media screen and (min-width: 1900px) {
+                    //   height: 100vh;
+                    // }
                   `}
                 >
                   <Button
@@ -513,7 +603,7 @@ export const EditProfileForm = observer(() => {
           </Form>
         </div>
       ) : (
-        <Loading />
+        <Loading height="calc(100vh - 265px)" />
       )}
     </React.Fragment>
   );

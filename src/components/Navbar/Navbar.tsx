@@ -2,6 +2,7 @@
 /** @jsx jsx */
 import { css, jsx, Global } from '@emotion/react';
 import React, { useState, useEffect } from 'react';
+import { getAuth, deleteUser } from 'firebase/auth';
 import { useHistory } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { Input, Modal, Skeleton } from 'antd';
@@ -10,14 +11,21 @@ import Flex from 'components/Flex/Flex';
 import { RegisterForm } from 'features/login/RegisterForm';
 import { LoginForm } from 'features/login/LoginForm';
 import { LoginStep } from 'features/login/const';
-import { mediaQueryMobile, mediaQuerySmallTablet } from 'styles/variables';
-import { useMedia, MOBILE_WIDTH, SMALL_TABLET_WIDTH } from 'styles/variables';
+import {
+  mediaQueryMobile,
+  mediaQuerySmallTablet,
+  mediaQueryLargeDesktop,
+  mediaQueryTablet,
+  useMedia,
+  MOBILE_WIDTH,
+  SMALL_TABLET_WIDTH,
+  LARGE_DESKTOP_WIDTH
+} from 'styles/variables';
 import { MessageOutlined } from '@ant-design/icons';
 import { SideMenu } from 'components/Menu/SideMenu';
 import DefaultImage from 'images/default.png';
 import { useUser } from 'hooks/user/useUser';
 import firebase from '../../firebase';
-
 import { userStore } from 'store/userStore';
 
 const NavbarSection = styled.div`
@@ -46,26 +54,48 @@ const NavbarList = styled.ul`
   justify-content: end;
   box-sizing: border-box;
   padding: 20px 100px;
+
   > li {
     display: inline;
     margin: 0 20px;
     cursor: pointer;
     color: #eeeee;
-    font-size: 14px;
+    font-size: 1.8rem;
+  }
+
+  ${mediaQueryLargeDesktop} {
+    > li {
+      font-size: 14px;
+    }
+  }
+
+  ${mediaQueryTablet} {
+    > li {
+      margin: 0;
+    }
   }
 
   ${mediaQueryMobile} {
     padding: 15px;
+
+    > li {
+      margin: 0;
+    }
   }
 `;
 
 const MyAccount = styled.img`
   position: relative;
-  width: 40px;
-  height: 40px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
   margin-left: 25px;
   cursor: pointer;
+
+  ${mediaQueryLargeDesktop} {
+    width: 40px;
+    height: 40px;
+  }
 
   ${mediaQuerySmallTablet} {
     position: absolute;
@@ -104,6 +134,7 @@ export const Navbar = observer(() => {
   const [accountStep, setAccountStep] = useState<LoginStep>(LoginStep.LOGIN);
   const isSmallTablet = useMedia(`(max-width: ${SMALL_TABLET_WIDTH}px)`);
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
+  const isLargeDesktop = useMedia(`(max-width: ${LARGE_DESKTOP_WIDTH}px)`);
 
   const { userId, setUserId, me, setMe, setLoginType } = userStore;
   const { data: response, execute: getUser } = useUser();
@@ -128,11 +159,23 @@ export const Navbar = observer(() => {
 
   const handleCancel = () => {
     setIsModalVisible(false);
+
+    const auth = getAuth();
+    const user = auth.currentUser;
+
+    deleteUser(user)
+      .then(() => {
+        window.localStorage.removeItem('id');
+        window.localStorage.removeItem('loginType');
+        window.localStorage.removeItem('access_token');
+      })
+      .catch((error) => {
+        auth.signOut();
+      });
   };
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged(function (user) {
-      setLoginType(user.providerData[0].providerId);
       if (user && window.localStorage.getItem('id')) {
         setUserId(window.localStorage.getItem('id'));
         setUserImage(user.photoURL);
@@ -142,7 +185,7 @@ export const Navbar = observer(() => {
       } else if (user) {
         setIsModalVisible(true);
         getUser(user.uid);
-        setAccountStep(LoginStep.REGISTER);
+        setLoginType(user.providerData[0].providerId);
         setAccount(true);
       } else {
         setIsModalVisible(true);
@@ -154,9 +197,23 @@ export const Navbar = observer(() => {
 
   useEffect(() => {
     if (response) {
-      setMe(response);
-      setUserId(response?.userId);
-      setIsModalVisible(false);
+      if (Object.keys(response).length !== 0) {
+        setMe(response);
+        setUserId(response?.userId);
+        setIsModalVisible(false);
+
+        if (!window.localStorage.getItem('selectedCommunity')) {
+          window.localStorage.setItem(
+            'selectedCommunity',
+            response.communityId
+          );
+        }
+      } else {
+        setAccountStep(LoginStep.REGISTER);
+        setIsModalVisible(true);
+      }
+    } else {
+      setAccountStep(LoginStep.REGISTER);
     }
   }, [response]);
 
@@ -188,7 +245,15 @@ export const Navbar = observer(() => {
               });
             }}
           >
-            <div style={{ color: 'black', fontSize: '32px', fontWeight: 700 }}>
+            <div
+              style={{ color: 'black', fontWeight: 700 }}
+              css={css`
+                font-size: 45px;
+                ${mediaQueryLargeDesktop} {
+                  font-size: 32px;
+                }
+              `}
+            >
               HELLO HELPER
             </div>{' '}
             <MessageOutlined />
@@ -203,11 +268,11 @@ export const Navbar = observer(() => {
                 onClick={() => {
                   history.push({
                     pathname: `/community/${
-                      response
-                        ? response.communityId
-                          ? response.communityId[0]
-                          : ''
-                        : ''
+                      response.communityId.includes(
+                        window.localStorage.getItem('selectedCommunity')
+                      )
+                        ? window.localStorage.getItem('selectedCommunity')
+                        : response.communityId[0]
                     }`
                   });
                 }}
@@ -245,10 +310,10 @@ export const Navbar = observer(() => {
           )}
 
           {window.localStorage.getItem('id') ? (
-            response ? (
+            me ? (
               <React.Fragment>
                 <MyAccount
-                  src={response ? response.imageUrl : DefaultImage}
+                  src={me ? me.imageUrl : DefaultImage}
                   alt="my account"
                   onClick={() => {
                     setCollapsed(true);
@@ -289,6 +354,20 @@ export const Navbar = observer(() => {
               onClick={() => {
                 setIsModalVisible(true);
               }}
+              css={css`
+                position: relative;
+
+                ${mediaQuerySmallTablet} {
+                  position: absolute;
+                  right: 15px;
+                  top: 22px;
+                  z-index: 10;
+                }
+
+                ${mediaQueryMobile} {
+                  top: 12px;
+                }
+              `}
             >
               ลงทะเบียน/เข้าสู่ระบบ
             </li>
@@ -311,13 +390,18 @@ export const Navbar = observer(() => {
         onOk={handleOk}
         onCancel={handleCancel}
         footer={null}
-        width={isMobile ? '85%' : 500}
+        width={isMobile ? '85%' : isLargeDesktop ? 500 : '22%'}
         maskClosable={false}
         centered
         css={css`
           .ant-modal-content {
-            min-height: 694px;
+            min-height: 820px;
             height: max-content;
+
+            ${mediaQueryLargeDesktop} {
+              min-height: 694px;
+              height: max-content;
+            }
 
             ${mediaQueryMobile} {
               min-height: 400px;

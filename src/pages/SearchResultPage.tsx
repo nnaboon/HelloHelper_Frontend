@@ -161,7 +161,7 @@ export const SearchResultPage = () => {
           </div>
         </div>
       ) : (
-        <Loading />
+        <Loading height="calc(100vh - 265px)" />
       )}
       {/* <div style={{ display: 'flex' }}>
         {!isTablet && <Sidebar />}

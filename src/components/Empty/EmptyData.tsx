@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
 import { Empty } from 'antd';
 import {
+  mediaQueryLargeDesktop,
   mediaQueryMobile,
   mediaQuerySmallTablet,
   mediaQueryTablet
@@ -40,12 +41,39 @@ export const EmptyData = ({ height, text }: EmptyDataProps) => {
       description={<span>{text ? text : 'ไม่พบข้อมูล'}</span>}
       css={css`
         display: flex;
+        font-size: 2rem;
         flex-direction: column;
-        height: ${height ?? '100%'};
+        height: ${height ?? `calc(100vh - 265px)`};
         width: 100%;
         align-items: center;
         justify-content: center;
 
+        > svg {
+          width: 90px;
+          height: 90px;
+        }
+
+        .ant-empty-img-simple {
+          width: 150px;
+          height: 100px;
+        }
+
+        .ant-empty-image {
+          height: 150px;
+        }
+
+        ${mediaQueryLargeDesktop} {
+          font-size: 16px;
+
+          .ant-empty-img-simple {
+            width: 40px;
+            height: 40px;
+          }
+
+          .ant-empty-image {
+            height: max-content;
+          }
+        }
         ${mediaQueryTablet} {
           height: 100%;
         }

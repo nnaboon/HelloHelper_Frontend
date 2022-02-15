@@ -2,17 +2,18 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { Button } from 'antd';
 import { mediaQueryMobile, mediaQuerySmallTablet } from 'styles/variables';
+import { mediaQueryLargeDesktop } from '../../styles/variables';
 
 export const SecondaryButton = styled.a`
-  min-width: 106px;
-  height: 40px;
+  min-width: 130px;
+  height: 45px;
   background: #ffffff;
   border: 2px solid #ee6400;
   box-sizing: border-box;
   border-radius: 8px;
   text-decoration: none;
   color: #ee6400;
-  font-size: 18px;
+  font-size: 1.5rem;
   text-align: center;
   display: flex;
   align-items: center;
@@ -24,6 +25,12 @@ export const SecondaryButton = styled.a`
     color: #ee6400;
   }
 
+  ${mediaQueryLargeDesktop} {
+    min-width: 106px;
+    height: 40px;
+    font-size: 18px;
+  }
+
   ${mediaQueryMobile} {
     min-width: 80px;
     height: 30px;
@@ -33,16 +40,16 @@ export const SecondaryButton = styled.a`
 `;
 
 export const PrimaryButton = styled.a`
-  min-width: 106px;
+  min-width: 130px;
   width: 100%;
   max-width: 550px;
-  height: 40px;
+  height: 45px;
   box-sizing: border-box;
   text-decoration: none;
   background: #ee6400;
   border-radius: 9px;
   color: #ffff;
-  font-size: 18px;
+  font-size: 1.5rem;
   text-align: center;
   display: flex;
   align-items: center;
@@ -52,6 +59,12 @@ export const PrimaryButton = styled.a`
 
   &:hover {
     color: #ffff;
+  }
+
+  ${mediaQueryLargeDesktop} {
+    min-width: 106px;
+    height: 40px;
+    font-size: 18px;
   }
 
   ${mediaQuerySmallTablet} {

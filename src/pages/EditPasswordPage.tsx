@@ -13,10 +13,11 @@ import {
   MOBILE_WIDTH,
   TABLET_WIDTH,
   SMALL_TABLET_WIDTH,
+  LARGE_DESKTOP_WIDTH,
   mediaQueryMobile,
-  mediaQuerySmallTablet,
   mediaQueryTablet,
-  mediaQueryDesktop
+  mediaQueryExtraLargeDesktop,
+  mediaQueryLargeDesktop
 } from 'styles/variables';
 import { Loading } from 'components/Loading/Loading';
 import { useUser } from 'hooks/user/useUser';
@@ -25,11 +26,14 @@ export const EditPasswordPage = observer(() => {
   const [form] = Form.useForm();
   const [password, setPassword] = useState('');
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
+  const { me, setMe, loginType } = userStore;
+  const { data: user, execute: getUser } = useUser();
+
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const isSmallTablet = useMedia(`(max-width: ${SMALL_TABLET_WIDTH}px)`);
   const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
-  const { me, setMe, loginType } = userStore;
-  const { data: user, execute: getUser } = useUser();
+  const isLargeDesktop = useMedia(`(max-width: ${LARGE_DESKTOP_WIDTH}px)`);
 
   const onFinish = async (value) => {
     setIsSubmitting(true);
@@ -92,6 +96,15 @@ export const EditPasswordPage = observer(() => {
             marginTop="20px"
             marginBottom="20px"
             fontWeight={500}
+            css={css`
+              font-size: 2.8rem;
+              margin-bottom: 25px;
+
+              ${mediaQueryLargeDesktop} {
+                margin-bottom: 15px;
+                font-size: 20px;
+              }
+            `}
           >
             แก้ไขรหัสผ่าน
           </Text>
@@ -103,15 +116,64 @@ export const EditPasswordPage = observer(() => {
             onFinish={onFinish}
             autoComplete="off"
             css={css`
-              display: flex;
-              flex-direction: column;
+              .ant-form-item {
+                margin-bottom: 45px;
+              }
+
+              .ant-form-item-label > label {
+                font-size: 1.68rem;
+              }
+
+              .ant-checkbox + span {
+                font-size: 2rem;
+              }
+
+              .ant-checkbox-inner {
+                width: 30px;
+                height: 30px;
+              }
+
+              .ant-input {
+                font-size: 1.8rem;
+              }
 
               .ant-form-item-control-input {
-                width: 500px;
-                margin-bottom: 15px;
+                width: 70%;
+              }
+
+              ${mediaQueryExtraLargeDesktop} {
+                .ant-form-item-label > label {
+                  font-size: 14px;
+                }
+
+                .ant-checkbox + span {
+                  font-size: 16px;
+                }
+
+                .ant-checkbox-inner {
+                  width: 16px;
+                  height: 16px;
+                }
+              }
+
+              ${mediaQueryLargeDesktop} {
+                .ant-form-item {
+                  margin-bottom: 24px;
+                }
+
+                .ant-input {
+                  font-size: 14px;
+                }
+
+                .ant-form-item-control-input {
+                  width: 500px;
+                }
               }
 
               ${mediaQueryTablet} {
+                display: flex;
+                flex-direction: column;
+
                 .ant-form-item-control-input {
                   width: 100%;
                 }
@@ -135,48 +197,61 @@ export const EditPasswordPage = observer(() => {
                 width: 100%;
               `}
             >
-              {loginType === 'password' && (
-                <React.Fragment>
-                  {/* <Form.Item name="prevPassword" label="รหัสผ่านปัจจุบัน">
+              {/* {loginType === 'password' && ( */}
+              <React.Fragment>
+                {/* <Form.Item name="prevPassword" label="รหัสผ่านปัจจุบัน">
                     <Input
                       placeholder="รหัสผ่านปัจจุบัน"
                       style={{ height: '40px', borderRadius: '12px' }}
                     />
                   </Form.Item> */}
-                  <Form.Item
-                    name="password"
-                    label="รหัสผ่านใหม่"
-                    rules={[
-                      { required: true, message: 'กรุณากรอกรหัสผ่านใหม่' }
-                    ]}
-                  >
-                    <Input.Password
-                      placeholder="รหัสผ่านใหม่"
-                      style={{ height: '40px', borderRadius: '12px' }}
-                    />
-                  </Form.Item>{' '}
-                  <Form.Item
-                    name="confirmPassword"
-                    label="ยืนยันรหัสผ่านใหม่"
-                    normalize={(value) => value.trim()}
-                    rules={[
-                      getRule(FormRule.REQUIRE, 'กรุณากรอกยืนยันรหัสผ่าน'),
-                      ({ getFieldValue }) => ({
-                        validator(rule, value) {
-                          if (value && getFieldValue('password') !== value)
-                            return Promise.reject('รหัสผ่านไม่ตรงกัน');
-                          return Promise.resolve();
-                        }
-                      })
-                    ]}
-                  >
-                    <Input.Password
-                      placeholder="ยืนยันรหัสผ่าน"
-                      style={{ height: '40px', borderRadius: '12px' }}
-                    />
-                  </Form.Item>
-                </React.Fragment>
-              )}
+                <Form.Item
+                  name="password"
+                  label="รหัสผ่านใหม่"
+                  rules={[{ required: true, message: 'กรุณากรอกรหัสผ่านใหม่' }]}
+                >
+                  <Input.Password
+                    placeholder="รหัสผ่านใหม่"
+                    style={{
+                      height: isLargeDesktop ? '40px' : '70px',
+                      fontSize: isLargeDesktop ? '14px' : '1.8rem',
+                      borderRadius: '12px'
+                    }}
+                    css={css`
+                      font-size: 1.8rem;
+
+                      ${mediaQueryLargeDesktop} {
+                        font-size: 14px;
+                      }
+                    `}
+                  />
+                </Form.Item>{' '}
+                <Form.Item
+                  name="confirmPassword"
+                  label="ยืนยันรหัสผ่านใหม่"
+                  normalize={(value) => value.trim()}
+                  rules={[
+                    getRule(FormRule.REQUIRE, 'กรุณากรอกยืนยันรหัสผ่าน'),
+                    ({ getFieldValue }) => ({
+                      validator(rule, value) {
+                        if (value && getFieldValue('password') !== value)
+                          return Promise.reject('รหัสผ่านไม่ตรงกัน');
+                        return Promise.resolve();
+                      }
+                    })
+                  ]}
+                >
+                  <Input.Password
+                    placeholder="ยืนยันรหัสผ่าน"
+                    style={{
+                      height: isLargeDesktop ? '40px' : '70px',
+                      fontSize: isLargeDesktop ? '14px' : '1.8rem',
+                      borderRadius: '12px'
+                    }}
+                  />
+                </Form.Item>
+              </React.Fragment>
+              {/* )} */}
             </div>
             <div
               css={css`
@@ -202,12 +277,15 @@ export const EditPasswordPage = observer(() => {
                   &:hover {
                     background: #ee6400;
                   }
+                  bottom: 0;
 
                   ${mediaQueryTablet} {
                     width: 120px;
                     right: 0;
                     height: 35px;
                     font-size: 16px;
+                    top: 30px;
+                    bottom: unset;
                   }
 
                   ${mediaQueryMobile} {
@@ -221,7 +299,7 @@ export const EditPasswordPage = observer(() => {
           </Form>
         </div>
       ) : (
-        <Loading />
+        <Loading height="calc(100vh - 265px)" />
       )}
     </React.Fragment>
   );

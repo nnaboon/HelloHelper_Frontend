@@ -18,8 +18,10 @@ import {
   MOBILE_WIDTH,
   SMALL_TABLET_WIDTH,
   TABLET_WIDTH,
+  LARGE_DESKTOP_WIDTH,
   mediaQuerySmallTablet,
-  mediaQueryTablet
+  mediaQueryTablet,
+  mediaQueryLargeDesktop
 } from 'styles/variables';
 import { useOrder } from 'hooks/order/useOrder';
 import { OrderProps } from 'data/order';
@@ -32,7 +34,7 @@ type ProvideListCardProps = {
 const ProvideListContainer = styled.div`
   position: relative;
   width: 100%;
-  min-height: 310px;
+  min-height: 410px;
   background: #ffffff;
   box-sizing: border-box;
   border-radius: 12px;
@@ -40,6 +42,10 @@ const ProvideListContainer = styled.div`
   margin-bottom: 30px;
   margin-top: 20px;
   padding: 20px 30px 30px 30px;
+
+  ${mediaQueryLargeDesktop} {
+    min-height: 310px;
+  }
 
   ${mediaQueryTablet} {
     width: 100%;
@@ -58,15 +64,19 @@ const ProvideListContent = styled.div`
 `;
 
 const ProvideListTitle = styled.div`
-  width: 130px;
+  width: max-content;
   font-weight: 400;
-  font-size: 14px;
+  font-size: 1.6rem;
   line-height: 20px;
   text-align: right;
   color: #b9b9b9;
   text-align: end;
   margin-right: 20px;
 
+  ${mediaQueryLargeDesktop} {
+    font-size: 14px;
+    width: 130px;
+  }
   ${mediaQueryMobile} {
     text-align: start;
   }
@@ -74,8 +84,12 @@ const ProvideListTitle = styled.div`
 
 const ProvideListData = styled.div`
   font-weight: 500;
-  font-size: 16px;
+  font-size: 1.84rem;
   color: rgba(0, 0, 0, 0.54);
+
+  ${mediaQueryLargeDesktop} {
+    font-size: 16px;
+  }
 
   ${mediaQueryMobile} {
     font-size: 16px;
@@ -87,12 +101,14 @@ const ProvideListData = styled.div`
 export const ProvideListCard = ({ props, setStatus }: ProvideListCardProps) => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const { execute: updateOrder } = useUpdateOrder();
   const { data: order, execute: getOrder } = useOrder();
   const history = useHistory();
   const { pathname } = useLocation();
   const query = pathname.split('/')[3];
+
+  const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
+  const isLargeDesktop = useMedia(`(max-width: ${LARGE_DESKTOP_WIDTH}px)`);
 
   const [form] = Form.useForm();
 
@@ -112,10 +128,10 @@ export const ProvideListCard = ({ props, setStatus }: ProvideListCardProps) => {
     <Menu>
       <Menu.Item
         onClick={() => {
-          if (props.status !== 'waiting') {
+          if (props.status !== 'pending') {
             try {
-              updateOrder(props.id, { status: 'waiting' }).then(() => {
-                setStatus('waiting');
+              updateOrder(props.id, { status: 'pending' }).then(() => {
+                setStatus('pending');
               });
             } catch (error) {
               message.error('ไม่สามาถเปลี่ยนสถานะได้');
@@ -129,10 +145,10 @@ export const ProvideListCard = ({ props, setStatus }: ProvideListCardProps) => {
       </Menu.Item>
       <Menu.Item
         onClick={() => {
-          if (props.status !== 'pending') {
+          if (props.status !== 'progress') {
             try {
-              updateOrder(props.id, { status: 'pending' }).then(() => {
-                setStatus('pending');
+              updateOrder(props.id, { status: 'progress' }).then(() => {
+                setStatus('progress');
               });
             } catch (error) {
               message.error('ไม่สามาถเปลี่ยนสถานะได้');
@@ -198,8 +214,12 @@ export const ProvideListCard = ({ props, setStatus }: ProvideListCardProps) => {
         <ProvideListData
           css={css`
             font-weight: 700;
-            font-size: 24px;
+            font-size: 2.3rem;
             color: black;
+
+            ${mediaQueryLargeDesktop} {
+              font-size: 24px;
+            }
           `}
         >
           {props.title}
@@ -259,9 +279,13 @@ export const ProvideListCard = ({ props, setStatus }: ProvideListCardProps) => {
           <ProvideListData
             css={css`
               width: unset;
-              font-size: 24px;
+              font-size: 1.9rem;
               font-weight: 600;
               color: black;
+
+              ${mediaQueryLargeDesktop} {
+                font-size: 24px;
+              }
             `}
           >
             ฿{props.serviceCharge + props.price}
@@ -297,6 +321,9 @@ export const ProvideListCard = ({ props, setStatus }: ProvideListCardProps) => {
                 width: 47%;
               }
             `}
+            onClick={() => {
+              history.push(`/chat/${props.chatId}`);
+            }}
           >
             แชท
           </PrimaryButton>
@@ -320,9 +347,19 @@ export const ProvideListCard = ({ props, setStatus }: ProvideListCardProps) => {
           `}
         >
           <PrimaryButton
+            onClick={() => {
+              history.push(`/chat/${props.chatId}`);
+            }}
             css={css`
-              min-width: 150px;
               background: #0047ff;
+              min-width: 210px;
+              height: 52px;
+              max-width: 550px;
+              font-size: 1.6rem;
+
+              ${mediaQueryLargeDesktop} {
+                min-width: 150px;
+              }
 
               ${mediaQueryTablet} {
                 min-width: 170px;
@@ -334,12 +371,19 @@ export const ProvideListCard = ({ props, setStatus }: ProvideListCardProps) => {
               }
             `}
           >
-            แขท
+            แชท
           </PrimaryButton>
           <Dropdown overlay={menu}>
             <PrimaryButton
               css={css`
-                min-width: 150px;
+                min-width: 210px;
+                height: 52px;
+                max-width: 550px;
+                font-size: 1.6rem;
+
+                ${mediaQueryLargeDesktop} {
+                  min-width: 150px;
+                }
 
                 ${mediaQueryTablet} {
                   min-width: 170px;
@@ -361,12 +405,22 @@ export const ProvideListCard = ({ props, setStatus }: ProvideListCardProps) => {
         onOk={handleOk}
         onCancel={handleCancel}
         footer={null}
-        width={400}
+        width={isMobile ? '400px' : isLargeDesktop ? '400px' : '25%'}
         maskClosable={false}
         centered
         css={css`
           .ant-modal-content {
-            height: 220px;
+            height: 320px;
+          }
+
+          .ant-modal-body {
+            height: 100%;
+          }
+
+          ${mediaQueryLargeDesktop} {
+            .ant-modal-content {
+              height: 220px;
+            }
           }
         `}
       >

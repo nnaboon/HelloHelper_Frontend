@@ -16,12 +16,14 @@ import { LeftOutlined } from '@ant-design/icons';
 import { useUpdateOrder } from 'hooks/order/useUpdateOrder';
 import {
   mediaQueryMobile,
+  mediaQuerySmallTablet,
+  mediaQueryTablet,
+  mediaQueryLargeDesktop,
   useMedia,
   MOBILE_WIDTH,
   SMALL_TABLET_WIDTH,
-  TABLET_WIDTH,
-  mediaQuerySmallTablet,
-  mediaQueryTablet
+  LARGE_DESKTOP_WIDTH,
+  TABLET_WIDTH
 } from 'styles/variables';
 import { useOrder } from 'hooks/order/useOrder';
 import { Loading } from 'components/Loading/Loading';
@@ -30,14 +32,18 @@ import { WrapperContainer } from 'components/Wrapper/WrapperContainer';
 const ProvideListContainer = styled.div`
   position: relative;
   width: 100%;
-  min-height: 310px;
+  min-height: 400px;
   background: #ffffff;
   box-sizing: border-box;
   border-radius: 12px;
   box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.1);
   margin-bottom: 40px;
-  margin-top: 20px;
+  margin-top: 30px;
   padding: 30px 40px;
+
+  ${mediaQueryLargeDesktop} {
+    min-height: 310px;
+  }
 
   ${mediaQueryTablet} {
     width: 100%;
@@ -55,14 +61,19 @@ const ProvideListContent = styled.div`
 `;
 
 const ProvideListTitle = styled.div`
-  width: 130px;
+  width: 280px;
   font-weight: 400;
-  font-size: 14px;
+  font-size: 1.4rem;
   line-height: 20px;
   text-align: right;
   color: #b9b9b9;
   text-align: end;
   margin-right: 20px;
+
+  ${mediaQueryLargeDesktop} {
+    font-size: 14px;
+    width: 130px;
+  }
 
   ${mediaQueryMobile} {
     text-align: start;
@@ -71,11 +82,14 @@ const ProvideListTitle = styled.div`
 
 const ProvideListData = styled.div`
   font-weight: 500;
-  font-size: 16px;
+  font-size: 1.9rem;
   color: rgba(0, 0, 0, 0.54);
 
-  ${mediaQueryMobile} {
+  ${mediaQueryLargeDesktop} {
     font-size: 16px;
+  }
+
+  ${mediaQueryMobile} {
     width: 185px;
     -webkit-line-clamp: 1;
   }
@@ -83,8 +97,12 @@ const ProvideListData = styled.div`
 
 const ReceiverData = styled.div`
   font-weight: 500;
-  font-size: 18px;
+  font-size: 1.7rem;
   color: rgba(0, 0, 0, 0.54);
+
+  ${mediaQueryLargeDesktop} {
+    font-size: 16px;
+  }
 
   ${mediaQueryMobile} {
     font-size: 16px;
@@ -105,6 +123,7 @@ export const OrderInfoPage = () => {
   const { data: order, execute: getOrder } = useOrder();
 
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
+  const isLargeDesktop = useMedia(`(max-width: ${LARGE_DESKTOP_WIDTH}px)`);
 
   const [form] = Form.useForm();
 
@@ -139,9 +158,9 @@ export const OrderInfoPage = () => {
     <Menu>
       <Menu.Item
         onClick={() => {
-          if (order.status !== 'waiting') {
+          if (order.status !== 'pending') {
             try {
-              updateOrder(query, { status: 'waiting' }).then(() => {
+              updateOrder(query, { status: 'pending' }).then(() => {
                 getOrder(query);
               });
             } catch (error) {
@@ -156,9 +175,9 @@ export const OrderInfoPage = () => {
       </Menu.Item>
       <Menu.Item
         onClick={() => {
-          if (order.status !== 'pending') {
+          if (order.status !== 'progress') {
             try {
-              updateOrder(query, { status: 'pending' }).then(() => {
+              updateOrder(query, { status: 'progress' }).then(() => {
                 getOrder(query);
               });
             } catch (error) {
@@ -221,10 +240,23 @@ export const OrderInfoPage = () => {
                 history.push(`/order/${orderType}`);
               }}
             >
-              <LeftOutlined style={{ fontSize: '20px', marginRight: '10px' }} />
+              <LeftOutlined
+                style={{ marginRight: '10px' }}
+                css={css`
+                  font-size: 2.2rem;
+
+                  ${mediaQueryLargeDesktop} {
+                    font-size: 20px;
+                  }
+                `}
+              />
               <div
                 css={css`
-                  font-size: 18px;
+                  font-size: 2.4rem;
+
+                  ${mediaQueryLargeDesktop} {
+                    font-size: 20px;
+                  }
                 `}
               >
                 ย้อนกลับ
@@ -238,7 +270,11 @@ export const OrderInfoPage = () => {
                   css={css`
                     width: unset;
                     color: #ee6400;
-                    font-size: 18px;
+                    font-size: 1.5rem;
+
+                    ${mediaQueryLargeDesktop} {
+                      font-size: 18px;
+                    }
                   `}
                 >
                   {order.id}
@@ -252,12 +288,39 @@ export const OrderInfoPage = () => {
           </Flex>
           <Flex
             justify="space-between"
-            marginTop="20px"
             marginBottom="40px"
             itemAlign="flex-end"
+            css={css`
+              margin-top: 30px;
+
+              ${mediaQueryLargeDesktop} {
+                margin-top: 20px;
+              }
+            `}
           >
-            <div>
-              <Text fontSize="26px" fontWeight={500} marginY="15px">
+            <div
+              css={css`
+                margin-left: 40px;
+
+                ${mediaQueryLargeDesktop} {
+                  margin-left: 0;
+                }
+
+                ${mediaQuerySmallTablet} {
+                  margin-left: 14px;
+                }
+              `}
+            >
+              <Text
+                fontWeight={500}
+                marginY="15px"
+                css={css`
+                  font-size: 2.2rem;
+                  ${mediaQueryLargeDesktop} {
+                    font-size: 26px;
+                  }
+                `}
+              >
                 ที่อยู่จัดส่ง
               </Text>
               <ReceiverData>{order.receiver.name}</ReceiverData>
@@ -292,8 +355,11 @@ export const OrderInfoPage = () => {
                       ให้คะแนน
                     </PrimaryButton>
                     <SecondaryButton
+                      onClick={() => {
+                        history.push(`/chat/${order.chatId}`);
+                      }}
                       css={css`
-                        min-width: 140px;
+                        width: 140px;
                         height: 45px;
                         z-index: 10;
                         margin-right: 0;
@@ -316,6 +382,9 @@ export const OrderInfoPage = () => {
                 ) : (
                   <Flex direction="column" itemAlign="flex-end">
                     <SecondaryButton
+                      onClick={() => {
+                        history.push(`/chat/${order.chatId}`);
+                      }}
                       css={css`
                         min-width: 140px;
                         height: 45px;
@@ -340,12 +409,22 @@ export const OrderInfoPage = () => {
               ) : (
                 <Flex direction="column">
                   <SecondaryButton
+                    onClick={() => {
+                      history.push(`/chat/${order.chatId}`);
+                    }}
                     css={css`
-                      min-width: 140px;
-                      height: 45px;
+                      width: 180px;
+                      height: 50px;
                       z-index: 10;
                       margin-right: 0;
-                      margin-bottom: 0;
+                      margin-bottom: 2px;
+                      font-size: 1.7rem;
+
+                      ${mediaQueryLargeDesktop} {
+                        width: 140px;
+                        height: 45px;
+                        margin-bottom: 0;
+                      }
 
                       ${mediaQueryTablet} {
                         min-width: 130px;
@@ -362,10 +441,16 @@ export const OrderInfoPage = () => {
                   <Dropdown overlay={menu}>
                     <PrimaryButton
                       css={css`
-                        width: 140px;
-                        height: 45px;
+                        width: 180px;
+                        height: 50px;
                         margin-left: 0;
                         margin-top: 10px;
+                        font-size: 1.7rem;
+
+                        ${mediaQueryLargeDesktop} {
+                          width: 140px;
+                          height: 45px;
+                        }
 
                         ${mediaQueryTablet} {
                           min-width: 130px;
@@ -384,7 +469,6 @@ export const OrderInfoPage = () => {
               )}
             </div>
           </Flex>
-
           <ProvideListContainer>
             <ProvideListContent>
               {/* <Flex itemAlign="flex-start"> */}
@@ -392,8 +476,12 @@ export const OrderInfoPage = () => {
               <ProvideListData
                 css={css`
                   font-weight: 700;
-                  font-size: 24px;
+                  font-size: 2.4rem;
                   color: black;
+
+                  ${mediaQueryLargeDesktop} {
+                    font-size: 24px;
+                  }
                 `}
               >
                 {order.title}
@@ -453,8 +541,13 @@ export const OrderInfoPage = () => {
                 <ProvideListData
                   css={css`
                     width: unset;
-                    font-size: 16px;
+                    font-size: 2.2rem;
+                    font-weight: 600;
                     color: black;
+
+                    ${mediaQueryLargeDesktop} {
+                      font-size: 24px;
+                    }
                   `}
                 >
                   {order.payment}
@@ -465,9 +558,13 @@ export const OrderInfoPage = () => {
                 <ProvideListData
                   css={css`
                     width: unset;
-                    font-size: 24px;
+                    font-size: 2.2rem;
                     font-weight: 600;
                     color: black;
+
+                    ${mediaQueryLargeDesktop} {
+                      font-size: 24px;
+                    }
                   `}
                 >
                   ฿{order.price}
@@ -478,22 +575,30 @@ export const OrderInfoPage = () => {
                 <ProvideListData
                   css={css`
                     width: unset;
-                    font-size: 24px;
+                    font-size: 2.2rem;
                     font-weight: 600;
                     color: black;
+
+                    ${mediaQueryLargeDesktop} {
+                      font-size: 24px;
+                    }
                   `}
                 >
                   ฿{order.serviceCharge}
                 </ProvideListData>
               </Flex>
               <Flex itemAlign="center" justify="flex-end">
-                <ProvideListTitle>ยอดคำสั่งซื้อทั้งหมด</ProvideListTitle>
+                <ProvideListTitle>จำนวนคำสั่งซื้อทั้งหมด</ProvideListTitle>
                 <ProvideListData
                   css={css`
                     width: unset;
-                    font-size: 24px;
+                    font-size: 2.2rem;
                     font-weight: 600;
                     color: black;
+
+                    ${mediaQueryLargeDesktop} {
+                      font-size: 24px;
+                    }
                   `}
                 >
                   ฿{order.serviceCharge + order.price}
@@ -605,12 +710,22 @@ export const OrderInfoPage = () => {
               onOk={handleOk}
               onCancel={handleCancel}
               footer={null}
-              width={400}
+              width={isMobile ? '400px' : isLargeDesktop ? '400px' : '25%'}
               maskClosable={false}
               centered
               css={css`
                 .ant-modal-content {
-                  height: 220px;
+                  height: 320px;
+                }
+
+                .ant-modal-body {
+                  height: 100%;
+                }
+
+                ${mediaQueryLargeDesktop} {
+                  .ant-modal-content {
+                    height: 220px;
+                  }
                 }
               `}
             >
@@ -619,7 +734,7 @@ export const OrderInfoPage = () => {
           </ProvideListContainer>
         </React.Fragment>
       ) : (
-        <Loading />
+        <Loading height="calc(100vh - 265px)" />
       )}
     </WrapperContainer>
   );

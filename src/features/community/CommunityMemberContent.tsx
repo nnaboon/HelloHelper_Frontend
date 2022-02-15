@@ -13,13 +13,13 @@ import {
   useMedia,
   MOBILE_WIDTH,
   mediaQueryMobile,
-  mediaQuerySmallTablet
+  mediaQuerySmallTablet,
+  mediaQueryLargeDesktop
 } from 'styles/variables';
-import { myAccountUserId, USER_DATA } from '../../data/user';
 
 const CommunityMemberCard = styled.div`
   width: 100%;
-  height: 110px;
+  height: 130px;
   background: #ffffff;
   box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.09);
   border-radius: 12px;
@@ -35,8 +35,12 @@ const CommunityMemberCard = styled.div`
 
 const CommunityAdminBadge = styled.div`
   font-weight: normal;
-  font-size: 14px;
+  font-size: 1.2rem;
   color: #ee6400;
+
+  ${mediaQueryLargeDesktop} {
+    font-size: 14px;
+  }
 
   ${mediaQueryMobile} {
     width: 100%;
@@ -46,9 +50,14 @@ const CommunityAdminBadge = styled.div`
 
 const CommunityMemberImage = styled.img`
   border-radius: 50%;
-  width: 74px;
-  height: 74px;
+  width: 90px;
+  height: 90px;
   margin-right: 55px;
+
+  ${mediaQueryLargeDesktop} {
+    width: 74px;
+    height: 74px;
+  }
 
   ${mediaQuerySmallTablet} {
     margin-right: 25px;
@@ -64,9 +73,14 @@ const CommunityMemberImage = styled.img`
 
 const UserName = styled.div`
   font-weight: 700;
-  font-size: 24px;
+  font-size: 1.7rem;
   color: #000000;
+  margin-bottom: 5px;
   margin-right: 30px;
+
+  ${mediaQueryLargeDesktop} {
+    font-size: 24px;
+  }
 
   ${mediaQuerySmallTablet} {
     margin-right: 20px;
@@ -149,7 +163,11 @@ export const CommunityMemberContent = ({ member }: any) => {
               {' '}
               <SecondaryButton
                 css={css`
-                  width: 140px;
+                  width: 165px;
+
+                  ${mediaQueryLargeDesktop} {
+                    width: 140px;
+                  }
 
                   ${mediaQuerySmallTablet} {
                     width: 100px;
@@ -172,22 +190,27 @@ export const CommunityMemberContent = ({ member }: any) => {
                   โปรไฟล์
                 </div>
               </SecondaryButton>
-              <PrimaryButton
-                css={css`
-                  width: 140px;
+              {id !== window.localStorage.getItem('id') && (
+                <PrimaryButton
+                  css={css`
+                    width: 165px;
 
-                  ${mediaQuerySmallTablet} {
-                    width: 100px;
-                  }
+                    ${mediaQueryLargeDesktop} {
+                      width: 140px;
+                    }
+                    ${mediaQuerySmallTablet} {
+                      width: 100px;
+                    }
 
-                  ${mediaQueryMobile} {
-                    width: 45%;
-                  }
-                `}
-              >
-                <MessageSvg />
-                <div style={{ marginLeft: 5 }}>แชท</div>
-              </PrimaryButton>
+                    ${mediaQueryMobile} {
+                      width: 45%;
+                    }
+                  `}
+                >
+                  <MessageSvg />
+                  <div style={{ marginLeft: 5 }}>แชท</div>
+                </PrimaryButton>
+              )}
             </div>
           </div>
         </CommunityMemberCard>

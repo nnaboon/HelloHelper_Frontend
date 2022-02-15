@@ -4,8 +4,12 @@ import React from 'react';
 import { css, jsx } from '@emotion/react';
 import styled from '@emotion/styled';
 import Carousel from 'react-multi-carousel';
-import { LeftOutlined, RightOutlined } from '@ant-design/icons';
-import { mediaQueryMobile, MOBILE_WIDTH, useMedia } from 'styles/variables';
+import {
+  mediaQueryMobile,
+  mediaQueryLargeDesktop,
+  MOBILE_WIDTH,
+  useMedia
+} from 'styles/variables';
 
 const NewsSection = styled.div`
   width: 100%;
@@ -24,8 +28,12 @@ const NewsSection = styled.div`
 
 const NewsContainer = styled.div`
   width: 100%;
-  height: 384px;
+  height: 450px;
   background: #f5f5f5;
+
+  ${mediaQueryLargeDesktop} {
+    height: 384px;
+  }
 
   ${mediaQueryMobile} {
     width: 100%;

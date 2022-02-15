@@ -4,6 +4,7 @@ import React from 'react';
 import { css, jsx } from '@emotion/react';
 import { Rate } from 'antd';
 import { mediaQueryMobile } from 'styles/variables';
+import { mediaQueryLargeDesktop } from '../../styles/variables';
 
 export const getStar = (count: Number) => {
   // for (let i = 0; i < count; i++) {
@@ -16,18 +17,19 @@ export const getStar = (count: Number) => {
         style={{ minWidth: '153px', display: 'flex', justifyContent: 'center' }}
         css={css`
           .ant-rate-star.ant-rate-star-full svg {
-            width: 24px;
-            height: 24px;
+            width: 30px;
+            height: 30px;
           }
           .ant-rate-star.ant-rate-star-zero svg {
-            width: 24px;
-            height: 24px;
+            width: 30px;
+            height: 30px;
           }
 
           .ant-rate-star.ant-rate-star-half.ant-rate-star-active svg {
-            width: 24px;
-            height: 24px;
+            width: 30px;
+            height: 30px;
           }
+
           .ant-rate-star.ant-rate-star-full,
           .ant-rate-star.ant-rate-star-zero,
           .ant-rate-star.ant-rate-star-half.ant-rate-star-active {
@@ -47,8 +49,29 @@ export const getStar = (count: Number) => {
           }
 
           .ant-rate-star:not(:last-child) {
-            margin-right: 5px;
+            margin-right: 8px;
           }
+
+          ${mediaQueryLargeDesktop} {
+            .ant-rate-star.ant-rate-star-full svg {
+              width: 24px;
+              height: 24px;
+            }
+            .ant-rate-star.ant-rate-star-zero svg {
+              width: 24px;
+              height: 24px;
+            }
+
+            .ant-rate-star.ant-rate-star-half.ant-rate-star-active svg {
+              width: 24px;
+              height: 24px;
+            }
+
+            .ant-rate-star:not(:last-child) {
+              margin-right: 5px;
+            }
+          }
+
           ${mediaQueryMobile} {
             .ant-rate-star:not(:last-child) {
               margin-right: 4px;

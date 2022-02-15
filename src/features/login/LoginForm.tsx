@@ -6,16 +6,25 @@ import styled from '@emotion/styled';
 import { useHistory } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import { Input, Button, Form, Divider } from 'antd';
+import { FacebookOutlined, GoogleOutlined } from '@ant-design/icons';
 import { Text } from 'components/Text';
 import { PrimaryButton } from 'components/Button/Button';
 import Flex from 'components/Flex/Flex';
 import { LoginStep } from './const';
-import { mediaQueryMobile } from 'styles/variables';
 import firebase, { signInWithGoogle, signInWithFacebook } from '../../firebase';
 import axios from 'axios';
 import { useUser } from 'hooks/user/useUser';
 import { userStore } from 'store/userStore';
 import { REACT_APP_API } from 'config';
+import {
+  useMedia,
+  LARGE_DESKTOP_WIDTH,
+  TABLET_WIDTH,
+  MOBILE_WIDTH,
+  mediaQueryMobile,
+  mediaQueryTablet,
+  mediaQueryLargeDesktop
+} from 'styles/variables';
 
 interface LoginFormProps {
   setStep: (step: LoginStep) => void;
@@ -37,27 +46,9 @@ export const LoginForm = observer(
     const [isLoggedIn, serIsLoggedIn] = useState<boolean>(false);
     const [form] = Form.useForm();
     const history = useHistory();
-    const { setUserId, setMe } = userStore;
     const { data: user, execute: getUser } = useUser();
 
-    // useEffect(() => {
-    //   if (window.localStorage.getItem('id')) {
-    //     getUser(window.localStorage.getItem('id'));
-    //   }
-    // }, [window.localStorage.getItem('id')]);
-
-    // useEffect(() => {
-    //   if (user) {
-    //     setUserId(user.userId);
-    //   }
-    // }, [setStep, user]);
-
-    // useEffect(() => {
-    //   if (user) {
-    //     setMe(user);
-    //     setIsModalVisible(false);
-    //   }
-    // }, [user]);
+    const isLargeDesktop = useMedia(`(max-width: ${LARGE_DESKTOP_WIDTH}px)`);
 
     const onFinish = (value) => {
       firebase
@@ -71,36 +62,13 @@ export const LoginForm = observer(
                 idToken: idToken
               })
               .then((res) => {
-                // setUserId(res.data.uid);
-                // serIsLoggedIn(true);
                 getUser(res.data.uid);
               })
               .catch((error) => {
                 console.log(error.message);
               });
-            // fetch('${REACT_APP_API}/users/verify', {
-            //   method: 'POST',
-            //   headers: {
-            //     Accept: 'application/json',
-            //     'Access-Control-Allow-Origin': '*',
-            //     'Content-Type': 'application/json'
-            //   },
-            //   body: JSON.stringify({ idToken })
-            // });
-            // .then((res) => {
-            //   console.log('res', res);
-            // })
-            // .catch((error) => {
-            //   console.log(error);
-            // });
           });
         })
-        // .catch((error) => {
-        //   console.log(error);
-        // });
-        // .then(() => {
-        //   return firebase.auth().signOut();
-        // })
         .then((res) => {
           history.push('/');
         });
@@ -116,14 +84,29 @@ export const LoginForm = observer(
           `}
         />
 
-        <Text fontSize="24px" marginY="10px">
+        <Text
+          marginY="10px"
+          css={css`
+            font-size: 2.3rem;
+
+            ${mediaQueryLargeDesktop} {
+              font-size: 24px;
+            }
+          `}
+        >
           เข้าสู่ระบบ
         </Text>
         <Text
-          fontSize="18px"
           fontWeight={500}
           marginBottom="10px"
           color="#F86800"
+          css={css`
+            font-size: 1.7rem;
+
+            ${mediaQueryLargeDesktop} {
+              font-size: 18px;
+            }
+          `}
         >
           เข้าสู่ระบบได้ง่ายด้วย Facebook หรือ Google account
         </Text>
@@ -131,9 +114,18 @@ export const LoginForm = observer(
           css={css`
             width: 100%;
             margin-left: 0;
-            height: 50px;
+            height: 60px;
             background: #1877f2;
             margin: 20px 0;
+            max-width: 100%;
+            font-size: 1.5rem;
+            pointer-events: none;
+            cursor: default;
+
+            ${mediaQueryLargeDesktop} {
+              height: 50px;
+              font-size: 18px;
+            }
 
             ${mediaQueryMobile} {
               margin: 10px 0 !important;
@@ -141,21 +133,49 @@ export const LoginForm = observer(
           `}
           onClick={signInWithFacebook}
         >
-          Facebook
+          <Flex justify="center">
+            <FacebookOutlined
+              style={{ fontSize: '36px', marginRight: '10px' }}
+            />
+            <div>Facebook</div>
+          </Flex>
         </PrimaryButton>
         <PrimaryButton
           css={css`
             width: 100%;
             margin-left: 0;
-            height: 50px;
+            height: 60px;
             background: #d34836;
             margin-bottom: 10px;
+            max-width: 100%;
+            font-size: 1.5rem;
+
+            ${mediaQueryLargeDesktop} {
+              height: 50px;
+              font-size: 18px;
+            }
           `}
           onClick={signInWithGoogle}
         >
-          Google
+          <Flex justify="center">
+            <GoogleOutlined style={{ fontSize: '34px', marginRight: '10px' }} />
+            <div>Google</div>
+          </Flex>
         </PrimaryButton>
-        <Divider style={{ borderTopColor: '#C4C4C4', color: '#7C7A7A' }}>
+        <Divider
+          style={{ borderTopColor: '#C4C4C4', color: '#7C7A7A' }}
+          css={css`
+            .ant-divider-inner-text {
+              font-size: 1.4rem;
+            }
+
+            ${mediaQueryLargeDesktop} {
+              .ant-divider-inner-text {
+                font-size: 14px;
+              }
+            }
+          `}
+        >
           หรือ
         </Divider>
         <Form
@@ -168,9 +188,62 @@ export const LoginForm = observer(
           autoComplete="off"
           css={css`
             .ant-form-item-control-input {
-              ${mediaQueryMobile} {
+              width: 100%;
+            }
+            .ant-form-item-label > label {
+              font-size: 1.5rem;
+            }
+
+            .ant-form-item {
+              margin-bottom: 32px;
+            }
+
+            .ant-select-single:not(.ant-select-customize-input)
+              .ant-select-selector {
+              height: 40px;
+            }
+
+            .ant-upload.ant-upload-select-picture-card {
+              width: 170px;
+              height: 170px;
+            }
+
+            .ant-col-16 {
+              max-width: 100%;
+            }
+
+            ${mediaQueryLargeDesktop} {
+              font-size: 24px;
+
+              .ant-select-single:not(.ant-select-customize-input)
+                .ant-select-selector {
+                height: 32px;
+              }
+
+              .ant-form-item {
+                margin-bottom: 24px;
+              }
+
+              .ant-form-item-control-input {
                 width: 100%;
               }
+
+              .ant-form-item-label > label {
+                font-size: 16px;
+              }
+
+              .ant-upload.ant-upload-select-picture-card {
+                width: 104px;
+                height: 104px;
+              }
+
+              .ant-col-16 {
+                max-width: 100%;
+              }
+            }
+
+            ${mediaQueryMobile} {
+              width: 100%;
             }
           `}
         >
@@ -180,7 +253,16 @@ export const LoginForm = observer(
           >
             <Input
               placeholder="อีเมล"
-              style={{ height: '40px', borderRadius: '12px' }}
+              style={{ borderRadius: '12px' }}
+              css={css`
+                height: 50px;
+                font-size: 1.5rem;
+
+                ${mediaQueryLargeDesktop} {
+                  height: 40px;
+                  font-size: 14px;
+                }
+              `}
             />
           </Form.Item>
 
@@ -190,7 +272,16 @@ export const LoginForm = observer(
           >
             <Input.Password
               placeholder="รหัสผ่าน"
-              style={{ height: '40px', borderRadius: '12px' }}
+              style={{ borderRadius: '12px' }}
+              css={css`
+                height: 50px;
+                font-size: 1.5rem;
+
+                ${mediaQueryLargeDesktop} {
+                  height: 40px;
+                  font-size: 14px;
+                }
+              `}
             />
           </Form.Item>
 
@@ -200,23 +291,37 @@ export const LoginForm = observer(
             css={css`
               width: 100%;
               margin-left: 0;
-              height: 50px;
+              height: 60px;
               box-sizing: border-box;
               background: #ee6400;
               border-radius: 9px;
               border: 0;
               color: #ffff;
-              font-size: 16px;
+              font-size: 1.6rem;
               position: relative;
 
               &:hover {
                 background: #ee6400;
               }
+
+              ${mediaQueryLargeDesktop} {
+                font-size: 18px;
+                height: 50px;
+              }
             `}
           >
             เข้าสู่ระบบ
           </Button>
-          <Flex justify="center" marginTop="35px">
+          <Flex
+            justify="center"
+            marginTop="35px"
+            css={css`
+              font-size: 1.3rem;
+              ${mediaQueryLargeDesktop} {
+                font-size: 16px;
+              }
+            `}
+          >
             เพิ่งเคยใช้บริการใช่ไหม ?{' '}
             <span
               style={{

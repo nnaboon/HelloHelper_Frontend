@@ -113,7 +113,11 @@ export const RegisterForm = observer(
               userAccountData={createUserData}
               onNext={async (userAccountData: UserCreateBody) => {
                 await setCreateUserData(userAccountData);
-                if (user?.emailVerified) {
+                if (
+                  user?.emailVerified ||
+                  user.providerData[0].providerId === 'facebook.com' ||
+                  user.providerData[0].providerId === 'google.com'
+                ) {
                   axios
                     .post(`${REACT_APP_API}/user`, userAccountData)
                     .then((res) => {
@@ -129,7 +133,6 @@ export const RegisterForm = observer(
                 } else {
                   setIsModalVisible(false);
                   message.error('อีเมล์์ของคุณยังไม่ถูกยืนยัน');
-                  auth.signOut();
                 }
               }}
               onBack={() => {

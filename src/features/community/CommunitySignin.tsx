@@ -23,8 +23,9 @@ import {
   useMedia,
   MOBILE_WIDTH,
   TABLET_WIDTH,
+  LARGE_DESKTOP_WIDTH,
   mediaQueryMobile,
-  mediaQueryDesktop,
+  mediaQueryLargeDesktop,
   mediaQuerySmallTablet,
   mediaQueryTablet
 } from 'styles/variables';
@@ -196,6 +197,8 @@ export const CommunitySignin = observer(() => {
   const query = pathname.split('/')[3];
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
+  const isLargeDesktop = useMedia(`(max-width: ${LARGE_DESKTOP_WIDTH}px)`);
+
   const { Search } = Input;
 
   const onSearch = (value) => {
@@ -223,6 +226,12 @@ export const CommunitySignin = observer(() => {
             fontWeight={500}
             marginTop="10px"
             marginBottom="30px"
+            css={css`
+              font-size: 2.2rem;
+              ${mediaQueryLargeDesktop} {
+                font-size: 23px;
+              }
+            `}
           >
             คุณมีชุมชนความช่วยเหลือแล้วหรือยัง
             สามารถเพิ่มชุมชนความช่วยเหลือของคุณเองได้{' '}
@@ -450,17 +459,20 @@ export const CommunitySignin = observer(() => {
             onOk={handleOk}
             onCancel={handleCancel}
             footer={null}
-            width={500}
+            width={isMobile ? '80%' : isLargeDesktop ? '800px' : '32%'}
             maskClosable={false}
             centered
             css={css`
               .ant-modal-content {
-                height: 850px;
-                overflow-y: scroll;
-              }
+                height: 100%;
 
-              .ant-modal-body {
-                height: 100% !important;
+                ${mediaQueryLargeDesktop} {
+                  height: 850px;
+                }
+
+                ${mediaQueryMobile} {
+                  height: 480px;
+                }
               }
             `}
           >
@@ -468,7 +480,7 @@ export const CommunitySignin = observer(() => {
           </Modal>
         </React.Fragment>
       ) : (
-        <Loading />
+        <Loading height="calc(100vh - 265px)" />
       )}
     </WrapperContainer>
   );

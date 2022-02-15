@@ -25,6 +25,7 @@ import { useAddProvide } from 'hooks/provide/useAddProvide';
 import { useAddRequest } from 'hooks/request/useAddRequest';
 import { useUploadProvideImage } from 'hooks/provide/useUploadProvideImage';
 import { useUploadRequestImage } from 'hooks/request/useUploadRequestImage';
+import { LARGE_DESKTOP_WIDTH } from '../../styles/variables';
 
 interface PostRequestButtonProps {
   buttonText: string;
@@ -33,10 +34,15 @@ interface PostRequestButtonProps {
 const RequestButton = styled(PrimaryButton)`
   width: max-content;
   min-width: 180px;
-  height: 44px;
+  height: 50px;
   padding: 0 20px;
   font-weight: 500;
-  font-size: 18px;
+  font-size: 1.5rem;
+
+  ${mediaQueryLargeDesktop} {
+    height: 44px;
+    font-size: 18px;
+  }
 
   &:hover {
     color: #ffff;
@@ -77,6 +83,7 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
 
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const isSmallTablet = useMedia(`(max-width: ${SMALL_TABLET_WIDTH}px)`);
+  const isLargeDesktop = useMedia(`(max-width: ${LARGE_DESKTOP_WIDTH}px)`);
 
   const { pathname } = useLocation();
 
@@ -116,16 +123,16 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
       title: value.title,
       location: {
         name: location.name,
-        lat: location.geometry.location.lat(),
-        lng: location.geometry.location.lng()
+        latitude: location.geometry.location.lat(),
+        longitude: location.geometry.location.lng()
       },
       communityId:
         pathname.split('/')[1] === 'community'
           ? pathname.split('/')[2]
           : undefined,
       description: value.message ?? '',
-      serviceCharge: value.maxServiceCharge,
-      payment: value.payment,
+      serviceCharge: value.maxServiceCharge as Number,
+      payment: value.payment as Number,
       category: [value.category],
       hashtag: tags
     };
@@ -150,10 +157,10 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
           })
         : uploadRequestImage(formData).then((res) => {
             addRequest({
-              price: value.maxPrice,
+              price: value.maxPrice as Number,
               imageUrl: res.data,
               provideUserId: [''],
-              number: value.number,
+              number: value.number as Number,
               ...data
             })
               .then(() => {
@@ -218,12 +225,12 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
           form.resetFields();
         }}
         footer={null}
-        width={isMobile ? '80%' : '800px'}
+        width={isMobile ? '80%' : isLargeDesktop ? '800px' : '45%'}
         maskClosable={false}
         centered
         css={css`
           .ant-modal-content {
-            height: 950px;
+            height: 100%;
 
             ${mediaQueryLargeDesktop} {
               height: 850px;
@@ -272,7 +279,18 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
               }
             `}
           />
-          <Text fontSize="24px" marginTop="10px" marginBottom="20px">
+          <Text
+            marginTop="10px"
+            css={css`
+              font-size: 2rem;
+              margin-bottom: 35px;
+
+              ${mediaQueryLargeDesktop} {
+                font-size: 24px;
+                margin-bottom: 20px;
+              }
+            `}
+          >
             ขอความช่วยเหลือ
           </Text>
           <Form
@@ -283,12 +301,60 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
             // initialValues={{ remember: true }}
             onFinish={onFinish}
             css={css`
-              .ant-form-item-control-input {
-                width: 460px;
+              .ant-form-item-label > label {
+                font-size: 1.5rem;
+              }
 
-                ${mediaQueryMobile} {
-                  width: 100%;
+              .ant-form-item {
+                margin-bottom: 35px;
+              }
+
+              .ant-select-single:not(.ant-select-customize-input)
+                .ant-select-selector {
+                height: 40px;
+              }
+
+              .ant-upload.ant-upload-select-picture-card {
+                width: 170px;
+                height: 170px;
+              }
+
+              .ant-col-16 {
+                max-width: 100%;
+              }
+
+              ${mediaQueryLargeDesktop} {
+                font-size: 24px;
+
+                .ant-select-single:not(.ant-select-customize-input)
+                  .ant-select-selector {
+                  height: 32px;
                 }
+
+                .ant-col-16 {
+                  max-width: 66.66667%;
+                }
+
+                .ant-form-item {
+                  margin-bottom: 24px;
+                }
+
+                .ant-form-item-control-input {
+                  width: 460px;
+                }
+
+                .ant-form-item-label > label {
+                  font-size: 16px;
+                }
+
+                .ant-upload.ant-upload-select-picture-card {
+                  width: 104px;
+                  height: 104px;
+                }
+              }
+
+              ${mediaQueryMobile} {
+                width: 100%;
               }
             `}
           >
@@ -324,7 +390,16 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
             >
               <Input
                 placeholder="ชื่อ"
-                style={{ height: '40px', borderRadius: '12px' }}
+                style={{ borderRadius: '12px' }}
+                css={css`
+                  height: 50px;
+                  font-size: 1.5rem;
+
+                  ${mediaQueryLargeDesktop} {
+                    height: 40px;
+                    font-size: 14px;
+                  }
+                `}
               />
             </Form.Item>
 
@@ -341,13 +416,23 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
               <GoogleMapContent
                 requestLocation={location}
                 setRequestLocation={setLocation}
-                width={isSmallTablet ? '100%' : '470px'}
+                width={
+                  isSmallTablet ? '100%' : isLargeDesktop ? '470px' : '100%'
+                }
+                height={isLargeDesktop ? '300px' : '460px'}
               />
             </Form.Item>
             <Form.Item name="message" label="ข้อความ">
               <Input.TextArea
                 placeholder="ข้อความ"
                 style={{ borderRadius: '12px' }}
+                css={css`
+                  font-size: 1.5rem;
+
+                  ${mediaQueryLargeDesktop} {
+                    font-size: 14px;
+                  }
+                `}
               />
             </Form.Item>
             <Form.Item
@@ -370,7 +455,16 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
                 type="number"
                 min="0"
                 placeholder="ขอบเขตราคาสินค้า"
-                style={{ height: '40px', borderRadius: '12px' }}
+                style={{ borderRadius: '12px' }}
+                css={css`
+                  height: 50px;
+                  font-size: 1.5rem;
+
+                  ${mediaQueryLargeDesktop} {
+                    height: 40px;
+                    font-size: 14px;
+                  }
+                `}
               />
             </Form.Item>
             {/* <Flex justify="center" itemAlign="center"> */}
@@ -389,7 +483,16 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
                 placeholder="ขอบเขตราคาค่าบริการ"
                 type="number"
                 min="0"
-                style={{ height: '40px', borderRadius: '12px' }}
+                style={{ borderRadius: '12px' }}
+                css={css`
+                  height: 50px;
+                  font-size: 1.5rem;
+
+                  ${mediaQueryLargeDesktop} {
+                    height: 40px;
+                    font-size: 14px;
+                  }
+                `}
               />
             </Form.Item>
             {/* <Tooltip title="กำหนดราคาสูงสุดของความช่วยเหลือครั้งนี้ที่คุณพึงพอใจจะจ่าย ให้กับผู้ให้ความช่วยเหลือ">
@@ -420,7 +523,16 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
                 type="number"
                 min="0"
                 placeholder="จำนวนสินค้า"
-                style={{ height: '40px', borderRadius: '12px' }}
+                style={{ borderRadius: '12px' }}
+                css={css`
+                  height: 50px;
+                  font-size: 1.5rem;
+
+                  ${mediaQueryLargeDesktop} {
+                    height: 40px;
+                    font-size: 14px;
+                  }
+                `}
               />
             </Form.Item>
             <Form.Item
@@ -430,7 +542,16 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
             >
               <Input
                 placeholder="วิธีการชำระเงิน"
-                style={{ height: '40px', borderRadius: '12px' }}
+                style={{ borderRadius: '12px' }}
+                css={css`
+                  height: 50px;
+                  font-size: 1.5rem;
+
+                  ${mediaQueryLargeDesktop} {
+                    height: 40px;
+                    font-size: 14px;
+                  }
+                `}
               />
             </Form.Item>
             <Form.Item
@@ -446,7 +567,16 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
               <Select
                 allowClear
                 style={{ width: '100%' }}
-                placeholder="Please select"
+                placeholder="เลือกหมวดหมู่ความช่วยเหลือ"
+                css={css`
+                  height: 50px;
+                  font-size: 1.5rem;
+
+                  ${mediaQueryLargeDesktop} {
+                    height: 40px;
+                    font-size: 14px;
+                  }
+                `}
               >
                 {CATEGORY.map(({ id, name }) => (
                   <Select.Option key={id} value={id}>
@@ -462,7 +592,13 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
                 { required: !Boolean(tags.length), message: 'กรุณากรอกแฮชแท็ก' }
               ]}
             >
-              <EditableTagGroup tags={tags} setTags={setTags} />
+              <EditableTagGroup
+                tags={tags}
+                setTags={setTags}
+                css={css`
+                  font-size: 1.5rem;
+                `}
+              />
             </Form.Item>
 
             <Form.Item

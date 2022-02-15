@@ -5,21 +5,10 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { Text } from 'components/Text';
-import {
-  Button,
-  Form,
-  Input,
-  message,
-  Tooltip,
-  Select,
-  Upload,
-  Modal
-} from 'antd';
+import { Button, Form, Input, message, Select, Upload, Modal } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { CATEGORY } from 'data/category';
-import { RequestFormBody } from './const';
 import { GoogleMapContent } from 'components/GoogleMap/GoogleMap';
-import { InfoSvg } from 'components/Svg/InfoSvg';
 import Flex from 'components/Flex/Flex';
 import { EditableTagGroup } from 'components/Tag/Hashtag';
 import { useUpdateProvide } from 'hooks/provide/useUpdateProvide';
@@ -29,7 +18,9 @@ import {
   mediaQueryTablet,
   mediaQueryLargeDesktop,
   useMedia,
-  MOBILE_WIDTH
+  MOBILE_WIDTH,
+  SMALL_TABLET_WIDTH,
+  LARGE_DESKTOP_WIDTH
 } from 'styles/variables';
 import { useUploadProvideImage } from 'hooks/provide/useUploadProvideImage';
 import { useUploadRequestImage } from 'hooks/request/useUploadRequestImage';
@@ -61,10 +52,6 @@ export const RequestFormModal = ({
   const [loading, setLoading] = useState<boolean>(false);
   const [imageUrl, setImageUrl] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-
-  const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
-  const [form] = Form.useForm();
-
   const { execute: uploadProvideImage } = useUploadProvideImage();
   const { execute: uploadRequestImage } = useUploadRequestImage();
 
@@ -80,6 +67,12 @@ export const RequestFormModal = ({
     execute: updateRequest
   } = useUpdateRequest();
 
+  const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
+  const isSmallTablet = useMedia(`(max-width: ${SMALL_TABLET_WIDTH}px)`);
+  const isLargeDesktop = useMedia(`(max-width: ${LARGE_DESKTOP_WIDTH}px)`);
+
+  const [form] = Form.useForm();
+
   const reset = () => {
     form.resetFields();
   };
@@ -92,7 +85,6 @@ export const RequestFormModal = ({
   );
 
   useEffect(() => {
-    setImageUrl(requestData.imageUrl);
     if (requestData.type === 'provide') {
       form.setFieldsValue({
         type: requestData.type,
@@ -102,8 +94,7 @@ export const RequestFormModal = ({
         serviceCharge: requestData.serviceCharge,
         payment: requestData.payment,
         category: requestData.category,
-        hashtag: requestData.hashtag,
-        image: requestData.imageUrl
+        hashtag: requestData.hashtag
       });
     } else {
       form.setFieldsValue({
@@ -116,7 +107,6 @@ export const RequestFormModal = ({
         payment: requestData.payment,
         category: requestData.category,
         hashtag: requestData.hashtag,
-        image: requestData.imageUrl,
         number: requestData.number
       });
     }
@@ -132,13 +122,22 @@ export const RequestFormModal = ({
   const onFinish = async (value) => {
     setIsSubmitting(true);
 
+    console.log(value.image);
     const data = {
       userId: window.localStorage.getItem('id'),
       title: value.title,
       location: {
-        name: location ? location.name : requestData.name,
-        lat: location ? location.geometry.location.lat() : requestData.latitude,
-        lng: location ? location.geometry.location.lng() : requestData.longitude
+        name: location ? location.name : requestData.location.name,
+        latitude: location
+          ? location.name !== requestData.location.name
+            ? location.geometry.location.lat()
+            : requestData.location.latitude
+          : requestData.location.latitude,
+        longitude: location
+          ? location.name !== requestData.location.name
+            ? location.geometry.location.lng()
+            : requestData.location.longitude
+          : requestData.location.longitude
       },
       description: value.message,
       serviceCharge: value.serviceCharge,
@@ -147,17 +146,25 @@ export const RequestFormModal = ({
       hashtag: tags
     };
 
-    var formData = new FormData();
-    formData.append('img', value.image.file.originFileObj);
     try {
-      requestData.type === 'provide'
-        ? uploadProvideImage(formData).then((res) => {
+      if (requestData.type === 'provide') {
+        if (value.image) {
+          var formData = new FormData();
+          formData.append('img', value.image.file.originFileObj);
+          uploadProvideImage(formData).then((res) => {
             updateProvide(requestData.provideId, {
               ...data,
               imageUrl: res.data
             });
-          })
-        : uploadRequestImage(formData).then((res) => {
+          });
+        } else {
+          updateProvide(requestData.provideId, data);
+        }
+      } else {
+        if (value.image) {
+          var formData = new FormData();
+          formData.append('img', value.image.file.originFileObj);
+          uploadRequestImage(formData).then((res) => {
             updateRequest(requestData.requestId, {
               ...data,
               number: value.number,
@@ -165,6 +172,14 @@ export const RequestFormModal = ({
               imageUrl: res.data
             });
           });
+        } else {
+          updateRequest(requestData.requestId, {
+            ...data,
+            number: value.number,
+            price: value.price
+          });
+        }
+      }
     } catch (e) {
       message.error('ไม่สามารถโพสต์ขอความช่วยเหลือได้');
     } finally {
@@ -209,14 +224,14 @@ export const RequestFormModal = ({
         onClose();
         form.resetFields();
       }}
-      width={isMobile ? '80%' : '800px'}
+      width={isMobile ? '80%' : isLargeDesktop ? '800px' : '45%'}
       afterClose={reset}
       footer={null}
       maskClosable={false}
       centered
       css={css`
         .ant-modal-content {
-          height: 950px;
+          height: 100%;
 
           ${mediaQueryLargeDesktop} {
             height: 850px;
@@ -244,7 +259,19 @@ export const RequestFormModal = ({
             }
           `}
         />
-        <Text fontSize="24px" marginTop="10px" marginBottom="20px">
+        <Text
+          marginTop="10px"
+          marginBottom="20px"
+          css={css`
+            font-size: 2rem;
+            margin-bottom: 35px;
+
+            ${mediaQueryLargeDesktop} {
+              font-size: 24px;
+              margin-bottom: 20px;
+            }
+          `}
+        >
           ขอความช่วยเหลือ
         </Text>
         <Form
@@ -264,16 +291,56 @@ export const RequestFormModal = ({
             payment: requestData.payment,
             category: requestData.category,
             hashtag: requestData.hashtag,
-            image: requestData.imageUrl,
+            image: requestData.image,
             number: requestData.number
           }}
           css={css`
-            .ant-form-item-control-input {
-              width: 460px;
+            .ant-form-item-label > label {
+              font-size: 1.5rem;
+            }
 
-              ${mediaQueryMobile} {
-                width: 100%;
+            .ant-form-item {
+              margin-bottom: 32px;
+            }
+
+            .ant-select-single:not(.ant-select-customize-input)
+              .ant-select-selector {
+              height: 40px;
+            }
+
+            .ant-upload.ant-upload-select-picture-card {
+              width: 170px;
+              height: 170px;
+            }
+
+            ${mediaQueryLargeDesktop} {
+              font-size: 24px;
+
+              .ant-select-single:not(.ant-select-customize-input)
+                .ant-select-selector {
+                height: 32px;
               }
+
+              .ant-form-item {
+                margin-bottom: 24px;
+              }
+
+              .ant-form-item-control-input {
+                width: 460px;
+              }
+
+              .ant-form-item-label > label {
+                font-size: 16px;
+              }
+
+              .ant-upload.ant-upload-select-picture-card {
+                width: 104px;
+                height: 104px;
+              }
+            }
+
+            ${mediaQueryMobile} {
+              width: 100%;
             }
           `}
         >
@@ -288,8 +355,34 @@ export const RequestFormModal = ({
             ]}
           >
             <Select disabled defaultValue={requestData.type}>
-              <Select.Option value="provide">ให้ความช่วยเหลือ</Select.Option>
-              <Select.Option value="request">ขอความช่วยเหลือ</Select.Option>
+              <Select.Option
+                value="provide"
+                css={css`
+                  height: 50px;
+                  font-size: 1.5rem;
+
+                  ${mediaQueryLargeDesktop} {
+                    height: 40px;
+                    font-size: 14px;
+                  }
+                `}
+              >
+                ให้ความช่วยเหลือ
+              </Select.Option>
+              <Select.Option
+                value="request"
+                css={css`
+                  height: 50px;
+                  font-size: 1.5rem;
+
+                  ${mediaQueryLargeDesktop} {
+                    height: 40px;
+                    font-size: 14px;
+                  }
+                `}
+              >
+                ขอความช่วยเหลือ
+              </Select.Option>
             </Select>
           </Form.Item>
           <Form.Item
@@ -305,7 +398,16 @@ export const RequestFormModal = ({
             <Input
               defaultValue={requestData.title}
               placeholder="ชื่อ"
-              style={{ height: '40px', borderRadius: '12px' }}
+              style={{ borderRadius: '12px' }}
+              css={css`
+                height: 50px;
+                font-size: 1.5rem;
+
+                ${mediaQueryLargeDesktop} {
+                  height: 40px;
+                  font-size: 14px;
+                }
+              `}
             />
           </Form.Item>
 
@@ -320,7 +422,12 @@ export const RequestFormModal = ({
             ]}
           >
             <GoogleMapContent
-              requestLocation={requestData.location}
+              width={isSmallTablet ? '100%' : isLargeDesktop ? '470px' : '100%'}
+              height={isLargeDesktop ? '300px' : '460px'}
+              requestLocation={{
+                lat: requestData.location.latitude,
+                lng: requestData.location.longitude
+              }}
               setRequestLocation={setLocation}
             />
           </Form.Item>
@@ -340,6 +447,13 @@ export const RequestFormModal = ({
               placeholder="ข้อความ"
               defaultValue={requestData.description}
               style={{ borderRadius: '12px' }}
+              css={css`
+                font-size: 1.5rem;
+
+                ${mediaQueryLargeDesktop} {
+                  font-size: 14px;
+                }
+              `}
             />
           </Form.Item>
           {requestData.type === 'request' ? (
@@ -358,7 +472,14 @@ export const RequestFormModal = ({
                 placeholder="จำนวนสินค้า"
                 min="0"
                 type="number"
-                style={{ height: '40px', borderRadius: '12px' }}
+                style={{ borderRadius: '12px' }}
+                css={css`
+                  font-size: 1.5rem;
+
+                  ${mediaQueryLargeDesktop} {
+                    font-size: 14px;
+                  }
+                `}
               />
             </Form.Item>
           ) : null}
@@ -383,7 +504,14 @@ export const RequestFormModal = ({
                 type="number"
                 min="0"
                 placeholder="ขอบเขตราคาสินค้า"
-                style={{ height: '40px', borderRadius: '12px' }}
+                style={{ borderRadius: '12px' }}
+                css={css`
+                  font-size: 1.5rem;
+
+                  ${mediaQueryLargeDesktop} {
+                    font-size: 14px;
+                  }
+                `}
               />
             </Form.Item>
           ) : null}
@@ -409,7 +537,14 @@ export const RequestFormModal = ({
                   : requestData.serviceCharge
               }
               placeholder="ขอบเขตราคาค่าบริการ"
-              style={{ height: '40px', borderRadius: '12px' }}
+              style={{ borderRadius: '12px' }}
+              css={css`
+                font-size: 1.5rem;
+
+                ${mediaQueryLargeDesktop} {
+                  font-size: 14px;
+                }
+              `}
             />
           </Form.Item>
           {/* <Tooltip title="กำหนดราคาสูงสุดของความช่วยเหลือครั้งนี้ที่คุณพึงพอใจจะจ่าย ให้กับผู้ให้ความช่วยเหลือ">
@@ -430,7 +565,14 @@ export const RequestFormModal = ({
             <Input
               defaultValue={requestData.payment}
               placeholder="วิธีการชำระเงิน"
-              style={{ height: '40px', borderRadius: '12px' }}
+              style={{ borderRadius: '12px' }}
+              css={css`
+                font-size: 1.5rem;
+
+                ${mediaQueryLargeDesktop} {
+                  font-size: 14px;
+                }
+              `}
             />
           </Form.Item>
           <Form.Item
@@ -447,6 +589,13 @@ export const RequestFormModal = ({
               allowClear
               style={{ width: '100%' }}
               placeholder="Please select"
+              css={css`
+                font-size: 1.5rem;
+
+                ${mediaQueryLargeDesktop} {
+                  font-size: 14px;
+                }
+              `}
             >
               {CATEGORY.map(({ id, name }) => (
                 <Select.Option key={id} value={id}>
@@ -464,11 +613,7 @@ export const RequestFormModal = ({
           >
             <EditableTagGroup tags={tags} setTags={setTags} />
           </Form.Item>
-          <Form.Item
-            name="image"
-            label="รูปภาพ"
-            rules={[{ required: true, message: 'กรุณาใส่รูปภาพ' }]}
-          >
+          <Form.Item name="image" label="รูปภาพ">
             <Upload
               name="avatar"
               listType="picture-card"
@@ -486,6 +631,8 @@ export const RequestFormModal = ({
           <div
             css={css`
               width: 100%;
+              display: flex;
+              justify-content: end;
               position: relative;
             `}
           >
@@ -499,10 +646,10 @@ export const RequestFormModal = ({
                 background: #ee6400;
                 border-radius: 9px;
                 border: 0;
-                right: 44px;
+                right: 0;
                 color: #ffff;
                 font-size: 16px;
-                position: absolute;
+                // position: absolute;
 
                 &:hover {
                   background: #ee6400;

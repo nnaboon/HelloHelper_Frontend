@@ -3,9 +3,13 @@
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
-import { REQUEST_MAPPER } from 'data/request';
 import { SuggestedRequestSection } from 'components/Card/SuggestedRequestCard';
-import { useMedia, MOBILE_WIDTH, mediaQueryMobile } from 'styles/variables';
+import {
+  useMedia,
+  MOBILE_WIDTH,
+  mediaQueryMobile,
+  mediaQueryLargeDesktop
+} from 'styles/variables';
 import Carousel from 'react-multi-carousel';
 
 import { Text } from 'components/Text';
@@ -35,11 +39,11 @@ export const CommunityRequestContent = () => {
   const responsive = {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },
-      items: 5
+      items: request ? (request.length > 0 ? 5 : 1) : 1
     },
     bigDesktop: {
       breakpoint: { max: 3000, min: 2000 },
-      items: 4
+      items: request ? (request.length > 0 ? 4 : 1) : 1
     },
     desktop: {
       breakpoint: { max: 2000, min: 1024 },
@@ -66,10 +70,18 @@ export const CommunityRequestContent = () => {
   return (
     <div>
       <Text
-        fontSize="32px"
+        fontSize={isMobile ? '24px' : '2rem'}
         fontWeight={500}
-        marginTop="30px"
-        marginBottom="10px"
+        marginY="10px"
+        css={css`
+          font-size: 2.5rem;
+          ${mediaQueryLargeDesktop} {
+            font-size: 2rem;
+          }
+          ${mediaQueryMobile} {
+            font-size: 24px;
+          }
+        `}
       >
         ความช่วยเหลือยอดนิยม
       </Text>
@@ -94,17 +106,25 @@ export const CommunityRequestContent = () => {
           request.length > 0 ? (
             request.map((items) => <SuggestedRequestSection data={[items]} />)
           ) : (
-            <EmptyData height="200px" />
+            <EmptyData height="375px" />
           )
         ) : (
-          <Loading />
+          <Loading height="375px" />
         )}
       </Carousel>
       <Text
-        fontSize="32px"
+        fontSize={isMobile ? '24px' : '2rem'}
         fontWeight={500}
-        marginTop="30px"
-        marginBottom="10px"
+        marginY="10px"
+        css={css`
+          font-size: 2.5rem;
+          ${mediaQueryLargeDesktop} {
+            font-size: 2rem;
+          }
+          ${mediaQueryMobile} {
+            font-size: 24px;
+          }
+        `}
       >
         Top 10 ความช่วยเหลือประจำสัปดาห์
       </Text>
@@ -129,17 +149,25 @@ export const CommunityRequestContent = () => {
           request.length > 0 ? (
             request.map((items) => <SuggestedRequestSection data={[items]} />)
           ) : (
-            <EmptyData height="200px" />
+            <EmptyData height="375px" />
           )
         ) : (
-          <Loading />
+          <Loading height="375px" />
         )}
       </Carousel>
       <Text
-        fontSize="32px"
+        fontSize={isMobile ? '24px' : '2rem'}
         fontWeight={500}
-        marginTop="30px"
-        marginBottom="10px"
+        marginY="10px"
+        css={css`
+          font-size: 2.5rem;
+          ${mediaQueryLargeDesktop} {
+            font-size: 2rem;
+          }
+          ${mediaQueryMobile} {
+            font-size: 24px;
+          }
+        `}
       >
         ความช่วยเหลือทั้งหมด
       </Text>
@@ -155,10 +183,10 @@ export const CommunityRequestContent = () => {
               />
             ))
           ) : (
-            <EmptyData height="200px" />
+            <EmptyData height="375px" />
           )
         ) : (
-          <Loading />
+          <Loading height="375px" />
         )}
       </CommunityRequestSection>
     </div>

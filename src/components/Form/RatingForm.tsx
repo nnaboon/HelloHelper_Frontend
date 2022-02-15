@@ -4,12 +4,13 @@ import { css, jsx } from '@emotion/react';
 import React, { useState } from 'react';
 import { Text } from 'components/Text';
 import { Rate, Form, Modal, Button, message } from 'antd';
+import { mediaQueryLargeDesktop } from '../../styles/variables';
 import styled from '@emotion/styled';
 
 const RequestListSection = styled.div`
   padding: 1.75rem 2.75rem 1.5rem 2.75rem;
   position: relative;
-  height: 200px;
+  height: 100%;
 `;
 
 export const RatingForm = () => {
@@ -34,10 +35,16 @@ export const RatingForm = () => {
   return (
     <RequestListSection>
       <Text
-        fontSize="24px"
         fontWeight={500}
         marginTop="-5px"
         marginBottom="5px"
+        css={css`
+          font-size: 2.7rem;
+
+          ${mediaQueryLargeDesktop} {
+            font-size: 24px;
+          }
+        `}
       >
         ให้คะแนน
       </Text>
@@ -52,8 +59,13 @@ export const RatingForm = () => {
         css={css`
           .ant-row {
             justify-content: center;
-            width: 300px;
+            width: 100%;
             margin: 15px 0;
+          }
+
+          .ant-rate {
+            display: flex;
+            justify-content: center;
           }
         `}
       >
@@ -61,22 +73,27 @@ export const RatingForm = () => {
           <Rate
             allowHalf
             css={css`
+              margin-top: 15px;
+
+              .ant-rate {
+                display: flex;
+                justify-content: center;
+              }
+
               .ant-rate-star.ant-rate-star-full svg {
-                width: 30px;
-                height: 30px;
-                /* margin: -3.5px; */
+                width: 60px;
+                height: 60px;
               }
               .ant-rate-star.ant-rate-star-zero svg {
-                width: 30px;
-                height: 30px;
-                /* margin: -3.5px; */
+                width: 60px;
+                height: 60px;
               }
 
               .ant-rate-star.ant-rate-star-half.ant-rate-star-active svg {
-                width: 30px;
-                height: 30px;
-                /* margin: -3.5px; */
+                width: 60px;
+                height: 60px;
               }
+
               .ant-rate-star.ant-rate-star-full,
               .ant-rate-star.ant-rate-star-zero,
               .ant-rate-star.ant-rate-star-half.ant-rate-star-active {
@@ -94,6 +111,24 @@ export const RatingForm = () => {
               .ant-rate-star.ant-rate-star-zero:hover {
                 transform: scale(0.91);
               }
+
+              ${mediaQueryLargeDesktop} {
+                margin-top: 0;
+
+                .ant-rate-star.ant-rate-star-full svg {
+                  width: 30px;
+                  height: 30px;
+                }
+                .ant-rate-star.ant-rate-star-zero svg {
+                  width: 30px;
+                  height: 30px;
+                }
+
+                .ant-rate-star.ant-rate-star-half.ant-rate-star-active svg {
+                  width: 30px;
+                  height: 30px;
+                }
+              }
             `}
           />
         </Form.Item>
@@ -108,7 +143,7 @@ export const RatingForm = () => {
             border-radius: 9px;
             border: 0;
             position: absolute;
-            bottom: 20px;
+            bottom: 0px;
             right: 20px;
             color: #ffff;
 

@@ -14,7 +14,8 @@ import {
   SMALL_TABLET_WIDTH,
   mediaQueryMobile,
   mediaQueryTablet,
-  mediaQuerySmallTablet
+  mediaQuerySmallTablet,
+  mediaQueryLargeDesktop
 } from 'styles/variables';
 import Flex from 'components/Flex/Flex';
 import DefaultImage from 'images/default.png';
@@ -59,8 +60,8 @@ const ProfilePageUserInfoSection = styled.div`
 const UserCard = styled.div`
   position: relative;
   display: flex;
-  width: 445px;
-  height: 246px;
+  width: 23%;
+  height: 290px;
   background: #ffffff;
   margin-right: 150px;
   margin-left: 50px;
@@ -68,6 +69,12 @@ const UserCard = styled.div`
   box-shadow: 0px 7px 7px rgba(0, 0, 0, 0.15);
   border-radius: 8px;
   border-sizing: border-box;
+
+  ${mediaQueryLargeDesktop} {
+    width: 445px;
+    height: 246px;
+    min-width: unset;
+  }
 
   ${mediaQueryTablet} {
     width: 65%;
@@ -85,12 +92,16 @@ const UserCard = styled.div`
 `;
 
 const CommunityImageSection = styled.img`
-  width: 115px;
-  height: 115px;
+  width: 160px;
+  height: 160px;
   border-radius: 50%;
   margin-top: 15px;
   object-fit: cover;
 
+  ${mediaQueryLargeDesktop} {
+    width: 115px;
+    height: 115px;
+  }
   ${mediaQueryMobile} {
     width: 90px;
     height: 90px;
@@ -99,37 +110,54 @@ const CommunityImageSection = styled.img`
 
 const UserName = styled.div`
   font-weight: 700;
-  font-size: 24px;
+  font-size: 2rem;
   color: #000000;
   margin-bottom: 5px;
+  word-wrap: break-word;
+
+  ${mediaQueryLargeDesktop} {
+    font-size: 24px;
+  }
 
   ${mediaQueryMobile} {
-    max-width: 160px;
-    word-wrap: break-word;
+    text-align: center;
+    max-width: 150px;
   }
 `;
 
 const ProfileInfoListHeading = styled.div`
   font-weight: 500;
-  font-size: 16px;
+  font-size: 1.4rem;
   line-height: 14px;
   color: #5a5a5a;
 
+  ${mediaQueryLargeDesktop} {
+    font-size: 16px;
+  }
+
   ${mediaQueryMobile} {
+    font-size: 16px;
     white-space: pre;
   }
 `;
 
 const ProfileInfoListDetail = styled.div`
   font-weight: 600;
-  font-size: 24px;
-  line-height: 21px;
+  font-size: 2.2rem;
+  line-height: 42px;
   color: #e56101;
   margin-left: 12px;
-  width: 350px;
+  width: 550px;
+
+  ${mediaQueryLargeDesktop} {
+    font-size: 24px;
+    line-height: 21px;
+    width: 350px;
+  }
 
   ${mediaQueryMobile} {
     font-size: 18px;
+    word-wrap: break-word;
   }
 `;
 export const CommunityContentInfo = observer(({ data }: any) => {
@@ -163,11 +191,26 @@ export const CommunityContentInfo = observer(({ data }: any) => {
   };
 
   const dropDownMenu = (
-    <Menu>
+    <Menu
+      css={css`
+        .ant-dropdown-menu-item,
+        .ant-dropdown-menu-submenu-title {
+          font-size: 1.2rem;
+        }
+
+        ${mediaQueryLargeDesktop} {
+          .ant-dropdown-menu-item,
+          .ant-dropdown-menu-submenu-title {
+            font-size: 14px;
+          }
+        }
+      `}
+    >
       {data.map(({ communityId, communityName }) => (
         <Menu.Item
           onClick={() => {
             history.push(`/community/${communityId}`);
+            window.localStorage.setItem('selectedCommunity', communityId);
           }}
         >
           {communityName}
@@ -179,7 +222,7 @@ export const CommunityContentInfo = observer(({ data }: any) => {
         }}
       >
         <Flex>
-          <PlusOutlined />
+          <PlusOutlined style={{ marginRight: '10px' }} />
           <div>เพิ่มชุมชนความช่วยเหลือ</div>
         </Flex>
       </Menu.Item>
@@ -200,6 +243,12 @@ export const CommunityContentInfo = observer(({ data }: any) => {
   useEffect(() => {
     setMenu(currentMenu);
   }, [currentMenu]);
+
+  useEffect(() => {
+    if (query !== window.localStorage.getItem('selectedCommunity')) {
+      window.localStorage.setItem('selectedCommunity', query);
+    }
+  }, []);
 
   return (
     <WrapperContainer
@@ -226,8 +275,16 @@ export const CommunityContentInfo = observer(({ data }: any) => {
                     transition: 'transform .7s ease-in-out'
                   }}
                   css={css`
+                    width: 30px;
+                    height: 30px;
+
                     &:hover {
                       transform: rotate(90deg);
+                    }
+
+                    ${mediaQueryLargeDesktop} {
+                      width: 24px;
+                      height: 24px;
                     }
                   `}
                   onClick={() => {
@@ -335,11 +392,7 @@ export const CommunityContentInfo = observer(({ data }: any) => {
               )}
             </UserCard>
             <div>
-              <Flex
-                marginBottom="40px"
-                marginTop={isMobile ? '40px' : 0}
-                itemAlign={isMobile ? 'center' : 'flex-end'}
-              >
+              <Flex marginBottom="40px" marginTop={isMobile ? '40px' : 0}>
                 <ProfileInfoListHeading>
                   ขอบเขตการช่วยเหลือ
                 </ProfileInfoListHeading>
@@ -456,7 +509,7 @@ export const CommunityContentInfo = observer(({ data }: any) => {
           </ProfilePageUserHelperListSection>
         </React.Fragment>
       ) : (
-        <Loading />
+        <Loading height="calc(100vh - 265px)" />
       )}
     </WrapperContainer>
   );
