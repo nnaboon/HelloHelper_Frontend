@@ -38,6 +38,8 @@ import { ProfileMenu } from '../components/Menu/const';
 import { PostRequestButton } from 'components/Button/PostRequestButton';
 import { useMyProvide } from 'hooks/provide/useMyProvide';
 import { useMyRequest } from 'hooks/request/useMyRequest';
+import { useAddChatRoom } from 'hooks/chat/useAddChatRoom';
+
 import { EmptyData } from 'components/Empty/EmptyData';
 import { mediaQueryLargeDesktop } from '../styles/variables';
 
@@ -237,6 +239,7 @@ export const ProfilePage = observer(() => {
   const { data: user, execute: getUser } = useUser();
   const { data: provide, execute: getProvide } = useMyProvide();
   const { data: request, execute: getRequest } = useMyRequest();
+  const { execute: addChatRoom } = useAddChatRoom();
 
   useEffect(() => {
     if (query || window.localStorage.getItem('id')) {
@@ -480,6 +483,14 @@ export const ProfilePage = observer(() => {
                         ติดตาม
                       </PrimaryButton>
                       <PrimaryButton
+                        onClick={() => {
+                          addChatRoom({
+                            providerUserId: query,
+                            requesterUserId: me.userId
+                          }).then((res) => {
+                            history.push(`/chat/${res.data}`);
+                          });
+                        }}
                         css={css`
                           background: #487bff;
                           width: 100%;

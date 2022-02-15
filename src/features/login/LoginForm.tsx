@@ -1,7 +1,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { css, jsx, Global } from '@emotion/react';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { useHistory } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
@@ -14,15 +14,11 @@ import { LoginStep } from './const';
 import firebase, { signInWithGoogle, signInWithFacebook } from '../../firebase';
 import axios from 'axios';
 import { useUser } from 'hooks/user/useUser';
-import { userStore } from 'store/userStore';
 import { REACT_APP_API } from 'config';
 import {
   useMedia,
   LARGE_DESKTOP_WIDTH,
-  TABLET_WIDTH,
-  MOBILE_WIDTH,
   mediaQueryMobile,
-  mediaQueryTablet,
   mediaQueryLargeDesktop
 } from 'styles/variables';
 
