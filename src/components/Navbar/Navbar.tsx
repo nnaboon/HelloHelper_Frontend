@@ -91,6 +91,7 @@ const MyAccount = styled.img`
   border-radius: 50%;
   margin-left: 25px;
   cursor: pointer;
+  object-fit: cover;
 
   ${mediaQueryLargeDesktop} {
     width: 40px;

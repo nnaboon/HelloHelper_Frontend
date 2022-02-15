@@ -131,6 +131,7 @@ const HelperImageSection = styled.img`
   height: 160px;
   border-radius: 50%;
   margin-top: 15px;
+  object-fit: cover;
 
   ${mediaQueryLargeDesktop} {
     width: 120px;
