@@ -206,15 +206,6 @@ export default function WaitingToConfirmOrders({ onlineUsers, currentId }) {
           <EmptyData text="ไม่พบออเดอร์ที่รอการยืนยัน" />
         )}
       </Collapse>
-
-      {/* {onlineFriends.map((o) => (
-        <div className="chatOnlineFriend" onClick={() => handleClick(o)}>
-          <div className="chatOnlineImgContainer">
-            <div className="chatOnlineBadge"></div>
-          </div>
-          <span className="chatOnlineName">{o?.username}</span>
-        </div>
-      ))} */}
     </div>
   );
 }

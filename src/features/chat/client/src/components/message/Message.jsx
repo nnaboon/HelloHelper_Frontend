@@ -97,7 +97,6 @@ export default function Message({ message, own, anotherUserImg }) {
               {message.messageText}
             </p>{' '}
             <div
-              // className="messageBottom"
               css={css`
                 z-index: 2;
                 margin-left: 8px;

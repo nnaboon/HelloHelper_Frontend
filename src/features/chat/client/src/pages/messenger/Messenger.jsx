@@ -121,13 +121,9 @@ const RequestForm = styled.div`
 
 export const Messenger = observer(() => {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [conversations, setConversations] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
-  // const [arrivalMessage, setArrivalMessage] = useState(null);
-  // const [onlineUsers, setOnlineUsers] = useState([]);
-  // const socket = useRef();
   const { execute: updateReadStatus } = useUpdateReadStatus();
   const { data: chats, execute: getChats } = useChats();
   const { data: user, execute: getUser } = useUser();
@@ -143,44 +139,6 @@ export const Messenger = observer(() => {
   const history = useHistory();
   const { pathname, state } = useLocation();
   const query = pathname?.split('/')[2];
-
-  // useEffect(() => {
-  //   socket.current = io('ws://localhost:8900');
-  //   socket.current.on('getMessage', (data) => {
-  //     setArrivalMessage({
-  //       sender: data.senderId,
-  //       text: data.text,
-  //       createdAt: Date.now()
-  //     });
-  //   });
-  // }, []);
-
-  // useEffect(() => {
-  //   arrivalMessage &&
-  //     currentChat?.members.includes(arrivalMessage.sender) &&
-  //     setMessages((prev) => [...prev, arrivalMessage]);
-  // }, [arrivalMessage, currentChat]);
-
-  // useEffect(() => {
-  //   socket.current.emit('addUser', user._id);
-  //   socket.current.on('getUsers', (users) => {
-  //     setOnlineUsers(
-  //       user.followings.filter((f) => users.some((u) => u.userId === f))
-  //     );
-  //   });
-  // }, [user]);
-
-  // useEffect(() => {
-  //   const getConversations = async () => {
-  //     try {
-  //       const res = await axios.get('/conversations/' + user._id);
-  //       setConversations(res.data);
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   };
-  //   getConversations();
-  // }, [user._id]);
 
   const handleCancel = () => {
     setIsModalVisible(false);
@@ -337,11 +295,7 @@ export const Messenger = observer(() => {
             </div>
             <div className="chatOnline">
               <div className="chatOnlineWrapper">
-                <WaitingToConfirmOrders
-                  // onlineUsers={onlineUsers}
-                  // currentId={user._id}
-                  setCurrentChat={setCurrentChat}
-                />
+                <WaitingToConfirmOrders setCurrentChat={setCurrentChat} />
               </div>
             </div>
           </div>
