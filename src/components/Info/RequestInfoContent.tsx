@@ -662,8 +662,11 @@ export const RequestInfoContent = observer(({ data }: any) => {
                           fontWeight={400}
                           css={css`
                             font-size: 2.3rem;
+                            margin-bottom: 35px;
+
                             ${mediaQueryLargeDesktop} {
                               font-size: 26px;
+                              margin-bottom: 20px;
                             }
                           `}
                         >
