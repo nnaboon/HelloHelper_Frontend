@@ -1,4 +1,7 @@
-export const REACT_APP_API =
-  'http://localhost:5000/senior-project-97cfa/us-central1/api';
+// localhost server
+// export const REACT_APP_API =
+//   'http://localhost:5000/senior-project-97cfa/us-central1/api';
 
-// export const REACT_APP_API = 'http://localhost:5000';
+// hosting server
+export const REACT_APP_API =
+  'https://us-central1-senior-project-97cfa.cloudfunctions.net/api';
