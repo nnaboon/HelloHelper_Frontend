@@ -1,40 +1,149 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import React, { useState, useEffect, useContext, useRef } from 'react';
+import moment from 'moment';
 import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
 import './messenger.css';
 import { observer } from 'mobx-react-lite';
+import { useHistory, useLocation } from 'react-router-dom';
 import Conversation from '../../components/conversations/Conversation';
 import Message from '../../components/message/Message';
-// import ChatOnline from '../../components/chatOnline/ChatOnline';
-import { AuthContext } from '../../context/AuthContext';
-// import axios from 'axios';
-// import { io } from 'socket.io-client';
+import WaitingToConfirmOrders from '../../components/waitingToConfirmOrders/WaitingToConfirmOrders';
 import { userStore } from 'store/userStore';
 import { Loading } from 'components/Loading/Loading';
 import { WrapperContainer } from 'components/Wrapper/WrapperContainer';
 import { Modal } from 'antd';
 import { OrderForm } from 'components/Form/OrderForm';
+import { useChats } from 'hooks/chat/useChats';
+import { useUser } from 'hooks/user/useUser';
 import {
   useMedia,
   mediaQueryMobile,
   MOBILE_WIDTH,
+  SMALL_TABLET_WIDTH,
   DESKTOP_WIDTH,
-  mediaQueryDesktop
+  LARGE_DESKTOP_WIDTH,
+  mediaQueryLargeDesktop
 } from 'styles/variables';
+import { useAddMessage } from 'hooks/chat/useAddMessage';
+import { useUpdateReadStatus } from 'hooks/chat/useUpdateReadStatus';
+
+const ChatBoxTop = styled.div`
+  height: calc(100vh - 450px);
+  overflow-y: scroll;
+  padding-right: 10px;
+
+  ${mediaQueryLargeDesktop} {
+    height: calc(100vh - 400px);
+  }
+`;
+const ChatBoxWrapper = styled.div`
+  height: 100%;
+`;
+
+const ChatMenuWrapper = styled.div`
+  padding: 0px 10px;
+  height: 100%;
+`;
+
+const ChatOnlineWrapper = styled.div`
+  padding: 0px 10px;
+  height: 100%;
+`;
+
+const ChatMessageInput = styled.textarea`
+  width: 80%;
+  height: 90px;
+  padding: 10px;
+`;
+
+const NoConversationText = styled.div`
+  top: 45%;
+  display: flex;
+  align-items: center;
+  position: relative;
+  justify-content: center;
+  font-size: 50px;
+  color: rgb(224, 220, 220);
+  cursor: default;
+`;
+
+const TopBar = styled.div`
+  width: 100%;
+  height: 130px;
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  position: relative;
+  z-index: 9;
+
+  ${mediaQueryLargeDesktop} {
+    height: 100px;
+  }
+`;
+
+const RequestName = styled.div`
+  font-weight: bold;
+  line-height: 26px;
+  font-size: 1.9rem;
+  color: #000000;
+  margin-left: 20px;
+
+  ${mediaQueryLargeDesktop} {
+    font-size: 18px;
+  }
+`;
+
+const UserName = styled.div`
+  font-weight: bold;
+  font-size: 1.9rem;
+  line-height: 26px;
+
+  color: #e66101;
+
+  ${mediaQueryLargeDesktop} {
+    font-size: 24px;
+  }
+`;
+
+const RequestForm = styled.div`
+  font-size: 1.7rem;
+  line-height: 26px;
+  color: #000000;
+  margin-top: 20px;
+  cursor: pointer;
+
+  ${mediaQueryLargeDesktop} {
+    font-size: 18px;
+    margin-top: 10px;
+  }
+`;
 
 export const Messenger = observer(() => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [conversations, setConversations] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
-  const [arrivalMessage, setArrivalMessage] = useState(null);
-  const [onlineUsers, setOnlineUsers] = useState([]);
-  const socket = useRef();
-  const { user } = useContext(AuthContext);
+  // const [arrivalMessage, setArrivalMessage] = useState(null);
+  // const [onlineUsers, setOnlineUsers] = useState([]);
+  // const socket = useRef();
+  const { execute: updateReadStatus } = useUpdateReadStatus();
+  const { data: chats, execute: getChats } = useChats();
+  const { data: user, execute: getUser } = useUser();
+  const { execute: addMessage } = useAddMessage();
+
   const scrollRef = useRef();
   const { me } = userStore;
+
+  const isDesktop = useMedia(`max-width: ${DESKTOP_WIDTH}px`);
+  const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
+  const isLargeDesktop = useMedia(`(max-width: ${LARGE_DESKTOP_WIDTH}px)`);
+
+  const history = useHistory();
+  const { pathname, state } = useLocation();
+  const query = pathname?.split('/')[2];
+
   // useEffect(() => {
   //   socket.current = io('ws://localhost:8900');
   //   socket.current.on('getMessage', (data) => {
@@ -73,21 +182,6 @@ export const Messenger = observer(() => {
   //   getConversations();
   // }, [user._id]);
 
-  // useEffect(() => {
-  //   const getMessages = async () => {
-  //     try {
-  //       const res = await axios.get('/messages/' + currentChat?._id);
-  //       setMessages(res.data);
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   };
-  //   getMessages();
-  // }, [currentChat]);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const isDesktop = useMedia(`max-width: ${DESKTOP_WIDTH}px`);
-  const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
-
   const handleCancel = () => {
     setIsModalVisible(false);
   };
@@ -95,32 +189,48 @@ export const Messenger = observer(() => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const message = {
-      sender: me.userId,
-      text: newMessage,
-      conversationId: '123456'
+      senderUserId: me.userId,
+      receiverUserId: user?.userId,
+      messageText: newMessage
     };
 
-    messages.push(message);
-
-    console.log(messages);
-    // const receiverId = currentChat.members.find(
-    //   (member) => member !== user._id
-    // );
-
-    // socket.current.emit('sendMessage', {
-    //   senderId: user._id,
-    //   receiverId,
-    //   text: newMessage
-    // });
-
-    // try {
-    //   const res = await axios.post('/messages', message);
-    //   setMessages([...messages, res.data]);
-    //   setNewMessage('');
-    // } catch (err) {
-    //   console.log(err);
-    // }
+    try {
+      addMessage(query, message).then((res) => {
+        setMessages(res.data);
+      });
+      setNewMessage('');
+    } catch (err) {
+      console.log(err);
+    }
   };
+
+  useEffect(() => {
+    if (state) {
+      setIsModalVisible(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (me) {
+      getChats(me.userId);
+    }
+  }, [me]);
+
+  useEffect(() => {
+    if (query && chats) {
+      const messages = chats.filter(({ chatId }) => chatId === query)[0]
+        .messages;
+      setMessages(messages);
+      setCurrentChat(query);
+
+      const currentChatRoom = chats.filter(({ chatId }) => chatId === query)[0];
+      const anotherUser = currentChatRoom.users.filter(
+        (items) => items !== window.localStorage.getItem('id')
+      );
+
+      getUser(anotherUser);
+    }
+  }, [query, chats]);
 
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -132,61 +242,84 @@ export const Messenger = observer(() => {
         padding: 0 20px;
       `}
     >
-      {me ? (
+      {me && chats ? (
         <React.Fragment>
           <div className="messenger">
             <div className="chatMenu">
-              <div className="chatMenuWrapper">
+              <ChatMenuWrapper>
                 <input
                   placeholder="Search for friends"
                   className="chatMenuInput"
                 />
-                {[me, me, me, me, me].map((c) => (
-                  <div onClick={() => setCurrentChat(c)}>
+                {chats.map((c) => (
+                  <div
+                    onClick={() => {
+                      setCurrentChat(c);
+                      history.push(`/chat/${c.chatId}`);
+
+                      updateReadStatus(c.chatId, { senderUserId: me.userId });
+                    }}
+                  >
                     <Conversation conversation={c} currentUser={me} />
                   </div>
                 ))}
-              </div>
+              </ChatMenuWrapper>
             </div>
             <div className="chatBox">
-              <div className="chatBoxWrapper">
-                {currentChat ? (
+              <ChatBoxWrapper>
+                {currentChat && user ? (
                   <>
-                    <div className="chatBoxTop">
-                      <div className="topBar">
-                        <div className="leftInnerContainer">
-                          <div
-                            style={{ display: 'flex', alignItems: 'flex-end' }}
-                          >
-                            <div className="user-name">ปลาทอง ตัวกลม</div>
-                            <div className="request-name">
-                              ขนมปังสังขยา โชคชัย4
-                            </div>
-                          </div>
-                          <div
-                            className="request-form"
-                            onClick={() => setIsModalVisible(true)}
-                          >
-                            ฟอร์มการช่วยเหลือ
-                          </div>
+                    {' '}
+                    <TopBar>
+                      <div className="leftInnerContainer">
+                        <div
+                          style={{
+                            display: 'flex',
+                            alignItems: 'flex-end'
+                          }}
+                        >
+                          <UserName>{user.username}</UserName>
                         </div>
+                        <RequestForm onClick={() => setIsModalVisible(true)}>
+                          ฟอร์มการช่วยเหลือ
+                        </RequestForm>
                       </div>
+                    </TopBar>
+                    <ChatBoxTop>
+                      <div
+                        css={css`
+                          z-index: 9;
+                        `}
+                      ></div>
                       {messages.map((m) => (
-                        <div ref={scrollRef}>
+                        <div
+                          ref={scrollRef}
+                          css={css`
+                            z-index: 2;
+                          `}
+                        >
                           <Message
                             message={m}
-                            own={m.sender === window.localStorage.getItem('id')}
+                            anotherUserImg={user.imageUrl}
+                            own={
+                              m.createdBy === window.localStorage.getItem('id')
+                            }
+                            css={css`
+                              z-index: 2;
+                            `}
                           />
                         </div>
                       ))}
-                    </div>
+                    </ChatBoxTop>
                     <div className="chatBoxBottom">
-                      <textarea
-                        className="chatMessageInput"
-                        placeholder="write something..."
+                      <ChatMessageInput
+                        placeholder="พิมพ์ข้อความ"
+                        onKeyPress={(e) =>
+                          e.key === 'Enter' && !e.shiftKey && handleSubmit(e)
+                        }
                         onChange={(e) => setNewMessage(e.target.value)}
                         value={newMessage}
-                      ></textarea>
+                      ></ChatMessageInput>
                       <button
                         className="chatSubmitButton"
                         onClick={handleSubmit}
@@ -196,43 +329,42 @@ export const Messenger = observer(() => {
                     </div>
                   </>
                 ) : (
-                  <span className="noConversationText">
+                  <NoConversationText>
                     เริ่มต้นการสนทนากับผู้อื่นได้ที่นี่
-                  </span>
+                  </NoConversationText>
                 )}
+              </ChatBoxWrapper>
+            </div>
+            <div className="chatOnline">
+              <div className="chatOnlineWrapper">
+                <WaitingToConfirmOrders
+                  // onlineUsers={onlineUsers}
+                  // currentId={user._id}
+                  setCurrentChat={setCurrentChat}
+                />
               </div>
             </div>
-            {/* <div className="chatOnline">
-          <div className="chatOnlineWrapper">
-            <ChatOnline
-              onlineUsers={onlineUsers}
-              currentId={user._id}
-              setCurrentChat={setCurrentChat}
-            />
-          </div>
-        </div> */}
           </div>
           <Modal
             visible={isModalVisible}
             onCancel={handleCancel}
             footer={null}
-            width={isMobile ? '75%' : 700}
+            width={isMobile ? '80%' : isLargeDesktop ? '700px' : '36%'}
             maskClosable={false}
             centered
             css={css`
               .ant-form-item-control-input {
                 width: 100% !important;
               }
+
               .ant-col-16 {
                 max-width: unset;
               }
               .ant-modal-content {
-                min-height: 820px;
-                height: 820px;
+                height: 100%;
 
-                @media screen and (min-width: 2000px) {
-                  min-height: 900px;
-                  height: max-content;
+                ${mediaQueryLargeDesktop} {
+                  height: 800px;
                 }
 
                 ${mediaQueryMobile} {
@@ -243,7 +375,7 @@ export const Messenger = observer(() => {
               }
             `}
           >
-            <OrderForm />
+            <OrderForm data={state} setIsModalVisible={setIsModalVisible} />
           </Modal>
         </React.Fragment>
       ) : (

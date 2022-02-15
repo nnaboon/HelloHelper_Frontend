@@ -12,7 +12,6 @@ import { RequestListPage } from './pages/RequestListpage';
 import { CommunityPage } from './pages/CommunityPage';
 import { CommunitySetting } from 'features/community/CommunitySetting';
 import { mediaQueryMobile } from './styles/variables';
-import Chat from 'features/chat/components/Chat/Chat';
 import { ProvideInfoContent } from 'components/Info/ProvideInfoContent';
 import { RequestInfoContent } from 'components/Info/RequestInfoContent';
 import { OrderInfoPage } from 'pages/OrderInfoPage';
@@ -50,7 +49,6 @@ const App = () => {
           <Route path="/order" component={OrderInfoPage} />
           <Route path="/:id" exact component={SearchResultPage} />
           <Route path="/search" exact component={SearchResultPage} />
-          {/* <Route path="/:title/:id" component={InfoPage} /> */}
           <Route path="/provide/:title/:id" component={ProvideInfoContent} />
           <Route path="/request/:title/:id" component={RequestInfoContent} />
         </Switch>
