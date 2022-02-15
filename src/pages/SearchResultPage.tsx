@@ -70,7 +70,7 @@ export const SearchResultPage = () => {
         }
       `}
     >
-      {PROVIDE_MAPPER && REQUEST_MAPPER ? (
+      {provides && requests ? (
         <div style={{ display: 'flex' }}>
           {!isTablet && <Sidebar />}
           <div
@@ -105,12 +105,10 @@ export const SearchResultPage = () => {
                 <Text fontSize="26px" fontWeight={500} marginBottom="20px">
                   ผลการค้นหา ทั้งหมด{' '}
                   {menu === 'provide'
-                    ? PROVIDE_MAPPER.filter(
-                        ({ category }) => category[0] === qs
-                      ).length
-                    : REQUEST_MAPPER.filter(
-                        ({ category }) => category[0] === qs
-                      ).length}{' '}
+                    ? provides.filter(({ category }) => category[0] === qs)
+                        .length
+                    : requests.filter(({ category }) => category[0] === qs)
+                        .length}{' '}
                   รายการ
                 </Text>
                 <div
@@ -132,28 +130,34 @@ export const SearchResultPage = () => {
               </Flex>
             </div>
             {menu === HelpMenu.PROVIDE ? (
-              PROVIDE_MAPPER.filter(({ category, title }) =>
+              provides.filter(({ category, title }) =>
                 search ? title.includes(state?.search) : category[0] === qs
               ).length > 0 ? (
                 <SearchResultContent>
-                  {PROVIDE_MAPPER.filter(({ category, title }) =>
-                    search ? title.includes(state?.search) : category[0] === qs
-                  ).map((props) => (
-                    <PopularRequestSection data={[props]} />
-                  ))}
+                  {provides
+                    .filter(({ category, title }) =>
+                      search
+                        ? title.includes(state?.search)
+                        : category[0] === qs
+                    )
+                    .map((props) => (
+                      <PopularRequestSection data={[props]} />
+                    ))}
                 </SearchResultContent>
               ) : (
                 <EmptyData height="300px" />
               )
-            ) : REQUEST_MAPPER.filter(({ category, title }) =>
+            ) : requests.filter(({ category, title }) =>
                 search ? title.includes(state?.search) : category[0] === qs
               ).length > 0 ? (
               <SearchResultContent>
-                {REQUEST_MAPPER.filter(({ category, title }) =>
-                  search ? title.includes(state?.search) : category[0] === qs
-                ).map((props) => (
-                  <SuggestedRequestSection data={[props]} />
-                ))}
+                {requests
+                  .filter(({ category, title }) =>
+                    search ? title.includes(state?.search) : category[0] === qs
+                  )
+                  .map((props) => (
+                    <SuggestedRequestSection data={[props]} />
+                  ))}
               </SearchResultContent>
             ) : (
               <EmptyData height="300px" />
@@ -163,93 +167,6 @@ export const SearchResultPage = () => {
       ) : (
         <Loading height="calc(100vh - 265px)" />
       )}
-      {/* <div style={{ display: 'flex' }}>
-        {!isTablet && <Sidebar />}
-        <div
-          css={css`
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            left: 25%;
-            width: 75%;
-
-            ${mediaQueryTablet} {
-              left: 0;
-              width: 100%;
-            }
-          `}
-        >
-          <div style={{ top: '125px' }}>
-            <MenuTab menu={menu} setMenu={setMenu} />
-            <Divider
-              css={css`
-                ${mediaQueryMobile} {
-                  margin: 30px 0;
-                }
-              `}
-            />
-            <Flex
-              justify={isMobile ? 'flex-start' : 'space-between'}
-              marginY="20px"
-              itemAlign={isMobile ? 'flex-start' : 'center'}
-              direction={isMobile ? 'column' : 'row'}
-            >
-              <Text fontSize="26px" fontWeight={500} marginBottom="20px">
-                ผลการค้นหา ทั้งหมด{' '}
-                {menu === 'provide'
-                  ? PROVIDE_MAPPER.filter(({ category }) => category[0] === qs)
-                      .length
-                  : REQUEST_MAPPER.filter(({ category }) => category[0] === qs)
-                      .length}{' '}
-                รายการ
-              </Text>
-              <div
-                css={css`
-                  ${mediaQueryMobile} {
-                    align-self: end !important;
-                  }
-                `}
-              >
-                {' '}
-                <PostRequestButton
-                  buttonText={
-                    menu === HelpMenu.PROVIDE
-                      ? 'ขอความช่วยเหลือ'
-                      : 'ให้ความช่วยเหลือ'
-                  }
-                />
-              </div>
-            </Flex>
-          </div>
-          {menu === HelpMenu.PROVIDE ? (
-            PROVIDE_MAPPER.filter(({ category, title }) =>
-              search ? title.includes(state?.search) : category[0] === qs
-            ).length > 0 ? (
-              <SearchResultContent>
-                {PROVIDE_MAPPER.filter(({ category, title }) =>
-                  search ? title.includes(state?.search) : category[0] === qs
-                ).map((props) => (
-                  <PopularRequestSection data={[props]} />
-                ))}
-              </SearchResultContent>
-            ) : (
-              <EmptyData />
-            )
-          ) : REQUEST_MAPPER.filter(({ category, title }) =>
-              search ? title.includes(state?.search) : category[0] === qs
-            ).length > 0 ? (
-            <SearchResultContent>
-              {REQUEST_MAPPER.filter(({ category, title }) =>
-                search ? title.includes(state?.search) : category[0] === qs
-              ).map((props) => (
-                <SuggestedRequestSection data={[props]} />
-              ))}
-            </SearchResultContent>
-          ) : (
-            <EmptyData />
-          )}
-        </div>
-      </div> */}
     </WrapperContainer>
   );
 };
