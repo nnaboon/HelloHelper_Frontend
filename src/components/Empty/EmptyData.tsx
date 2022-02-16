@@ -66,8 +66,8 @@ export const EmptyData = ({ height, text }: EmptyDataProps) => {
           font-size: 16px;
 
           .ant-empty-img-simple {
-            width: 40px;
-            height: 40px;
+            width: 70px;
+            height: 70px;
           }
 
           .ant-empty-image {
