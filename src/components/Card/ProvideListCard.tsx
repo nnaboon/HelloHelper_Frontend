@@ -51,6 +51,10 @@ const ProvideListContainer = styled.div`
     width: 100%;
     padding: 20px;
   }
+
+  ${mediaQueryMobile} {
+    padding: 20px 15px;
+  }
 `;
 
 const ProvideListContent = styled.div`
@@ -219,6 +223,10 @@ export const ProvideListCard = ({ props, setStatus }: ProvideListCardProps) => {
 
             ${mediaQueryLargeDesktop} {
               font-size: 24px;
+            }
+
+            ${mediaQueryMobile} {
+              font-size: 16px;
             }
           `}
         >

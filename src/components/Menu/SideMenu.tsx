@@ -170,7 +170,7 @@ export const SideMenu = ({ collapsed, setCollapsed }: SideMenuProps) => {
           onClick={() => {
             setCollapsed(true);
             history.push({
-              pathname: '/request'
+              pathname: '/order/request'
             });
           }}
         >
@@ -182,7 +182,7 @@ export const SideMenu = ({ collapsed, setCollapsed }: SideMenuProps) => {
           onClick={() => {
             setCollapsed(true);
             history.push({
-              pathname: '/provide'
+              pathname: '/order/provide'
             });
           }}
         >

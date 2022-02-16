@@ -27,7 +27,8 @@ import {
   mediaQueryMobile,
   mediaQueryLargeDesktop,
   mediaQuerySmallTablet,
-  mediaQueryTablet
+  mediaQueryTablet,
+  mediaQueryExtraLargeDesktop
 } from 'styles/variables';
 import { userStore } from 'store/userStore';
 import { EmptyData } from 'components/Empty/EmptyData';
@@ -247,6 +248,31 @@ export const CommunitySignin = observer(() => {
             onSearch={onSearch}
             size="large"
             style={{ width: isMobile ? '200px' : '462px', height: '60px' }}
+            css={css`
+              .ant-input {
+                height: 60px;
+                width: 600px;
+                font-size: 1.6rem;
+              }
+
+              .ant-btn-icon-only.ant-btn-lg {
+                height: 60px;
+                width: 60px;
+              }
+
+              ${mediaQueryExtraLargeDesktop} {
+                .ant-input {
+                  height: 40px;
+                  width: 100%;
+                  font-size: 16px;
+                }
+
+                .ant-btn-icon-only.ant-btn-lg {
+                  height: 40px;
+                  width: 40px;
+                }
+              }
+            `}
           />
           {communities.filter(
             ({ communityName, location }) =>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { mediaQueryLargeDesktop } from 'styles/variables';
+import { mediaQueryMobile } from '../../styles/variables';
 import styled from '@emotion/styled';
 
 interface StatusBadgeProps {
@@ -28,6 +29,11 @@ const StatusBadgeContainer = styled.div<{ color: string }>`
     max-width: 150px;
     min-width: 130px;
     height: 32px;
+  }
+
+  ${mediaQueryMobile} {
+    min-width: 105px;
+    font-size: 14px;
   }
 `;
 

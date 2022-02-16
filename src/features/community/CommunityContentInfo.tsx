@@ -15,7 +15,8 @@ import {
   mediaQueryMobile,
   mediaQueryTablet,
   mediaQuerySmallTablet,
-  mediaQueryLargeDesktop
+  mediaQueryLargeDesktop,
+  mediaQueryExtraLargeDesktop
 } from 'styles/variables';
 import Flex from 'components/Flex/Flex';
 import DefaultImage from 'images/default.png';
@@ -443,16 +444,52 @@ export const CommunityContentInfo = observer(({ data }: any) => {
                     width: isSmallTablet ? '100%' : '462px',
                     height: '60px'
                   }}
+                  css={css`
+                    .ant-input {
+                      height: 50px;
+                      width: 500px;
+                      font-size: 1.6rem;
+                    }
+
+                    .ant-btn-icon-only.ant-btn-lg {
+                      height: 50px;
+                      width: 50px;
+                    }
+
+                    ${mediaQueryExtraLargeDesktop} {
+                      .ant-input {
+                        height: 40px;
+                        width: 100%;
+                        font-size: 16px;
+                      }
+
+                      .ant-btn-icon-only.ant-btn-lg {
+                        height: 40px;
+                        width: 40px;
+                      }
+                    }
+                  `}
                 />
                 <Select
                   defaultValue="เลือกหมวดหมู่"
                   style={{
-                    width: 200,
                     justifyContent: 'center',
                     display: 'flex',
-                    alignItems: 'center',
-                    marginLeft: '20px'
+                    alignItems: 'center'
                   }}
+                  css={css`
+                    margin-left: 120px;
+                    font-size: 1.6rem;
+                    height: 50px;
+                    width: 250px;
+
+                    ${mediaQueryExtraLargeDesktop} {
+                      margin-left: 20px;
+                      font-size: 16px;
+                      width: 200px;
+                      height: 40px;
+                    }
+                  `}
                   // css={css`
                   //   .ant-select:not(.ant-select-customize-input)
                   //     .ant-select-selector {

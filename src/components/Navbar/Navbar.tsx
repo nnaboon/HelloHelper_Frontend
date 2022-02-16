@@ -27,6 +27,7 @@ import DefaultImage from 'images/default.png';
 import { useUser } from 'hooks/user/useUser';
 import firebase from '../../firebase';
 import { userStore } from 'store/userStore';
+import { mediaQueryExtraLargeDesktop } from '../../styles/variables';
 
 const NavbarSection = styled.div`
   width: 100%;
@@ -385,6 +386,31 @@ export const Navbar = observer(() => {
             width: isMobile ? '350px' : isSmallTablet ? '600px' : '700px',
             height: '40px'
           }}
+          css={css`
+            .ant-input {
+              height: 60px;
+              width: 990px;
+              font-size: 1.6rem;
+            }
+
+            .ant-btn-icon-only.ant-btn-lg {
+              height: 60px;
+              width: 60px;
+            }
+
+            ${mediaQueryExtraLargeDesktop} {
+              .ant-input {
+                height: 40px;
+                width: 100%;
+                font-size: 16px;
+              }
+
+              .ant-btn-icon-only.ant-btn-lg {
+                height: 40px;
+                width: 40px;
+              }
+            }
+          `}
         />
       </SearchBarContainer>
       <Modal

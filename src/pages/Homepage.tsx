@@ -31,7 +31,11 @@ import { PROVIDE_MAPPER } from 'data/provide';
 import { useUsers } from 'hooks/user/useUsers';
 import { useProvides } from 'hooks/provide/useProvides';
 import { useRequests } from 'hooks/request/useRequests';
-import { mediaQueryTablet, mediaQueryLargeDesktop } from '../styles/variables';
+import {
+  mediaQueryTablet,
+  mediaQueryLargeDesktop,
+  mediaQueryExtraLargeDesktop
+} from '../styles/variables';
 import { Loading } from 'components/Loading/Loading';
 
 const HomePageCategorySection = styled.div`
@@ -260,6 +264,31 @@ export const HomePage = () => {
               onSearch={onSearch}
               size="large"
               style={{ width: isMobile ? '200px' : '462px', height: '60px' }}
+              css={css`
+                .ant-input {
+                  height: 50px;
+                  width: 500px;
+                  font-size: 1.6rem;
+                }
+
+                .ant-btn-icon-only.ant-btn-lg {
+                  height: 50px;
+                  width: 50px;
+                }
+
+                ${mediaQueryExtraLargeDesktop} {
+                  .ant-input {
+                    height: 40px;
+                    width: 100%;
+                    font-size: 16px;
+                  }
+
+                  .ant-btn-icon-only.ant-btn-lg {
+                    height: 40px;
+                    width: 40px;
+                  }
+                }
+              `}
             />
             <PostRequestButton
               buttonText="เขียนความช่วยเหลือ"

@@ -332,28 +332,6 @@ export const OrderInfoPage = () => {
               {order.status === StatusType.COMPLETE ? (
                 orderType === 'request' ? (
                   <Flex direction="column" itemAlign="flex-end">
-                    <PrimaryButton
-                      css={css`
-                        width: 140px;
-                        margin-left: 0;
-                        height: 45px;
-                        z-index: 10;
-
-                        ${mediaQueryTablet} {
-                          min-width: 130px;
-                        }
-
-                        ${mediaQueryMobile} {
-                          min-width: 47%;
-                          width: 47%;
-                        }
-                      `}
-                      onClick={() => {
-                        setIsModalVisible(true);
-                      }}
-                    >
-                      ให้คะแนน
-                    </PrimaryButton>
                     <SecondaryButton
                       onClick={() => {
                         history.push(`/chat/${order.chatId}`);
@@ -378,6 +356,28 @@ export const OrderInfoPage = () => {
                     >
                       แชท
                     </SecondaryButton>
+                    <PrimaryButton
+                      css={css`
+                        width: 140px;
+                        margin-left: 0;
+                        height: 45px;
+                        z-index: 10;
+
+                        ${mediaQueryTablet} {
+                          min-width: 130px;
+                        }
+
+                        ${mediaQueryMobile} {
+                          min-width: 47%;
+                          width: 47%;
+                        }
+                      `}
+                      onClick={() => {
+                        setIsModalVisible(true);
+                      }}
+                    >
+                      ให้คะแนน
+                    </PrimaryButton>
                   </Flex>
                 ) : (
                   <Flex direction="column" itemAlign="flex-end">
@@ -471,8 +471,6 @@ export const OrderInfoPage = () => {
           </Flex>
           <ProvideListContainer>
             <ProvideListContent>
-              {/* <Flex itemAlign="flex-start"> */}
-              {/* <ProvideListTitle>ชื่อความช่วยเหลือ</ProvideListTitle> */}
               <ProvideListData
                 css={css`
                   font-weight: 700;
@@ -486,55 +484,16 @@ export const OrderInfoPage = () => {
               >
                 {order.title}
               </ProvideListData>
-              {/* </Flex> */}
               <Flex itemAlign="flex-start" marginY="4px">
-                {/* <ProvideListTitle>สถานที่ให้ความข่วยเหลือ</ProvideListTitle> */}
                 <ProvideListData>{order.location.name}</ProvideListData>
               </Flex>
               <Flex itemAlign="flex-start" marginY="4px">
-                {/* <ProvideListTitle>จำนวน</ProvideListTitle> */}
                 <ProvideListData>x{order.number}</ProvideListData>
               </Flex>
-              {/* <Flex itemAlign="flex-start">
-          <ProvideListTitle>ราคาสินค้าทั้งหมด</ProvideListTitle>
-          <ProvideListData>{order.price} บาท</ProvideListData>
-        </Flex>
-        <Flex itemAlign="flex-start">
-          <ProvideListTitle>อัตราค่าบริการ</ProvideListTitle>
-          <ProvideListData>{order.serviceCharge} บาท</ProvideListData>
-        </Flex> */}
               <Flex itemAlign="flex-start" marginY="4px">
-                {/* <ProvideListTitle>ข้อความ</ProvideListTitle> */}
                 <ProvideListData>{order.description}</ProvideListData>
               </Flex>
-              {/* <Flex itemAlign="flex-start">
-          <ProvideListTitle>รูปแบบการชำระเงิน</ProvideListTitle>
-          <ProvideListData>{order.payment}</ProvideListData>
-        </Flex> */}
-              {/* <Flex itemAlign="flex-end" justify="flex-end">
-          <ProvideListTitle>ราคาสินค้า</ProvideListTitle>
-          <ProvideListData
-            css={css`
-              width: unset;
-              font-size: 24px;
-              color: black;
-            `}
-          >
-            ฿{order.price}
-          </ProvideListData>
-        </Flex>
-        <Flex itemAlign="flex-end" justify="flex-end">
-          <ProvideListTitle>อัตราค่าบริการ</ProvideListTitle>
-          <ProvideListData
-            css={css`
-              width: unset;
-              font-size: 24px;
-              color: black;
-            `}
-          >
-            ฿{order.serviceCharge}
-          </ProvideListData>
-        </Flex> */}
+
               <Divider style={{ margin: '18px' }} />
               <Flex itemAlign="center" justify="flex-end" marginY="8px">
                 <ProvideListTitle>ช่องทางการชำระเงิน</ProvideListTitle>
@@ -604,107 +563,7 @@ export const OrderInfoPage = () => {
                   ฿{order.serviceCharge + order.price}
                 </ProvideListData>
               </Flex>
-              {/* <Flex itemAlign="center" justify="flex-end" marginY="8px">
-              <ProvideListTitle>ช่องทางการชำระเงิน</ProvideListTitle>
-              <ProvideListData
-                css={css`
-                  width: unset;
-                  font-size: 16px;
-                  color: black;
-                `}
-              >
-                {order.payment}
-              </ProvideListData>
-            </Flex> */}
             </ProvideListContent>
-
-            {/* {order.status === StatusType.COMPLETE ? (
-            <Flex
-              css={css`
-                position: absolute;
-                right: 20px;
-                bottom: 20px;
-                width: max-content;
-
-                ${mediaQueryMobile} {
-                  position: relative;
-                  bottom: 0;
-                  right: 0;
-                  width: 100%;
-                  justify-content: space-between;
-                  margin-top: 20px;
-                }
-              `}
-            >
-              <PrimaryButton
-                css={css`
-                  min-width: 160px;
-                  background: #0047ff;
-
-                  ${mediaQueryMobile} {
-                    min-width: 47%;
-                    width: 47%;
-                  }
-                `}
-              >
-                แชท
-              </PrimaryButton>
-            </Flex>
-          ) : (
-            <Flex
-              css={css`
-                position: absolute;
-                right: 20px;
-                bottom: 20px;
-                width: max-content;
-
-                ${mediaQueryMobile} {
-                  position: relative;
-                  bottom: 0;
-                  right: 0;
-                  width: 100%;
-                  justify-content: space-between;
-                  margin-top: 20px;
-                }
-              `}
-            >
-              <PrimaryButton
-                css={css`
-                  min-width: 150px;
-                  background: #0047ff;
-
-                  ${mediaQueryTablet} {
-                    min-width: 170px;
-                  }
-
-                  ${mediaQueryMobile} {
-                    min-width: 47%;
-                    width: 47%;
-                  }
-                `}
-              >
-                แขท
-              </PrimaryButton>
-              <Dropdown overlay={menu}>
-                <PrimaryButton
-                  css={css`
-                    min-width: 150px;
-
-                    ${mediaQueryTablet} {
-                      min-width: 170px;
-                    }
-
-                    ${mediaQueryMobile} {
-                      min-width: 47%;
-                      width: 47%;
-                    }
-                  `}
-                >
-                  เปลี่ยนสถานะ
-                </PrimaryButton>
-              </Dropdown>
-            </Flex>
-          )} */}
             <Modal
               visible={isModalVisible}
               onOk={handleOk}

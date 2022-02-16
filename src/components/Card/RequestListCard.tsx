@@ -40,9 +40,14 @@ const RequestListContainer = styled.div`
   margin-bottom: 30px;
   margin-top: 20px;
   padding: 30px 40px;
+
   ${mediaQueryTablet} {
     width: 100%;
     padding: 20px;
+  }
+
+  ${mediaQueryMobile} {
+    padding: 20px 15px;
   }
 `;
 
@@ -132,6 +137,10 @@ export const RequestListCard = ({ props }: RequestListCardProps) => {
             font-weight: 700;
             font-size: 24px;
             color: black;
+
+            ${mediaQueryMobile} {
+              font-size: 16px;
+            }
           `}
         >
           {props.title}

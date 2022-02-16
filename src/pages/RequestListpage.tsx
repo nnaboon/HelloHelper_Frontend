@@ -11,6 +11,7 @@ import { RequestListCard } from 'components/Card/RequestListCard';
 import {
   mediaQueryMobile,
   mediaQueryLargeDesktop,
+  mediaQueryTablet,
   MOBILE_WIDTH,
   useMedia
 } from 'styles/variables';
@@ -49,7 +50,15 @@ export const RequestListPage = () => {
               font-size: 2.2rem;
 
               ${mediaQueryLargeDesktop} {
+                font-size: 24px;
+              }
+
+              ${mediaQueryTablet} {
                 font-size: 20px;
+              }
+
+              ${mediaQueryMobile} {
+                font-size: 16px;
               }
             `}
           >

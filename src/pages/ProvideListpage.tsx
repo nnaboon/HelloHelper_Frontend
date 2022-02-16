@@ -11,6 +11,7 @@ import { ProvideListCard } from 'components/Card/ProvideListCard';
 import {
   mediaQueryMobile,
   mediaQueryLargeDesktop,
+  mediaQueryTablet,
   useMedia,
   MOBILE_WIDTH
 } from 'styles/variables';
@@ -51,7 +52,15 @@ export const ProvideListPage = () => {
               font-size: 2.2rem;
 
               ${mediaQueryLargeDesktop} {
+                font-size: 24px;
+              }
+
+              ${mediaQueryTablet} {
                 font-size: 20px;
+              }
+
+              ${mediaQueryMobile} {
+                font-size: 16px;
               }
             `}
           >
