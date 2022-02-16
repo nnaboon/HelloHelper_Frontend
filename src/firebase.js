@@ -34,9 +34,6 @@ export const signInWithFacebook = () =>
       var token = result.credential.accessToken;
       var user = result.user;
       window.localStorage.setItem('access_token', token);
-
-      console.log(token);
-      console.log(user);
     })
     .catch(function (error) {
       console.log(error.code);
