@@ -394,9 +394,8 @@ export const ProfilePage = observer(() => {
                           window.localStorage.removeItem('loginType');
                           window.localStorage.removeItem('access_token');
                           window.localStorage.removeItem('selectedCommunity');
-
-                          auth.signOut();
                           window.location.assign('/');
+                          auth.signOut();
                         }}
                       >
                         <LogoutSvg style={{ marginRight: '10px' }} />
