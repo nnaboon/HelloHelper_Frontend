@@ -115,8 +115,8 @@ export const LoginForm = observer(
             margin: 20px 0;
             max-width: 100%;
             font-size: 1.5rem;
-            pointer-events: none;
-            cursor: default;
+            // pointer-events: none;
+            // cursor: default;
 
             ${mediaQueryLargeDesktop} {
               height: 50px;
