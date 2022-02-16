@@ -10,8 +10,8 @@ export const useUpdateProvideSum = () => {
   );
 
   //data = userId, provideId, rating
-  const execute = (data: object) => {
-    return fire({ url: `${REACT_APP_API}/order/sum/provide`, data });
+  const execute = (orderId: string, data: object) => {
+    return fire({ url: `${REACT_APP_API}/order/${orderId}/sum/provide`, data });
   };
 
   return {
