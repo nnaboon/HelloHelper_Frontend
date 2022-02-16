@@ -3,7 +3,7 @@
 import { css, jsx, Global } from '@emotion/react';
 import React, { useState, useEffect } from 'react';
 import { getAuth, deleteUser } from 'firebase/auth';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { Input, Modal, Skeleton } from 'antd';
 import { observer } from 'mobx-react-lite';
@@ -132,6 +132,8 @@ export const Navbar = observer(() => {
   const [userImage, setUserImage] = useState<any>('');
   const [collapsed, setCollapsed] = useState<boolean>(true);
 
+  const { pathname } = useLocation();
+
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [accountStep, setAccountStep] = useState<LoginStep>(LoginStep.LOGIN);
   const isSmallTablet = useMedia(`(max-width: ${SMALL_TABLET_WIDTH}px)`);
@@ -196,6 +198,12 @@ export const Navbar = observer(() => {
       }
     });
   }, []);
+
+  useEffect(() => {
+    if (!window.localStorage.getItem('id')) {
+      setIsModalVisible(true);
+    }
+  }, [pathname]);
 
   useEffect(() => {
     console.log(response);

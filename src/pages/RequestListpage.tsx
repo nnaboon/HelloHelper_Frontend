@@ -6,6 +6,7 @@ import { css, jsx } from '@emotion/react';
 import Flex from 'components/Flex/Flex';
 import { Text } from 'components/Text';
 import { Menu } from 'antd';
+import { observer } from 'mobx-react-lite';
 import { WrapperContainer } from 'components/Wrapper/WrapperContainer';
 import { RequestListCard } from 'components/Card/RequestListCard';
 import {
@@ -18,12 +19,17 @@ import {
 import { useMyRequestOrder } from 'hooks/order/useMyRequestOrder';
 import { EmptyData } from 'components/Empty/EmptyData';
 import { Loading } from '../components/Loading/Loading';
+import { userStore } from 'store/userStore';
 
-export const RequestListPage = () => {
+export const RequestListPage = observer(() => {
   const [currentStatus, setCurrentStatus] = useState<string>('pending');
-  const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
+
+  const { me } = userStore;
+
   const { data: requestOrders, execute: getRequestOrders } =
     useMyRequestOrder();
+
+  const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
 
   const handleClick = (e) => {
     setCurrentStatus(e.key);
@@ -41,7 +47,7 @@ export const RequestListPage = () => {
         }
       `}
     >
-      {requestOrders ? (
+      {me && requestOrders ? (
         <React.Fragment>
           <Text
             fontWeight={400}
@@ -113,4 +119,4 @@ export const RequestListPage = () => {
       )}
     </WrapperContainer>
   );
-};
+});

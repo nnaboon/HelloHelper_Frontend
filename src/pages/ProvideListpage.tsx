@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
+import { observer } from 'mobx-react-lite';
 import { Menu } from 'antd';
 import Flex from 'components/Flex/Flex';
 import { Text } from 'components/Text';
@@ -18,13 +19,16 @@ import {
 import { useMyProvideOrder } from 'hooks/order/useMyProvideOrder';
 import { EmptyData } from '../components/Empty/EmptyData';
 import { Loading } from 'components/Loading/Loading';
+import { userStore } from 'store/userStore';
 
-export const ProvideListPage = () => {
+export const ProvideListPage = observer(() => {
   const [currentStatus, setCurrentStatus] = useState<string>('pending');
   const [status, setStatus] = useState<string>();
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const { data: provideOrders, execute: getProvideOrders } =
     useMyProvideOrder();
+
+  const { me } = userStore;
 
   useEffect(() => {
     getProvideOrders(window.localStorage.getItem('id'));
@@ -42,7 +46,7 @@ export const ProvideListPage = () => {
         }
       `}
     >
-      {provideOrders ? (
+      {me && provideOrders ? (
         <React.Fragment>
           <Text
             fontSize="24px"
@@ -116,4 +120,4 @@ export const ProvideListPage = () => {
       )}
     </WrapperContainer>
   );
-};
+});
