@@ -49,17 +49,31 @@ export const RegisterForm = observer(
         setCreateUserData((prev) => ({
           ...prev,
           userId: user.uid,
-          email: user.email,
+          email: user.email ?? user.providerData[0].email,
           username: user.displayName,
-          imageUrl: user.photoURL
+          imageUrl:
+            user.providerData[0].providerId === 'facebook.com'
+              ? `${
+                  user.photoURL
+                }?height=200&access_token=${window.localStorage.getItem(
+                  'access_token'
+                )}`
+              : user.photoURL
         }));
       } else if (user) {
         setCreateUserData((prev) => ({
           ...prev,
           userId: user.uid,
-          email: user.email,
+          email: user.email ?? user.providerData[0].email,
           username: user.displayName,
-          imageUrl: user.photoURL
+          imageUrl:
+            user.providerData[0].providerId === 'facebook.com'
+              ? `${
+                  user.photoURL
+                }?height=200&access_token=${window.localStorage.getItem(
+                  'access_token'
+                )}`
+              : user.photoURL
         }));
       }
     }, []);
@@ -126,9 +140,8 @@ export const RegisterForm = observer(
                       setIsModalVisible(false);
                       setUserId(user.uid);
                       window.localStorage.setItem('id', user.uid);
-                      message.success('สร้างบัญชีผู้ใช้สำเร็จ');
-
                       window.location.reload();
+                      message.success('สร้างบัญชีผู้ใช้สำเร็จ');
                     })
                     .catch((error) => {
                       console.log(error);

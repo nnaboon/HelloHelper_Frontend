@@ -161,18 +161,18 @@ export const Navbar = observer(() => {
   const handleCancel = () => {
     setIsModalVisible(false);
 
-    const auth = getAuth();
-    const user = auth.currentUser;
+    // const auth = getAuth();
+    // const user = auth.currentUser;
 
-    deleteUser(user)
-      .then(() => {
-        window.localStorage.removeItem('id');
-        window.localStorage.removeItem('loginType');
-        window.localStorage.removeItem('access_token');
-      })
-      .catch((error) => {
-        auth.signOut();
-      });
+    // deleteUser(user)
+    //   .then(() => {
+    //     window.localStorage.removeItem('id');
+    //     window.localStorage.removeItem('loginType');
+    //     window.localStorage.removeItem('access_token');
+    //   })
+    //   .catch((error) => {
+    //     auth.signOut();
+    //   });
   };
 
   useEffect(() => {
@@ -197,6 +197,7 @@ export const Navbar = observer(() => {
   }, []);
 
   useEffect(() => {
+    console.log(response);
     if (response) {
       if (Object.keys(response).length !== 0) {
         setMe(response);
