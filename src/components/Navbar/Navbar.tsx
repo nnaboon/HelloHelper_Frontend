@@ -213,7 +213,7 @@ export const Navbar = observer(() => {
         setAccountStep(LoginStep.REGISTER);
         setIsModalVisible(true);
       }
-    } else {
+    } else if (response !== undefined) {
       setAccountStep(LoginStep.REGISTER);
     }
   }, [response]);

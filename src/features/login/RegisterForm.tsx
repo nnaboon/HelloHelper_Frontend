@@ -126,8 +126,9 @@ export const RegisterForm = observer(
                       setIsModalVisible(false);
                       setUserId(user.uid);
                       window.localStorage.setItem('id', user.uid);
-                      // window.location.reload();
                       message.success('สร้างบัญชีผู้ใช้สำเร็จ');
+
+                      window.location.reload();
                     })
                     .catch((error) => {
                       console.log(error);
