@@ -50,14 +50,16 @@ export const RegisterForm = observer(
           ...prev,
           userId: user.uid,
           email: user.email,
-          username: user.displayName
+          username: user.displayName,
+          imageUrl: user.photoURL
         }));
       } else if (user) {
         setCreateUserData((prev) => ({
           ...prev,
           userId: user.uid,
           email: user.email,
-          username: user.displayName
+          username: user.displayName,
+          imageUrl: user.photoURL
         }));
       }
     }, []);

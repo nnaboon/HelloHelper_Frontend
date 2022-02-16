@@ -7,7 +7,6 @@ import { Text } from 'components/Text';
 import { Checkbox, Button, Form, message } from 'antd';
 import { UserCreateBody } from './const';
 import { useHistory } from 'react-router-dom';
-import { ABILITY } from '../../data/ability';
 import { mediaQueryMobile, mediaQueryLargeDesktop } from 'styles/variables';
 
 type RegisterAbilityFormProps = {
@@ -33,6 +32,24 @@ export const RegisterAbilityForm = (props: RegisterAbilityFormProps) => {
   const [form] = Form.useForm();
   const history = useHistory();
   const { userAccountData, onNext, onBack } = props;
+
+  const options = [
+    { label: 'ด้านการจัดหาอาหาร', value: 'food' },
+    { label: 'ด้านเครื่องแต่งกาย', value: 'cloth' },
+    { label: 'ด้านความงาม', value: 'beauty' },
+    { label: 'ด้านเครื่องใช้ในบ้าน', value: 'furniture' },
+    { label: 'ด้านเครื่องใช้ไฟฟ้า', value: 'electronic' },
+    { label: 'ด้านอุปกรณ์ทำการเกษตร', value: 'agriculture' },
+    { label: 'ด้านหนังสือและเครื่องเขียน', value: 'stationary' },
+    { label: 'ด้านเพลงและดนตรี', value: 'music' },
+    { label: 'ด้านมือถือและอุปกรณ์เสริม', value: 'mobile' },
+    { label: 'ด้านกีฬาและอุปกรณ์เสริม', value: 'sports' },
+    { label: 'ด้านสุขภาพ', value: 'health' }
+    // {
+    //   label: 'ให้ความช่วยเหลือตามรายการให้ความช่วยเหลือของฉัน',
+    //   value: undefined
+    // }
+  ];
 
   const toggleChecked = (value) => {
     setCheckedList(value);
@@ -181,7 +198,7 @@ export const RegisterAbilityForm = (props: RegisterAbilityFormProps) => {
         </Text>
         <Form.Item name="ability">
           <Checkbox.Group
-            options={ABILITY}
+            options={options}
             value={checkedList}
             onChange={toggleChecked}
             style={{
