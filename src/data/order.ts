@@ -21,8 +21,10 @@ export type OrderProps = {
   };
   providerUserId: string;
   requesterUserId: string;
+  rating: number;
   status: string;
 };
+
 export const ORDER_DATA = [
   {
     orderId: 'abcde12345',

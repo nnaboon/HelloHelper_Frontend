@@ -17,6 +17,7 @@ import {
 } from 'styles/variables';
 import { Button } from 'antd/lib/radio';
 import { useDeleteConfirmOrder } from 'hooks/order/useDeleteConfirmOrder';
+import { useDeletedProvidedUserId } from 'hooks/request/useDeleteProvidedUserId';
 import { useUpdateOrder } from 'hooks/order/useUpdateOrder';
 
 const OrderDetail = styled.p`
@@ -51,6 +52,8 @@ export default function WaitingToConfirmOrders({ onlineUsers, currentId }) {
     useWaitForConfirmOrders();
 
   const { execute: deleteConfirmOrder } = useDeleteConfirmOrder();
+  const { execute: deletedProvidedUser } = useDeletedProvidedUserId();
+
   const { execute: updateConfirmOrder } = useUpdateOrder();
 
   useEffect(() => {
@@ -63,11 +66,18 @@ export default function WaitingToConfirmOrders({ onlineUsers, currentId }) {
 
   return (
     <div className="chatOnline">
-      <Collapse>
+      <Collapse
+        css={css`
+          .ant-collapse > .ant-collapse-item > .ant-collapse-header {
+            font-size: 34px !important;
+          }
+        `}
+      >
         {waitConfirmOrder?.length > 0 ? (
           waitConfirmOrder.map(
             ({
               id,
+              orderReferenceId,
               title,
               location,
               payment,
@@ -77,7 +87,19 @@ export default function WaitingToConfirmOrders({ onlineUsers, currentId }) {
               providerUserId,
               receiver
             }) => (
-              <Panel header={title} key={id}>
+              <Panel
+                header={title}
+                key={id}
+                css={css`
+                  .ant-collapse-header {
+                    font-size: 1.5rem;
+
+                    ${mediaQueryLargeDesktop} {
+                      font-size: 16px;
+                    }
+                  }
+                `}
+              >
                 <Flex itemAlign="center">
                   <OrderTitle>ชื่อความช่วยเหลือ</OrderTitle>
                   <OrderDetail>{title}</OrderDetail>
@@ -120,12 +142,13 @@ export default function WaitingToConfirmOrders({ onlineUsers, currentId }) {
                       type="primary"
                       htmlType="submit"
                       css={css`
-                        width: 165px;
+                        width: 100px;
                         height: 35px;
                         box-sizing: border-box;
                         border: 1px solid #ee6400 !important;
 
-                        border-radius: 9px;
+                        border-radius: 9px !important;
+                        text-align: center;
                         border: 0;
                         right: 0;
                         color: #ee6400;
@@ -138,14 +161,15 @@ export default function WaitingToConfirmOrders({ onlineUsers, currentId }) {
                         }
 
                         ${mediaQueryTablet} {
-                          width: 150px;
+                          width: 80px;
                           right: 0;
                         }
                         ${mediaQueryMobile} {
-                          width: 144px;
+                          width: 7px;
                         }
                       `}
                       onClick={() => {
+                        deletedProvidedUser(orderReferenceId);
                         deleteConfirmOrder(id)
                           .then(() => {
                             message.success('สำเร็จ');
@@ -154,17 +178,18 @@ export default function WaitingToConfirmOrders({ onlineUsers, currentId }) {
                           .catch(() => message.error('ไม่สำเร็จ'));
                       }}
                     >
-                      ปฏิเสธการช่วยเหลือ
+                      ปฏิเสธ
                     </Button>
                     <Button
                       type="primary"
                       htmlType="submit"
                       css={css`
-                        width: 165px;
+                        width: 100px;
                         height: 35px;
                         box-sizing: border-box;
                         background: #ee6400;
-                        border-radius: 9px;
+                        border-radius: 9px !important;
+                        text-align: center;
                         border: 0;
                         right: 0;
                         color: #ffff;
@@ -178,12 +203,17 @@ export default function WaitingToConfirmOrders({ onlineUsers, currentId }) {
                           box-shadow: 0px 0px 20px 8px rgba(255, 135, 48, 0.21);
                         }
 
+                        &:before {
+                          background: transparent !important;
+                        }
+
                         ${mediaQueryTablet} {
-                          width: 150px;
+                          width: 80px;
                           right: 0;
                         }
+
                         ${mediaQueryMobile} {
-                          width: 144px;
+                          width: 70px;
                         }
                       `}
                       onClick={() => {
@@ -195,7 +225,7 @@ export default function WaitingToConfirmOrders({ onlineUsers, currentId }) {
                           .catch(() => message.error('ไม่สำเร็จ'));
                       }}
                     >
-                      ยืนยันการช่วยเหลือ
+                      ยืนยัน
                     </Button>
                   </Flex>
                 )}
