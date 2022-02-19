@@ -65,6 +65,10 @@ const CardContainer = styled.div`
   max-width: 600px;
 
   ${mediaQueryLargeDesktop} {
+    min-width: 100%;
+  }
+
+  ${mediaQueryLargeDesktop} {
     min-width: 360px;
     height: 380px;
     padding: 20px 30px;

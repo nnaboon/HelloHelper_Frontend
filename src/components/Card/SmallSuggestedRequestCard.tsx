@@ -255,7 +255,7 @@ export const SmallSuggestedRequestCard = ({ data }: any) => {
                   </RequestDataContent>
                   <RequestDataContent>
                     <RequestDataTitle>
-                      ยอดการให้{'\n'}ความช่วยเหลือนี้
+                      จำนวนการให้{'\n'}ความช่วยเหลือนี้
                     </RequestDataTitle>
                     <RequestDataInfo>
                       {provideSum.toLocaleString()} ครั้ง

@@ -138,16 +138,17 @@ const RequestImageSection = styled.img`
 `;
 
 const RequestDataTitle = styled.div`
-  font-size: 0.85rem;
+  font-size: 1rem;
   line-height: 16px;
   color: #c4c4c4;
   max-width: 105px;
   margin-right: 13px;
-  width: 90px;
+  width: 100px;
   text-align: end;
 
   ${mediaQueryLargeDesktop} {
     width: 90px;
+    font-size: 0.85rem;
   }
 
   ${mediaQuerySmallTablet} {
@@ -171,7 +172,7 @@ const RequestDataInfo = styled.div`
   -webkit-box-orient: vertical;
 
   ${mediaQueryLargeDesktop} {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
   }
 
   ${mediaQuerySmallTablet} {

@@ -160,7 +160,7 @@ export const TopTenRequestSection = ({ data }: any) => {
                   </TopTenRequestDataContent>
                   <TopTenRequestDataContent>
                     <RequestDataTitle>
-                      ยอดการให้ {'\n'}ความช่วยเหลือ
+                      จำนวนการให้ {'\n'}ความช่วยเหลือ
                     </RequestDataTitle>
                     <RequestDataInfo>
                       {helpSum.toLocaleString()} ครั้ง

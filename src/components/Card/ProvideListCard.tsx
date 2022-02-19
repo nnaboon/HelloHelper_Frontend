@@ -283,7 +283,7 @@ export const ProvideListCard = ({ props, setStatus }: ProvideListCardProps) => {
         </Flex> */}
         <Divider style={{ margin: '18px' }} />
         <Flex itemAlign="center" justify="flex-end">
-          <ProvideListTitle>ยอดคำสั่งซื้อทั้งหมด</ProvideListTitle>
+          <ProvideListTitle>จำนวนคำสั่งซื้อทั้งหมด</ProvideListTitle>
           <ProvideListData
             css={css`
               width: unset;
@@ -432,7 +432,7 @@ export const ProvideListCard = ({ props, setStatus }: ProvideListCardProps) => {
           }
         `}
       >
-        <RatingForm />
+        <RatingForm order={props} setIsModalVisible={setIsModalVisible} />
       </Modal>
     </ProvideListContainer>
   );

@@ -196,7 +196,7 @@ export const RequestListCard = ({ props }: RequestListCardProps) => {
         </Flex> */}
         <Divider style={{ margin: '18px' }} />
         <Flex itemAlign="center" justify="flex-end">
-          <RequestListTitle>ยอดคำสั่งซื้อทั้งหมด</RequestListTitle>
+          <RequestListTitle>จำนวนคำสั่งซื้อทั้งหมด</RequestListTitle>
           <RequestListData
             css={css`
               width: unset;
@@ -297,27 +297,29 @@ export const RequestListCard = ({ props }: RequestListCardProps) => {
           >
             แชท
           </SecondaryButton>
-          <PrimaryButton
-            css={css`
-              min-width: 140px;
-              height: 45px;
-              z-index: 10;
+          {!props.rating && (
+            <PrimaryButton
+              css={css`
+                min-width: 140px;
+                height: 45px;
+                z-index: 10;
 
-              ${mediaQueryTablet} {
-                min-width: 130px;
-              }
+                ${mediaQueryTablet} {
+                  min-width: 130px;
+                }
 
-              ${mediaQueryMobile} {
-                min-width: 47%;
-                width: 47%;
-              }
-            `}
-            onClick={() => {
-              setIsModalVisible(true);
-            }}
-          >
-            ให้คะแนน
-          </PrimaryButton>
+                ${mediaQueryMobile} {
+                  min-width: 47%;
+                  width: 47%;
+                }
+              `}
+              onClick={() => {
+                setIsModalVisible(true);
+              }}
+            >
+              ให้คะแนน
+            </PrimaryButton>
+          )}
         </Flex>
       )}
 
@@ -345,7 +347,7 @@ export const RequestListCard = ({ props }: RequestListCardProps) => {
           }
         `}
       >
-        <RatingForm />
+        <RatingForm order={props} setIsModalVisible={setIsModalVisible} />
       </Modal>
     </RequestListContainer>
   );
