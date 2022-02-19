@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { CATEGORY } from 'data/category';
+import { mediaQueryLargeDesktop } from 'styles/variables';
 
 const SidebarSection = styled.div`
   display: flex;
@@ -13,24 +14,34 @@ const SidebarSection = styled.div`
   padding-right: 25px;
   border-right: 1px solid rgb(239, 243, 244);
   z-index: 3;
-  top: 165px;
+  top: 250px;
   left: 0;
   height: 100%;
   overflow-y: hidden;
   margin-top: 40px;
+
+  ${mediaQueryLargeDesktop} {
+    top: 165px;
+  }
 `;
 
 const SidebarItem = styled.div<{ isActive: boolean }>`
   width: max-content;
-  max-width: 260px;
+  max-width: 460px;
   margin-right: 20px;
-  margin-bottom: 15px;
-  font-size: ${(props) => (props.isActive ? '22px' : '20px')};
+  margin-bottom: 40px;
+  font-size: ${(props) => (props.isActive ? '2.6rem' : '2.2rem')};
   cursor: pointer;
   padding: 10px;
   border-radius: 20px;
   font-weight: ${(props) => (props.isActive ? 700 : 500)};
   color: ${(props) => (props.isActive ? '#EE6400' : 'black')};
+
+  ${mediaQueryLargeDesktop} {
+    max-width: 260px;
+    margin-bottom: 15px;
+    font-size: ${(props) => (props.isActive ? '22px' : '20px')};
+  }
 `;
 
 const SidebarLink = styled.div`

@@ -163,19 +163,6 @@ export const Navbar = observer(() => {
 
   const handleCancel = () => {
     setIsModalVisible(false);
-
-    // const auth = getAuth();
-    // const user = auth.currentUser;
-
-    // deleteUser(user)
-    //   .then(() => {
-    //     window.localStorage.removeItem('id');
-    //     window.localStorage.removeItem('loginType');
-    //     window.localStorage.removeItem('access_token');
-    //   })
-    //   .catch((error) => {
-    //     auth.signOut();
-    //   });
   };
 
   useEffect(() => {
@@ -206,7 +193,6 @@ export const Navbar = observer(() => {
   }, [pathname]);
 
   useEffect(() => {
-    console.log(response);
     if (response) {
       if (Object.keys(response).length !== 0) {
         setMe(response);
@@ -278,13 +264,15 @@ export const Navbar = observer(() => {
               <li
                 onClick={() => {
                   history.push({
-                    pathname: `/community/${
-                      response.communityId.includes(
-                        window.localStorage.getItem('selectedCommunity')
-                      )
-                        ? window.localStorage.getItem('selectedCommunity')
-                        : response.communityId[0]
-                    }`
+                    pathname: response?.communityId?.includes(
+                      window.localStorage.getItem('selectedCommunity')
+                    )
+                      ? `/community/${window.localStorage.getItem(
+                          'selectedCommunity'
+                        )}`
+                      : response.communityId
+                      ? `/community/${response.communityId[0]}`
+                      : `/community`
                   });
                 }}
               >

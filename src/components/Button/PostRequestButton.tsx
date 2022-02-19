@@ -131,8 +131,8 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
           ? pathname.split('/')[2]
           : undefined,
       description: value.message ?? '',
-      serviceCharge: value.maxServiceCharge as Number,
-      payment: value.payment as Number,
+      serviceCharge: Number(value.maxServiceCharge),
+      payment: Number(value.payment),
       category: [value.category],
       hashtag: tags
     };
@@ -157,10 +157,9 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
           })
         : uploadRequestImage(formData).then((res) => {
             addRequest({
-              price: value.maxPrice as Number,
+              price: Number(value.maxPrice),
               imageUrl: res.data,
-              provideUserId: [''],
-              number: value.number as Number,
+              number: Number(value.number),
               ...data
             })
               .then(() => {

@@ -56,6 +56,7 @@ const ChatMessageInput = styled.textarea`
   width: 80%;
   height: 90px;
   padding: 10px;
+  resize: none;
 `;
 
 const NoConversationText = styled.div`

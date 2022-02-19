@@ -127,7 +127,7 @@ export const SideMenu = ({ collapsed, setCollapsed }: SideMenuProps) => {
                 }
               `}
             >
-              {/* <FontAwesomeIcon icon={icon} /> */}
+              <FontAwesomeIcon icon={icon} />
               <div
                 css={css`
                   margin-left: 10px;
@@ -158,7 +158,7 @@ export const SideMenu = ({ collapsed, setCollapsed }: SideMenuProps) => {
             history.push({
               pathname: `/community/${window.localStorage.getItem(
                 'selectedCommunity'
-              )}`
+              ) ?? null}`
             });
           }}
         >

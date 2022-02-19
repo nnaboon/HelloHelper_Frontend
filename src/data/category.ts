@@ -8,7 +8,6 @@ import { faTractor } from '@fortawesome/free-solid-svg-icons';
 import { faPlug } from '@fortawesome/free-solid-svg-icons';
 import { faCouch } from '@fortawesome/free-solid-svg-icons';
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
-import { faLaugh } from '@fortawesome/free-solid-svg-icons';
 
 export const CATEGORY = [
   {
@@ -20,11 +19,6 @@ export const CATEGORY = [
     id: 'cloth',
     name: 'ด้านเครื่องแต่งกาย',
     icon: faTshirt
-  },
-  {
-    id: 'beauty',
-    name: 'ด้านความงาม',
-    icon: faLaugh
   },
   {
     id: 'furniture',
@@ -63,7 +57,7 @@ export const CATEGORY = [
   },
   {
     id: 'health',
-    name: 'ด้านสุขภาพ',
+    name: 'ด้านสุขภาพและความงาม',
     icon: faMedkit
   }
 ];

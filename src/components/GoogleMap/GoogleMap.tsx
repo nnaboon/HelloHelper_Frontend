@@ -95,6 +95,7 @@ export const GoogleMapContent = ({
       }}
       onClick={(e) => {
         setCenter(new google.maps.LatLng(e.latLng.lat(), e.latLng.lng()));
+        console.log(e);
       }}
     >
       <Marker position={center ? center : (myLocation as google.maps.LatLng)} />

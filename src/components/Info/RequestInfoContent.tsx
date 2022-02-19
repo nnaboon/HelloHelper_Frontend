@@ -197,12 +197,12 @@ const UserProfileCard = styled.div`
   background: #ffffff;
   box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.09);
   border-radius: 12px;
-  margin-top: 40px;
-  margin-bottom: 40px;
+  margin: 80px 0;
   justify-content: space-around;
 
   ${mediaQueryLargeDesktop} {
     justify-content: space-between;
+    margin: 40px 0;
   }
 
   ${mediaQueryMobile} {
@@ -370,6 +370,9 @@ export const RequestInfoContent = observer(({ data }: any) => {
                     justifyContent: 'center',
                     flexDirection: `${isTablet ? 'column' : 'row'}`
                   }}
+                  css={css`
+                    position: relative;
+                  `}
                 >
                   <Flex
                     direction="column"
@@ -426,7 +429,7 @@ export const RequestInfoContent = observer(({ data }: any) => {
                   <Flex
                     direction="column"
                     marginTop="30px"
-                    style={{ width: 'unset' }}
+                    style={{ width: 'unset', height: 'inherit' }}
                     itemAlign={isTablet ? 'flex-start' : 'center'}
                   >
                     <RequestInfoContainer>
@@ -449,9 +452,57 @@ export const RequestInfoContent = observer(({ data }: any) => {
                         {request.description ? request.description : '-'}
                       </RequestDetail>
                     </RequestInfoContainer>
-                    {request.userId !== window.localStorage.getItem('id') && (
+                    {request.userId !== window.localStorage.getItem('id') &&
+                    request.requesterUserId.find(
+                      (item) =>
+                        item.userId === window.localStorage.getItem('id')
+                    ) ? (
                       <PrimaryButton
                         css={css`
+                          position: absolute;
+                          bottom: 40px;
+
+                          ${mediaQueryTablet} {
+                            width: 100%;
+                            max-width: 100%;
+                          }
+
+                          ${mediaQueryMobile} {
+                            width: 100%;
+                            position: fixed;
+                            z-index: 4;
+                            bottom: 0;
+                            left: 0;
+                            border-radius: 0 !important;
+                            height: 40px;
+                          }
+                        `}
+                        onClick={() => {
+                          addRequesterUserId(
+                            request.requestId,
+                            request.userId,
+                            {
+                              userId: window.localStorage.getItem('id')
+                            }
+                          )
+                            .then(() => {
+                              message.success(
+                                'เรากำลังส่งความช่วยเหลือของคุณให้เจ้าของโพสต์ได้รับทราบ'
+                              );
+                            })
+                            .catch(() => {
+                              message.error('ไม่สำเร็จ');
+                            });
+                        }}
+                      >
+                        คุณได้ทำการสนใจให้ความช่วยเหลือนี้แล้ว
+                      </PrimaryButton>
+                    ) : (
+                      <PrimaryButton
+                        css={css`
+                          position: absolute;
+                          bottom: 40px;
+
                           ${mediaQueryTablet} {
                             width: 100%;
                             max-width: 100%;
@@ -681,6 +732,7 @@ export const RequestInfoContent = observer(({ data }: any) => {
                                   id={userId}
                                   name={username}
                                   imageUrl={imageUrl}
+                                  request={request}
                                 />
                               )
                             )}
