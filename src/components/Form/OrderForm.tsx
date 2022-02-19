@@ -42,6 +42,8 @@ export const OrderForm = ({ data, setIsModalVisible }: OrderFormProps) => {
   const [form] = Form.useForm();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
+  const history = useHistory();
+
   const { pathname, state } = useLocation();
   const chatId = pathname.split('/')[2];
 
@@ -82,6 +84,7 @@ export const OrderForm = ({ data, setIsModalVisible }: OrderFormProps) => {
       addOrder(data)
         .then(() => {
           message.success('ส่งคำขอเรียบร้อย');
+          history.replace();
           setIsModalVisible(false);
           form.resetFields();
         })
