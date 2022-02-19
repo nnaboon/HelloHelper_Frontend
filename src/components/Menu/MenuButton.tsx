@@ -28,7 +28,7 @@ export const MenuButton = ({
       onClick={onClick}
       css={css`
         color: ${isActive ? '#EE6400' : '#848484'};
-        font-size: ${isActive ? '2.2rem' : '1.49rem'};
+        font-size: ${isActive ? '2.5rem' : '2rem'};
         font-weight: ${isActive ? '700' : '500'};
 
         ${mediaQueryLargeDesktop} {

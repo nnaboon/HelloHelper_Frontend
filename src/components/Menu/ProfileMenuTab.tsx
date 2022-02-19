@@ -1,6 +1,6 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
 
@@ -29,8 +29,13 @@ interface MenuTabProps {
 
 export const ProfileMenuTab = ({ menu, setMenu }: MenuTabProps) => {
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
-
   const history = useHistory();
+
+  // useEffect(() => {
+  //   if (!isMobile && menu === ProfileMenu.HOME) {
+  //     setMenu(HelpMenu.PROVIDE);
+  //   }
+  // }, [menu]);
 
   return (
     <Flex
