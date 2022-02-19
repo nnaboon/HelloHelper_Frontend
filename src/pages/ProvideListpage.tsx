@@ -87,6 +87,7 @@ export const ProvideListPage = observer(() => {
             <Menu.Item key="progress">กำลังดำเนินการ</Menu.Item>
             <Menu.Item key="complete">สำเร็จ</Menu.Item>
             <Menu.Item key="cancel">ยกเลิก</Menu.Item>
+            <Menu.Item key="rated">ให้คะแนนแล้ว</Menu.Item>
           </Menu>
           <Flex
             itemAlign="center"
@@ -95,11 +96,19 @@ export const ProvideListPage = observer(() => {
             marginTop="30px"
           >
             {provideOrders ? (
-              provideOrders?.filter(
-                ({ status }) => status === currentStatus && status !== 'waiting'
+              provideOrders?.filter(({ status, rating }) =>
+                currentStatus === 'rated'
+                  ? rating !== undefined
+                  : status === currentStatus &&
+                    status !== 'waiting' &&
+                    rating === undefined
               ).length > 0 ? (
                 provideOrders
-                  ?.filter(({ status }) => status === currentStatus)
+                  ?.filter(({ status, rating }) =>
+                    currentStatus === 'rated'
+                      ? rating !== undefined
+                      : status === currentStatus && rating === undefined
+                  )
                   .map((props) => (
                     <ProvideListCard
                       key={props.id}

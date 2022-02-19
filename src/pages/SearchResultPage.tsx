@@ -27,13 +27,19 @@ import { EmptyData } from 'components/Empty/EmptyData';
 import { useProvides } from 'hooks/provide/useProvides';
 import { useRequests } from 'hooks/request/useRequests';
 import { Loading } from 'components/Loading/Loading';
+import { mediaQueryLargeDesktop } from '../styles/variables';
 
 const SearchResultContent = styled.div`
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: repeat(3, 1fr);
   grid-gap: 10px;
   overflow: scroll;
   position: relative;
+
+  ${mediaQueryLargeDesktop} {
+    grid-template-columns: auto auto;
+    grid-gap: 10px;
+  }
 
   ${mediaQueryMobile} {
     display: flex;
@@ -65,6 +71,12 @@ export const SearchResultPage = () => {
   return (
     <WrapperContainer
       css={css`
+        top: 250px;
+
+        ${mediaQueryLargeDesktop} {
+          top: 165px;
+        }
+
         ${mediaQueryMobile} {
           height: calc(100vh - 120px);
         }
@@ -79,7 +91,11 @@ export const SearchResultPage = () => {
               display: flex;
               flex-direction: column;
               left: 25%;
-              width: 75%;
+              width: 63%;
+
+              ${mediaQueryLargeDesktop} {
+                width: 75%;
+              }
 
               ${mediaQueryTablet} {
                 left: 0;
@@ -102,7 +118,19 @@ export const SearchResultPage = () => {
                 itemAlign={isMobile ? 'flex-start' : 'center'}
                 direction={isMobile ? 'column' : 'row'}
               >
-                <Text fontSize="26px" fontWeight={500} marginBottom="20px">
+                <Text
+                  fontWeight={500}
+                  marginBottom="20px"
+                  css={css`
+                    font-size: 2rem;
+                    ${mediaQueryLargeDesktop} {
+                      font-size: 26px;
+                    }
+                    ${mediaQueryMobile} {
+                      font-size: 22px;
+                    }
+                  `}
+                >
                   ผลการค้นหา ทั้งหมด{' '}
                   {menu === 'provide'
                     ? provides.filter(({ category }) => category[0] === qs)

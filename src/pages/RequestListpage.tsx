@@ -87,6 +87,7 @@ export const RequestListPage = observer(() => {
             <Menu.Item key="progress">กำลังดำเนินการ</Menu.Item>
             <Menu.Item key="complete">สำเร็จ</Menu.Item>
             <Menu.Item key="cancel">ยกเลิก</Menu.Item>
+            <Menu.Item key="rated">ให้คะแนนแล้ว</Menu.Item>
           </Menu>
           <Flex
             itemAlign="center"
@@ -95,13 +96,18 @@ export const RequestListPage = observer(() => {
             marginTop="30px"
           >
             {requestOrders ? (
-              requestOrders?.filter(
-                ({ status, orderReferenceType }) =>
-                  status === currentStatus && status !== 'waiting'
+              requestOrders?.filter(({ status, orderReferenceType, rating }) =>
+                currentStatus === 'rated'
+                  ? rating !== undefined
+                  : status === currentStatus &&
+                    status !== 'waiting' &&
+                    rating === undefined
               ).length > 0 ? (
                 requestOrders
-                  ?.filter(
-                    ({ status, orderReferenceType }) => status === currentStatus
+                  ?.filter(({ status, orderReferenceType, rating }) =>
+                    currentStatus === 'rated'
+                      ? rating !== undefined
+                      : status === currentStatus && rating === undefined
                   )
                   .map((props) => (
                     <RequestListCard key={props.id} props={props} />

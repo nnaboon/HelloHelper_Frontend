@@ -15,7 +15,7 @@ import { PostRequestButton } from 'components/Button/PostRequestButton';
 import { SuggestedRequestSection } from 'components/Card/SuggestedRequestCard';
 import { News } from 'components/News/News';
 import { CATEGORY } from 'data/category';
-import { REQUEST_MAPPER } from '../data/request';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { SearchSvg } from 'components/Svg/SearchSvg';
 import CommunityPic from 'images/community_homepage.jpeg';
 import GoodsPic from 'images/goods_homepage.jpeg';
@@ -24,24 +24,27 @@ import {
   mediaQueryMobile,
   mediaQuerySmallTablet,
   MOBILE_WIDTH,
+  mediaQueryTablet,
+  mediaQueryLargeDesktop,
+  mediaQueryExtraLargeDesktop,
+  SMALL_TABLET_WIDTH,
   useMedia
 } from 'styles/variables';
-import { LeftOutlined, RightOutlined } from '@ant-design/icons';
+import { LeftOutlined, LineOutlined, RightOutlined } from '@ant-design/icons';
 import { PROVIDE_MAPPER } from 'data/provide';
 import { useUsers } from 'hooks/user/useUsers';
 import { useProvides } from 'hooks/provide/useProvides';
 import { useRequests } from 'hooks/request/useRequests';
-import {
-  mediaQueryTablet,
-  mediaQueryLargeDesktop,
-  mediaQueryExtraLargeDesktop
-} from '../styles/variables';
 import { Loading } from 'components/Loading/Loading';
 
 const HomePageCategorySection = styled.div`
-  display: flex;
-  width: 100%;
-  overflow-x: scroll;
+  // display: flex;
+  // width: 100%;
+  // overflow-x: scroll;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 30px;
+  justify-content: center;
   ${mediaQueryMobile} {
     display: grid;
     grid-template-rows: repeat(2, auto);
@@ -118,10 +121,37 @@ const EmptyData = styled(Empty)`
   }
 }`;
 
+const CategoryMenu = styled.div`
+  // border: 1px solid #ee6400;
+  width: 100%;
+  height: 100%;
+  min-width: 40px;
+  min-height: 40px;
+
+  max-width: 300px;
+  height: 80px;
+  font-size: 18px;
+
+  svg {
+    font-size: 25px;
+    transition: width 0.1s, height 0.1s ease-in-out;
+  }
+
+  &:hover {
+    color: #ee6400;
+    cursor: pointer;
+
+    svg {
+      font-size: 32px;
+    }
+  }
+`;
+
 export const HomePage = () => {
-  const history = useHistory();
   const [searchValue, setSearchValue] = useState<string>();
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
+  const isSmallTablet = useMedia(`(max-width: ${SMALL_TABLET_WIDTH}px)`);
+  const history = useHistory();
   const { data: response, execute: getUsers } = useUsers();
   const { data: provides, execute: getProvides } = useProvides();
   const { data: requests, execute: getRequests } = useRequests();
@@ -133,16 +163,21 @@ export const HomePage = () => {
 
   const responsive = {
     superLargeDesktop: {
-      breakpoint: { max: 4000, min: 3000 },
+      breakpoint: { max: 4000, min: 2800 },
       items: 5
     },
     bigDesktop: {
-      breakpoint: { max: 3000, min: 2000 },
+      breakpoint: { max: 2800, min: 2000 },
       items: 4
     },
     desktop: {
-      breakpoint: { max: 2000, min: 1024 },
+      breakpoint: { max: 2000, min: 1300 },
       items: 3
+    },
+    smallDesktop: {
+      breakpoint: { max: 1300, min: 1024 },
+      items: 2,
+      partialVisibilityGutter: 50
     },
     tablet: {
       breakpoint: { max: 1024, min: 768 },
@@ -215,40 +250,27 @@ export const HomePage = () => {
               alt="earn money in homepage"
             />
           </Carousel>
-          {!isMobile && (
+          {!isSmallTablet && (
             <HomePageCategorySection>
-              {CATEGORY.map(({ id, name }) => (
-                <SecondaryButton
+              {CATEGORY.map(({ id, name, icon }) => (
+                <CategoryMenu
                   key={id}
-                  css={css`
-                    height: 55px;
-                    min-width: 390px;
-                    font-size: 1.32rem;
-
-                    ${mediaQueryLargeDesktop} {
-                      min-width: 350px;
-                      font-size: 18px;
-                      height: 40px;
-                    }
-
-                    margin-right: 20px;
-                    border-sizing: border-box;
-                    padding: 0 10px;
-                    margin-bottom: 30px;
-                    margin-top: 20px;
-
-                    &:hover {
-                      box-shadow: 0px 0px 20px 8px rgba(255, 135, 48, 0.21);
-                    }
-                  `}
                   onClick={() => {
                     history.push({
                       pathname: `/${id}`
                     });
                   }}
                 >
-                  ความช่วยเหลือ{name}
-                </SecondaryButton>
+                  <Flex direction="column" itemAlign="center" justify="center">
+                    <FontAwesomeIcon
+                      icon={icon}
+                      css={css`
+                        margin-bottom: 20px;
+                      `}
+                    />
+                    <div>{name}</div>
+                  </Flex>
+                </CategoryMenu>
               ))}
             </HomePageCategorySection>
           )}

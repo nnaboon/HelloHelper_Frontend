@@ -258,13 +258,13 @@ export const ProfilePage = observer(() => {
     } else {
       setMenu(currentMenu);
     }
-  }, [currentMenu, isMobile, menu]);
+  }, [isMobile]);
 
   useEffect(() => {
     if (isMobile) {
       setMenu(ProfileMenu.HOME);
     }
-  }, []);
+  }, [isMobile]);
 
   return (
     <ProfilePageContainer>
@@ -361,16 +361,18 @@ export const ProfilePage = observer(() => {
                       style={{
                         display: 'flex',
                         position: 'absolute',
-                        bottom: '8px',
                         padding: '10px',
-                        left: '-9px',
                         width: '100%'
                       }}
                       css={css`
+                        bottom: 8px;
+                        left: -9px;
+
                         ${mediaQueryMobile} {
-                          left: 0 !important;
+                          left: 0;
                           justify-content: space-between;
                           padding: 10px 20px !important;
+                          bottom: 4px;
                         }
                       `}
                     >
@@ -387,6 +389,7 @@ export const ProfilePage = observer(() => {
 
                           ${mediaQueryMobile} {
                             width: 47%;
+                            height: 35px;
                           }
                         `}
                         onClick={() => {
@@ -404,6 +407,7 @@ export const ProfilePage = observer(() => {
                       <PrimaryButton
                         css={css`
                           display: flex;
+                          height: 45px;
                           align-items: center;
                           background: transparent;
                           border: 1px solid #848484;
@@ -412,8 +416,15 @@ export const ProfilePage = observer(() => {
                           &:hover {
                             color: #848484;
                           }
+
+                          ${mediaQueryLargeDesktop} {
+                            font-size: 18px;
+                            height: 40px;
+                          }
+
                           ${mediaQueryMobile} {
                             width: 47%;
+                            height: 35px;
                           }
                         `}
                         onClick={() => {
@@ -427,32 +438,6 @@ export const ProfilePage = observer(() => {
                       </PrimaryButton>
                     </div>
                   ) : (
-                    // <div
-                    //   style={{
-                    //     display: 'flex',
-                    //     position: 'absolute',
-                    //     bottom: '8px',
-                    //     padding: '10px',
-                    //     left: '10px',
-                    //     width: '100%'
-                    //   }}
-                    //   onClick={() => {
-                    //     history.push('/user/account/profile');
-                    //   }}
-                    // >
-                    //   <SecondaryButton
-                    //     css={css`
-                    //       width: 95%;
-                    //       border: 1px solid #bab8b8;
-                    //       color: #b9b9b9;
-                    //       &:hover {
-                    //         color: #b9b9b9;
-                    //       }
-                    //     `}
-                    //   >
-                    //     แก้ไขโปรไฟล์
-                    //   </SecondaryButton>
-                    // </div>
                     <div
                       style={{
                         display: 'flex',
@@ -552,21 +537,23 @@ export const ProfilePage = observer(() => {
                 </ProfileInfoSection>
               </ProfilePageUserInfoSection>
 
-              <div
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  display: isTablet ? 'block' : 'flex',
-                  margin: '40px 0',
-                  justifyContent: 'center'
-                }}
-              >
-                <OverallHelpedChart
-                  provideSum={user?.provideSum}
-                  requestSum={user?.requestSum}
-                />
-                <TopThreeHelpedChart />
-              </div>
+              {(user?.provideSum > 0 || user?.requestSum > 0) && (
+                <div
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    display: isTablet ? 'block' : 'flex',
+                    margin: '40px 0',
+                    justifyContent: 'center'
+                  }}
+                >
+                  <OverallHelpedChart
+                    provideSum={user?.provideSum}
+                    requestSum={user?.requestSum}
+                  />
+                  <TopThreeHelpedChart />
+                </div>
+              )}
             </div>
           )}
 

@@ -291,10 +291,10 @@ export const OrderInfoPage = () => {
             marginBottom="40px"
             itemAlign="flex-end"
             css={css`
-              margin-top: 30px;
+              margin-top: 60px;
 
               ${mediaQueryLargeDesktop} {
-                margin-top: 20px;
+                margin-top: 40px;
               }
             `}
           >
@@ -323,9 +323,16 @@ export const OrderInfoPage = () => {
               >
                 ที่อยู่จัดส่ง
               </Text>
-              <ReceiverData>{order.receiver.name}</ReceiverData>
-              <ReceiverData>{order.receiver.phoneNumber}</ReceiverData>
-              <ReceiverData>{order.receiver.address}</ReceiverData>
+
+              {Object.keys(order.receiver).length > 0 ? (
+                <Flex direction="column" justify="flex-start">
+                  <ReceiverData>{order.receiver.name}</ReceiverData>
+                  <ReceiverData>{order.receiver.phoneNumber}</ReceiverData>
+                  <ReceiverData>{order.receiver.address}</ReceiverData>
+                </Flex>
+              ) : (
+                <ReceiverData>-</ReceiverData>
+              )}
             </div>
             <div>
               {' '}
@@ -356,28 +363,31 @@ export const OrderInfoPage = () => {
                     >
                       แชท
                     </SecondaryButton>
-                    <PrimaryButton
-                      css={css`
-                        width: 140px;
-                        margin-left: 0;
-                        height: 45px;
-                        z-index: 10;
+                    {!order.rating && (
+                      <PrimaryButton
+                        css={css`
+                          width: 140px;
+                          margin-left: 0;
+                          height: 45px;
+                          z-index: 10;
+                          margin-top: 10px;
 
-                        ${mediaQueryTablet} {
-                          min-width: 130px;
-                        }
+                          ${mediaQueryTablet} {
+                            min-width: 130px;
+                          }
 
-                        ${mediaQueryMobile} {
-                          min-width: 47%;
-                          width: 47%;
-                        }
-                      `}
-                      onClick={() => {
-                        setIsModalVisible(true);
-                      }}
-                    >
-                      ให้คะแนน
-                    </PrimaryButton>
+                          ${mediaQueryMobile} {
+                            min-width: 47%;
+                            width: 47%;
+                          }
+                        `}
+                        onClick={() => {
+                          setIsModalVisible(true);
+                        }}
+                      >
+                        ให้คะแนน
+                      </PrimaryButton>
+                    )}
                   </Flex>
                 ) : (
                   <Flex direction="column" itemAlign="flex-end">
@@ -438,33 +448,35 @@ export const OrderInfoPage = () => {
                   >
                     แชท
                   </SecondaryButton>
-                  <Dropdown overlay={menu}>
-                    <PrimaryButton
-                      css={css`
-                        width: 180px;
-                        height: 50px;
-                        margin-left: 0;
-                        margin-top: 10px;
-                        font-size: 1.7rem;
+                  {orderType === 'provide' && (
+                    <Dropdown overlay={menu}>
+                      <PrimaryButton
+                        css={css`
+                          width: 180px;
+                          height: 50px;
+                          margin-left: 0;
+                          margin-top: 10px;
+                          font-size: 1.7rem;
 
-                        ${mediaQueryLargeDesktop} {
-                          width: 140px;
-                          height: 45px;
-                        }
+                          ${mediaQueryLargeDesktop} {
+                            width: 140px;
+                            height: 45px;
+                          }
 
-                        ${mediaQueryTablet} {
-                          min-width: 130px;
-                        }
+                          ${mediaQueryTablet} {
+                            min-width: 130px;
+                          }
 
-                        ${mediaQueryMobile} {
-                          min-width: 47%;
-                          width: 47%;
-                        }
-                      `}
-                    >
-                      เปลี่ยนสถานะ
-                    </PrimaryButton>
-                  </Dropdown>
+                          ${mediaQueryMobile} {
+                            min-width: 47%;
+                            width: 47%;
+                          }
+                        `}
+                      >
+                        เปลี่ยนสถานะ
+                      </PrimaryButton>
+                    </Dropdown>
+                  )}
                 </Flex>
               )}
             </div>
@@ -588,7 +600,7 @@ export const OrderInfoPage = () => {
                 }
               `}
             >
-              <RatingForm />
+              <RatingForm order={order} setIsModalVisible={setIsModalVisible} />
             </Modal>
           </ProvideListContainer>
         </React.Fragment>
