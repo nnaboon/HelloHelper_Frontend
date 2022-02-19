@@ -23,18 +23,27 @@ export const CommunityContent = observer(() => {
   }, [currentMenu]);
 
   useEffect(() => {
-    if (me) {
+    if (me && me.communityId) {
       getMyCommunity(me?.userId);
     }
   }, [me]);
 
   return (
-    <>
-      {me && community ? (
-        me.communityId &&
-        pathname.split('/')[1] === 'community' &&
-        pathname.split('/')[2] !== undefined ? (
-          <CommunityContentInfo data={community} />
+    <React.Fragment>
+      {me ? (
+        me.communityId ? (
+          community ? (
+            pathname.split('/')[1] === 'community' &&
+            pathname.split('/')[2] !== undefined ? (
+              <CommunityContentInfo data={community} />
+            ) : (
+              <CommunitySignin />
+            )
+          ) : (
+            <WrapperContainer>
+              <Loading height="calc(100vh - 265px)" />
+            </WrapperContainer>
+          )
         ) : (
           <CommunitySignin />
         )
@@ -43,6 +52,6 @@ export const CommunityContent = observer(() => {
           <Loading height="calc(100vh - 265px)" />
         </WrapperContainer>
       )}
-    </>
+    </React.Fragment>
   );
 });

@@ -310,7 +310,7 @@ export const CommunitySignin = observer(() => {
                         </div>
                       </div>
 
-                      {me.communityId.includes(id) ? (
+                      {me?.communityId?.includes(id) ? (
                         <PrimaryButton
                           onClick={() => {
                             history.push(`/community/${id}`);
@@ -327,8 +327,12 @@ export const CommunitySignin = observer(() => {
                         <SecondaryButton
                           css={css`
                             margin-right: 100px;
-                            width: 180px;
+                            width: 230px;
                             z-index: 5;
+
+                            ${mediaQueryLargeDesktop} {
+                               width: 180px;
+                            }
                           `}
                           onClick={() => {
                             if (
