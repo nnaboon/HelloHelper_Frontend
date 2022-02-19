@@ -22,6 +22,10 @@ export const auth = firebase.auth();
 export const provider = new firebase.auth.GoogleAuthProvider();
 export const facebookProvider = new firebase.auth.FacebookAuthProvider();
 
+provider.setCustomParameters({
+  prompt: 'select_account'
+});
+
 export const signInWithGoogle = () =>
   auth.signInWithPopup(provider).then(async ({ user }) => {
     const firebaseIdToken = await firebase.auth().currentUser.getIdToken();
