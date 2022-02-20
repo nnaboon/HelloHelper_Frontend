@@ -28,7 +28,17 @@ import {
 } from 'styles/variables';
 import { useAddMessage } from 'hooks/chat/useAddMessage';
 import { useUpdateReadStatus } from 'hooks/chat/useUpdateReadStatus';
+import { mediaQueryTablet } from '../../../../../../styles/variables';
 
+const MessengerContainer = styled.div`
+  height: calc(100vh - 200px);
+  display: flex;
+  background: white;
+
+  ${mediaQueryLargeDesktop} {
+    height: calc(100vh - 180px);
+  }
+`;
 const ChatBoxTop = styled.div`
   height: calc(100vh - 450px);
   overflow-y: scroll;
@@ -36,6 +46,10 @@ const ChatBoxTop = styled.div`
 
   ${mediaQueryLargeDesktop} {
     height: calc(100vh - 400px);
+  }
+
+  ${mediaQueryTablet} {
+    height: calc(100vh - 365px);
   }
 `;
 const ChatBoxWrapper = styled.div`
@@ -57,6 +71,10 @@ const ChatMessageInput = styled.textarea`
   height: 90px;
   padding: 10px;
   resize: none;
+
+  ${mediaQueryTablet} {
+    height: 65px;
+  }
 `;
 
 const NoConversationText = styled.div`
@@ -97,7 +115,7 @@ const RequestName = styled.div`
 
 const UserName = styled.div`
   font-weight: bold;
-  font-size: 1.9rem;
+  font-size: 2.5rem;
   line-height: 26px;
 
   color: #e66101;
@@ -105,10 +123,14 @@ const UserName = styled.div`
   ${mediaQueryLargeDesktop} {
     font-size: 24px;
   }
+
+  ${mediaQueryTablet} {
+    font-size: 18px;
+  }
 `;
 
 const RequestForm = styled.div`
-  font-size: 1.7rem;
+  font-size: 1.8rem;
   line-height: 26px;
   color: #000000;
   margin-top: 20px;
@@ -117,6 +139,10 @@ const RequestForm = styled.div`
   ${mediaQueryLargeDesktop} {
     font-size: 18px;
     margin-top: 10px;
+  }
+
+  ${mediaQueryTablet} {
+    font-size: 16px;
   }
 `;
 
@@ -203,7 +229,7 @@ export const Messenger = observer(() => {
     >
       {me && chats ? (
         <React.Fragment>
-          <div className="messenger">
+          <MessengerContainer>
             <div className="chatMenu">
               <ChatMenuWrapper>
                 <input
@@ -299,7 +325,7 @@ export const Messenger = observer(() => {
                 <WaitingToConfirmOrders setCurrentChat={setCurrentChat} />
               </div>
             </div>
-          </div>
+          </MessengerContainer>
           <Modal
             visible={isModalVisible}
             onCancel={handleCancel}

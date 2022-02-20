@@ -3,7 +3,8 @@ import styled from '@emotion/styled';
 import {
   mediaQueryMobile,
   mediaQuerySmallTablet,
-  mediaQueryTablet
+  mediaQueryTablet,
+  mediaQueryLargeDesktop
 } from 'styles/variables';
 
 export const WrapperContainer = styled.div`
@@ -13,13 +14,18 @@ export const WrapperContainer = styled.div`
   box-sizing: border-box;
   overflow-y: scroll;
 
+  ${mediaQueryLargeDesktop} {
+    top: 165px;
+  }
+
   ${mediaQueryTablet} {
     padding: 40px 60px;
-    height: calc(100vh - 200px);
+    top: 100px;
+    height: calc(100vh - 100px);
   }
 
   ${mediaQuerySmallTablet} {
-    padding: 40px 30px;
+    padding: 40px 20px;
   }
 
   ${mediaQueryMobile} {

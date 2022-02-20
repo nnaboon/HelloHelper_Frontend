@@ -68,6 +68,10 @@ export default function WaitingToConfirmOrders({ onlineUsers, currentId }) {
     <div className="chatOnline">
       <Collapse
         css={css`
+          height: 100%;
+          .ant-collapse {
+            height: 100%;
+          }
           .ant-collapse > .ant-collapse-item > .ant-collapse-header {
             font-size: 34px !important;
           }

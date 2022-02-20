@@ -7,6 +7,7 @@ import { useUser } from 'hooks/user/useUser';
 import Flex from 'components/Flex/Flex';
 import './conversation.css';
 import { mediaQueryLargeDesktop, mediaQueryMobile } from 'styles/variables';
+import { mediaQueryTablet } from '../../../../../../styles/variables';
 
 const ConversationName = styled.div`
   font-weight: 500;
@@ -32,6 +33,12 @@ const ConversationImage = styled.img`
     width: 40px;
     height: 40px;
   }
+
+  ${mediaQueryTablet} {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+  }
 `;
 
 export default function Conversation({ conversation, currentUser }) {
@@ -54,6 +61,10 @@ export default function Conversation({ conversation, currentUser }) {
 
             ${mediaQueryLargeDesktop} {
               margin-left: 15px;
+            }
+
+            ${mediaQueryTablet} {
+              margin-left: 0px;
             }
           `}
         >
