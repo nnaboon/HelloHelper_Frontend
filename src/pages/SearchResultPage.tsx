@@ -12,7 +12,6 @@ import { MenuTab } from 'components/Menu/MenuTab';
 import { Divider } from 'components/Divider/Divider';
 import Flex from 'components/Flex/Flex';
 import { PostRequestButton } from 'components/Button/PostRequestButton';
-import { REQUEST_MAPPER } from 'data/request';
 import { SuggestedRequestSection } from 'components/Card/SuggestedRequestCard';
 import { PopularRequestSection } from 'components/Card/PopularRequestCard';
 import {
@@ -22,7 +21,6 @@ import {
   mediaQueryTablet,
   TABLET_WIDTH
 } from 'styles/variables';
-import { PROVIDE_MAPPER } from 'data/provide';
 import { EmptyData } from 'components/Empty/EmptyData';
 import { useProvides } from 'hooks/provide/useProvides';
 import { useRequests } from 'hooks/request/useRequests';
@@ -49,13 +47,15 @@ const SearchResultContent = styled.div`
 
 export const SearchResultPage = () => {
   const [menu, setMenu] = useState<HelpMenu>(HelpMenu.PROVIDE);
+  const [provides, setProvides] = useState<any[]>([]);
+  const [requests, setRequests] = useState<any[]>([]);
   const { pathname, state, search } = useLocation();
   const qs = pathname.split('/')[1];
   const currentMenu = ((state as any)?.menu || HelpMenu.PROVIDE) as HelpMenu;
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
-  const { data: provides, execute: getProvides } = useProvides();
-  const { data: requests, execute: getRequests } = useRequests();
+  const { data: provideData, execute: getProvides } = useProvides();
+  const { data: requestData, execute: getRequests } = useRequests();
 
   useEffect(() => {
     if (state?.menu !== undefined) {
@@ -64,8 +64,8 @@ export const SearchResultPage = () => {
   }, [currentMenu, state]);
 
   useEffect(() => {
-    getProvides();
-    getRequests();
+    getProvides().then((res) => setProvides(res.data));
+    getRequests().then((res) => setRequests(res.data));
   }, []);
 
   return (
@@ -82,7 +82,7 @@ export const SearchResultPage = () => {
         }
       `}
     >
-      {provides && requests ? (
+      {provideData && requestData ? (
         <div style={{ display: 'flex' }}>
           {!isTablet && <Sidebar />}
           <div
@@ -148,17 +148,19 @@ export const SearchResultPage = () => {
                 >
                   {' '}
                   <PostRequestButton
+                    setProvides={setProvides}
+                    setRequests={setRequests}
                     buttonText={
                       menu === HelpMenu.PROVIDE
-                        ? 'ขอความช่วยเหลือ'
-                        : 'ให้ความช่วยเหลือ'
+                        ? 'ให้ความช่วยเหลือ'
+                        : 'ขอความช่วยเหลือ'
                     }
                   />
                 </div>
               </Flex>
             </div>
             {menu === HelpMenu.PROVIDE ? (
-              provides.filter(({ category, title }) =>
+              provideData.filter(({ category, title }) =>
                 search ? title.includes(state?.search) : category[0] === qs
               ).length > 0 ? (
                 <SearchResultContent>
@@ -175,7 +177,7 @@ export const SearchResultPage = () => {
               ) : (
                 <EmptyData height="300px" />
               )
-            ) : requests.filter(({ category, title }) =>
+            ) : requestData.filter(({ category, title }) =>
                 search ? title.includes(state?.search) : category[0] === qs
               ).length > 0 ? (
               <SearchResultContent>
