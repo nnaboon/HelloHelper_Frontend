@@ -74,8 +74,18 @@ export const EmptyData = ({ height, text }: EmptyDataProps) => {
             height: max-content;
           }
         }
+
         ${mediaQueryTablet} {
-          height: 100%;
+          font-size: 12px;
+
+          .ant-empty-img-simple {
+            width: 50px;
+            height: 50px;
+          }
+
+          .ant-empty-image {
+            height: max-content;
+          }
         }
 
         ${mediaQueryMobile} {
