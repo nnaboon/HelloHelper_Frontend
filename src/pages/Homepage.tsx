@@ -149,6 +149,9 @@ const CategoryMenu = styled.div`
 
 export const HomePage = () => {
   const [searchValue, setSearchValue] = useState<string>();
+  // const [provides, setProvides] = useState<any[]>([]);
+  // const [requests, setRequests] = useState<any[]>([]);
+
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const isSmallTablet = useMedia(`(max-width: ${SMALL_TABLET_WIDTH}px)`);
   const history = useHistory();
@@ -226,6 +229,13 @@ export const HomePage = () => {
     getProvides();
     getRequests();
   }, []);
+
+  // useEffect(() => {
+  //   if (provideData && requestData) {
+  //     setProvides(provideData);
+  //     setRequests(requestData);
+  //   }
+  // }, [provideData, requestData]);
 
   return (
     <HomePageContainer>

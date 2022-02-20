@@ -1,6 +1,6 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
 import { useLocation } from 'react-router-dom';
@@ -17,6 +17,11 @@ import { useCommunityProvide } from 'hooks/community/useCommunityProvide';
 import { Loading } from 'components/Loading/Loading';
 import { EmptyData } from 'components/Empty/EmptyData';
 
+interface CommunityProvideContentProps {
+  provides: any[];
+  setProvides: (provides: any) => void;
+}
+
 const CommunityProvideSection = styled.div<{ isProvide: any }>`
   display: grid;
   grid-template-columns: ${(props) =>
@@ -29,7 +34,10 @@ const CommunityProvideSection = styled.div<{ isProvide: any }>`
   }
 `;
 
-export const CommunityProvideContent = () => {
+export const CommunityProvideContent = ({
+  provides,
+  setProvides
+}: CommunityProvideContentProps) => {
   const { data: provide, execute: getCommunityProvide } = useCommunityProvide();
   const { pathname } = useLocation();
   const query = pathname.split('/')[2];
@@ -63,7 +71,7 @@ export const CommunityProvideContent = () => {
   };
 
   useEffect(() => {
-    getCommunityProvide(query);
+    getCommunityProvide(query).then((res) => setProvides(res.data));
   }, [query]);
 
   return (
@@ -102,8 +110,8 @@ export const CommunityProvideContent = () => {
         `}
       >
         {provide ? (
-          provide.length > 0 ? (
-            provide.map((items) => <PopularRequestSection data={[items]} />)
+          provides.length > 0 ? (
+            provides.map((items) => <PopularRequestSection data={[items]} />)
           ) : (
             <EmptyData height="375px" />
           )
@@ -146,8 +154,8 @@ export const CommunityProvideContent = () => {
         `}
       >
         {provide ? (
-          provide.length > 0 ? (
-            provide.map((items) => <PopularRequestSection data={[items]} />)
+          provides.length > 0 ? (
+            provides.map((items) => <PopularRequestSection data={[items]} />)
           ) : (
             <EmptyData height="375px" />
           )
@@ -173,8 +181,8 @@ export const CommunityProvideContent = () => {
       </Text>
       <CommunityProvideSection isProvide={provide ? provide : 0}>
         {provide ? (
-          provide.length > 0 ? (
-            provide.map((items) => (
+          provides.length > 0 ? (
+            provides.map((items) => (
               <PopularRequestSection
                 data={[items]}
                 css={css`

@@ -226,6 +226,8 @@ const ProfileInfoListDetail = styled.div`
 
 export const ProfilePage = observer(() => {
   const [menu, setMenu] = useState<HelpMenu | ProfileMenu>(HelpMenu.PROVIDE);
+  const [provides, setProvides] = useState<any[]>([]);
+  const [requests, setRequests] = useState<any[]>([]);
   const history = useHistory();
   const { pathname, state } = useLocation();
   const query = pathname.split('/')[2];
@@ -245,8 +247,12 @@ export const ProfilePage = observer(() => {
   useEffect(() => {
     if (query || window.localStorage.getItem('id')) {
       getUser(query ? query : window.localStorage.getItem('id'));
-      getProvide(query ? query : window.localStorage.getItem('id'));
-      getRequest(query ? query : window.localStorage.getItem('id'));
+      getProvide(query ? query : window.localStorage.getItem('id')).then(
+        (res) => setProvides(res.data)
+      );
+      getRequest(query ? query : window.localStorage.getItem('id')).then(
+        (res) => setRequests(res.data)
+      );
     } else if (window.localStorage.getItem('id') === null) {
       history.push('/');
     }
@@ -564,6 +570,8 @@ export const ProfilePage = observer(() => {
               {(query === window.localStorage.getItem('id') ||
                 query === undefined) && (
                 <PostRequestButton
+                  setProvides={setProvides}
+                  setRequests={setRequests}
                   buttonText={
                     menu === HelpMenu.PROVIDE
                       ? 'ให้ความข่วยเหลือ'
@@ -577,9 +585,9 @@ export const ProfilePage = observer(() => {
             <ProfilePageUserHelperListSection>
               {menu === HelpMenu.PROVIDE ? (
                 <React.Fragment>
-                  {provide.length > 0 ? (
+                  {provides.length > 0 ? (
                     <div>
-                      {provide.map((props) => (
+                      {provides.map((props) => (
                         <MyProvideList
                           key={props.id}
                           data={props}
@@ -593,10 +601,10 @@ export const ProfilePage = observer(() => {
                 </React.Fragment>
               ) : menu === ProfileMenu.REQUEST ? (
                 <React.Fragment>
-                  {request.length > 0 ? (
+                  {requests.length > 0 ? (
                     <div>
                       {' '}
-                      {request.map((props) => (
+                      {requests.map((props) => (
                         <MyRequestList
                           key={props.requestId}
                           data={props}
@@ -614,9 +622,9 @@ export const ProfilePage = observer(() => {
             <div>
               {menu === HelpMenu.PROVIDE ? (
                 <React.Fragment>
-                  {provide.length > 0 ? (
+                  {provides.length > 0 ? (
                     <ProfilePageUserHelperListSection>
-                      {provide.map((props) => (
+                      {provides.map((props) => (
                         <MyProvideList
                           key={props.id}
                           data={props}
@@ -630,10 +638,10 @@ export const ProfilePage = observer(() => {
                 </React.Fragment>
               ) : menu === ProfileMenu.REQUEST ? (
                 <React.Fragment>
-                  {request.length > 0 ? (
+                  {requests.length > 0 ? (
                     <ProfilePageUserHelperListSection>
                       {' '}
-                      {request.map((props) => (
+                      {requests.map((props) => (
                         <MyRequestList
                           key={props.requestId}
                           data={props}

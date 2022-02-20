@@ -123,6 +123,7 @@ export const CommunitySettingEditProfile = ({ communityData }: any) => {
     };
 
     try {
+      console.log(value.image);
       if (value.image) {
         var formData = new FormData();
         formData.append('img', value.image.file.originFileObj);
@@ -141,8 +142,9 @@ export const CommunitySettingEditProfile = ({ communityData }: any) => {
       } else {
         updateCommunity(communityData.communityId, data);
       }
-    } catch (e) {
+    } catch (error) {
       message.error('ไม่สามารถโพสต์ขอความช่วยเหลือได้');
+      console.log(error);
     } finally {
       setIsSubmitting(false);
       message.success('สำเร็จ');
@@ -331,6 +333,8 @@ export const CommunitySettingEditProfile = ({ communityData }: any) => {
             css={css`
               width: 120px;
               height: 120px;
+              min-width: 120px;
+              min-height: 120px;
               border-radius: 50%;
               margin-bottom: 25px;
               object-fit: cover;

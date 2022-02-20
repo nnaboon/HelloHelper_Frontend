@@ -18,6 +18,11 @@ import { useCommunityRequest } from 'hooks/community/useCommunityRequest';
 import { Loading } from 'components/Loading/Loading';
 import { EmptyData } from 'components/Empty/EmptyData';
 
+interface CommunityRequestContentProps {
+  requests: any[];
+  setRequests: (requests: any) => void;
+}
+
 const CommunityRequestSection = styled.div<{ isRequest: any }>`
   display: grid;
   grid-template-columns: ${(props) =>
@@ -30,7 +35,10 @@ const CommunityRequestSection = styled.div<{ isRequest: any }>`
   }
 `;
 
-export const CommunityRequestContent = () => {
+export const CommunityRequestContent = ({
+  requests,
+  setRequests
+}: CommunityRequestContentProps) => {
   const { data: request, execute: getCommunityRequest } = useCommunityRequest();
   const { pathname } = useLocation();
   const query = pathname.split('/')[2];
@@ -64,7 +72,7 @@ export const CommunityRequestContent = () => {
   };
 
   useEffect(() => {
-    getCommunityRequest(query);
+    getCommunityRequest(query).then((res) => setRequests(res.data));
   }, [query]);
 
   return (
@@ -103,8 +111,8 @@ export const CommunityRequestContent = () => {
         `}
       >
         {request ? (
-          request.length > 0 ? (
-            request.map((items) => <SuggestedRequestSection data={[items]} />)
+          requests.length > 0 ? (
+            requests.map((items) => <SuggestedRequestSection data={[items]} />)
           ) : (
             <EmptyData height="375px" />
           )
@@ -146,8 +154,8 @@ export const CommunityRequestContent = () => {
         `}
       >
         {request ? (
-          request.length > 0 ? (
-            request.map((items) => <SuggestedRequestSection data={[items]} />)
+          requests.length > 0 ? (
+            requests.map((items) => <SuggestedRequestSection data={[items]} />)
           ) : (
             <EmptyData height="375px" />
           )
@@ -173,8 +181,8 @@ export const CommunityRequestContent = () => {
       </Text>
       <CommunityRequestSection isRequest={request ? request : 0}>
         {request ? (
-          request.length > 0 ? (
-            request.map((items) => (
+          requests.length > 0 ? (
+            requests.map((items) => (
               <SuggestedRequestSection
                 data={[items]}
                 css={css`

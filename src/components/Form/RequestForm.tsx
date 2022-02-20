@@ -140,7 +140,7 @@ export const RequestFormModal = ({
           : requestData.location.longitude
       },
       description: value.message,
-      serviceCharge: value.serviceCharge,
+      serviceCharge: Number(value.serviceCharge),
       payment: value.payment,
       category: value.category,
       hashtag: tags
@@ -167,16 +167,16 @@ export const RequestFormModal = ({
           uploadRequestImage(formData).then((res) => {
             updateRequest(requestData.requestId, {
               ...data,
-              number: value.number,
-              price: value.price,
+              number: Number(value.number),
+              price: Number(value.price),
               imageUrl: res.data
             });
           });
         } else {
           updateRequest(requestData.requestId, {
             ...data,
-            number: value.number,
-            price: value.price
+            number: Number(value.number),
+            price: Number(value.price)
           });
         }
       }

@@ -163,6 +163,8 @@ const ProfileInfoListDetail = styled.div`
 `;
 export const CommunityContentInfo = observer(({ data }: any) => {
   const [menu, setMenu] = useState<CommunityMenu>(CommunityMenu.PROVIDE);
+  const [provides, setProvides] = useState<any[]>([]);
+  const [requests, setRequests] = useState<any[]>([]);
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
   const isSmallTablet = useMedia(`(max-width: ${SMALL_TABLET_WIDTH}px)`);
@@ -339,7 +341,7 @@ export const CommunityContentInfo = observer(({ data }: any) => {
                 >
                   <PrimaryButton>
                     <LogoutSvg style={{ marginRight: '10px' }} />
-                    ออกจากขุมชนความช่วยเหลือ
+                    ออกจากชุมชนความช่วยเหลือ
                   </PrimaryButton>
                 </div>
               ) : (
@@ -516,6 +518,8 @@ export const CommunityContentInfo = observer(({ data }: any) => {
               >
                 {' '}
                 <PostRequestButton
+                  setProvides={setProvides}
+                  setRequests={setRequests}
                   buttonText={
                     menu === CommunityMenu.PROVIDE
                       ? 'ให้ความช่วยเหลือ'
@@ -534,11 +538,17 @@ export const CommunityContentInfo = observer(({ data }: any) => {
               <div>
                 {menu === CommunityMenu.PROVIDE ? (
                   <React.Fragment>
-                    <CommunityProvideContent />
+                    <CommunityProvideContent
+                      provides={provides}
+                      setProvides={setProvides}
+                    />
                   </React.Fragment>
                 ) : (
                   <React.Fragment>
-                    <CommunityRequestContent />
+                    <CommunityRequestContent
+                      requests={requests}
+                      setRequests={setRequests}
+                    />
                   </React.Fragment>
                 )}
               </div>

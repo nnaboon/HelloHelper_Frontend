@@ -28,6 +28,8 @@ import { useUploadRequestImage } from 'hooks/request/useUploadRequestImage';
 import { LARGE_DESKTOP_WIDTH } from '../../styles/variables';
 
 interface PostRequestButtonProps {
+  setProvides?: (provide: any) => void;
+  setRequests?: (request: any) => void;
   buttonText: string;
 }
 
@@ -71,7 +73,11 @@ const RegisterLocationFormSection = styled.div`
   }
 `;
 
-export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
+export const PostRequestButton = ({
+  setProvides,
+  setRequests,
+  buttonText
+}: PostRequestButtonProps) => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [isDisable, setIsDisable] = useState<boolean>(false);
   const [tags, setTags] = useState<string[]>([]);
@@ -132,7 +138,7 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
           : undefined,
       description: value.message ?? '',
       serviceCharge: Number(value.maxServiceCharge),
-      payment: Number(value.payment),
+      payment: value.payment,
       category: [value.category],
       hashtag: tags
     };
@@ -148,7 +154,8 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
               rating: 0,
               provideSum: 0
             })
-              .then(() => {
+              .then((res) => {
+                setProvides((prev) => [...prev, res.data]);
                 message.success('สำเร็จ');
               })
               .catch((error) => {
@@ -162,7 +169,8 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
               number: Number(value.number),
               ...data
             })
-              .then(() => {
+              .then((res) => {
+                setRequests((prev) => [...prev, res.data]);
                 message.success('สำเร็จ');
               })
               .catch((error) => {
@@ -174,6 +182,8 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
     } finally {
       setIsSubmitting(false);
       setIsModalVisible(false);
+      setImageUrl('');
+      setTags([]);
       form.resetFields();
     }
   };
@@ -205,6 +215,8 @@ export const PostRequestButton = ({ buttonText }: PostRequestButtonProps) => {
 
   const onModalClose = () => {
     setIsModalVisible(false);
+    setImageUrl('');
+    setTags([]);
     form.resetFields();
   };
 
