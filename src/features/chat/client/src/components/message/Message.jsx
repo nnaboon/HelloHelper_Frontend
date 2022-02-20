@@ -45,7 +45,7 @@ const MessageImg = styled.img`
     margin-bottom: 1em;
   }
 
-  ${mediaQueryLargeDesktop} {
+  ${mediaQueryTablet} {
     width: 22px;
     height: 22px;
   }
@@ -61,7 +61,7 @@ const MessageTiming = styled.div`
     font-size: 12px;
   }
 
-  ${mediaQueryLargeDesktop} {
+  ${mediaQueryTablet} {
     font-size: 10px;
   }
 `;
@@ -83,7 +83,7 @@ const MessageTextOwn = styled.p`
     border-radius: 20px;
   }
 
-  ${mediaQueryLargeDesktop} {
+  ${mediaQueryTablet} {
     font-size: 12px;
   }
 `;
@@ -105,7 +105,7 @@ const MessageText = styled.p`
     border-radius: 20px;
   }
 
-  ${mediaQueryLargeDesktop} {
+  ${mediaQueryTablet} {
     font-size: 12px;
   }
 `;
