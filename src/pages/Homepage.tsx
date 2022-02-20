@@ -262,12 +262,12 @@ export const HomePage = () => {
                   }}
                 >
                   <Flex direction="column" itemAlign="center" justify="center">
-                    {/* <FontAwesomeIcon
+                    <FontAwesomeIcon
                       icon={icon}
                       css={css`
                         margin-bottom: 20px;
                       `}
-                    /> */}
+                    />
                     <div>{name}</div>
                   </Flex>
                 </CategoryMenu>
