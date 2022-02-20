@@ -46,6 +46,7 @@ export const GoogleMapContent = ({
           position.coords.longitude
         );
         setMyLocation(location);
+        map.setZoom(14);
       });
     }
 
@@ -83,15 +84,16 @@ export const GoogleMapContent = ({
     <GoogleMap
       mapContainerStyle={containerStyle}
       center={center ? center : myLocation}
-      zoom={21}
+      zoom={15}
       onLoad={onLoad}
       onZoomChanged={() => {
-        setCurrentZoom(14);
+        setCurrentZoom(20);
       }}
       onUnmount={onUnmount}
       options={{
         mapTypeControl: false,
-        fullscreenControl: false
+        fullscreenControl: false,
+        streetViewControl: false
       }}
       onClick={(e) => {
         setCenter(new google.maps.LatLng(e.latLng.lat(), e.latLng.lng()));
