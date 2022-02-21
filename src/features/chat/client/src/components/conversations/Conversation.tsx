@@ -5,9 +5,24 @@ import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
 import { useUser } from 'hooks/user/useUser';
 import Flex from 'components/Flex/Flex';
-import './conversation.css';
-import { mediaQueryLargeDesktop, mediaQueryMobile } from 'styles/variables';
-import { mediaQueryTablet } from '../../../../../../styles/variables';
+import {
+  mediaQueryLargeDesktop,
+  mediaQueryTablet,
+  mediaQueryMobile
+} from 'styles/variables';
+
+interface ConversationProps {
+  conversation: any;
+  currentUser: any;
+}
+
+const ConversationSection = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+  margin-top: 20px;
+`;
 
 const ConversationName = styled.div`
   font-weight: 500;
@@ -41,7 +56,10 @@ const ConversationImage = styled.img`
   }
 `;
 
-export default function Conversation({ conversation, currentUser }) {
+export const Conversation = ({
+  conversation,
+  currentUser
+}: ConversationProps) => {
   const { data: user, execute: getUser } = useUser();
 
   useEffect(() => {
@@ -53,7 +71,7 @@ export default function Conversation({ conversation, currentUser }) {
   }, [currentUser, conversation]);
 
   return (
-    <div className="conversation">
+    <ConversationSection>
       {user && (
         <Flex
           css={css`
@@ -75,6 +93,6 @@ export default function Conversation({ conversation, currentUser }) {
           <ConversationName>{user.username}</ConversationName>
         </Flex>
       )}
-    </div>
+    </ConversationSection>
   );
-}
+};

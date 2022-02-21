@@ -5,9 +5,13 @@ import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
 import moment from 'moment';
 import Flex from 'components/Flex/Flex';
-import { mediaQueryLargeDesktop } from 'styles/variables';
-import './message.css';
-import { mediaQueryTablet } from '../../../../../../styles/variables';
+import { mediaQueryLargeDesktop, mediaQueryTablet } from 'styles/variables';
+
+interface MessageProps {
+  message: any;
+  own: Boolean;
+  anotherUserImg: any;
+}
 
 const MessageAnother = styled.div`
   display: flex;
@@ -110,7 +114,11 @@ const MessageText = styled.p`
   }
 `;
 
-export default function Message({ message, own, anotherUserImg }) {
+export default function Message({
+  message,
+  own,
+  anotherUserImg
+}: MessageProps) {
   return (
     <div>
       {Boolean(own) ? (

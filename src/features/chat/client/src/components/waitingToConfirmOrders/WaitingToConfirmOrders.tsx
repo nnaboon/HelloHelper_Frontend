@@ -9,7 +9,6 @@ import Flex from 'components/Flex/Flex';
 
 import { useWaitForConfirmOrders } from 'hooks/order/useWaitForConfirmOrder';
 import { EmptyData } from 'components/Empty/EmptyData';
-import './waitingToConfirmOrders.css';
 import {
   mediaQueryLargeDesktop,
   mediaQueryMobile,
@@ -19,6 +18,15 @@ import { Button } from 'antd/lib/radio';
 import { useDeleteConfirmOrder } from 'hooks/order/useDeleteConfirmOrder';
 import { useDeletedProvidedUserId } from 'hooks/request/useDeleteProvidedUserId';
 import { useUpdateOrder } from 'hooks/order/useUpdateOrder';
+
+const ChatOnline = styled.div`
+  flex: 3;
+  height: 100%;
+
+  ${mediaQueryMobile} {
+    flex: 1px;
+  }
+`;
 
 const OrderDetail = styled.p`
   font-size: 1.5rem;
@@ -40,7 +48,7 @@ const OrderTitle = styled.p`
   }
 `;
 
-export default function WaitingToConfirmOrders({ onlineUsers, currentId }) {
+export const WaitingToConfirmOrders = () => {
   const [orders, setOrders] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
 
@@ -65,7 +73,7 @@ export default function WaitingToConfirmOrders({ onlineUsers, currentId }) {
   }, [chatId]);
 
   return (
-    <div className="chatOnline">
+    <ChatOnline>
       <Collapse
         css={css`
           height: 100%;
@@ -128,7 +136,7 @@ export default function WaitingToConfirmOrders({ onlineUsers, currentId }) {
                   <OrderTitle>ช่องทางการชำระเงิน</OrderTitle>
                   <OrderDetail>{payment}</OrderDetail>
                 </Flex>
-                <Flex itemAlign="start">
+                <Flex itemAlign="flex-start">
                   <OrderTitle>ที่อยู่จัดส่ง</OrderTitle>
                   {Object.keys(receiver).length > 0 ? (
                     <div>
@@ -144,7 +152,6 @@ export default function WaitingToConfirmOrders({ onlineUsers, currentId }) {
                   <Flex justify="flex-end">
                     <Button
                       type="primary"
-                      htmlType="submit"
                       css={css`
                         width: 100px;
                         height: 35px;
@@ -186,7 +193,6 @@ export default function WaitingToConfirmOrders({ onlineUsers, currentId }) {
                     </Button>
                     <Button
                       type="primary"
-                      htmlType="submit"
                       css={css`
                         width: 100px;
                         height: 35px;
@@ -240,6 +246,6 @@ export default function WaitingToConfirmOrders({ onlineUsers, currentId }) {
           <EmptyData text="ไม่พบออเดอร์ที่รอการยืนยัน" />
         )}
       </Collapse>
-    </div>
+    </ChatOnline>
   );
-}
+};
