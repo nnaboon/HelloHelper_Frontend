@@ -280,7 +280,11 @@ export const HomePage = () => {
             css={css`
               justify-content: space-between;
               display: flex;
-              margin-top: 30px;
+              margin-top: 50px;
+
+              ${mediaQueryLargeDesktop} {
+                margin-top: 40px;
+              }
             `}
           >
             <Search
@@ -325,16 +329,16 @@ export const HomePage = () => {
             />
           </div>
           <Text
-            fontSize={isMobile ? '24px' : '2rem'}
             fontWeight={500}
             marginY="10px"
             css={css`
               font-size: 2.5rem;
+
               ${mediaQueryLargeDesktop} {
-                font-size: 2rem;
+                font-size: 1.92rem;
               }
               ${mediaQueryMobile} {
-                font-size: 24px;
+                font-size: 16px;
               }
             `}
           >
@@ -401,16 +405,17 @@ export const HomePage = () => {
             )}
           </React.Fragment>
           <Text
-            fontSize={isMobile ? '24px' : '2rem'}
             fontWeight={500}
             marginY="30px"
             css={css`
               font-size: 2.5rem;
+
               ${mediaQueryLargeDesktop} {
-                font-size: 2rem;
+                font-size: 1.92rem;
               }
+
               ${mediaQueryMobile} {
-                font-size: 26px;
+                font-size: 16px;
               }
             `}
           >
@@ -486,16 +491,17 @@ export const HomePage = () => {
             )}
           </TopTenSearchContainer>
           <Text
-            fontSize={isMobile ? '24px' : '2rem'}
             fontWeight={500}
             marginY="30px"
             css={css`
               font-size: 2.5rem;
+
               ${mediaQueryLargeDesktop} {
-                font-size: 2rem;
+                font-size: 1.92rem;
               }
+
               ${mediaQueryMobile} {
-                font-size: 26px;
+                font-size: 16px;
               }
             `}
           >
@@ -562,16 +568,17 @@ export const HomePage = () => {
             )}
           </React.Fragment>
           <Text
-            fontSize={isMobile ? '24px' : '2rem'}
             fontWeight={500}
             marginY="30px"
             css={css`
               font-size: 2.5rem;
+
               ${mediaQueryLargeDesktop} {
-                font-size: 2rem;
+                font-size: 1.92rem;
               }
+
               ${mediaQueryMobile} {
-                font-size: 26px;
+                font-size: 16px;
               }
             `}
           >
@@ -638,16 +645,17 @@ export const HomePage = () => {
             )}
           </React.Fragment>
           <Text
-            fontSize={isMobile ? '24px' : '2rem'}
             fontWeight={500}
             marginY="30px"
             css={css`
               font-size: 2.5rem;
+
               ${mediaQueryLargeDesktop} {
-                font-size: 2rem;
+                font-size: 1.92rem;
               }
+
               ${mediaQueryMobile} {
-                font-size: 26px;
+                font-size: 16px;
               }
             `}
           >

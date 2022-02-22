@@ -147,9 +147,9 @@ const UserName = styled.div`
 const RequestDetail = styled.div`
   font-weight: 700;
   line-height: 31px;
-  font-size: 2rem;
+  font-size: 1.5rem;
   color: #000000;
-  min-width: 400px;
+  min-width: 800px;
   line-height: 60px;
   white-space: pre-wrap;
 
@@ -517,7 +517,11 @@ export const RequestInfoContent = observer(({ data }: any) => {
                       <PrimaryButton
                         css={css`
                           position: absolute;
-                          bottom: 40px;
+                          bottom: 0;
+
+                          ${mediaQueryLargeDesktop} {
+                            bottom: 40px;
+                          }
 
                           ${mediaQueryTablet} {
                             width: 100%;
@@ -558,7 +562,11 @@ export const RequestInfoContent = observer(({ data }: any) => {
                       <PrimaryButton
                         css={css`
                           position: absolute;
-                          bottom: 40px;
+                          bottom: 0;
+
+                          ${mediaQueryLargeDesktop} {
+                            bottom: 40px;
+                          }
 
                           ${mediaQueryTablet} {
                             width: 100%;

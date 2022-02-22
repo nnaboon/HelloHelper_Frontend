@@ -45,7 +45,7 @@ const ProvideImageSection = styled.img`
   object-fit: cover;
 
   ${mediaQueryLargeDesktop} {
-    width: 420px;
+    width: 380px;
     height: 500px;
   }
 
@@ -76,6 +76,7 @@ const ProvideCategoryButton = styled(PrimaryButton)`
 
   ${mediaQueryLargeDesktop} {
     height: 40px;
+    font-size: 16px;
   }
 `;
 
@@ -89,6 +90,7 @@ const ProvideHashtagButton = styled(SecondaryButton)`
 
   ${mediaQueryLargeDesktop} {
     height: 40px;
+    font-size: 16px;
   }
 `;
 
@@ -140,7 +142,7 @@ const ProvideDetail = styled.div`
   white-space: pre-wrap;
 
   ${mediaQueryLargeDesktop} {
-    font-size: 24px;
+    font-size: 19px;
     min-width: 200px;
     line-height: 31px;
   }
@@ -175,6 +177,11 @@ const HelperImage = styled.img`
   border-radius: 50%;
   object-fit: cover;
 
+  ${mediaQueryLargeDesktop} {
+    width: 80px;
+    height: 80px;
+  }
+
   ${mediaQueryMobile} {
     width: 65px;
     height: 65px;
@@ -190,9 +197,13 @@ const UserName = styled.div`
   min-width: 140px;
   width: max-content;
 
+  ${mediaQueryLargeDesktop} {
+    font-size: 20px;
+  }
+
   ${mediaQueryMobile} {
     min-width: max-content;
-    font-size: 16px;
+    font-size: 14px;
     margin-right: 0;
   }
 `;
@@ -476,9 +487,11 @@ export const ProvideInfoContent = observer(({ data }: any) => {
                         height: 65px;
                         font-size: 1.7rem;
                         max-width: 100%;
+                        bottom: 0;
 
                         ${mediaQueryLargeDesktop} {
-                          height: 45px;
+                          font-size: 19px;
+                          height: 40px;
                         }
 
                         ${mediaQueryTablet} {

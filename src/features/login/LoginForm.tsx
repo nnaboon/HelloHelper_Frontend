@@ -19,7 +19,8 @@ import {
   useMedia,
   LARGE_DESKTOP_WIDTH,
   mediaQueryMobile,
-  mediaQueryLargeDesktop
+  mediaQueryLargeDesktop,
+  mediaQueryTablet
 } from 'styles/variables';
 
 interface LoginFormProps {
@@ -31,6 +32,10 @@ const LoginSection = styled.div`
   display: flex;
   flex-direction: column;
   padding: 2.55rem 2.75rem 1.5rem 2.75rem;
+
+  ${mediaQueryLargeDesktop} {
+    padding: 1.5rem 2rem;
+  }
 
   ${mediaQueryMobile} {
     padding: 0;
@@ -86,7 +91,11 @@ export const LoginForm = observer(
             font-size: 2.3rem;
 
             ${mediaQueryLargeDesktop} {
-              font-size: 24px;
+              font-size: 22px;
+            }
+
+            ${mediaQueryMobile} {
+              font-size: 18px;
             }
           `}
         >
@@ -102,6 +111,10 @@ export const LoginForm = observer(
             ${mediaQueryLargeDesktop} {
               font-size: 18px;
             }
+
+            ${mediaQueryMobile} {
+              font-size: 14px;
+            }
           `}
         >
           เข้าสู่ระบบได้ง่ายด้วย Facebook หรือ Google account
@@ -115,12 +128,10 @@ export const LoginForm = observer(
             margin: 20px 0;
             max-width: 100%;
             font-size: 1.5rem;
-            // pointer-events: none;
-            // cursor: default;
 
             ${mediaQueryLargeDesktop} {
-              height: 50px;
-              font-size: 18px;
+              height: 45px;
+              font-size: 16px;
             }
 
             ${mediaQueryMobile} {
@@ -131,7 +142,22 @@ export const LoginForm = observer(
         >
           <Flex justify="center">
             <FacebookOutlined
-              style={{ fontSize: '36px', marginRight: '10px' }}
+              style={{ marginRight: '10px' }}
+              css={css`
+                font-size: 36px;
+
+                ${mediaQueryLargeDesktop} {
+                  font-size: 28px;
+                }
+
+                ${mediaQueryTablet} {
+                  font-size: 24px;
+                }
+
+                ${mediaQueryMobile} {
+                  font-size: 18px;
+                }
+              `}
             />
             <div>Facebook</div>
           </Flex>
@@ -147,14 +173,35 @@ export const LoginForm = observer(
             font-size: 1.5rem;
 
             ${mediaQueryLargeDesktop} {
-              height: 50px;
-              font-size: 18px;
+              height: 45px;
+              font-size: 16px;
+            }
+
+            ${mediaQueryMobile} {
+              margin: 10px 0 !important;
             }
           `}
           onClick={signInWithGoogle}
         >
           <Flex justify="center">
-            <GoogleOutlined style={{ fontSize: '34px', marginRight: '10px' }} />
+            <GoogleOutlined
+              style={{ marginRight: '10px' }}
+              css={css`
+                font-size: 36px;
+
+                ${mediaQueryLargeDesktop} {
+                  font-size: 28px;
+                }
+
+                ${mediaQueryTablet} {
+                  font-size: 24px;
+                }
+
+                ${mediaQueryMobile} {
+                  font-size: 18px;
+                }
+              `}
+            />
             <div>Google</div>
           </Flex>
         </PrimaryButton>
@@ -249,14 +296,14 @@ export const LoginForm = observer(
           >
             <Input
               placeholder="อีเมล"
-              style={{ borderRadius: '12px' }}
               css={css`
                 height: 50px;
                 font-size: 1.5rem;
-
+                border-radius: 12px;
                 ${mediaQueryLargeDesktop} {
-                  height: 40px;
-                  font-size: 14px;
+                  height: 36px;
+                  border-radius: 8px;
+                  font-size: 15px;
                 }
               `}
             />
@@ -268,14 +315,15 @@ export const LoginForm = observer(
           >
             <Input.Password
               placeholder="รหัสผ่าน"
-              style={{ borderRadius: '12px' }}
               css={css`
                 height: 50px;
                 font-size: 1.5rem;
+                border-radius: 12px;
 
                 ${mediaQueryLargeDesktop} {
-                  height: 40px;
-                  font-size: 14px;
+                  height: 36px;
+                  border-radius: 8px;
+                  font-size: 16px;
                 }
               `}
             />
@@ -301,8 +349,8 @@ export const LoginForm = observer(
               }
 
               ${mediaQueryLargeDesktop} {
-                font-size: 18px;
-                height: 50px;
+                height: 40px;
+                font-size: 16px;
               }
             `}
           >
