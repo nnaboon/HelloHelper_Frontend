@@ -100,7 +100,7 @@ const RequestTitle = styled.div`
   word-break: break-word;
 
   ${mediaQueryLargeDesktop} {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
   }
 
   ${mediaQueryMobile} {
@@ -162,8 +162,10 @@ const RequestDataInfo = styled.div`
   -webkit-box-orient: vertical;
 
   ${mediaQueryLargeDesktop} {
-    font-size: 1.2rem;
+    font-size: 17px;
+    width: 60%;
   }
+
   ${mediaQuerySmallTablet} {
     width: 100%;
   }
@@ -392,8 +394,20 @@ export const PopularRequestSection = observer(({ data }: any) => {
                       onClick={() => {
                         history.push({ pathname: `/profile/${userId}` });
                       }}
+                      css={css`
+                        font-size: 24px;
+                        ${mediaQueryLargeDesktop} {
+                          font-size: 16px;
+                        }
+                      `}
                     >
-                      <UserSvg />
+                      <UserSvg
+                        css={css`
+                          ${mediaQueryLargeDesktop} {
+                            font-size: 16px;
+                          }
+                        `}
+                      />
                       <div>โปรไฟล์</div>
                     </SecondaryButton>
                   )}
@@ -403,7 +417,7 @@ export const PopularRequestSection = observer(({ data }: any) => {
                         font-size: 1.5rem;
 
                         ${mediaQueryLargeDesktop} {
-                          font-size: 18px;
+                          font-size: 16px;
                         }
                         ${mediaQuerySmallTablet} {
                           min-width: 80px;
@@ -422,7 +436,15 @@ export const PopularRequestSection = observer(({ data }: any) => {
                         });
                       }}
                     >
-                      <MessageSvg style={{ marginRight: '5px' }} />
+                      <MessageSvg
+                        css={css`
+                          margin-right: 5px;
+
+                          ${mediaQueryLargeDesktop} {
+                            font-size: 16px;
+                          }
+                        `}
+                      />
                       <div>แชท</div>
                     </PrimaryButton>
                   )}

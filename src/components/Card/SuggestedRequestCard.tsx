@@ -146,6 +146,7 @@ const RequestDataTitle = styled.div`
   margin-right: 13px;
   width: 100px;
   text-align: end;
+  white-space: pre-wrap;
 
   ${mediaQueryLargeDesktop} {
     width: 90px;
