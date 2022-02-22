@@ -23,7 +23,7 @@ export const CommunityContent = observer(() => {
   }, [currentMenu]);
 
   useEffect(() => {
-    if (me && me.communityId) {
+    if (me && me?.communityId?.length > 0) {
       getMyCommunity(me?.userId);
     }
   }, [me]);
@@ -31,7 +31,7 @@ export const CommunityContent = observer(() => {
   return (
     <React.Fragment>
       {me ? (
-        me.communityId ? (
+        me?.communityId?.length > 0 ? (
           myCommunity ? (
             pathname.split('/')[1] === 'community' &&
             pathname.split('/')[2] !== undefined ? (

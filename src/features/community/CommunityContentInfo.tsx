@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { Divider, Input, Menu, Dropdown, Select } from 'antd';
+import { Divider, Input, Menu, Dropdown, Select, message } from 'antd';
 import { WrapperContainer } from 'components/Wrapper/WrapperContainer';
 import { PrimaryButton } from 'components/Button/Button';
 import {
@@ -33,6 +33,7 @@ import { CATEGORY } from 'data/category';
 import { CommunityProvideContent } from './CommunityProvideContent';
 import { CommunityRequestContent } from './CommunityRequestContent';
 import { useCommunity } from 'hooks/community/useCommunity';
+import { useBanMember } from 'hooks/community/useBanMember';
 import { useCommunityMember } from 'hooks/community/useCommunityMember';
 import { Loading } from 'components/Loading/Loading';
 import { firestore } from '../../firebase';
@@ -169,6 +170,7 @@ export const CommunityContentInfo = observer(({ data }: any) => {
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
   const isSmallTablet = useMedia(`(max-width: ${SMALL_TABLET_WIDTH}px)`);
+  const { execute: bannedMember } = useBanMember();
   const { data: member, execute: getCommunityMember } = useCommunityMember();
   const { data: community, execute: getCommunity } = useCommunity();
   const [selectedCommunity, setSetSelectedCommunity] = useState<string>(
@@ -281,7 +283,6 @@ export const CommunityContentInfo = observer(({ data }: any) => {
       {community ? (
         <React.Fragment>
           {' '}
-          {console.log(community)}
           <ProfilePageUserInfoSection>
             <UserCard>
               {community?.member.filter(
@@ -389,6 +390,40 @@ export const CommunityContentInfo = observer(({ data }: any) => {
                         width: 47%;
                       }
                     `}
+                    onClick={() => {
+                      bannedMember(
+                        query,
+                        community?.member.filter(
+                          ({ userId }) =>
+                            userId === window.localStorage.getItem('id')
+                        )[0].id,
+                        {
+                          communityAdminUserId:
+                            window.localStorage.getItem('id')
+                        }
+                      )
+                        .then(() => {
+                          // data.length > 1
+                          //   ? history.push(
+                          //       `/community/${
+                          //         data.filter(
+                          //           (items) =>
+                          //             items.communityId !==
+                          //             window.localStorage.getItem(
+                          //               'selectedCommunity'
+                          //             )
+                          //         )[0].communityId
+                          //       }`
+                          //     )
+                          //   : history.push('/community');
+                          history.push('/');
+                        })
+                        .catch((error) => {
+                          message.error(
+                            'ขออภัย ไม่สามารถออกจากชุมชนความช่วยเหลือนี้ได้เนื่องจากมีผู้นำชุมชนเพียง 1 คน'
+                          );
+                        });
+                    }}
                   >
                     <LogoutSvg style={{ marginRight: '10px' }} />
                     ออกจากขุมชน
