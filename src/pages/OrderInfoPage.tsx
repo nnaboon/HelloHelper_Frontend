@@ -325,7 +325,11 @@ export const OrderInfoPage = () => {
               </Text>
 
               {Object.keys(order.receiver).length > 0 ? (
-                <Flex direction="column" justify="flex-start">
+                <Flex
+                  direction="column"
+                  justify="flex-start"
+                  itemAlign="flex-start"
+                >
                   <ReceiverData>{order.receiver.name}</ReceiverData>
                   <ReceiverData>{order.receiver.phoneNumber}</ReceiverData>
                   <ReceiverData>{order.receiver.address}</ReceiverData>
