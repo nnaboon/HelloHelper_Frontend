@@ -64,7 +64,7 @@ export const PrimaryButton = styled.a`
   ${mediaQueryLargeDesktop} {
     min-width: 106px;
     height: 40px;
-    font-size: 18px;
+    font-size: 16px;
   }
 
   ${mediaQuerySmallTablet} {
@@ -98,6 +98,12 @@ export const TopSearchButton = styled.a`
   &:hover {
     color: #ffff;
     background: #ee6400;
+  }
+
+  ${mediaQueryLargeDesktop} {
+    min-width: 106px;
+    height: 40px;
+    font-size: 16px;
   }
 `;
 

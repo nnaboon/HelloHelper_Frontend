@@ -51,7 +51,7 @@ export const RankingBadge = styled.div<{ rankColor: string }>`
   margin-top: 4px;
 
   ${mediaQueryLargeDesktop} {
-    font-size: 18px;
+    font-size: 16px;
     height: 32px;
   }
 
