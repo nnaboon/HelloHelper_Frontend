@@ -19,6 +19,11 @@ import { useDeleteConfirmOrder } from 'hooks/order/useDeleteConfirmOrder';
 import { useDeletedProvidedUserId } from 'hooks/request/useDeleteProvidedUserId';
 import { useUpdateOrder } from 'hooks/order/useUpdateOrder';
 
+interface WaitingToConfirmOrdersProps {
+  waitConfirmOrder: any;
+  setWaitConfirmOrder: (waitConfirmOrder: any) => void;
+}
+
 const ChatOnline = styled.div`
   flex: 3;
   height: 100%;
@@ -48,7 +53,10 @@ const OrderTitle = styled.p`
   }
 `;
 
-export const WaitingToConfirmOrders = () => {
+export const WaitingToConfirmOrders = ({
+  waitConfirmOrder,
+  setWaitConfirmOrder
+}: WaitingToConfirmOrdersProps) => {
   const [orders, setOrders] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
 
@@ -56,21 +64,20 @@ export const WaitingToConfirmOrders = () => {
   const chatId = pathname.split('/')[2];
   const { Panel } = Collapse;
 
-  const { data: waitConfirmOrder, execute: getWaitConfirmOrder } =
-    useWaitForConfirmOrders();
+  const { execute: getWaitConfirmOrder } = useWaitForConfirmOrders();
 
   const { execute: deleteConfirmOrder } = useDeleteConfirmOrder();
   const { execute: deletedProvidedUser } = useDeletedProvidedUserId();
 
   const { execute: updateConfirmOrder } = useUpdateOrder();
 
-  useEffect(() => {
-    if (chatId) {
-      getWaitConfirmOrder(chatId);
-      setOrders(waitConfirmOrder);
-      setCurrentChat(chatId);
-    }
-  }, [chatId]);
+  // useEffect(() => {
+  //   if (chatId) {
+  //     getWaitConfirmOrder(chatId);
+  //     setOrders(waitConfirmOrder);
+  //     setCurrentChat(chatId);
+  //   }
+  // }, [chatId]);
 
   return (
     <ChatOnline>
@@ -184,7 +191,9 @@ export const WaitingToConfirmOrders = () => {
                         deleteConfirmOrder(id)
                           .then(() => {
                             message.success('สำเร็จ');
-                            getWaitConfirmOrder(chatId);
+                            getWaitConfirmOrder(chatId).then((res) =>
+                              setWaitConfirmOrder(res.data)
+                            );
                           })
                           .catch(() => message.error('ไม่สำเร็จ'));
                       }}
@@ -230,7 +239,9 @@ export const WaitingToConfirmOrders = () => {
                         updateConfirmOrder(id, { status: 'pending' })
                           .then(() => {
                             message.success('สำเร็จ');
-                            getWaitConfirmOrder(chatId);
+                            getWaitConfirmOrder(chatId).then((res) =>
+                              setWaitConfirmOrder(res.data)
+                            );
                           })
                           .catch(() => message.error('ไม่สำเร็จ'));
                       }}

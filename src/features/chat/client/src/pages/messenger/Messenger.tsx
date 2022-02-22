@@ -27,6 +27,8 @@ import {
   mediaQueryLargeDesktop
 } from 'styles/variables';
 import { PictureOutlined } from '@ant-design/icons';
+import { useChat } from 'hooks/chat/useChat';
+import { useWaitForConfirmOrders } from 'hooks/order/useWaitForConfirmOrder';
 import { useAddMessage } from 'hooks/chat/useAddMessage';
 import { useUpdateReadStatus } from 'hooks/chat/useUpdateReadStatus';
 import { useUploadMediaMessage } from 'hooks/chat/useUploadMediaMessage';
@@ -218,11 +220,15 @@ export const Messenger = observer(() => {
   const [currentChat, setCurrentChat] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
+  const [orders, setOrders] = useState([]);
   const { execute: updateReadStatus } = useUpdateReadStatus();
   const { execute: getChats } = useChats();
+  const { execute: getChat } = useChat();
   const { data: user, execute: getUser } = useUser();
   const { execute: addMessage } = useAddMessage();
   const { execute: uploadMedia } = useUploadMediaMessage();
+  const { data: waitConfirmOrder, execute: getWaitConfirmOrder } =
+    useWaitForConfirmOrders();
 
   const scrollRef = useRef(null);
   const { me } = userStore;
@@ -289,16 +295,21 @@ export const Messenger = observer(() => {
   useEffect(() => {
     if (me) {
       getChats(me.userId).then((res) => setChats(res.data));
+      if (query !== undefined) {
+        getChat(query).then((res) => setMessages(res.data[0].messages));
+      }
     }
   }, [me]);
 
   useEffect(() => {
-    const doc = firestore.collection('chats');
+    const doc = firestore.collection('chats').doc(query).collection('messages');
     const entities = [];
 
     const observer = doc.onSnapshot(
       (docSnapshot) => {
-        getChats(me.userId).then((res) => setChats(res.data));
+        if (query) {
+          getChat(query).then((res) => setMessages(res.data[0].messages));
+        }
       },
       (err) => {
         console.log(`Encountered error: ${err}`);
@@ -309,27 +320,42 @@ export const Messenger = observer(() => {
     return () => observer();
   }, []);
 
-  useEffect(() => {
-    console.log(chats);
-    if (query && chats?.length > 0) {
-      const messages =
-        chats.length > 0
-          ? chats.filter(({ chatId }) => chatId === query)[0].messages
-          : [];
-      setMessages(messages);
-      setCurrentChat(query);
+  // useEffect(() => {
+  //   if (query && chats?.length > 0) {
+  //     const messages =
+  //       chats.length > 0
+  //         ? chats.filter(({ chatId }) => chatId === query)[0].messages
+  //         : [];
+  //     setMessages(messages);
+  //     setCurrentChat(query);
 
-      const currentChatRoom =
-        chats.length > 0
-          ? chats.filter(({ chatId }) => chatId === query)[0]
-          : undefined;
+  //     // const currentChatRoom =
+  //     //   chats.length > 0
+  //     //     ? chats.filter(({ chatId }) => chatId === query)[0]
+  //     //     : undefined;
+  //     // const anotherUser = currentChatRoom?.users.filter(
+  //     //   (items) => items !== window.localStorage.getItem('id')
+  //     // );
+
+  //     // getUser(anotherUser);
+  //   }
+  // }, [query, chats]);
+
+  useEffect(() => {
+    if (query) {
+      setCurrentChat(query);
+      getWaitConfirmOrder(query).then((res) => setOrders(res.data));
+
+      const currentChatRoom = chats?.filter(
+        ({ chatId }) => chatId === query
+      )[0];
       const anotherUser = currentChatRoom?.users.filter(
         (items) => items !== window.localStorage.getItem('id')
       );
-
       getUser(anotherUser);
+      getChat(query).then((res) => setMessages(res.data[0].messages));
     }
-  }, [query, chats]);
+  }, [query]);
 
   useEffect(() => {
     scrollRef?.current?.scrollIntoView({ behavior: 'smooth' });
@@ -341,6 +367,7 @@ export const Messenger = observer(() => {
         padding: 0 20px;
       `}
     >
+      {console.log(me, chats, user)}
       {me && chats ? (
         <React.Fragment>
           <MessengerContainer>
@@ -389,25 +416,30 @@ export const Messenger = observer(() => {
                           z-index: 9;
                         `}
                       ></div>
-                      {messages.map((m) => (
-                        <div
-                          ref={scrollRef}
-                          css={css`
-                            z-index: 2;
-                          `}
-                        >
-                          <Message
-                            message={m}
-                            anotherUserImg={user.imageUrl}
-                            own={Boolean(
-                              m.createdBy === window.localStorage.getItem('id')
-                            )}
+                      {messages ? (
+                        messages.map((m) => (
+                          <div
+                            ref={scrollRef}
                             css={css`
                               z-index: 2;
                             `}
-                          />
-                        </div>
-                      ))}
+                          >
+                            <Message
+                              message={m}
+                              anotherUserImg={user.imageUrl}
+                              own={Boolean(
+                                m.createdBy ===
+                                  window.localStorage.getItem('id')
+                              )}
+                              css={css`
+                                z-index: 2;
+                              `}
+                            />
+                          </div>
+                        ))
+                      ) : (
+                        <Loading />
+                      )}
                     </ChatBoxTop>
                     <ChatBoxBottom>
                       <ChatMessageInput
@@ -450,7 +482,10 @@ export const Messenger = observer(() => {
             </ChatBox>
             <ChatOnline>
               <ChatOnlineWrapper>
-                <WaitingToConfirmOrders />
+                <WaitingToConfirmOrders
+                  waitConfirmOrder={orders}
+                  setWaitConfirmOrder={setOrders}
+                />
               </ChatOnlineWrapper>
             </ChatOnline>
           </MessengerContainer>
@@ -484,7 +519,11 @@ export const Messenger = observer(() => {
               }
             `}
           >
-            <OrderForm data={state} setIsModalVisible={setIsModalVisible} />
+            <OrderForm
+              data={state}
+              setIsModalVisible={setIsModalVisible}
+              setOrder={setOrders}
+            />
           </Modal>
         </React.Fragment>
       ) : (

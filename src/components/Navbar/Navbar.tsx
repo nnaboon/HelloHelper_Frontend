@@ -28,6 +28,7 @@ import { useUser } from 'hooks/user/useUser';
 import firebase from '../../firebase';
 import { userStore } from 'store/userStore';
 import { mediaQueryExtraLargeDesktop } from '../../styles/variables';
+import { useVerifyToken } from 'hooks/useVerifyToken';
 
 const NavbarSection = styled.div`
   width: 100%;
@@ -61,13 +62,13 @@ const NavbarList = styled.ul`
     margin: 0 20px;
     cursor: pointer;
     color: #eeeee;
-    font-size: 1.8rem;
+    font-size: 1.3rem;
     font-weight: 500;
   }
 
   ${mediaQueryLargeDesktop} {
     > li {
-      font-size: 15px;
+      font-size: 14px;
     }
   }
 
@@ -143,6 +144,7 @@ export const Navbar = observer(() => {
 
   const { userId, setUserId, me, setMe, setLoginType } = userStore;
   const { data: response, execute: getUser } = useUser();
+  const { data: auth, execute: getAuth } = useVerifyToken();
 
   const history = useHistory();
   const { Search } = Input;
@@ -169,11 +171,22 @@ export const Navbar = observer(() => {
   useEffect(() => {
     firebase.auth().onAuthStateChanged(function (user) {
       if (user && window.localStorage.getItem('id')) {
-        setUserId(window.localStorage.getItem('id'));
-        setUserImage(user.photoURL);
-        getUser(user.uid);
-        setIsModalVisible(false);
-        setAccount(true);
+        getAuth({ idToken: window.localStorage.getItem('access_token') })
+          .then(() => {
+            setUserId(window.localStorage.getItem('id'));
+            setUserImage(user.photoURL);
+            getUser(user.uid);
+            setIsModalVisible(false);
+            setAccount(true);
+          })
+          .catch(() => {
+            window.localStorage.removeItem('id');
+            window.localStorage.removeItem('loginType');
+            window.localStorage.removeItem('access_token');
+            window.localStorage.removeItem('selectedCommunity');
+            window.location.assign('/');
+            auth.signOut();
+          });
       } else if (user) {
         setIsModalVisible(true);
         getUser(user.uid);
@@ -290,7 +303,7 @@ export const Navbar = observer(() => {
                       ? `/community/${window.localStorage.getItem(
                           'selectedCommunity'
                         )}`
-                      : response.communityId
+                      : response?.communityId?.length > 0
                       ? `/community/${response.communityId[0]}`
                       : `/community`
                   });
@@ -443,9 +456,10 @@ export const Navbar = observer(() => {
           .ant-modal-content {
             min-height: 820px;
             height: max-content;
+            width: 90%;
 
             ${mediaQueryLargeDesktop} {
-              min-height: 694px;
+              min-height: 620px;
               height: max-content;
             }
 
