@@ -21,8 +21,9 @@ import { useRequest } from 'hooks/request/useRequest';
 import { useAddOrder } from 'hooks/order/useAddOrder';
 
 interface OrderFormProps {
-  setIsModalVisible: (isModalVisible: boolean) => void;
   data: any;
+  setIsModalVisible: (isModalVisible: boolean) => void;
+  setOrder: (order: any) => void;
 }
 
 const RegisterLocationFormSection = styled.div`
@@ -38,7 +39,11 @@ const RegisterLocationFormSection = styled.div`
   }
 `;
 
-export const OrderForm = ({ data, setIsModalVisible }: OrderFormProps) => {
+export const OrderForm = ({
+  data,
+  setIsModalVisible,
+  setOrder
+}: OrderFormProps) => {
   const [form] = Form.useForm();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
@@ -68,10 +73,10 @@ export const OrderForm = ({ data, setIsModalVisible }: OrderFormProps) => {
         latitude: state.location.latitude,
         longitude: state.location.longitude
       },
-      number: value.number as Number,
+      number: Number(value.number),
       description: value.message,
-      price: value.price as Number,
-      serviceCharge: value.serviceCharge as Number,
+      price: Number(value.price),
+      serviceCharge: Number(value.serviceCharge),
       payment: value.payment,
       receiver: {
         name: value.name ?? undefined,
@@ -82,7 +87,8 @@ export const OrderForm = ({ data, setIsModalVisible }: OrderFormProps) => {
 
     try {
       addOrder(data)
-        .then(() => {
+        .then((res) => {
+          setOrder((prev) => [...prev, res.data]);
           message.success('ส่งคำขอเรียบร้อย');
           history.replace();
           setIsModalVisible(false);
@@ -153,7 +159,7 @@ export const OrderForm = ({ data, setIsModalVisible }: OrderFormProps) => {
         `}
       >
         โปรดยืนยันข้อมูลการขอความช่วยเหลือของคุณ เพื่อง่ายต่อผู้ให้ความช่วยเหลือ
-        มาเรียกดูในภายหลัง
+        มาเรียกดูในภายหลัง หากกดปุ่มตกลงจะไม่สามารถแก้ไขทีหลังได้
       </Text>
       <Form
         form={form}
@@ -220,7 +226,16 @@ export const OrderForm = ({ data, setIsModalVisible }: OrderFormProps) => {
           }
         `}
       >
-        <Form.Item name="title" label="ชื่อความช่วยเหลือ">
+        <Form.Item
+          name="title"
+          label="ชื่อความช่วยเหลือ"
+          rules={[
+            {
+              required: true,
+              message: 'กรุณากรอกชื่อความช่วยเหลือที่คุณต้องการ'
+            }
+          ]}
+        >
           <Input
             placeholder="ชื่อความช่วยเหลือ"
             defaultValue={state?.title}
@@ -236,9 +251,16 @@ export const OrderForm = ({ data, setIsModalVisible }: OrderFormProps) => {
             `}
           />
         </Form.Item>
-        {console.log(state)}
-
-        <Form.Item name="location" label="สถานที่">
+        <Form.Item
+          name="location"
+          label="สถานที่"
+          rules={[
+            {
+              required: true,
+              message: 'กรุณากรอกสถานที่ให้ความช่วยเหลือคุณต้องการ'
+            }
+          ]}
+        >
           <Input
             placeholder="สถานที่"
             defaultValue={state?.location.name}
@@ -254,7 +276,16 @@ export const OrderForm = ({ data, setIsModalVisible }: OrderFormProps) => {
             `}
           />
         </Form.Item>
-        <Form.Item name="number" label="จำนวน">
+        <Form.Item
+          name="number"
+          label="จำนวน"
+          rules={[
+            {
+              required: true,
+              message: 'กรุณากรอกจำนวนสินค้าที่คุณต้องการ'
+            }
+          ]}
+        >
           <Input
             placeholder="จำนวน"
             defaultValue={state?.number}
@@ -272,7 +303,16 @@ export const OrderForm = ({ data, setIsModalVisible }: OrderFormProps) => {
           />
         </Form.Item>
 
-        <Form.Item name="price" label="ราคาสินค้า">
+        <Form.Item
+          name="price"
+          label="ราคาสินค้า"
+          rules={[
+            {
+              required: true,
+              message: 'กรุณากรอกราคาสินค้าที่คุณต้องการ'
+            }
+          ]}
+        >
           <Input
             defaultValue={state?.price}
             placeholder="ขอบเขตราคาสินค้า"
@@ -289,7 +329,16 @@ export const OrderForm = ({ data, setIsModalVisible }: OrderFormProps) => {
             `}
           />
         </Form.Item>
-        <Form.Item name="serviceCharge" label="อัตราค่าบริการ">
+        <Form.Item
+          name="serviceCharge"
+          label="อัตราค่าบริการ"
+          rules={[
+            {
+              required: true,
+              message: 'กรุณากรอกอัตรค่าบริการอที่คุณต้องการ'
+            }
+          ]}
+        >
           <Input
             defaultValue={state?.serviceCharge}
             placeholder="ขอบเขตราคาค่าบริการ"
@@ -307,7 +356,16 @@ export const OrderForm = ({ data, setIsModalVisible }: OrderFormProps) => {
           />
         </Form.Item>
 
-        <Form.Item name="payment" label="วิธีการชำระเงิน">
+        <Form.Item
+          name="payment"
+          label="วิธีการชำระเงิน"
+          rules={[
+            {
+              required: true,
+              message: 'กรุณากรอกวิธีการชำระเงินที่คุณต้องการ'
+            }
+          ]}
+        >
           <Input
             defaultValue={state?.payment}
             placeholder="วิธีการชำระเงิน"
