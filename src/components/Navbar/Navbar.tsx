@@ -62,11 +62,12 @@ const NavbarList = styled.ul`
     cursor: pointer;
     color: #eeeee;
     font-size: 1.8rem;
+    font-weight: 500;
   }
 
   ${mediaQueryLargeDesktop} {
     > li {
-      font-size: 14px;
+      font-size: 15px;
     }
   }
 
@@ -258,6 +259,25 @@ export const Navbar = observer(() => {
         )}
 
         <NavbarList>
+          {isSmallTablet && (
+            <Search
+              placeholder="ข้าวผัดป้าเขียว, ก๋วยจั๊บนายวาย, แกงกะหรี่ป้าอร โชคชัย4"
+              onSearch={onSearch}
+              size="large"
+              css={css`
+                .ant-input {
+                  height: 30px;
+                  width: 350px;
+                  font-size: 14px;
+                }
+
+                .ant-btn-icon-only.ant-btn-lg {
+                  height: 30px;
+                  width: 30px;
+                }
+              `}
+            />
+          )}
           {!isSmallTablet && (
             <React.Fragment>
               {' '}
@@ -373,42 +393,44 @@ export const Navbar = observer(() => {
           )}
         </NavbarList>
       </Flex>
-      <SearchBarContainer>
-        <Search
-          placeholder="ข้าวผัดป้าเขียว, ก๋วยจั๊บนายวาย, แกงกะหรี่ป้าอร โชคชัย4"
-          onSearch={onSearch}
-          size="large"
-          style={{
-            width: isMobile ? '350px' : isSmallTablet ? '600px' : '700px',
-            height: '40px'
-          }}
-          css={css`
-            .ant-input {
-              height: 60px;
-              width: 990px;
-              font-size: 1.6rem;
-            }
-
-            .ant-btn-icon-only.ant-btn-lg {
-              height: 60px;
-              width: 60px;
-            }
-
-            ${mediaQueryExtraLargeDesktop} {
+      {!isSmallTablet && (
+        <SearchBarContainer>
+          <Search
+            placeholder="ข้าวผัดป้าเขียว, ก๋วยจั๊บนายวาย, แกงกะหรี่ป้าอร โชคชัย4"
+            onSearch={onSearch}
+            size="large"
+            style={{
+              width: isMobile ? '350px' : isSmallTablet ? '600px' : '700px',
+              height: '40px'
+            }}
+            css={css`
               .ant-input {
-                height: 40px;
-                width: 100%;
-                font-size: 16px;
+                height: 60px;
+                width: 990px;
+                font-size: 1.6rem;
               }
 
               .ant-btn-icon-only.ant-btn-lg {
-                height: 40px;
-                width: 40px;
+                height: 60px;
+                width: 60px;
               }
-            }
-          `}
-        />
-      </SearchBarContainer>
+
+              ${mediaQueryExtraLargeDesktop} {
+                .ant-input {
+                  height: 40px;
+                  width: 100%;
+                  font-size: 16px;
+                }
+
+                .ant-btn-icon-only.ant-btn-lg {
+                  height: 40px;
+                  width: 40px;
+                }
+              }
+            `}
+          />
+        </SearchBarContainer>
+      )}
       <Modal
         visible={isModalVisible}
         onOk={handleOk}

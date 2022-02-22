@@ -6,6 +6,7 @@ import { useHistory } from 'react-router-dom';
 import styled from '@emotion/styled';
 import Flex from 'components/Flex/Flex';
 import { SecondaryButton } from 'components/Button/Button';
+import { RequestStatusBadge } from 'components/Badge/Badge';
 import {
   mediaQueryMobile,
   mediaQueryTablet,
@@ -137,7 +138,30 @@ export const MyRequestList = ({ data, user }: MyRequestListProps) => {
     >
       {user ? (
         <Flex direction="column" justify="flex-start" itemAlign="flex-start">
-          <HelperListTitle>{data.title}</HelperListTitle>
+          <Flex itemAlign="center">
+            <HelperListTitle>{data.title} </HelperListTitle>
+            {(data.providedUserId.length > 0 || !Boolean(data.visibility)) && (
+              <RequestStatusBadge
+                status={
+                  data.providedUserId.length > 0
+                    ? 2
+                    : Boolean(data.visibility)
+                    ? undefined
+                    : 0
+                }
+                css={css`
+                  margin-bottom: 8px;
+                `}
+              >
+                {data.providedUserId.length > 0 && Boolean(data.visibility)
+                  ? 'ช่วยเหลือแล้ว'
+                  : !Boolean(data.visibility)
+                  ? 'ซ่อน'
+                  : null}
+              </RequestStatusBadge>
+            )}
+          </Flex>
+
           <Flex marginY="8px">
             <HelperListHeading>ผู้ให้ความช่วยเหลือ</HelperListHeading>
             <HelperListDetail>{user.username}</HelperListDetail>

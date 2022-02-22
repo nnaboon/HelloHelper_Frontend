@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { RankingBadge } from '../Badge/Badge';
+import { RankingBadge, RequestStatusBadge } from '../Badge/Badge';
 import { RANK_BADGE } from 'components/Badge/const';
 import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
@@ -85,6 +85,7 @@ const RequestTitle = styled.div`
   line-height: 28px;
   font-size: 2rem;
   margin-bottom: 10px;
+  word-break: break-word;
 
   ${mediaQueryLargeDesktop} {
     font-size: 1.5rem;
@@ -209,7 +210,17 @@ export const SuggestedRequestSection = ({ data }: any) => {
   return (
     <RequestHelperCardContainer>
       {data.map(
-        ({ id, title, imageUrl, payment, serviceCharge, location, user }) => (
+        ({
+          id,
+          title,
+          imageUrl,
+          payment,
+          serviceCharge,
+          location,
+          user,
+          providedUserId,
+          visibility
+        }) => (
           <CardContainer
             key={id}
             onClick={() => {
@@ -275,6 +286,13 @@ export const SuggestedRequestSection = ({ data }: any) => {
                 `}
               >
                 <RequestTitle>{title}</RequestTitle>
+                {providedUserId.length > 0 && (
+                  <RequestStatusBadge
+                    status={providedUserId.length > 0 ? 2 : undefined}
+                  >
+                    ช่วยเหลือแล้ว
+                  </RequestStatusBadge>
+                )}
                 <RequestDataContent>
                   <RequestDataTitle>ชื่อ</RequestDataTitle>
                   <RequestDataInfo>{user.username}</RequestDataInfo>

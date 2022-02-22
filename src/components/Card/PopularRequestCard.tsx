@@ -96,7 +96,8 @@ const CardContainer = styled.div`
 const RequestTitle = styled.div`
   font-weight: 800;
   font-size: 2rem;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  word-break: break-word;
 
   ${mediaQueryLargeDesktop} {
     font-size: 1.5rem;

@@ -22,14 +22,19 @@ const ConversationSection = styled.div`
   padding: 10px;
   cursor: pointer;
   margin-top: 20px;
+  margin-bottom: 10px;
+
+  ${mediaQueryLargeDesktop} {
+    margin-bottom: 0;
+  }
 `;
 
 const ConversationName = styled.div`
   font-weight: 500;
-  font-size: 1.6rem;
+  font-size: 1.7rem;
 
   ${mediaQueryLargeDesktop} {
-    font-size: 14px;
+    font-size: 16px;
   }
 
   ${mediaQueryMobile} {
@@ -38,15 +43,15 @@ const ConversationName = styled.div`
 `;
 
 const ConversationImage = styled.img`
-  width: 60px;
-  height: 60px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
   object-fit: cover;
   margin-right: 20px;
 
   ${mediaQueryLargeDesktop} {
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
   }
 
   ${mediaQueryTablet} {

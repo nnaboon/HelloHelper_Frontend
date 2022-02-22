@@ -34,11 +34,11 @@ const SidebarItem = styled.div<{ isActive: boolean }>`
   cursor: pointer;
   padding: 10px;
   border-radius: 20px;
-  font-weight: ${(props) => (props.isActive ? 700 : 500)};
+  font-weight: ${(props) => (props.isActive ? 700 : 400)};
   color: ${(props) => (props.isActive ? '#EE6400' : 'black')};
 
   ${mediaQueryLargeDesktop} {
-    max-width: 260px;
+    max-width: 280px;
     margin-bottom: 15px;
     font-size: ${(props) => (props.isActive ? '22px' : '20px')};
   }

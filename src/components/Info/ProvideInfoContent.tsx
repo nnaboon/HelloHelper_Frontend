@@ -12,7 +12,7 @@ import { PrimaryButton, SecondaryButton } from 'components/Button/Button';
 import DefaultImage from 'images/default.png';
 import { UserSvg } from 'components/Svg/UserSvg';
 import { Divider, Dropdown, Menu, message } from 'antd';
-import { RankingBadge } from 'components/Badge/Badge';
+import { RankingBadge, RequestStatusBadge } from 'components/Badge/Badge';
 import { SuggestedBadge } from 'components/Badge/Badge';
 import { RANK_BADGE } from 'components/Badge/const';
 import { useProvide } from 'hooks/provide/useProvide';
@@ -199,18 +199,15 @@ const UserName = styled.div`
 
 export const ProvideInfoContent = observer(({ data }: any) => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [provide, setProvide] = useState<any>();
   const history = useHistory();
   const { pathname } = useLocation();
   const query = pathname.split('/')[3];
-  const { me, userId } = userStore;
+  const { me } = userStore;
 
-  const { data: user, loading: isUserLoading, execute: getUser } = useUser();
+  // const { data: user, loading: isUserLoading, execute: getUser } = useUser();
   const { execute: updateProvide } = useUpdateProvide();
-  const {
-    data: provide,
-    loading: isProvideLoading,
-    execute: getProvide
-  } = useProvide();
+  const { execute: getProvide } = useProvide();
   const { execute: addChatRoom } = useAddChatRoom();
 
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
@@ -218,7 +215,6 @@ export const ProvideInfoContent = observer(({ data }: any) => {
 
   const dropDownMenu = (
     <Menu
-      // onClick={handleMenuClick}
       css={css`
         z-index: 99;
       `}
@@ -250,14 +246,14 @@ export const ProvideInfoContent = observer(({ data }: any) => {
             justifyContent: 'center'
           }}
           onClick={() => {
-            if (provide.visibility === 0) {
+            if (provide?.visibility === 0) {
               updateProvide(query, {
                 userId: window.localStorage.getItem('id'),
                 visibility: 1
               })
-                .then(() => {
+                .then((res) => {
                   message.success('สำเร็จ');
-                  getProvide(query);
+                  setProvide(res.data);
                 })
                 .catch((error) => message.error('ไม่สำเร็จ'));
             } else {
@@ -265,9 +261,9 @@ export const ProvideInfoContent = observer(({ data }: any) => {
                 userId: window.localStorage.getItem('id'),
                 visibility: 0
               })
-                .then(() => {
+                .then((res) => {
                   message.success('สำเร็จ');
-                  getProvide(query);
+                  setProvide(res.data);
                 })
                 .catch((error) => message.error('ไม่สำเร็จ'));
             }
@@ -294,14 +290,16 @@ export const ProvideInfoContent = observer(({ data }: any) => {
 
   useEffect(() => {
     if (query || window.localStorage.getItem('id')) {
-      getProvide(query ?? window.localStorage.getItem('id'));
-      // getUser(provide.userId);
+      getProvide(query ?? window.localStorage.getItem('id')).then((res) => {
+        setProvide(res.data);
+      });
+      // getUser(provide?.userId);
     }
   }, []);
 
   // useEffect(() => {
   //   if (provide) {
-  //     getUser(provide.userId);
+  //     getUser(provide?.userId);
   //   }
   // }, [provide]);
 
@@ -324,7 +322,7 @@ export const ProvideInfoContent = observer(({ data }: any) => {
               }
             `}
           >
-            {provide.userId === window.localStorage.getItem('id') && (
+            {provide?.userId === window.localStorage.getItem('id') && (
               <Dropdown.Button
                 icon={<MoreOutlined />}
                 overlay={dropDownMenu}
@@ -390,7 +388,7 @@ export const ProvideInfoContent = observer(({ data }: any) => {
                 style={{ width: 'unset', position: 'relative' }}
               >
                 <ProvideImageSection
-                  src={provide.imageUrl ?? DefaultImage}
+                  src={provide?.imageUrl ?? DefaultImage}
                   alt="provide img"
                 />
                 <Flex
@@ -450,7 +448,12 @@ export const ProvideInfoContent = observer(({ data }: any) => {
               >
                 <ProvideInfoContainer>
                   <ProvideTitle>ชื่อ</ProvideTitle>
-                  <ProvideDetail>{provide.title}</ProvideDetail>
+                  <Flex>
+                    <ProvideDetail>{provide?.title}</ProvideDetail>
+                    {!Boolean(provide?.visibility) && (
+                      <RequestStatusBadge status={0}>ซ่อน</RequestStatusBadge>
+                    )}
+                  </Flex>
                   <ProvideTitle>
                     {isMobile ? 'สถานที่' : 'สถานที่ให้ความข่วยเหลือ'}
                   </ProvideTitle>
@@ -510,8 +513,8 @@ export const ProvideInfoContent = observer(({ data }: any) => {
                               price: provide?.price,
                               serviceCharge: provide?.serviceCharge,
                               number: provide?.number,
-                              description: provide.description,
-                              userId: provide.userId
+                              description: provide?.description,
+                              userId: provide?.userId
                             }
                           });
                         });
@@ -545,10 +548,10 @@ export const ProvideInfoContent = observer(({ data }: any) => {
                   `}
                 >
                   <HelperImage
-                    src={provide ? provide.user.imageUrl : DefaultImage}
+                    src={provide ? provide?.user.imageUrl : DefaultImage}
                     alt="user avatar"
                   />
-                  {Boolean(provide.user?.recommend) && (
+                  {Boolean(provide?.user?.recommend) && (
                     <SuggestedBadge
                       css={css`
                         ${mediaQueryMobile} {
@@ -566,14 +569,14 @@ export const ProvideInfoContent = observer(({ data }: any) => {
                     align-items: center;
                   `}
                 >
-                  <UserName>{provide.user.username}</UserName>
+                  <UserName>{provide?.user.username}</UserName>
                   <RankingBadge
-                    rankColor={RANK_BADGE[provide.user.rank].color}
+                    rankColor={RANK_BADGE[provide?.user?.rank].color}
                     css={css`
                       margin-top: -10px;
                     `}
                   >
-                    {provide.user.rank.toUpperCase()}
+                    {provide?.user.rank.toUpperCase()}
                   </RankingBadge>
                 </div>
               </div>
@@ -587,7 +590,7 @@ export const ProvideInfoContent = observer(({ data }: any) => {
                   `}
                   onClick={() => {
                     history.push({
-                      pathname: `/profile/${provide.userId}`
+                      pathname: `/profile/${provide?.userId}`
                     });
                   }}
                 >
@@ -599,6 +602,7 @@ export const ProvideInfoContent = observer(({ data }: any) => {
           </WrapperContainer>
           <RequestFormModal
             visible={isModalVisible}
+            setUpdateData={setProvide}
             onClose={() => setIsModalVisible(false)}
             requestData={{
               ...provide,

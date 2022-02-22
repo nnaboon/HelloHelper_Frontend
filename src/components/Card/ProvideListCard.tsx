@@ -381,7 +381,7 @@ export const ProvideListCard = ({ props, setStatus }: ProvideListCardProps) => {
           >
             แชท
           </PrimaryButton>
-          <Dropdown overlay={menu}>
+          <Dropdown overlay={menu} trigger={['click']}>
             <PrimaryButton
               css={css`
                 min-width: 210px;

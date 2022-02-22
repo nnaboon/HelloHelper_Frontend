@@ -25,7 +25,10 @@ import { EmptyData } from 'components/Empty/EmptyData';
 import { useProvides } from 'hooks/provide/useProvides';
 import { useRequests } from 'hooks/request/useRequests';
 import { Loading } from 'components/Loading/Loading';
-import { mediaQueryLargeDesktop } from '../styles/variables';
+import {
+  mediaQueryLargeDesktop,
+  mediaQueryExtraLargeDesktop
+} from '../styles/variables';
 
 const SearchResultContent = styled.div`
   display: grid;
@@ -93,8 +96,12 @@ export const SearchResultPage = () => {
               left: 25%;
               width: 63%;
 
+              ${mediaQueryExtraLargeDesktop} {
+                width: 68%;
+              }
+
               ${mediaQueryLargeDesktop} {
-                width: 75%;
+                width: 66%;
               }
 
               ${mediaQueryTablet} {
@@ -133,10 +140,14 @@ export const SearchResultPage = () => {
                 >
                   ผลการค้นหา ทั้งหมด{' '}
                   {menu === 'provide'
-                    ? provides.filter(({ category }) => category[0] === qs)
-                        .length
-                    : requests.filter(({ category }) => category[0] === qs)
-                        .length}{' '}
+                    ? provides.filter(
+                        ({ category, communityId }) =>
+                          category[0] === qs && !Boolean(communityId)
+                      ).length
+                    : requests.filter(
+                        ({ category, communityId }) =>
+                          category[0] === qs && !Boolean(communityId)
+                      ).length}{' '}
                   รายการ
                 </Text>
                 <div
@@ -165,8 +176,8 @@ export const SearchResultPage = () => {
               ).length > 0 ? (
                 <SearchResultContent>
                   {provides
-                    .filter(({ category, title }) =>
-                      search
+                    .filter(({ category, title, visibility, communityId }) =>
+                      Boolean(visibility) && !Boolean(communityId) && search
                         ? title.includes(state?.search)
                         : category[0] === qs
                     )
@@ -182,8 +193,13 @@ export const SearchResultPage = () => {
               ).length > 0 ? (
               <SearchResultContent>
                 {requests
-                  .filter(({ category, title }) =>
-                    search ? title.includes(state?.search) : category[0] === qs
+                  .filter(
+                    ({ category, title, visibility, communityId }) =>
+                      Boolean(visibility) &&
+                      !Boolean(communityId) &&
+                      (search
+                        ? title.includes(state?.search)
+                        : category[0] === qs)
                   )
                   .map((props) => (
                     <SuggestedRequestSection data={[props]} />

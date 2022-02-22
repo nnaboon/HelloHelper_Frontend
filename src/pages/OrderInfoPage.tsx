@@ -449,7 +449,7 @@ export const OrderInfoPage = () => {
                     แชท
                   </SecondaryButton>
                   {orderType === 'provide' && (
-                    <Dropdown overlay={menu}>
+                    <Dropdown overlay={menu} trigger={['click']}>
                       <PrimaryButton
                         css={css`
                           width: 180px;

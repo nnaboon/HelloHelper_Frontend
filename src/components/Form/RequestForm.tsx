@@ -28,6 +28,7 @@ import { useUploadRequestImage } from 'hooks/request/useUploadRequestImage';
 interface RequestFormModalProps {
   visible?: boolean;
   onClose?: () => void;
+  setUpdateData?: (data: any) => void;
   requestData?: any;
 }
 
@@ -43,6 +44,7 @@ const RegisterLocationFormSection = styled.div`
 export const RequestFormModal = ({
   visible,
   onClose,
+  setUpdateData,
   requestData
 }: RequestFormModalProps) => {
   const [tags, setTags] = useState<string[]>(requestData.hashtag ?? []);
@@ -122,7 +124,6 @@ export const RequestFormModal = ({
   const onFinish = async (value) => {
     setIsSubmitting(true);
 
-    console.log(value.image);
     const data = {
       userId: window.localStorage.getItem('id'),
       title: value.title,
@@ -155,10 +156,14 @@ export const RequestFormModal = ({
             updateProvide(requestData.provideId, {
               ...data,
               imageUrl: res.data
+            }).then((res) => {
+              setUpdateData(res.data);
             });
           });
         } else {
-          updateProvide(requestData.provideId, data);
+          updateProvide(requestData.provideId, data).then((res) => {
+            setUpdateData(res.data);
+          });
         }
       } else {
         if (value.image) {
@@ -170,6 +175,8 @@ export const RequestFormModal = ({
               number: Number(value.number),
               price: Number(value.price),
               imageUrl: res.data
+            }).then((res) => {
+              setUpdateData(res.data);
             });
           });
         } else {
@@ -177,6 +184,8 @@ export const RequestFormModal = ({
             ...data,
             number: Number(value.number),
             price: Number(value.price)
+          }).then((res) => {
+            setUpdateData(res.data);
           });
         }
       }

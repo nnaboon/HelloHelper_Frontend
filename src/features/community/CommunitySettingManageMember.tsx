@@ -1,10 +1,10 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
 import { useLocation } from 'react-router-dom';
-import { Dropdown, Menu } from 'antd';
+import { Dropdown, Menu, message } from 'antd';
 import { SecondaryButton, PrimaryButton } from 'components/Button/Button';
 import { Text } from 'components/Text';
 import DefaultImage from 'images/default.png';
@@ -16,13 +16,12 @@ import {
   mediaQueryTablet,
   mediaQueryLargeDesktop
 } from 'styles/variables';
+import { useCommunity } from 'hooks/community/useCommunity';
 import { useUpdateJoinedCommunityRequest } from 'hooks/community/useUpdateJoinedCommunityRequest';
+import { useUpdateMemberRole } from 'hooks/community/useUpdateMemberRole';
+import { useBanMember } from 'hooks/community/useBanMember';
 import { EmptyData } from 'components/Empty/EmptyData';
-
-interface CommunitySettingManagerMemberProps {
-  member: any;
-  joinedRequest: any;
-}
+import { firestore } from '../../firebase';
 
 const CommunityMemberCard = styled.div`
   width: 100%;
@@ -167,45 +166,149 @@ const CommunitySecondaryButton = styled(SecondaryButton)`
   }
 `;
 
-export const CommunitySettingManageMember = ({
-  member,
-  joinedRequest
-}: CommunitySettingManagerMemberProps) => {
-  const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
-  const isSmallTablet = useMedia(`(max-width: ${SMALL_TABLET_WIDTH}px)`);
+export const CommunitySettingManageMember = () => {
+  const [member, setMember] = useState<any[]>();
+  const [joinedRequestUserId, setJoinedRequestUserId] = useState<any[]>();
+
   const { pathname } = useLocation();
   const query = pathname.split('/')[3];
+
   const { execute: updateJoinedCommunityRequest } =
     useUpdateJoinedCommunityRequest();
+  const { data: memberUpdated, execute: updateMemberRole } =
+    useUpdateMemberRole();
+  const { execute: bannedMember } = useBanMember();
+  const { data: community, execute: getCommunity } = useCommunity();
 
-  const menu = (
+  const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
+  const isSmallTablet = useMedia(`(max-width: ${SMALL_TABLET_WIDTH}px)`);
+
+  const menu = (userId: string) => (
     <Menu>
-      <Menu.Item>ผู้นำชุมชน</Menu.Item>
-      <Menu.Item>สมาชิกชุมขน</Menu.Item>
+      <Menu.Item
+        onClick={() => {
+          updateMemberRole(query, userId, {
+            role: 1,
+            communityAdminUserId: window.localStorage.getItem('id')
+          })
+            .then(() => {
+              message.success('เปลี่ยนบทบาทสำเร็จ');
+            })
+            .catch((error) => {
+              message.error(
+                'ขออภัย ผู้นำชุมชนจำเป็นต้องมีมากกว่า 1 คนแต่น้อยกว่า 3 คน'
+              );
+            });
+        }}
+      >
+        ผู้นำชุมชน
+      </Menu.Item>
+      <Menu.Item
+        onClick={() => {
+          updateMemberRole(query, userId, {
+            role: 0,
+            communityAdminUserId: window.localStorage.getItem('id')
+          })
+            .then(() => {
+              message.success('เปลี่ยนบทบาทสำเร็จ');
+            })
+            .catch((error) => {
+              message.error(
+                'ขออภัย ผู้นำชุมชนจำเป็นต้องมีมากกว่า 1 คนแต่น้อยกว่า 3 คน'
+              );
+            });
+        }}
+      >
+        สมาชิกชุมขน
+      </Menu.Item>
     </Menu>
   );
+
+  useEffect(() => {
+    const doc = firestore
+      .collection('communities')
+      .doc(query)
+      .collection('members');
+
+    const observer = doc.onSnapshot(
+      (docSnapshot) => {
+        getCommunity(query).then((res) => {
+          setJoinedRequestUserId(res.data.joinedRequestUserId);
+          setMember(res.data.member);
+        });
+      },
+      (err) => {
+        console.log(`Encountered error: ${err}`);
+      }
+    );
+
+    //remember to unsubscribe from your realtime listener on unmount or you will create a memory leak
+    return () => observer();
+  }, []);
+
+  useEffect(() => {
+    const doc = firestore
+      .collection('communities')
+      .doc(query)
+      .collection('joinedRequestUserId');
+
+    const observer = doc.onSnapshot(
+      (docSnapshot) => {
+        getCommunity(query).then((res) => {
+          setJoinedRequestUserId(res.data.joinedRequestUserId);
+          setMember(res.data.member);
+        });
+      },
+      (err) => {
+        console.log(`Encountered error: ${err}`);
+      }
+    );
+
+    //remember to unsubscribe from your realtime listener on unmount or you will create a memory leak
+    return () => observer();
+  }, []);
+
+  useEffect(() => {
+    if (!community && !member) {
+      getCommunity(query).then((res) => {
+        setJoinedRequestUserId(res.data.joinedRequestUserId);
+        setMember(res.data.member);
+      });
+      // getCommunityMember(query).then((res) => {
+      //   setMember(res.data);
+      // });
+    }
+  }, []);
 
   return (
     <div style={{ margin: isSmallTablet ? 0 : '40px 60px' }}>
       <Text
         fontWeight={500}
-        marginY="40px"
         css={css`
+          margin-top: 50px;
+          margin-bottom: 50px;
           font-size: 2.8rem;
-          margin-bottom: 35px;
 
           ${mediaQueryLargeDesktop} {
             margin-bottom: 15px;
+            font-size: 25px;
+          }
+
+          ${mediaQueryTablet} {
             font-size: 20px;
+          }
+
+          ${mediaQueryMobile} {
+            font-size: 18px;
           }
         `}
       >
         ผู้ต้องการเข้าร่วมชุมชน
       </Text>
-      {joinedRequest.length > 0 ? (
+      {joinedRequestUserId?.length > 0 ? (
         <div>
           {' '}
-          {joinedRequest.map(
+          {joinedRequestUserId.map(
             ({ id, username, userId, joinedRequestId, imageUrl }) => (
               <CommunityMemberCard key={userId}>
                 <CommunityMemberContainer>
@@ -222,7 +325,13 @@ export const CommunitySettingManageMember = ({
                         updateJoinedCommunityRequest(query, {
                           joinedRequestId: id,
                           userId: userId
-                        });
+                        })
+                          .then(() => {
+                            message.success('สำเร็จ');
+                          })
+                          .catch((error) => {
+                            message.error('ไม่สำเร็จ');
+                          });
                       }}
                     >
                       <div>ปฏิเสธ</div>
@@ -235,7 +344,13 @@ export const CommunitySettingManageMember = ({
                           requesterUserId: userId,
                           communityAdminUserId:
                             window.localStorage.getItem('id')
-                        });
+                        })
+                          .then(() => {
+                            message.success('สำเร็จ');
+                          })
+                          .catch((error) => {
+                            message.error('ไม่สำเร็จ');
+                          });
                       }}
                     >
                       <div>ยอมรับ</div>
@@ -247,15 +362,37 @@ export const CommunitySettingManageMember = ({
           )}
         </div>
       ) : (
-        <EmptyData text={`ยังไม่มีสมาชิกในชุมชนความช่วยเหลือนี้`} />
+        <EmptyData
+          text={`ยังไม่มีสมาชิกในชุมชนความช่วยเหลือนี้`}
+          height="300px"
+        />
       )}
 
-      <Text fontWeight={500} fontSize="28px" marginY="40px">
+      <Text
+        fontWeight={500}
+        css={css`
+          font-size: 2.8rem;
+          margin: 50px 0;
+
+          ${mediaQueryLargeDesktop} {
+            margin-bottom: 15px;
+            font-size: 25px;
+          }
+
+          ${mediaQueryTablet} {
+            font-size: 20px;
+          }
+
+          ${mediaQueryMobile} {
+            font-size: 18px;
+          }
+        `}
+      >
         ผู้นำชุมชน
       </Text>
       {member
-        .filter(({ role }) => role === 1)
-        .map(({ id, username, imageUrl, userId }) => (
+        ?.filter(({ role }) => role === 1)
+        .map(({ id, username, imageUrl }) => (
           <CommunityMemberCard key={id}>
             <CommunityMemberContainer>
               <CommunityMemberImageContainer>
@@ -267,10 +404,26 @@ export const CommunitySettingManageMember = ({
                 <UserName>{username}</UserName>
               </CommunityMemberImageContainer>
               <CommunityButtonContainer>
-                <CommunitySecondaryButton>
+                <CommunitySecondaryButton
+                  onClick={() => {
+                    bannedMember(query, id, {
+                      communityAdminUserId: window.localStorage.getItem('id')
+                    })
+                      .then(() => {
+                        message.success(
+                          'ลบผู้ใช้งานออกจากชุมชนความช่วยเหลือนี้สำเร็จ'
+                        );
+                      })
+                      .catch((error) => {
+                        message.error(
+                          'ขออภัย ไม่สามารถลบผู้ใช้งานนี้ได้ ณ ขณะนี้'
+                        );
+                      });
+                  }}
+                >
                   <div>ลบ</div>
                 </CommunitySecondaryButton>
-                <Dropdown overlay={menu}>
+                <Dropdown overlay={menu(id)} trigger={['click']}>
                   <CommunityPrimaryButton>
                     <div>เปลี่ยนสถานะ</div>
                   </CommunityPrimaryButton>
@@ -279,41 +432,34 @@ export const CommunitySettingManageMember = ({
             </CommunityMemberContainer>
           </CommunityMemberCard>
         ))}
-      {/* {member
-        .filter(({ role }) => role === 1)
-        .map(({ username, userId }) => (
-          <CommunityMemberCard key={userId}>
-            <CommunityMemberContainer>
-              <CommunityMemberImageContainer>
-                {' '}
-                <CommunityMemberImage
-                  src={UserAvatar}
-                  alt="community member avatar"
-                />
-                <UserName>{username}</UserName>
-              </CommunityMemberImageContainer>
-              <CommunityButtonContainer>
-                <CommunitySecondaryButton>
-                  <div>ลบ</div>
-                </CommunitySecondaryButton>
-                <Dropdown overlay={menu}>
-                  <CommunityPrimaryButton>
-                    <div>เปลี่ยนสถานะ</div>
-                  </CommunityPrimaryButton>
-                </Dropdown>
-              </CommunityButtonContainer>
-            </CommunityMemberContainer>
-          </CommunityMemberCard>
-        ))} */}
-      <Text fontWeight={500} fontSize="28px" marginY="40px">
+      <Text
+        fontWeight={500}
+        css={css`
+          margin: 50px 0;
+          font-size: 2.8rem;
+
+          ${mediaQueryLargeDesktop} {
+            margin-bottom: 15px;
+            font-size: 25px;
+          }
+
+          ${mediaQueryTablet} {
+            font-size: 20px;
+          }
+
+          ${mediaQueryMobile} {
+            font-size: 18px;
+          }
+        `}
+      >
         สมาชิกในชุมชน
       </Text>
       {member?.filter(({ role }) => role === 0).length > 0 ? (
         <React.Fragment>
           {' '}
           {member
-            .filter(({ role }) => role === 0)
-            .map(({ id, username, imageUrl, userId }) => (
+            ?.filter(({ role }) => role === 0)
+            .map(({ id, username, imageUrl }) => (
               <CommunityMemberCard key={id}>
                 <CommunityMemberContainer>
                   <CommunityMemberImageContainer>
@@ -325,10 +471,27 @@ export const CommunitySettingManageMember = ({
                     <UserName>{username}</UserName>
                   </CommunityMemberImageContainer>
                   <CommunityButtonContainer>
-                    <CommunitySecondaryButton>
+                    <CommunitySecondaryButton
+                      onClick={() => {
+                        bannedMember(query, id, {
+                          communityAdminUserId:
+                            window.localStorage.getItem('id')
+                        })
+                          .then(() => {
+                            message.success(
+                              'ลบผู้ใช้งานออกจากชุมชนความช่วยเหลือนี้สำเร็จ'
+                            );
+                          })
+                          .catch((error) => {
+                            message.error(
+                              'ขออภัย ไม่สามารถลบผู้ใช้งานนี้ได้ ณ ขณะนี้'
+                            );
+                          });
+                      }}
+                    >
                       <div>ลบ</div>
                     </CommunitySecondaryButton>
-                    <Dropdown overlay={menu}>
+                    <Dropdown overlay={menu(id)} trigger={['click']}>
                       <CommunityPrimaryButton>
                         <div>เปลี่ยนสถานะ</div>
                       </CommunityPrimaryButton>
@@ -339,34 +502,11 @@ export const CommunitySettingManageMember = ({
             ))}
         </React.Fragment>
       ) : (
-        <EmptyData text={`ยังไม่มีสมาชิกในชุมชนความช่วยเหลือนี้`} />
+        <EmptyData
+          text={`ยังไม่มีสมาชิกในชุมชนความช่วยเหลือนี้`}
+          height="300px"
+        />
       )}
-      {/* {member
-        .filter(({ role }) => role === 0)
-        .map(({ username, userId }) => (
-          <CommunityMemberCard key={userId}>
-            <CommunityMemberContainer>
-              <CommunityMemberImageContainer>
-                {' '}
-                <CommunityMemberImage
-                  src={UserAvatar}
-                  alt="community member avatar"
-                />
-                <UserName>{username}</UserName>
-              </CommunityMemberImageContainer>
-              <CommunityButtonContainer>
-                <CommunitySecondaryButton>
-                  <div>ลบ</div>
-                </CommunitySecondaryButton>
-                <Dropdown overlay={menu}>
-                  <CommunityPrimaryButton>
-                    <div>เปลี่ยนสถานะ</div>
-                  </CommunityPrimaryButton>
-                </Dropdown>
-              </CommunityButtonContainer>
-            </CommunityMemberContainer>
-          </CommunityMemberCard>
-        ))} */}
     </div>
   );
 };

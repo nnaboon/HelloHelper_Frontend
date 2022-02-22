@@ -226,6 +226,7 @@ const ProfileInfoListDetail = styled.div`
 
 export const ProfilePage = observer(() => {
   const [menu, setMenu] = useState<HelpMenu | ProfileMenu>(HelpMenu.PROVIDE);
+  const [provideRank, setProvideRank] = useState<any>();
   const [provides, setProvides] = useState<any[]>([]);
   const [requests, setRequests] = useState<any[]>([]);
   const history = useHistory();
@@ -247,9 +248,15 @@ export const ProfilePage = observer(() => {
   useEffect(() => {
     if (query || window.localStorage.getItem('id')) {
       getUser(query ? query : window.localStorage.getItem('id'));
-      getProvide(query ? query : window.localStorage.getItem('id')).then(
-        (res) => setProvides(res.data)
-      );
+      getProvide(query ? query : window.localStorage.getItem('id'))
+        .then((res) => {
+          setProvides(res.data.data);
+          setProvideRank(res.data.rank);
+        })
+        .catch(() => {
+          setProvides([]);
+          setProvideRank(null);
+        });
       getRequest(query ? query : window.localStorage.getItem('id')).then(
         (res) => setRequests(res.data)
       );
@@ -543,7 +550,7 @@ export const ProfilePage = observer(() => {
                 </ProfileInfoSection>
               </ProfilePageUserInfoSection>
 
-              {(user?.provideSum > 0 || user?.requestSum > 0) && (
+              {(user?.provideSum > 0 || user?.requestSum > 0) && provideRank && (
                 <div
                   style={{
                     width: '100%',
@@ -557,7 +564,7 @@ export const ProfilePage = observer(() => {
                     provideSum={user?.provideSum}
                     requestSum={user?.requestSum}
                   />
-                  <TopThreeHelpedChart />
+                  <TopThreeHelpedChart data={provideRank} />
                 </div>
               )}
             </div>
@@ -622,7 +629,7 @@ export const ProfilePage = observer(() => {
             <div>
               {menu === HelpMenu.PROVIDE ? (
                 <React.Fragment>
-                  {provides.length > 0 ? (
+                  {provides?.length > 0 ? (
                     <ProfilePageUserHelperListSection>
                       {provides.map((props) => (
                         <MyProvideList

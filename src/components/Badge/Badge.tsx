@@ -19,6 +19,11 @@ export const SuggestedBadge = styled.div`
   color: #ffff;
   justify-content: center;
   text-align: center;
+  font-size: 1.5rem;
+
+  ${mediaQueryLargeDesktop} {
+    font-size: 16px;
+  }
 
   ${mediaQuerySmallTablet} {
     width: 40px;
@@ -32,7 +37,8 @@ export const SuggestedBadge = styled.div`
 export const RankingBadge = styled.div<{ rankColor: string }>`
   display: flex;
   align-items: center;
-  height: 32px;
+  height: 43px;
+  line-height: 2;
   justify-content: center;
   background: ${(props) => props.rankColor};
   color: #ffff;
@@ -40,12 +46,13 @@ export const RankingBadge = styled.div<{ rankColor: string }>`
   max-width: max-content;
   padding: 0 10px;
   font-size: 1.5rem;
-  font-weight: 500;
+  font-weight: 700;
   position: relative;
   margin-top: 4px;
 
   ${mediaQueryLargeDesktop} {
     font-size: 18px;
+    height: 32px;
   }
 
   ${mediaQuerySmallTablet} {
@@ -54,5 +61,29 @@ export const RankingBadge = styled.div<{ rankColor: string }>`
     font-size: 16px;
     border-radius: 6px;
     margin-left: 14px;
+  }
+`;
+
+//status: 0 = hide, 1 = process, 2 = already
+export const RequestStatusBadge = styled.div<{ status?: number }>`
+  display: flex;
+  align-items: center;
+  height: 30px;
+  justify-content: center;
+  min-width: 60px;
+  width: 100%;
+  max-width: max-content;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  border: 1px solid ${(props) => (props.status === 2 ? 'green' : 'gray')};
+  background: ${(props) => (props.status === 2 ? 'green' : 'gray')};
+  color: #ffff;
+  padding: 0px 10px;
+  box-sizing: border-box;
+  margin-left: 8px;
+
+  ${mediaQueryLargeDesktop} {
+    font-size: 13px;
+    height: 26px;
   }
 `;

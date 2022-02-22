@@ -24,6 +24,7 @@ import {
   mediaQueryMobile,
   mediaQuerySmallTablet,
   MOBILE_WIDTH,
+  TABLET_WIDTH,
   mediaQueryTablet,
   mediaQueryLargeDesktop,
   mediaQueryExtraLargeDesktop,
@@ -149,9 +150,7 @@ const CategoryMenu = styled.div`
 
 export const HomePage = () => {
   const [searchValue, setSearchValue] = useState<string>();
-  // const [provides, setProvides] = useState<any[]>([]);
-  // const [requests, setRequests] = useState<any[]>([]);
-
+  const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const isSmallTablet = useMedia(`(max-width: ${SMALL_TABLET_WIDTH}px)`);
   const history = useHistory();
@@ -229,13 +228,6 @@ export const HomePage = () => {
     getProvides();
     getRequests();
   }, []);
-
-  // useEffect(() => {
-  //   if (provideData && requestData) {
-  //     setProvides(provideData);
-  //     setRequests(requestData);
-  //   }
-  // }, [provideData, requestData]);
 
   return (
     <HomePageContainer>
@@ -380,8 +372,9 @@ export const HomePage = () => {
                 >
                   {provides
                     ?.filter(
-                      ({ communityId, location }) =>
-                        !communityId === true &&
+                      ({ communityId, location, visibility }) =>
+                        Boolean(visibility) &&
+                        !Boolean(communityId) &&
                         (searchValue
                           ? location.name.includes(searchValue)
                           : true)
@@ -424,7 +417,7 @@ export const HomePage = () => {
             Top 10 การค้นหาติดอันดับ
           </Text>
           <TopTenSearchContainer>
-            {isMobile ? (
+            {isTablet ? (
               <div
                 css={css`
                   width: 100%;
@@ -540,8 +533,9 @@ export const HomePage = () => {
                 >
                   {provides
                     ?.filter(
-                      ({ communityId, location }) =>
-                        !communityId === true &&
+                      ({ communityId, location, visibility }) =>
+                        Boolean(visibility) &&
+                        !Boolean(communityId) &&
                         (searchValue
                           ? location.name.includes(searchValue)
                           : true)
@@ -614,10 +608,13 @@ export const HomePage = () => {
                   `}
                 >
                   {requests
-                    ?.filter(({ communityId, location }) =>
-                      !communityId === true && searchValue
-                        ? location.name.includes(searchValue)
-                        : true
+                    ?.filter(
+                      ({ communityId, location, visibility }) =>
+                        Boolean(visibility) &&
+                        !Boolean(communityId) &&
+                        (searchValue
+                          ? location.name.includes(searchValue)
+                          : true)
                     )
                     .map((items) => (
                       <SuggestedRequestSection key={items.id} data={[items]} />

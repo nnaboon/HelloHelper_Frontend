@@ -101,7 +101,7 @@ export const CommunityMemberContent = ({ member }: any) => {
 
   return (
     <div>
-      {member.map(({ id, role, username, imageUrl }) => (
+      {member.map(({ id, role, username, imageUrl, userId }) => (
         <CommunityMemberCard key={id}>
           <div
             css={css`
@@ -183,7 +183,7 @@ export const CommunityMemberContent = ({ member }: any) => {
                   style={{ marginLeft: 5 }}
                   onClick={() => {
                     history.push({
-                      pathname: `/profile/${id}`
+                      pathname: `/profile/${userId}`
                     });
                   }}
                 >

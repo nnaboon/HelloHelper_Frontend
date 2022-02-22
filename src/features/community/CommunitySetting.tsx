@@ -21,8 +21,12 @@ import { useCommunityMember } from 'hooks/community/useCommunityMember';
 import { useCommunityJoinedRequestUserId } from 'hooks/community/useCommunityJoinedRequestUserId';
 
 import { Loading } from 'components/Loading/Loading';
+import { useUpdateJoinedCommunityRequest } from 'hooks/community/useUpdateJoinedCommunityRequest';
+import { firestore } from '../../firebase';
 
 export const CommunitySetting = () => {
+  const [member, setMember] = useState<any[]>();
+  const [joinedRequestUserId, setJoinedRequestUserId] = useState<any[]>();
   const [menu, setMenu] = useState<CommunitySettingMenu>(
     CommunitySettingMenu.MANAGE
   );
@@ -32,9 +36,15 @@ export const CommunitySetting = () => {
   const currentMenu = ((state as any)?.community_menu ||
     CommunitySettingMenu.MANAGE) as CommunitySettingMenu;
   const { data: community, execute: getCommunity } = useCommunity();
-  const { data: member, execute: getCommunityMember } = useCommunityMember();
-  const { data: joinedRequestUserId, execute: getCommunityJoinedRequestId } =
-    useCommunityJoinedRequestUserId();
+  const { execute: getCommunityMember } = useCommunityMember();
+  const { execute: updateJoinedCommunityRequest } =
+    useUpdateJoinedCommunityRequest();
+  // const { data: joinedRequestUserId, execute: getCommunityJoinedRequestId } =
+  //   useCommunityJoinedRequestUserId();
+
+  useEffect(() => {
+    setMenu(currentMenu);
+  }, [currentMenu]);
 
   useEffect(() => {
     setMenu(currentMenu);
@@ -42,8 +52,13 @@ export const CommunitySetting = () => {
 
   useEffect(() => {
     if (!community && !member) {
-      getCommunity(query);
-      getCommunityMember(query);
+      getCommunity(query).then((res) => {
+        setJoinedRequestUserId(res.data.joinedRequestUserId);
+        setMember(res.data.member);
+      });
+      // getCommunityMember(query).then((res) => {
+      //   setMember(res.data);
+      // });
     }
   }, []);
 
@@ -57,14 +72,16 @@ export const CommunitySetting = () => {
       joinedRequestUserId: joinedRequestUserId
     };
 
-    getCommunityJoinedRequestId(data.communityId, user);
+    updateJoinedCommunityRequest(data.communityId, user).then((res) => {
+      setJoinedRequestUserId(res.data);
+    });
   };
 
-  useEffect(() => {
-    if (community && !joinedRequestUserId) {
-      getField(community);
-    }
-  }, [community, joinedRequestUserId]);
+  // useEffect(() => {
+  //   if (community && !joinedRequestUserId) {
+  //     getField(community);
+  //   }
+  // }, [community, joinedRequestUserId]);
 
   return (
     <WrapperContainer
@@ -110,10 +127,7 @@ export const CommunitySetting = () => {
         <div>
           {' '}
           {currentMenu === CommunitySettingMenu.MANAGE ? (
-            <CommunitySettingManageMember
-              member={community.member}
-              joinedRequest={community.joinedRequestUserId}
-            />
+            <CommunitySettingManageMember />
           ) : (
             <CommunitySettingEditProfile communityData={community} />
           )}

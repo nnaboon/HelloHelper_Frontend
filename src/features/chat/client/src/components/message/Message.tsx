@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
 import moment from 'moment';
 import Flex from 'components/Flex/Flex';
+import { Image } from 'antd';
 import { mediaQueryLargeDesktop, mediaQueryTablet } from 'styles/variables';
 
 interface MessageProps {
@@ -92,6 +93,19 @@ const MessageTextOwn = styled.p`
   }
 `;
 
+const MessageMediaOwn = styled(Image)`
+  color: white;
+  border-radius: 35px;
+  height: 450px;
+  width: 450px;
+
+  ${mediaQueryLargeDesktop} {
+    border-radius: 20px;
+    height: 250px;
+    width: 250px;
+  }
+`;
+
 const MessageText = styled.p`
   padding: 12px 20px;
   border-radius: 35px;
@@ -153,13 +167,17 @@ export default function Message({
                     {moment(message.createdAt).format('HH:MM')}
                   </MessageTiming>
                 </Flex>{' '}
-                <MessageTextOwn
-                  css={css`
-                    z-index: 2;
-                  `}
-                >
-                  {message.messageText}
-                </MessageTextOwn>{' '}
+                {message.media ? (
+                  <MessageMediaOwn src={message.media} alt="message media" />
+                ) : (
+                  <MessageTextOwn
+                    css={css`
+                      z-index: 2;
+                    `}
+                  >
+                    {message.messageText}
+                  </MessageTextOwn>
+                )}
               </Flex>
             ) : (
               <Flex itemAlign="flex-end">
@@ -168,7 +186,17 @@ export default function Message({
                     {moment(message.createdAt).format('HH:MM')}
                   </MessageTiming>
                 </Flex>{' '}
-                <MessageTextOwn>{message.messageText}</MessageTextOwn>{' '}
+                {message.media ? (
+                  <MessageMediaOwn src={message.media} alt="message media" />
+                ) : (
+                  <MessageTextOwn
+                    css={css`
+                      z-index: 2;
+                    `}
+                  >
+                    {message.messageText}
+                  </MessageTextOwn>
+                )}
               </Flex>
             )}
           </MessageTop>
@@ -179,7 +207,17 @@ export default function Message({
             <MessageImg src={anotherUserImg} alt="chat user avatar" />
 
             <Flex itemAlign="flex-end">
-              <MessageText>{message.messageText}</MessageText>{' '}
+              {message.media ? (
+                <MessageMediaOwn src={message.media} alt="message media" />
+              ) : (
+                <MessageText
+                  css={css`
+                    z-index: 2;
+                  `}
+                >
+                  {message.messageText}
+                </MessageText>
+              )}
               <MessageTiming
                 css={css`
                   margin-left: 10px;

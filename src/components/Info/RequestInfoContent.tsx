@@ -30,13 +30,14 @@ import {
 } from 'styles/variables';
 import { InfoMenuTab } from 'components/Menu/InfoMenuTab';
 import { RANK_BADGE } from 'components/Badge/const';
-import { RankingBadge } from 'components/Badge/Badge';
+import { RankingBadge, RequestStatusBadge } from 'components/Badge/Badge';
 import { SuggestedBadge } from 'components/Badge/Badge';
 
 import { useUser } from 'hooks/user/useUser';
 import { useProvides } from 'hooks/provide/useProvides';
 import { useRequest } from 'hooks/request/useRequest';
 import { useAddRequesterUser } from 'hooks/request/useAddRequesterUser';
+import { useUpdateRequest } from 'hooks/request/useUpdateRequest';
 
 import { userStore } from 'store/userStore';
 
@@ -156,6 +157,7 @@ const RequestDetail = styled.div`
     font-size: 24px;
     min-width: 200px;
     line-height: 31px;
+    min-width: max-content;
   }
 
   ${mediaQueryMobile} {
@@ -230,6 +232,7 @@ const UserProfileImageContainer = styled.div`
 
 export const RequestInfoContent = observer(({ data }: any) => {
   const [menu, setMenu] = useState<InfoMenu>(InfoMenu.INFO);
+  const [request, setRequest] = useState<any>();
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const history = useHistory();
   const { pathname, state } = useLocation();
@@ -238,7 +241,8 @@ export const RequestInfoContent = observer(({ data }: any) => {
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
   const { data: user, execute: getUser } = useUser();
-  const { data: request, execute: getRequest } = useRequest();
+  const { execute: getRequest } = useRequest();
+  const { execute: updateRequest } = useUpdateRequest();
   const { execute: addRequesterUserId } = useAddRequesterUser();
 
   const { data: provides, execute: getProvides } = useProvides();
@@ -262,10 +266,39 @@ export const RequestInfoContent = observer(({ data }: any) => {
         </MenuItemContainer>
       </Menu.Item>
       <Menu.Item key="2">
-        <MenuItemContainer>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+          onClick={() => {
+            if (request.visibility === 0) {
+              updateRequest(query, {
+                userId: window.localStorage.getItem('id'),
+                visibility: 1
+              })
+                .then((res) => {
+                  message.success('สำเร็จ');
+                  setRequest(res.data);
+                })
+                .catch((error) => message.error('ไม่สำเร็จ'));
+            } else {
+              updateRequest(query, {
+                userId: window.localStorage.getItem('id'),
+                visibility: 0
+              })
+                .then((res) => {
+                  message.success('สำเร็จ');
+                  setRequest(res.data);
+                })
+                .catch((error) => message.error('ไม่สำเร็จ'));
+            }
+          }}
+        >
           <EyeOffSvg style={{ marginRight: '18px' }} />
-          <div>ซ่อน</div>
-        </MenuItemContainer>
+          <div>{Boolean(request?.visibility) ? 'ซ่อน' : 'เลิกซ่อน'}</div>
+        </div>
       </Menu.Item>
       <Menu.Item key="3">
         <MenuItemContainer>
@@ -282,7 +315,9 @@ export const RequestInfoContent = observer(({ data }: any) => {
 
   useEffect(() => {
     getProvides();
-    getRequest(query);
+    getRequest(query).then((res) => {
+      setRequest(res.data);
+    });
   }, []);
 
   useEffect(() => {
@@ -434,7 +469,29 @@ export const RequestInfoContent = observer(({ data }: any) => {
                   >
                     <RequestInfoContainer>
                       <RequestTitle>ชื่อ</RequestTitle>
-                      <RequestDetail>{request.title}</RequestDetail>
+                      <Flex>
+                        <RequestDetail>{request.title}</RequestDetail>
+                        {(request.providedUserId.length > 0 ||
+                          !Boolean(request.visibility)) && (
+                          <RequestStatusBadge
+                            status={
+                              request.providedUserId.length > 0
+                                ? 2
+                                : Boolean(request.visibility)
+                                ? undefined
+                                : 0
+                            }
+                          >
+                            {request.providedUserId.length > 0 &&
+                            Boolean(request.visibility)
+                              ? 'ช่วยเหลือแล้ว'
+                              : !Boolean(request.visibility)
+                              ? 'ซ่อน'
+                              : null}
+                          </RequestStatusBadge>
+                        )}
+                      </Flex>
+
                       <RequestTitle>สถานที่ให้ความข่วยเหลือ</RequestTitle>
                       <RequestDetail>{request.location.name}</RequestDetail>
                       <React.Fragment>
@@ -778,6 +835,7 @@ export const RequestInfoContent = observer(({ data }: any) => {
           <RequestFormModal
             visible={isModalVisible}
             onClose={() => setIsModalVisible(false)}
+            setUpdateData={setRequest}
             requestData={{
               ...request,
               type: 'request'

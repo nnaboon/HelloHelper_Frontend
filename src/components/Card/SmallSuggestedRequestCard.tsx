@@ -75,6 +75,7 @@ const RequestTitle = styled.div`
   font-weight: 800;
   font-size: 2rem;
   margin-bottom: 10px;
+  word-break: break-word;
 
   ${mediaQueryLargeDesktop} {
     font-size: 1.5rem;

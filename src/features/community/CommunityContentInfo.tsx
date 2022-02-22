@@ -35,6 +35,7 @@ import { CommunityRequestContent } from './CommunityRequestContent';
 import { useCommunity } from 'hooks/community/useCommunity';
 import { useCommunityMember } from 'hooks/community/useCommunityMember';
 import { Loading } from 'components/Loading/Loading';
+import { firestore } from '../../firebase';
 
 const ProfilePageUserHelperListSection = styled.div`
   width: 100%;
@@ -233,13 +234,29 @@ export const CommunityContentInfo = observer(({ data }: any) => {
   );
 
   useEffect(() => {
+    const doc = firestore.collection('communities');
+
+    const observer = doc.onSnapshot(
+      (docSnapshot) => {
+        getCommunity(query ?? selectedCommunity);
+      },
+      (err) => {
+        console.log(`Encountered error: ${err}`);
+      }
+    );
+
+    //remember to unsubscribe from your realtime listener on unmount or you will create a memory leak
+    return () => observer();
+  }, []);
+
+  useEffect(() => {
     setMenu(currentMenu);
   }, [currentMenu]);
 
   useEffect(() => {
     if (selectedCommunity) {
       getCommunity(query ?? selectedCommunity);
-      getCommunityMember(query);
+      // getCommunityMember(query);
     }
   }, [selectedCommunity, query]);
 
@@ -261,12 +278,14 @@ export const CommunityContentInfo = observer(({ data }: any) => {
         }
       `}
     >
-      {community && member ? (
+      {community ? (
         <React.Fragment>
+          {' '}
+          {console.log(community)}
           <ProfilePageUserInfoSection>
             <UserCard>
-              {member.filter(
-                ({ id }) => id === window.localStorage.getItem('id')
+              {community?.member.filter(
+                ({ userId }) => userId === window.localStorage.getItem('id')
               )[0].role === 1 && (
                 <SettingSvg
                   style={{
@@ -532,7 +551,7 @@ export const CommunityContentInfo = observer(({ data }: any) => {
           <ProfilePageUserHelperListSection>
             {menu === CommunityMenu.MEMBER ? (
               <div>
-                <CommunityMemberContent member={member} />
+                <CommunityMemberContent member={community.member} />
               </div>
             ) : (
               <div>

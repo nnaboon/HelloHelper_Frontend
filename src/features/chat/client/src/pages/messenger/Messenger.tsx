@@ -11,7 +11,8 @@ import { WaitingToConfirmOrders } from '../../components/waitingToConfirmOrders/
 import { userStore } from 'store/userStore';
 import { Loading } from 'components/Loading/Loading';
 import { WrapperContainer } from 'components/Wrapper/WrapperContainer';
-import { Modal } from 'antd';
+import { Modal, Upload, message } from 'antd';
+import Flex from 'components/Flex/Flex';
 import { OrderForm } from 'components/Form/OrderForm';
 import { useChats } from 'hooks/chat/useChats';
 import { useUser } from 'hooks/user/useUser';
@@ -25,8 +26,10 @@ import {
   LARGE_DESKTOP_WIDTH,
   mediaQueryLargeDesktop
 } from 'styles/variables';
+import { PictureOutlined } from '@ant-design/icons';
 import { useAddMessage } from 'hooks/chat/useAddMessage';
 import { useUpdateReadStatus } from 'hooks/chat/useUpdateReadStatus';
+import { useUploadMediaMessage } from 'hooks/chat/useUploadMediaMessage';
 import { firestore } from '../../../../../../firebase';
 
 const ChatMenu = styled.div`
@@ -184,7 +187,7 @@ const RequestForm = styled.div`
 `;
 
 const ChatBoxBottom = styled.div`
-  margin-top: 5px;
+  margin-top: 15px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -219,6 +222,7 @@ export const Messenger = observer(() => {
   const { execute: getChats } = useChats();
   const { data: user, execute: getUser } = useUser();
   const { execute: addMessage } = useAddMessage();
+  const { execute: uploadMedia } = useUploadMediaMessage();
 
   const scrollRef = useRef(null);
   const { me } = userStore;
@@ -253,6 +257,29 @@ export const Messenger = observer(() => {
     }
   };
 
+  const handleChange = (info) => {
+    var formData = new FormData();
+    formData.append('img', info.file.originFileObj);
+
+    if (info.file.status === 'error') {
+      uploadMedia(formData)
+        .then((res) => {
+          const message = {
+            senderUserId: me.userId,
+            receiverUserId: user?.userId,
+            media: res.data
+          };
+
+          addMessage(query, message).then((res) => {
+            setMessages(res.data);
+          });
+        })
+        .catch((error) => {
+          message.error('อัปโหลดรูปไม่สำเร็จ');
+        });
+    }
+  };
+
   useEffect(() => {
     if (state) {
       setIsModalVisible(true);
@@ -279,11 +306,11 @@ export const Messenger = observer(() => {
     );
 
     setChats(entities);
-    //remember to unsubscribe from your realtime listener on unmount or you will create a memory leak
     return () => observer();
   }, []);
 
   useEffect(() => {
+    console.log(chats);
     if (query && chats?.length > 0) {
       const messages =
         chats.length > 0
@@ -326,7 +353,9 @@ export const Messenger = observer(() => {
                       setCurrentChat(c);
                       history.push(`/chat/${c.chatId}`);
 
-                      updateReadStatus(c.chatId, { senderUserId: me.userId });
+                      updateReadStatus(c.chatId, {
+                        senderUserId: me.userId
+                      });
                     }}
                   >
                     <Conversation conversation={c} currentUser={me} />
@@ -370,9 +399,9 @@ export const Messenger = observer(() => {
                           <Message
                             message={m}
                             anotherUserImg={user.imageUrl}
-                            own={
+                            own={Boolean(
                               m.createdBy === window.localStorage.getItem('id')
-                            }
+                            )}
                             css={css`
                               z-index: 2;
                             `}
@@ -389,9 +418,27 @@ export const Messenger = observer(() => {
                         onChange={(e) => setNewMessage(e.target.value)}
                         value={newMessage}
                       ></ChatMessageInput>
-                      <ChatSubmitButton onClick={handleSubmit}>
-                        Send
-                      </ChatSubmitButton>
+                      <Flex itemAlign="center" width="20%" justify="center">
+                        <Upload showUploadList={false} onChange={handleChange}>
+                          <PictureOutlined
+                            css={css`
+                              font-size: 2.5rem;
+                              margin-right: 15px;
+
+                              ${mediaQueryLargeDesktop} {
+                                font-size: 32px;
+                              }
+
+                              ${mediaQueryMobile} {
+                                font-size: 16px;
+                              }
+                            `}
+                          />
+                        </Upload>
+                        <ChatSubmitButton onClick={handleSubmit}>
+                          Send
+                        </ChatSubmitButton>
+                      </Flex>
                     </ChatBoxBottom>
                   </React.Fragment>
                 ) : (

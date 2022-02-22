@@ -6,6 +6,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import Flex from 'components/Flex/Flex';
 import { SecondaryButton } from 'components/Button/Button';
+import { RequestStatusBadge } from 'components/Badge/Badge';
 import { Rate, Skeleton } from 'antd';
 import {
   mediaQueryMobile,
@@ -141,7 +142,20 @@ export const MyProvideList = ({ data, user }: MyProvideListProps) => {
     >
       {user ? (
         <Flex direction="column" justify="flex-start" itemAlign="flex-start">
-          <HelperListTitle>{data.title}</HelperListTitle>
+          <Flex>
+            <HelperListTitle>{data.title}</HelperListTitle>{' '}
+            {!Boolean(data.visibility) && (
+              <RequestStatusBadge
+                status={0}
+                css={css`
+                  margin-bottom: 8px;
+                `}
+              >
+                ซ่อน
+              </RequestStatusBadge>
+            )}
+          </Flex>
+
           <Flex marginY="8px">
             <HelperListHeading>ผู้ให้ความช่วยเหลือ</HelperListHeading>
             <HelperListDetail>{user.username}</HelperListDetail>

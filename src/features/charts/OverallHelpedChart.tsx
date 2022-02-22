@@ -4,7 +4,12 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
 import ReactECharts from 'echarts-for-react';
-import { useMedia, MOBILE_WIDTH, TABLET_WIDTH } from 'styles/variables';
+import {
+  useMedia,
+  MOBILE_WIDTH,
+  TABLET_WIDTH,
+  LARGE_DESKTOP_WIDTH
+} from 'styles/variables';
 
 interface OverallHelpedChartProps {
   provideSum?: number;
@@ -17,6 +22,7 @@ export const OverallHelpedChart = ({
 }: OverallHelpedChartProps) => {
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
+  const isLargeDesktop = useMedia(`(max-width: ${LARGE_DESKTOP_WIDTH}px)`);
 
   const option = {
     tooltip: {
@@ -31,9 +37,27 @@ export const OverallHelpedChart = ({
         name: 'Access From',
         type: 'pie',
         radius: '50%',
+        label: {
+          fontSize: isLargeDesktop ? 14 : '1.8rem'
+        },
         data: [
-          { value: provideSum, name: 'การให้ความช่วยเหลือ' },
-          { value: requestSum, name: 'การขอความช่วยเหลือ' }
+          {
+            value: provideSum,
+            itemStyle: { color: '#f86800' },
+
+            label: {
+              fontSize: isLargeDesktop ? 14 : '1.4rem'
+            },
+            name: 'การให้ความช่วยเหลือ'
+          },
+          {
+            value: requestSum,
+            itemStyle: { color: '#0053d9' },
+            label: {
+              fontSize: isLargeDesktop ? 14 : '1.4rem'
+            },
+            name: 'การขอความช่วยเหลือ'
+          }
         ],
         emphasis: {
           itemStyle: {
@@ -50,7 +74,10 @@ export const OverallHelpedChart = ({
     <div>
       <ReactECharts
         option={option}
-        style={{ width: isTablet ? '100%' : '800px', height: '300px' }}
+        style={{
+          width: isLargeDesktop ? (isTablet ? '100%' : '800px') : '1000px',
+          height: isLargeDesktop ? (isTablet ? '100%' : '300px') : '600px'
+        }}
       />
     </div>
   );

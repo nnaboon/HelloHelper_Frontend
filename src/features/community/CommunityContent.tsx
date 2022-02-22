@@ -16,7 +16,7 @@ export const CommunityContent = observer(() => {
   const { me } = userStore;
   const currentMenu = ((state as any)?.menuKey ||
     CommunityMenu.PROVIDE) as CommunityMenu;
-  const { data: community, execute: getMyCommunity } = useMyCommunity();
+  const { data: myCommunity, execute: getMyCommunity } = useMyCommunity();
 
   useEffect(() => {
     setMenu(currentMenu);
@@ -32,10 +32,10 @@ export const CommunityContent = observer(() => {
     <React.Fragment>
       {me ? (
         me.communityId ? (
-          community ? (
+          myCommunity ? (
             pathname.split('/')[1] === 'community' &&
             pathname.split('/')[2] !== undefined ? (
-              <CommunityContentInfo data={community} />
+              <CommunityContentInfo data={myCommunity} />
             ) : (
               <CommunitySignin />
             )
