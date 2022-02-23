@@ -13,6 +13,7 @@ import { RequestFormModal } from 'components/Form/RequestForm';
 import { PrimaryButton, SecondaryButton } from 'components/Button/Button';
 import { HelperListCard } from 'components/Card/HelperListCard';
 import { SmallSuggestedRequestCard } from 'components/Card/SmallSuggestedRequestCard';
+import { PopularRequestSection } from 'components/Card/PopularRequestCard';
 import { InfoMenu } from 'components/Menu/const';
 import { Loading } from 'components/Loading/Loading';
 import DefaultImage from 'images/default.png';
@@ -21,6 +22,7 @@ import {
   useMedia,
   MOBILE_WIDTH,
   TABLET_WIDTH,
+  SMALL_TABLET_WIDTH,
   mediaQueryMobile,
   mediaQueryDesktop,
   mediaQueryLargeDesktop,
@@ -64,6 +66,7 @@ const RequestImageSection = styled.img`
     width: 100%;
     justify-self: center;
     align-self: center;
+    height: 450px;
   }
 
   ${mediaQueryMobile} {
@@ -122,9 +125,14 @@ const HelperImage = styled.img`
   margin-top: 5px;
   object-fit: cover;
 
+  ${mediaQueryLargeDesktop} {
+    width: 80px;
+    height: 80px;
+  }
+
   ${mediaQueryMobile} {
-    width: 65px;
-    height: 65px;
+    width: 55px;
+    height: 55px;
   }
 `;
 
@@ -136,6 +144,10 @@ const UserName = styled.div`
   margin-right: 30px;
   min-width: 140px;
   width: max-content;
+
+  ${mediaQueryLargeDesktop} {
+    font-size: 22px;
+  }
 
   ${mediaQueryMobile} {
     min-width: max-content;
@@ -157,6 +169,10 @@ const RequestDetail = styled.div`
     font-size: 24px;
     min-width: 200px;
     line-height: 31px;
+    min-width: max-content;
+  }
+
+  ${mediaQueryTablet} {
     min-width: max-content;
   }
 
@@ -240,6 +256,8 @@ export const RequestInfoContent = observer(({ data }: any) => {
   const currentMenu = ((state as any)?.info_menu || InfoMenu.INFO) as InfoMenu;
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
+
+  const isSmallTablet = useMedia(`(max-width: ${SMALL_TABLET_WIDTH}px)`);
   const { data: user, execute: getUser } = useUser();
   const { execute: getRequest } = useRequest();
   const { execute: updateRequest } = useUpdateRequest();
@@ -336,11 +354,7 @@ export const RequestInfoContent = observer(({ data }: any) => {
               overflow-x: hidden;
 
               ${mediaQueryTablet} {
-                height: calc(100vh - 140px);
-              }
-
-              ${mediaQueryMobile} {
-                height: calc(100vh - 190px);
+                height: 100%;
               }
             `}
           >
@@ -526,6 +540,7 @@ export const RequestInfoContent = observer(({ data }: any) => {
                           ${mediaQueryTablet} {
                             width: 100%;
                             max-width: 100%;
+                            bottom: 0;
                           }
 
                           ${mediaQueryMobile} {
@@ -571,6 +586,8 @@ export const RequestInfoContent = observer(({ data }: any) => {
                           ${mediaQueryTablet} {
                             width: 100%;
                             max-width: 100%;
+                            bottom: 0;
+                            margin-left: 0;
                           }
 
                           ${mediaQueryMobile} {
@@ -606,7 +623,13 @@ export const RequestInfoContent = observer(({ data }: any) => {
                     )}
                   </Flex>
                 </div>
-                <UserProfileCard>
+                <UserProfileCard
+                  onClick={() => {
+                    history.push({
+                      pathname: `/profile/${request.userId}`
+                    });
+                  }}
+                >
                   <div style={{ display: 'flex' }}>
                     <UserProfileImageContainer>
                       <HelperImage
@@ -703,7 +726,7 @@ export const RequestInfoContent = observer(({ data }: any) => {
                           grid-template-columns: repeat(2, 1fr);
                         }
 
-                        ${mediaQueryTablet} {
+                        ${mediaQueryMobile} {
                           display: flex;
                           flex-direction: column;
                           width: 100%;
@@ -720,12 +743,18 @@ export const RequestInfoContent = observer(({ data }: any) => {
                         }
                       `}
                     >
-                      <SmallSuggestedRequestCard data={[provides[1]]} />
+                      {/* <SmallSuggestedRequestCard data={[provides[1]]} />
                       <SmallSuggestedRequestCard data={[provides[2]]} />
                       <SmallSuggestedRequestCard data={[provides[0]]} />
                       <SmallSuggestedRequestCard data={[provides[3]]} />
                       <SmallSuggestedRequestCard data={[provides[4]]} />
-                      <SmallSuggestedRequestCard data={[provides[5]]} />
+                      <SmallSuggestedRequestCard data={[provides[5]]} /> */}
+                      <PopularRequestSection data={[provides[1]]} />
+                      <PopularRequestSection data={[provides[2]]} />
+                      <PopularRequestSection data={[provides[0]]} />
+                      <PopularRequestSection data={[provides[3]]} />
+                      <PopularRequestSection data={[provides[4]]} />
+                      <PopularRequestSection data={[provides[5]]} />
                     </div>
                   </div>
                 ) : (
@@ -763,7 +792,7 @@ export const RequestInfoContent = observer(({ data }: any) => {
                           flexDirection: 'column',
                           justifyContent: 'flex-start',
                           alignItems: 'flex-start',
-                          marginTop: isTablet ? '20px' : '40px'
+                          marginTop: isTablet ? '0px' : '40px'
                         }}
                         css={css`
                           width: unset;
@@ -803,7 +832,9 @@ export const RequestInfoContent = observer(({ data }: any) => {
                             )}
                           </React.Fragment>
                         ) : (
-                          <EmptyData />
+                          <EmptyData
+                            height={isSmallTablet ? '300px' : undefined}
+                          />
                         )}
                       </div>
                       {isTablet && (
@@ -819,21 +850,36 @@ export const RequestInfoContent = observer(({ data }: any) => {
                           คุณอาจจะสนใจสิ่งนี้
                         </Divider>
                       )}
-                      <Flex
-                        direction="column"
-                        itemAlign={isTablet ? 'center' : 'flex-end'}
+                      <div
                         css={css`
-                          width: unset;
-                          ${mediaQueryDesktop} {
+                          display: flex;
+                          flex-direction: column;
+                          width: 100%;
+                          align-items: center;
+
+                          ${mediaQueryTablet} {
+                            display: grid;
+                            grid-template-columns: repeat(2, 1fr);
+                            grid-gap: 2rem;
+                          }
+
+                          ${mediaQueryMobile} {
+                            display: flex;
+                            flex-direction: column;
                             width: 100%;
+                            align-items: center;
                           }
                         `}
                       >
-                        <SmallSuggestedRequestCard data={[provides[1]]} />
+                        {/* <SmallSuggestedRequestCard data={[provides[1]]} />
                         <SmallSuggestedRequestCard data={[provides[2]]} />
                         <SmallSuggestedRequestCard data={[provides[0]]} />
-                        <SmallSuggestedRequestCard data={[provides[3]]} />
-                      </Flex>
+                        <SmallSuggestedRequestCard data={[provides[3]]} /> */}
+                        <PopularRequestSection data={[provides[1]]} />
+                        <PopularRequestSection data={[provides[2]]} />
+                        <PopularRequestSection data={[provides[0]]} />
+                        <PopularRequestSection data={[provides[3]]} />
+                      </div>
                     </Flex>
                   </div>
                 )}

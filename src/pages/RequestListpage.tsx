@@ -62,10 +62,6 @@ export const RequestListPage = observer(() => {
               ${mediaQueryTablet} {
                 font-size: 20px;
               }
-
-              ${mediaQueryMobile} {
-                font-size: 16px;
-              }
             `}
           >
             รายการขอความช่วยเหลือของฉัน ทั้งหมด{' '}

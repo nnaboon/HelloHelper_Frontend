@@ -50,14 +50,12 @@ const ProfilePageContainer = styled.div`
   padding: 40px 100px;
 
   ${mediaQueryTablet} {
-    padding: 40px 50px;
+    padding: 40px;
+    top: 80px;
   }
 
   ${mediaQueryMobile} {
-    height: calc(100vh - 95px);
     padding: 30px 20px 50px 20px;
-    top: 95px;
-    overflow-y: scroll;
   }
 `;
 
@@ -137,6 +135,11 @@ const HelperImageSection = styled.img`
     width: 120px;
     height: 120px;
   }
+  ${mediaQueryTablet} {
+    width: 110px;
+    height: 110px;
+  }
+
   ${mediaQueryMobile} {
     width: 100px;
     height: 100px;
@@ -381,6 +384,10 @@ export const ProfilePage = observer(() => {
                         bottom: 8px;
                         left: -9px;
 
+                        ${mediaQueryTablet} {
+                          left: 0;
+                        }
+
                         ${mediaQueryMobile} {
                           left: 0;
                           justify-content: space-between;
@@ -398,6 +405,10 @@ export const ProfilePage = observer(() => {
                           ${mediaQueryLargeDesktop} {
                             font-size: 18px;
                             height: 40px;
+                          }
+
+                          ${mediaQueryTablet} {
+                            margin: 0;
                           }
 
                           ${mediaQueryMobile} {

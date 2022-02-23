@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { observer } from 'mobx-react-lite';
 import { useHistory } from 'react-router-dom';
+import Flex from 'components/Flex/Flex';
 import { Button, Form, Input, message } from 'antd';
 import { UserCreateBody } from './const';
 import { FormRule, getRule } from 'utils/form/getRule';
@@ -28,6 +29,7 @@ const RegisterAccountFormSection = styled.div`
   display: flex;
   flex-direction: column;
   padding: 2.55rem 2.75rem 1.5rem 2.75rem;
+  height: 100%;
 
   ${mediaQueryMobile} {
     padding: 0;
@@ -150,6 +152,9 @@ export const RegisterAccountForm = observer(
           onFinish={onFinish}
           autoComplete="off"
           css={css`
+            position: relative;
+            height: 100%;
+
             .ant-form-item-control-input {
               width: 100%;
             }
@@ -283,77 +288,74 @@ export const RegisterAccountForm = observer(
               `}
             />
           </Form.Item>
-          <div
+          <Flex
+            justify="space-between"
             css={css`
               position: absolute;
-              bottom: 30px;
-              left: 64px;
-              font-size: 1.3rem;
-
-              ${mediaQueryLargeDesktop} {
-                font-size: 14px;
-              }
-
-              ${mediaQueryMobile} {
-                left: 0px;
-              }
+              bottom: 0;
             `}
           >
-            มีบัญชีผู้ใช้แล้ว{' '}
-            <span
-              style={{
-                color: '#F86800',
-                textDecoration: 'underline',
-                cursor: 'pointer'
-              }}
-              onClick={() => setProcessStep(LoginStep.LOGIN)}
+            <div
+              css={css`
+                // position: absolute;
+                bottom: 30px;
+                left: 64px;
+                font-size: 1.3rem;
+
+                ${mediaQueryLargeDesktop} {
+                  font-size: 14px;
+                }
+
+                ${mediaQueryMobile} {
+                  left: 0px;
+                }
+              `}
             >
-              เข้าสู่ระบบ
-            </span>
-          </div>
-          {/* <div
-            css={css`
-              position: relative;
-              width: 100%;
-              height: 100%;
-              display: flex;
-              align-items: flex-end;
-              justify-content: flex-end;
-            `}
-          > */}
-          <Button
-            type="primary"
-            htmlType="submit"
-            css={css`
-              width: 106px;
-              height: 50px;
-              font-size: 1.5rem;
-              box-sizing: border-box;
-              background: #ee6400;
-              border-radius: 9px;
-              border: 0;
-              bottom: 20px;
-              right: 64px;
-              color: #ffff;
-              position: absolute;
-
-              &:hover {
+              มีบัญชีผู้ใช้แล้ว{' '}
+              <span
+                style={{
+                  color: '#F86800',
+                  textDecoration: 'underline',
+                  cursor: 'pointer'
+                }}
+                onClick={() => setProcessStep(LoginStep.LOGIN)}
+              >
+                เข้าสู่ระบบ
+              </span>
+            </div>
+            <Button
+              type="primary"
+              htmlType="submit"
+              css={css`
+                width: 106px;
+                height: 50px;
+                font-size: 1.5rem;
+                box-sizing: border-box;
                 background: #ee6400;
-              }
+                border-radius: 9px;
+                border: 0;
+                bottom: 0;
+                right: 0;
+                color: #ffff;
+                // position: absolute;
 
-              ${mediaQueryLargeDesktop} {
-                height: 40px;
-                font-size: 16px;
-              }
+                &:hover {
+                  background: #ee6400;
+                }
 
-              ${mediaQueryMobile} {
-                right: -5px;
-              }
-            `}
-          >
-            ถัดไป
-          </Button>
-          {/* </div> */}
+                ${mediaQueryLargeDesktop} {
+                  height: 40px;
+                  font-size: 16px;
+                }
+
+                ${mediaQueryMobile} {
+                  right: -5px;
+                }
+              `}
+            >
+              ถัดไป
+            </Button>
+          </Flex>
         </Form>
       </RegisterAccountFormSection>
     );

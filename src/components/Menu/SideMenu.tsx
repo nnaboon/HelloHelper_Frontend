@@ -42,7 +42,6 @@ export const SideMenu = observer(
         style={{
           height: '100%',
           width: '100%',
-          position: 'absolute',
           zIndex: 5
         }}
         css={css`
@@ -61,15 +60,13 @@ export const SideMenu = observer(
         <div
           onClick={toggleCollapsed}
           style={{
-            marginTop: 32,
             marginLeft: 20,
-            marginBottom: 15,
             width: '50px'
           }}
           css={css`
             ${mediaQuerySmallTablet} {
               position: relative;
-              top: 35px;
+              // top: 35px;
             }
 
             ${mediaQueryMobile} {
@@ -85,7 +82,7 @@ export const SideMenu = observer(
           theme="dark"
           inlineCollapsed={collapsed}
           style={{
-            visibility: !collapsed ? 'visible' : 'hidden',
+            display: !collapsed ? 'block' : 'none',
             overflowY: 'scroll',
             width: '100%'
           }}

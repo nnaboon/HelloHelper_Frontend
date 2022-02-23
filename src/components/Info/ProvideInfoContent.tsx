@@ -53,6 +53,7 @@ const ProvideImageSection = styled.img`
     width: 100%;
     justify-self: center;
     align-self: center;
+    height: 450px;
   }
 
   ${mediaQuerySmallTablet} {
@@ -77,6 +78,10 @@ const ProvideCategoryButton = styled(PrimaryButton)`
   ${mediaQueryLargeDesktop} {
     height: 40px;
     font-size: 16px;
+  }
+
+  ${mediaQueryTablet} {
+    margin: 10px 0;
   }
 `;
 
@@ -147,6 +152,10 @@ const ProvideDetail = styled.div`
     line-height: 31px;
   }
 
+  ${mediaQueryTablet} {
+    min-width: max-content;
+  }
+
   ${mediaQueryMobile} {
     font-size: 16px;
   }
@@ -183,8 +192,8 @@ const HelperImage = styled.img`
   }
 
   ${mediaQueryMobile} {
-    width: 65px;
-    height: 65px;
+    width: 55px;
+    height: 55px;
   }
 `;
 
@@ -198,7 +207,7 @@ const UserName = styled.div`
   width: max-content;
 
   ${mediaQueryLargeDesktop} {
-    font-size: 20px;
+    font-size: 22px;
   }
 
   ${mediaQueryMobile} {
@@ -325,11 +334,7 @@ export const ProvideInfoContent = observer(({ data }: any) => {
               overflow-y: scroll;
 
               ${mediaQueryTablet} {
-                height: calc(100vh - 200px);
-              }
-
-              ${mediaQueryMobile} {
-                height: calc(100vh - 190px);
+                height: 100%;
               }
             `}
           >
@@ -540,7 +545,13 @@ export const ProvideInfoContent = observer(({ data }: any) => {
               </Flex>
             </div>
             <Divider />
-            <ProvideUserCard>
+            <ProvideUserCard
+              onClick={() => {
+                history.push({
+                  pathname: `/profile/${provide?.userId}`
+                });
+              }}
+            >
               <div style={{ display: 'flex' }}>
                 <div
                   css={css`

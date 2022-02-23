@@ -87,14 +87,15 @@ export const CommunitySetting = () => {
     <WrapperContainer
       css={css`
         height: 100%;
-        ${mediaQueryMobile} {
-          height: calc(100vh - 180px);
-        }
       `}
     >
       <Flex
         css={css`
           cursor: pointer;
+
+          ${mediaQueryMobile} {
+            margin-bottom: 20px;
+          }
         `}
         onClick={() => {
           history.push(`/community/${query}`);

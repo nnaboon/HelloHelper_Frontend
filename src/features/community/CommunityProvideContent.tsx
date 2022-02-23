@@ -11,6 +11,7 @@ import {
   useMedia,
   MOBILE_WIDTH,
   mediaQueryMobile,
+  mediaQueryTablet,
   mediaQueryLargeDesktop
 } from 'styles/variables';
 import { useCommunityProvide } from 'hooks/community/useCommunityProvide';
@@ -82,11 +83,17 @@ export const CommunityProvideContent = ({
         marginY="10px"
         css={css`
           font-size: 2.5rem;
+
           ${mediaQueryLargeDesktop} {
             font-size: 2rem;
           }
+
+          ${mediaQueryTablet} {
+            font-size: 1.7rem;
+          }
+
           ${mediaQueryMobile} {
-            font-size: 24px;
+            font-size: 20px;
           }
         `}
       >
@@ -113,7 +120,7 @@ export const CommunityProvideContent = ({
           provides.length > 0 ? (
             provides.map((items) => <PopularRequestSection data={[items]} />)
           ) : (
-            <EmptyData height="375px" />
+            <EmptyData height={isMobile ? '200px' : '375px'} />
           )
         ) : (
           <Loading height="375px" />
@@ -125,11 +132,17 @@ export const CommunityProvideContent = ({
         marginY="10px"
         css={css`
           font-size: 2.5rem;
+
           ${mediaQueryLargeDesktop} {
             font-size: 2rem;
           }
+
+          ${mediaQueryTablet} {
+            font-size: 1.7rem;
+          }
+
           ${mediaQueryMobile} {
-            font-size: 24px;
+            font-size: 20px;
           }
         `}
       >
@@ -157,7 +170,7 @@ export const CommunityProvideContent = ({
           provides.length > 0 ? (
             provides.map((items) => <PopularRequestSection data={[items]} />)
           ) : (
-            <EmptyData height="375px" />
+            <EmptyData height={isMobile ? '200px' : '375px'} />
           )
         ) : (
           <Loading height="375px" />
@@ -169,11 +182,17 @@ export const CommunityProvideContent = ({
         marginY="10px"
         css={css`
           font-size: 2.5rem;
+
           ${mediaQueryLargeDesktop} {
             font-size: 2rem;
           }
+
+          ${mediaQueryTablet} {
+            font-size: 1.7rem;
+          }
+
           ${mediaQueryMobile} {
-            font-size: 24px;
+            font-size: 20px;
           }
         `}
       >
@@ -191,7 +210,7 @@ export const CommunityProvideContent = ({
               />
             ))
           ) : (
-            <EmptyData height="375px" />
+            <EmptyData height={isMobile ? '200px' : '375px'} />
           )
         ) : (
           <Loading height="375px" />

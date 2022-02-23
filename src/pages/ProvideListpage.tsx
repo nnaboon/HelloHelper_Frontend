@@ -39,13 +39,7 @@ export const ProvideListPage = observer(() => {
   };
 
   return (
-    <WrapperContainer
-      css={css`
-        ${mediaQueryMobile} {
-          height: calc(100vh - 150px);
-        }
-      `}
-    >
+    <WrapperContainer>
       {me && provideOrders ? (
         <React.Fragment>
           <Text
@@ -61,10 +55,6 @@ export const ProvideListPage = observer(() => {
 
               ${mediaQueryTablet} {
                 font-size: 20px;
-              }
-
-              ${mediaQueryMobile} {
-                font-size: 16px;
               }
             `}
           >

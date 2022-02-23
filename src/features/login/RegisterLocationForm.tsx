@@ -92,6 +92,9 @@ export const RegisterLocationForm = (props: RegisterLocationFormProps) => {
         onFinish={onFinish}
         autoComplete="off"
         css={css`
+          position: relative;
+          height: 100%;
+
           .ant-col-16 {
             max-width: 100%;
           }
@@ -135,7 +138,7 @@ export const RegisterLocationForm = (props: RegisterLocationFormProps) => {
             border: 1px solid #ee6400;
             position: absolute;
             right: 190px;
-            bottom: 20px;
+            bottom: 0;
             color: #ee6400;
             font-size: 16px;
 
@@ -158,8 +161,8 @@ export const RegisterLocationForm = (props: RegisterLocationFormProps) => {
             border-radius: 9px;
             border: 0;
             position: absolute;
-            right: 64px;
-            bottom: 20px;
+            right: 0;
+            bottom: 0px;
             color: #ffff;
             font-size: 16px;
 

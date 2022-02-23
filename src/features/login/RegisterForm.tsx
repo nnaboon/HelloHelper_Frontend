@@ -23,11 +23,13 @@ export const RegisterForm = observer(
     const auth = getAuth();
     const user = auth.currentUser;
     const [step, setStep] = useState<RegisterStep>(
-      user
-        ? user.displayName
-          ? RegisterStep.LOCATION
-          : RegisterStep.USERNAME
-        : RegisterStep.EMAIL_AND_PASSWORD
+      // user
+      //   ? user.displayName
+      //     ? RegisterStep.LOCATION
+      //     : RegisterStep.USERNAME
+      //   : RegisterStep.EMAIL_AND_PASSWORD
+
+      RegisterStep.ABILITY
     );
     const [createUserData, setCreateUserData] = useState<UserCreateBody>();
     const { setUserId } = userStore;
@@ -159,6 +161,6 @@ export const RegisterForm = observer(
           );
       }
     };
-    return <div>{renderForm(step)}</div>;
+    return <div style={{ height: '100%' }}>{renderForm(step)}</div>;
   }
 );

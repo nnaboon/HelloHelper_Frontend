@@ -31,7 +31,6 @@ const HelperListCard = styled.div`
   margin-top: 25px;
   margin-bottom: 20px;
   display: flex;
-  // flex-direction: column;
 
   box-sizing: border-box;
   padding: 35px;
@@ -40,6 +39,10 @@ const HelperListCard = styled.div`
 
   ${mediaQueryLargeDesktop} {
     height: 370px;
+  }
+
+  ${mediaQueryTablet} {
+    margin: 0;
   }
 
   ${mediaQueryMobile} {

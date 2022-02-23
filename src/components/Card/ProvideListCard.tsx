@@ -49,11 +49,13 @@ const ProvideListContainer = styled.div`
 
   ${mediaQueryTablet} {
     width: 100%;
+    min-height: 290px;
     padding: 20px;
   }
 
   ${mediaQueryMobile} {
     padding: 20px 15px;
+    min-height: 265px;
   }
 `;
 
@@ -97,7 +99,6 @@ const ProvideListData = styled.div`
 
   ${mediaQueryMobile} {
     font-size: 16px;
-    width: 185px;
     -webkit-line-clamp: 1;
   }
 `;
@@ -206,7 +207,15 @@ export const ProvideListCard = ({ props, setStatus }: ProvideListCardProps) => {
       <StatusBadge
         status={STATUS_MAPPER[props.status].status}
         color={STATUS_MAPPER[props.status].color}
-        style={{ position: 'absolute', right: '20px', top: '20px' }}
+        style={{ position: 'absolute', right: '20px' }}
+        css={css`
+          top: 20px;
+
+          ${mediaQueryTablet} {
+            top: 0;
+            right: 20px;
+          }
+        `}
       />
       <ProvideListContent
         onClick={() => {
@@ -321,8 +330,19 @@ export const ProvideListCard = ({ props, setStatus }: ProvideListCardProps) => {
         >
           <PrimaryButton
             css={css`
-              min-width: 160px;
               background: #0047ff;
+              min-width: 210px;
+              height: 52px;
+              max-width: 550px;
+              font-size: 1.6rem;
+
+              ${mediaQueryLargeDesktop} {
+                min-width: 150px;
+              }
+
+              ${mediaQueryTablet} {
+                min-width: 170px;
+              }
 
               ${mediaQueryMobile} {
                 min-width: 47%;
@@ -413,7 +433,7 @@ export const ProvideListCard = ({ props, setStatus }: ProvideListCardProps) => {
         onOk={handleOk}
         onCancel={handleCancel}
         footer={null}
-        width={isMobile ? '400px' : isLargeDesktop ? '400px' : '25%'}
+        width={isMobile ? '350px' : isLargeDesktop ? '400px' : '25%'}
         maskClosable={false}
         centered
         css={css`

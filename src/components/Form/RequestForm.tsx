@@ -233,21 +233,37 @@ export const RequestFormModal = ({
         onClose();
         form.resetFields();
       }}
-      width={isMobile ? '80%' : isLargeDesktop ? '800px' : '45%'}
       afterClose={reset}
       footer={null}
       maskClosable={false}
       centered
       css={css`
+        width: 45% !important;
+
         .ant-modal-content {
           height: 100%;
+        }
 
-          ${mediaQueryLargeDesktop} {
+        ${mediaQueryLargeDesktop} {
+          width: 800px !important;
+
+          .ant-modal-content {
             height: 850px;
           }
+        }
 
-          ${mediaQueryMobile} {
-            height: 480px;
+        ${mediaQueryTablet} {
+          width: 650px !important;
+          .ant-modal-content {
+            height: 750px;
+          }
+        }
+
+        ${mediaQueryMobile} {
+          width: 80% !important;
+
+          .ant-modal-content {
+            height: 520px;
           }
         }
       `}
@@ -257,6 +273,10 @@ export const RequestFormModal = ({
           styles={css`
             .ant-col-8 {
               max-width: 24%;
+            }
+
+            .ant-col-16 {
+              max-width: 100%;
             }
 
             .ant-form-item-control-input-content {
@@ -345,6 +365,12 @@ export const RequestFormModal = ({
               .ant-upload.ant-upload-select-picture-card {
                 width: 104px;
                 height: 104px;
+              }
+            }
+
+            ${mediaQueryTablet} {
+              .ant-form-item-control-input {
+                width: 100%;
               }
             }
 
@@ -440,17 +466,6 @@ export const RequestFormModal = ({
               setRequestLocation={setLocation}
             />
           </Form.Item>
-          <div
-            style={{
-              color: '#606060',
-              position: 'relative',
-              left: '24%',
-              width: '470px',
-              marginBottom: '20px'
-            }}
-          >
-            {location?.formatted_address ?? requestData.location.name}
-          </div>
           <Form.Item name="message" label="ข้อความ">
             <Input.TextArea
               placeholder="ข้อความ"

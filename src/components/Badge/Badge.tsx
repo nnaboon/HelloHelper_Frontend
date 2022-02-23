@@ -56,11 +56,11 @@ export const RankingBadge = styled.div<{ rankColor: string }>`
   }
 
   ${mediaQuerySmallTablet} {
-    width: 84px;
+    min-width: 95px;
+    width: 100%;
     height: 25px;
     font-size: 16px;
     border-radius: 6px;
-    margin-left: 14px;
   }
 `;
 

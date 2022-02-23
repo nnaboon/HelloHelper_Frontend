@@ -302,45 +302,6 @@ export const EditProfileForm = observer(() => {
                   }}
                 />
               </Form.Item>
-
-              {/* {loginType === 'password' && (
-                <React.Fragment>
-                  <Divider />
-                  <Text
-                    fontWeight={500}
-                    marginBottom="20px"
-                    marginTop="10px"
-                    css={css`
-                      font-size: 2.8rem;
-                      margin-bottom: 25px;
-
-                      ${mediaQueryLargeDesktop} {
-                        font-size: 24px;
-                      }
-                    `}
-                  >
-                    เปลี่ยนรหัสผ่าน
-                  </Text>
-                  <Form.Item name="prevPassword" label="รหัสผ่านปัจจุบัน">
-                    <Input
-                      placeholder="รหัสผ่านปัจจุบัน"
-                      style={{ height: '40px', borderRadius: '12px' }}
-                    />
-                  </Form.Item>{' '}
-                  <Form.Item name="password" label="รหัสผ่านใหม่">
-                    <Input
-                      placeholder="รหัสผ่านใหม่"
-                      style={{ height: '40px', borderRadius: '12px' }}
-                    />
-                  </Form.Item>{' '}
-                  <Form.Item name="confirmPassword" label="ยืนยันรหัสผ่านใหม่">
-                    <Input
-                      placeholder="รหัสผ่านใหม่"
-                      style={{ height: '40px', borderRadius: '12px' }}
-                    />
-                  </Form.Item>
-                </React.Fragment>
-              )}*/}
               <Divider />
               <Text
                 fontWeight={500}
@@ -441,6 +402,17 @@ export const EditProfileForm = observer(() => {
                     flexDirection: 'column',
                     marginBottom: '50px'
                   }}
+                  css={css`
+                    > label {
+                      margin: 8px 0;
+                    }
+
+                    ${mediaQueryTablet} {
+                      > label {
+                        font-size: 16px;
+                      }
+                    }
+                  `}
                 />
               </Form.Item>
             </div>

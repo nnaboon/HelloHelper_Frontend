@@ -236,19 +236,35 @@ export const PostRequestButton = ({
           form.resetFields();
         }}
         footer={null}
-        width={isMobile ? '80%' : isLargeDesktop ? '800px' : '45%'}
         maskClosable={false}
         centered
         css={css`
+          width: 45% !important;
+
           .ant-modal-content {
             height: 100%;
+          }
 
-            ${mediaQueryLargeDesktop} {
+          ${mediaQueryLargeDesktop} {
+            width: 800px !important;
+
+            .ant-modal-content {
               height: 850px;
             }
+          }
 
-            ${mediaQueryMobile} {
-              height: 480px;
+          ${mediaQueryTablet} {
+            width: 650px !important;
+            .ant-modal-content {
+              height: 750px;
+            }
+          }
+
+          ${mediaQueryMobile} {
+            width: 80% !important;
+
+            .ant-modal-content {
+              height: 520px;
             }
           }
         `}
@@ -342,10 +358,6 @@ export const PostRequestButton = ({
                   height: 32px;
                 }
 
-                .ant-col-16 {
-                  max-width: 66.66667%;
-                }
-
                 .ant-form-item {
                   margin-bottom: 24px;
                 }
@@ -361,6 +373,12 @@ export const PostRequestButton = ({
                 .ant-upload.ant-upload-select-picture-card {
                   width: 104px;
                   height: 104px;
+                }
+              }
+
+              ${mediaQueryTablet} {
+                .ant-form-item-control-input {
+                  width: 100%;
                 }
               }
 

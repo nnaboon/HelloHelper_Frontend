@@ -80,7 +80,7 @@ const CardContainer = styled.div`
   }
 
   ${mediaQuerySmallTablet} {
-    min-width: 336px;
+    min-width: 300px;
   }
 
   ${mediaQueryMobile} {
@@ -141,6 +141,12 @@ const RequestDataTitle = styled.div`
 
   ${mediaQueryLargeDesktop} {
     font-size: 14px;
+  }
+
+  ${mediaQuerySmallTablet} {
+    max-width: unset;
+    width: unset;
+    text-align: start;
   }
 
   ${mediaQueryMobile} {
@@ -230,6 +236,7 @@ export const PopularRequestSection = observer(({ data }: any) => {
                   <div
                     css={css`
                       display: flex;
+                      width: 100%;
                     `}
                   >
                     {!isSmallTablet && (
@@ -274,6 +281,7 @@ export const PopularRequestSection = observer(({ data }: any) => {
 
                         ${mediaQuerySmallTablet} {
                           margin: 0;
+                          width: 100%;
                         }
                       `}
                     >
@@ -304,7 +312,8 @@ export const PopularRequestSection = observer(({ data }: any) => {
                           css={css`
                             display: flex;
                             position: absolute;
-                            bottom: 12px;
+                            bottom: 15px;
+                            align-items: center;
                           `}
                         >
                           <div
@@ -312,6 +321,7 @@ export const PopularRequestSection = observer(({ data }: any) => {
                               display: flex;
                               flex-direction: column;
                               margin-right: 10px;
+                              align-items: center;
                             `}
                           >
                             <HelperImage
@@ -327,6 +337,7 @@ export const PopularRequestSection = observer(({ data }: any) => {
                             css={css`
                               display: flex;
                               flex-direction: column;
+                              align-items: center;
                             `}
                           >
                             {' '}

@@ -89,6 +89,9 @@ export const RegisterAbilityForm = (props: RegisterAbilityFormProps) => {
         onFinish={onFinish}
         autoComplete="off"
         css={css`
+          position: relative;
+          height: 100%;
+
           .ant-modal .ant-form-item-control-input {
             width: 100%;
           }
@@ -219,7 +222,7 @@ export const RegisterAbilityForm = (props: RegisterAbilityFormProps) => {
             border-radius: 9px;
             border: 1px solid #ee6400;
             position: absolute;
-            bottom: 20px;
+            bottom: 0;
             right: 140px;
             color: #ee6400;
             font-size: 16px;
@@ -243,8 +246,8 @@ export const RegisterAbilityForm = (props: RegisterAbilityFormProps) => {
             border-radius: 9px;
             border: 0;
             position: absolute;
-            bottom: 20px;
-            right: 20px;
+            bottom: 0;
+            right: 0;
             color: #ffff;
             font-size: 16px;
 

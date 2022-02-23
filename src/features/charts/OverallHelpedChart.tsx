@@ -76,7 +76,7 @@ export const OverallHelpedChart = ({
         option={option}
         style={{
           width: isLargeDesktop ? (isTablet ? '100%' : '800px') : '1000px',
-          height: isLargeDesktop ? (isTablet ? '100%' : '300px') : '600px'
+          height: isLargeDesktop ? '300px' : '600px'
         }}
       />
     </div>

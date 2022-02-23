@@ -39,9 +39,6 @@ import { useRequests } from 'hooks/request/useRequests';
 import { Loading } from 'components/Loading/Loading';
 
 const HomePageCategorySection = styled.div`
-  // display: flex;
-  // width: 100%;
-  // overflow-x: scroll;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-gap: 30px;
@@ -62,14 +59,12 @@ const HomePageContainer = styled.div`
 
   ${mediaQueryTablet} {
     padding: 40px 60px;
-    height: calc(100vh - 250px);
     padding: 40px 60px;
   }
 
   ${mediaQuerySmallTablet} {
     padding: 40px 30px;
-    height: calc(100vh - 165px);
-    top: 140px;
+    top: 80px;
   }
 
   ${mediaQueryMobile} {
@@ -123,7 +118,6 @@ const EmptyData = styled(Empty)`
 }`;
 
 const CategoryMenu = styled.div`
-  // border: 1px solid #ee6400;
   width: 100%;
   height: 100%;
   min-width: 40px;
@@ -178,8 +172,8 @@ export const HomePage = () => {
     },
     smallDesktop: {
       breakpoint: { max: 1300, min: 1024 },
-      items: 2,
-      partialVisibilityGutter: 50
+      items: 2
+      // partialVisibilityGutter: 50
     },
     tablet: {
       breakpoint: { max: 1024, min: 768 },
@@ -337,8 +331,13 @@ export const HomePage = () => {
               ${mediaQueryLargeDesktop} {
                 font-size: 1.92rem;
               }
+
+              ${mediaQueryTablet} {
+                font-size: 1.85rem;
+              }
+
               ${mediaQueryMobile} {
-                font-size: 16px;
+                font-size: 22px;
               }
             `}
           >
@@ -414,8 +413,12 @@ export const HomePage = () => {
                 font-size: 1.92rem;
               }
 
+              ${mediaQueryTablet} {
+                font-size: 1.85rem;
+              }
+
               ${mediaQueryMobile} {
-                font-size: 16px;
+                font-size: 22px;
               }
             `}
           >
@@ -500,8 +503,12 @@ export const HomePage = () => {
                 font-size: 1.92rem;
               }
 
+              ${mediaQueryTablet} {
+                font-size: 1.85rem;
+              }
+
               ${mediaQueryMobile} {
-                font-size: 16px;
+                font-size: 22px;
               }
             `}
           >
@@ -577,8 +584,12 @@ export const HomePage = () => {
                 font-size: 1.92rem;
               }
 
+              ${mediaQueryTablet} {
+                font-size: 1.85rem;
+              }
+
               ${mediaQueryMobile} {
-                font-size: 16px;
+                font-size: 22px;
               }
             `}
           >
@@ -654,8 +665,12 @@ export const HomePage = () => {
                 font-size: 1.92rem;
               }
 
+              ${mediaQueryTablet} {
+                font-size: 1.85rem;
+              }
+
               ${mediaQueryMobile} {
-                font-size: 16px;
+                font-size: 22px;
               }
             `}
           >

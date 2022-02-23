@@ -168,6 +168,7 @@ export const CommunitySettingEditProfile = ({ communityData }: any) => {
         }
 
         ${mediaQueryMobile} {
+          margin-top: 0;
           padding: 20px 20px 30px 20px;
         }
       `}
@@ -226,30 +227,6 @@ export const CommunitySettingEditProfile = ({ communityData }: any) => {
               text-align: left;
             }
           }
-
-          // .ant-col-8 {
-          //   ${mediaQuerySmallTablet} {
-          //     max-width: 20%;
-          //   }
-
-          //   ${mediaQueryMobile} {
-          //     max-width: 33.3333%;
-          //   }
-          // }
-
-          // .ant-form-item-control-input {
-          //   width: 460px;
-
-          //   ${mediaQueryMobile} {
-          //     width: 100%;
-          //   }
-          // }
-
-          // ${mediaQueryTablet} {
-          //   .ant-col-16 {
-          //     max-width: 100%;
-          //   }
-          // }
         `}
       >
         <div
@@ -301,20 +278,56 @@ export const CommunitySettingEditProfile = ({ communityData }: any) => {
               setRequestLocation={setLocation}
             />
           </Form.Item>
+          {isSmallTablet && (
+            <div
+              css={css`
+                width: 100%;
+                position: relative;
+                height: 100%;
+                bottom: 10px;
+              `}
+            >
+              <Button
+                type="primary"
+                htmlType="submit"
+                css={css`
+                  width: 170px;
+                  height: 40px;
+                  box-sizing: border-box;
+                  background: #ee6400;
+                  border-radius: 9px;
+                  border: 0;
+                  right: 44px;
+                  color: #ffff;
+                  font-size: 16px;
+                  position: absolute;
+                  bottom: -50px;
+
+                  &:hover {
+                    background: #ee6400;
+                  }
+
+                  ${mediaQueryTablet} {
+                    width: 120px;
+                    right: 0;
+                    height: 35px;
+                    font-size: 16px;
+                    bottom: 0px;
+                  }
+
+                  ${mediaQueryMobile} {
+                    width: 100px;
+                    bottom: -50px;
+                  }
+                `}
+              >
+                สำเร็จ
+              </Button>
+            </div>
+          )}
         </div>
         <div
           css={css`
-            // display: flex;
-            // height: 100%;
-            // flex-direction: column;
-            // align-items: center;
-            // width: 100%;
-            // position: relative;
-
-            // ${mediaQuerySmallTablet} {
-            //   margin-bottom: 50px;
-            // }
-
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -410,52 +423,6 @@ export const CommunitySettingEditProfile = ({ communityData }: any) => {
             </div>
           )}
         </div>
-        {/* </Form.Item> */}
-        {isSmallTablet && (
-          <div
-            css={css`
-              width: 100%;
-              position: relative;
-              height: 100%;
-              bottom: 0px;
-            `}
-          >
-            <Button
-              type="primary"
-              htmlType="submit"
-              css={css`
-                width: 170px;
-                height: 40px;
-                box-sizing: border-box;
-                background: #ee6400;
-                border-radius: 9px;
-                border: 0;
-                right: 44px;
-                color: #ffff;
-                font-size: 16px;
-                position: absolute;
-                bottom: -50px;
-
-                &:hover {
-                  background: #ee6400;
-                }
-
-                ${mediaQueryTablet} {
-                  width: 120px;
-                  right: 0;
-                  height: 35px;
-                  font-size: 16px;
-                }
-
-                ${mediaQueryMobile} {
-                  width: 100px;
-                }
-              `}
-            >
-              สำเร็จ
-            </Button>
-          </div>
-        )}
       </Form>
     </div>
   );

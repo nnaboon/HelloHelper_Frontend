@@ -77,6 +77,7 @@ const ProvideListTitle = styled.div`
 
   ${mediaQueryMobile} {
     text-align: start;
+    width: max-content;
   }
 `;
 
@@ -90,7 +91,6 @@ const ProvideListData = styled.div`
   }
 
   ${mediaQueryMobile} {
-    width: 185px;
     -webkit-line-clamp: 1;
   }
 `;
@@ -106,7 +106,7 @@ const ReceiverData = styled.div`
 
   ${mediaQueryMobile} {
     font-size: 16px;
-    width: 185px;
+    width: 200px;
     -webkit-line-clamp: 1;
   }
 `;
@@ -231,7 +231,14 @@ export const OrderInfoPage = () => {
     <WrapperContainer>
       {order ? (
         <React.Fragment>
-          <Flex justify="space-between">
+          <Flex
+            justify="space-between"
+            css={css`
+              ${mediaQueryMobile} {
+                flex-direction: column;
+              }
+            `}
+          >
             <Flex
               css={css`
                 cursor: pointer;
@@ -262,10 +269,36 @@ export const OrderInfoPage = () => {
                 ย้อนกลับ
               </div>
             </Flex>
-            <Flex>
+            <Flex
+              css={css`
+                ${mediaQueryMobile} {
+                  flex-direction: column;
+                  align-items: flex-end;
+                }
+              `}
+            >
               {' '}
-              <Flex itemAlign="center" justify="flex-end" marginRight="25px">
-                <ProvideListTitle>หมายเลขคำสั่งซื้อ</ProvideListTitle>
+              <Flex
+                itemAlign="center"
+                justify="flex-end"
+                css={css`
+                  margin-right: 25px;
+                  ${mediaQueryMobile} {
+                    margin-right: 0;
+                    margin-top: 20px;
+                    margin-bottom: 10px;
+                  }
+                `}
+              >
+                <ProvideListTitle
+                  css={css`
+                    ${mediaQueryMobile} {
+                      width: unset;
+                    }
+                  `}
+                >
+                  หมายเลขคำสั่งซื้อ
+                </ProvideListTitle>
                 <ProvideListData
                   css={css`
                     width: unset;
@@ -289,12 +322,17 @@ export const OrderInfoPage = () => {
           <Flex
             justify="space-between"
             marginBottom="40px"
-            itemAlign="flex-end"
             css={css`
               margin-top: 60px;
+              align-items: flex-end;
 
               ${mediaQueryLargeDesktop} {
                 margin-top: 40px;
+              }
+
+              ${mediaQueryMobile} {
+                flex-direction: column;
+                align-items: unset;
               }
             `}
           >
@@ -316,8 +354,13 @@ export const OrderInfoPage = () => {
                 marginY="15px"
                 css={css`
                   font-size: 2.2rem;
+
                   ${mediaQueryLargeDesktop} {
                     font-size: 26px;
+                  }
+
+                  ${mediaQueryMobile} {
+                    font-size: 20px;
                   }
                 `}
               >
@@ -338,11 +381,321 @@ export const OrderInfoPage = () => {
                 <ReceiverData>-</ReceiverData>
               )}
             </div>
+            {!isMobile && (
+              <div>
+                {' '}
+                {order.status === StatusType.COMPLETE ? (
+                  orderType === 'request' ? (
+                    <Flex
+                      itemAlign="flex-end"
+                      css={css`
+                        flex-direction: column;
+                        ${mediaQueryMobile} {
+                          flex-direction: row;
+                          justify-content: space-between;
+                        }
+                      `}
+                    >
+                      <SecondaryButton
+                        onClick={() => {
+                          history.push(`/chat/${order.chatId}`);
+                        }}
+                        css={css`
+                          width: 140px;
+                          height: 45px;
+                          z-index: 10;
+                          margin-right: 0;
+                          margin-top: 10px;
+                          margin-bottom: 0;
+
+                          ${mediaQueryTablet} {
+                            min-width: 130px;
+                          }
+
+                          ${mediaQueryMobile} {
+                            min-width: 47%;
+                            width: 47%;
+                          }
+                        `}
+                      >
+                        แชท
+                      </SecondaryButton>
+                      {!order.rating && (
+                        <PrimaryButton
+                          css={css`
+                            width: 140px;
+                            margin-left: 0;
+                            height: 45px;
+                            z-index: 10;
+                            margin-top: 10px;
+
+                            ${mediaQueryTablet} {
+                              min-width: 130px;
+                            }
+
+                            ${mediaQueryMobile} {
+                              min-width: 47%;
+                              width: 47%;
+                            }
+                          `}
+                          onClick={() => {
+                            setIsModalVisible(true);
+                          }}
+                        >
+                          ให้คะแนน
+                        </PrimaryButton>
+                      )}
+                    </Flex>
+                  ) : (
+                    <Flex direction="column" itemAlign="flex-end">
+                      <SecondaryButton
+                        onClick={() => {
+                          history.push(`/chat/${order.chatId}`);
+                        }}
+                        css={css`
+                          min-width: 140px;
+                          height: 45px;
+                          z-index: 10;
+                          margin-right: 0;
+                          margin-bottom: 0;
+
+                          ${mediaQueryTablet} {
+                            min-width: 130px;
+                          }
+
+                          ${mediaQueryMobile} {
+                            min-width: 47%;
+                            width: 47%;
+                          }
+                        `}
+                      >
+                        แชท
+                      </SecondaryButton>
+                    </Flex>
+                  )
+                ) : (
+                  <Flex direction="column">
+                    <SecondaryButton
+                      onClick={() => {
+                        history.push(`/chat/${order.chatId}`);
+                      }}
+                      css={css`
+                        width: 180px;
+                        height: 50px;
+                        z-index: 10;
+                        margin-right: 0;
+                        margin-bottom: 2px;
+                        font-size: 1.7rem;
+
+                        ${mediaQueryLargeDesktop} {
+                          width: 140px;
+                          height: 45px;
+                          margin-bottom: 0;
+                        }
+
+                        ${mediaQueryTablet} {
+                          min-width: 130px;
+                        }
+
+                        ${mediaQueryMobile} {
+                          min-width: 47%;
+                          width: 47%;
+                        }
+                      `}
+                    >
+                      แชท
+                    </SecondaryButton>
+                    {orderType === 'provide' && (
+                      <Dropdown overlay={menu} trigger={['click']}>
+                        <PrimaryButton
+                          css={css`
+                            width: 180px;
+                            height: 50px;
+                            margin-left: 0;
+                            margin-top: 10px;
+                            font-size: 1.7rem;
+
+                            ${mediaQueryLargeDesktop} {
+                              width: 140px;
+                              height: 45px;
+                            }
+
+                            ${mediaQueryTablet} {
+                              min-width: 130px;
+                            }
+
+                            ${mediaQueryMobile} {
+                              min-width: 47%;
+                              width: 47%;
+                            }
+                          `}
+                        >
+                          เปลี่ยนสถานะ
+                        </PrimaryButton>
+                      </Dropdown>
+                    )}
+                  </Flex>
+                )}
+              </div>
+            )}
+          </Flex>
+          <ProvideListContainer>
+            <ProvideListContent>
+              <ProvideListData
+                css={css`
+                  font-weight: 700;
+                  font-size: 2.4rem;
+                  color: black;
+
+                  ${mediaQueryLargeDesktop} {
+                    font-size: 24px;
+                  }
+
+                  ${mediaQueryMobile} {
+                    font-size: 20px;
+                  }
+                `}
+              >
+                {order.title}
+              </ProvideListData>
+              <Flex itemAlign="flex-start" marginY="4px">
+                <ProvideListData>{order.location.name}</ProvideListData>
+              </Flex>
+              <Flex itemAlign="flex-start" marginY="4px">
+                <ProvideListData>x{order.number}</ProvideListData>
+              </Flex>
+              <Flex itemAlign="flex-start" marginY="4px">
+                <ProvideListData>{order.description}</ProvideListData>
+              </Flex>
+
+              <Divider style={{ margin: '18px' }} />
+              <Flex itemAlign="center" justify="flex-end" marginY="8px">
+                <ProvideListTitle>ช่องทางการชำระเงิน</ProvideListTitle>
+                <ProvideListData
+                  css={css`
+                    width: unset;
+                    font-size: 2.2rem;
+                    font-weight: 600;
+                    color: black;
+
+                    ${mediaQueryLargeDesktop} {
+                      font-size: 24px;
+                    }
+
+                    ${mediaQueryMobile} {
+                      font-size: 18px;
+                    }
+                  `}
+                >
+                  {order.payment}
+                </ProvideListData>
+              </Flex>
+              <Flex itemAlign="center" justify="flex-end">
+                <ProvideListTitle>ราคาสินค้า</ProvideListTitle>
+                <ProvideListData
+                  css={css`
+                    width: unset;
+                    font-size: 2.2rem;
+                    font-weight: 600;
+                    color: black;
+
+                    ${mediaQueryLargeDesktop} {
+                      font-size: 24px;
+                    }
+
+                    ${mediaQueryMobile} {
+                      font-size: 18px;
+                    }
+                  `}
+                >
+                  ฿{order.price}
+                </ProvideListData>
+              </Flex>
+              <Flex itemAlign="center" justify="flex-end">
+                <ProvideListTitle>อัตราค่าบริการ</ProvideListTitle>
+                <ProvideListData
+                  css={css`
+                    width: unset;
+                    font-size: 2.2rem;
+                    font-weight: 600;
+                    color: black;
+
+                    ${mediaQueryLargeDesktop} {
+                      font-size: 24px;
+                    }
+
+                    ${mediaQueryMobile} {
+                      font-size: 18px;
+                    }
+                  `}
+                >
+                  ฿{order.serviceCharge}
+                </ProvideListData>
+              </Flex>
+              <Flex itemAlign="center" justify="flex-end">
+                <ProvideListTitle>จำนวนคำสั่งซื้อทั้งหมด</ProvideListTitle>
+                <ProvideListData
+                  css={css`
+                    width: unset;
+                    font-size: 2.2rem;
+                    font-weight: 600;
+                    color: black;
+
+                    ${mediaQueryLargeDesktop} {
+                      font-size: 24px;
+                    }
+
+                    ${mediaQueryMobile} {
+                      font-size: 18px;
+                    }
+                  `}
+                >
+                  ฿{order.serviceCharge + order.price}
+                </ProvideListData>
+              </Flex>
+            </ProvideListContent>
+            <Modal
+              visible={isModalVisible}
+              onOk={handleOk}
+              onCancel={handleCancel}
+              footer={null}
+              width={isMobile ? '350px' : isLargeDesktop ? '400px' : '25%'}
+              maskClosable={false}
+              centered
+              css={css`
+                .ant-modal-content {
+                  height: 320px;
+                }
+
+                .ant-modal-body {
+                  height: 100%;
+                }
+
+                ${mediaQueryLargeDesktop} {
+                  .ant-modal-content {
+                    height: 220px;
+                  }
+                }
+              `}
+            >
+              <RatingForm order={order} setIsModalVisible={setIsModalVisible} />
+            </Modal>
+          </ProvideListContainer>
+          {isMobile && (
             <div>
               {' '}
               {order.status === StatusType.COMPLETE ? (
                 orderType === 'request' ? (
-                  <Flex direction="column" itemAlign="flex-end">
+                  <Flex
+                    itemAlign="flex-end"
+                    css={css`
+                      flex-direction: column;
+                      ${mediaQueryMobile} {
+                        flex-direction: row;
+                        justify-content: space-between;
+                      }
+                    `}
+                  >
                     <SecondaryButton
                       onClick={() => {
                         history.push(`/chat/${order.chatId}`);
@@ -362,6 +715,7 @@ export const OrderInfoPage = () => {
                         ${mediaQueryMobile} {
                           min-width: 47%;
                           width: 47%;
+                          height: 33px;
                         }
                       `}
                     >
@@ -383,6 +737,7 @@ export const OrderInfoPage = () => {
                           ${mediaQueryMobile} {
                             min-width: 47%;
                             width: 47%;
+                            height: 33px;
                           }
                         `}
                         onClick={() => {
@@ -413,6 +768,7 @@ export const OrderInfoPage = () => {
                         ${mediaQueryMobile} {
                           min-width: 47%;
                           width: 47%;
+                          height: 33px;
                         }
                       `}
                     >
@@ -447,6 +803,7 @@ export const OrderInfoPage = () => {
                       ${mediaQueryMobile} {
                         min-width: 47%;
                         width: 47%;
+                        height: 33px;
                       }
                     `}
                   >
@@ -474,6 +831,7 @@ export const OrderInfoPage = () => {
                           ${mediaQueryMobile} {
                             min-width: 47%;
                             width: 47%;
+                            height: 33px;
                           }
                         `}
                       >
@@ -484,129 +842,7 @@ export const OrderInfoPage = () => {
                 </Flex>
               )}
             </div>
-          </Flex>
-          <ProvideListContainer>
-            <ProvideListContent>
-              <ProvideListData
-                css={css`
-                  font-weight: 700;
-                  font-size: 2.4rem;
-                  color: black;
-
-                  ${mediaQueryLargeDesktop} {
-                    font-size: 24px;
-                  }
-                `}
-              >
-                {order.title}
-              </ProvideListData>
-              <Flex itemAlign="flex-start" marginY="4px">
-                <ProvideListData>{order.location.name}</ProvideListData>
-              </Flex>
-              <Flex itemAlign="flex-start" marginY="4px">
-                <ProvideListData>x{order.number}</ProvideListData>
-              </Flex>
-              <Flex itemAlign="flex-start" marginY="4px">
-                <ProvideListData>{order.description}</ProvideListData>
-              </Flex>
-
-              <Divider style={{ margin: '18px' }} />
-              <Flex itemAlign="center" justify="flex-end" marginY="8px">
-                <ProvideListTitle>ช่องทางการชำระเงิน</ProvideListTitle>
-                <ProvideListData
-                  css={css`
-                    width: unset;
-                    font-size: 2.2rem;
-                    font-weight: 600;
-                    color: black;
-
-                    ${mediaQueryLargeDesktop} {
-                      font-size: 24px;
-                    }
-                  `}
-                >
-                  {order.payment}
-                </ProvideListData>
-              </Flex>
-              <Flex itemAlign="center" justify="flex-end">
-                <ProvideListTitle>ราคาสินค้า</ProvideListTitle>
-                <ProvideListData
-                  css={css`
-                    width: unset;
-                    font-size: 2.2rem;
-                    font-weight: 600;
-                    color: black;
-
-                    ${mediaQueryLargeDesktop} {
-                      font-size: 24px;
-                    }
-                  `}
-                >
-                  ฿{order.price}
-                </ProvideListData>
-              </Flex>
-              <Flex itemAlign="center" justify="flex-end">
-                <ProvideListTitle>อัตราค่าบริการ</ProvideListTitle>
-                <ProvideListData
-                  css={css`
-                    width: unset;
-                    font-size: 2.2rem;
-                    font-weight: 600;
-                    color: black;
-
-                    ${mediaQueryLargeDesktop} {
-                      font-size: 24px;
-                    }
-                  `}
-                >
-                  ฿{order.serviceCharge}
-                </ProvideListData>
-              </Flex>
-              <Flex itemAlign="center" justify="flex-end">
-                <ProvideListTitle>จำนวนคำสั่งซื้อทั้งหมด</ProvideListTitle>
-                <ProvideListData
-                  css={css`
-                    width: unset;
-                    font-size: 2.2rem;
-                    font-weight: 600;
-                    color: black;
-
-                    ${mediaQueryLargeDesktop} {
-                      font-size: 24px;
-                    }
-                  `}
-                >
-                  ฿{order.serviceCharge + order.price}
-                </ProvideListData>
-              </Flex>
-            </ProvideListContent>
-            <Modal
-              visible={isModalVisible}
-              onOk={handleOk}
-              onCancel={handleCancel}
-              footer={null}
-              width={isMobile ? '400px' : isLargeDesktop ? '400px' : '25%'}
-              maskClosable={false}
-              centered
-              css={css`
-                .ant-modal-content {
-                  height: 320px;
-                }
-
-                .ant-modal-body {
-                  height: 100%;
-                }
-
-                ${mediaQueryLargeDesktop} {
-                  .ant-modal-content {
-                    height: 220px;
-                  }
-                }
-              `}
-            >
-              <RatingForm order={order} setIsModalVisible={setIsModalVisible} />
-            </Modal>
-          </ProvideListContainer>
+          )}
         </React.Fragment>
       ) : (
         <Loading height="calc(100vh - 265px)" />

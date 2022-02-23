@@ -2,7 +2,7 @@
 /** @jsx jsx */
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-
+import Flex from 'components/Flex/Flex';
 import { RankingBadge, RequestStatusBadge } from '../Badge/Badge';
 import { RANK_BADGE } from 'components/Badge/const';
 import styled from '@emotion/styled';
@@ -43,7 +43,7 @@ const CardContainer = styled.div`
   background: #ffffff;
   box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
-  padding: 40px 30px;
+  padding: 0;
   box-sizing: border-box;
   position: relative;
   position: relative;
@@ -61,7 +61,7 @@ const CardContainer = styled.div`
 
   ${mediaQueryTablet} {
     min-width: 430px;
-    padding: 20px;
+    padding: 0px;
     margin-top: 40px;
     margin-left: 0;
   }
@@ -72,9 +72,8 @@ const CardContainer = styled.div`
 
   ${mediaQueryMobile} {
     width: 90%;
-    height: 270px;
+    height: 300px;
     min-width: 90%;
-    padding: 20px;
     display: flex;
     justify-content: center;
   }
@@ -88,8 +87,7 @@ const RequestTitle = styled.div`
   word-break: break-word;
 
   ${mediaQueryLargeDesktop} {
-    font-size: 1.5rem;
-    margin-left: 10px;
+    font-size: 24px;
   }
   ${mediaQueryTablet} {
     overflow-wrap: break-word;
@@ -102,31 +100,29 @@ const RequestTitle = styled.div`
     font-size: 18px;
     line-height: 17px;
     margin-bottom: 10px;
-    width: 100%;
-    max-width: 100%;
+    width: unset;
+    max-width: unset;
     margin-left: 0;
   }
 `;
 
 const RequestImageSection = styled.img`
-  position: absolute;
   top: 0;
   left: 0;
   min-width: 200px;
-  width: 44%;
+  width: 100%;
   height: 100%;
   border-top-left-radius: 12px;
   border-bottom-left-radius: 12px;
   object-fit: cover;
 
   ${mediaQueryLargeDesktop} {
-    width: 45%:
+    width: 90%;
+    min-width: 160px;
   }
 
   ${mediaQuerySmallTablet} {
-    position: absolute;
     top: -20px;
-    min-width: 100%;
     width: 100%;
     height: 200px;
     border-bottom-left-radius: 0px;
@@ -145,16 +141,20 @@ const RequestDataTitle = styled.div`
   max-width: 105px;
   margin-right: 13px;
   width: 100px;
-  text-align: end;
+  text-align: flex-end;
   white-space: pre-wrap;
 
   ${mediaQueryLargeDesktop} {
-    width: 90px;
+    max-width: 71px;
+    width: 50%;
+    margin-right: 0;
+    text-align: flex-start;
     font-size: 0.85rem;
   }
 
   ${mediaQuerySmallTablet} {
     max-width: unset;
+    min-width: 52px;
     width: unset;
     text-align: start;
   }
@@ -165,7 +165,7 @@ const RequestDataInfo = styled.div`
   line-height: 26px;
   color: #000000;
 
-  white-space: wrap;
+  white-space: pre-wrap;
   width: 150px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -194,6 +194,10 @@ const RequestDataContent = styled.div`
 
   ${mediaQueryTablet} {
     margin-bottom: 12px;
+  }
+
+  ${mediaQueryMobile} {
+    margin-bottom: 0;
   }
 `;
 
@@ -237,6 +241,8 @@ export const SuggestedRequestSection = ({ data }: any) => {
               css={css`
                 display: flex;
                 flex-direction: row;
+                height: 100%;
+                position: relative;
 
                 ${mediaQuerySmallTablet} {
                   flex-direction: column;
@@ -250,7 +256,7 @@ export const SuggestedRequestSection = ({ data }: any) => {
                   width: 100%;
 
                   ${mediaQueryLargeDesktop} {
-                    width: 90%;
+                    width: 81%;
                   }
 
                   ${mediaQueryTablet} {
@@ -269,31 +275,37 @@ export const SuggestedRequestSection = ({ data }: any) => {
                   display: flex;
                   flex-direction: column;
                   position: relative;
+                  padding: 20px;
 
                   ${mediaQueryLargeDesktop} {
-                    left: 15px;
+                    padding: 20px;
                   }
 
                   ${mediaQuerySmallTablet} {
                     position: absolute;
-                    top: 57%;
+                    top: 58%;
                     left: 0;
+                    width: 100%;
                     padding: 0 15px;
                   }
 
                   ${mediaQueryMobile} {
                     top: 50%;
+                    padding: 15px;
                   }
                 `}
               >
-                <RequestTitle>{title}</RequestTitle>
-                {providedUserId.length > 0 && (
-                  <RequestStatusBadge
-                    status={providedUserId.length > 0 ? 2 : undefined}
-                  >
-                    ช่วยเหลือแล้ว
-                  </RequestStatusBadge>
-                )}
+                <Flex itemAlign="center">
+                  <RequestTitle>{title}</RequestTitle>
+                  {providedUserId.length > 0 && (
+                    <RequestStatusBadge
+                      status={providedUserId.length > 0 ? 2 : undefined}
+                    >
+                      ช่วยเหลือแล้ว
+                    </RequestStatusBadge>
+                  )}
+                </Flex>
+
                 <RequestDataContent>
                   <RequestDataTitle>ชื่อ</RequestDataTitle>
                   <RequestDataInfo>{user.username}</RequestDataInfo>

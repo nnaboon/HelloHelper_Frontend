@@ -8,6 +8,7 @@ import {
   useMedia,
   MOBILE_WIDTH,
   mediaQueryMobile,
+  mediaQueryTablet,
   mediaQueryLargeDesktop
 } from 'styles/variables';
 import Carousel from 'react-multi-carousel';
@@ -28,6 +29,11 @@ const CommunityRequestSection = styled.div<{ isRequest: any }>`
   grid-template-columns: ${(props) =>
     props.isRequest.length > 0 ? 'repeat(3, 1fr)' : '1fr'};
   grid-gap: 10px;
+
+  ${mediaQueryTablet} {
+    grid-template-columns: ${(props) =>
+      props.isRequest.length > 0 ? 'repeat(2, 1fr)' : '1fr'};
+  }
 
   ${mediaQueryMobile} {
     display: flex;
@@ -86,8 +92,12 @@ export const CommunityRequestContent = ({
           ${mediaQueryLargeDesktop} {
             font-size: 2rem;
           }
+          ${mediaQueryTablet} {
+            font-size: 1.7rem;
+          }
+
           ${mediaQueryMobile} {
-            font-size: 24px;
+            font-size: 20px;
           }
         `}
       >
@@ -114,7 +124,7 @@ export const CommunityRequestContent = ({
           requests.length > 0 ? (
             requests.map((items) => <SuggestedRequestSection data={[items]} />)
           ) : (
-            <EmptyData height="375px" />
+            <EmptyData height={isMobile ? '200px' : '375px'} />
           )
         ) : (
           <Loading height="375px" />
@@ -129,8 +139,12 @@ export const CommunityRequestContent = ({
           ${mediaQueryLargeDesktop} {
             font-size: 2rem;
           }
+          ${mediaQueryTablet} {
+            font-size: 1.7rem;
+          }
+
           ${mediaQueryMobile} {
-            font-size: 24px;
+            font-size: 20px;
           }
         `}
       >
@@ -157,7 +171,7 @@ export const CommunityRequestContent = ({
           requests.length > 0 ? (
             requests.map((items) => <SuggestedRequestSection data={[items]} />)
           ) : (
-            <EmptyData height="375px" />
+            <EmptyData height={isMobile ? '200px' : '375px'} />
           )
         ) : (
           <Loading height="375px" />
@@ -169,11 +183,17 @@ export const CommunityRequestContent = ({
         marginY="10px"
         css={css`
           font-size: 2.5rem;
+
           ${mediaQueryLargeDesktop} {
             font-size: 2rem;
           }
+
+          ${mediaQueryTablet} {
+            font-size: 1.7rem;
+          }
+
           ${mediaQueryMobile} {
-            font-size: 24px;
+            font-size: 20px;
           }
         `}
       >
@@ -191,7 +211,7 @@ export const CommunityRequestContent = ({
               />
             ))
           ) : (
-            <EmptyData height="375px" />
+            <EmptyData height={isMobile ? '200px' : '375px'} />
           )
         ) : (
           <Loading height="375px" />

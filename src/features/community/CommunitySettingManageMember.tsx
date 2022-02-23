@@ -81,6 +81,10 @@ const UserName = styled.div`
     font-size: 24px;
   }
 
+  ${mediaQueryTablet} {
+    font-size: 20px;
+  }
+
   ${mediaQueryMobile} {
     font-size: 16px;
     width: max-content;
@@ -281,7 +285,16 @@ export const CommunitySettingManageMember = () => {
   }, []);
 
   return (
-    <div style={{ margin: isSmallTablet ? 0 : '40px 60px' }}>
+    <div
+      css={css`
+        margin: 40px 60px;
+        height: 100%;
+
+        ${mediaQueryTablet} {
+          margin: 0;
+        }
+      `}
+    >
       <Text
         fontWeight={500}
         css={css`
@@ -295,7 +308,7 @@ export const CommunitySettingManageMember = () => {
           }
 
           ${mediaQueryTablet} {
-            font-size: 20px;
+            font-size: 22px;
           }
 
           ${mediaQueryMobile} {
@@ -364,7 +377,7 @@ export const CommunitySettingManageMember = () => {
       ) : (
         <EmptyData
           text={`ยังไม่มีสมาชิกในชุมชนความช่วยเหลือนี้`}
-          height="300px"
+          height={isMobile ? '200px' : '300px'}
         />
       )}
 
@@ -380,7 +393,7 @@ export const CommunitySettingManageMember = () => {
           }
 
           ${mediaQueryTablet} {
-            font-size: 20px;
+            font-size: 22px;
           }
 
           ${mediaQueryMobile} {
@@ -444,7 +457,7 @@ export const CommunitySettingManageMember = () => {
           }
 
           ${mediaQueryTablet} {
-            font-size: 20px;
+            font-size: 22px;
           }
 
           ${mediaQueryMobile} {
@@ -504,7 +517,7 @@ export const CommunitySettingManageMember = () => {
       ) : (
         <EmptyData
           text={`ยังไม่มีสมาชิกในชุมชนความช่วยเหลือนี้`}
-          height="300px"
+          height={isMobile ? '200px' : '300px'}
         />
       )}
     </div>

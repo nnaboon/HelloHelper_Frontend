@@ -41,7 +41,7 @@ const NavbarSection = styled.div`
   z-index: 99;
 
   ${mediaQuerySmallTablet} {
-    height: 130px;
+    height: 80px;
   }
 
   ${mediaQueryMobile} {
@@ -73,6 +73,8 @@ const NavbarList = styled.ul`
   }
 
   ${mediaQueryTablet} {
+    padding: 0;
+    margin: 0;
     > li {
       margin: 0;
     }
@@ -102,14 +104,13 @@ const MyAccount = styled.img`
   }
 
   ${mediaQuerySmallTablet} {
-    position: absolute;
     right: 15px;
-    top: 22px;
+    top: 0;
     z-index: 10;
   }
 
   ${mediaQueryMobile} {
-    top: 12px;
+    right: 15px;
   }
 `;
 
@@ -239,8 +240,8 @@ export const Navbar = observer(() => {
           }
         `}
       />
-      <Flex justify="space-between">
-        {isSmallTablet ? (
+      <Flex justify="space-between" marginY="20px">
+        {/* {isSmallTablet ? (
           <SideMenu collapsed={collapsed} setCollapsed={setCollapsed} />
         ) : (
           <div
@@ -270,27 +271,29 @@ export const Navbar = observer(() => {
             <MessageOutlined />
           </div>
         )}
+        {isSmallTablet && (
+          <Search
+            placeholder="ข้าวผัดป้าเขียว, ก๋วยจั๊บนายวาย, แกงกะหรี่ป้าอร โชคชัย4"
+            onSearch={onSearch}
+            size="large"
+            css={css`
+              .ant-input-group-wrapper {
+                width: unset;
+              }
+              .ant-input {
+                height: 30px;
+                width: 350px;
+                font-size: 14px;
+              }
 
+              .ant-btn-icon-only.ant-btn-lg {
+                height: 30px;
+                width: 30px;
+              }
+            `}
+          />
+        )}
         <NavbarList>
-          {isSmallTablet && (
-            <Search
-              placeholder="ข้าวผัดป้าเขียว, ก๋วยจั๊บนายวาย, แกงกะหรี่ป้าอร โชคชัย4"
-              onSearch={onSearch}
-              size="large"
-              css={css`
-                .ant-input {
-                  height: 30px;
-                  width: 350px;
-                  font-size: 14px;
-                }
-
-                .ant-btn-icon-only.ant-btn-lg {
-                  height: 30px;
-                  width: 30px;
-                }
-              `}
-            />
-          )}
           {!isSmallTablet && (
             <React.Fragment>
               {' '}
@@ -404,7 +407,181 @@ export const Navbar = observer(() => {
               ลงทะเบียน/เข้าสู่ระบบ
             </li>
           )}
-        </NavbarList>
+        </NavbarList> */}
+        <div>
+          {isSmallTablet ? (
+            <SideMenu collapsed={collapsed} setCollapsed={setCollapsed} />
+          ) : (
+            <div
+              style={{
+                width: '400px',
+                marginLeft: '60px',
+                display: 'flex',
+                cursor: 'pointer'
+              }}
+              onClick={() => {
+                history.push({
+                  pathname: '/'
+                });
+              }}
+            >
+              <div
+                style={{ color: 'black', fontWeight: 700 }}
+                css={css`
+                  font-size: 45px;
+                  ${mediaQueryLargeDesktop} {
+                    font-size: 32px;
+                  }
+                `}
+              >
+                HELLO HELPER
+              </div>{' '}
+              <MessageOutlined />
+            </div>
+          )}
+        </div>
+        <div>
+          {isSmallTablet && (
+            <Search
+              placeholder="ข้าวผัดป้าเขียว, ก๋วยจั๊บนายวาย, แกงกะหรี่ป้าอร โชคชัย4"
+              onSearch={onSearch}
+              size="large"
+              css={css`
+                min-width: 500px;
+
+                ${mediaQueryMobile} {
+                  min-width: 260px;
+                }
+
+                .ant-input-group-wrapper {
+                  width: unset;
+                }
+                .ant-input {
+                  height: 30px;
+                  width: 100%;
+                  font-size: 14px;
+                }
+
+                .ant-btn-icon-only.ant-btn-lg {
+                  height: 30px;
+                  width: 30px;
+                }
+              `}
+            />
+          )}
+        </div>
+        <div>
+          {' '}
+          <NavbarList>
+            {!isSmallTablet && (
+              <React.Fragment>
+                {' '}
+                <li
+                  onClick={() => {
+                    history.push({
+                      pathname: response?.communityId?.includes(
+                        window.localStorage.getItem('selectedCommunity')
+                      )
+                        ? `/community/${window.localStorage.getItem(
+                            'selectedCommunity'
+                          )}`
+                        : response?.communityId?.length > 0
+                        ? `/community/${response.communityId[0]}`
+                        : `/community`
+                    });
+                  }}
+                >
+                  ชุมชนความช่วยเหลือ
+                </li>
+                <li
+                  onClick={() => {
+                    history.push({
+                      pathname: '/order/provide'
+                    });
+                  }}
+                >
+                  รายการให้ความช่วยเหลือของฉัน
+                </li>
+                <li
+                  onClick={() => {
+                    history.push({
+                      pathname: '/order/request'
+                    });
+                  }}
+                >
+                  รายการขอความช่วยเหลือของฉัน
+                </li>
+                <li
+                  onClick={() => {
+                    history.push({
+                      pathname: '/chat'
+                    });
+                  }}
+                >
+                  กล่องข้อความ
+                </li>
+              </React.Fragment>
+            )}
+
+            {window.localStorage.getItem('id') ? (
+              me ? (
+                <React.Fragment>
+                  <MyAccount
+                    src={me ? me.imageUrl : DefaultImage}
+                    alt="my account"
+                    onClick={() => {
+                      setCollapsed(true);
+                      if (account) {
+                        history.push({
+                          pathname: '/profile'
+                        });
+                      } else {
+                        setIsModalVisible(true);
+                      }
+                    }}
+                  />{' '}
+                </React.Fragment>
+              ) : (
+                <Skeleton.Avatar
+                  size="large"
+                  shape="circle"
+                  css={css`
+                    position: relative;
+                    right: 15px;
+                    margin-left: 15px;
+
+                    ${mediaQuerySmallTablet} {
+                      right: 15px;
+                      z-index: 10;
+                    }
+                  `}
+                />
+              )
+            ) : (
+              <li
+                onClick={() => {
+                  setIsModalVisible(true);
+                }}
+                css={css`
+                  position: relative;
+
+                  ${mediaQuerySmallTablet} {
+                    position: absolute;
+                    right: 15px;
+                    top: 22px;
+                    z-index: 10;
+                  }
+
+                  ${mediaQueryMobile} {
+                    top: 12px;
+                  }
+                `}
+              >
+                ลงทะเบียน/เข้าสู่ระบบ
+              </li>
+            )}
+          </NavbarList>{' '}
+        </div>
       </Flex>
       {!isSmallTablet && (
         <SearchBarContainer>
@@ -449,29 +626,50 @@ export const Navbar = observer(() => {
         onOk={handleOk}
         onCancel={handleCancel}
         footer={null}
-        width={isMobile ? '85%' : isLargeDesktop ? 500 : '22%'}
+        // width={isMobile ? '85%' : isLargeDesktop ? 500 : '22%'}
         maskClosable={false}
         centered
         css={css`
+          width: 22% !important;
+
           .ant-modal-content {
             min-height: 820px;
             height: max-content;
-            width: 90%;
+          }
 
-            ${mediaQueryLargeDesktop} {
+          ${mediaQueryLargeDesktop} {
+            width: 480px !important;
+
+            .ant-modal-content {
               min-height: 620px;
               height: max-content;
             }
+          }
 
-            ${mediaQueryMobile} {
-              min-height: 400px;
-              height: 400px;
-              overflow-y: scroll;
+          ${mediaQueryTablet} {
+            width: 500px !important;
+
+            .ant-modal-content {
+              min-height: 620px;
+              height: 620px;
             }
+          }
+
+          ${mediaQueryMobile} {
+            width: 350px !important;
+
+            .ant-modal-content {
+              min-height: 550px;
+              height: 550px;
+            }
+          }
+
+          .ant-modal-body {
+            height: 100%;
           }
         `}
       >
-        <div>
+        <div style={{ height: '100%' }}>
           {accountStep === LoginStep.LOGIN ? (
             <LoginForm
               setStep={setAccountStep}

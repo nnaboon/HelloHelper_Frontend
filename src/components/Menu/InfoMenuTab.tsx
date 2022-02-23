@@ -1,11 +1,15 @@
+/** @jsxRuntime classic */
+/** @jsx jsx */
 import React from 'react';
 import styled from '@emotion/styled';
+import { css, jsx } from '@emotion/react';
 import Flex from 'components/Flex/Flex';
 import { useHistory, useLocation } from 'react-router-dom';
 import { MenuButton } from './MenuButton';
 import { useMedia, MOBILE_WIDTH, TABLET_WIDTH } from 'styles/variables';
 
 import { InfoMenu, INFO_MENU_MAPPER } from './const';
+import { mediaQueryMobile } from '../../styles/variables';
 
 interface MenuTabProps {
   menu: InfoMenu;
@@ -23,9 +27,16 @@ export const InfoMenuTab = ({ menu, setMenu }: MenuTabProps) => {
       justify="space-around"
       marginBottom="18px"
       style={{
-        width: isTablet ? '100%' : '50%',
-        margin: isMobile ? '10px 0px 40px 0' : '50px 0'
+        width: isTablet ? '100%' : '50%'
       }}
+      css={css`
+        margin-top: 10px;
+        margin-bottom: 50px;
+
+        ${mediaQueryMobile} {
+          margin: 10px 0px 40px 0;
+        }
+      `}
     >
       {Object.values(InfoMenu).map((key) => (
         <MenuButton

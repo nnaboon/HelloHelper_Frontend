@@ -20,16 +20,15 @@ export const WrapperContainer = styled.div`
 
   ${mediaQueryTablet} {
     padding: 40px 60px;
-    top: 100px;
-    height: calc(100vh - 100px);
+    top: 80px;
   }
 
   ${mediaQuerySmallTablet} {
-    padding: 40px 20px;
+    padding: 40px;
   }
 
   ${mediaQueryMobile} {
     padding: 20px 20px 40px 20px;
-    top: 140px;
+    top: 80px;
   }
 `;

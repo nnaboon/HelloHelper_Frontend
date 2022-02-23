@@ -76,10 +76,6 @@ export const SearchResultPage = () => {
       css={css`
         top: 250px;
 
-        ${mediaQueryLargeDesktop} {
-          top: 165px;
-        }
-
         ${mediaQueryMobile} {
           height: calc(100vh - 120px);
         }

@@ -44,9 +44,11 @@ const RequestListContainer = styled.div`
   ${mediaQueryTablet} {
     width: 100%;
     padding: 20px;
+    min-height: 290px;
   }
 
   ${mediaQueryMobile} {
+    min-height: 265px;
     padding: 20px 15px;
   }
 `;
@@ -81,7 +83,6 @@ const RequestListData = styled.div`
 
   ${mediaQueryMobile} {
     font-size: 16px;
-    width: 185px;
     -webkit-line-clamp: 1;
   }
 `;
@@ -123,7 +124,15 @@ export const RequestListCard = ({ props }: RequestListCardProps) => {
       <StatusBadge
         status={STATUS_MAPPER[props.status].status}
         color={STATUS_MAPPER[props.status].color}
-        style={{ position: 'absolute', right: '40px', top: '34px' }}
+        style={{ position: 'absolute', right: '40px' }}
+        css={css`
+          top: 20px;
+
+          ${mediaQueryTablet} {
+            top: 0;
+            right: 20px;
+          }
+        `}
       />
       <RequestListContent
         onClick={() => {
@@ -328,7 +337,7 @@ export const RequestListCard = ({ props }: RequestListCardProps) => {
         onOk={handleOk}
         onCancel={handleCancel}
         footer={null}
-        width={isMobile ? '400px' : isLargeDesktop ? '400px' : '25%'}
+        width={isMobile ? '350px' : isLargeDesktop ? '400px' : '25%'}
         maskClosable={false}
         centered
         css={css`

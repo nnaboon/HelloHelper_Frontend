@@ -14,6 +14,7 @@ import {
   MOBILE_WIDTH,
   mediaQueryMobile,
   mediaQuerySmallTablet,
+  mediaQueryTablet,
   mediaQueryLargeDesktop
 } from 'styles/variables';
 
@@ -28,7 +29,7 @@ const CommunityMemberCard = styled.div`
   margin-bottom: 40px;
 
   ${mediaQueryMobile} {
-    height: 135px;
+    height: 140px;
     margin-bottom: 20px;
   }
 `;
@@ -66,8 +67,8 @@ const CommunityMemberImage = styled.img`
   ${mediaQueryMobile} {
     width: 60px;
     height: 60px;
-    margin-right: 20px;
-    margin-left: 20px;
+    margin-right: 15px;
+    margin-left: 15px;
   }
 `;
 
@@ -82,9 +83,13 @@ const UserName = styled.div`
     font-size: 24px;
   }
 
+  ${mediaQueryTablet} {
+    font-size: 20px;
+  }
+
   ${mediaQuerySmallTablet} {
     margin-right: 20px;
-    max-width: 150px;
+    // max-width: 150px;
   }
 
   ${mediaQueryMobile} {
@@ -154,7 +159,7 @@ export const CommunityMemberContent = ({ member }: any) => {
                 ${mediaQueryMobile} {
                   margin: 0;
                   position: relative;
-                  bottom: -13px;
+                  bottom: -16px;
                   width: 100%;
                   justify-content: space-between;
                 }

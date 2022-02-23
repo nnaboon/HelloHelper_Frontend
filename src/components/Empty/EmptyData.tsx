@@ -89,7 +89,7 @@ export const EmptyData = ({ height, text }: EmptyDataProps) => {
         }
 
         ${mediaQueryMobile} {
-          height: 100%;
+          height: ${height ?? `calc(100vh - 265px)`};
           top: 0;
         }
       `}

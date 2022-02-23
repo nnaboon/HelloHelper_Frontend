@@ -158,8 +158,13 @@ const ProfileInfoListDetail = styled.div`
     width: 350px;
   }
 
+  ${mediaQueryTablet} {
+    font-size: 22px;
+  }
+
   ${mediaQueryMobile} {
     font-size: 18px;
+    width: unset;
     word-wrap: break-word;
   }
 `;
@@ -273,13 +278,7 @@ export const CommunityContentInfo = observer(({ data }: any) => {
   }, []);
 
   return (
-    <WrapperContainer
-      css={css`
-        ${mediaQueryMobile} {
-          height: calc(100vh - 140px) !important;
-        }
-      `}
-    >
+    <WrapperContainer>
       {community ? (
         <React.Fragment>
           {' '}
@@ -371,11 +370,17 @@ export const CommunityContentInfo = observer(({ data }: any) => {
                     position: 'absolute',
                     bottom: '12px',
                     padding: '10px',
-                    left: '-9px',
+
                     width: '100%',
                     cursor: 'pointer'
                   }}
                   css={css`
+                    left: -9px;
+
+                    ${mediaQueryTablet} {
+                      left: 0;
+                    }
+
                     ${mediaQueryMobile} {
                       justify-content: space-between;
                       left: 0 !important;
@@ -386,6 +391,11 @@ export const CommunityContentInfo = observer(({ data }: any) => {
                   <PrimaryButton
                     css={css`
                       width: 100%;
+
+                      ${mediaQueryTablet} {
+                        margin-left: 0;
+                      }
+
                       ${mediaQueryMobile} {
                         width: 47%;
                       }
@@ -448,7 +458,13 @@ export const CommunityContentInfo = observer(({ data }: any) => {
                 </div>
               )}
             </UserCard>
-            <div>
+            <div
+              css={css`
+                ${mediaQueryMobile} {
+                  width: 100%;
+                }
+              `}
+            >
               <Flex marginBottom="40px" marginTop={isMobile ? '40px' : 0}>
                 <ProfileInfoListHeading>
                   ขอบเขตการช่วยเหลือ

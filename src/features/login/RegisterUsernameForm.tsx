@@ -84,6 +84,9 @@ export const RegisterUsernameForm = (props: RegisterUsernameFormProps) => {
         onFinish={onFinish}
         autoComplete="off"
         css={css`
+          position: relative;
+          height: 100%;
+
           .ant-form-item-control-input {
             width: 100%;
           }
@@ -170,8 +173,8 @@ export const RegisterUsernameForm = (props: RegisterUsernameFormProps) => {
             border-radius: 9px;
             border: 0;
             position: absolute;
-            bottom: 20px;
-            right: 64px;
+            bottom: 0;
+            right: 0;
             color: #ffff;
 
             &:hover {

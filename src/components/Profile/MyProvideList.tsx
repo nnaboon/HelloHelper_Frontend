@@ -41,6 +41,10 @@ const HelperListCard = styled.div`
     height: 370px;
   }
 
+  ${mediaQueryTablet} {
+    margin: 0;
+  }
+
   ${mediaQueryMobile} {
     margin-top: 0;
     margin-bottom: 30px;
