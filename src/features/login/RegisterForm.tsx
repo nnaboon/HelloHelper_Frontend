@@ -8,7 +8,6 @@ import { RegisterAbilityForm } from './RegisterAbilityForm';
 import { getAuth } from 'firebase/auth';
 import axios from 'axios';
 import { observer } from 'mobx-react-lite';
-import firebase from '../../firebase';
 import { message } from 'antd';
 import { userStore } from 'store/userStore';
 import { REACT_APP_API } from 'config';
@@ -23,28 +22,14 @@ export const RegisterForm = observer(
     const auth = getAuth();
     const user = auth.currentUser;
     const [step, setStep] = useState<RegisterStep>(
-      // user
-      //   ? user.displayName
-      //     ? RegisterStep.LOCATION
-      //     : RegisterStep.USERNAME
-      //   : RegisterStep.EMAIL_AND_PASSWORD
-
-      RegisterStep.ABILITY
+      user
+        ? user.displayName
+          ? RegisterStep.LOCATION
+          : RegisterStep.USERNAME
+        : RegisterStep.EMAIL_AND_PASSWORD
     );
     const [createUserData, setCreateUserData] = useState<UserCreateBody>();
     const { setUserId } = userStore;
-
-    // useEffect(() => {
-    //   if (user) {
-    //     if (user.displayName) {
-    //       setStep(RegisterStep.LOCATION);
-    //     } else {
-    //       setStep(RegisterStep.USERNAME);
-    //     }
-    //   } else {
-    //     setStep(RegisterStep.EMAIL_AND_PASSWORD);
-    //   }
-    // });
 
     useEffect(() => {
       if (window.localStorage.getItem('id')) {
@@ -95,10 +80,6 @@ export const RegisterForm = observer(
               setProcessStep={setProcessStep}
               onNext={async (userAccountData) => {
                 await setCreateUserData(userAccountData);
-                // axios.post('${REACT_APP_API}/user/create', {
-                //   email: userAccountData.email,
-                //   password: userAccountData?.password
-                // });
               }}
             />
           );
