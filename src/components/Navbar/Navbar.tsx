@@ -448,6 +448,7 @@ export const Navbar = observer(() => {
 
                   ${mediaQueryMobile} {
                     top: 12px;
+                    padding-top: 15px;
                   }
                 `}
               >

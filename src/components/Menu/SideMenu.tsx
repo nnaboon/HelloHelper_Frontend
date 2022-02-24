@@ -88,15 +88,16 @@ export const SideMenu = observer(
           }}
           css={css`
             height: 100vh;
+            position: fixed;
+
             ${mediaQuerySmallTablet} {
-              height: 89vh;
-              position: relative;
-              top: 92px;
+              height: 100vh;
+              top: 80px;
             }
 
             ${mediaQueryMobile} {
-              height: 92vh;
-              top: 0;
+              height: 100vh;
+              top: 70px;
             }
           `}
         >
