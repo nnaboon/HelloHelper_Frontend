@@ -39,6 +39,10 @@ const RegisterLocationFormSection = styled.div`
   position: relative;
   height: 100%;
   overflow: scroll;
+
+  ${mediaQueryMobile} {
+    padding: 0;
+  }
 `;
 
 export const RequestFormModal = ({
@@ -128,7 +132,9 @@ export const RequestFormModal = ({
       userId: window.localStorage.getItem('id'),
       title: value.title,
       location: {
-        name: location ? location.name : requestData.location.name,
+        name: location
+          ? location.name ?? location.formatted_address
+          : requestData.location.name,
         latitude: location
           ? location.name !== requestData.location.name
             ? location.geometry.location.lat()

@@ -46,6 +46,7 @@ const HelperListCard = styled.div`
   }
 
   ${mediaQueryMobile} {
+    height: 350px;
     margin-top: 0;
     margin-bottom: 30px;
     padding: 25px;
@@ -106,7 +107,6 @@ const HelperListDetail = styled.div`
 
   ${mediaQueryMobile} {
     font-size: 16px;
-    width: 185px;
     -webkit-line-clamp: 2;
   }
 `;

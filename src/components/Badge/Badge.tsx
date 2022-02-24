@@ -62,6 +62,10 @@ export const RankingBadge = styled.div<{ rankColor: string }>`
     font-size: 16px;
     border-radius: 6px;
   }
+
+  ${mediaQueryMobile} {
+    min-width: unset;
+  }
 `;
 
 //status: 0 = hide, 1 = process, 2 = already

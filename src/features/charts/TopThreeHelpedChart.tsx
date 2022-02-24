@@ -9,7 +9,6 @@ import {
 import { width } from 'styled-system';
 
 export const TopThreeHelpedChart = ({ data }: any) => {
-  console.log(data);
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
   const isLargeDesktop = useMedia(`(max-width: ${LARGE_DESKTOP_WIDTH}px)`);

@@ -21,22 +21,23 @@ import CommunityPic from 'images/community_homepage.jpeg';
 import GoodsPic from 'images/goods_homepage.jpeg';
 import EarnMoneyPic from 'images/earn.jpeg';
 import {
-  mediaQueryMobile,
-  mediaQuerySmallTablet,
+  SMALL_TABLET_WIDTH,
   MOBILE_WIDTH,
   TABLET_WIDTH,
+  mediaQueryMobile,
+  mediaQuerySmallTablet,
   mediaQueryTablet,
+  mediaQueryMiniDesktop,
   mediaQueryLargeDesktop,
   mediaQueryExtraLargeDesktop,
-  SMALL_TABLET_WIDTH,
   useMedia
 } from 'styles/variables';
 import { LeftOutlined, LineOutlined, RightOutlined } from '@ant-design/icons';
-import { PROVIDE_MAPPER } from 'data/provide';
 import { useUsers } from 'hooks/user/useUsers';
 import { useProvides } from 'hooks/provide/useProvides';
 import { useRequests } from 'hooks/request/useRequests';
 import { Loading } from 'components/Loading/Loading';
+import {} from '../styles/variables';
 
 const HomePageCategorySection = styled.div`
   display: grid;
@@ -139,6 +140,10 @@ const CategoryMenu = styled.div`
     svg {
       font-size: 32px;
     }
+  }
+
+  ${mediaQueryMiniDesktop} {
+    font-size: 13px;
   }
 `;
 

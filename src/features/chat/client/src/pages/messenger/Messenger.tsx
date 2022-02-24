@@ -216,7 +216,10 @@ const ChatSubmitButton = styled.button`
 
 export const Messenger = observer(() => {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [currentUser, setCurrentUser] = useState<any>(null);
   const [chats, setChats] = useState<any[]>(null);
+  const [users, setUsers] = useState<any[]>([]);
+
   const [currentChat, setCurrentChat] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
@@ -247,6 +250,7 @@ export const Messenger = observer(() => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(user);
     const message = {
       senderUserId: me.userId,
       receiverUserId: user?.userId,
@@ -254,7 +258,7 @@ export const Messenger = observer(() => {
     };
 
     try {
-      addMessage(query, message).then((res) => {
+      addMessage(pathname?.split('/')[2], message).then((res) => {
         setMessages(res.data);
       });
       setNewMessage('');
@@ -276,7 +280,7 @@ export const Messenger = observer(() => {
             media: res.data
           };
 
-          addMessage(query, message).then((res) => {
+          addMessage(pathname?.split('/')[2], message).then((res) => {
             setMessages(res.data);
           });
         })
@@ -296,19 +300,30 @@ export const Messenger = observer(() => {
     if (me) {
       getChats(me.userId).then((res) => setChats(res.data));
       if (query !== undefined) {
-        getChat(query).then((res) => setMessages(res.data[0].messages));
+        getChat(pathname?.split('/')[2]).then((res) =>
+          setMessages(res.data[0].messages)
+        );
       }
     }
   }, [me]);
 
   useEffect(() => {
-    const doc = firestore.collection('chats').doc(query).collection('messages');
-    const entities = [];
+    const doc = firestore
+      .collection('chats')
+      .doc(pathname?.split('/')[2])
+      .collection('messages');
 
     const observer = doc.onSnapshot(
       (docSnapshot) => {
-        if (query) {
-          getChat(query).then((res) => setMessages(res.data[0].messages));
+        console.log('a');
+        if (pathname?.split('/')[2]) {
+          updateReadStatus(pathname?.split('/')[2], {
+            senderUserId: me.userId
+          }).then(() => {
+            getChat(pathname?.split('/')[2]).then((res) =>
+              setMessages(res.data[0].messages)
+            );
+          });
         }
       },
       (err) => {
@@ -316,7 +331,6 @@ export const Messenger = observer(() => {
       }
     );
 
-    setChats(entities);
     return () => observer();
   }, []);
 
@@ -343,7 +357,7 @@ export const Messenger = observer(() => {
 
   useEffect(() => {
     if (query) {
-      setCurrentChat(query);
+      setCurrentChat(pathname?.split('/')[2]);
       getWaitConfirmOrder(query).then((res) => setOrders(res.data));
 
       const currentChatRoom = chats?.filter(
@@ -353,7 +367,9 @@ export const Messenger = observer(() => {
         (items) => items !== window.localStorage.getItem('id')
       );
       getUser(anotherUser);
-      getChat(query).then((res) => setMessages(res.data[0].messages));
+      getChat(pathname?.split('/')[2]).then((res) =>
+        setMessages(res.data[0].messages)
+      );
     }
   }, [query]);
 
@@ -367,7 +383,6 @@ export const Messenger = observer(() => {
         padding: 0 20px;
       `}
     >
-      {console.log(me, chats, user)}
       {me && chats ? (
         <React.Fragment>
           <MessengerContainer>
@@ -403,7 +418,7 @@ export const Messenger = observer(() => {
                             alignItems: 'flex-end'
                           }}
                         >
-                          <UserName>{user.username}</UserName>
+                          <UserName>{user?.username}</UserName>
                         </div>
                         <RequestForm onClick={() => setIsModalVisible(true)}>
                           ฟอร์มการช่วยเหลือ
@@ -426,7 +441,7 @@ export const Messenger = observer(() => {
                           >
                             <Message
                               message={m}
-                              anotherUserImg={user.imageUrl}
+                              anotherUserImg={user?.imageUrl}
                               own={Boolean(
                                 m.createdBy ===
                                   window.localStorage.getItem('id')

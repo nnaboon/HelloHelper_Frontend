@@ -140,9 +140,9 @@ export default function Message({
           {' '}
           <MessageTop>
             {Boolean(
-              message.readStatus.filter(
+              message?.readStatus.filter(
                 ({ userId }) => userId !== window.localStorage.getItem('id')
-              )[0].readStatus === 1
+              )[0]?.readStatus === 1
             ) ? (
               <Flex itemAlign="flex-end">
                 {' '}

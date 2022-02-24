@@ -19,16 +19,15 @@ import {
   MOBILE_WIDTH,
   mediaQueryMobile,
   mediaQueryTablet,
-  TABLET_WIDTH
+  TABLET_WIDTH,
+  mediaQueryLargeDesktop,
+  mediaQueryExtraLargeDesktop,
+  mediaQueryMiniDesktop
 } from 'styles/variables';
 import { EmptyData } from 'components/Empty/EmptyData';
 import { useProvides } from 'hooks/provide/useProvides';
 import { useRequests } from 'hooks/request/useRequests';
 import { Loading } from 'components/Loading/Loading';
-import {
-  mediaQueryLargeDesktop,
-  mediaQueryExtraLargeDesktop
-} from '../styles/variables';
 
 const SearchResultContent = styled.div`
   display: grid;
@@ -40,6 +39,10 @@ const SearchResultContent = styled.div`
   ${mediaQueryLargeDesktop} {
     grid-template-columns: auto auto;
     grid-gap: 10px;
+  }
+
+  ${mediaQueryMiniDesktop} {
+    grid-template-columns: 1fr 1fr;
   }
 
   ${mediaQueryMobile} {
@@ -98,6 +101,10 @@ export const SearchResultPage = () => {
 
               ${mediaQueryLargeDesktop} {
                 width: 66%;
+              }
+
+              ${mediaQueryMiniDesktop} {
+                width: 77%;
               }
 
               ${mediaQueryTablet} {

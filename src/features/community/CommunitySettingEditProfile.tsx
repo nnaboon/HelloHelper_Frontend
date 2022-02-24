@@ -112,7 +112,9 @@ export const CommunitySettingEditProfile = ({ communityData }: any) => {
       //   ? value.communityCode
       //   : communityData.communityCode,
       location: {
-        name: location ? location?.name : communityData.location.name,
+        name: location
+          ? location?.name ?? location.formatted_address
+          : communityData.location.name,
         latitude: location
           ? location?.geometry.location.lat()
           : communityData.location.latitude,

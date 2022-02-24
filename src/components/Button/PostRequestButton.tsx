@@ -128,7 +128,7 @@ export const PostRequestButton = ({
       userId: window.localStorage.getItem('id'),
       title: value.title,
       location: {
-        name: location.name,
+        name: location.name ?? location.formatted_address,
         latitude: location.geometry.location.lat(),
         longitude: location.geometry.location.lng()
       },

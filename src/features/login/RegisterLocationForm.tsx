@@ -6,9 +6,12 @@ import styled from '@emotion/styled';
 import { Text } from 'components/Text';
 import { Button, Divider, Form, Input, message, Checkbox } from 'antd';
 import { LocationType, UserCreateBody } from './const';
-import { mediaQueryMobile } from 'styles/variables';
+import {
+  mediaQueryMobile,
+  mediaQueryTablet,
+  mediaQueryLargeDesktop
+} from 'styles/variables';
 import { GoogleMapContent } from 'components/GoogleMap/GoogleMap';
-import { mediaQueryLargeDesktop } from '../../styles/variables';
 
 type RegisterLocationFormProps = {
   userAccountData: UserCreateBody;
@@ -19,7 +22,8 @@ type RegisterLocationFormProps = {
 const RegisterLocationFormSection = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 2.55rem 2.75rem 1.5rem 2.75rem;
+  padding: 2rem 2.75rem 1.5rem 2.75rem;
+  height: 100%;
 
   ${mediaQueryMobile} {
     padding: 0;
@@ -37,7 +41,7 @@ export const RegisterLocationForm = (props: RegisterLocationFormProps) => {
     setIsSubmitting(true);
     const data = {
       location: {
-        name: location?.name,
+        name: location?.name ?? location.formatted_address,
         latitude: location?.geometry.location.lat(),
         longitude: location?.geometry.location.lng()
       }
@@ -71,13 +75,23 @@ export const RegisterLocationForm = (props: RegisterLocationFormProps) => {
         `}
       />
       <Text
-        marginTop="10px"
-        marginBottom="20px"
         css={css`
           font-size: 2.2rem;
+          margin-top: 10px;
+          margin-bottom: 20px;
 
           ${mediaQueryLargeDesktop} {
             font-size: 24px;
+          }
+
+          ${mediaQueryTablet} {
+            font-size: 20px;
+          }
+
+          ${mediaQueryMobile} {
+            font-size: 18px;
+            margin-top: 15px;
+            margin-bottom: 10px;
           }
         `}
       >
@@ -92,7 +106,6 @@ export const RegisterLocationForm = (props: RegisterLocationFormProps) => {
         onFinish={onFinish}
         autoComplete="off"
         css={css`
-          position: relative;
           height: 100%;
 
           .ant-col-16 {

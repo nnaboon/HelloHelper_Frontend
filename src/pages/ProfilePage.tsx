@@ -213,7 +213,7 @@ const ProfileInfoListHeading = styled.div`
 const ProfileInfoListDetail = styled.div`
   font-weight: 600;
   font-size: 2rem;
-  line-height: 21px;
+  line-height: 29px;
   color: #e56101;
   margin-left: 12px;
 
@@ -515,14 +515,21 @@ export const ProfilePage = observer(() => {
                   )}
                 </UserCard>
                 <ProfileInfoSection>
-                  <Flex
-                    marginBottom="40px"
-                    itemAlign={isMobile ? 'center' : 'flex-end'}
-                  >
+                  <Flex marginBottom="40px" itemAlign="center">
                     <ProfileInfoListHeading>
                       ขอบเขตการช่วยเหลือ
                     </ProfileInfoListHeading>
-                    <ProfileInfoListDetail>
+                    <ProfileInfoListDetail
+                      css={css`
+                        max-width: 600px;
+                        ${mediaQueryLargeDesktop} {
+                          max-width: 400px;
+                        }
+                        ${mediaQueryMobile} {
+                          max-width: 300px;
+                        }
+                      `}
+                    >
                       {user?.location.name}
                     </ProfileInfoListDetail>
                   </Flex>

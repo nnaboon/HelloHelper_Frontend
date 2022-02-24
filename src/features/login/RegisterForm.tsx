@@ -11,6 +11,7 @@ import { observer } from 'mobx-react-lite';
 import { message } from 'antd';
 import { userStore } from 'store/userStore';
 import { REACT_APP_API } from 'config';
+import { RegisterVerifyEmail } from './RegisterVerifyEmail';
 
 interface RegisterFormProps {
   setProcessStep: (step: LoginStep) => void;
@@ -23,9 +24,11 @@ export const RegisterForm = observer(
     const user = auth.currentUser;
     const [step, setStep] = useState<RegisterStep>(
       user
-        ? user.displayName
-          ? RegisterStep.LOCATION
-          : RegisterStep.USERNAME
+        ? user.emailVerified
+          ? user.displayName
+            ? RegisterStep.LOCATION
+            : RegisterStep.USERNAME
+          : RegisterStep.VERIFY_EMAIL
         : RegisterStep.EMAIL_AND_PASSWORD
     );
     const [createUserData, setCreateUserData] = useState<UserCreateBody>();
@@ -80,6 +83,15 @@ export const RegisterForm = observer(
               setProcessStep={setProcessStep}
               onNext={async (userAccountData) => {
                 await setCreateUserData(userAccountData);
+                setStep(RegisterStep.VERIFY_EMAIL);
+              }}
+            />
+          );
+        case RegisterStep.VERIFY_EMAIL:
+          return (
+            <RegisterVerifyEmail
+              onNext={() => {
+                setStep(RegisterStep.USERNAME);
               }}
             />
           );
@@ -142,6 +154,10 @@ export const RegisterForm = observer(
           );
       }
     };
-    return <div style={{ height: '100%' }}>{renderForm(step)}</div>;
+    return (
+      <div style={{ height: '100%', position: 'relative' }}>
+        {renderForm(step)}
+      </div>
+    );
   }
 );

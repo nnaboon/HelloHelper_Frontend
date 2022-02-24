@@ -7,7 +7,11 @@ import { Text } from 'components/Text';
 import { Checkbox, Button, Form, message } from 'antd';
 import { UserCreateBody } from './const';
 import { useHistory } from 'react-router-dom';
-import { mediaQueryMobile, mediaQueryLargeDesktop } from 'styles/variables';
+import {
+  mediaQueryMobile,
+  mediaQueryLargeDesktop,
+  mediaQueryTablet
+} from 'styles/variables';
 
 type RegisterAbilityFormProps = {
   userAccountData: UserCreateBody;
@@ -18,8 +22,7 @@ type RegisterAbilityFormProps = {
 const RegisterAbilityFormSection = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 2.55rem 2.75rem 1.5rem 2.75rem;
-  position: relative;
+  padding: 2rem 2.75rem 1.5rem 2.75rem;
 
   ${mediaQueryMobile} {
     padding: 0;
@@ -89,7 +92,6 @@ export const RegisterAbilityForm = (props: RegisterAbilityFormProps) => {
         onFinish={onFinish}
         autoComplete="off"
         css={css`
-          position: relative;
           height: 100%;
 
           .ant-modal .ant-form-item-control-input {
@@ -157,10 +159,6 @@ export const RegisterAbilityForm = (props: RegisterAbilityFormProps) => {
               margin-bottom: 24px;
             }
 
-            .ant-form-item-control-input {
-              width: 460px;
-            }
-
             .ant-form-item-label > label {
               font-size: 16px;
             }
@@ -186,14 +184,24 @@ export const RegisterAbilityForm = (props: RegisterAbilityFormProps) => {
         />
         <Text
           marginTop="10px"
-          marginBottom="50px"
           css={css`
             height: 50px;
             font-size: 2.2rem;
+            margin-bottom: 50px;
 
             ${mediaQueryLargeDesktop} {
               height: 40px;
               font-size: 24px;
+            }
+
+            ${mediaQueryTablet} {
+              font-size: 20px;
+              margin-bottom: 15px;
+            }
+
+            ${mediaQueryMobile} {
+              font-size: 18px;
+              margin-bottom: 0px;
             }
           `}
         >

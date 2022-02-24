@@ -28,7 +28,7 @@ type RegisterAccountFormProps = {
 const RegisterAccountFormSection = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 2.55rem 2.75rem 1.5rem 2.75rem;
+  padding: 2rem 2.75rem 1.5rem 2.75rem;
   height: 100%;
 
   ${mediaQueryMobile} {
@@ -96,7 +96,6 @@ export const RegisterAccountForm = observer(
               .sendEmailVerification()
               .then(() => {
                 console.log('Verification Email Sent Successfully !');
-                window.location.assign('/');
               })
               .catch((error) => {
                 console.error(error);
@@ -132,12 +131,16 @@ export const RegisterAccountForm = observer(
         />
         <Text
           marginTop="10px"
-          marginBottom="20px"
           css={css`
             font-size: 2.2rem;
+            margin-bottom: 20px;
 
             ${mediaQueryLargeDesktop} {
               font-size: 24px;
+            }
+
+            ${mediaQueryMobile} {
+              font-size: 18px;
             }
           `}
         >

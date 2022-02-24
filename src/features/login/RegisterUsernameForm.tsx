@@ -6,7 +6,11 @@ import styled from '@emotion/styled';
 import { Button, Form, Input, message } from 'antd';
 import { Text } from 'components/Text';
 import { UserCreateBody } from './const';
-import { mediaQueryMobile, mediaQueryLargeDesktop } from 'styles/variables';
+import {
+  mediaQueryMobile,
+  mediaQueryLargeDesktop,
+  mediaQueryTablet
+} from 'styles/variables';
 
 type RegisterUsernameFormProps = {
   userAccountData: UserCreateBody;
@@ -67,9 +71,20 @@ export const RegisterUsernameForm = (props: RegisterUsernameFormProps) => {
         marginBottom="20px"
         css={css`
           font-size: 2.2rem;
+          margin-top: 10px;
+          margin-bottom: 20px;
 
           ${mediaQueryLargeDesktop} {
             font-size: 24px;
+          }
+
+          ${mediaQueryTablet} {
+            font-size: 20px;
+          }
+
+          ${mediaQueryMobile} {
+            margin-top: 15px;
+            font-size: 18px;
           }
         `}
       >

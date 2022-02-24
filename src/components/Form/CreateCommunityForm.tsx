@@ -86,7 +86,7 @@ export const CreateCommunityForm = ({
       // communityCode: value.password,
       communityName: value.name,
       location: {
-        name: location.name,
+        name: location.name ?? location.formatted_address,
         latitude: location.geometry.location.lat(),
         longitude: location.geometry.location.lng()
       },

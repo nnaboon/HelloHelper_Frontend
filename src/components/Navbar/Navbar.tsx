@@ -18,8 +18,10 @@ import {
   mediaQueryTablet,
   useMedia,
   MOBILE_WIDTH,
+  TABLET_WIDTH,
   SMALL_TABLET_WIDTH,
-  LARGE_DESKTOP_WIDTH
+  LARGE_DESKTOP_WIDTH,
+  MINI_DESKTOP_WIDTH
 } from 'styles/variables';
 import { MessageOutlined } from '@ant-design/icons';
 import { SideMenu } from 'components/Menu/SideMenu';
@@ -32,13 +34,17 @@ import { useVerifyToken } from 'hooks/useVerifyToken';
 
 const NavbarSection = styled.div`
   width: 100%;
-  height: 165px;
+  height: 210px;
   position: fixed;
   top: 0;
   display: flex;
   flex-direction: column;
   background: #f9f9f9;
   z-index: 99;
+
+  ${mediaQueryLargeDesktop} {
+    height: 165px;
+  }
 
   ${mediaQuerySmallTablet} {
     height: 80px;
@@ -119,6 +125,11 @@ const SearchBarContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
+  top: -40px;
+
+  ${mediaQueryLargeDesktop} {
+    top: -20px;
+  }
 
   ${mediaQuerySmallTablet} {
     top: 15px;
@@ -140,7 +151,9 @@ export const Navbar = observer(() => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [accountStep, setAccountStep] = useState<LoginStep>(LoginStep.LOGIN);
   const isSmallTablet = useMedia(`(max-width: ${SMALL_TABLET_WIDTH}px)`);
+  const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
+  const isMiniDesktop = useMedia(`(max-width: ${MINI_DESKTOP_WIDTH}px)`);
   const isLargeDesktop = useMedia(`(max-width: ${LARGE_DESKTOP_WIDTH}px)`);
 
   const { userId, setUserId, me, setMe, setLoginType } = userStore;
@@ -167,6 +180,14 @@ export const Navbar = observer(() => {
 
   const handleCancel = () => {
     setIsModalVisible(false);
+
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        setAccountStep(LoginStep.LOGIN);
+      } else {
+        setAccountStep(LoginStep.REGISTER);
+      }
+    });
   };
 
   useEffect(() => {
@@ -240,181 +261,31 @@ export const Navbar = observer(() => {
           }
         `}
       />
-      <Flex justify="space-between" marginY="20px">
-        {/* {isSmallTablet ? (
-          <SideMenu collapsed={collapsed} setCollapsed={setCollapsed} />
-        ) : (
-          <div
-            style={{
-              width: '400px',
-              marginLeft: '60px',
-              display: 'flex',
-              cursor: 'pointer'
-            }}
-            onClick={() => {
-              history.push({
-                pathname: '/'
-              });
-            }}
-          >
-            <div
-              style={{ color: 'black', fontWeight: 700 }}
-              css={css`
-                font-size: 45px;
-                ${mediaQueryLargeDesktop} {
-                  font-size: 32px;
-                }
-              `}
-            >
-              HELLO HELPER
-            </div>{' '}
-            <MessageOutlined />
-          </div>
-        )}
-        {isSmallTablet && (
-          <Search
-            placeholder="ข้าวผัดป้าเขียว, ก๋วยจั๊บนายวาย, แกงกะหรี่ป้าอร โชคชัย4"
-            onSearch={onSearch}
-            size="large"
-            css={css`
-              .ant-input-group-wrapper {
-                width: unset;
-              }
-              .ant-input {
-                height: 30px;
-                width: 350px;
-                font-size: 14px;
-              }
+      <Flex
+        justify="space-between"
+        css={css`
+          margin: 20px 0;
 
-              .ant-btn-icon-only.ant-btn-lg {
-                height: 30px;
-                width: 30px;
-              }
-            `}
-          />
-        )}
-        <NavbarList>
-          {!isSmallTablet && (
-            <React.Fragment>
-              {' '}
-              <li
-                onClick={() => {
-                  history.push({
-                    pathname: response?.communityId?.includes(
-                      window.localStorage.getItem('selectedCommunity')
-                    )
-                      ? `/community/${window.localStorage.getItem(
-                          'selectedCommunity'
-                        )}`
-                      : response?.communityId?.length > 0
-                      ? `/community/${response.communityId[0]}`
-                      : `/community`
-                  });
-                }}
-              >
-                ชุมชนความช่วยเหลือ
-              </li>
-              <li
-                onClick={() => {
-                  history.push({
-                    pathname: '/order/provide'
-                  });
-                }}
-              >
-                รายการให้ความช่วยเหลือของฉัน
-              </li>
-              <li
-                onClick={() => {
-                  history.push({
-                    pathname: '/order/request'
-                  });
-                }}
-              >
-                รายการขอความช่วยเหลือของฉัน
-              </li>
-              <li
-                onClick={() => {
-                  history.push({
-                    pathname: '/chat'
-                  });
-                }}
-              >
-                กล่องข้อความ
-              </li>
-            </React.Fragment>
-          )}
+          ${mediaQueryLargeDesktop} {
+            margin-top: 0;
+            margin-bottom: 20px;
+          }
 
-          {window.localStorage.getItem('id') ? (
-            me ? (
-              <React.Fragment>
-                <MyAccount
-                  src={me ? me.imageUrl : DefaultImage}
-                  alt="my account"
-                  onClick={() => {
-                    setCollapsed(true);
-                    if (account) {
-                      history.push({
-                        pathname: '/profile'
-                      });
-                    } else {
-                      setIsModalVisible(true);
-                    }
-                  }}
-                />{' '}
-              </React.Fragment>
-            ) : (
-              <Skeleton.Avatar
-                size="large"
-                shape="circle"
-                css={css`
-                  position: relative;
-                  right: 15px;
-                  margin-left: 15px;
+          ${mediaQueryTablet} {
+            margin: 20px 0;
+          }
 
-                  ${mediaQuerySmallTablet} {
-                    position: absolute;
-                    right: 15px;
-                    top: 22px;
-                    z-index: 10;
-                  }
-
-                  ${mediaQueryMobile} {
-                    top: 12px;
-                  }
-                `}
-              />
-            )
-          ) : (
-            <li
-              onClick={() => {
-                setIsModalVisible(true);
-              }}
-              css={css`
-                position: relative;
-
-                ${mediaQuerySmallTablet} {
-                  position: absolute;
-                  right: 15px;
-                  top: 22px;
-                  z-index: 10;
-                }
-
-                ${mediaQueryMobile} {
-                  top: 12px;
-                }
-              `}
-            >
-              ลงทะเบียน/เข้าสู่ระบบ
-            </li>
-          )}
-        </NavbarList> */}
+          ${mediaQueryMobile} {
+            margin: 0;
+          }
+        `}
+      >
         <div>
           {isSmallTablet ? (
             <SideMenu collapsed={collapsed} setCollapsed={setCollapsed} />
           ) : (
             <div
               style={{
-                width: '400px',
                 marginLeft: '60px',
                 display: 'flex',
                 cursor: 'pointer'
@@ -424,6 +295,9 @@ export const Navbar = observer(() => {
                   pathname: '/'
                 });
               }}
+              css={css`
+                width: max-content;
+              `}
             >
               <div
                 style={{ color: 'black', fontWeight: 700 }}
@@ -473,7 +347,7 @@ export const Navbar = observer(() => {
         <div>
           {' '}
           <NavbarList>
-            {!isSmallTablet && (
+            {!isTablet && (
               <React.Fragment>
                 {' '}
                 <li
@@ -590,10 +464,18 @@ export const Navbar = observer(() => {
             onSearch={onSearch}
             size="large"
             style={{
-              width: isMobile ? '350px' : isSmallTablet ? '600px' : '700px',
+              width: isMobile
+                ? '350px'
+                : isSmallTablet
+                ? '600px'
+                : isMiniDesktop
+                ? '500px'
+                : '700px',
               height: '40px'
             }}
             css={css`
+              position: relative;
+
               .ant-input {
                 height: 60px;
                 width: 990px;
@@ -665,7 +547,9 @@ export const Navbar = observer(() => {
           }
 
           .ant-modal-body {
+            width: 100%;
             height: 100%;
+            position: absolute;
           }
         `}
       >

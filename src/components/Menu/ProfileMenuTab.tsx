@@ -54,6 +54,8 @@ export const ProfileMenuTab = ({ menu, setMenu }: MenuTabProps) => {
         }
         ${mediaQueryMobile} {
           width: 100%;
+          margin-top: 0;
+          margin-bottom: 30px;
         }
       `}
     >

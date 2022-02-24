@@ -153,7 +153,7 @@ const ProvideDetail = styled.div`
   }
 
   ${mediaQueryTablet} {
-    min-width: max-content;
+    min-width: 100%;
   }
 
   ${mediaQueryMobile} {
@@ -503,13 +503,6 @@ export const ProvideInfoContent = observer(({ data }: any) => {
                           width: 100%;
                           max-width: 100%;
                         }
-                        ${mediaQueryMobile} {
-                          position: fixed;
-                          z-index: 4;
-                          bottom: 0;
-                          left: 0;
-                          border-radius: 0 !important;
-                        }
                       `}
                       onClick={() => {
                         addChatRoom({
@@ -598,6 +591,10 @@ export const ProvideInfoContent = observer(({ data }: any) => {
                     rankColor={RANK_BADGE[provide?.user?.rank].color}
                     css={css`
                       margin-top: -10px;
+
+                      ${mediaQueryMobile} {
+                        margin-left: 8px;
+                      }
                     `}
                   >
                     {provide?.user.rank.toUpperCase()}

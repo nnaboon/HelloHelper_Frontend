@@ -87,6 +87,10 @@ const RequestCategoryButton = styled(PrimaryButton)`
   ${mediaQueryLargeDesktop} {
     height: 40px;
   }
+
+  ${mediaQueryMobile} {
+    margin-bottom: 10px;
+  }
 `;
 
 const RequestHashtagButton = styled(SecondaryButton)`
@@ -99,6 +103,10 @@ const RequestHashtagButton = styled(SecondaryButton)`
 
   ${mediaQueryLargeDesktop} {
     height: 40px;
+  }
+
+  ${mediaQueryMobile} {
+    margin-bottom: 0;
   }
 `;
 
@@ -173,11 +181,12 @@ const RequestDetail = styled.div`
   }
 
   ${mediaQueryTablet} {
-    min-width: max-content;
+    min-width: 100%;
   }
 
   ${mediaQueryMobile} {
     font-size: 16px;
+    min-width: 100%;
   }
 `;
 
@@ -195,7 +204,7 @@ const RequestTitle = styled.div`
   }
 
   ${mediaQueryMobile} {
-    min-width: unset;
+    min-width: 120px;
     max-width: unset;
   }
 `;
@@ -226,6 +235,7 @@ const UserProfileCard = styled.div`
   ${mediaQueryMobile} {
     height: 90px;
     margin: 0;
+    margin-top: 20px;
   }
 `;
 
@@ -438,6 +448,10 @@ export const RequestInfoContent = observer(({ data }: any) => {
                       css={css`
                         width: 600px;
                         flex-wrap: wrap;
+
+                        ${mediaQueryMobile} {
+                          width: 100%;
+                        }
                       `}
                     >
                       {request.category.map((items) => (
@@ -456,6 +470,10 @@ export const RequestInfoContent = observer(({ data }: any) => {
                       css={css`
                         width: 600px;
                         flex-wrap: wrap;
+
+                        ${mediaQueryMobile} {
+                          width: 100%;
+                        }
                       `}
                     >
                       {request.hashtag.map((items) => (
@@ -524,103 +542,105 @@ export const RequestInfoContent = observer(({ data }: any) => {
                       </RequestDetail>
                     </RequestInfoContainer>
                     {request.userId !== window.localStorage.getItem('id') &&
-                    request.requesterUserId.find(
-                      (item) =>
-                        item.userId === window.localStorage.getItem('id')
-                    ) ? (
-                      <PrimaryButton
-                        css={css`
-                          position: absolute;
-                          bottom: 0;
-
-                          ${mediaQueryLargeDesktop} {
-                            bottom: 40px;
-                          }
-
-                          ${mediaQueryTablet} {
-                            width: 100%;
-                            max-width: 100%;
+                      (request.requesterUserId.find(
+                        (item) =>
+                          item.userId === window.localStorage.getItem('id')
+                      ) ? (
+                        <PrimaryButton
+                          css={css`
+                            position: absolute;
                             bottom: 0;
-                          }
 
-                          ${mediaQueryMobile} {
-                            width: 100%;
-                            position: fixed;
-                            z-index: 4;
-                            bottom: 0;
-                            left: 0;
-                            border-radius: 0 !important;
-                            height: 40px;
-                          }
-                        `}
-                        onClick={() => {
-                          addRequesterUserId(
-                            request.requestId,
-                            request.userId,
-                            {
-                              userId: window.localStorage.getItem('id')
+                            ${mediaQueryLargeDesktop} {
+                              bottom: 40px;
                             }
-                          )
-                            .then(() => {
-                              message.success(
-                                'เรากำลังส่งความช่วยเหลือของคุณให้เจ้าของโพสต์ได้รับทราบ'
-                              );
-                            })
-                            .catch(() => {
-                              message.error('ไม่สำเร็จ');
-                            });
-                        }}
-                      >
-                        คุณได้ทำการสนใจให้ความช่วยเหลือนี้แล้ว
-                      </PrimaryButton>
-                    ) : (
-                      <PrimaryButton
-                        css={css`
-                          position: absolute;
-                          bottom: 0;
 
-                          ${mediaQueryLargeDesktop} {
-                            bottom: 40px;
-                          }
-
-                          ${mediaQueryTablet} {
-                            width: 100%;
-                            max-width: 100%;
-                            bottom: 0;
-                            margin-left: 0;
-                          }
-
-                          ${mediaQueryMobile} {
-                            width: 100%;
-                            position: fixed;
-                            z-index: 4;
-                            bottom: 0;
-                            left: 0;
-                            border-radius: 0 !important;
-                            height: 40px;
-                          }
-                        `}
-                        onClick={() => {
-                          addRequesterUserId(
-                            request.requestId,
-                            request.userId,
-                            {
-                              userId: window.localStorage.getItem('id')
+                            ${mediaQueryTablet} {
+                              width: 100%;
+                              max-width: 100%;
+                              bottom: 0;
                             }
-                          )
-                            .then(() => {
-                              message.success(
-                                'เรากำลังส่งความช่วยเหลือของคุณให้เจ้าของโพสต์ได้รับทราบ'
-                              );
-                            })
-                            .catch(() => {
-                              message.error('ไม่สำเร็จ');
-                            });
-                        }}
-                      >
-                        สนใจให้ความช่วยเหลือ
-                      </PrimaryButton>
-                    )}
+
+                            ${mediaQueryMobile} {
+                              // width: 100%;
+                              // position: fixed;
+                              // z-index: 4;
+                              // bottom: 0;
+                              // left: 0;
+                              // border-radius: 0 !important;
+                              height: 40px;
+                              margin-bottom: 10px;
+                            }
+                          `}
+                          onClick={() => {
+                            addRequesterUserId(
+                              request.requestId,
+                              request.userId,
+                              {
+                                userId: window.localStorage.getItem('id')
+                              }
+                            )
+                              .then(() => {
+                                message.success(
+                                  'เรากำลังส่งความช่วยเหลือของคุณให้เจ้าของโพสต์ได้รับทราบ'
+                                );
+                              })
+                              .catch(() => {
+                                message.error('ไม่สำเร็จ');
+                              });
+                          }}
+                        >
+                          คุณได้ทำการสนใจให้ความช่วยเหลือนี้แล้ว
+                        </PrimaryButton>
+                      ) : (
+                        <PrimaryButton
+                          css={css`
+                            position: absolute;
+                            bottom: 0;
+
+                            ${mediaQueryLargeDesktop} {
+                              bottom: 40px;
+                            }
+
+                            ${mediaQueryTablet} {
+                              width: 100%;
+                              max-width: 100%;
+                              bottom: 0;
+                              margin-left: 0;
+                            }
+
+                            ${mediaQueryMobile} {
+                              // width: 100%;
+                              // position: fixed;
+                              // z-index: 4;
+                              // bottom: 0;
+                              // left: 0;
+                              // border-radius: 0 !important;
+                              height: 40px;
+                              margin-bottom: 10px;
+                            }
+                          `}
+                          onClick={() => {
+                            addRequesterUserId(
+                              request.requestId,
+                              request.userId,
+                              {
+                                userId: window.localStorage.getItem('id')
+                              }
+                            )
+                              .then(() => {
+                                message.success(
+                                  'เรากำลังส่งความช่วยเหลือของคุณให้เจ้าของโพสต์ได้รับทราบ'
+                                );
+                              })
+                              .catch(() => {
+                                message.error('ไม่สำเร็จ');
+                              });
+                          }}
+                        >
+                          สนใจให้ความช่วยเหลือ
+                        </PrimaryButton>
+                      ))}
                   </Flex>
                 </div>
                 <UserProfileCard
@@ -659,6 +679,10 @@ export const RequestInfoContent = observer(({ data }: any) => {
                         rankColor={RANK_BADGE[user.rank].color}
                         css={css`
                           margin-top: -10px;
+
+                          ${mediaQueryMobile} {
+                            margin-left: 8px;
+                          }
                         `}
                       >
                         {user.rank.toUpperCase()}
@@ -773,7 +797,7 @@ export const RequestInfoContent = observer(({ data }: any) => {
                     <Flex
                       itemAlign="flex-start"
                       css={css`
-                        justify-content: space-around;
+                        justify-content: center;
 
                         ${mediaQueryLargeDesktop} {
                           justify-content: space-between;
@@ -854,7 +878,6 @@ export const RequestInfoContent = observer(({ data }: any) => {
                         css={css`
                           display: flex;
                           flex-direction: column;
-                          width: 100%;
                           align-items: center;
 
                           ${mediaQueryTablet} {

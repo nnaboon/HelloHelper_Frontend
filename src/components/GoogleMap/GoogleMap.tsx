@@ -97,7 +97,16 @@ export const GoogleMapContent = ({
       }}
       onClick={(e) => {
         setCenter(new google.maps.LatLng(e.latLng.lat(), e.latLng.lng()));
-        console.log(e);
+        const geocoder = new google.maps.Geocoder();
+        geocoder
+          .geocode({
+            location: { lat: e.latLng.lat(), lng: e.latLng.lng() }
+          })
+          .then((response) => {
+            setRequestLocation(response.results[0]);
+
+            console.log(response.results[0]);
+          });
       }}
     >
       <Marker position={center ? center : (myLocation as google.maps.LatLng)} />
@@ -128,6 +137,6 @@ export const GoogleMapContent = ({
       </StandaloneSearchBox>
     </GoogleMap>
   ) : (
-    <></>
+    <Spin />
   );
 };

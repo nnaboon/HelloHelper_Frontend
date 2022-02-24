@@ -1,5 +1,6 @@
 export enum RegisterStep {
   EMAIL_AND_PASSWORD = 'email-and-password',
+  VERIFY_EMAIL = 'verify',
   USERNAME = 'username',
   LOCATION = 'location',
   ABILITY = 'ability'

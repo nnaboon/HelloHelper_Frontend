@@ -274,11 +274,13 @@ export const SuggestedRequestSection = ({ data }: any) => {
                 css={css`
                   display: flex;
                   flex-direction: column;
+                  width: 100%;
+
                   position: relative;
                   padding: 20px;
 
                   ${mediaQueryLargeDesktop} {
-                    padding: 20px;
+                    padding: 25px 20px;
                   }
 
                   ${mediaQuerySmallTablet} {
@@ -290,21 +292,25 @@ export const SuggestedRequestSection = ({ data }: any) => {
                   }
 
                   ${mediaQueryMobile} {
-                    top: 50%;
+                    top: 46%;
                     padding: 15px;
                   }
                 `}
               >
-                <Flex itemAlign="center">
+                <div style={{ display: 'inline-block' }}>
                   <RequestTitle>{title}</RequestTitle>
+
                   {providedUserId.length > 0 && (
                     <RequestStatusBadge
                       status={providedUserId.length > 0 ? 2 : undefined}
+                      css={css`
+                        margin-left: 0;
+                      `}
                     >
                       ช่วยเหลือแล้ว
                     </RequestStatusBadge>
                   )}
-                </Flex>
+                </div>
 
                 <RequestDataContent>
                   <RequestDataTitle>ชื่อ</RequestDataTitle>
