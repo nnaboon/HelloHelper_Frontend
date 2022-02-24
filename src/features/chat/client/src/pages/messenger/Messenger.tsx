@@ -250,7 +250,6 @@ export const Messenger = observer(() => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(user);
     const message = {
       senderUserId: me.userId,
       receiverUserId: user?.userId,
@@ -315,7 +314,6 @@ export const Messenger = observer(() => {
 
     const observer = doc.onSnapshot(
       (docSnapshot) => {
-        console.log('a');
         if (pathname?.split('/')[2]) {
           updateReadStatus(pathname?.split('/')[2], {
             senderUserId: me.userId
