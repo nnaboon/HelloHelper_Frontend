@@ -29,10 +29,10 @@ export const GoogleMapContent = ({
 
   const onLoad = React.useCallback(function callback(map) {
     const bounds = new window.google.maps.LatLngBounds();
+    const geocoder = new google.maps.Geocoder();
     map.fitBounds(bounds);
 
     if (requestLocation) {
-      const geocoder = new google.maps.Geocoder();
       geocoder.geocode({ location: requestLocation }).then((res) => {
         if (res.results[0]) {
           map.setZoom(20);
@@ -46,6 +46,18 @@ export const GoogleMapContent = ({
           position.coords.longitude
         );
         setMyLocation(location);
+
+        geocoder
+          .geocode({
+            location: {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            }
+          })
+          .then((response) => {
+            setRequestLocation(response.results[0]);
+          });
+
         map.setZoom(14);
       });
     }
@@ -104,8 +116,6 @@ export const GoogleMapContent = ({
           })
           .then((response) => {
             setRequestLocation(response.results[0]);
-
-            console.log(response.results[0]);
           });
       }}
     >
@@ -137,6 +147,6 @@ export const GoogleMapContent = ({
       </StandaloneSearchBox>
     </GoogleMap>
   ) : (
-    <Spin />
+    <></>
   );
 };

@@ -313,16 +313,18 @@ export const Messenger = observer(() => {
       .collection('messages');
 
     const observer = doc.onSnapshot(
-      (docSnapshot) => {
-        if (pathname?.split('/')[2]) {
-          updateReadStatus(pathname?.split('/')[2], {
-            senderUserId: me.userId
-          }).then(() => {
-            getChat(pathname?.split('/')[2]).then((res) =>
-              setMessages(res.data[0].messages)
-            );
-          });
-        }
+      async (docSnapshot) => {
+        // if (pathname?.split('/')[2]) {
+        await updateReadStatus(pathname?.split('/')[2], {
+          senderUserId: me.userId
+        });
+
+        //   if (pathname?.split('/')[2] === query) {
+        await getChat(pathname?.split('/')[2]).then((res) =>
+          setMessages(res.data[0].messages)
+        );
+        // }
+        // }
       },
       (err) => {
         console.log(`Encountered error: ${err}`);
@@ -330,7 +332,7 @@ export const Messenger = observer(() => {
     );
 
     return () => observer();
-  }, []);
+  }, [query]);
 
   // useEffect(() => {
   //   if (query && chats?.length > 0) {
@@ -378,6 +380,7 @@ export const Messenger = observer(() => {
   return (
     <WrapperContainer
       css={css`
+        top: 210px;
         padding: 0 20px;
       `}
     >
@@ -469,6 +472,7 @@ export const Messenger = observer(() => {
                             css={css`
                               font-size: 2.5rem;
                               margin-right: 15px;
+                              cursor: pointer;
 
                               ${mediaQueryLargeDesktop} {
                                 font-size: 32px;

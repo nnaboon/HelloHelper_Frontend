@@ -78,18 +78,13 @@ export const CommunityProvideContent = ({
   return (
     <div>
       <Text
-        fontSize={isMobile ? '24px' : '2rem'}
         fontWeight={500}
-        marginY="10px"
+        marginY="20px"
         css={css`
-          font-size: 2.5rem;
+          font-size: 1.6rem;
 
           ${mediaQueryLargeDesktop} {
-            font-size: 2rem;
-          }
-
-          ${mediaQueryTablet} {
-            font-size: 1.7rem;
+            font-size: 24px;
           }
 
           ${mediaQueryMobile} {
@@ -120,25 +115,20 @@ export const CommunityProvideContent = ({
           provides.length > 0 ? (
             provides.map((items) => <PopularRequestSection data={[items]} />)
           ) : (
-            <EmptyData height={isMobile ? '200px' : '375px'} />
+            <EmptyData height={isMobile ? '200px' : '300px'} />
           )
         ) : (
-          <Loading height="375px" />
+          <Loading height="300px" />
         )}
       </Carousel>
       <Text
-        fontSize={isMobile ? '24px' : '2rem'}
         fontWeight={500}
         marginY="10px"
         css={css`
-          font-size: 2.5rem;
+          font-size: 1.6rem;
 
           ${mediaQueryLargeDesktop} {
-            font-size: 2rem;
-          }
-
-          ${mediaQueryTablet} {
-            font-size: 1.7rem;
+            font-size: 24px;
           }
 
           ${mediaQueryMobile} {
@@ -170,25 +160,20 @@ export const CommunityProvideContent = ({
           provides.length > 0 ? (
             provides.map((items) => <PopularRequestSection data={[items]} />)
           ) : (
-            <EmptyData height={isMobile ? '200px' : '375px'} />
+            <EmptyData height={isMobile ? '200px' : '300px'} />
           )
         ) : (
-          <Loading height="375px" />
+          <Loading height="300px" />
         )}
       </Carousel>
       <Text
-        fontSize={isMobile ? '24px' : '2rem'}
         fontWeight={500}
         marginY="10px"
         css={css`
-          font-size: 2.5rem;
+          font-size: 1.6rem;
 
           ${mediaQueryLargeDesktop} {
-            font-size: 2rem;
-          }
-
-          ${mediaQueryTablet} {
-            font-size: 1.7rem;
+            font-size: 24px;
           }
 
           ${mediaQueryMobile} {
@@ -210,10 +195,10 @@ export const CommunityProvideContent = ({
               />
             ))
           ) : (
-            <EmptyData height={isMobile ? '200px' : '375px'} />
+            <EmptyData height={isMobile ? '200px' : '300px'} />
           )
         ) : (
-          <Loading height="375px" />
+          <Loading height="300px" />
         )}
       </CommunityProvideSection>
     </div>

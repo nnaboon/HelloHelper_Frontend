@@ -20,7 +20,7 @@ import {
 
 const CommunityMemberCard = styled.div`
   width: 100%;
-  height: 130px;
+  height: 100px;
   background: #ffffff;
   box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.09);
   border-radius: 12px;
@@ -51,13 +51,13 @@ const CommunityAdminBadge = styled.div`
 
 const CommunityMemberImage = styled.img`
   border-radius: 50%;
-  width: 90px;
-  height: 90px;
+  width: 70px;
+  height: 70px;
   margin-right: 55px;
 
   ${mediaQueryLargeDesktop} {
-    width: 74px;
-    height: 74px;
+    width: 60px;
+    height: 60px;
   }
 
   ${mediaQuerySmallTablet} {
@@ -80,7 +80,7 @@ const UserName = styled.div`
   margin-right: 30px;
 
   ${mediaQueryLargeDesktop} {
-    font-size: 24px;
+    font-size: 20px;
   }
 
   ${mediaQueryTablet} {
@@ -195,7 +195,7 @@ export const CommunityMemberContent = ({ member }: any) => {
                   โปรไฟล์
                 </div>
               </SecondaryButton>
-              {id !== window.localStorage.getItem('id') && (
+              {userId !== window.localStorage.getItem('id') && (
                 <PrimaryButton
                   css={css`
                     width: 165px;

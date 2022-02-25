@@ -95,7 +95,7 @@ const CardContainer = styled.div`
 
 const RequestTitle = styled.div`
   font-weight: 800;
-  font-size: 2rem;
+  font-size: 1.5rem;
   margin-bottom: 20px;
   word-break: break-word;
 
@@ -118,8 +118,8 @@ const HelperImage = styled.img`
   object-fit: cover;
 
   ${mediaQueryLargeDesktop} {
-    width: 90px;
-    height: 90px;
+    width: 80px;
+    height: 80px;
   }
 
   ${mediaQuerySmallTablet} {
@@ -157,7 +157,7 @@ const RequestDataTitle = styled.div`
 `;
 
 const RequestDataInfo = styled.div`
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   line-height: 26px;
   color: #000000;
   white-space: wrap;
@@ -166,10 +166,10 @@ const RequestDataInfo = styled.div`
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+  width: 60%;
 
   ${mediaQueryLargeDesktop} {
-    font-size: 17px;
-    width: 60%;
+    font-size: 16px;
   }
 
   ${mediaQuerySmallTablet} {

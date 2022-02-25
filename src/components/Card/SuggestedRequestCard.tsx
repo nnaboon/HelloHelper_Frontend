@@ -82,7 +82,7 @@ const CardContainer = styled.div`
 const RequestTitle = styled.div`
   font-weight: 800;
   line-height: 28px;
-  font-size: 2rem;
+  font-size: 1.5rem;
   margin-bottom: 10px;
   word-break: break-word;
 
@@ -161,7 +161,7 @@ const RequestDataTitle = styled.div`
 `;
 
 const RequestDataInfo = styled.div`
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   line-height: 26px;
   color: #000000;
 
@@ -277,7 +277,7 @@ export const SuggestedRequestSection = ({ data }: any) => {
                   width: 100%;
 
                   position: relative;
-                  padding: 20px;
+                  padding: 25px;
 
                   ${mediaQueryLargeDesktop} {
                     padding: 25px 20px;
@@ -297,7 +297,7 @@ export const SuggestedRequestSection = ({ data }: any) => {
                   }
                 `}
               >
-                <div style={{ display: 'inline-block' }}>
+                <div style={{ display: 'inline-block', marginBottom: '10px' }}>
                   <RequestTitle>{title}</RequestTitle>
 
                   {providedUserId.length > 0 && (

@@ -112,6 +112,7 @@ const ReceiverData = styled.div`
 `;
 export const OrderInfoPage = () => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [status, setStatus] = useState<string>();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const history = useHistory();
@@ -152,7 +153,7 @@ export const OrderInfoPage = () => {
 
   useEffect(() => {
     getOrder(query);
-  }, []);
+  }, [status]);
 
   const menu = (
     <Menu>
@@ -678,7 +679,11 @@ export const OrderInfoPage = () => {
                 }
               `}
             >
-              <RatingForm order={order} setIsModalVisible={setIsModalVisible} />
+              <RatingForm
+                order={order}
+                setIsModalVisible={setIsModalVisible}
+                setStatus={setStatus}
+              />
             </Modal>
           </ProvideListContainer>
           {isMobile && (

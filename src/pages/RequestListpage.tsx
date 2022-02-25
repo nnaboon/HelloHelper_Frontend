@@ -23,6 +23,7 @@ import { userStore } from 'store/userStore';
 
 export const RequestListPage = observer(() => {
   const [currentStatus, setCurrentStatus] = useState<string>('pending');
+  const [status, setStatus] = useState<string>();
 
   const { me } = userStore;
 
@@ -37,7 +38,7 @@ export const RequestListPage = observer(() => {
 
   useEffect(() => {
     getRequestOrders(window.localStorage.getItem('id'));
-  }, []);
+  }, [status]);
 
   return (
     <WrapperContainer
@@ -106,7 +107,11 @@ export const RequestListPage = observer(() => {
                       : status === currentStatus && rating === undefined
                   )
                   .map((props) => (
-                    <RequestListCard key={props.id} props={props} />
+                    <RequestListCard
+                      key={props.id}
+                      props={props}
+                      setStatus={setStatus}
+                    />
                   ))
               ) : (
                 <EmptyData />

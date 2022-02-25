@@ -13,7 +13,7 @@ export const SecondaryButton = styled.a`
   border-radius: 8px;
   text-decoration: none;
   color: #ee6400;
-  font-size: 1.5rem;
+  font-size: 18px;
   text-align: center;
   display: flex;
   align-items: center;
@@ -27,8 +27,8 @@ export const SecondaryButton = styled.a`
 
   ${mediaQueryLargeDesktop} {
     min-width: 106px;
-    height: 40px;
-    font-size: 18px;
+    height: 35px;
+    font-size: 16px;
   }
 
   ${mediaQueryMobile} {
@@ -49,7 +49,7 @@ export const PrimaryButton = styled.a`
   background: #ee6400;
   border-radius: 9px;
   color: #ffff;
-  font-size: 1.5rem;
+  font-size: 18px;
   text-align: center;
   display: flex;
   align-items: center;
@@ -62,8 +62,8 @@ export const PrimaryButton = styled.a`
   }
 
   ${mediaQueryLargeDesktop} {
-    min-width: 106px;
-    height: 40px;
+    min-width: 90px;
+    height: 35px;
     font-size: 16px;
   }
 

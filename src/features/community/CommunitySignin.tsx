@@ -228,9 +228,18 @@ export const CommunitySignin = observer(() => {
             marginTop="10px"
             marginBottom="30px"
             css={css`
-              font-size: 2.2rem;
+              font-size: 1.5rem;
+
               ${mediaQueryLargeDesktop} {
-                font-size: 23px;
+                font-size: 20px;
+              }
+
+              ${mediaQueryTablet} {
+                font-size: 16px;
+              }
+
+              ${mediaQueryMobile} {
+                font-size: 14px;
               }
             `}
           >
@@ -247,16 +256,17 @@ export const CommunitySignin = observer(() => {
             placeholder="ค้นหาชุมชนความช่วยเหลือ หรือ สถานที่"
             onSearch={onSearch}
             size="large"
-            style={{ width: isMobile ? '200px' : '462px', height: '60px' }}
+            style={{ width: isMobile ? '200px' : '462px', height: '40px' }}
             css={css`
               .ant-input {
-                height: 60px;
+                height: 40px;
                 width: 600px;
                 font-size: 1.6rem;
+                line-height: 6.8713;
               }
 
               .ant-btn-icon-only.ant-btn-lg {
-                height: 60px;
+                height: 40px;
                 width: 60px;
               }
 
@@ -331,7 +341,7 @@ export const CommunitySignin = observer(() => {
                             z-index: 5;
 
                             ${mediaQueryLargeDesktop} {
-                               width: 180px;
+                              width: 180px;
                             }
                           `}
                           onClick={() => {
@@ -489,7 +499,7 @@ export const CommunitySignin = observer(() => {
             onOk={handleOk}
             onCancel={handleCancel}
             footer={null}
-            width={isMobile ? '80%' : isLargeDesktop ? '800px' : '32%'}
+            // width={isMobile ? '80%' : isLargeDesktop ? '800px' : '32%'}
             maskClosable={false}
             centered
             css={css`
@@ -497,7 +507,12 @@ export const CommunitySignin = observer(() => {
                 height: 100%;
 
                 ${mediaQueryLargeDesktop} {
-                  height: 850px;
+                  width: 500px !important;
+
+                  .ant-modal-content {
+                    min-height: 420px;
+                    height: max-content;
+                  }
                 }
 
                 ${mediaQueryMobile} {

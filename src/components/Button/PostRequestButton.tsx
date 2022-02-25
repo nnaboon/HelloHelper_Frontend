@@ -31,6 +31,7 @@ interface PostRequestButtonProps {
   setProvides?: (provide: any) => void;
   setRequests?: (request: any) => void;
   buttonText: string;
+  type?: string;
 }
 
 const RequestButton = styled(PrimaryButton)`
@@ -39,11 +40,11 @@ const RequestButton = styled(PrimaryButton)`
   height: 50px;
   padding: 0 20px;
   font-weight: 500;
-  font-size: 1.5rem;
+  font-size: 18px;
 
   ${mediaQueryLargeDesktop} {
     height: 44px;
-    font-size: 18px;
+    font-size: 16px;
   }
 
   &:hover {
@@ -76,10 +77,11 @@ const RegisterLocationFormSection = styled.div`
 export const PostRequestButton = ({
   setProvides,
   setRequests,
-  buttonText
+  buttonText,
+  type
 }: PostRequestButtonProps) => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-  const [isDisable, setIsDisable] = useState<boolean>(false);
+  const [isProvide, setIsProvide] = useState<boolean>(false);
   const [tags, setTags] = useState<string[]>([]);
   const [form] = Form.useForm();
   const [location, setLocation] = useState<any>(null);
@@ -155,11 +157,14 @@ export const PostRequestButton = ({
               provideSum: 0
             })
               .then((res) => {
-                setProvides((prev) => [...prev, res.data]);
+                if (setProvides) {
+                  setProvides((prev) => [...prev, res.data]);
+                }
+
                 message.success('สำเร็จ');
               })
               .catch((error) => {
-                message.error('ไม่สามารถโพสต์ขอความช่วยเหลือได้');
+                message.error('ไม่สามารถโพสต์ขอความช่วยเหลือได้2');
               });
           })
         : uploadRequestImage(formData).then((res) => {
@@ -170,15 +175,18 @@ export const PostRequestButton = ({
               ...data
             })
               .then((res) => {
-                setRequests((prev) => [...prev, res.data]);
+                if (setRequests) {
+                  setRequests((prev) => [...prev, res.data]);
+                }
+
                 message.success('สำเร็จ');
               })
               .catch((error) => {
-                message.error('ไม่สามารถโพสต์ขอความช่วยเหลือได้');
+                message.error('ไม่สามารถโพสต์ขอความช่วยเหลือได้2');
               });
           });
     } catch (e) {
-      message.error('ไม่สามารถโพสต์ขอความช่วยเหลือได้');
+      message.error('ไม่สามารถโพสต์ขอความช่วยเหลือได้1');
     } finally {
       setIsSubmitting(false);
       setIsModalVisible(false);
@@ -246,10 +254,10 @@ export const PostRequestButton = ({
           }
 
           ${mediaQueryLargeDesktop} {
-            width: 800px !important;
+            width: 750px !important;
 
             .ant-modal-content {
-              height: 850px;
+              height: 800px;
             }
           }
 
@@ -318,14 +326,14 @@ export const PostRequestButton = ({
               }
             `}
           >
-            ขอความช่วยเหลือ
+            ฟอร์มความช่วยเหลือ
           </Text>
           <Form
             form={form}
             name="basic"
             labelCol={{ span: 8 }}
             wrapperCol={{ span: 16 }}
-            // initialValues={{ remember: true }}
+            initialValues={{ type: type }}
             onFinish={onFinish}
             css={css`
               .ant-form-item-label > label {
@@ -398,9 +406,19 @@ export const PostRequestButton = ({
               ]}
             >
               <Select
+                defaultValue={type}
                 onSelect={(e) =>
-                  e === 'provide' ? setIsDisable(true) : setIsDisable(false)
+                  e === 'provide' ? setIsProvide(true) : setIsProvide(false)
                 }
+                css={css`
+                  height: 50px;
+                  font-size: 24px;
+
+                  ${mediaQueryLargeDesktop} {
+                    height: 40px;
+                    font-size: 14px;
+                  }
+                `}
               >
                 <Select.Option value="provide">ให้ความช่วยเหลือ</Select.Option>
                 <Select.Option value="request">ขอความช่วยเหลือ</Select.Option>
@@ -468,7 +486,7 @@ export const PostRequestButton = ({
               name="maxPrice"
               label="ราคาสินค้าสูงสุด"
               rules={
-                !isDisable
+                !isProvide
                   ? [
                       {
                         required: true,
@@ -480,7 +498,7 @@ export const PostRequestButton = ({
               }
             >
               <Input
-                disabled={isDisable}
+                disabled={isProvide}
                 type="number"
                 min="0"
                 placeholder="ขอบเขตราคาสินค้า"
@@ -537,7 +555,7 @@ export const PostRequestButton = ({
               name="number"
               label="จำนวน"
               rules={
-                !isDisable
+                !isProvide
                   ? [
                       {
                         required: true,
@@ -548,7 +566,7 @@ export const PostRequestButton = ({
               }
             >
               <Input
-                disabled={isDisable}
+                disabled={isProvide}
                 type="number"
                 min="0"
                 placeholder="จำนวนสินค้า"
@@ -684,7 +702,9 @@ export const PostRequestButton = ({
                   }
                 `}
               >
-                ขอความช่วยเหลือ
+                {isProvide || type === 'provide'
+                  ? 'ให้ความช่วยเหลือ'
+                  : 'ขอความช่วยเหลือ'}
               </Button>
             </div>
           </Form>

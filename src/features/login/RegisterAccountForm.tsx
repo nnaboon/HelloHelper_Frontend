@@ -245,6 +245,7 @@ export const RegisterAccountForm = observer(
 
                 .ant-input {
                   font-size: 1.5rem;
+                  line-height: 6.8713;
                 }
 
                 ${mediaQueryLargeDesktop} {
@@ -279,6 +280,7 @@ export const RegisterAccountForm = observer(
 
                 .ant-input {
                   font-size: 1.5rem;
+                  line-height: 6.8713;
                 }
 
                 ${mediaQueryLargeDesktop} {
@@ -330,7 +332,7 @@ export const RegisterAccountForm = observer(
               type="primary"
               htmlType="submit"
               css={css`
-                width: 106px;
+                width: 110px;
                 height: 50px;
                 font-size: 1.5rem;
                 box-sizing: border-box;

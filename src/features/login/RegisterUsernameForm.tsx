@@ -70,21 +70,23 @@ export const RegisterUsernameForm = (props: RegisterUsernameFormProps) => {
         marginTop="10px"
         marginBottom="20px"
         css={css`
-          font-size: 2.2rem;
-          margin-top: 10px;
-          margin-bottom: 20px;
+          font-size: 26px;
+          margin-bottom: 30px;
 
           ${mediaQueryLargeDesktop} {
-            font-size: 24px;
+            height: 40px;
+            font-size: 20px;
+            margin-bottom: 30px;
           }
 
           ${mediaQueryTablet} {
             font-size: 20px;
+            margin-bottom: 15px;
           }
 
           ${mediaQueryMobile} {
-            margin-top: 15px;
             font-size: 18px;
+            margin-bottom: 0px;
           }
         `}
       >
@@ -180,9 +182,9 @@ export const RegisterUsernameForm = (props: RegisterUsernameFormProps) => {
           type="primary"
           htmlType="submit"
           css={css`
-            width: 106px;
-            height: 50px;
-            font-size: 1.5rem;
+            width: 90px;
+            height: 35px;
+            font-size: 16px;
             box-sizing: border-box;
             background: #ee6400;
             border-radius: 9px;
@@ -194,15 +196,6 @@ export const RegisterUsernameForm = (props: RegisterUsernameFormProps) => {
 
             &:hover {
               background: #ee6400;
-            }
-
-            ${mediaQueryLargeDesktop} {
-              height: 40px;
-              font-size: 16px;
-            }
-
-            ${mediaQueryMobile} {
-              right: -5px;
             }
           `}
         >

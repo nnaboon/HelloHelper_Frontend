@@ -27,6 +27,7 @@ import { OrderProps } from 'data/order';
 
 type RequestListCardProps = {
   props: OrderProps;
+  setStatus: (status: string) => void;
 };
 
 const RequestListContainer = styled.div`
@@ -87,7 +88,7 @@ const RequestListData = styled.div`
   }
 `;
 
-export const RequestListCard = ({ props }: RequestListCardProps) => {
+export const RequestListCard = ({ props, setStatus }: RequestListCardProps) => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [form] = Form.useForm();
@@ -356,7 +357,11 @@ export const RequestListCard = ({ props }: RequestListCardProps) => {
           }
         `}
       >
-        <RatingForm order={props} setIsModalVisible={setIsModalVisible} />
+        <RatingForm
+          order={props}
+          setIsModalVisible={setIsModalVisible}
+          setStatus={setStatus}
+        />
       </Modal>
     </RequestListContainer>
   );

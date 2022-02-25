@@ -52,9 +52,9 @@ export const TopThreeHelpedChart = ({ data }: any) => {
         color: '#2E2F38'
       },
       data: [
-        ability[Object.keys(data)[2]],
-        ability[Object.keys(data)[1]],
-        ability[Object.keys(data)[0]]
+        ability[Object.keys(data)[2]] ?? '',
+        ability[Object.keys(data)[1]] ?? '',
+        ability[Object.keys(data)[0]] ?? ''
       ]
     },
     series: [

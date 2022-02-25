@@ -146,7 +146,7 @@ export const Navbar = observer(() => {
   const [userImage, setUserImage] = useState<any>('');
   const [collapsed, setCollapsed] = useState<boolean>(true);
 
-  const { pathname } = useLocation();
+  const { pathname, state } = useLocation();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [accountStep, setAccountStep] = useState<LoginStep>(LoginStep.LOGIN);
@@ -193,7 +193,7 @@ export const Navbar = observer(() => {
   useEffect(() => {
     firebase.auth().onAuthStateChanged(function (user) {
       if (user && window.localStorage.getItem('id')) {
-        getAuth({ idToken: window.localStorage.getItem('access_token') })
+        getAuth()
           .then(() => {
             setUserId(window.localStorage.getItem('id'));
             setUserImage(user.photoURL);
@@ -206,7 +206,6 @@ export const Navbar = observer(() => {
             window.localStorage.removeItem('loginType');
             window.localStorage.removeItem('access_token');
             window.localStorage.removeItem('selectedCommunity');
-            window.location.assign('/');
             auth.signOut();
           });
       } else if (user) {
@@ -318,6 +317,7 @@ export const Navbar = observer(() => {
           {isSmallTablet && (
             <Search
               placeholder="ข้าวผัดป้าเขียว, ก๋วยจั๊บนายวาย, แกงกะหรี่ป้าอร โชคชัย4"
+              defaultValue={state?.search}
               onSearch={onSearch}
               size="large"
               css={css`
@@ -334,6 +334,7 @@ export const Navbar = observer(() => {
                   height: 30px;
                   width: 100%;
                   font-size: 14px;
+                  line-height: 8.8;
                 }
 
                 .ant-btn-icon-only.ant-btn-lg {
@@ -462,6 +463,7 @@ export const Navbar = observer(() => {
         <SearchBarContainer>
           <Search
             placeholder="ข้าวผัดป้าเขียว, ก๋วยจั๊บนายวาย, แกงกะหรี่ป้าอร โชคชัย4"
+            defaultValue={state?.search}
             onSearch={onSearch}
             size="large"
             style={{
@@ -481,6 +483,7 @@ export const Navbar = observer(() => {
                 height: 60px;
                 width: 990px;
                 font-size: 1.6rem;
+                line-height: 6.8713;
               }
 
               .ant-btn-icon-only.ant-btn-lg {
@@ -521,7 +524,7 @@ export const Navbar = observer(() => {
           }
 
           ${mediaQueryLargeDesktop} {
-            width: 480px !important;
+            width: 430px !important;
 
             .ant-modal-content {
               min-height: 620px;

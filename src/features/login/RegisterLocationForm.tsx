@@ -76,22 +76,23 @@ export const RegisterLocationForm = (props: RegisterLocationFormProps) => {
       />
       <Text
         css={css`
-          font-size: 2.2rem;
-          margin-top: 10px;
-          margin-bottom: 20px;
+          font-size: 26px;
+          margin-bottom: 30px;
 
           ${mediaQueryLargeDesktop} {
-            font-size: 24px;
+            height: 40px;
+            font-size: 20px;
+            margin-bottom: 30px;
           }
 
           ${mediaQueryTablet} {
             font-size: 20px;
+            margin-bottom: 15px;
           }
 
           ${mediaQueryMobile} {
             font-size: 18px;
-            margin-top: 15px;
-            margin-bottom: 10px;
+            margin-bottom: 0px;
           }
         `}
       >
@@ -107,6 +108,7 @@ export const RegisterLocationForm = (props: RegisterLocationFormProps) => {
         autoComplete="off"
         css={css`
           height: 100%;
+          position: relative;
 
           .ant-col-16 {
             max-width: 100%;
@@ -143,15 +145,16 @@ export const RegisterLocationForm = (props: RegisterLocationFormProps) => {
           type="primary"
           htmlType="submit"
           css={css`
-            width: 106px;
-            height: 40px;
+            width: 90px;
+            height: 35px;
+            text-align: center;
             box-sizing: border-box;
             background: #ffff;
             border-radius: 9px;
             border: 1px solid #ee6400;
             position: absolute;
-            right: 190px;
             bottom: 0;
+            right: 110px;
             color: #ee6400;
             font-size: 16px;
 
@@ -167,15 +170,15 @@ export const RegisterLocationForm = (props: RegisterLocationFormProps) => {
           type="primary"
           htmlType="submit"
           css={css`
-            width: 106px;
-            height: 40px;
+            width: 90px;
+            height: 35px;
             box-sizing: border-box;
             background: #ee6400;
             border-radius: 9px;
             border: 0;
             position: absolute;
+            bottom: 0;
             right: 0;
-            bottom: 0px;
             color: #ffff;
             font-size: 16px;
 
@@ -184,7 +187,7 @@ export const RegisterLocationForm = (props: RegisterLocationFormProps) => {
             }
           `}
         >
-          ถัดไป
+          ตกลง
         </Button>
       </Form>
     </RegisterLocationFormSection>

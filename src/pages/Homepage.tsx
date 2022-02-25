@@ -168,11 +168,16 @@ export const HomePage = () => {
       items: 5
     },
     bigDesktop: {
-      breakpoint: { max: 2800, min: 2000 },
+      breakpoint: { max: 2800, min: 2600 },
       items: 4
     },
+    largeDesktop: {
+      breakpoint: { max: 2600, min: 2200 },
+      items: 3,
+      partialVisibilityGutter: 130
+    },
     desktop: {
-      breakpoint: { max: 2000, min: 1300 },
+      breakpoint: { max: 2200, min: 1300 },
       items: 3
     },
     smallDesktop: {
@@ -296,6 +301,7 @@ export const HomePage = () => {
                   height: 50px;
                   width: 500px;
                   font-size: 1.6rem;
+                  line-height: 6.8713;
                 }
 
                 .ant-btn-icon-only.ant-btn-lg {

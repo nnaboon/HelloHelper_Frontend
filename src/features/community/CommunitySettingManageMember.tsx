@@ -25,7 +25,7 @@ import { firestore } from '../../firebase';
 
 const CommunityMemberCard = styled.div`
   width: 100%;
-  height: 120px;
+  height: 100px;
   background: #ffffff;
   box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.09);
   border-radius: 12px;

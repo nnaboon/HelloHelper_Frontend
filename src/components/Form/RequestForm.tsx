@@ -395,7 +395,17 @@ export const RequestFormModal = ({
               }
             ]}
           >
-            <Select disabled defaultValue={requestData.type}>
+            <Select
+              disabled
+              defaultValue={requestData.type}
+              css={css`
+                font-size: 24px;
+
+                ${mediaQueryLargeDesktop} {
+                  font-size: 16px;
+                }
+              `}
+            >
               <Select.Option
                 value="provide"
                 css={css`

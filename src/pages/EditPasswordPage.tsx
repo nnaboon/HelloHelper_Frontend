@@ -135,6 +135,7 @@ export const EditPasswordPage = observer(() => {
 
               .ant-input {
                 font-size: 1.8rem;
+                line-height: 6.8713;
               }
 
               .ant-form-item-control-input {

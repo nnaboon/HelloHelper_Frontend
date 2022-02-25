@@ -41,7 +41,7 @@ export const EmptyData = ({ height, text }: EmptyDataProps) => {
       description={<span>{text ? text : 'ไม่พบข้อมูล'}</span>}
       css={css`
         display: flex;
-        font-size: 2rem;
+        font-size: 24px;
         flex-direction: column;
         height: ${height ?? `calc(100vh - 265px)`};
         width: 100%;
@@ -54,12 +54,12 @@ export const EmptyData = ({ height, text }: EmptyDataProps) => {
         }
 
         .ant-empty-img-simple {
-          width: 150px;
-          height: 100px;
+          width: 90px;
+          height: 90px;
         }
 
         .ant-empty-image {
-          height: 150px;
+          height: 100px;
         }
 
         ${mediaQueryLargeDesktop} {

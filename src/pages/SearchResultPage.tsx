@@ -169,6 +169,7 @@ export const SearchResultPage = () => {
                         ? 'ให้ความช่วยเหลือ'
                         : 'ขอความช่วยเหลือ'
                     }
+                    type={menu === HelpMenu.PROVIDE ? 'provide' : 'request'}
                   />
                 </div>
               </Flex>
@@ -179,10 +180,12 @@ export const SearchResultPage = () => {
               ).length > 0 ? (
                 <SearchResultContent>
                   {provides
-                    .filter(({ category, title, visibility, communityId }) =>
-                      Boolean(visibility) && !Boolean(communityId) && search
-                        ? title.includes(state?.search)
-                        : category[0] === qs
+                    .filter(
+                      ({ category, title, visibility, communityId, hashtag }) =>
+                        Boolean(visibility) && !Boolean(communityId) && search
+                          ? title.includes(state?.search) ||
+                            hashtag.includes(state?.search)
+                          : category[0] === qs
                     )
                     .map((props) => (
                       <PopularRequestSection data={[props]} />
@@ -197,11 +200,12 @@ export const SearchResultPage = () => {
               <SearchResultContent>
                 {requests
                   .filter(
-                    ({ category, title, visibility, communityId }) =>
+                    ({ category, title, visibility, communityId, hashtag }) =>
                       Boolean(visibility) &&
                       !Boolean(communityId) &&
                       (search
-                        ? title.includes(state?.search)
+                        ? title.includes(state?.search) ||
+                          hashtag.includes(state?.search)
                         : category[0] === qs)
                   )
                   .map((props) => (

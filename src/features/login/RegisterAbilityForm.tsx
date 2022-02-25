@@ -23,6 +23,7 @@ const RegisterAbilityFormSection = styled.div`
   display: flex;
   flex-direction: column;
   padding: 2rem 2.75rem 1.5rem 2.75rem;
+  height: 100%;
 
   ${mediaQueryMobile} {
     padding: 0;
@@ -39,7 +40,6 @@ export const RegisterAbilityForm = (props: RegisterAbilityFormProps) => {
   const options = [
     { label: 'ด้านการจัดหาอาหาร', value: 'food' },
     { label: 'ด้านเครื่องแต่งกาย', value: 'cloth' },
-    { label: 'ด้านความงาม', value: 'beauty' },
     { label: 'ด้านเครื่องใช้ในบ้าน', value: 'furniture' },
     { label: 'ด้านเครื่องใช้ไฟฟ้า', value: 'electronic' },
     { label: 'ด้านอุปกรณ์ทำการเกษตร', value: 'agriculture' },
@@ -47,7 +47,7 @@ export const RegisterAbilityForm = (props: RegisterAbilityFormProps) => {
     { label: 'ด้านเพลงและดนตรี', value: 'music' },
     { label: 'ด้านมือถือและอุปกรณ์เสริม', value: 'mobile' },
     { label: 'ด้านกีฬาและอุปกรณ์เสริม', value: 'sports' },
-    { label: 'ด้านสุขภาพ', value: 'health' }
+    { label: 'ด้านสุขภาพและความงาม', value: 'health' }
     // {
     //   label: 'ให้ความช่วยเหลือตามรายการให้ความช่วยเหลือของฉัน',
     //   value: undefined
@@ -93,6 +93,7 @@ export const RegisterAbilityForm = (props: RegisterAbilityFormProps) => {
         autoComplete="off"
         css={css`
           height: 100%;
+          position: relative;
 
           .ant-modal .ant-form-item-control-input {
             width: 100%;
@@ -124,7 +125,7 @@ export const RegisterAbilityForm = (props: RegisterAbilityFormProps) => {
           }
 
           .ant-checkbox + span {
-            font-size: 2rem;
+            font-size: 20px;
           }
 
           .ant-checkbox-inner {
@@ -186,12 +187,13 @@ export const RegisterAbilityForm = (props: RegisterAbilityFormProps) => {
           marginTop="10px"
           css={css`
             height: 50px;
-            font-size: 2.2rem;
-            margin-bottom: 50px;
+            font-size: 26px;
+            margin-bottom: 30px;
 
             ${mediaQueryLargeDesktop} {
               height: 40px;
-              font-size: 24px;
+              font-size: 20px;
+              margin-bottom: 30px;
             }
 
             ${mediaQueryTablet} {
@@ -223,15 +225,16 @@ export const RegisterAbilityForm = (props: RegisterAbilityFormProps) => {
           type="primary"
           htmlType="submit"
           css={css`
-            width: 106px;
-            height: 40px;
+            width: 90px;
+            height: 35px;
+            text-align: center;
             box-sizing: border-box;
             background: #ffff;
             border-radius: 9px;
             border: 1px solid #ee6400;
             position: absolute;
             bottom: 0;
-            right: 140px;
+            right: 110px;
             color: #ee6400;
             font-size: 16px;
 
@@ -247,8 +250,8 @@ export const RegisterAbilityForm = (props: RegisterAbilityFormProps) => {
           type="primary"
           htmlType="submit"
           css={css`
-            width: 106px;
-            height: 40px;
+            width: 90px;
+            height: 35px;
             box-sizing: border-box;
             background: #ee6400;
             border-radius: 9px;

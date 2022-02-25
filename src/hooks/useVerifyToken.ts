@@ -9,12 +9,17 @@ export type UsersResponse = {
 
 export const useVerifyToken = () => {
   const [{ data: response, loading, error }, fire] = useAxios(
-    {},
+    {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${window.localStorage.getItem('access_token')}`
+      }
+    },
     { manual: true }
   );
 
-  const execute = (data: object) => {
-    return fire({ url: `${REACT_APP_API}/user/verify`, data });
+  const execute = () => {
+    return fire({ url: `${REACT_APP_API}/user/verify` });
   };
 
   return {

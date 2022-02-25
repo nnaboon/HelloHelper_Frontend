@@ -100,15 +100,16 @@ export const CreateCommunityForm = ({
 
       uploadUserImage(formData).then((res) => {
         addCommunity({ ...data, imageUrl: res.data }).then((res) => {
-          history.push(`/community/${res.data}`);
+          message.success('สำเร็จ');
+          window.location.assign(`/community/${res.data}`);
+          form.resetFields();
+          setVisible(false);
         });
       });
     } catch (e) {
       message.error('ไม่สามารถโพสต์ขอความช่วยเหลือได้');
     } finally {
-      message.success('สำเร็จ');
       setIsSubmitting(false);
-      setVisible(false);
     }
   };
 
@@ -125,12 +126,12 @@ export const CreateCommunityForm = ({
       <Text
         marginTop="10px"
         css={css`
-          font-size: 2rem;
+          font-size: 24px;
           margin-bottom: 15px;
 
           ${mediaQueryLargeDesktop} {
-            font-size: 24px;
-            margin-bottom: 20px;
+            font-size: 20px;
+            margin-bottom: 10px;
           }
         `}
       >
@@ -141,12 +142,12 @@ export const CreateCommunityForm = ({
         fontWeight={500}
         color="#F86800"
         css={css`
-          font-size: 1.5rem;
+          font-size: 16px;
           margin-bottom: 25px;
 
           ${mediaQueryLargeDesktop} {
             font-size: 15px;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
           }
         `}
       >
@@ -176,12 +177,16 @@ export const CreateCommunityForm = ({
           .ant-col-16 {
             max-width: 100%;
           }
+
+          .ant-input {
+            height: 35px;
+            width: 100%;
+            font-size: 14px;
+            line-height: 8.8;
+          }
+
           ${mediaQueryLargeDesktop} {
             font-size: 24px;
-
-            .ant-col-16 {
-              max-width: 66.6667%;
-            }
 
             .ant-select-single:not(.ant-select-customize-input)
               .ant-select-selector {
@@ -193,7 +198,7 @@ export const CreateCommunityForm = ({
             }
 
             .ant-form-item-control-input {
-              width: 360px;
+              width: 100%;
             }
 
             .ant-form-item-label > label {
@@ -226,15 +231,15 @@ export const CreateCommunityForm = ({
             src={imageUrl}
             alt="user avatar"
             css={css`
-              width: 120px;
-              height: 120px;
+              width: 100px;
+              height: 100px;
               border-radius: 50%;
               margin-bottom: 15px;
               object-fit: cover;
 
               ${mediaQueryLargeDesktop} {
-                width: 100px;
-                height: 100px;
+                width: 80px;
+                height: 80px;
               }
             `}
           />
@@ -270,9 +275,11 @@ export const CreateCommunityForm = ({
             css={css`
               height: 50px;
               font-size: 1.5rem;
+              border-radius: 12px;
 
               ${mediaQueryLargeDesktop} {
-                height: 40px;
+                height: 35px;
+                border-radius: 8px;
                 font-size: 14px;
               }
             `}
@@ -303,9 +310,11 @@ export const CreateCommunityForm = ({
             css={css`
               height: 50px;
               font-size: 1.5rem;
+              border-radius: 12px;
 
               ${mediaQueryLargeDesktop} {
-                height: 40px;
+                height: 35px;
+                border-radius: 8px;
                 font-size: 14px;
               }
             `}
@@ -324,7 +333,7 @@ export const CreateCommunityForm = ({
             requestLocation={location}
             setRequestLocation={setLocation}
             width={'100%'}
-            height={isLargeDesktop ? '350px' : '460px'}
+            height={isLargeDesktop ? '240px' : '460px'}
           />
         </Form.Item>
         <div
@@ -338,7 +347,7 @@ export const CreateCommunityForm = ({
             type="primary"
             htmlType="submit"
             css={css`
-              width: 170px;
+              width: 110px;
               height: 40px;
               box-sizing: border-box;
               background: #ee6400;
@@ -351,6 +360,12 @@ export const CreateCommunityForm = ({
 
               &:hover {
                 background: #ee6400;
+              }
+
+              ${mediaQueryLargeDesktop} {
+                width: 90px;
+                height: 35px;
+                font-size: 14px;
               }
             `}
           >

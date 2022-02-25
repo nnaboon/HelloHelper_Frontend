@@ -7,7 +7,6 @@ import { observer } from 'mobx-react-lite';
 import { userStore } from 'store/userStore';
 import { Loading } from 'components/Loading/Loading';
 import { WrapperContainer } from 'components/Wrapper/WrapperContainer';
-import { fontSize } from 'styled-system';
 import { useMyCommunity } from 'hooks/community/useMyCommunity';
 
 export const CommunityContent = observer(() => {

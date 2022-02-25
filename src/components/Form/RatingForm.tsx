@@ -6,13 +6,16 @@ import React, { useState } from 'react';
 import { Text } from 'components/Text';
 import { useLocation } from 'react-router-dom';
 import { Rate, Form, Modal, Button, message } from 'antd';
-import { mediaQueryLargeDesktop } from '../../styles/variables';
+import { mediaQueryLargeDesktop } from 'styles/variables';
 import { useUpdateProvideSum } from 'hooks/order/useUpdateProvideSum';
 import { useUpdateRequestSum } from 'hooks/order/useUpdateRequestSum';
+import { useUpdateOrder } from 'hooks/order/useUpdateOrder';
+import { useMyRequestOrder } from 'hooks/order/useMyRequestOrder';
 
 interface RatingFormProps {
   order: any;
   setIsModalVisible: (isModalvisible: boolean) => void;
+  setStatus?: (status: string) => void;
 }
 
 const RequestListSection = styled.div`
@@ -21,10 +24,18 @@ const RequestListSection = styled.div`
   height: 100%;
 `;
 
-export const RatingForm = ({ order, setIsModalVisible }: RatingFormProps) => {
+export const RatingForm = ({
+  order,
+  setIsModalVisible,
+  setStatus
+}: RatingFormProps) => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const { pathname } = useLocation();
   const orderType = pathname.split('/')[2];
+  const { execute: updateOrder } = useUpdateOrder();
+
+  const { data: requestOrders, execute: getRequestOrders } =
+    useMyRequestOrder();
   const { execute: updateProvideSum } = useUpdateProvideSum();
   const { execute: updateRequestSum } = useUpdateRequestSum();
   const [form] = Form.useForm();
@@ -36,13 +47,16 @@ export const RatingForm = ({ order, setIsModalVisible }: RatingFormProps) => {
     };
 
     try {
-      if (orderType === 'request') {
+      if (order.referenceType === 'request') {
         updateRequestSum(order?.id, {
           orderReferenceId: order?.orderReferenceId,
           requesterUserId: order?.requesterUserId,
           providerUserId: order?.providerUserId,
           rating: value.rating
         }).then(() => {
+          if (setStatus) {
+            setStatus('complete');
+          }
           message.success('ให้คะแนนสำเร็จ');
           form.resetFields();
           setIsModalVisible(false);
@@ -53,6 +67,13 @@ export const RatingForm = ({ order, setIsModalVisible }: RatingFormProps) => {
           requesterUserId: order?.requesterUserId,
           providerUserId: order?.providerUserId,
           rating: value.rating
+        }).then(() => {
+          if (setStatus) {
+            setStatus('complete');
+          }
+          message.success('ให้คะแนนสำเร็จ');
+          form.resetFields();
+          setIsModalVisible(false);
         });
       }
     } catch (e) {

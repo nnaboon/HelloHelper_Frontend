@@ -9,7 +9,7 @@ import {
 
 export const WrapperContainer = styled.div`
   position: relative;
-  top: 165px;
+  top: 210px;
   padding: 40px 100px;
   box-sizing: border-box;
   overflow-y: scroll;

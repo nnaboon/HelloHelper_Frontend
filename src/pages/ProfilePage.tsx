@@ -107,7 +107,7 @@ const UserCard = styled.div`
   position: relative;
 
   ${mediaQueryLargeDesktop} {
-    width: 500px;
+    width: 450px;
     height: 246px;
     min-width: unset;
   }
@@ -125,15 +125,15 @@ const UserCard = styled.div`
 `;
 
 const HelperImageSection = styled.img`
-  width: 160px;
-  height: 160px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   margin-top: 15px;
   object-fit: cover;
 
   ${mediaQueryLargeDesktop} {
-    width: 120px;
-    height: 120px;
+    width: 100px;
+    height: 100px;
   }
   ${mediaQueryTablet} {
     width: 110px;
@@ -148,13 +148,13 @@ const HelperImageSection = styled.img`
 
 const UserName = styled.div`
   font-weight: 700;
-  font-size: 2rem;
+  font-size: 24px;
   color: #000000;
   margin-bottom: 5px;
   word-wrap: break-word;
 
   ${mediaQueryLargeDesktop} {
-    font-size: 24px;
+    font-size: 20px;
   }
 
   ${mediaQueryMobile} {
@@ -201,11 +201,11 @@ const ProfileInfoListHeading = styled.div`
   color: #5a5a5a;
 
   ${mediaQueryLargeDesktop} {
-    font-size: 16px;
+    font-size: 14px;
   }
 
   ${mediaQueryMobile} {
-    font-size: 16px;
+    font-size: 12px;
     white-space: pre;
   }
 `;
@@ -218,7 +218,7 @@ const ProfileInfoListDetail = styled.div`
   margin-left: 12px;
 
   ${mediaQueryLargeDesktop} {
-    font-size: 24px;
+    font-size: 20px;
   }
 
   ${mediaQueryMobile} {
@@ -602,6 +602,7 @@ export const ProfilePage = observer(() => {
                       ? 'ให้ความข่วยเหลือ'
                       : 'ขอความช่วยเหลือ'
                   }
+                  type={menu === HelpMenu.PROVIDE ? 'provide' : 'request'}
                 />
               )}
             </Flex>

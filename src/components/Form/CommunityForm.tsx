@@ -75,7 +75,7 @@ export const CommunityForm = observer(
           autoComplete="off"
           css={css`
             .ant-form-item-control-input {
-              width: 360px;
+              width: 100%;
             }
 
             margin: 26px 0;
