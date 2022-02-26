@@ -35,6 +35,19 @@ const CommunityProvideSection = styled.div<{ isProvide: any }>`
   }
 `;
 
+const CommunityProvideTitle = styled(Text)`
+  margin: 20px 0;
+  font-size: 22px;
+
+  ${mediaQueryLargeDesktop} {
+    margin-bottom: 15px;
+  }
+
+  ${mediaQueryMobile} {
+    font-size: 18px;
+  }
+`;
+
 export const CommunityProvideContent = ({
   provides,
   setProvides
@@ -77,23 +90,9 @@ export const CommunityProvideContent = ({
 
   return (
     <div>
-      <Text
-        fontWeight={500}
-        marginY="20px"
-        css={css`
-          font-size: 1.6rem;
-
-          ${mediaQueryLargeDesktop} {
-            font-size: 24px;
-          }
-
-          ${mediaQueryMobile} {
-            font-size: 20px;
-          }
-        `}
-      >
+      <CommunityProvideTitle fontWeight={500}>
         ความช่วยเหลือยอดนิยม
-      </Text>
+      </CommunityProvideTitle>
       <Carousel
         responsive={responsive}
         arrows
@@ -121,23 +120,9 @@ export const CommunityProvideContent = ({
           <Loading height="300px" />
         )}
       </Carousel>
-      <Text
-        fontWeight={500}
-        marginY="10px"
-        css={css`
-          font-size: 1.6rem;
-
-          ${mediaQueryLargeDesktop} {
-            font-size: 24px;
-          }
-
-          ${mediaQueryMobile} {
-            font-size: 20px;
-          }
-        `}
-      >
+      <CommunityProvideTitle fontWeight={500}>
         Top 10 ความช่วยเหลือประจำสัปดาห์
-      </Text>
+      </CommunityProvideTitle>
 
       <Carousel
         responsive={responsive}
@@ -166,23 +151,9 @@ export const CommunityProvideContent = ({
           <Loading height="300px" />
         )}
       </Carousel>
-      <Text
-        fontWeight={500}
-        marginY="10px"
-        css={css`
-          font-size: 1.6rem;
-
-          ${mediaQueryLargeDesktop} {
-            font-size: 24px;
-          }
-
-          ${mediaQueryMobile} {
-            font-size: 20px;
-          }
-        `}
-      >
+      <CommunityProvideTitle fontWeight={500}>
         ความช่วยเหลือทั้งหมด
-      </Text>
+      </CommunityProvideTitle>
       <CommunityProvideSection isProvide={provide ? provide : 0}>
         {provide ? (
           provides.length > 0 ? (

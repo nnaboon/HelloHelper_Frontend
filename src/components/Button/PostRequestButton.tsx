@@ -8,6 +8,7 @@ import { PrimaryButton } from './Button';
 import { PenRequestSvg } from 'components/Svg/PenRequestSvg';
 import { Text } from 'components/Text';
 import { Button, Form, Input, message, Select, Upload, Modal } from 'antd';
+import { InputForm } from 'components/Input/InputForm';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { CATEGORY } from 'data/category';
 import { GoogleMapContent } from 'components/GoogleMap/GoogleMap';
@@ -68,6 +69,10 @@ const RegisterLocationFormSection = styled.div`
   position: relative;
   height: 100%;
   overflow: scroll;
+
+  ${mediaQueryLargeDesktop} {
+    padding: 1.75rem 1.2rem 1.5rem 1.2rem;
+  }
 
   ${mediaQueryMobile} {
     padding: 0;
@@ -153,6 +158,7 @@ export const PostRequestButton = ({
             addProvide({
               ...data,
               imageUrl: res.data,
+              price: Number(value.maxPrice),
               rating: 0,
               provideSum: 0
             })
@@ -192,6 +198,7 @@ export const PostRequestButton = ({
       setIsModalVisible(false);
       setImageUrl('');
       setTags([]);
+      setLocation(null);
       form.resetFields();
     }
   };
@@ -225,6 +232,7 @@ export const PostRequestButton = ({
     setIsModalVisible(false);
     setImageUrl('');
     setTags([]);
+    setLocation(null);
     form.resetFields();
   };
 
@@ -241,6 +249,7 @@ export const PostRequestButton = ({
         onOk={onModalOpen}
         onCancel={onModalClose}
         afterClose={() => {
+          setLocation(null);
           form.resetFields();
         }}
         footer={null}
@@ -295,22 +304,6 @@ export const PostRequestButton = ({
 
               .ant-menu-inline-collapsed-tooltip {
                 visibility: hidden;
-              }
-
-              .ant-tooltip-placement-left {
-                visibility: hidden;
-              }
-              .ant-tooltip,
-              .ant-tooltip-placement-left,
-              .ant-tooltip-placement-leftTop,
-              .ant-tooltip-placement-leftBottom {
-                visibility: hidden !important;
-                display: none !important;
-              }
-
-              .ant-tooltip-inner {
-                display: none !important;
-                visibility: hidden !important;
               }
             `}
           />
@@ -406,7 +399,7 @@ export const PostRequestButton = ({
               ]}
             >
               <Select
-                defaultValue={type}
+                // defaultValue={type}
                 onSelect={(e) =>
                   e === 'provide' ? setIsProvide(true) : setIsProvide(false)
                 }
@@ -435,19 +428,7 @@ export const PostRequestButton = ({
                 }
               ]}
             >
-              <Input
-                placeholder="ชื่อ"
-                style={{ borderRadius: '12px' }}
-                css={css`
-                  height: 50px;
-                  font-size: 1.5rem;
-
-                  ${mediaQueryLargeDesktop} {
-                    height: 40px;
-                    font-size: 14px;
-                  }
-                `}
-              />
+              <InputForm placeholder="ชื่อ" />
             </Form.Item>
 
             <Form.Item
@@ -485,39 +466,21 @@ export const PostRequestButton = ({
             <Form.Item
               name="maxPrice"
               label="ราคาสินค้าสูงสุด"
-              rules={
-                !isProvide
-                  ? [
-                      {
-                        required: true,
-                        message:
-                          'กรุณากำหนดขอบเขตราคาสินค้าสูงสุดที่คุณสามารถจ่ายได้'
-                      }
-                    ]
-                  : null
-              }
+              tooltip="กำหนดราคาสินค้าสูงสุดที่คุณต้องการหรือที่สามารถจ่ายได้"
+              rules={[
+                {
+                  required: true,
+                  message: 'กรุณากำหนดขอบเขตราคาสินค้าสูงสุดที่คุณสามารถจ่ายได้'
+                }
+              ]}
             >
-              <Input
-                disabled={isProvide}
-                type="number"
-                min="0"
-                placeholder="ขอบเขตราคาสินค้า"
-                style={{ borderRadius: '12px' }}
-                css={css`
-                  height: 50px;
-                  font-size: 1.5rem;
-
-                  ${mediaQueryLargeDesktop} {
-                    height: 40px;
-                    font-size: 14px;
-                  }
-                `}
-              />
+              <InputForm type="number" min="0" placeholder="ขอบเขตราคาสินค้า" />
             </Form.Item>
             {/* <Flex justify="center" itemAlign="center"> */}
             <Form.Item
               name="maxServiceCharge"
-              label="อัตราค่าบริการสูงสุด"
+              label="ค่าบริการสูงสุด"
+              tooltip="กำหนดอัตราค่าบริการสูงสุดที่คุณต้องการหรือที่สามารถจ่ายได้"
               rules={[
                 {
                   required: true,
@@ -526,20 +489,10 @@ export const PostRequestButton = ({
                 }
               ]}
             >
-              <Input
+              <InputForm
                 placeholder="ขอบเขตราคาค่าบริการ"
                 type="number"
                 min="0"
-                style={{ borderRadius: '12px' }}
-                css={css`
-                  height: 50px;
-                  font-size: 1.5rem;
-
-                  ${mediaQueryLargeDesktop} {
-                    height: 40px;
-                    font-size: 14px;
-                  }
-                `}
               />
             </Form.Item>
             {/* <Tooltip title="กำหนดราคาสูงสุดของความช่วยเหลือครั้งนี้ที่คุณพึงพอใจจะจ่าย ให้กับผู้ให้ความช่วยเหลือ">
@@ -565,21 +518,11 @@ export const PostRequestButton = ({
                   : null
               }
             >
-              <Input
+              <InputForm
                 disabled={isProvide}
                 type="number"
                 min="0"
                 placeholder="จำนวนสินค้า"
-                style={{ borderRadius: '12px' }}
-                css={css`
-                  height: 50px;
-                  font-size: 1.5rem;
-
-                  ${mediaQueryLargeDesktop} {
-                    height: 40px;
-                    font-size: 14px;
-                  }
-                `}
               />
             </Form.Item>
             <Form.Item
@@ -587,19 +530,7 @@ export const PostRequestButton = ({
               label="วิธีการชำระเงิน"
               rules={[{ required: true, message: 'กรุณากรอกวิธีการชำระเงิน' }]}
             >
-              <Input
-                placeholder="วิธีการชำระเงิน"
-                style={{ borderRadius: '12px' }}
-                css={css`
-                  height: 50px;
-                  font-size: 1.5rem;
-
-                  ${mediaQueryLargeDesktop} {
-                    height: 40px;
-                    font-size: 14px;
-                  }
-                `}
-              />
+              <InputForm placeholder="วิธีการชำระเงิน" />
             </Form.Item>
             <Form.Item
               name="category"

@@ -8,7 +8,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { auth } from '../firebase';
 import { HelpMenu } from 'components/Menu/const';
 import Flex from 'components/Flex/Flex';
-import { PrimaryButton } from 'components/Button/Button';
+import { PrimaryButton, SecondaryButton } from 'components/Button/Button';
 import { Divider } from 'components/Divider/Divider';
 import { SuggestedBadge, RankingBadge } from 'components/Badge/Badge';
 import { Loading } from 'components/Loading/Loading';
@@ -29,19 +29,21 @@ import { userStore } from 'store/userStore';
 import {
   mediaQueryMobile,
   mediaQueryTablet,
+  mediaQueryLargeDesktop,
   mediaQueryExtraLargeDesktop,
   MOBILE_WIDTH,
-  useMedia,
-  TABLET_WIDTH
+  TABLET_WIDTH,
+  useMedia
 } from 'styles/variables';
 import { ProfileMenu } from '../components/Menu/const';
 import { PostRequestButton } from 'components/Button/PostRequestButton';
 import { useMyProvide } from 'hooks/provide/useMyProvide';
 import { useMyRequest } from 'hooks/request/useMyRequest';
 import { useAddChatRoom } from 'hooks/chat/useAddChatRoom';
+import { useFollowUser } from 'hooks/user/useFollowUser';
+import { useUnfollowUser } from 'hooks/user/useUnfollowUser';
 
 import { EmptyData } from 'components/Empty/EmptyData';
-import { mediaQueryLargeDesktop } from '../styles/variables';
 
 const ProfilePageContainer = styled.div`
   box-sizing: border-box;
@@ -247,6 +249,8 @@ export const ProfilePage = observer(() => {
   const { data: provide, execute: getProvide } = useMyProvide();
   const { data: request, execute: getRequest } = useMyRequest();
   const { execute: addChatRoom } = useAddChatRoom();
+  const { execute: followUser } = useFollowUser();
+  const { execute: unfollowUser } = useUnfollowUser();
 
   useEffect(() => {
     if (query || window.localStorage.getItem('id')) {
@@ -468,29 +472,64 @@ export const ProfilePage = observer(() => {
                         position: 'absolute',
                         bottom: '8px',
                         padding: '10px',
-                        left: '-9px',
+                        left: 0,
                         width: '100%'
                       }}
                       css={css`
                         ${mediaQueryMobile} {
-                          left: 0 !important;
                           justify-content: space-between;
                           padding: 10px 20px !important;
                         }
                       `}
                     >
-                      <PrimaryButton
-                        css={css`
-                          width: 100%;
+                      {user?.followerUserId.filter(
+                        (items) =>
+                          items.userId === window.localStorage.getItem('id')
+                      ).length > 0 ? (
+                        <SecondaryButton
+                          css={css`
+                            width: 100%;
 
-                          ${mediaQueryMobile} {
-                            width: 47%;
-                          }
-                        `}
-                      >
-                        <FollowingSvg style={{ marginRight: '10px' }} />
-                        ติดตาม
-                      </PrimaryButton>
+                            ${mediaQueryMobile} {
+                              width: 47%;
+                            }
+                          `}
+                          onClick={() => {
+                            unfollowUser(user?.userId).then(() => {
+                              getUser(
+                                query
+                                  ? query
+                                  : window.localStorage.getItem('id')
+                              );
+                            });
+                          }}
+                        >
+                          {/* <FollowingSvg style={{ marginRight: '10px' }} /> */}
+                          เลิกติดตาม
+                        </SecondaryButton>
+                      ) : (
+                        <PrimaryButton
+                          css={css`
+                            width: 100%;
+
+                            ${mediaQueryMobile} {
+                              width: 47%;
+                            }
+                          `}
+                          onClick={() => {
+                            followUser(user?.userId).then(() => {
+                              getUser(
+                                query
+                                  ? query
+                                  : window.localStorage.getItem('id')
+                              );
+                            });
+                          }}
+                        >
+                          <FollowingSvg style={{ marginRight: '10px' }} />
+                          ติดตาม
+                        </PrimaryButton>
+                      )}
                       <PrimaryButton
                         onClick={() => {
                           addChatRoom({
@@ -553,7 +592,7 @@ export const ProfilePage = observer(() => {
                     <Flex>
                       <ProfileInfoListHeading>ผู้ติดตาม</ProfileInfoListHeading>
                       <ProfileInfoListDetail>
-                        {user?.followerUserId} คน
+                        {user?.followerUserId.length} คน
                       </ProfileInfoListDetail>
                     </Flex>
                     <Flex>
@@ -561,7 +600,7 @@ export const ProfilePage = observer(() => {
                         กำลังติดตาม
                       </ProfileInfoListHeading>
                       <ProfileInfoListDetail>
-                        {user?.followingUserId} คน
+                        {user?.followingUserId.length} คน
                       </ProfileInfoListDetail>
                     </Flex>
                   </ProfileInfoContainer>
@@ -602,7 +641,7 @@ export const ProfilePage = observer(() => {
                       ? 'ให้ความข่วยเหลือ'
                       : 'ขอความช่วยเหลือ'
                   }
-                  type={menu === HelpMenu.PROVIDE ? 'provide' : 'request'}
+                  type={state.profile_menu}
                 />
               )}
             </Flex>

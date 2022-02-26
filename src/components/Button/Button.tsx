@@ -1,11 +1,16 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { Button } from 'antd';
-import { mediaQueryMobile, mediaQuerySmallTablet } from 'styles/variables';
-import { mediaQueryLargeDesktop } from '../../styles/variables';
+import {
+  mediaQueryMobile,
+  mediaQuerySmallTablet,
+  mediaQueryLargeDesktop
+} from 'styles/variables';
 
 export const SecondaryButton = styled.a`
   min-width: 130px;
+  width: 100%;
+  max-width: 550px;
   height: 45px;
   background: #ffffff;
   border: 2px solid #ee6400;
@@ -13,7 +18,7 @@ export const SecondaryButton = styled.a`
   border-radius: 8px;
   text-decoration: none;
   color: #ee6400;
-  font-size: 18px;
+  font-size: 16px;
   text-align: center;
   display: flex;
   align-items: center;
@@ -26,9 +31,8 @@ export const SecondaryButton = styled.a`
   }
 
   ${mediaQueryLargeDesktop} {
-    min-width: 106px;
-    height: 35px;
-    font-size: 16px;
+    min-width: 90px;
+    height: 36px;
   }
 
   ${mediaQueryMobile} {
@@ -49,7 +53,7 @@ export const PrimaryButton = styled.a`
   background: #ee6400;
   border-radius: 9px;
   color: #ffff;
-  font-size: 18px;
+  font-size: 16px;
   text-align: center;
   display: flex;
   align-items: center;
@@ -63,8 +67,7 @@ export const PrimaryButton = styled.a`
 
   ${mediaQueryLargeDesktop} {
     min-width: 90px;
-    height: 35px;
-    font-size: 16px;
+    height: 36px;
   }
 
   ${mediaQuerySmallTablet} {

@@ -40,6 +40,7 @@ import { useProvides } from 'hooks/provide/useProvides';
 import { useRequest } from 'hooks/request/useRequest';
 import { useAddRequesterUser } from 'hooks/request/useAddRequesterUser';
 import { useUpdateRequest } from 'hooks/request/useUpdateRequest';
+import { useDeletedRequesterUserId } from 'hooks/request/useDeleteRequesterUserId';
 
 import { userStore } from 'store/userStore';
 
@@ -52,14 +53,14 @@ import { EmptyData } from 'components/Empty/EmptyData';
 import { mediaQueryMiniDesktop } from '../../styles/variables';
 
 const RequestImageSection = styled.img`
-  width: 520px;
+  width: 450px;
   height: 100%;
   margin-bottom: 20px;
   object-fit: cover;
 
   ${mediaQueryLargeDesktop} {
-    width: 420px;
-    height: 500px;
+    width: 350px;
+    height: 400px;
   }
 
   ${mediaQueryTablet} {
@@ -78,18 +79,21 @@ const RequestImageSection = styled.img`
 
 const RequestCategoryButton = styled(PrimaryButton)`
   width: max-content;
-  min-width: 140px;
+  min-width: 100px;
   padding: 10px 15px;
   height: 45px;
   margin: 10px 8px 10px 0px;
-  font-size: 1.7rem;
+  font-size: 18px;
 
   ${mediaQueryLargeDesktop} {
-    height: 40px;
+    min-width: 110px;
+    height: 35px;
+    font-size: 16px;
   }
 
   ${mediaQueryMobile} {
     margin-bottom: 10px;
+    font-size: 14px;
   }
 `;
 
@@ -97,27 +101,30 @@ const RequestHashtagButton = styled(SecondaryButton)`
   width: max-content;
   min-width: 80px;
   padding: 10px 15px;
-  height: 45px;
+  height: 40px;
   margin: 10px 8px 10px 0px;
-  font-size: 1.7rem;
+  font-size: 18px;
 
   ${mediaQueryLargeDesktop} {
-    height: 40px;
+    min-width: 80px;
+    height: 35px;
+    font-size: 16px;
   }
 
   ${mediaQueryMobile} {
     margin-bottom: 0;
+    font-size: 14px;
   }
 `;
 
 const RequestInfoContainer = styled.div`
   display: grid;
   grid-template-columns: 300px 450px;
-  grid-gap: 40px;
+  grid-gap: 20px 40px;
   margin-bottom: 60px;
 
   ${mediaQueryLargeDesktop} {
-    grid-template-columns: 180px 400px;
+    grid-template-columns: 160px 400px;
   }
 
   ${mediaQueryMobile} {
@@ -127,15 +134,15 @@ const RequestInfoContainer = styled.div`
 `;
 
 const HelperImage = styled.img`
-  width: 90px;
-  height: 90px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
   margin-top: 5px;
   object-fit: cover;
 
   ${mediaQueryLargeDesktop} {
-    width: 80px;
-    height: 80px;
+    width: 75px;
+    height: 75px;
   }
 
   ${mediaQueryMobile} {
@@ -169,15 +176,15 @@ const RequestDetail = styled.div`
   line-height: 31px;
   font-size: 1.5rem;
   color: #000000;
-  min-width: 800px;
+  min-width: unset;
+  max-width: max-content;
   line-height: 60px;
   white-space: pre-wrap;
 
   ${mediaQueryLargeDesktop} {
-    font-size: 24px;
-    min-width: 200px;
+    font-size: 18px;
     line-height: 31px;
-    min-width: max-content;
+    max-width: max-content;
   }
 
   ${mediaQueryTablet} {
@@ -272,6 +279,7 @@ export const RequestInfoContent = observer(({ data }: any) => {
   const { execute: getRequest } = useRequest();
   const { execute: updateRequest } = useUpdateRequest();
   const { execute: addRequesterUserId } = useAddRequesterUser();
+  const { execute: deleteRequesterUserId } = useDeletedRequesterUserId();
 
   const { data: provides, execute: getProvides } = useProvides();
   const { me, userId } = userStore;
@@ -308,7 +316,6 @@ export const RequestInfoContent = observer(({ data }: any) => {
               })
                 .then((res) => {
                   message.success('สำเร็จ');
-                  setRequest(res.data);
                 })
                 .catch((error) => message.error('ไม่สำเร็จ'));
             } else {
@@ -437,7 +444,17 @@ export const RequestInfoContent = observer(({ data }: any) => {
                     direction="column"
                     justify="flex-start"
                     itemAlign="flex-start"
-                    style={{ width: 'unset', position: 'relative' }}
+                    css={css`
+                      position: relative;
+                      width: 30%;
+
+                      ${mediaQueryLargeDesktop} {
+                        width: 35%;
+                      }
+                      ${mediaQueryTablet} {
+                        width: unset;
+                      }
+                    `}
                   >
                     <RequestImageSection
                       src={request.imageUrl ?? DefaultImage}
@@ -446,7 +463,7 @@ export const RequestInfoContent = observer(({ data }: any) => {
 
                     <Flex
                       css={css`
-                        width: 600px;
+                        width: 400px;
                         flex-wrap: wrap;
 
                         ${mediaQueryMobile} {
@@ -468,8 +485,12 @@ export const RequestInfoContent = observer(({ data }: any) => {
                     </Flex>
                     <Flex
                       css={css`
-                        width: 600px;
+                        width: 500px;
                         flex-wrap: wrap;
+
+                        ${mediaQueryLargeDesktop} {
+                          width: 400px;
+                        }
 
                         ${mediaQueryMobile} {
                           width: 100%;
@@ -524,6 +545,13 @@ export const RequestInfoContent = observer(({ data }: any) => {
                         )}
                       </Flex>
 
+                      {console.log(
+                        request.requesterUserId.some(
+                          (item) =>
+                            item.userId === window.localStorage.getItem('id')
+                        )
+                      )}
+                      {console.log(request.requesterUserId)}
                       <RequestTitle>สถานที่ให้ความข่วยเหลือ</RequestTitle>
                       <RequestDetail>{request.location.name}</RequestDetail>
                       <React.Fragment>
@@ -542,14 +570,18 @@ export const RequestInfoContent = observer(({ data }: any) => {
                       </RequestDetail>
                     </RequestInfoContainer>
                     {request.userId !== window.localStorage.getItem('id') &&
-                      (request.requesterUserId.find(
+                      (request.requesterUserId.filter(
                         (item) =>
                           item.userId === window.localStorage.getItem('id')
-                      ) ? (
-                        <PrimaryButton
+                      ).length > 0 ? (
+                        <SecondaryButton
                           css={css`
                             position: absolute;
                             bottom: 0;
+
+                            &:hover {
+                              box-shadow: 0px 9px 16px rgba(255, 135, 48, 0.2);
+                            }
 
                             ${mediaQueryLargeDesktop} {
                               bottom: 40px;
@@ -562,36 +594,34 @@ export const RequestInfoContent = observer(({ data }: any) => {
                             }
 
                             ${mediaQueryMobile} {
-                              // width: 100%;
-                              // position: fixed;
-                              // z-index: 4;
-                              // bottom: 0;
-                              // left: 0;
-                              // border-radius: 0 !important;
                               height: 40px;
                               margin-bottom: 10px;
                             }
                           `}
                           onClick={() => {
-                            addRequesterUserId(
+                            deleteRequesterUserId(
                               request.requestId,
-                              request.userId,
-                              {
-                                userId: window.localStorage.getItem('id')
-                              }
+                              request.requesterUserId.filter(
+                                (item) =>
+                                  item.userId ===
+                                  window.localStorage.getItem('id')
+                              )[0].requesterId
                             )
                               .then(() => {
+                                getRequest(query).then((res) => {
+                                  setRequest(res.data);
+                                });
                                 message.success(
-                                  'เรากำลังส่งความช่วยเหลือของคุณให้เจ้าของโพสต์ได้รับทราบ'
+                                  'ยกเลิกการสนใจให้ความช่วยเหลือนี้สำเร็จ'
                                 );
                               })
                               .catch(() => {
-                                message.error('ไม่สำเร็จ');
+                                message.error('ยกเลิกไม่สำเร็จ');
                               });
                           }}
                         >
-                          คุณได้ทำการสนใจให้ความช่วยเหลือนี้แล้ว
-                        </PrimaryButton>
+                          ยกเลิกการสนใจให้ความช่วยเหลือนี้
+                        </SecondaryButton>
                       ) : (
                         <PrimaryButton
                           css={css`
@@ -610,12 +640,6 @@ export const RequestInfoContent = observer(({ data }: any) => {
                             }
 
                             ${mediaQueryMobile} {
-                              // width: 100%;
-                              // position: fixed;
-                              // z-index: 4;
-                              // bottom: 0;
-                              // left: 0;
-                              // border-radius: 0 !important;
                               height: 40px;
                               margin-bottom: 10px;
                             }
@@ -628,7 +652,15 @@ export const RequestInfoContent = observer(({ data }: any) => {
                                 userId: window.localStorage.getItem('id')
                               }
                             )
-                              .then(() => {
+                              .then((res) => {
+                                // setRequest(res.data);
+                                getRequest(query).then((res) => {
+                                  setRequest(res.data);
+                                });
+                                // request['requesterUserId'] = res.data;
+
+                                // console.log(request.requesterUserId);
+
                                 message.success(
                                   'เรากำลังส่งความช่วยเหลือของคุณให้เจ้าของโพสต์ได้รับทราบ'
                                 );

@@ -198,14 +198,7 @@ export const EditPasswordPage = observer(() => {
                 width: 100%;
               `}
             >
-              {/* {loginType === 'password' && ( */}
               <React.Fragment>
-                {/* <Form.Item name="prevPassword" label="รหัสผ่านปัจจุบัน">
-                    <Input
-                      placeholder="รหัสผ่านปัจจุบัน"
-                      style={{ height: '40px', borderRadius: '12px' }}
-                    />
-                  </Form.Item> */}
                 <Form.Item
                   name="password"
                   label="รหัสผ่านใหม่"
@@ -252,7 +245,6 @@ export const EditPasswordPage = observer(() => {
                   />
                 </Form.Item>
               </React.Fragment>
-              {/* )} */}
             </div>
             <div
               css={css`

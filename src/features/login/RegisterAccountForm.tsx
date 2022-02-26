@@ -18,6 +18,7 @@ import { getAuth } from 'firebase/auth';
 import firebase from '../../firebase';
 import axios from 'axios';
 import { REACT_APP_API } from 'config';
+import { InputForm } from 'components/Input/InputForm';
 
 type RegisterAccountFormProps = {
   userAccountData: UserCreateBody;
@@ -218,19 +219,7 @@ export const RegisterAccountForm = observer(
             name="email"
             rules={[{ required: true, message: 'กรุณากรอกอีเมล' }]}
           >
-            <Input
-              placeholder="อีเมล"
-              style={{ borderRadius: '12px' }}
-              css={css`
-                height: 50px;
-                font-size: 1.5rem;
-
-                ${mediaQueryLargeDesktop} {
-                  height: 40px;
-                  font-size: 14px;
-                }
-              `}
-            />
+            <InputForm placeholder="อีเมล" />
           </Form.Item>
 
           <Form.Item

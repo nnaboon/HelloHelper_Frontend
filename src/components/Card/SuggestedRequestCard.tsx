@@ -87,8 +87,9 @@ const RequestTitle = styled.div`
   word-break: break-word;
 
   ${mediaQueryLargeDesktop} {
-    font-size: 24px;
+    font-size: 20px;
   }
+
   ${mediaQueryTablet} {
     overflow-wrap: break-word;
     width: 90%;
@@ -174,7 +175,7 @@ const RequestDataInfo = styled.div`
   -webkit-box-orient: vertical;
 
   ${mediaQueryLargeDesktop} {
-    font-size: 1.1rem;
+    font-size: 16px;
   }
 
   ${mediaQuerySmallTablet} {
@@ -186,10 +187,10 @@ const RequestDataInfo = styled.div`
 const RequestDataContent = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 18px;
+  margin-bottom: 14px;
 
   ${mediaQueryLargeDesktop} {
-    margin-bottom: 14px;
+    margin-bottom: 10px;
   }
 
   ${mediaQueryTablet} {

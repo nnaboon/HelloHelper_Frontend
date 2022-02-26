@@ -10,6 +10,7 @@ import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { CATEGORY } from 'data/category';
 import { GoogleMapContent } from 'components/GoogleMap/GoogleMap';
 import Flex from 'components/Flex/Flex';
+import { InputForm } from 'components/Input/InputForm';
 import { EditableTagGroup } from 'components/Tag/Hashtag';
 import { useUpdateProvide } from 'hooks/provide/useUpdateProvide';
 import { useUpdateRequest } from 'hooks/request/useUpdateRequest';
@@ -161,6 +162,7 @@ export const RequestFormModal = ({
           uploadProvideImage(formData).then((res) => {
             updateProvide(requestData.provideId, {
               ...data,
+              price: Number(value.price),
               imageUrl: res.data
             }).then((res) => {
               setUpdateData(res.data);
@@ -446,20 +448,7 @@ export const RequestFormModal = ({
               }
             ]}
           >
-            <Input
-              defaultValue={requestData.title}
-              placeholder="ชื่อ"
-              style={{ borderRadius: '12px' }}
-              css={css`
-                height: 50px;
-                font-size: 1.5rem;
-
-                ${mediaQueryLargeDesktop} {
-                  height: 40px;
-                  font-size: 14px;
-                }
-              `}
-            />
+            <InputForm defaultValue={requestData.title} placeholder="ชื่อ" />
           </Form.Item>
 
           <Form.Item
@@ -507,19 +496,11 @@ export const RequestFormModal = ({
                 }
               ]}
             >
-              <Input
+              <InputForm
                 defaultValue={requestData.number}
                 placeholder="จำนวนสินค้า"
                 min="0"
                 type="number"
-                style={{ borderRadius: '12px' }}
-                css={css`
-                  font-size: 1.5rem;
-
-                  ${mediaQueryLargeDesktop} {
-                    font-size: 14px;
-                  }
-                `}
               />
             </Form.Item>
           ) : null}
@@ -535,7 +516,7 @@ export const RequestFormModal = ({
                 }
               ]}
             >
-              <Input
+              <InputForm
                 defaultValue={
                   requestData.price
                     ? `${requestData.price} บาท`
@@ -544,14 +525,6 @@ export const RequestFormModal = ({
                 type="number"
                 min="0"
                 placeholder="ขอบเขตราคาสินค้า"
-                style={{ borderRadius: '12px' }}
-                css={css`
-                  font-size: 1.5rem;
-
-                  ${mediaQueryLargeDesktop} {
-                    font-size: 14px;
-                  }
-                `}
               />
             </Form.Item>
           ) : null}
@@ -568,7 +541,7 @@ export const RequestFormModal = ({
               }
             ]}
           >
-            <Input
+            <InputForm
               type="number"
               min="0"
               defaultValue={
@@ -577,14 +550,6 @@ export const RequestFormModal = ({
                   : requestData.serviceCharge
               }
               placeholder="ขอบเขตราคาค่าบริการ"
-              style={{ borderRadius: '12px' }}
-              css={css`
-                font-size: 1.5rem;
-
-                ${mediaQueryLargeDesktop} {
-                  font-size: 14px;
-                }
-              `}
             />
           </Form.Item>
           {/* <Tooltip title="กำหนดราคาสูงสุดของความช่วยเหลือครั้งนี้ที่คุณพึงพอใจจะจ่าย ให้กับผู้ให้ความช่วยเหลือ">
@@ -602,17 +567,9 @@ export const RequestFormModal = ({
             label="วิธีการชำระเงิน"
             rules={[{ required: true, message: 'กรุณากรอกวิธีการชำระเงิน' }]}
           >
-            <Input
+            <InputForm
               defaultValue={requestData.payment}
               placeholder="วิธีการชำระเงิน"
-              style={{ borderRadius: '12px' }}
-              css={css`
-                font-size: 1.5rem;
-
-                ${mediaQueryLargeDesktop} {
-                  font-size: 14px;
-                }
-              `}
             />
           </Form.Item>
           <Form.Item

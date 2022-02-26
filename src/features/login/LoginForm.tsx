@@ -11,6 +11,7 @@ import { Text } from 'components/Text';
 import { PrimaryButton } from 'components/Button/Button';
 import Flex from 'components/Flex/Flex';
 import { LoginStep } from './const';
+import { InputForm } from 'components/Input/InputForm';
 import firebase, { signInWithGoogle, signInWithFacebook } from '../../firebase';
 import axios from 'axios';
 import { useUser } from 'hooks/user/useUser';
@@ -294,19 +295,7 @@ export const LoginForm = observer(
             name="email"
             rules={[{ required: true, message: 'Please input your email!' }]}
           >
-            <Input
-              placeholder="อีเมล"
-              css={css`
-                height: 50px;
-                font-size: 1.5rem;
-                border-radius: 12px;
-                ${mediaQueryLargeDesktop} {
-                  height: 36px;
-                  border-radius: 8px;
-                  font-size: 15px;
-                }
-              `}
-            />
+            <InputForm placeholder="อีเมล" />
           </Form.Item>
 
           <Form.Item

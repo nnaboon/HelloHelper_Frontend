@@ -206,7 +206,7 @@ export const Navbar = observer(() => {
             window.localStorage.removeItem('loginType');
             window.localStorage.removeItem('access_token');
             window.localStorage.removeItem('selectedCommunity');
-            auth.signOut();
+            firebase.auth().signOut();
           });
       } else if (user) {
         setIsModalVisible(true);

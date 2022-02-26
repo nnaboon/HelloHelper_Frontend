@@ -11,6 +11,7 @@ import {
   mediaQueryLargeDesktop,
   mediaQueryTablet
 } from 'styles/variables';
+import { InputForm } from 'components/Input/InputForm';
 
 type RegisterUsernameFormProps = {
   userAccountData: UserCreateBody;
@@ -164,19 +165,7 @@ export const RegisterUsernameForm = (props: RegisterUsernameFormProps) => {
           name="username"
           rules={[{ required: true, message: 'กรุณากรอกชื่อ' }]}
         >
-          <Input
-            placeholder="ชื่อ"
-            style={{ borderRadius: '12px' }}
-            css={css`
-              height: 50px;
-              font-size: 1.5rem;
-
-              ${mediaQueryLargeDesktop} {
-                height: 40px;
-                font-size: 14px;
-              }
-            `}
-          />
+          <InputForm placeholder="ชื่อ" />
         </Form.Item>
         <Button
           type="primary"
