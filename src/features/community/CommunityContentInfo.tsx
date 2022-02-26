@@ -130,7 +130,7 @@ const UserName = styled.div`
 const ProfileInfoListHeading = styled.div`
   font-weight: 500;
   font-size: 1.4rem;
-  line-height: 14px;
+  line-height: 21px;
   color: #5a5a5a;
 
   ${mediaQueryLargeDesktop} {
@@ -441,8 +441,9 @@ export const CommunityContentInfo = observer(({ data }: any) => {
                 <ProfileInfoListHeading
                   css={css`
                     max-width: 600px;
+
                     ${mediaQueryLargeDesktop} {
-                      max-width: 400px;
+                      max-width: 500px;
                     }
                     ${mediaQueryMobile} {
                       max-width: 300px;

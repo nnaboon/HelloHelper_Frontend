@@ -170,6 +170,19 @@ const CommunitySecondaryButton = styled(SecondaryButton)`
   }
 `;
 
+const CommunityTitle = styled(Text)`
+  margin: 50px 0;
+  font-size: 20px;
+
+  ${mediaQueryLargeDesktop} {
+    margin-bottom: 15px;
+  }
+
+  ${mediaQueryMobile} {
+    font-size: 18px;
+  }
+`;
+
 export const CommunitySettingManageMember = () => {
   const [member, setMember] = useState<any[]>();
   const [joinedRequestUserId, setJoinedRequestUserId] = useState<any[]>();
@@ -179,8 +192,7 @@ export const CommunitySettingManageMember = () => {
 
   const { execute: updateJoinedCommunityRequest } =
     useUpdateJoinedCommunityRequest();
-  const { data: memberUpdated, execute: updateMemberRole } =
-    useUpdateMemberRole();
+  const { execute: updateMemberRole } = useUpdateMemberRole();
   const { execute: bannedMember } = useBanMember();
   const { data: community, execute: getCommunity } = useCommunity();
 
@@ -295,29 +307,7 @@ export const CommunitySettingManageMember = () => {
         }
       `}
     >
-      <Text
-        fontWeight={500}
-        css={css`
-          margin-top: 50px;
-          margin-bottom: 50px;
-          font-size: 2.8rem;
-
-          ${mediaQueryLargeDesktop} {
-            margin-bottom: 15px;
-            font-size: 25px;
-          }
-
-          ${mediaQueryTablet} {
-            font-size: 22px;
-          }
-
-          ${mediaQueryMobile} {
-            font-size: 18px;
-          }
-        `}
-      >
-        ผู้ต้องการเข้าร่วมชุมชน
-      </Text>
+      <CommunityTitle fontWeight={500}>ผู้ต้องการเข้าร่วมชุมชน</CommunityTitle>
       {joinedRequestUserId?.length > 0 ? (
         <div>
           {' '}
@@ -381,28 +371,7 @@ export const CommunitySettingManageMember = () => {
         />
       )}
 
-      <Text
-        fontWeight={500}
-        css={css`
-          font-size: 2.8rem;
-          margin: 50px 0;
-
-          ${mediaQueryLargeDesktop} {
-            margin-bottom: 15px;
-            font-size: 25px;
-          }
-
-          ${mediaQueryTablet} {
-            font-size: 22px;
-          }
-
-          ${mediaQueryMobile} {
-            font-size: 18px;
-          }
-        `}
-      >
-        ผู้นำชุมชน
-      </Text>
+      <CommunityTitle fontWeight={500}>ผู้นำชุมชน</CommunityTitle>
       {member
         ?.filter(({ role }) => role === 1)
         .map(({ id, username, imageUrl }) => (
@@ -445,28 +414,7 @@ export const CommunitySettingManageMember = () => {
             </CommunityMemberContainer>
           </CommunityMemberCard>
         ))}
-      <Text
-        fontWeight={500}
-        css={css`
-          margin: 50px 0;
-          font-size: 2.8rem;
-
-          ${mediaQueryLargeDesktop} {
-            margin-bottom: 15px;
-            font-size: 25px;
-          }
-
-          ${mediaQueryTablet} {
-            font-size: 22px;
-          }
-
-          ${mediaQueryMobile} {
-            font-size: 18px;
-          }
-        `}
-      >
-        สมาชิกในชุมชน
-      </Text>
+      <CommunityTitle fontWeight={500}>สมาชิกในชุมชน</CommunityTitle>
       {member?.filter(({ role }) => role === 0).length > 0 ? (
         <React.Fragment>
           {' '}

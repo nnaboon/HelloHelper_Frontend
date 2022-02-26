@@ -41,6 +41,19 @@ const CommunityRequestSection = styled.div<{ isRequest: any }>`
   }
 `;
 
+const CommunityRequestTitle = styled(Text)`
+  margin: 20px 0;
+  font-size: 22px;
+
+  ${mediaQueryLargeDesktop} {
+    margin-bottom: 15px;
+  }
+
+  ${mediaQueryMobile} {
+    font-size: 18px;
+  }
+`;
+
 export const CommunityRequestContent = ({
   requests,
   setRequests
@@ -83,23 +96,9 @@ export const CommunityRequestContent = ({
 
   return (
     <div>
-      <Text
-        fontWeight={500}
-        marginY="20px"
-        css={css`
-          font-size: 1.6rem;
-
-          ${mediaQueryLargeDesktop} {
-            font-size: 24px;
-          }
-
-          ${mediaQueryMobile} {
-            font-size: 20px;
-          }
-        `}
-      >
+      <CommunityRequestTitle fontWeight={500}>
         ความช่วยเหลือยอดนิยม
-      </Text>
+      </CommunityRequestTitle>
       <Carousel
         responsive={responsive}
         arrows
@@ -127,23 +126,9 @@ export const CommunityRequestContent = ({
           <Loading height="300px" />
         )}
       </Carousel>
-      <Text
-        fontWeight={500}
-        marginY="10px"
-        css={css`
-          font-size: 1.6rem;
-
-          ${mediaQueryLargeDesktop} {
-            font-size: 24px;
-          }
-
-          ${mediaQueryMobile} {
-            font-size: 20px;
-          }
-        `}
-      >
+      <CommunityRequestTitle fontWeight={500}>
         Top 10 ความช่วยเหลือประจำสัปดาห์
-      </Text>
+      </CommunityRequestTitle>
       <Carousel
         responsive={responsive}
         arrows
@@ -171,23 +156,9 @@ export const CommunityRequestContent = ({
           <Loading height="300px" />
         )}
       </Carousel>
-      <Text
-        fontWeight={500}
-        marginY="10px"
-        css={css`
-          font-size: 1.6rem;
-
-          ${mediaQueryLargeDesktop} {
-            font-size: 24px;
-          }
-
-          ${mediaQueryMobile} {
-            font-size: 20px;
-          }
-        `}
-      >
+      <CommunityRequestTitle fontWeight={500}>
         ความช่วยเหลือทั้งหมด
-      </Text>
+      </CommunityRequestTitle>
       <CommunityRequestSection isRequest={request ? request : 0}>
         {request ? (
           requests.length > 0 ? (

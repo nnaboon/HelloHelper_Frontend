@@ -4,15 +4,17 @@ import { css, jsx, Global } from '@emotion/react';
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from '@emotion/styled';
-import { Text } from 'components/Text';
 import { Button, Form, Input, Upload, message } from 'antd';
-import { CommunityType } from 'features/community/const';
+import { Text } from 'components/Text';
+import { InputForm } from 'components/Input/InputForm';
+
 import { useAddCommunity } from 'hooks/community/useAddCommunity';
 import { useUpdateUser } from 'hooks/user/useUpdateUser';
-import { observer } from 'mobx-react-lite';
+import { useUploadUserImage } from 'hooks/user/useUploadUserImage';
+
 import { userStore } from 'store/userStore';
 import { GoogleMapContent } from 'components/GoogleMap/GoogleMap';
-import { useUploadUserImage } from 'hooks/user/useUploadUserImage';
+
 import DefaultImage from 'images/default.png';
 import {
   LARGE_DESKTOP_WIDTH,
@@ -269,53 +271,21 @@ export const CreateCommunityForm = ({
             }
           ]}
         >
-          <Input
+          <InputForm
             placeholder="ชื่อขุมชนความช่วยเหลือ"
-            style={{ borderRadius: '12px' }}
             css={css`
-              height: 50px;
-              font-size: 1.5rem;
-              border-radius: 12px;
-
               ${mediaQueryLargeDesktop} {
-                height: 35px;
                 border-radius: 8px;
-                font-size: 14px;
               }
             `}
           />
         </Form.Item>
-        {/* <Form.Item
-          name="password"
-          rules={[
-            {
-              required: true,
-              message: 'กรุณากำหนดรหัสชุมชนความข่วยเหลือ'
-            }
-          ]}
-        >
-          <Input
-            placeholder="รหัสขุมชนความช่วยเหลือ"
-            style={{ height: '40px', borderRadius: '12px' }}
-          />
-        </Form.Item>
-        <ul style={{ color: '#939393' }}>
-          <li>สามารถเป็น ภาษาอังกฤษ ตัวเลข และอักษรพิเศษ </li>
-          <li>ห้ามมีเว้นวรรค</li>
-        </ul> */}
         <Form.Item name="description">
-          <Input
+          <InputForm
             placeholder="คำอธิบาย"
-            style={{ borderRadius: '12px' }}
             css={css`
-              height: 50px;
-              font-size: 1.5rem;
-              border-radius: 12px;
-
               ${mediaQueryLargeDesktop} {
-                height: 35px;
                 border-radius: 8px;
-                font-size: 14px;
               }
             `}
           />
