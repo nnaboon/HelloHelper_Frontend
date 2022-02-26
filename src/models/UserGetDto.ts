@@ -8,6 +8,7 @@ export type UsersGetDto = {
   verifiedEmailStatus: string;
   location: LocationDto;
   imageUrl: string;
+  name: string;
   address: string;
   phoneNumber: string;
   recommend: boolean;
