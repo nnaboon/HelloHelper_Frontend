@@ -10,9 +10,9 @@ interface StatusBadgeProps {
 }
 
 const StatusBadgeContainer = styled.div<{ color: string }>`
-  max-width: 260px;
-  min-width: 225px;
-  height: 50px;
+  max-width: 150px;
+  min-width: 120px;
+  height: 35px;
   display: flex;
   color: #ffff;
   font-weight: 500;
@@ -22,17 +22,17 @@ const StatusBadgeContainer = styled.div<{ color: string }>`
   border-radius: 8px;
 
   width: unset;
-  font-size: 1.9rem;
+  font-size: 16px;
 
   ${mediaQueryLargeDesktop} {
-    font-size: 18px;
-    max-width: 150px;
-    min-width: 130px;
-    height: 32px;
+    font-size: 14px;
+    max-width: 130px;
+    min-width: 110px;
+    height: 30px;
   }
 
   ${mediaQueryMobile} {
-    min-width: 105px;
+    min-width: 100px;
     font-size: 14px;
   }
 `;

@@ -45,14 +45,15 @@ export const RankingBadge = styled.div<{ rankColor: string }>`
   border-radius: 8px;
   max-width: max-content;
   padding: 0 10px;
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-size: 20px;
+  font-weight: 600;
   position: relative;
   margin-top: 4px;
 
   ${mediaQueryLargeDesktop} {
-    font-size: 16px;
-    height: 32px;
+    font-size: 14px;
+    font-weight: 600;
+    height: 28px;
   }
 
   ${mediaQuerySmallTablet} {
@@ -87,7 +88,8 @@ export const RequestStatusBadge = styled.div<{ status?: number }>`
   margin-left: 8px;
 
   ${mediaQueryLargeDesktop} {
-    font-size: 13px;
-    height: 26px;
+    font-size: 12px;
+    border-radius: 6px;
+    height: 22px;
   }
 `;
