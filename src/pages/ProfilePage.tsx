@@ -7,6 +7,7 @@ import { observer } from 'mobx-react-lite';
 import { useHistory, useLocation } from 'react-router-dom';
 import { auth } from '../firebase';
 import { HelpMenu } from 'components/Menu/const';
+import { message } from 'antd';
 import Flex from 'components/Flex/Flex';
 import { PrimaryButton, SecondaryButton } from 'components/Button/Button';
 import { Divider } from 'components/Divider/Divider';
@@ -24,8 +25,8 @@ import { getStar } from 'components/Star/getStar';
 import { OverallHelpedChart } from 'features/charts/OverallHelpedChart';
 import { TopThreeHelpedChart } from 'features/charts/TopThreeHelpedChart';
 import { SettingOutlined } from '@ant-design/icons';
-import { useUser } from 'hooks/user/useUser';
 import { userStore } from 'store/userStore';
+import { logout } from 'features/logout/Logout';
 import {
   mediaQueryMobile,
   mediaQueryTablet,
@@ -37,6 +38,8 @@ import {
 } from 'styles/variables';
 import { ProfileMenu } from '../components/Menu/const';
 import { PostRequestButton } from 'components/Button/PostRequestButton';
+
+import { useUser } from 'hooks/user/useUser';
 import { useMyProvide } from 'hooks/provide/useMyProvide';
 import { useMyRequest } from 'hooks/request/useMyRequest';
 import { useAddChatRoom } from 'hooks/chat/useAddChatRoom';
@@ -69,6 +72,7 @@ const ProfilePageUserInfoSection = styled.div`
   ${mediaQueryTablet} {
     flex-direction: column;
     justify-content: center;
+    margin-top: 10px;
   }
 `;
 
@@ -87,6 +91,11 @@ const ProfilePageUserHelperListSection = styled.div`
   }
 
   ${mediaQueryTablet} {
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 15px;
+  }
+
+  ${mediaQueryMobile} {
     display: flex;
     flex-direction: column;
   }
@@ -97,20 +106,22 @@ const ProfilePageUserHelperListSection = styled.div`
 `;
 
 const UserCard = styled.div`
-  width: 23%;
-  height: 290px;
-  min-width: 650px;
+  width: 100%;
+  max-width: 550px;
+  min-width: 400px;
+  height: 250px;
   background: #ffffff;
   box-shadow: 0px 7px 7px rgba(0, 0, 0, 0.15);
   border-radius: 8px;
   display: flex;
+  align-items: center;
   border-sizing: border-box;
   padding: 20px;
   position: relative;
 
   ${mediaQueryLargeDesktop} {
     width: 450px;
-    height: 246px;
+    height: 210px;
     min-width: unset;
   }
 
@@ -130,21 +141,17 @@ const HelperImageSection = styled.img`
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  margin-top: 15px;
+  margin-top: -50px;
   object-fit: cover;
 
   ${mediaQueryLargeDesktop} {
-    width: 100px;
-    height: 100px;
-  }
-  ${mediaQueryTablet} {
-    width: 110px;
-    height: 110px;
+    width: 80px;
+    height: 80px;
   }
 
   ${mediaQueryMobile} {
-    width: 100px;
-    height: 100px;
+    width: 75px;
+    height: 75px;
   }
 `;
 
@@ -153,13 +160,14 @@ const UserName = styled.div`
   font-size: 24px;
   color: #000000;
   margin-bottom: 5px;
-  word-wrap: break-word;
+  word-break: break-all;
 
   ${mediaQueryLargeDesktop} {
     font-size: 20px;
   }
 
   ${mediaQueryMobile} {
+    font-size: 18px;
     text-align: center;
     max-width: 150px;
   }
@@ -169,7 +177,7 @@ const ProfileInfoContainer = styled.div`
   width: 100%;
   display: grid;
   grid-template-columns: minmax(300px, auto) minmax(300px, auto);
-  grid-gap: 40px;
+  grid-gap: 30px;
 
   ${mediaQueryTablet} {
     grid-template-columns: minmax(200px, auto) minmax(200px, auto);
@@ -198,7 +206,7 @@ const ProfileInfoSection = styled.div`
 
 const ProfileInfoListHeading = styled.div`
   font-weight: 500;
-  font-size: 1.25rem;
+  font-size: 18px;
   line-height: 14px;
   color: #5a5a5a;
 
@@ -214,13 +222,13 @@ const ProfileInfoListHeading = styled.div`
 
 const ProfileInfoListDetail = styled.div`
   font-weight: 600;
-  font-size: 2rem;
+  font-size: 24px;
   line-height: 29px;
   color: #e56101;
   margin-left: 12px;
 
   ${mediaQueryLargeDesktop} {
-    font-size: 20px;
+    font-size: 18px;
   }
 
   ${mediaQueryMobile} {
@@ -332,6 +340,7 @@ export const ProfilePage = observer(() => {
                       align-items: center;
                       justify-content: center;
                       margin-top: -50px;
+                      flex: 1;
                     `}
                   >
                     <UserName>{user?.username}</UserName>
@@ -352,26 +361,7 @@ export const ProfilePage = observer(() => {
                     >
                       {getStar(user?.rating)}
                     </div>
-                    <RankingBadge
-                      rankColor={RANK_BADGE[user?.rank].color}
-                      css={css`
-                        font-size: 1.85rem;
-                        height: 37px;
-
-                        ${mediaQueryLargeDesktop} {
-                          font-size: 20px;
-                          height: 32px;
-                        }
-
-                        ${mediaQueryMobile} {
-                          width: max-content !important;
-                          height: 32px !important;
-                          font-size: 20px !important;
-                          border-radius: 8px !important;
-                          margin-left: 0 !important;
-                        }
-                      `}
-                    >
+                    <RankingBadge rankColor={RANK_BADGE[user?.rank].color}>
                       {user?.rank.toUpperCase()}
                     </RankingBadge>
                   </div>
@@ -402,22 +392,12 @@ export const ProfilePage = observer(() => {
                     >
                       <PrimaryButton
                         css={css`
-                          width: 100%;
-                          font-size: 1.5rem;
-                          height: 45px;
-
-                          ${mediaQueryLargeDesktop} {
-                            font-size: 18px;
-                            height: 40px;
-                          }
-
                           ${mediaQueryTablet} {
                             margin: 0;
                           }
 
                           ${mediaQueryMobile} {
-                            width: 47%;
-                            height: 35px;
+                            margin-right: 15px;
                           }
                         `}
                         onClick={() => {
@@ -434,26 +414,35 @@ export const ProfilePage = observer(() => {
                       </PrimaryButton>
                       <PrimaryButton
                         css={css`
-                          display: flex;
-                          height: 45px;
-                          align-items: center;
+                          // display: flex;
+                          // height: 45px;
+                          // align-items: center;
                           background: transparent;
                           border: 1px solid #848484;
-                          width: 100%;
+                          // width: 100%;
                           color: #848484;
+
                           &:hover {
+                            background: transparent !important;
+                            border: 1px solid #848484;
                             color: #848484;
                           }
 
-                          ${mediaQueryLargeDesktop} {
-                            font-size: 18px;
-                            height: 40px;
+                          &:focus {
+                            background: transparent !important;
+                            border: 1px solid #848484;
+                            color: #848484;
                           }
 
-                          ${mediaQueryMobile} {
-                            width: 47%;
-                            height: 35px;
-                          }
+                          // ${mediaQueryLargeDesktop} {
+                          //   font-size: 18px;
+                          //   height: 40px;
+                          // }
+
+                          // ${mediaQueryMobile} {
+                          //   width: 47%;
+                          //   height: 35px;
+                          // }
                         `}
                         onClick={() => {
                           history.push('/user/account/setting');
@@ -482,10 +471,10 @@ export const ProfilePage = observer(() => {
                         }
                       `}
                     >
-                      {user?.followerUserId.filter(
+                      {user?.followerUserId?.filter(
                         (items) =>
                           items.userId === window.localStorage.getItem('id')
-                      ).length > 0 ? (
+                      )?.length > 0 ? (
                         <SecondaryButton
                           css={css`
                             width: 100%;
@@ -495,13 +484,21 @@ export const ProfilePage = observer(() => {
                             }
                           `}
                           onClick={() => {
-                            unfollowUser(user?.userId).then(() => {
-                              getUser(
-                                query
-                                  ? query
-                                  : window.localStorage.getItem('id')
-                              );
-                            });
+                            unfollowUser(user?.userId)
+                              .then(() => {
+                                getUser(
+                                  query
+                                    ? query
+                                    : window.localStorage.getItem('id')
+                                );
+                              })
+                              .catch((error) => {
+                                if (error.response.data === 'Unauthorized') {
+                                  logout();
+                                } else {
+                                  message.error('ไม่สำเร็จ');
+                                }
+                              });
                           }}
                         >
                           {/* <FollowingSvg style={{ marginRight: '10px' }} /> */}
@@ -511,19 +508,28 @@ export const ProfilePage = observer(() => {
                         <PrimaryButton
                           css={css`
                             width: 100%;
+                            margin: 0;
 
                             ${mediaQueryMobile} {
                               width: 47%;
                             }
                           `}
                           onClick={() => {
-                            followUser(user?.userId).then(() => {
-                              getUser(
-                                query
-                                  ? query
-                                  : window.localStorage.getItem('id')
-                              );
-                            });
+                            followUser(user?.userId)
+                              .then(() => {
+                                getUser(
+                                  query
+                                    ? query
+                                    : window.localStorage.getItem('id')
+                                );
+                              })
+                              .catch((error) => {
+                                if (error.response.data === 'Unauthorized') {
+                                  logout();
+                                } else {
+                                  message.error('ไม่สำเร็จ');
+                                }
+                              });
                           }}
                         >
                           <FollowingSvg style={{ marginRight: '10px' }} />
@@ -541,7 +547,9 @@ export const ProfilePage = observer(() => {
                         }}
                         css={css`
                           background: #487bff;
+                          border-color: #487bff;
                           width: 100%;
+
                           ${mediaQueryMobile} {
                             width: 47%;
                           }
@@ -554,16 +562,22 @@ export const ProfilePage = observer(() => {
                   )}
                 </UserCard>
                 <ProfileInfoSection>
-                  <Flex marginBottom="40px" itemAlign="center">
+                  <Flex marginBottom="30px" itemAlign="center">
                     <ProfileInfoListHeading>
                       ขอบเขตการช่วยเหลือ
                     </ProfileInfoListHeading>
                     <ProfileInfoListDetail
                       css={css`
                         max-width: 600px;
+
                         ${mediaQueryLargeDesktop} {
                           max-width: 400px;
                         }
+
+                        ${mediaQueryTablet} {
+                          max-width: 450px;
+                        }
+
                         ${mediaQueryMobile} {
                           max-width: 300px;
                         }
@@ -613,7 +627,8 @@ export const ProfilePage = observer(() => {
                     width: '100%',
                     height: '100%',
                     display: isTablet ? 'block' : 'flex',
-                    margin: '40px 0',
+                    marginTop: '40px',
+                    marginBottom: '0px',
                     justifyContent: 'center'
                   }}
                 >
@@ -641,7 +656,7 @@ export const ProfilePage = observer(() => {
                       ? 'ให้ความข่วยเหลือ'
                       : 'ขอความช่วยเหลือ'
                   }
-                  type={state.profile_menu}
+                  type={menu === HelpMenu.PROVIDE ? 'provide' : 'request'}
                 />
               )}
             </Flex>
@@ -650,7 +665,7 @@ export const ProfilePage = observer(() => {
             <ProfilePageUserHelperListSection>
               {menu === HelpMenu.PROVIDE ? (
                 <React.Fragment>
-                  {provides.length > 0 ? (
+                  {provides?.length > 0 ? (
                     <div>
                       {provides.map((props) => (
                         <MyProvideList
@@ -666,7 +681,7 @@ export const ProfilePage = observer(() => {
                 </React.Fragment>
               ) : menu === ProfileMenu.REQUEST ? (
                 <React.Fragment>
-                  {requests.length > 0 ? (
+                  {requests?.length > 0 ? (
                     <div>
                       {' '}
                       {requests.map((props) => (
@@ -703,7 +718,7 @@ export const ProfilePage = observer(() => {
                 </React.Fragment>
               ) : menu === ProfileMenu.REQUEST ? (
                 <React.Fragment>
-                  {requests.length > 0 ? (
+                  {requests?.length > 0 ? (
                     <ProfilePageUserHelperListSection>
                       {' '}
                       {requests.map((props) => (

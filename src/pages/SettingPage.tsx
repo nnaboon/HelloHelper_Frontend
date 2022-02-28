@@ -41,17 +41,11 @@ export const SettingPage = () => {
       case 'password':
         return <EditPasswordPage />;
       default:
-        return <EditProfilePage />;
+        return <EditPasswordPage />;
     }
   };
   return (
-    <WrapperContainer
-      css={css`
-        ${mediaQueryMobile} {
-          height: calc(100vh - 150px);
-        }
-      `}
-    >
+    <WrapperContainer>
       <Flex
         justify="space-between"
         css={css`
@@ -71,19 +65,29 @@ export const SettingPage = () => {
           <LeftOutlined
             style={{ marginRight: '10px' }}
             css={css`
-              font-size: 2.2rem;
+              font-size: 24px;
+              margin-bottom: 12px;
 
               ${mediaQueryLargeDesktop} {
-                font-size: 20px;
+                font-size: 18px;
+              }
+
+              ${mediaQueryMobile} {
+                font-size: 14px;
               }
             `}
           />
           <div
             css={css`
-              font-size: 2.4rem;
+              font-size: 24px;
+              margin-bottom: 14px;
 
               ${mediaQueryLargeDesktop} {
-                font-size: 20px;
+                font-size: 18px;
+              }
+
+              ${mediaQueryMobile} {
+                font-size: 14px;
               }
             `}
           >

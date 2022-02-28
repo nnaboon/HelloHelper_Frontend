@@ -37,7 +37,7 @@ const SearchResultContent = styled.div`
   position: relative;
 
   ${mediaQueryLargeDesktop} {
-    grid-template-columns: auto auto;
+    grid-template-columns: repeat(2, 1fr);
     grid-gap: 10px;
   }
 
@@ -75,15 +75,7 @@ export const SearchResultPage = () => {
   }, []);
 
   return (
-    <WrapperContainer
-      css={css`
-        top: 250px;
-
-        ${mediaQueryMobile} {
-          height: calc(100vh - 120px);
-        }
-      `}
-    >
+    <WrapperContainer>
       {provideData && requestData ? (
         <div style={{ display: 'flex' }}>
           {!isTablet && <Sidebar />}
@@ -93,14 +85,14 @@ export const SearchResultPage = () => {
               display: flex;
               flex-direction: column;
               left: 25%;
-              width: 63%;
+              width: 70%;
 
               ${mediaQueryExtraLargeDesktop} {
-                width: 68%;
+                width: 75%;
               }
 
               ${mediaQueryLargeDesktop} {
-                width: 66%;
+                width: 72%;
               }
 
               ${mediaQueryMiniDesktop} {
@@ -118,7 +110,7 @@ export const SearchResultPage = () => {
               <Divider
                 css={css`
                   ${mediaQueryMobile} {
-                    margin: 30px 0;
+                    margin: 20px 0;
                   }
                 `}
               />
@@ -132,12 +124,13 @@ export const SearchResultPage = () => {
                   fontWeight={500}
                   marginBottom="20px"
                   css={css`
-                    font-size: 2rem;
+                    font-size: 24px;
+
                     ${mediaQueryLargeDesktop} {
-                      font-size: 26px;
+                      font-size: 21px;
                     }
                     ${mediaQueryMobile} {
-                      font-size: 22px;
+                      font-size: 14px;
                     }
                   `}
                 >

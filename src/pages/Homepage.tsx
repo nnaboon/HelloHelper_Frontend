@@ -42,8 +42,9 @@ import {} from '../styles/variables';
 const HomePageCategorySection = styled.div`
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  grid-gap: 30px;
+  grid-gap: 20px;
   justify-content: center;
+
   ${mediaQueryMobile} {
     display: grid;
     grid-template-rows: repeat(2, auto);
@@ -76,16 +77,34 @@ const HomePageContainer = styled.div`
 
 const HomePagePictureSection = styled.img`
   width: 100%;
-  height: 350px;
+  height: 300px;
   margin-bottom: 30px;
   object-fit: fill;
 
   ${mediaQueryLargeDesktop} {
-    height: 287px;
+    height: 230px;
   }
 
   ${mediaQueryMobile} {
     height: 180px;
+  }
+`;
+
+const HomePageTitle = styled.div`
+  margin: 20px 0;
+  font-size: 28px;
+  font-weight: 500;
+
+  ${mediaQueryLargeDesktop} {
+    font-size: 24px;
+  }
+
+  ${mediaQueryTablet} {
+    font-size: 20px;
+  }
+
+  ${mediaQueryMobile} {
+    font-size: 18px;
   }
 `;
 
@@ -142,8 +161,32 @@ const CategoryMenu = styled.div`
     }
   }
 
+  ${mediaQueryLargeDesktop} {
+    font-size: 16px;
+
+    svg {
+      font-size: 20px;
+    }
+
+    &:hover {
+      svg {
+        font-size: 26px;
+      }
+    }
+  }
+
   ${mediaQueryMiniDesktop} {
-    font-size: 13px;
+    font-size: 14px;
+
+    svg {
+      font-size: 20px;
+    }
+
+    &:hover {
+      svg {
+        font-size: 24px;
+      }
+    }
   }
 `;
 
@@ -271,7 +314,7 @@ export const HomePage = () => {
                     <FontAwesomeIcon
                       icon={icon}
                       css={css`
-                        margin-bottom: 20px;
+                        margin-bottom: 15px;
                       `}
                     />
                     <div>{name}</div>
@@ -311,14 +354,15 @@ export const HomePage = () => {
 
                 ${mediaQueryExtraLargeDesktop} {
                   .ant-input {
-                    height: 40px;
+                    height: 35px;
                     width: 100%;
-                    font-size: 16px;
+                    font-size: 14px;
+                    line-height: 6.8713;
                   }
 
                   .ant-btn-icon-only.ant-btn-lg {
-                    height: 40px;
-                    width: 40px;
+                    height: 35px;
+                    width: 35px;
                   }
                 }
               `}
@@ -333,27 +377,7 @@ export const HomePage = () => {
               `}
             />
           </div>
-          <Text
-            fontWeight={500}
-            marginY="10px"
-            css={css`
-              font-size: 2.5rem;
-
-              ${mediaQueryLargeDesktop} {
-                font-size: 1.92rem;
-              }
-
-              ${mediaQueryTablet} {
-                font-size: 1.85rem;
-              }
-
-              ${mediaQueryMobile} {
-                font-size: 22px;
-              }
-            `}
-          >
-            ความช่วยเหลือยอดนิยม
-          </Text>
+          <HomePageTitle>ความช่วยเหลือยอดนิยม</HomePageTitle>
           <React.Fragment>
             {provides?.filter(({ location }) =>
               searchValue ? location.name.includes(searchValue) : true
@@ -414,28 +438,8 @@ export const HomePage = () => {
               />
             )}
           </React.Fragment>
-          <Text
-            fontWeight={500}
-            marginY="30px"
-            css={css`
-              font-size: 2.5rem;
-
-              ${mediaQueryLargeDesktop} {
-                font-size: 1.92rem;
-              }
-
-              ${mediaQueryTablet} {
-                font-size: 1.85rem;
-              }
-
-              ${mediaQueryMobile} {
-                font-size: 22px;
-              }
-            `}
-          >
-            Top 10 การค้นหาติดอันดับ
-          </Text>
-          <TopTenSearchContainer>
+          {/*<HomePageTitle>Top 10 การค้นหาติดอันดับ</HomePageTitle>
+           <TopTenSearchContainer>
             {isTablet ? (
               <div
                 css={css`
@@ -503,28 +507,8 @@ export const HomePage = () => {
                 ))}
               </React.Fragment>
             )}
-          </TopTenSearchContainer>
-          <Text
-            fontWeight={500}
-            marginY="30px"
-            css={css`
-              font-size: 2.5rem;
-
-              ${mediaQueryLargeDesktop} {
-                font-size: 1.92rem;
-              }
-
-              ${mediaQueryTablet} {
-                font-size: 1.85rem;
-              }
-
-              ${mediaQueryMobile} {
-                font-size: 22px;
-              }
-            `}
-          >
-            Top 10 ความช่วยเหลือประจำสัปดาห์
-          </Text>
+          </TopTenSearchContainer> */}
+          <HomePageTitle>Top 10 ความช่วยเหลือประจำสัปดาห์</HomePageTitle>
           <React.Fragment>
             {provides?.filter(({ location }) =>
               searchValue ? location.name.includes(searchValue) : true
@@ -585,27 +569,7 @@ export const HomePage = () => {
               />
             )}
           </React.Fragment>
-          <Text
-            fontWeight={500}
-            marginY="30px"
-            css={css`
-              font-size: 2.5rem;
-
-              ${mediaQueryLargeDesktop} {
-                font-size: 1.92rem;
-              }
-
-              ${mediaQueryTablet} {
-                font-size: 1.85rem;
-              }
-
-              ${mediaQueryMobile} {
-                font-size: 22px;
-              }
-            `}
-          >
-            ความช่วยเหลือแนะนำ
-          </Text>
+          <HomePageTitle>ความช่วยเหลือแนะนำ</HomePageTitle>
           <React.Fragment>
             {requests?.filter(({ location }) =>
               searchValue ? location.name.includes(searchValue) : true
@@ -666,27 +630,7 @@ export const HomePage = () => {
               />
             )}
           </React.Fragment>
-          <Text
-            fontWeight={500}
-            marginY="30px"
-            css={css`
-              font-size: 2.5rem;
-
-              ${mediaQueryLargeDesktop} {
-                font-size: 1.92rem;
-              }
-
-              ${mediaQueryTablet} {
-                font-size: 1.85rem;
-              }
-
-              ${mediaQueryMobile} {
-                font-size: 22px;
-              }
-            `}
-          >
-            ข่าวน่าสนใจ
-          </Text>
+          <HomePageTitle>ข่าวน่าสนใจ</HomePageTitle>
           <div
             css={css`
               display: flex;

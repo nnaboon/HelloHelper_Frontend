@@ -5,7 +5,9 @@ import React, { useState, useEffect } from 'react';
 import { getAuth, updatePassword } from 'firebase/auth';
 import { FormRule, getRule } from 'utils/form/getRule';
 import { Text } from 'components/Text';
-import { Button, Form, Input, message, Divider } from 'antd';
+import { PrimaryButton } from 'components/Button/Button';
+import { InputPasswordForm } from 'components/Input/InputForm';
+import { Form, message } from 'antd';
 import { observer } from 'mobx-react-lite';
 import { userStore } from 'store/userStore';
 import {
@@ -28,7 +30,6 @@ export const EditPasswordPage = observer(() => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const { me, setMe, loginType } = userStore;
-  const { data: user, execute: getUser } = useUser();
 
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const isSmallTablet = useMedia(`(max-width: ${SMALL_TABLET_WIDTH}px)`);
@@ -116,21 +117,8 @@ export const EditPasswordPage = observer(() => {
             onFinish={onFinish}
             autoComplete="off"
             css={css`
-              .ant-form-item {
-                margin-bottom: 45px;
-              }
-
               .ant-form-item-label > label {
-                font-size: 1.68rem;
-              }
-
-              .ant-checkbox + span {
-                font-size: 2rem;
-              }
-
-              .ant-checkbox-inner {
-                width: 30px;
-                height: 30px;
+                font-size: 16px;
               }
 
               .ant-input {
@@ -146,22 +134,9 @@ export const EditPasswordPage = observer(() => {
                 .ant-form-item-label > label {
                   font-size: 14px;
                 }
-
-                .ant-checkbox + span {
-                  font-size: 16px;
-                }
-
-                .ant-checkbox-inner {
-                  width: 16px;
-                  height: 16px;
-                }
               }
 
               ${mediaQueryLargeDesktop} {
-                .ant-form-item {
-                  margin-bottom: 24px;
-                }
-
                 .ant-input {
                   font-size: 14px;
                 }
@@ -204,21 +179,7 @@ export const EditPasswordPage = observer(() => {
                   label="รหัสผ่านใหม่"
                   rules={[{ required: true, message: 'กรุณากรอกรหัสผ่านใหม่' }]}
                 >
-                  <Input.Password
-                    placeholder="รหัสผ่านใหม่"
-                    style={{
-                      height: isLargeDesktop ? '40px' : '70px',
-                      fontSize: isLargeDesktop ? '14px' : '1.8rem',
-                      borderRadius: '12px'
-                    }}
-                    css={css`
-                      font-size: 1.8rem;
-
-                      ${mediaQueryLargeDesktop} {
-                        font-size: 14px;
-                      }
-                    `}
-                  />
+                  <InputPasswordForm placeholder="รหัสผ่านใหม่" />
                 </Form.Item>{' '}
                 <Form.Item
                   name="confirmPassword"
@@ -235,14 +196,7 @@ export const EditPasswordPage = observer(() => {
                     })
                   ]}
                 >
-                  <Input.Password
-                    placeholder="ยืนยันรหัสผ่าน"
-                    style={{
-                      height: isLargeDesktop ? '40px' : '70px',
-                      fontSize: isLargeDesktop ? '14px' : '1.8rem',
-                      borderRadius: '12px'
-                    }}
-                  />
+                  <InputPasswordForm placeholder="ยืนยันรหัสผ่าน" />
                 </Form.Item>
               </React.Fragment>
             </div>
@@ -253,41 +207,23 @@ export const EditPasswordPage = observer(() => {
                 height: 100%;
               `}
             >
-              <Button
+              <PrimaryButton
                 type="primary"
                 htmlType="submit"
                 css={css`
-                  width: 170px;
-                  height: 40px;
-                  box-sizing: border-box;
-                  background: #ee6400;
-                  border-radius: 9px;
-                  border: 0;
-                  color: #ffff;
-                  font-size: 16px;
                   position: absolute;
+                  width: 100px;
+                  min-width: 100px;
                   right: 0;
-                  &:hover {
-                    background: #ee6400;
-                  }
-                  bottom: 0;
 
                   ${mediaQueryTablet} {
-                    width: 120px;
-                    right: 0;
-                    height: 35px;
-                    font-size: 16px;
                     top: 30px;
                     bottom: unset;
-                  }
-
-                  ${mediaQueryMobile} {
-                    width: 100px;
                   }
                 `}
               >
                 สำเร็จ
-              </Button>
+              </PrimaryButton>
             </div>
           </Form>
         </div>

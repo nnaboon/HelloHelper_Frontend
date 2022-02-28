@@ -83,7 +83,7 @@ const ProvideListTitle = styled.div`
 
 const ProvideListData = styled.div`
   font-weight: 500;
-  font-size: 1.9rem;
+  font-size: 18px;
   color: rgba(0, 0, 0, 0.54);
 
   ${mediaQueryLargeDesktop} {
@@ -97,7 +97,7 @@ const ProvideListData = styled.div`
 
 const ReceiverData = styled.div`
   font-weight: 500;
-  font-size: 1.7rem;
+  font-size: 20px;
   color: rgba(0, 0, 0, 0.54);
 
   ${mediaQueryLargeDesktop} {
@@ -251,19 +251,19 @@ export const OrderInfoPage = () => {
               <LeftOutlined
                 style={{ marginRight: '10px' }}
                 css={css`
-                  font-size: 2.2rem;
+                  font-size: 24px;
 
                   ${mediaQueryLargeDesktop} {
-                    font-size: 20px;
+                    font-size: 18px;
                   }
                 `}
               />
               <div
                 css={css`
-                  font-size: 2.4rem;
+                  font-size: 24px;
 
                   ${mediaQueryLargeDesktop} {
-                    font-size: 20px;
+                    font-size: 18px;
                   }
                 `}
               >
@@ -354,14 +354,14 @@ export const OrderInfoPage = () => {
                 fontWeight={500}
                 marginY="15px"
                 css={css`
-                  font-size: 2.2rem;
+                  font-size: 24px;
 
                   ${mediaQueryLargeDesktop} {
-                    font-size: 26px;
+                    font-size: 20px;
                   }
 
                   ${mediaQueryMobile} {
-                    font-size: 20px;
+                    font-size: 18px;
                   }
                 `}
               >
@@ -402,21 +402,10 @@ export const OrderInfoPage = () => {
                           history.push(`/chat/${order.chatId}`);
                         }}
                         css={css`
-                          width: 140px;
-                          height: 45px;
                           z-index: 10;
                           margin-right: 0;
                           margin-top: 10px;
                           margin-bottom: 0;
-
-                          ${mediaQueryTablet} {
-                            min-width: 130px;
-                          }
-
-                          ${mediaQueryMobile} {
-                            min-width: 47%;
-                            width: 47%;
-                          }
                         `}
                       >
                         แชท
@@ -424,15 +413,9 @@ export const OrderInfoPage = () => {
                       {!order.rating && (
                         <PrimaryButton
                           css={css`
-                            width: 140px;
                             margin-left: 0;
-                            height: 45px;
                             z-index: 10;
                             margin-top: 10px;
-
-                            ${mediaQueryTablet} {
-                              min-width: 130px;
-                            }
 
                             ${mediaQueryMobile} {
                               min-width: 47%;
@@ -454,20 +437,8 @@ export const OrderInfoPage = () => {
                           history.push(`/chat/${order.chatId}`);
                         }}
                         css={css`
-                          min-width: 140px;
-                          height: 45px;
-                          z-index: 10;
                           margin-right: 0;
                           margin-bottom: 0;
-
-                          ${mediaQueryTablet} {
-                            min-width: 130px;
-                          }
-
-                          ${mediaQueryMobile} {
-                            min-width: 47%;
-                            width: 47%;
-                          }
                         `}
                       >
                         แชท
@@ -481,16 +452,11 @@ export const OrderInfoPage = () => {
                         history.push(`/chat/${order.chatId}`);
                       }}
                       css={css`
-                        width: 180px;
-                        height: 50px;
                         z-index: 10;
                         margin-right: 0;
                         margin-bottom: 2px;
-                        font-size: 1.7rem;
 
                         ${mediaQueryLargeDesktop} {
-                          width: 140px;
-                          height: 45px;
                           margin-bottom: 0;
                         }
 
@@ -510,16 +476,8 @@ export const OrderInfoPage = () => {
                       <Dropdown overlay={menu} trigger={['click']}>
                         <PrimaryButton
                           css={css`
-                            width: 180px;
-                            height: 50px;
                             margin-left: 0;
                             margin-top: 10px;
-                            font-size: 1.7rem;
-
-                            ${mediaQueryLargeDesktop} {
-                              width: 140px;
-                              height: 45px;
-                            }
 
                             ${mediaQueryTablet} {
                               min-width: 130px;
@@ -545,15 +503,16 @@ export const OrderInfoPage = () => {
               <ProvideListData
                 css={css`
                   font-weight: 700;
-                  font-size: 2.4rem;
+                  font-size: 24px;
                   color: black;
 
                   ${mediaQueryLargeDesktop} {
-                    font-size: 24px;
+                    font-size: 21px;
                   }
 
                   ${mediaQueryMobile} {
-                    font-size: 20px;
+                    font-size: 16px;
+                    width: 60%;
                   }
                 `}
               >
@@ -570,17 +529,17 @@ export const OrderInfoPage = () => {
               </Flex>
 
               <Divider style={{ margin: '18px' }} />
-              <Flex itemAlign="center" justify="flex-end" marginY="8px">
+              <Flex itemAlign="center" justify="flex-end">
                 <ProvideListTitle>ช่องทางการชำระเงิน</ProvideListTitle>
                 <ProvideListData
                   css={css`
                     width: unset;
-                    font-size: 2.2rem;
+                    font-size: 24px;
                     font-weight: 600;
                     color: black;
 
                     ${mediaQueryLargeDesktop} {
-                      font-size: 24px;
+                      font-size: 20px;
                     }
 
                     ${mediaQueryMobile} {
@@ -596,12 +555,12 @@ export const OrderInfoPage = () => {
                 <ProvideListData
                   css={css`
                     width: unset;
-                    font-size: 2.2rem;
+                    font-size: 24px;
                     font-weight: 600;
                     color: black;
 
                     ${mediaQueryLargeDesktop} {
-                      font-size: 24px;
+                      font-size: 20px;
                     }
 
                     ${mediaQueryMobile} {
@@ -617,12 +576,12 @@ export const OrderInfoPage = () => {
                 <ProvideListData
                   css={css`
                     width: unset;
-                    font-size: 2.2rem;
+                    font-size: 24px;
                     font-weight: 600;
                     color: black;
 
                     ${mediaQueryLargeDesktop} {
-                      font-size: 24px;
+                      font-size: 20px;
                     }
 
                     ${mediaQueryMobile} {
@@ -638,12 +597,12 @@ export const OrderInfoPage = () => {
                 <ProvideListData
                   css={css`
                     width: unset;
-                    font-size: 2.2rem;
+                    font-size: 24px;
                     font-weight: 600;
                     color: black;
 
                     ${mediaQueryLargeDesktop} {
-                      font-size: 24px;
+                      font-size: 20px;
                     }
 
                     ${mediaQueryMobile} {
@@ -718,8 +677,7 @@ export const OrderInfoPage = () => {
                         }
 
                         ${mediaQueryMobile} {
-                          min-width: 47%;
-                          width: 47%;
+                          width: 100%;
                           height: 33px;
                         }
                       `}
@@ -743,6 +701,7 @@ export const OrderInfoPage = () => {
                             min-width: 47%;
                             width: 47%;
                             height: 33px;
+                            margin-left: 15px;
                           }
                         `}
                         onClick={() => {
@@ -837,6 +796,7 @@ export const OrderInfoPage = () => {
                             min-width: 47%;
                             width: 47%;
                             height: 33px;
+                            margin-left: 15px;
                           }
                         `}
                       >
