@@ -11,7 +11,7 @@ import { Text } from 'components/Text';
 import { PrimaryButton } from 'components/Button/Button';
 import Flex from 'components/Flex/Flex';
 import { LoginStep } from './const';
-import { InputForm } from 'components/Input/InputForm';
+import { InputForm, InputPasswordForm } from 'components/Input/InputForm';
 import firebase, { signInWithGoogle, signInWithFacebook } from '../../firebase';
 import axios from 'axios';
 import { useUser } from 'hooks/user/useUser';
@@ -32,7 +32,7 @@ interface LoginFormProps {
 const LoginSection = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 2.55rem 2.75rem 1.5rem 2.75rem;
+  padding: 2rem 2rem 1.5rem 2rem;
 
   ${mediaQueryLargeDesktop} {
     padding: 1.5rem 2rem;
@@ -89,14 +89,10 @@ export const LoginForm = observer(
         <Text
           marginY="10px"
           css={css`
-            font-size: 2.3rem;
-
-            ${mediaQueryLargeDesktop} {
-              font-size: 22px;
-            }
+            font-size: 22px;
 
             ${mediaQueryMobile} {
-              font-size: 18px;
+              font-size: 20px;
             }
           `}
         >
@@ -104,17 +100,13 @@ export const LoginForm = observer(
         </Text>
         <Text
           fontWeight={500}
-          marginBottom="10px"
           color="#F86800"
           css={css`
-            font-size: 1.7rem;
-
-            ${mediaQueryLargeDesktop} {
-              font-size: 18px;
-            }
+            font-size: 16px;
 
             ${mediaQueryMobile} {
               font-size: 14px;
+              margin: 10px 0;
             }
           `}
         >
@@ -124,18 +116,27 @@ export const LoginForm = observer(
           css={css`
             width: 100%;
             margin-left: 0;
-            height: 60px;
             background: #1877f2;
+            border-color: #1877f2;
             margin: 20px 0;
-            max-width: 100%;
-            font-size: 1.5rem;
+            font-size: 16px;
+
+            &:hover {
+              background: #1877f2 !important;
+              border-color: #1877f2 !important;
+            }
+
+            &:focus {
+              background: #1877f2 !important;
+              border-color: #1877f2 !important;
+            }
 
             ${mediaQueryLargeDesktop} {
               height: 45px;
-              font-size: 16px;
             }
 
             ${mediaQueryMobile} {
+              height: 40px;
               margin: 10px 0 !important;
             }
           `}
@@ -145,7 +146,7 @@ export const LoginForm = observer(
             <FacebookOutlined
               style={{ marginRight: '10px' }}
               css={css`
-                font-size: 36px;
+                font-size: 30px;
 
                 ${mediaQueryLargeDesktop} {
                   font-size: 28px;
@@ -167,18 +168,28 @@ export const LoginForm = observer(
           css={css`
             width: 100%;
             margin-left: 0;
-            height: 60px;
+            height: 45px;
             background: #d34836;
             margin-bottom: 10px;
             max-width: 100%;
-            font-size: 1.5rem;
+            font-size: 16px;
+
+            &:hover {
+              background: #d34836 !important;
+              border-color: #d34836 !important;
+            }
+
+            &:focus {
+              background: #d34836 !important;
+              border-color: #d34836 !important;
+            }
 
             ${mediaQueryLargeDesktop} {
               height: 45px;
-              font-size: 16px;
             }
 
             ${mediaQueryMobile} {
+              height: 40px;
               margin: 10px 0 !important;
             }
           `}
@@ -188,7 +199,7 @@ export const LoginForm = observer(
             <GoogleOutlined
               style={{ marginRight: '10px' }}
               css={css`
-                font-size: 36px;
+                font-size: 30px;
 
                 ${mediaQueryLargeDesktop} {
                   font-size: 28px;
@@ -210,7 +221,7 @@ export const LoginForm = observer(
           style={{ borderTopColor: '#C4C4C4', color: '#7C7A7A' }}
           css={css`
             .ant-divider-inner-text {
-              font-size: 1.4rem;
+              font-size: 16px;
             }
 
             ${mediaQueryLargeDesktop} {
@@ -239,7 +250,7 @@ export const LoginForm = observer(
             }
 
             .ant-form-item {
-              margin-bottom: 32px;
+              margin-bottom: 24px;
             }
 
             .ant-select-single:not(.ant-select-customize-input)
@@ -288,6 +299,11 @@ export const LoginForm = observer(
 
             ${mediaQueryMobile} {
               width: 100%;
+
+              .ant-form-item {
+                margin-bottom: 24px;
+                height: 40px;
+              }
             }
           `}
         >
@@ -302,17 +318,11 @@ export const LoginForm = observer(
             name="password"
             rules={[{ required: true, message: 'Please input your password!' }]}
           >
-            <Input.Password
+            <InputPasswordForm
               placeholder="รหัสผ่าน"
               css={css`
-                height: 50px;
-                font-size: 1.5rem;
-                border-radius: 12px;
-
-                ${mediaQueryLargeDesktop} {
-                  height: 36px;
-                  border-radius: 8px;
-                  font-size: 16px;
+                ${mediaQueryMobile} {
+                  height: 40px;
                 }
               `}
             />
@@ -324,13 +334,13 @@ export const LoginForm = observer(
             css={css`
               width: 100%;
               margin-left: 0;
-              height: 60px;
+              height: 40px;
               box-sizing: border-box;
               background: #ee6400;
               border-radius: 9px;
               border: 0;
               color: #ffff;
-              font-size: 1.6rem;
+              font-size: 14px;
               position: relative;
 
               &:hover {
@@ -341,6 +351,10 @@ export const LoginForm = observer(
                 height: 40px;
                 font-size: 16px;
               }
+
+              ${mediaQueryMobile} {
+                height: 35px;
+              }
             `}
           >
             เข้าสู่ระบบ
@@ -349,18 +363,20 @@ export const LoginForm = observer(
             justify="center"
             marginTop="35px"
             css={css`
-              font-size: 1.3rem;
+              font-size: 14px;
+
               ${mediaQueryLargeDesktop} {
-                font-size: 16px;
+                font-size: 14px;
               }
             `}
           >
-            เพิ่งเคยใช้บริการใช่ไหม ?{' '}
+            เพิ่งเคยใช้บริการใช่ไหม ?
             <span
               style={{
                 color: '#F86800',
                 textDecoration: 'underline',
-                cursor: 'pointer'
+                cursor: 'pointer',
+                marginLeft: '3px'
               }}
               onClick={() => setStep(LoginStep.REGISTER)}
             >
