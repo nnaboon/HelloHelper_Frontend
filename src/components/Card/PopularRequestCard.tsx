@@ -18,6 +18,7 @@ import { getStar } from 'components/Star/getStar';
 import DefaultImage from 'images/default.png';
 import { useUser } from 'hooks/user/useUser';
 import { userStore } from 'store/userStore';
+import { ProvideCardContainer } from './Card';
 
 import {
   useMedia,
@@ -36,6 +37,7 @@ const RequestHelperCardContainer = styled.div`
   overflow-x: scroll;
   margin-top: 30px;
   position: relative;
+  justify-content: center;
 
   ${mediaQuerySmallTablet} {
     justify-content: center;
@@ -48,59 +50,15 @@ const RequestHelperCardContainer = styled.div`
   }
 `;
 
-const CardContainer = styled.div`
-  min-width: 360px;
-  height: 425px;
-  width: 95%;
-  background: #ffffff;
-  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.1);
-  border-radius: 12px;
-  padding: 30px;
-  box-sizing: border-box;
-  position: relative;
-  position: relative;
-  top: -20px;
-  margin-top: 20px;
-  cursor: pointer;
-  max-width: 600px;
-
-  ${mediaQueryLargeDesktop} {
-    min-width: 100%;
-  }
-
-  ${mediaQueryLargeDesktop} {
-    min-width: 360px;
-    height: 380px;
-    padding: 20px 30px;
-    max-width: 550px;
-  }
-
-  ${mediaQueryTablet} {
-    min-width: 430px;
-  }
-
-  ${mediaQuerySmallTablet} {
-    min-width: 300px;
-  }
-
-  ${mediaQueryMobile} {
-    width: 90%;
-    height: 270px;
-    min-width: 90%;
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-  }
-`;
-
 const RequestTitle = styled.div`
   font-weight: 800;
   font-size: 1.5rem;
   margin-bottom: 20px;
-  word-break: break-word;
+  word-break: break-all;
+  white-space: pre-wrap;
 
   ${mediaQueryLargeDesktop} {
-    font-size: 1.3rem;
+    font-size: 18px;
   }
 
   ${mediaQueryMobile} {
@@ -110,16 +68,16 @@ const RequestTitle = styled.div`
 `;
 
 const HelperImage = styled.img`
-  width: 120px;
-  height: 120px;
+  width: 85px;
+  height: 85px;
 
   border-radius: 50%;
   margin-top: 15px;
   object-fit: cover;
 
   ${mediaQueryLargeDesktop} {
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
   }
 
   ${mediaQuerySmallTablet} {
@@ -140,7 +98,8 @@ const RequestDataTitle = styled.div`
   text-align: end;
 
   ${mediaQueryLargeDesktop} {
-    font-size: 14px;
+    max-width: 80px;
+    font-size: 12px;
   }
 
   ${mediaQuerySmallTablet} {
@@ -157,7 +116,7 @@ const RequestDataTitle = styled.div`
 `;
 
 const RequestDataInfo = styled.div`
-  font-size: 1.2rem;
+  font-size: 18px;
   line-height: 26px;
   color: #000000;
   white-space: wrap;
@@ -169,7 +128,7 @@ const RequestDataInfo = styled.div`
   width: 60%;
 
   ${mediaQueryLargeDesktop} {
-    font-size: 16px;
+    font-size: 15px;
   }
 
   ${mediaQuerySmallTablet} {
@@ -186,10 +145,10 @@ const RequestDataInfo = styled.div`
 const RequestDataContent = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 
   ${mediaQueryLargeDesktop} {
-    margin-bottom: 10px;
+    margin-bottom: 8px;
   }
 `;
 
@@ -198,13 +157,8 @@ export const PopularRequestSection = observer(({ data }: any) => {
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const isSmallTablet = useMedia(`(max-width: ${SMALL_TABLET_WIDTH}px)`);
   const { execute: addChatRoom } = useAddChatRoom();
-  const { data: user, execute: getUser } = useUser();
 
   const { me } = userStore;
-
-  // useEffect(() => {
-  //   getUser(data[0].userId);
-  // }, []);
 
   return (
     <RequestHelperCardContainer>
@@ -221,7 +175,7 @@ export const PopularRequestSection = observer(({ data }: any) => {
               rating,
               user
             }) => (
-              <CardContainer key={id}>
+              <ProvideCardContainer key={id}>
                 <div
                   onClick={() => {
                     history.push({
@@ -248,6 +202,10 @@ export const PopularRequestSection = observer(({ data }: any) => {
                           align-items: center;
                           margin-top: -13px;
                           margin-right: 20px;
+
+                          ${mediaQueryLargeDesktop} {
+                            margin-right: 30px;
+                          }
                         `}
                       >
                         <HelperImage
@@ -366,7 +324,7 @@ export const PopularRequestSection = observer(({ data }: any) => {
                               คะแนนการให้ความช่วยเหลือนี้
                             </RequestDataTitle>
                             <RequestDataInfo>
-                              {rating.toFixed(1)}{' '}
+                              {rating?.toFixed(1)}{' '}
                               <Rate count={1} defaultValue={1} />
                             </RequestDataInfo>
                           </RequestDataContent>
@@ -406,35 +364,29 @@ export const PopularRequestSection = observer(({ data }: any) => {
                         history.push({ pathname: `/profile/${userId}` });
                       }}
                       css={css`
-                        font-size: 24px;
+                        font-size: 18px;
+
                         ${mediaQueryLargeDesktop} {
-                          font-size: 16px;
+                          font-size: 14px;
                         }
                       `}
                     >
-                      <UserSvg
-                        css={css`
-                          ${mediaQueryLargeDesktop} {
-                            font-size: 16px;
-                          }
-                        `}
-                      />
+                      <UserSvg />
                       <div>โปรไฟล์</div>
                     </SecondaryButton>
                   )}
                   {userId !== window.localStorage.getItem('id') && (
                     <PrimaryButton
                       css={css`
-                        font-size: 1.5rem;
+                        font-size: 18px;
 
                         ${mediaQueryLargeDesktop} {
-                          font-size: 16px;
+                          font-size: 14px;
                         }
+
                         ${mediaQuerySmallTablet} {
-                          min-width: 80px;
                           height: 30px;
                           border-radius: 5px;
-                          font-size: 16px;
                           margin: 0;
                         }
                       `}
@@ -450,17 +402,13 @@ export const PopularRequestSection = observer(({ data }: any) => {
                       <MessageSvg
                         css={css`
                           margin-right: 5px;
-
-                          ${mediaQueryLargeDesktop} {
-                            font-size: 16px;
-                          }
                         `}
                       />
                       <div>แชท</div>
                     </PrimaryButton>
                   )}
                 </div>
-              </CardContainer>
+              </ProvideCardContainer>
             )
           )}
         </React.Fragment>

@@ -7,6 +7,7 @@ import { Modal, message } from 'antd';
 import { PrimaryButton, SecondaryButton } from '../Button/Button';
 import { CheckOutlined } from '@ant-design/icons';
 import { UserSvg } from 'components/Svg/UserSvg';
+import { Text } from 'components/Text';
 import {
   useMedia,
   mediaQueryMobile,
@@ -27,8 +28,8 @@ interface HelperListCardProps {
 }
 
 const HelperListCardContainer = styled.div`
-  width: 900px;
-  min-width: 730px;
+  width: 100%;
+  min-width: 850px;
   height: 100px;
   background: #ffffff;
   box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.09);
@@ -42,6 +43,10 @@ const HelperListCardContainer = styled.div`
 
   &:hover {
     box-shadow: 0px 9px 16px rgba(255, 135, 48, 0.2);
+  }
+
+  ${mediaQueryLargeDesktop} {
+    min-width: 330px;
   }
 
   ${mediaQueryTablet} {
@@ -138,6 +143,7 @@ export const HelperListCard = ({
           css={css`
             ${mediaQueryMobile} {
               width: 50%;
+              margin-right: 15px;
             }
           `}
           onClick={() => {
@@ -188,7 +194,7 @@ export const HelperListCard = ({
         onOk={handleOk}
         onCancel={handleClose}
         footer={null}
-        width={isMobile ? '80%' : isLargeDesktop ? '600px' : '35%'}
+        width={isMobile ? '80%' : isLargeDesktop ? '450px' : '480px'}
         maskClosable={false}
         centered
         css={css`
@@ -197,7 +203,7 @@ export const HelperListCard = ({
           }
 
           .ant-modal-content {
-            height: 300px;
+            height: 240px;
 
             ${mediaQueryLargeDesktop} {
               height: 200px;
@@ -209,27 +215,53 @@ export const HelperListCard = ({
           }
         `}
       >
-        คุณได้เลือกผู้ใช้งานผู้นี้เป็นผู้ให้ความช่วยเหลือของคุณ
-        หากคุณยืนยันกรุณากดปุ่มยืนยัน ระบบจะนำคุณไปยังหน้าแชท
+        <Text
+          fontWeight={500}
+          textAlign="center"
+          css={css`
+            font-size: 16px;
+            margin-top: 30px;
+
+            ${mediaQueryMobile} {
+              margin-top: 20px;
+              font-size: 14px;
+            }
+          `}
+        >
+          คุณต้องการเลือกผู้ใช้งานผู้นี้เป็นผู้ให้ความช่วยเหลือของคุณ
+          หากคุณยืนยันกรุณากดปุ่มยืนยัน ระบบจะนำคุณไปยังหน้าแชท{' '}
+        </Text>
+
         <div
           css={css`
             display: flex;
             width: 100%;
             justify-content: flex-end;
-            height: 100%;
             align-items: end;
+            position: absolute;
+            right: 24px;
+            bottom: 24px;
 
             ${mediaQueryMobile} {
-              position: relative;
-              bottom: -12px;
+              position: absolute;
               width: 100%;
-              justify-content: space-between;
+              justify-content: flex-end;
             }
           `}
         >
           <SecondaryButton
             css={css`
-              width: 150px;
+              width: 90px;
+              min-width: 90px;
+              height: 35px;
+
+              ${mediaQueryLargeDesktop} {
+                font-size: 14px;
+              }
+
+              ${mediaQueryMobile} {
+                margin-right: 10px;
+              }
             `}
             onClick={handleClose}
           >
@@ -237,7 +269,13 @@ export const HelperListCard = ({
           </SecondaryButton>
           <PrimaryButton
             css={css`
-              width: 150px;
+              width: 90px;
+              min-width: 90px;
+              height: 35px;
+
+              ${mediaQueryLargeDesktop} {
+                font-size: 14px;
+              }
             `}
             onClick={() => {
               addProvidedUser(

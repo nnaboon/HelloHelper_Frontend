@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import Flex from 'components/Flex/Flex';
 import { RankingBadge, RequestStatusBadge } from '../Badge/Badge';
+import { RequestCardContainer } from './Card';
 import { RANK_BADGE } from 'components/Badge/const';
 import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
@@ -36,62 +37,18 @@ const RequestHelperCardContainer = styled.div`
   }
 `;
 
-const CardContainer = styled.div`
-  min-width: 448px;
-  height: 425px;
-  width: 95%;
-  background: #ffffff;
-  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.1);
-  border-radius: 12px;
-  padding: 0;
-  box-sizing: border-box;
-  position: relative;
-  position: relative;
-  top: -20px;
-  margin-top: 20px;
-  cursor: pointer;
-  max-width: 600px;
-  margin-left: 5px;
-
-  ${mediaQueryLargeDesktop} {
-    min-width: 360px;
-    height: 370px;
-    max-width: 550px;
-  }
-
-  ${mediaQueryTablet} {
-    min-width: 430px;
-    padding: 0px;
-    margin-top: 40px;
-    margin-left: 0;
-  }
-
-  ${mediaQuerySmallTablet} {
-    min-width: 336px;
-  }
-
-  ${mediaQueryMobile} {
-    width: 90%;
-    height: 300px;
-    min-width: 90%;
-    display: flex;
-    justify-content: center;
-  }
-`;
-
 const RequestTitle = styled.div`
   font-weight: 800;
   line-height: 28px;
   font-size: 1.5rem;
   margin-bottom: 10px;
-  word-break: break-word;
+  word-break: break-all;
 
   ${mediaQueryLargeDesktop} {
-    font-size: 20px;
+    font-size: 18px;
   }
 
   ${mediaQueryTablet} {
-    overflow-wrap: break-word;
     width: 90%;
     max-width: 200px;
     margin-left: 27px;
@@ -136,7 +93,7 @@ const RequestImageSection = styled.img`
 `;
 
 const RequestDataTitle = styled.div`
-  font-size: 1rem;
+  font-size: 0.85rem;
   line-height: 16px;
   color: #c4c4c4;
   max-width: 105px;
@@ -146,11 +103,11 @@ const RequestDataTitle = styled.div`
   white-space: pre-wrap;
 
   ${mediaQueryLargeDesktop} {
-    max-width: 71px;
+    max-width: 65px;
     width: 50%;
     margin-right: 0;
     text-align: flex-start;
-    font-size: 0.85rem;
+    font-size: 12px;
   }
 
   ${mediaQuerySmallTablet} {
@@ -162,7 +119,7 @@ const RequestDataTitle = styled.div`
 `;
 
 const RequestDataInfo = styled.div`
-  font-size: 1.2rem;
+  font-size: 18px;
   line-height: 26px;
   color: #000000;
 
@@ -175,7 +132,7 @@ const RequestDataInfo = styled.div`
   -webkit-box-orient: vertical;
 
   ${mediaQueryLargeDesktop} {
-    font-size: 16px;
+     font-size: 15px;
   }
 
   ${mediaQuerySmallTablet} {
@@ -190,7 +147,7 @@ const RequestDataContent = styled.div`
   margin-bottom: 14px;
 
   ${mediaQueryLargeDesktop} {
-    margin-bottom: 10px;
+    margin-bottom: 8px;
   }
 
   ${mediaQueryTablet} {
@@ -207,11 +164,6 @@ export const SuggestedRequestSection = ({ data }: any) => {
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
   const isSmallTablet = useMedia(`(max-width: ${SMALL_TABLET_WIDTH}px)`);
-  const { data: user, execute: getUser } = useUser();
-
-  // useEffect(() => {
-  //   getUser(data[0].userId);
-  // }, []);
 
   return (
     <RequestHelperCardContainer>
@@ -227,7 +179,7 @@ export const SuggestedRequestSection = ({ data }: any) => {
           providedUserId,
           visibility
         }) => (
-          <CardContainer
+          <RequestCardContainer
             key={id}
             onClick={() => {
               history.push({
@@ -345,7 +297,7 @@ export const SuggestedRequestSection = ({ data }: any) => {
                 )}
               </div>
             </div>
-          </CardContainer>
+          </RequestCardContainer>
         )
       )}
     </RequestHelperCardContainer>
