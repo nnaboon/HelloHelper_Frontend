@@ -39,14 +39,14 @@ import { mediaQueryLargeDesktop } from '../../styles/variables';
 import { ProviderId } from 'firebase/auth';
 
 const ProvideImageSection = styled.img`
-  width: 520px;
+  width: 450px;
   height: 100%;
   margin-bottom: 20px;
   object-fit: cover;
 
   ${mediaQueryLargeDesktop} {
-    width: 380px;
-    height: 500px;
+    width: 350px;
+    height: 400px;
   }
 
   ${mediaQueryTablet} {
@@ -56,32 +56,30 @@ const ProvideImageSection = styled.img`
     height: 450px;
   }
 
-  ${mediaQuerySmallTablet} {
-    justify-self: flex-start;
-    align-self: flex-start;
-  }
-
   ${mediaQueryMobile} {
-    width: 100%;
     height: 300px;
+    justify-self: center;
+    align-self: center;
   }
 `;
 
 const ProvideCategoryButton = styled(PrimaryButton)`
   width: max-content;
-  min-width: 140px;
+  min-width: 100px;
   padding: 10px 15px;
   height: 45px;
   margin: 10px 8px 10px 0px;
-  font-size: 1.7rem;
+  font-size: 18px;
 
   ${mediaQueryLargeDesktop} {
-    height: 40px;
+    min-width: 110px;
+    height: 35px;
     font-size: 16px;
   }
 
-  ${mediaQueryTablet} {
-    margin: 10px 0;
+  ${mediaQueryMobile} {
+    margin-bottom: 10px;
+    font-size: 14px;
   }
 `;
 
@@ -89,47 +87,59 @@ const ProvideHashtagButton = styled(SecondaryButton)`
   width: max-content;
   min-width: 80px;
   padding: 10px 15px;
-  height: 45px;
+  height: 40px;
   margin: 10px 8px 10px 0px;
-  font-size: 1.7rem;
+  font-size: 18px;
 
   ${mediaQueryLargeDesktop} {
-    height: 40px;
+    min-width: 80px;
+    height: 35px;
     font-size: 16px;
+  }
+
+  ${mediaQueryMobile} {
+    margin-bottom: 0;
+    font-size: 14px;
   }
 `;
 
 const ProvideUserCard = styled.div`
   width: 100%;
-  height: 140px;
+  height: 100px;
   display: flex;
   align-items: center;
   background: #ffffff;
   box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.09);
   border-radius: 12px;
+  margin: 80px 0;
   justify-content: space-around;
 
   ${mediaQueryLargeDesktop} {
+    justify-content: space-around;
+    height: 90px;
+    margin: 40px 0;
+  }
+
+  ${mediaQueryTablet} {
     justify-content: space-between;
   }
 
   ${mediaQueryMobile} {
     height: 90px;
+    justify-content: space-between;
+    margin: 0;
+    margin-top: 20px;
   }
 `;
 
 const ProvideInfoContainer = styled.div`
   display: grid;
-  grid-template-columns: 300px 450px;
-  grid-gap: 40px;
+  grid-template-columns: 200px 450px;
+  grid-gap: 20px 40px;
   margin-bottom: 60px;
 
   ${mediaQueryLargeDesktop} {
-    grid-template-columns: 180px 400px;
-  }
-
-  ${mediaQuerySmallTablet} {
-    grid-template-columns: 144px 400px;
+    grid-template-columns: 160px 300px;
   }
 
   ${mediaQueryMobile} {
@@ -140,16 +150,18 @@ const ProvideInfoContainer = styled.div`
 
 const ProvideDetail = styled.div`
   font-weight: 700;
-  font-size: 2rem;
+  line-height: 31px;
+  font-size: 20px;
   color: #000000;
-  min-width: 400px;
+  min-width: unset;
+  max-width: max-content;
   line-height: 60px;
   white-space: pre-wrap;
 
   ${mediaQueryLargeDesktop} {
-    font-size: 19px;
-    min-width: 200px;
+    font-size: 18px;
     line-height: 31px;
+    max-width: max-content;
   }
 
   ${mediaQueryTablet} {
@@ -158,11 +170,12 @@ const ProvideDetail = styled.div`
 
   ${mediaQueryMobile} {
     font-size: 16px;
+    min-width: 100%;
   }
 `;
 
 const ProvideTitle = styled.div`
-  font-size: 1.5rem;
+  font-size: 14px;
   line-height: 60px;
   color: #848484;
   min-width: 90px;
@@ -175,45 +188,45 @@ const ProvideTitle = styled.div`
   }
 
   ${mediaQueryMobile} {
-    min-width: unset;
+    min-width: 120px;
     max-width: unset;
   }
 `;
 
 const HelperImage = styled.img`
-  width: 100px;
-  height: 100px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
+  margin-top: 5px;
   object-fit: cover;
 
   ${mediaQueryLargeDesktop} {
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
   }
 
   ${mediaQueryMobile} {
-    width: 55px;
-    height: 55px;
+    width: 45px;
+    height: 45px;
   }
 `;
 
 const UserName = styled.div`
   font-weight: 700;
-  font-size: 24px;
+  font-size: 22px;
   color: #000000;
-  margin-bottom: 5px;
-  margin-right: 30px;
+  margin-right: 20px;
   min-width: 140px;
   width: max-content;
 
   ${mediaQueryLargeDesktop} {
-    font-size: 22px;
+    font-size: 20px;
+    margin-right: 10px;
   }
 
   ${mediaQueryMobile} {
     min-width: max-content;
-    font-size: 14px;
-    margin-right: 0;
+    font-size: 16px;
   }
 `;
 
@@ -396,12 +409,25 @@ export const ProvideInfoContent = observer(({ data }: any) => {
                 justifyContent: 'center',
                 flexDirection: `${isTablet ? 'column' : 'row'}`
               }}
+              css={css`
+                position: relative;
+              `}
             >
               <Flex
                 direction="column"
                 justify="flex-start"
                 itemAlign="flex-start"
-                style={{ width: 'unset', position: 'relative' }}
+                css={css`
+                  position: relative;
+                  width: 30%;
+
+                  ${mediaQueryLargeDesktop} {
+                    width: 35%;
+                  }
+                  ${mediaQueryTablet} {
+                    width: unset;
+                  }
+                `}
               >
                 <ProvideImageSection
                   src={provide?.imageUrl ?? DefaultImage}
@@ -489,14 +515,11 @@ export const ProvideInfoContent = observer(({ data }: any) => {
                   <Flex>
                     <PrimaryButton
                       css={css`
-                        height: 65px;
-                        font-size: 1.7rem;
-                        max-width: 100%;
+                        position: absolute;
                         bottom: 0;
 
                         ${mediaQueryLargeDesktop} {
-                          font-size: 19px;
-                          height: 40px;
+                          bottom: 40px;
                         }
 
                         ${mediaQueryTablet} {
@@ -552,7 +575,6 @@ export const ProvideInfoContent = observer(({ data }: any) => {
                     width: 20%;
                     flex-direction: column;
                     align-items: center;
-                    margin-left: 170px;
                     margin-right: 60px;
 
                     ${mediaQuerySmallTablet} {
@@ -589,25 +611,22 @@ export const ProvideInfoContent = observer(({ data }: any) => {
                   <UserName>{provide?.user.username}</UserName>
                   <RankingBadge
                     rankColor={RANK_BADGE[provide?.user?.rank].color}
-                    css={css`
-                      margin-top: -10px;
-
-                      ${mediaQueryMobile} {
-                        margin-left: 8px;
-                      }
-                    `}
                   >
                     {provide?.user.rank.toUpperCase()}
                   </RankingBadge>
                 </div>
               </div>
-
-              {!isTablet && (
+              {!isMobile && (
                 <SecondaryButton
                   css={css`
-                    margin-right: 100px;
+                    margin-right: 20px;
                     width: 140px;
                     z-index: 5;
+                    font-size: 18px;
+
+                    ${mediaQueryLargeDesktop} {
+                      font-size: 16px;
+                    }
                   `}
                   onClick={() => {
                     history.push({
@@ -615,7 +634,11 @@ export const ProvideInfoContent = observer(({ data }: any) => {
                     });
                   }}
                 >
-                  <UserSvg />
+                  <UserSvg
+                    css={css`
+                      margin-right: 8px;
+                    `}
+                  />
                   <div>โปรไฟล์</div>
                 </SecondaryButton>
               )}

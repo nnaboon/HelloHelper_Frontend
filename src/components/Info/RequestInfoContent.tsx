@@ -12,7 +12,6 @@ import { Text } from 'components/Text';
 import { RequestFormModal } from 'components/Form/RequestForm';
 import { PrimaryButton, SecondaryButton } from 'components/Button/Button';
 import { HelperListCard } from 'components/Card/HelperListCard';
-import { SmallSuggestedRequestCard } from 'components/Card/SmallSuggestedRequestCard';
 import { PopularRequestSection } from 'components/Card/PopularRequestCard';
 import { InfoMenu } from 'components/Menu/const';
 import { Loading } from 'components/Loading/Loading';
@@ -119,12 +118,12 @@ const RequestHashtagButton = styled(SecondaryButton)`
 
 const RequestInfoContainer = styled.div`
   display: grid;
-  grid-template-columns: 300px 450px;
+  grid-template-columns: 200px 450px;
   grid-gap: 20px 40px;
   margin-bottom: 60px;
 
   ${mediaQueryLargeDesktop} {
-    grid-template-columns: 160px 400px;
+    grid-template-columns: 160px 300px;
   }
 
   ${mediaQueryMobile} {
@@ -134,47 +133,46 @@ const RequestInfoContainer = styled.div`
 `;
 
 const HelperImage = styled.img`
-  width: 80px;
-  height: 80px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
   margin-top: 5px;
   object-fit: cover;
 
   ${mediaQueryLargeDesktop} {
-    width: 75px;
-    height: 75px;
+    width: 60px;
+    height: 60px;
   }
 
   ${mediaQueryMobile} {
-    width: 55px;
-    height: 55px;
+    width: 45px;
+    height: 45px;
   }
 `;
 
 const UserName = styled.div`
   font-weight: 700;
-  font-size: 24px;
+  font-size: 22px;
   color: #000000;
-  margin-bottom: 5px;
-  margin-right: 30px;
+  margin-right: 20px;
   min-width: 140px;
   width: max-content;
 
   ${mediaQueryLargeDesktop} {
-    font-size: 22px;
+    font-size: 20px;
+    margin-right: 10px;
   }
 
   ${mediaQueryMobile} {
     min-width: max-content;
     font-size: 16px;
-    margin-right: 0;
   }
 `;
 
 const RequestDetail = styled.div`
   font-weight: 700;
   line-height: 31px;
-  font-size: 1.5rem;
+  font-size: 20px;
   color: #000000;
   min-width: unset;
   max-width: max-content;
@@ -198,7 +196,7 @@ const RequestDetail = styled.div`
 `;
 
 const RequestTitle = styled.div`
-  font-size: 1.5rem;
+  font-size: 14px;
   line-height: 60px;
   color: #848484;
   min-width: 90px;
@@ -225,7 +223,7 @@ const MenuItemContainer = styled.div`
 
 const UserProfileCard = styled.div`
   width: 100%;
-  height: 140px;
+  height: 100px;
   display: flex;
   align-items: center;
   background: #ffffff;
@@ -235,12 +233,18 @@ const UserProfileCard = styled.div`
   justify-content: space-around;
 
   ${mediaQueryLargeDesktop} {
-    justify-content: space-between;
+    justify-content: space-around;
+    height: 90px;
     margin: 40px 0;
+  }
+
+  ${mediaQueryTablet} {
+    justify-content: space-between;
   }
 
   ${mediaQueryMobile} {
     height: 90px;
+    justify-content: space-between;
     margin: 0;
     margin-top: 20px;
   }
@@ -251,7 +255,6 @@ const UserProfileImageContainer = styled.div`
   width: 20%;
   flex-direction: column;
   align-items: center;
-  margin-left: 170px;
   margin-right: 60px;
 
   ${mediaQuerySmallTablet} {
@@ -433,11 +436,19 @@ export const RequestInfoContent = observer(({ data }: any) => {
                 <div
                   style={{
                     display: 'flex',
-                    justifyContent: 'center',
                     flexDirection: `${isTablet ? 'column' : 'row'}`
                   }}
                   css={css`
                     position: relative;
+                    justify-content: center;
+
+                    ${mediaQueryMiniDesktop} {
+                      justify-content: space-between;
+                    }
+
+                    ${mediaQueryTablet} {
+                      justify-content: center;
+                    }
                   `}
                 >
                   <Flex
@@ -544,14 +555,6 @@ export const RequestInfoContent = observer(({ data }: any) => {
                           </RequestStatusBadge>
                         )}
                       </Flex>
-
-                      {console.log(
-                        request.requesterUserId.some(
-                          (item) =>
-                            item.userId === window.localStorage.getItem('id')
-                        )
-                      )}
-                      {console.log(request.requesterUserId)}
                       <RequestTitle>สถานที่ให้ความข่วยเหลือ</RequestTitle>
                       <RequestDetail>{request.location.name}</RequestDetail>
                       <React.Fragment>
@@ -653,13 +656,9 @@ export const RequestInfoContent = observer(({ data }: any) => {
                               }
                             )
                               .then((res) => {
-                                // setRequest(res.data);
                                 getRequest(query).then((res) => {
                                   setRequest(res.data);
                                 });
-                                // request['requesterUserId'] = res.data;
-
-                                // console.log(request.requesterUserId);
 
                                 message.success(
                                   'เรากำลังส่งความช่วยเหลือของคุณให้เจ้าของโพสต์ได้รับทราบ'
@@ -707,27 +706,23 @@ export const RequestInfoContent = observer(({ data }: any) => {
                       `}
                     >
                       <UserName>{user.username}</UserName>
-                      <RankingBadge
-                        rankColor={RANK_BADGE[user.rank].color}
-                        css={css`
-                          margin-top: -10px;
-
-                          ${mediaQueryMobile} {
-                            margin-left: 8px;
-                          }
-                        `}
-                      >
+                      <RankingBadge rankColor={RANK_BADGE[user.rank].color}>
                         {user.rank.toUpperCase()}
                       </RankingBadge>
                     </div>
                   </div>
 
-                  {!isTablet && (
+                  {!isMobile && (
                     <SecondaryButton
                       css={css`
-                        margin-right: 100px;
+                        margin-right: 20px;
                         width: 140px;
                         z-index: 5;
+                        font-size: 18px;
+
+                        ${mediaQueryLargeDesktop} {
+                          font-size: 16px;
+                        }
                       `}
                       onClick={() => {
                         history.push({
@@ -735,7 +730,11 @@ export const RequestInfoContent = observer(({ data }: any) => {
                         });
                       }}
                     >
-                      <UserSvg />
+                      <UserSvg
+                        css={css`
+                          margin-right: 8px;
+                        `}
+                      />
                       <div>โปรไฟล์</div>
                     </SecondaryButton>
                   )}
@@ -767,15 +766,11 @@ export const RequestInfoContent = observer(({ data }: any) => {
 
                         ${mediaQueryExtraLargeDesktop} {
                           grid-template-columns: repeat(4, 1fr);
-                          grid-gap: 20px;
+                          grid-gap: 10px;
                         }
 
                         ${mediaQueryLargeDesktop} {
                           grid-template-columns: repeat(3, 1fr);
-                        }
-
-                        ${mediaQueryDesktop} {
-                          grid-template-columns: repeat(2, 1fr);
                         }
 
                         ${mediaQueryMiniDesktop} {
@@ -792,19 +787,8 @@ export const RequestInfoContent = observer(({ data }: any) => {
                         @media screen and (max-width: 2700px) and (min-width: 2600px) {
                           grid-template-columns: repeat(4, 1fr);
                         }
-
-                        @media screen and (max-width: 2600px) and (min-width: 2000px) {
-                          grid-template-columns: repeat(3, 1fr);
-                          grid-gap: 20px;
-                        }
                       `}
                     >
-                      {/* <SmallSuggestedRequestCard data={[provides[1]]} />
-                      <SmallSuggestedRequestCard data={[provides[2]]} />
-                      <SmallSuggestedRequestCard data={[provides[0]]} />
-                      <SmallSuggestedRequestCard data={[provides[3]]} />
-                      <SmallSuggestedRequestCard data={[provides[4]]} />
-                      <SmallSuggestedRequestCard data={[provides[5]]} /> */}
                       <PopularRequestSection data={[provides[1]]} />
                       <PopularRequestSection data={[provides[2]]} />
                       <PopularRequestSection data={[provides[0]]} />
@@ -815,17 +799,6 @@ export const RequestInfoContent = observer(({ data }: any) => {
                   </div>
                 ) : (
                   <div>
-                    {/* <Text
-                      fontWeight={400}
-                      css={css`
-                        font-size: 2.3rem;
-                        ${mediaQueryLargeDesktop} {
-                          font-size: 26px;
-                        }
-                      `}
-                    >
-                      รายชื่อผู้ต้องการช่วยเหลือ
-                    </Text> */}
                     <Flex
                       itemAlign="flex-start"
                       css={css`
@@ -834,6 +807,11 @@ export const RequestInfoContent = observer(({ data }: any) => {
                         ${mediaQueryLargeDesktop} {
                           justify-content: space-between;
                         }
+
+                        ${mediaQueryMiniDesktop} {
+                          flex-direction: column;
+                        }
+
                         ${mediaQueryDesktop} {
                           justify-content: flex-start;
                         }
@@ -912,7 +890,7 @@ export const RequestInfoContent = observer(({ data }: any) => {
                           flex-direction: column;
                           align-items: center;
 
-                          ${mediaQueryTablet} {
+                          ${mediaQueryMiniDesktop} {
                             display: grid;
                             grid-template-columns: repeat(2, 1fr);
                             grid-gap: 2rem;
@@ -926,10 +904,6 @@ export const RequestInfoContent = observer(({ data }: any) => {
                           }
                         `}
                       >
-                        {/* <SmallSuggestedRequestCard data={[provides[1]]} />
-                        <SmallSuggestedRequestCard data={[provides[2]]} />
-                        <SmallSuggestedRequestCard data={[provides[0]]} />
-                        <SmallSuggestedRequestCard data={[provides[3]]} /> */}
                         <PopularRequestSection data={[provides[1]]} />
                         <PopularRequestSection data={[provides[2]]} />
                         <PopularRequestSection data={[provides[0]]} />
