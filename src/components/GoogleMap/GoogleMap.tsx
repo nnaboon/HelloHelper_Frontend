@@ -5,8 +5,7 @@ import {
   GoogleMap,
   useJsApiLoader,
   StandaloneSearchBox,
-  Marker,
-  Circle
+  Marker
 } from '@react-google-maps/api';
 
 interface GoogleMapContentProps {
@@ -149,6 +148,6 @@ export const GoogleMapContent = ({
       </StandaloneSearchBox>
     </GoogleMap>
   ) : (
-    <></>
+    <Spin />
   );
 };
