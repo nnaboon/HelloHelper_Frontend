@@ -75,8 +75,8 @@ export const OverallHelpedChart = ({
       <ReactECharts
         option={option}
         style={{
-          width: isLargeDesktop ? (isTablet ? '100%' : '800px') : '1000px',
-          height: isLargeDesktop ? '300px' : '600px'
+          width: isLargeDesktop ? (isTablet ? '100%' : '580px') : '800px',
+          height: isLargeDesktop ? '270px' : '350px'
         }}
       />
     </div>

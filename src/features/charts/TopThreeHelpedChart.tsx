@@ -77,8 +77,8 @@ export const TopThreeHelpedChart = ({ data }: any) => {
       <ReactECharts
         option={option}
         style={{
-          width: isLargeDesktop ? (isTablet ? '100%' : '640px') : '1000px',
-          height: isLargeDesktop ? '300px' : '600px'
+          width: isLargeDesktop ? (isTablet ? '100%' : '600px') : '700px',
+          height: isLargeDesktop ? '300px' : '350px'
         }}
       />
     </div>
