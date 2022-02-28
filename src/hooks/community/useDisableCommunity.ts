@@ -13,10 +13,9 @@ export const useDisableCommunity = () => {
   );
 
   //Data = userId
-  const execute = (communityId: string, data: object) => {
+  const execute = (communityId: string) => {
     return fire({
-      url: `${REACT_APP_API}/community/${communityId}/disable`,
-      data
+      url: `${REACT_APP_API}/community/${communityId}/disable`
     });
   };
 
