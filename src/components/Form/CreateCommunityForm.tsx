@@ -22,11 +22,13 @@ import {
   mediaQueryLargeDesktop,
   useMedia
 } from 'styles/variables';
+import { logout } from 'features/logout/Logout';
 import {
   LoadingOutlined,
   PlusOutlined,
   UploadOutlined
 } from '@ant-design/icons';
+import { PrimaryButton } from 'components/Button/Button';
 
 interface CreateCommunityFormProps {
   setVisible: (visible: boolean) => void;
@@ -36,6 +38,10 @@ const CreateCommunityFormSection = styled.div`
   padding: 1.75rem 2.75rem 1.5rem 2.75rem;
   position: relative;
   height: 100%;
+
+  ${mediaQueryMobile} {
+    padding: 0;
+  }
 `;
 
 export const CreateCommunityForm = ({
@@ -47,7 +53,11 @@ export const CreateCommunityForm = ({
   const [imageUrl, setImageUrl] = useState<string>(DefaultImage);
   const [location, setLocation] = useState<any>();
   const { me } = userStore;
-  const { data: response, execute: addCommunity } = useAddCommunity();
+  const {
+    data: response,
+    execute: addCommunity,
+    error: addCommunityError
+  } = useAddCommunity();
   const { execute: updateUser } = useUpdateUser();
   const { execute: uploadUserImage } = useUploadUserImage();
 
@@ -58,7 +68,7 @@ export const CreateCommunityForm = ({
   const uploadButton = (
     <div>
       {loading ? <LoadingOutlined /> : <PlusOutlined />}
-      <div style={{ marginTop: 8 }}>Upload</div>
+      <div style={{ marginTop: 8 }}>อัปโหลด</div>
     </div>
   );
   function getBase64(img, callback) {
@@ -97,17 +107,38 @@ export const CreateCommunityForm = ({
     };
 
     try {
-      var formData = new FormData();
-      formData.append('img', value.image.file.originFileObj);
+      if (value.image) {
+        var formData = new FormData();
+        formData.append('img', value.image.file.originFileObj);
 
-      uploadUserImage(formData).then((res) => {
-        addCommunity({ ...data, imageUrl: res.data }).then((res) => {
-          message.success('สำเร็จ');
-          window.location.assign(`/community/${res.data}`);
-          form.resetFields();
-          setVisible(false);
+        uploadUserImage(formData).then((res) => {
+          addCommunity({ ...data, imageUrl: res.data })
+            .then((res) => {
+              message.success('สำเร็จ');
+              window.location.assign(`/community/${res.data}`);
+              form.resetFields();
+              setVisible(false);
+            })
+            .catch((error) => {
+              if (error.response.data === 'Unauthorized') {
+                logout();
+              }
+            });
         });
-      });
+      } else {
+        addCommunity(data)
+          .then((res) => {
+            message.success('สำเร็จ');
+            window.location.assign(`/community/${res.data}`);
+            form.resetFields();
+            setVisible(false);
+          })
+          .catch((error) => {
+            if (error.response.data === 'Unauthorized') {
+              logout();
+            }
+          });
+      }
     } catch (e) {
       message.error('ไม่สามารถโพสต์ขอความช่วยเหลือได้');
     } finally {
@@ -149,7 +180,11 @@ export const CreateCommunityForm = ({
 
           ${mediaQueryLargeDesktop} {
             font-size: 15px;
-            margin-bottom: 12px;
+            margin-bottom: 20px;
+          }
+
+          ${mediaQueryMobile} {
+            margin-bottom: 10px;
           }
         `}
       >
@@ -233,8 +268,8 @@ export const CreateCommunityForm = ({
             src={imageUrl}
             alt="user avatar"
             css={css`
-              width: 100px;
-              height: 100px;
+              width: 85px;
+              height: 85px;
               border-radius: 50%;
               margin-bottom: 15px;
               object-fit: cover;
@@ -242,6 +277,11 @@ export const CreateCommunityForm = ({
               ${mediaQueryLargeDesktop} {
                 width: 80px;
                 height: 80px;
+              }
+
+              ${mediaQueryMobile} {
+                width: 65px;
+                height: 65px;
               }
             `}
           />
@@ -258,7 +298,14 @@ export const CreateCommunityForm = ({
                 align-items: center;
               `}
             >
-              <Button icon={<UploadOutlined />}>เลือกรูป</Button>
+              <Button
+                icon={<UploadOutlined />}
+                css={css`
+                  font-size: 12px;
+                `}
+              >
+                เลือกรูป
+              </Button>
             </Upload>
           </Form.Item>
         </div>
@@ -303,7 +350,7 @@ export const CreateCommunityForm = ({
             requestLocation={location}
             setRequestLocation={setLocation}
             width={'100%'}
-            height={isLargeDesktop ? '240px' : '460px'}
+            height={isLargeDesktop ? '240px' : '300px'}
           />
         </Form.Item>
         <div
@@ -313,34 +360,24 @@ export const CreateCommunityForm = ({
             justify-content: flex-end;
           `}
         >
-          <Button
+          <PrimaryButton
             type="primary"
             htmlType="submit"
             css={css`
-              width: 110px;
-              height: 40px;
-              box-sizing: border-box;
-              background: #ee6400;
-              border-radius: 9px;
-              border: 0;
+              width: 90px;
+              min-width: 90px;
+              height: 35px;
               bottom: 0px;
               right: 0;
-              color: #ffff;
-              font-size: 16px;
-
-              &:hover {
-                background: #ee6400;
-              }
 
               ${mediaQueryLargeDesktop} {
                 width: 90px;
                 height: 35px;
-                font-size: 14px;
               }
             `}
           >
             ตกลง
-          </Button>
+          </PrimaryButton>
         </div>
       </Form>
     </CreateCommunityFormSection>
