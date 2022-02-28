@@ -3,66 +3,77 @@
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
-import { observer } from 'mobx-react-lite';
-import { Menu } from 'antd';
 import Flex from 'components/Flex/Flex';
 import { Text } from 'components/Text';
+import { Menu } from 'antd';
+import { observer } from 'mobx-react-lite';
 import { WrapperContainer } from 'components/Wrapper/WrapperContainer';
-import { ProvideListCard } from 'components/Card/ProvideListCard';
+import { RequestOrderCard } from 'components/Card/RequestOrderCard';
 import {
   mediaQueryMobile,
   mediaQueryLargeDesktop,
   mediaQueryTablet,
-  useMedia,
-  MOBILE_WIDTH
+  MOBILE_WIDTH,
+  useMedia
 } from 'styles/variables';
-import { useMyProvideOrder } from 'hooks/order/useMyProvideOrder';
-import { EmptyData } from '../components/Empty/EmptyData';
-import { Loading } from 'components/Loading/Loading';
+import { useMyRequestOrder } from 'hooks/order/useMyRequestOrder';
+import { EmptyData } from 'components/Empty/EmptyData';
+import { Loading } from '../components/Loading/Loading';
 import { userStore } from 'store/userStore';
 
-export const ProvideListPage = observer(() => {
+export const RequestOrderPage = observer(() => {
   const [currentStatus, setCurrentStatus] = useState<string>('pending');
   const [status, setStatus] = useState<string>();
-  const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
-  const { data: provideOrders, execute: getProvideOrders } =
-    useMyProvideOrder();
 
   const { me } = userStore;
 
-  useEffect(() => {
-    getProvideOrders(window.localStorage.getItem('id'));
-  }, [status]);
+  const { data: requestOrders, execute: getRequestOrders } =
+    useMyRequestOrder();
+
+  const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
 
   const handleClick = (e) => {
     setCurrentStatus(e.key);
   };
 
+  useEffect(() => {
+    getRequestOrders(window.localStorage.getItem('id'));
+  }, [status]);
+
   return (
-    <WrapperContainer>
-      {me && provideOrders ? (
+    <WrapperContainer
+      css={css`
+        ${mediaQueryMobile} {
+          height: calc(100vh - 150px);
+        }
+      `}
+    >
+      {me && requestOrders ? (
         <React.Fragment>
           <Text
-            fontSize="24px"
             fontWeight={400}
             marginY="20px"
             css={css`
-              font-size: 2.2rem;
+              font-size: 24px;
 
               ${mediaQueryLargeDesktop} {
-                font-size: 24px;
+                font-size: 22px;
               }
 
               ${mediaQueryTablet} {
+                font-size: 18px;
+              }
+
+              ${mediaQueryMobile} {
                 font-size: 20px;
               }
             `}
           >
-            รายการให้ความช่วยเหลือของฉัน ทั้งหมด{' '}
+            รายการขอความช่วยเหลือของฉัน ทั้งหมด{' '}
             {
-              provideOrders?.filter(
-                ({ providerUserId, status }) =>
-                  providerUserId === window.localStorage.getItem('id') &&
+              requestOrders?.filter(
+                ({ requesterUserId, status }) =>
+                  requesterUserId === window.localStorage.getItem('id') &&
                   status !== 'waiting'
               ).length
             }{' '}
@@ -85,22 +96,22 @@ export const ProvideListPage = observer(() => {
             direction="column"
             marginTop="30px"
           >
-            {provideOrders ? (
-              provideOrders?.filter(({ status, rating }) =>
+            {requestOrders ? (
+              requestOrders?.filter(({ status, orderReferenceType, rating }) =>
                 currentStatus === 'rated'
                   ? rating !== undefined
                   : status === currentStatus &&
                     status !== 'waiting' &&
                     rating === undefined
               ).length > 0 ? (
-                provideOrders
-                  ?.filter(({ status, rating }) =>
+                requestOrders
+                  ?.filter(({ status, orderReferenceType, rating }) =>
                     currentStatus === 'rated'
                       ? rating !== undefined
                       : status === currentStatus && rating === undefined
                   )
                   .map((props) => (
-                    <ProvideListCard
+                    <RequestOrderCard
                       key={props.id}
                       props={props}
                       setStatus={setStatus}
@@ -112,7 +123,7 @@ export const ProvideListPage = observer(() => {
             ) : (
               <EmptyData />
             )}
-          </Flex>
+          </Flex>{' '}
         </React.Fragment>
       ) : (
         <Loading height="calc(100vh - 265px)" />

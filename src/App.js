@@ -7,11 +7,10 @@ import { HomePage } from 'pages/Homepage';
 import { ProfilePage } from 'pages/ProfilePage';
 import { SearchResultPage } from './pages/SearchResultPage';
 import { Navbar } from 'components/Navbar/Navbar';
-import { ProvideListPage } from './pages/ProvideListpage';
-import { RequestListPage } from './pages/RequestListpage';
+import { ProvideOrderPage } from './pages/ProvideOrderpage';
+import { RequestOrderPage } from './pages/RequestOrderpage';
 import { CommunityPage } from './pages/CommunityPage';
 import { CommunitySetting } from 'features/community/CommunitySetting';
-import { mediaQueryMobile } from './styles/variables';
 import { ProvideInfoContent } from 'components/Info/ProvideInfoContent';
 import { RequestInfoContent } from 'components/Info/RequestInfoContent';
 import { OrderInfoPage } from 'pages/OrderInfoPage';
@@ -40,8 +39,8 @@ const App = () => {
           <Route path="/user/community/:id" component={CommunitySetting} />
           <Route path="/user/account/setting" exact component={SettingPage} />
           <Route path="/chat" component={Messenger} />
-          <Route path="/order/request" exact component={RequestListPage} />
-          <Route path="/order/provide" exact component={ProvideListPage} />
+          <Route path="/order/request" exact component={RequestOrderPage} />
+          <Route path="/order/provide" exact component={ProvideOrderPage} />
           <Route path="/order" component={OrderInfoPage} />
           <Route path="/:id" exact component={SearchResultPage} />
           <Route path="/search" exact component={SearchResultPage} />

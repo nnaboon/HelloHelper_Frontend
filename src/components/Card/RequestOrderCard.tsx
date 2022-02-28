@@ -9,7 +9,6 @@ import { STATUS_MAPPER } from 'components/Button/const';
 import { StatusType } from 'components/Button/const';
 import { Form, Modal, message, Divider } from 'antd';
 import { StatusBadge } from 'components/Badge/StatusBadge';
-import { RequestListProps } from 'data/request';
 import { PrimaryButton, SecondaryButton } from '../Button/Button';
 import { RatingForm } from 'components/Form/RatingForm';
 import {
@@ -33,7 +32,7 @@ type RequestListCardProps = {
 const RequestListContainer = styled.div`
   position: relative;
   width: 100%;
-  min-height: 310px;
+  min-height: 300px;
   background: #ffffff;
   box-sizing: border-box;
   border-radius: 12px;
@@ -41,6 +40,10 @@ const RequestListContainer = styled.div`
   margin-bottom: 30px;
   margin-top: 20px;
   padding: 30px 40px;
+
+  ${mediaQueryLargeDesktop} {
+    min-height: 290px;
+  }
 
   ${mediaQueryTablet} {
     width: 100%;
@@ -70,7 +73,7 @@ const RequestListTitle = styled.div`
   text-align: right;
   color: #b9b9b9;
   text-align: end;
-  margin-right: 20px;
+  margin-right: 15px;
 
   ${mediaQueryMobile} {
     text-align: start;
@@ -88,13 +91,18 @@ const RequestListData = styled.div`
   }
 `;
 
-export const RequestListCard = ({ props, setStatus }: RequestListCardProps) => {
+export const RequestOrderCard = ({
+  props,
+  setStatus
+}: RequestListCardProps) => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [form] = Form.useForm();
 
   const history = useHistory();
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
+  const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
+
   const isLargeDesktop = useMedia(`(max-width: ${LARGE_DESKTOP_WIDTH}px)`);
 
   const handleOk = () => {
@@ -125,7 +133,7 @@ export const RequestListCard = ({ props, setStatus }: RequestListCardProps) => {
       <StatusBadge
         status={STATUS_MAPPER[props.status].status}
         color={STATUS_MAPPER[props.status].color}
-        style={{ position: 'absolute', right: '40px' }}
+        style={{ position: 'absolute', right: isTablet ? '20px' : '40px' }}
         css={css`
           top: 20px;
 
@@ -140,70 +148,33 @@ export const RequestListCard = ({ props, setStatus }: RequestListCardProps) => {
           history.push(`/order/request/${props.id}`);
         }}
       >
-        {/* <Flex itemAlign="flex-start"> */}
-        {/* <RequestListTitle>ชื่อความช่วยเหลือ</RequestListTitle> */}
         <RequestListData
           css={css`
             font-weight: 700;
             font-size: 24px;
             color: black;
 
+            ${mediaQueryLargeDesktop} {
+              font-size: 20px;
+            }
+
             ${mediaQueryMobile} {
               font-size: 16px;
+              width: 60%;
             }
           `}
         >
           {props.title}
         </RequestListData>
-        {/* </Flex> */}
         <Flex itemAlign="flex-start" marginY="4px">
-          {/* <RequestListTitle>สถานที่ให้ความข่วยเหลือ</RequestListTitle> */}
           <RequestListData>{props.location.name}</RequestListData>
         </Flex>
         <Flex itemAlign="flex-start" marginY="4px">
-          {/* <RequestListTitle>จำนวน</RequestListTitle> */}
           <RequestListData>x{props.number}</RequestListData>
         </Flex>
-        {/* <Flex itemAlign="flex-start">
-          <RequestListTitle>ราคาสินค้าทั้งหมด</RequestListTitle>
-          <RequestListData>{props.price} บาท</RequestListData>
-        </Flex>
-        <Flex itemAlign="flex-start">
-          <RequestListTitle>อัตราค่าบริการ</RequestListTitle>
-          <RequestListData>{props.serviceCharge} บาท</RequestListData>
-        </Flex> */}
         <Flex itemAlign="flex-start" marginY="4px">
-          {/* <RequestListTitle>ข้อความ</RequestListTitle> */}
           <RequestListData>{props.description}</RequestListData>
         </Flex>
-        {/* <Flex itemAlign="flex-start">
-          <RequestListTitle>รูปแบบการชำระเงิน</RequestListTitle>
-          <RequestListData>{props.payment}</RequestListData>
-        </Flex> */}
-        {/* <Flex itemAlign="flex-end" justify="flex-end">
-          <RequestListTitle>ราคาสินค้า</RequestListTitle>
-          <RequestListData
-            css={css`
-              width: unset;
-              font-size: 24px;
-              color: black;
-            `}
-          >
-            ฿{props.price}
-          </RequestListData>
-        </Flex>
-        <Flex itemAlign="flex-end" justify="flex-end">
-          <RequestListTitle>อัตราค่าบริการ</RequestListTitle>
-          <RequestListData
-            css={css`
-              width: unset;
-              font-size: 24px;
-              color: black;
-            `}
-          >
-            ฿{props.serviceCharge}
-          </RequestListData>
-        </Flex> */}
         <Divider style={{ margin: '18px' }} />
         <Flex itemAlign="center" justify="flex-end">
           <RequestListTitle>จำนวนคำสั่งซื้อทั้งหมด</RequestListTitle>
@@ -213,6 +184,10 @@ export const RequestListCard = ({ props, setStatus }: RequestListCardProps) => {
               font-size: 24px;
               font-weight: 600;
               color: black;
+
+              ${mediaQueryLargeDesktop} {
+                font-size: 22px;
+              }
             `}
           >
             ฿{props.serviceCharge + props.price}
@@ -272,9 +247,17 @@ export const RequestListCard = ({ props, setStatus }: RequestListCardProps) => {
         <Flex
           css={css`
             position: absolute;
-            right: 20px;
+            right: 40px;
             bottom: 20px;
             width: max-content;
+
+            ${mediaQueryLargeDesktop} {
+              right: 40px;
+            }
+
+            ${mediaQueryTablet} {
+              right: 20px;
+            }
 
             ${mediaQueryMobile} {
               position: relative;
@@ -291,8 +274,8 @@ export const RequestListCard = ({ props, setStatus }: RequestListCardProps) => {
               history.push(`/chat/${props.chatId}`);
             }}
             css={css`
-              min-width: 140px;
-              height: 45px;
+              min-width: 130px;
+              height: 40px;
               z-index: 10;
 
               ${mediaQueryTablet} {
@@ -301,18 +284,16 @@ export const RequestListCard = ({ props, setStatus }: RequestListCardProps) => {
 
               ${mediaQueryMobile} {
                 min-width: 47%;
-                width: 47%;
+                width: 100%;
               }
             `}
           >
             แชท
           </SecondaryButton>
-          {!props.rating && (
+          {!props.rating && props.status === 'complete' && (
             <PrimaryButton
               css={css`
                 min-width: 140px;
-                height: 45px;
-                z-index: 10;
 
                 ${mediaQueryTablet} {
                   min-width: 130px;
@@ -321,6 +302,7 @@ export const RequestListCard = ({ props, setStatus }: RequestListCardProps) => {
                 ${mediaQueryMobile} {
                   min-width: 47%;
                   width: 47%;
+                  margin-left: 15px;
                 }
               `}
               onClick={() => {
