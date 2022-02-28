@@ -1,7 +1,7 @@
 import useAxios from 'axios-hooks';
 import { REACT_APP_API } from 'config';
 
-export const useAddCommunity = () => {
+export const useAddMember = () => {
   const [{ data: response, loading, error }, fire] = useAxios(
     {
       method: 'POST',
