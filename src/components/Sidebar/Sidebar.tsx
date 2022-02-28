@@ -14,14 +14,13 @@ const SidebarSection = styled.div`
   padding-right: 25px;
   border-right: 1px solid rgb(239, 243, 244);
   z-index: 3;
-  top: 250px;
+  top: 240px;
   left: 0;
   height: 100%;
   overflow-y: hidden;
-  margin-top: 40px;
 
   ${mediaQueryLargeDesktop} {
-    top: 165px;
+    top: 160px;
   }
 `;
 
@@ -30,7 +29,7 @@ const SidebarItem = styled.div<{ isActive: boolean }>`
   max-width: 460px;
   margin-right: 20px;
   margin-bottom: 40px;
-  font-size: ${(props) => (props.isActive ? '2.6rem' : '2.2rem')};
+  font-size: ${(props) => (props.isActive ? '24px' : '22px')};
   cursor: pointer;
   padding: 10px;
   border-radius: 20px;
@@ -40,7 +39,7 @@ const SidebarItem = styled.div<{ isActive: boolean }>`
   ${mediaQueryLargeDesktop} {
     max-width: 280px;
     margin-bottom: 15px;
-    font-size: ${(props) => (props.isActive ? '22px' : '20px')};
+    font-size: ${(props) => (props.isActive ? '19px' : '16px')};
   }
 `;
 
