@@ -17,17 +17,17 @@ export const getStar = (count: Number) => {
         style={{ minWidth: '153px', display: 'flex', justifyContent: 'center' }}
         css={css`
           .ant-rate-star.ant-rate-star-full svg {
-            width: 30px;
-            height: 30px;
+            width: 25px;
+            height: 25px;
           }
           .ant-rate-star.ant-rate-star-zero svg {
-            width: 30px;
-            height: 30px;
+            width: 25px;
+            height: 25px;
           }
 
           .ant-rate-star.ant-rate-star-half.ant-rate-star-active svg {
-            width: 30px;
-            height: 30px;
+            width: 25px;
+            height: 25px;
           }
 
           .ant-rate-star.ant-rate-star-full,
@@ -54,17 +54,17 @@ export const getStar = (count: Number) => {
 
           ${mediaQueryLargeDesktop} {
             .ant-rate-star.ant-rate-star-full svg {
-              width: 24px;
-              height: 24px;
+              width: 20px;
+              height: 20px;
             }
             .ant-rate-star.ant-rate-star-zero svg {
-              width: 24px;
-              height: 24px;
+              width: 20px;
+              height: 20px;
             }
 
             .ant-rate-star.ant-rate-star-half.ant-rate-star-active svg {
-              width: 24px;
-              height: 24px;
+              width: 20px;
+              height: 20px;
             }
 
             .ant-rate-star:not(:last-child) {
