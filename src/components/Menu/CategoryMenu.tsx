@@ -1,5 +1,6 @@
 import React from 'react';
 import Flex from '../Flex/Flex';
+import { mediaQueryLargeDesktop } from 'styles/variables';
 import styled from '@emotion/styled';
 
 interface CategoryMenuProps {
@@ -14,6 +15,10 @@ const CategoryMenuContainer = styled.div`
   min-width: 40px;
   min-height: 40px;
   font-size: 1.8rem;
+
+  ${mediaQueryLargeDesktop} {
+    font-size: 22px;
+  }
 `;
 
 export const CategoryMenu = ({ text, icon }: CategoryMenuProps) => {

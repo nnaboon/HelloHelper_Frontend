@@ -12,7 +12,7 @@ interface EditableTagGroupProps {
 const TagPlus = styled(Tag)`
   background: #fff;
   border-style: dashed;
-  font-size: 1.5rem;
+  font-size: 16px;
   height: 1.8rem;
   .ant-tag {
     font-size: 1.5rem !important;
@@ -32,7 +32,7 @@ const TagInput = styled(Input)`
   margin-right: 8px;
   vertical-align: top;
 
-  font-size: 1.5rem;
+  font-size: 16px;
   height: 1.8rem;
 
   .ant-tag {
@@ -50,7 +50,7 @@ const TagInput = styled(Input)`
 
 const EditTag = styled(Tag)`
   user-select: none;
-  font-size: 1.5rem;
+  font-size: 16px;
   height: 1.8rem;
 
   ${mediaQueryLargeDesktop} {
@@ -162,7 +162,7 @@ export const EditableTagGroup = ({ tags, setTags }: EditableTagGroupProps) => {
       )}
       {!inputVisible && (
         <TagPlus onClick={showInput}>
-          <PlusOutlined /> New Tag
+          <PlusOutlined /> สร้างแท็ก
         </TagPlus>
       )}
     </div>
