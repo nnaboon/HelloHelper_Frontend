@@ -15,7 +15,7 @@ import { RankingBadge } from 'components/Badge/Badge';
 import { useCommunities } from 'hooks/community/useCommunities';
 import { useUpdateJoinedCommunityRequest } from 'hooks/community/useUpdateJoinedCommunityRequest';
 import { useJoinCommunity } from 'hooks/community/useJoinCommunity';
-import { CommunitySigninState } from './CommunitySigninState';
+import { CreateCommunityForm } from 'components/Form/CreateCommunityForm';
 import { CheckOutlined } from '@ant-design/icons';
 import { Loading } from 'components/Loading/Loading';
 import DefaultImage from 'images/default.png';
@@ -32,6 +32,7 @@ import {
 } from 'styles/variables';
 import { userStore } from 'store/userStore';
 import { EmptyData } from 'components/Empty/EmptyData';
+import { logout } from 'features/logout/Logout';
 
 const RequestImageSection = styled.img`
   width: 420px;
@@ -361,6 +362,12 @@ export const CommunitySignin = observer(() => {
                                       )
                                   )[0].id,
                                   status: 0
+                                }).catch((error) => {
+                                  if (error.response.data === 'Unauthorized') {
+                                    logout();
+                                  } else {
+                                    message.error('ไม่สามารถส่งคำขอได้');
+                                  }
                                 });
                               } catch (e) {
                                 message.error('ไม่สามารถส่งคำขอได้');
@@ -504,24 +511,36 @@ export const CommunitySignin = observer(() => {
             centered
             css={css`
               .ant-modal-content {
+                min-height: 620px;
+                height: 880px;
+              }
+
+              ${mediaQueryLargeDesktop} {
+                width: 500px !important;
+
+                .ant-modal-content {
+                  min-height: 520px;
+                  height: 750px;
+                }
+              }
+
+              ${mediaQueryMobile} {
+                width: 320px !important;
+
+                .ant-modal-content {
+                  min-height: 700px;
+                  height: max-content;
+                }
+              }
+
+              .ant-modal-body {
+                width: 100%;
                 height: 100%;
-
-                ${mediaQueryLargeDesktop} {
-                  width: 500px !important;
-
-                  .ant-modal-content {
-                    min-height: 420px;
-                    height: max-content;
-                  }
-                }
-
-                ${mediaQueryMobile} {
-                  height: 480px;
-                }
+                position: absolute;
               }
             `}
           >
-            <CommunitySigninState setVisible={setIsModalVisible} />
+            <CreateCommunityForm setVisible={setIsModalVisible} />
           </Modal>
         </React.Fragment>
       ) : (

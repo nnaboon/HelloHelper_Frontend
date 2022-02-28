@@ -36,6 +36,7 @@ import { useBanMember } from 'hooks/community/useBanMember';
 import { useCommunityMember } from 'hooks/community/useCommunityMember';
 import { Loading } from 'components/Loading/Loading';
 import { firestore } from '../../firebase';
+import { logout } from 'features/logout/Logout';
 
 const ProfilePageUserHelperListSection = styled.div`
   width: 100%;
@@ -403,9 +404,13 @@ export const CommunityContentInfo = observer(({ data }: any) => {
                         history.push('/');
                       })
                       .catch((error) => {
-                        message.error(
-                          'ขออภัย ไม่สามารถออกจากชุมชนความช่วยเหลือนี้ได้เนื่องจากมีผู้นำชุมชนเพียง 1 คน'
-                        );
+                        if (error.response.data === 'Unauthorized') {
+                          logout();
+                        } else {
+                          message.error(
+                            'ขออภัย ไม่สามารถออกจากชุมชนความช่วยเหลือนี้ได้เนื่องจากมีผู้นำชุมชนเพียง 1 คน'
+                          );
+                        }
                       });
                   }}
                 >
@@ -415,10 +420,20 @@ export const CommunityContentInfo = observer(({ data }: any) => {
                 <Dropdown trigger={['click']} overlay={dropDownMenu}>
                   <PrimaryButton
                     css={css`
-                      width: 100%;
                       background: #487bff;
                       z-index: 2;
-                      cursor: pointer;
+
+                      border-color: #497bff;
+
+                      &:hover {
+                        background: #1877f2 !important;
+                        border-color: #1877f2 !important;
+                      }
+
+                      &:focus {
+                        background: #1877f2 !important;
+                        border-color: #1877f2 !important;
+                      }
 
                       ${mediaQueryMobile} {
                         width: 47%;

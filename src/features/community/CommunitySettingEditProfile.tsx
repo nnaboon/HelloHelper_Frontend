@@ -2,10 +2,12 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/react';
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { Text } from 'components/Text';
 import { Button, Form, Input, message, Divider, Upload } from 'antd';
 import { GoogleMapContent } from 'components/GoogleMap/GoogleMap';
+import { observer } from 'mobx-react-lite';
 import { FormRule, getRule } from 'utils/form/getRule';
 import {
   useMedia,
@@ -23,409 +25,431 @@ import {
   PlusOutlined,
   UploadOutlined
 } from '@ant-design/icons';
+import { InputForm } from 'components/Input/InputForm';
 import DefaultImage from 'images/default.png';
 import { useUpdateCommunity } from 'hooks/community/useUpdateCommunity';
 import { useUploadCommunityImage } from 'hooks/community/useUploadCommunityImage';
+import { useDisableCommunity } from 'hooks/community/useDisableCommunity';
+import { logout } from 'features/logout/Logout';
+import { userStore } from 'store/userStore';
+import { PrimaryButton } from '../../components/Button/Button';
 
-export const CommunitySettingEditProfile = ({ communityData }: any) => {
-  const [form] = Form.useForm();
-  const [loading, setLoading] = useState<boolean>(false);
-  const [password, setPassword] = useState('');
-  const [imageUrl, setImageUrl] = useState<string>(DefaultImage);
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [location, setLocation] = useState<any>();
-  const { execute: uploadCommunityImage } = useUploadCommunityImage();
-  const { execute: updateCommunity } = useUpdateCommunity();
-  const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
-  const isSmallTablet = useMedia(`(max-width: ${SMALL_TABLET_WIDTH}px)`);
-  const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
-  const isLargeDesktop = useMedia(`(max-width: ${LARGE_DESKTOP_WIDTH}px)`);
+const CommunityEditProfileTitle = styled.div`
+  font-weight: 500;
+  font-size: 24px;
+  margin-bottom: 20px;
+  margin-top: 20px;
 
-  const uploadButton = (
-    <div>
-      {loading ? <LoadingOutlined /> : <PlusOutlined />}
-      <div style={{ marginTop: 8 }}>Upload</div>
-    </div>
-  );
-  function getBase64(img, callback) {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => callback(reader.result));
-    reader.readAsDataURL(img);
+  ${mediaQueryLargeDesktop} {
+    margin-bottom: 15px;
+    font-size: 20px;
   }
 
-  const handleChange = (info) => {
-    // Change condition
-    if (info.file.status === 'done') {
-      setLoading(true);
-      return;
+  ${mediaQueryMobile} {
+    font-size: 16px;
+  }
+`;
+
+export const CommunitySettingEditProfile = observer(
+  ({ communityData }: any) => {
+    const [loading, setLoading] = useState<boolean>(false);
+    const [password, setPassword] = useState('');
+    const [imageUrl, setImageUrl] = useState<string>(DefaultImage);
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+    const [location, setLocation] = useState<any>();
+
+    const { execute: uploadCommunityImage } = useUploadCommunityImage();
+    const { execute: updateCommunity } = useUpdateCommunity();
+    const { execute: disableCommunity } = useDisableCommunity();
+
+    const [form] = Form.useForm();
+    const history = useHistory();
+    const { me } = userStore;
+
+    const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
+    const isSmallTablet = useMedia(`(max-width: ${SMALL_TABLET_WIDTH}px)`);
+    const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
+    const isLargeDesktop = useMedia(`(max-width: ${LARGE_DESKTOP_WIDTH}px)`);
+
+    const uploadButton = (
+      <div>
+        {loading ? <LoadingOutlined /> : <PlusOutlined />}
+        <div style={{ marginTop: 8 }}>อัปโหลด</div>
+      </div>
+    );
+    function getBase64(img, callback) {
+      const reader = new FileReader();
+      reader.addEventListener('load', () => callback(reader.result));
+      reader.readAsDataURL(img);
     }
-    if (info.file.status === 'uploading') {
-      // Get this url from response in real world.
-      getBase64(info.file.originFileObj, (imageUrl) => {
-        setLoading(false);
-        setImageUrl(imageUrl);
-      });
-    }
-  };
 
-  useEffect(() => {
-    form.setFieldsValue({
-      communityName: communityData.communityName,
-      description: communityData.description,
-      imageUrl: communityData.imageUrl,
-      location: communityData.location
-    });
-  }, [communityData, form]);
-
-  useEffect(() => {
-    if (
-      form.getFieldValue('communityCode') &&
-      form.getFieldValue('communityCode') !== form.getFieldValue('confirmCode')
-    )
-      form.setFields([
-        {
-          name: 'confirmCode',
-          errors: ['รหัสผ่านไม่ตรงกัน']
-        }
-      ]);
-    else
-      form.setFields([
-        {
-          name: 'confirmCode',
-          errors: []
-        }
-      ]);
-  }, [password]);
-
-  useEffect(() => {
-    form.setFieldsValue({
-      location: location
-    });
-  }, [form, location]);
-
-  const onFinish = async (value) => {
-    setIsSubmitting(true);
-    const data = {
-      communityName: value.communityName,
-      description: value.description,
-      // communityCode: value.communityCode
-      //   ? value.communityCode
-      //   : communityData.communityCode,
-      location: {
-        name: location
-          ? location?.name ?? location.formatted_address
-          : communityData.location.name,
-        latitude: location
-          ? location?.geometry.location.lat()
-          : communityData.location.latitude,
-        longitude: location
-          ? location?.geometry.location.lng()
-          : communityData.location.longitude
+    const handleChange = (info) => {
+      // Change condition
+      if (info.file.status === 'done') {
+        setLoading(true);
+        return;
+      }
+      if (info.file.status === 'uploading') {
+        // Get this url from response in real world.
+        getBase64(info.file.originFileObj, (imageUrl) => {
+          setLoading(false);
+          setImageUrl(imageUrl);
+        });
       }
     };
 
-    try {
-      console.log(value.image);
-      if (value.image) {
-        var formData = new FormData();
-        formData.append('img', value.image.file.originFileObj);
+    useEffect(() => {
+      form.setFieldsValue({
+        communityName: communityData.communityName,
+        description: communityData.description,
+        imageUrl: communityData.imageUrl,
+        location: communityData.location
+      });
+    }, [communityData, form]);
 
-        uploadCommunityImage(formData)
-          .then((res) => {
-            console.log(res);
-            updateCommunity(communityData.communityId, {
-              ...data,
-              imageUrl: res.data
-            });
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-      } else {
-        updateCommunity(communityData.communityId, data);
-      }
-    } catch (error) {
-      message.error('ไม่สามารถโพสต์ขอความช่วยเหลือได้');
-      console.log(error);
-    } finally {
-      setIsSubmitting(false);
-      message.success('สำเร็จ');
-    }
-  };
-
-  useEffect(() => {
-    if (communityData) {
-      setImageUrl(communityData.imageUrl ?? DefaultImage);
-    }
-  }, [communityData]);
-
-  return (
-    <div
-      css={css`
-        width: 100%;
-        height: 100%;
-
-        ${mediaQueryTablet} {
-          margin-top: 40px;
-        }
-
-        ${mediaQueryMobile} {
-          margin-top: 0;
-          padding: 20px 20px 30px 20px;
-        }
-      `}
-    >
-      <Text
-        marginY={isMobile ? '20px' : '40px'}
-        marginLeft={isSmallTablet ? 0 : '60px'}
-        fontWeight={500}
-        css={css`
-          font-size: 2.8rem;
-          margin-bottom: 35px;
-
-          ${mediaQueryLargeDesktop} {
-            margin-bottom: 15px;
-            font-size: 20px;
+    useEffect(() => {
+      if (
+        form.getFieldValue('communityCode') &&
+        form.getFieldValue('communityCode') !==
+          form.getFieldValue('confirmCode')
+      )
+        form.setFields([
+          {
+            name: 'confirmCode',
+            errors: ['รหัสผ่านไม่ตรงกัน']
           }
-        `}
-      >
-        ข้อมูลชุมชนความช่วยเหลือ
-      </Text>
-      <Form
-        name="basic"
-        labelCol={{ span: 8 }}
-        wrapperCol={{ span: 16 }}
-        onFinish={onFinish}
-        autoComplete="off"
-        initialValues={{
-          communityName: communityData.title,
-          description: communityData.description,
-          imageUrl: communityData.imageUrl,
-          location: communityData.location
-        }}
+        ]);
+      else
+        form.setFields([
+          {
+            name: 'confirmCode',
+            errors: []
+          }
+        ]);
+    }, [password]);
+
+    useEffect(() => {
+      form.setFieldsValue({
+        location: location
+      });
+    }, [form, location]);
+
+    const onFinish = async (value) => {
+      setIsSubmitting(true);
+      const data = {
+        communityName: value.communityName,
+        description: value.description,
+        location: {
+          name: location
+            ? location?.name ?? location.formatted_address
+            : communityData.location.name,
+          latitude: location
+            ? location?.geometry.location.lat()
+            : communityData.location.latitude,
+          longitude: location
+            ? location?.geometry.location.lng()
+            : communityData.location.longitude
+        }
+      };
+
+      try {
+        console.log(value.image);
+        if (value.image) {
+          var formData = new FormData();
+          formData.append('img', value.image.file.originFileObj);
+
+          uploadCommunityImage(formData)
+            .then((res) => {
+              console.log(res);
+              updateCommunity(communityData.communityId, {
+                ...data,
+                imageUrl: res.data
+              }).catch((error) => {
+                if (error.response.data === 'Unauthorized') {
+                  logout();
+                }
+              });
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        } else {
+          updateCommunity(communityData.communityId, data).catch((error) => {
+            if (error.response.data === 'Unauthorized') {
+              logout();
+            }
+          });
+        }
+      } catch (error) {
+        message.error('ไม่สามารถโพสต์ขอความช่วยเหลือได้');
+        console.log(error);
+      } finally {
+        setIsSubmitting(false);
+        message.success('สำเร็จ');
+      }
+    };
+
+    useEffect(() => {
+      if (communityData) {
+        setImageUrl(communityData.imageUrl ?? DefaultImage);
+      }
+    }, [communityData]);
+
+    return (
+      <div
         css={css`
-          display: flex;
+          width: 100%;
           height: 100%;
 
-          ${mediaQuerySmallTablet} {
-            flex-direction: column-reverse;
-          }
-
-          .ant-form-item-control-input {
-            width: 100%;
-            margin-bottom: 15px;
-          }
-
           ${mediaQueryTablet} {
-            .ant-col-8 {
-              max-width: 100%;
-              flex: 0 0 100%;
-            }
+            margin-top: 40px;
+          }
 
-            .ant-col-16 {
-              max-width: 100%;
-            }
-            .ant-form-item-label {
-              text-align: left;
-            }
+          ${mediaQueryMobile} {
+            margin-top: 0;
+            padding: 20px 20px 30px 20px;
           }
         `}
       >
-        <div
-          css={css`
-            width: 100%;
-          `}
-        >
-          <Form.Item name="communityName" label="ชื่อ">
-            <Input
-              defaultValue={communityData.communityName}
-              placeholder="ชื่อชุมชนความช่วยเหลือ"
-              style={{ height: '40px', borderRadius: '12px' }}
-            />
-          </Form.Item>
-          <Form.Item name="description" label="คำอธิบาย">
-            <Input
-              defaultValue={communityData ? communityData.description : ''}
-              placeholder="ชื่อชุมชนความช่วยเหลือ"
-              style={{ height: '40px', borderRadius: '12px' }}
-            />
-          </Form.Item>
-          <Divider />
-          <Text
-            // fontSize={isMobile ? '24px' : '24px'}
-            fontWeight={500}
-            marginLeft={isSmallTablet ? 0 : '60px'}
-            marginY={isMobile ? '30px' : '40px'}
-            css={css`
-              font-size: 2.8rem;
-              margin-bottom: 35px;
-
-              ${mediaQueryLargeDesktop} {
-                margin-bottom: 15px;
-                font-size: 20px;
-              }
-            `}
-          >
-            สถานที่ให้ความช่วยเหลือ
-          </Text>
-
-          <Form.Item name="location" label="สถานที่">
-            <GoogleMapContent
-              width="100%"
-              height={isLargeDesktop ? '350px' : '460px'}
-              requestLocation={{
-                lat: communityData.location.latitude,
-                lng: communityData.location.longitude
-              }}
-              setRequestLocation={setLocation}
-            />
-          </Form.Item>
-          {isSmallTablet && (
-            <div
-              css={css`
-                width: 100%;
-                position: relative;
-                height: 100%;
-                bottom: 10px;
-              `}
-            >
-              <Button
-                type="primary"
-                htmlType="submit"
-                css={css`
-                  width: 170px;
-                  height: 40px;
-                  box-sizing: border-box;
-                  background: #ee6400;
-                  border-radius: 9px;
-                  border: 0;
-                  right: 44px;
-                  color: #ffff;
-                  font-size: 16px;
-                  position: absolute;
-                  bottom: -50px;
-
-                  &:hover {
-                    background: #ee6400;
-                  }
-
-                  ${mediaQueryTablet} {
-                    width: 120px;
-                    right: 0;
-                    height: 35px;
-                    font-size: 16px;
-                    bottom: 0px;
-                  }
-
-                  ${mediaQueryMobile} {
-                    width: 100px;
-                    bottom: -50px;
-                  }
-                `}
-              >
-                สำเร็จ
-              </Button>
-            </div>
-          )}
-        </div>
-        <div
+        <CommunityEditProfileTitle>
+          ข้อมูลชุมชนความช่วยเหลือ
+        </CommunityEditProfileTitle>
+        <Form
+          name="basic"
+          labelCol={{ span: 8 }}
+          wrapperCol={{ span: 16 }}
+          onFinish={onFinish}
+          autoComplete="off"
+          initialValues={{
+            communityName: communityData.title,
+            description: communityData.description,
+            imageUrl: communityData.imageUrl,
+            location: communityData.location
+          }}
           css={css`
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            position: relative;
-            top: 40px;
+            height: 100%;
 
             ${mediaQuerySmallTablet} {
-              margin-bottom: 50px;
+              flex-direction: column-reverse;
+            }
+
+            .ant-form-item-control-input {
+              width: 100%;
+              margin-bottom: 15px;
+            }
+
+            ${mediaQueryTablet} {
+              .ant-col-8 {
+                max-width: 100%;
+                flex: 0 0 100%;
+              }
+
+              .ant-col-16 {
+                max-width: 100%;
+              }
+              .ant-form-item-label {
+                text-align: left;
+              }
             }
           `}
         >
-          <img
-            src={imageUrl}
-            alt="community pic"
+          <div
             css={css`
-              width: 120px;
-              height: 120px;
-              min-width: 120px;
-              min-height: 120px;
-              border-radius: 50%;
-              margin-bottom: 25px;
-              object-fit: cover;
+              width: 100%;
             `}
-          />{' '}
-          <Form.Item name="image">
-            <Upload
-              name="avatar"
-              className="avatar-uploader"
-              showUploadList={false}
-              onChange={handleChange}
-            >
-              <Button icon={<UploadOutlined />}>เลือกรูป</Button>
-            </Upload>
-          </Form.Item>
-          <Text
-            color="#848484"
-            fontWeight={500}
-            whiteSpace="pre"
-            css={css`
-              font-size: 1.5rem;
+          >
+            <Form.Item name="communityName" label="ชื่อ">
+              <InputForm
+                defaultValue={communityData.communityName}
+                placeholder="ชื่อชุมชนความช่วยเหลือ"
+              />
+            </Form.Item>
+            <Form.Item name="description" label="คำอธิบาย">
+              <InputForm
+                defaultValue={communityData ? communityData.description : ''}
+                placeholder="ชื่อชุมชนความช่วยเหลือ"
+              />
+            </Form.Item>
+            <Divider />
+            <CommunityEditProfileTitle>
+              สถานที่ให้ความช่วยเหลือ
+            </CommunityEditProfileTitle>
 
-              ${mediaQueryLargeDesktop} {
-                font-size: 14px;
+            <Form.Item name="location" label="สถานที่">
+              <GoogleMapContent
+                width="100%"
+                height={isLargeDesktop ? '280px' : '350px'}
+                requestLocation={{
+                  lat: communityData.location.latitude,
+                  lng: communityData.location.longitude
+                }}
+                setRequestLocation={setLocation}
+              />
+            </Form.Item>
+            <div
+              css={css`
+                cursor: pointer;
+
+                &:hover {
+                  color: #ee6400;
+                }
+              `}
+              onClick={() => {
+                disableCommunity(communityData.communityId)
+                  .then(() => {
+                    message.success('ลบชุมชนความช่วยเหลือนี้สำเร็จ');
+                    window.localStorage.removeItem('selectedCommunity');
+                    history.push('/');
+                  })
+                  .catch((error) => {
+                    if (error.response.data === 'Unauthorized') {
+                      logout();
+                    }
+                    message.error('ลบชุมชนความช่วยเหลือนี้ไม่สำเร็จ');
+                  });
+              }}
+            >
+              ลบชุมชนความช่วยเหลือ
+            </div>
+            {isSmallTablet && (
+              <div
+                css={css`
+                  width: 100%;
+                  position: relative;
+                  height: 100%;
+                  bottom: 0;
+                `}
+              >
+                <PrimaryButton
+                  type="primary"
+                  htmlType="submit"
+                  css={css`
+                    width: 100px;
+                    min-width: 100px;
+                    right: 44px;
+                    position: absolute;
+                    bottom: -50px;
+
+                    ${mediaQueryTablet} {
+                      right: 0;
+                      bottom: 0px;
+                    }
+
+                    ${mediaQueryMobile} {
+                      bottom: -50px;
+                    }
+                  `}
+                >
+                  สำเร็จ
+                </PrimaryButton>
+              </div>
+            )}
+          </div>
+          <div
+            css={css`
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              width: 100%;
+              position: relative;
+
+              ${mediaQuerySmallTablet} {
+                margin-bottom: 50px;
               }
             `}
           >
-            ขนาดไฟล์: สูงสุด 1 MB{'\n'}ไฟล์ที่รองรับ: .JPEG, .PNG
-          </Text>
-          {!isSmallTablet && (
-            <div
+            <img
+              src={imageUrl}
+              alt="community pic"
               css={css`
-                width: 100%;
-                position: relative;
-                height: 100%;
-                bottom: 0px;
+                width: 100px;
+                height: 100px;
+                min-width: 100px;
+                min-height: 100px;
+                border-radius: 50%;
+                margin-bottom: 25px;
+                object-fit: cover;
+
+                ${mediaQueryLargeDesktop} {
+                  width: 85px;
+                  height: 85px;
+                  min-width: 85px;
+                  min-height: 85px;
+                }
+
+                ${mediaQueryTablet} {
+                  margin-top: 10px;
+                  margin-bottom: 25px;
+                }
+
+                ${mediaQueryMobile} {
+                  width: 75px;
+                  height: 75px;
+                  min-width: 75px;
+                  min-height: 75px;
+                }
+              `}
+            />{' '}
+            <Form.Item name="image">
+              <Upload
+                name="avatar"
+                className="avatar-uploader"
+                showUploadList={false}
+                onChange={handleChange}
+              >
+                <Button
+                  icon={<UploadOutlined />}
+                  css={css`
+                    font-size: 12px;
+                  `}
+                >
+                  เลือกรูป
+                </Button>
+              </Upload>
+            </Form.Item>
+            <Text
+              color="#848484"
+              fontWeight={500}
+              whiteSpace="pre"
+              css={css`
+                font-size: 18px;
+                line-height: 21px;
+
+                ${mediaQueryLargeDesktop} {
+                  font-size: 13px;
+                }
               `}
             >
-              <Button
-                type="primary"
-                htmlType="submit"
+              ขนาดไฟล์: สูงสุด 1 MB{'\n'}ไฟล์ที่รองรับ: .JPEG, .PNG
+            </Text>
+            {!isSmallTablet && (
+              <div
                 css={css`
-                  width: 170px;
-                  height: 40px;
-                  box-sizing: border-box;
-                  background: #ee6400;
-                  border-radius: 9px;
-                  border: 0;
-                  right: 100px;
-                  color: #ffff;
-                  font-size: 16px;
-                  position: absolute;
-                  bottom: 40px;
-
-                  &:hover {
-                    background: #ee6400;
-                  }
-
-                  ${mediaQueryTablet} {
-                    width: 120px;
-                    right: 0;
-                    height: 35px;
-                    font-size: 16px;
-                  }
-
-                  ${mediaQueryMobile} {
-                    width: 100px;
-                  }
+                  width: 100%;
+                  position: relative;
+                  height: 100%;
+                  bottom: 0px;
                 `}
               >
-                สำเร็จ
-              </Button>
-            </div>
-          )}
-        </div>
-      </Form>
-    </div>
-  );
-};
+                <PrimaryButton
+                  type="primary"
+                  htmlType="submit"
+                  css={css`
+                    width: 100px;
+                    min-width: 100px;
+                    right: 100px;
+                    position: absolute;
+                    bottom: 0;
+                  `}
+                >
+                  สำเร็จ
+                </PrimaryButton>
+              </div>
+            )}
+          </div>
+        </Form>
+      </div>
+    );
+  }
+);

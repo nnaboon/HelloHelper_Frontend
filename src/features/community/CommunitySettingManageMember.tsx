@@ -11,7 +11,6 @@ import DefaultImage from 'images/default.png';
 import {
   useMedia,
   MOBILE_WIDTH,
-  SMALL_TABLET_WIDTH,
   mediaQueryMobile,
   mediaQueryTablet,
   mediaQueryLargeDesktop
@@ -22,6 +21,7 @@ import { useUpdateMemberRole } from 'hooks/community/useUpdateMemberRole';
 import { useBanMember } from 'hooks/community/useBanMember';
 import { EmptyData } from 'components/Empty/EmptyData';
 import { firestore } from '../../firebase';
+import { logout } from 'features/logout/Logout';
 
 const CommunityMemberCard = styled.div`
   width: 100%;
@@ -32,6 +32,10 @@ const CommunityMemberCard = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 40px;
+
+  ${mediaQueryLargeDesktop} {
+    height: 90px;
+  }
 
   ${mediaQueryMobile} {
     height: 135px;
@@ -53,18 +57,18 @@ const CommunityAdminBadge = styled.div`
 
 const CommunityMemberImage = styled.img`
   border-radius: 50%;
-  width: 90px;
-  height: 90px;
+  width: 70px;
+  height: 70px;
   margin-right: 55px;
 
   ${mediaQueryLargeDesktop} {
-    width: 74px;
-    height: 74px;
+    width: 50px;
+    height: 50px;
   }
 
   ${mediaQueryMobile} {
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     margin-right: 20px;
     margin-left: 20px;
   }
@@ -72,17 +76,13 @@ const CommunityMemberImage = styled.img`
 
 const UserName = styled.div`
   font-weight: 700;
-  font-size: 1.7rem;
+  font-size: 22px;
   color: #000000;
   margin-bottom: 5px;
   margin-right: 30px;
 
   ${mediaQueryLargeDesktop} {
-    font-size: 24px;
-  }
-
-  ${mediaQueryTablet} {
-    font-size: 20px;
+    font-size: 18px;
   }
 
   ${mediaQueryMobile} {
@@ -137,49 +137,19 @@ const CommunityButtonContainer = styled.div`
   }
 `;
 
-const CommunityPrimaryButton = styled(PrimaryButton)`
-  width: 165px;
-
-  ${mediaQueryLargeDesktop} {
-    width: 140px;
-  }
-
-  ${mediaQueryTablet} {
-    width: 120px;
-  }
-
-  ${mediaQueryMobile} {
-    width: 45%;
-  }
-`;
-
-const CommunitySecondaryButton = styled(SecondaryButton)`
-  width: 165px;
-
-  ${mediaQueryLargeDesktop} {
-    width: 140px;
-  }
-
-  ${mediaQueryTablet} {
-    width: 120px;
-    margin-right: 0;
-  }
-
-  ${mediaQueryMobile} {
-    width: 45%;
-  }
-`;
-
 const CommunityTitle = styled(Text)`
-  margin: 50px 0;
-  font-size: 20px;
+  font-weight: 500;
+  font-size: 24px;
+  margin-bottom: 20px;
+  margin-top: 20px;
 
   ${mediaQueryLargeDesktop} {
     margin-bottom: 15px;
+    font-size: 20px;
   }
 
   ${mediaQueryMobile} {
-    font-size: 18px;
+    font-size: 16px;
   }
 `;
 
@@ -197,7 +167,6 @@ export const CommunitySettingManageMember = () => {
   const { data: community, execute: getCommunity } = useCommunity();
 
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
-  const isSmallTablet = useMedia(`(max-width: ${SMALL_TABLET_WIDTH}px)`);
 
   const menu = (userId: string) => (
     <Menu>
@@ -211,9 +180,13 @@ export const CommunitySettingManageMember = () => {
               message.success('เปลี่ยนบทบาทสำเร็จ');
             })
             .catch((error) => {
-              message.error(
-                'ขออภัย ผู้นำชุมชนจำเป็นต้องมีมากกว่า 1 คนแต่น้อยกว่า 3 คน'
-              );
+              if (error.response.data === 'Unauthorized') {
+                logout();
+              } else {
+                message.error(
+                  'ขออภัย ผู้นำชุมชนจำเป็นต้องมีมากกว่า 1 คนแต่น้อยกว่า 3 คน'
+                );
+              }
             });
         }}
       >
@@ -229,9 +202,13 @@ export const CommunitySettingManageMember = () => {
               message.success('เปลี่ยนบทบาทสำเร็จ');
             })
             .catch((error) => {
-              message.error(
-                'ขออภัย ผู้นำชุมชนจำเป็นต้องมีมากกว่า 1 คนแต่น้อยกว่า 3 คน'
-              );
+              if (error.response.data === 'Unauthorized') {
+                logout();
+              } else {
+                message.error(
+                  'ขออภัย ผู้นำชุมชนจำเป็นต้องมีมากกว่า 1 คนแต่น้อยกว่า 3 คน'
+                );
+              }
             });
         }}
       >
@@ -290,9 +267,6 @@ export const CommunitySettingManageMember = () => {
         setJoinedRequestUserId(res.data.joinedRequestUserId);
         setMember(res.data.member);
       });
-      // getCommunityMember(query).then((res) => {
-      //   setMember(res.data);
-      // });
     }
   }, []);
 
@@ -304,6 +278,10 @@ export const CommunitySettingManageMember = () => {
 
         ${mediaQueryTablet} {
           margin: 0;
+        }
+
+        ${mediaQueryMobile} {
+          margin-top: 20px;
         }
       `}
     >
@@ -323,7 +301,12 @@ export const CommunitySettingManageMember = () => {
                     <UserName>{username}</UserName>
                   </CommunityMemberImageContainer>
                   <CommunityButtonContainer>
-                    <CommunitySecondaryButton
+                    <SecondaryButton
+                      css={css`
+                        ${mediaQueryMobile} {
+                          margin-right: 15px;
+                        }
+                      `}
                       onClick={() => {
                         updateJoinedCommunityRequest(query, {
                           joinedRequestId: id,
@@ -333,13 +316,17 @@ export const CommunitySettingManageMember = () => {
                             message.success('สำเร็จ');
                           })
                           .catch((error) => {
-                            message.error('ไม่สำเร็จ');
+                            if (error.response.data === 'Unauthorized') {
+                              logout();
+                            } else {
+                              message.error('ไม่สำเร็จ');
+                            }
                           });
                       }}
                     >
                       <div>ปฏิเสธ</div>
-                    </CommunitySecondaryButton>
-                    <CommunityPrimaryButton
+                    </SecondaryButton>
+                    <PrimaryButton
                       onClick={() => {
                         updateJoinedCommunityRequest(query, {
                           joinedRequestId: id,
@@ -352,12 +339,16 @@ export const CommunitySettingManageMember = () => {
                             message.success('สำเร็จ');
                           })
                           .catch((error) => {
-                            message.error('ไม่สำเร็จ');
+                            if (error.response.data === 'Unauthorized') {
+                              logout();
+                            } else {
+                              message.error('ไม่สำเร็จ');
+                            }
                           });
                       }}
                     >
                       <div>ยอมรับ</div>
-                    </CommunityPrimaryButton>
+                    </PrimaryButton>
                   </CommunityButtonContainer>
                 </CommunityMemberContainer>
               </CommunityMemberCard>
@@ -367,7 +358,7 @@ export const CommunitySettingManageMember = () => {
       ) : (
         <EmptyData
           text={`ยังไม่มีสมาชิกในชุมชนความช่วยเหลือนี้`}
-          height={isMobile ? '200px' : '300px'}
+          height={isMobile ? '150px' : '200px'}
         />
       )}
 
@@ -386,7 +377,12 @@ export const CommunitySettingManageMember = () => {
                 <UserName>{username}</UserName>
               </CommunityMemberImageContainer>
               <CommunityButtonContainer>
-                <CommunitySecondaryButton
+                <SecondaryButton
+                  css={css`
+                    ${mediaQueryMobile} {
+                      margin-right: 15px;
+                    }
+                  `}
                   onClick={() => {
                     bannedMember(query, id, {
                       communityAdminUserId: window.localStorage.getItem('id')
@@ -397,18 +393,22 @@ export const CommunitySettingManageMember = () => {
                         );
                       })
                       .catch((error) => {
-                        message.error(
-                          'ขออภัย ไม่สามารถลบผู้ใช้งานนี้ได้ ณ ขณะนี้'
-                        );
+                        if (error.response.data === 'Unauthorized') {
+                          logout();
+                        } else {
+                          message.error(
+                            'ขออภัย ไม่สามารถลบผู้ใช้งานนี้ได้ ณ ขณะนี้'
+                          );
+                        }
                       });
                   }}
                 >
                   <div>ลบ</div>
-                </CommunitySecondaryButton>
+                </SecondaryButton>
                 <Dropdown overlay={menu(id)} trigger={['click']}>
-                  <CommunityPrimaryButton>
+                  <PrimaryButton>
                     <div>เปลี่ยนสถานะ</div>
-                  </CommunityPrimaryButton>
+                  </PrimaryButton>
                 </Dropdown>
               </CommunityButtonContainer>
             </CommunityMemberContainer>
@@ -432,7 +432,12 @@ export const CommunitySettingManageMember = () => {
                     <UserName>{username}</UserName>
                   </CommunityMemberImageContainer>
                   <CommunityButtonContainer>
-                    <CommunitySecondaryButton
+                    <SecondaryButton
+                      css={css`
+                        ${mediaQueryMobile} {
+                          margin-right: 15px;
+                        }
+                      `}
                       onClick={() => {
                         bannedMember(query, id, {
                           communityAdminUserId:
@@ -444,18 +449,22 @@ export const CommunitySettingManageMember = () => {
                             );
                           })
                           .catch((error) => {
-                            message.error(
-                              'ขออภัย ไม่สามารถลบผู้ใช้งานนี้ได้ ณ ขณะนี้'
-                            );
+                            if (error.response.data === 'Unauthorized') {
+                              logout();
+                            } else {
+                              message.error(
+                                'ขออภัย ไม่สามารถลบผู้ใช้งานนี้ได้ ณ ขณะนี้'
+                              );
+                            }
                           });
                       }}
                     >
                       <div>ลบ</div>
-                    </CommunitySecondaryButton>
+                    </SecondaryButton>
                     <Dropdown overlay={menu(id)} trigger={['click']}>
-                      <CommunityPrimaryButton>
+                      <PrimaryButton>
                         <div>เปลี่ยนสถานะ</div>
-                      </CommunityPrimaryButton>
+                      </PrimaryButton>
                     </Dropdown>
                   </CommunityButtonContainer>
                 </CommunityMemberContainer>
@@ -465,7 +474,7 @@ export const CommunitySettingManageMember = () => {
       ) : (
         <EmptyData
           text={`ยังไม่มีสมาชิกในชุมชนความช่วยเหลือนี้`}
-          height={isMobile ? '200px' : '300px'}
+          height={isMobile ? '150px' : '200px'}
         />
       )}
     </div>

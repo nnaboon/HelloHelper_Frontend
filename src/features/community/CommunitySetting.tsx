@@ -11,18 +11,12 @@ import { CommunitySettingManageMember } from './CommunitySettingManageMember';
 import { WrapperContainer } from 'components/Wrapper/WrapperContainer';
 import { CommunitySettingMenu } from 'components/Menu/const';
 import { CommunitySettingEditProfile } from './CommunitySettingEditProfile';
-import {
-  mediaQuerySmallTablet,
-  mediaQueryMobile,
-  mediaQueryLargeDesktop
-} from 'styles/variables';
+import { mediaQueryMobile, mediaQueryLargeDesktop } from 'styles/variables';
 import { useCommunity } from 'hooks/community/useCommunity';
-import { useCommunityMember } from 'hooks/community/useCommunityMember';
-import { useCommunityJoinedRequestUserId } from 'hooks/community/useCommunityJoinedRequestUserId';
 
 import { Loading } from 'components/Loading/Loading';
 import { useUpdateJoinedCommunityRequest } from 'hooks/community/useUpdateJoinedCommunityRequest';
-import { firestore } from '../../firebase';
+import { logout } from 'features/logout/Logout';
 
 export const CommunitySetting = () => {
   const [member, setMember] = useState<any[]>();
@@ -36,11 +30,8 @@ export const CommunitySetting = () => {
   const currentMenu = ((state as any)?.community_menu ||
     CommunitySettingMenu.MANAGE) as CommunitySettingMenu;
   const { data: community, execute: getCommunity } = useCommunity();
-  const { execute: getCommunityMember } = useCommunityMember();
   const { execute: updateJoinedCommunityRequest } =
     useUpdateJoinedCommunityRequest();
-  // const { data: joinedRequestUserId, execute: getCommunityJoinedRequestId } =
-  //   useCommunityJoinedRequestUserId();
 
   useEffect(() => {
     setMenu(currentMenu);
@@ -56,9 +47,6 @@ export const CommunitySetting = () => {
         setJoinedRequestUserId(res.data.joinedRequestUserId);
         setMember(res.data.member);
       });
-      // getCommunityMember(query).then((res) => {
-      //   setMember(res.data);
-      // });
     }
   }, []);
 
@@ -72,23 +60,19 @@ export const CommunitySetting = () => {
       joinedRequestUserId: joinedRequestUserId
     };
 
-    updateJoinedCommunityRequest(data.communityId, user).then((res) => {
-      setJoinedRequestUserId(res.data);
-    });
+    updateJoinedCommunityRequest(data.communityId, user)
+      .then((res) => {
+        setJoinedRequestUserId(res.data);
+      })
+      .catch((error) => {
+        if (error.response.data === 'Unauthorized') {
+          logout();
+        }
+      });
   };
 
-  // useEffect(() => {
-  //   if (community && !joinedRequestUserId) {
-  //     getField(community);
-  //   }
-  // }, [community, joinedRequestUserId]);
-
   return (
-    <WrapperContainer
-      css={css`
-        height: 100%;
-      `}
-    >
+    <WrapperContainer>
       <Flex
         css={css`
           cursor: pointer;
@@ -104,19 +88,27 @@ export const CommunitySetting = () => {
         <LeftOutlined
           style={{ marginRight: '10px' }}
           css={css`
-            font-size: 2.2rem;
+            font-size: 24px;
 
             ${mediaQueryLargeDesktop} {
               font-size: 20px;
+            }
+
+            ${mediaQueryMobile} {
+              font-size: 16px;
             }
           `}
         />
         <div
           css={css`
-            font-size: 2.4rem;
+            font-size: 24px;
 
             ${mediaQueryLargeDesktop} {
               font-size: 20px;
+            }
+
+            ${mediaQueryMobile} {
+              font-size: 16px;
             }
           `}
         >

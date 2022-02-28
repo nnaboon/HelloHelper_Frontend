@@ -51,13 +51,13 @@ const CommunityAdminBadge = styled.div`
 
 const CommunityMemberImage = styled.img`
   border-radius: 50%;
-  width: 70px;
-  height: 70px;
+  width: 60px;
+  height: 60px;
   margin-right: 55px;
 
   ${mediaQueryLargeDesktop} {
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
   }
 
   ${mediaQuerySmallTablet} {
