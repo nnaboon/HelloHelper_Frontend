@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import Flex from 'components/Flex/Flex';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { MenuButton } from './MenuButton';
 import { HelpMenu, HELP_MENU_MAPPER } from './const';
 
