@@ -17,10 +17,11 @@ import {
   mediaQueryLargeDesktop
 } from 'styles/variables';
 import { useProvide } from 'hooks/provide/useProvide';
-import { useRequest } from 'hooks/request/useRequest';
 import { useAddOrder } from 'hooks/order/useAddOrder';
 import { useUpdateUser } from 'hooks/user/useUpdateUser';
 import { userStore } from 'store/userStore';
+import { PrimaryButton } from '../Button/Button';
+import { InputForm } from '../Input/InputForm';
 
 interface OrderFormProps {
   data: any;
@@ -36,19 +37,13 @@ const RegisterLocationFormSection = styled.div`
   height: 100%;
   overflow: scroll;
 
-  ${mediaQueryMobile} {
-    height: 400px;
+  ${mediaQueryTablet} {
+    padding: 1.75rem 2rem 1.5rem 2rem;
   }
-`;
 
-const InputForm = styled(Input)`
-  height: 50px;
-  font-size: 1.65rem;
-  border-radius: 12px;
-
-  ${mediaQueryLargeDesktop} {
-    height: 40px;
-    font-size: 14px;
+  ${mediaQueryMobile} {
+    padding: 20px;
+    box-sizing: border-box;
   }
 `;
 
@@ -162,12 +157,21 @@ export const OrderForm = observer(
         <Text
           marginTop="10px"
           css={css`
-            font-size: 2.7rem;
+            font-size: 1.5rem;
             margin-bottom: 25px;
 
             ${mediaQueryLargeDesktop} {
-              font-size: 24px;
+              font-size: 22px;
               margin-bottom: 20px;
+            }
+
+            ${mediaQueryTablet} {
+              font-size: 18px;
+              margin-bottom: 10px;
+            }
+
+            ${mediaQueryMobile} {
+              font-size: 18px;
             }
           `}
         >
@@ -177,12 +181,22 @@ export const OrderForm = observer(
           fontWeight={500}
           color="#F86800"
           css={css`
-            font-size: 2rem;
+            font-size: 1.1rem;
             margin-bottom: 45px;
 
             ${mediaQueryLargeDesktop} {
-              font-size: 16px;
+              font-size: 14px;
               margin-bottom: 30px;
+            }
+
+            ${mediaQueryTablet} {
+              font-size: 14px;
+              margin-bottom: 10px;
+            }
+
+            ${mediaQueryMobile} {
+              font-size: 14px;
+              margin-bottom: 20px;
             }
           `}
         >
@@ -218,12 +232,8 @@ export const OrderForm = observer(
                 : undefined
           }}
           css={css`
-            .ant-input {
-              line-height: 6.8713;
-            }
-
             .ant-form-item-label > label {
-              font-size: 16rem;
+              font-size: 16px;
             }
 
             .ant-form-item {
@@ -268,6 +278,14 @@ export const OrderForm = observer(
 
             ${mediaQueryMobile} {
               width: 100%;
+
+              .ant-form-item-label > label {
+                height: 25px;
+              }
+
+              .ant-form-item {
+                margin-bottom: 10px;
+              }
             }
           `}
         >
@@ -371,11 +389,11 @@ export const OrderForm = observer(
               placeholder="คำอธิบาย"
               style={{ borderRadius: '12px' }}
               css={css`
-                height: 50px;
-                font-size: 1.65rem;
+                height: 30px;
+                font-size: 1rem;
 
                 ${mediaQueryLargeDesktop} {
-                  height: 40px;
+                  height: 30px;
                   font-size: 14px;
                 }
               `}
@@ -385,12 +403,17 @@ export const OrderForm = observer(
           <Text
             marginY="30px"
             css={css`
-              font-size: 2rem;
+              font-size: 1.2rem;
               margin-bottom: 45px;
 
               ${mediaQueryLargeDesktop} {
-                font-size: 16px;
+                font-size: 18px;
                 margin-bottom: 30px;
+              }
+
+              ${mediaQueryMobile} {
+                font-size: 15px;
+                margin-bottom: 20px;
               }
             `}
           >
@@ -417,7 +440,7 @@ export const OrderForm = observer(
               style={{ borderRadius: '12px' }}
               css={css`
                 height: 50px;
-                font-size: 1.65rem;
+                font-size: 16px;
 
                 ${mediaQueryLargeDesktop} {
                   height: 40px;
@@ -459,40 +482,20 @@ export const OrderForm = observer(
               position: relative;
             `}
           >
-            <Button
+            <PrimaryButton
               type="primary"
               htmlType="submit"
               css={css`
-                width: 170px;
-                height: 55px;
-                box-sizing: border-box;
-                background: #ee6400;
-                border-radius: 9px;
-                border: 0;
-                right: 0;
-                color: #ffff;
-                font-size: 2rem;
+                width: 100px;
+                min-width: 100px;
 
-                &:hover {
-                  background: #ee6400;
-                }
-
-                ${mediaQueryLargeDesktop} {
-                  font-size: 16px;
-                  height: 40px;
-                }
-
-                ${mediaQueryTablet} {
-                  width: 150px;
-                  right: 0;
-                }
                 ${mediaQueryMobile} {
-                  width: 144px;
+                  margin-top: 20px;
                 }
               `}
             >
               ตกลง
-            </Button>
+            </PrimaryButton>
           </div>
         </Form>
       </RegisterLocationFormSection>

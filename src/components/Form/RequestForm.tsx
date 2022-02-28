@@ -10,6 +10,7 @@ import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { CATEGORY } from 'data/category';
 import { GoogleMapContent } from 'components/GoogleMap/GoogleMap';
 import Flex from 'components/Flex/Flex';
+import { PrimaryButton } from 'components/Button/Button';
 import { InputForm } from 'components/Input/InputForm';
 import { EditableTagGroup } from 'components/Tag/Hashtag';
 import { useUpdateProvide } from 'hooks/provide/useUpdateProvide';
@@ -40,6 +41,10 @@ const RegisterLocationFormSection = styled.div`
   position: relative;
   height: 100%;
   overflow: scroll;
+
+  ${mediaQueryLargeDesktop} {
+    padding: 1.75rem 1.2rem 1.5rem 1.2rem;
+  }
 
   ${mediaQueryMobile} {
     padding: 0;
@@ -87,7 +92,7 @@ export const RequestFormModal = ({
   const uploadButton = (
     <div>
       {loading ? <LoadingOutlined /> : <PlusOutlined />}
-      <div style={{ marginTop: 8 }}>Upload</div>
+      <div style={{ marginTop: 8 }}>อัปโหลด</div>
     </div>
   );
 
@@ -246,22 +251,23 @@ export const RequestFormModal = ({
       maskClosable={false}
       centered
       css={css`
-        width: 45% !important;
+        width: 38% !important;
 
         .ant-modal-content {
-          height: 100%;
+          height: 1000px;
         }
 
         ${mediaQueryLargeDesktop} {
-          width: 800px !important;
+          width: 720px !important;
 
           .ant-modal-content {
-            height: 850px;
+            height: 700px;
           }
         }
 
         ${mediaQueryTablet} {
-          width: 650px !important;
+          width: 550px !important;
+
           .ant-modal-content {
             height: 750px;
           }
@@ -333,16 +339,11 @@ export const RequestFormModal = ({
           }}
           css={css`
             .ant-form-item-label > label {
-              font-size: 1.5rem;
+              font-size: 18px;
             }
 
             .ant-form-item {
               margin-bottom: 32px;
-            }
-
-            .ant-select-single:not(.ant-select-customize-input)
-              .ant-select-selector {
-              height: 40px;
             }
 
             .ant-upload.ant-upload-select-picture-card {
@@ -367,7 +368,7 @@ export const RequestFormModal = ({
               }
 
               .ant-form-item-label > label {
-                font-size: 16px;
+                font-size: 14px;
               }
 
               .ant-upload.ant-upload-select-picture-card {
@@ -401,21 +402,19 @@ export const RequestFormModal = ({
               disabled
               defaultValue={requestData.type}
               css={css`
-                font-size: 24px;
+                font-size: 16px;
 
                 ${mediaQueryLargeDesktop} {
-                  font-size: 16px;
+                  font-size: 14px;
                 }
               `}
             >
               <Select.Option
                 value="provide"
                 css={css`
-                  height: 50px;
-                  font-size: 1.5rem;
+                  font-size: 16px;
 
                   ${mediaQueryLargeDesktop} {
-                    height: 40px;
                     font-size: 14px;
                   }
                 `}
@@ -425,11 +424,9 @@ export const RequestFormModal = ({
               <Select.Option
                 value="request"
                 css={css`
-                  height: 50px;
-                  font-size: 1.5rem;
+                  font-size: 16px;
 
                   ${mediaQueryLargeDesktop} {
-                    height: 40px;
                     font-size: 14px;
                   }
                 `}
@@ -477,7 +474,7 @@ export const RequestFormModal = ({
               defaultValue={requestData.description}
               style={{ borderRadius: '12px' }}
               css={css`
-                font-size: 1.5rem;
+                font-size: 16px;
 
                 ${mediaQueryLargeDesktop} {
                   font-size: 14px;
@@ -509,6 +506,7 @@ export const RequestFormModal = ({
             <Form.Item
               name="price"
               label="ราคาสินค้าสูงสุด"
+              tooltip="กำหนดราคาสินค้าสูงสุดที่คุณต้องการหรือที่สามารถจ่ายได้"
               rules={[
                 {
                   required: true,
@@ -529,10 +527,10 @@ export const RequestFormModal = ({
             </Form.Item>
           ) : null}
 
-          {/* <Flex justify="center" itemAlign="center"> */}
           <Form.Item
             name="serviceCharge"
-            label="อัตราค่าบริการสูงสุด"
+            label="ค่าบริการสูงสุด"
+            tooltip="กำหนดอัตราค่าบริการสูงสุดที่คุณต้องการหรือที่สามารถจ่ายได้"
             rules={[
               {
                 required: true,
@@ -552,15 +550,6 @@ export const RequestFormModal = ({
               placeholder="ขอบเขตราคาค่าบริการ"
             />
           </Form.Item>
-          {/* <Tooltip title="กำหนดราคาสูงสุดของความช่วยเหลือครั้งนี้ที่คุณพึงพอใจจะจ่าย ให้กับผู้ให้ความช่วยเหลือ">
-              <InfoSvg
-                css={css`
-                  margin-left: 10px;
-                  margin-top: -20px;
-                `}
-              />
-            </Tooltip> */}
-          {/* </Flex> */}
 
           <Form.Item
             name="payment"
@@ -584,10 +573,9 @@ export const RequestFormModal = ({
           >
             <Select
               allowClear
-              style={{ width: '100%' }}
               placeholder="Please select"
               css={css`
-                font-size: 1.5rem;
+                font-size: 16px;
 
                 ${mediaQueryLargeDesktop} {
                   font-size: 14px;
@@ -633,36 +621,26 @@ export const RequestFormModal = ({
               position: relative;
             `}
           >
-            <Button
+            <PrimaryButton
               type="primary"
               htmlType="submit"
               css={css`
-                width: 170px;
+                width: 140px;
                 height: 40px;
-                box-sizing: border-box;
-                background: #ee6400;
-                border-radius: 9px;
-                border: 0;
-                right: 0;
-                color: #ffff;
-                font-size: 16px;
-                // position: absolute;
 
-                &:hover {
-                  background: #ee6400;
-                }
+                border: 0;
+                right: 20px;
 
                 ${mediaQueryTablet} {
-                  width: 150px;
-                  right: 0;
+                  width: 140px;
                 }
                 ${mediaQueryMobile} {
-                  width: 144px;
+                  width: 140px;
                 }
               `}
             >
               ขอความช่วยเหลือ
-            </Button>
+            </PrimaryButton>
           </div>
         </Form>
       </RegisterLocationFormSection>

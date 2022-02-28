@@ -12,6 +12,7 @@ import {
   mediaQueryLargeDesktop,
   mediaQueryTablet
 } from 'styles/variables';
+import { PrimaryButton, SecondaryButton } from 'components/Button/Button';
 
 type RegisterAbilityFormProps = {
   userAccountData: UserCreateBody;
@@ -26,7 +27,7 @@ const RegisterAbilityFormSection = styled.div`
   height: 100%;
 
   ${mediaQueryMobile} {
-    padding: 0;
+    padding: 7px 10px 0 10px;
   }
 `;
 
@@ -121,16 +122,16 @@ export const RegisterAbilityForm = (props: RegisterAbilityFormProps) => {
           }
 
           .ant-form-item-label > label {
-            font-size: 1.68rem;
+            font-size: 14px;
           }
 
           .ant-checkbox + span {
-            font-size: 20px;
+            font-size: 16px;
           }
 
           .ant-checkbox-inner {
-            width: 30px;
-            height: 30px;
+            width: 16px;
+            height: 16px;
           }
 
           ${mediaQueryLargeDesktop} {
@@ -186,24 +187,15 @@ export const RegisterAbilityForm = (props: RegisterAbilityFormProps) => {
         <Text
           marginTop="10px"
           css={css`
-            height: 50px;
-            font-size: 26px;
-            margin-bottom: 30px;
+            font-size: 24px;
+            margin-bottom: 20px;
 
             ${mediaQueryLargeDesktop} {
-              height: 40px;
               font-size: 20px;
-              margin-bottom: 30px;
-            }
-
-            ${mediaQueryTablet} {
-              font-size: 20px;
-              margin-bottom: 15px;
             }
 
             ${mediaQueryMobile} {
-              font-size: 18px;
-              margin-bottom: 0px;
+              font-size: 20px;
             }
           `}
         >
@@ -221,54 +213,35 @@ export const RegisterAbilityForm = (props: RegisterAbilityFormProps) => {
             }}
           />
         </Form.Item>
-        <Button
+        <SecondaryButton
           type="primary"
           htmlType="submit"
           css={css`
             width: 90px;
+            min-width: 90px;
             height: 35px;
-            text-align: center;
-            box-sizing: border-box;
-            background: #ffff;
-            border-radius: 9px;
-            border: 1px solid #ee6400;
             position: absolute;
             bottom: 0;
             right: 110px;
-            color: #ee6400;
-            font-size: 16px;
-
-            &:hover {
-              background: #ffff;
-            }
           `}
           onClick={() => onBack()}
         >
           ย้อนกลับ
-        </Button>
-        <Button
+        </SecondaryButton>
+        <PrimaryButton
           type="primary"
           htmlType="submit"
           css={css`
             width: 90px;
+            min-width: 90px;
             height: 35px;
-            box-sizing: border-box;
-            background: #ee6400;
-            border-radius: 9px;
-            border: 0;
             position: absolute;
             bottom: 0;
             right: 0;
-            color: #ffff;
-            font-size: 16px;
-
-            &:hover {
-              background: #ee6400;
-            }
           `}
         >
           ตกลง
-        </Button>
+        </PrimaryButton>
       </Form>
     </RegisterAbilityFormSection>
   );

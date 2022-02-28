@@ -3,15 +3,12 @@
 import { css, jsx, Global } from '@emotion/react';
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { Button, Form, Input, message } from 'antd';
+import { Form, message } from 'antd';
 import { Text } from 'components/Text';
 import { UserCreateBody } from './const';
-import {
-  mediaQueryMobile,
-  mediaQueryLargeDesktop,
-  mediaQueryTablet
-} from 'styles/variables';
+import { mediaQueryMobile, mediaQueryLargeDesktop } from 'styles/variables';
 import { InputForm } from 'components/Input/InputForm';
+import { PrimaryButton } from 'components/Button/Button';
 
 type RegisterUsernameFormProps = {
   userAccountData: UserCreateBody;
@@ -25,7 +22,7 @@ const RegisterUsernameFormSection = styled.div`
   height: 100%;
 
   ${mediaQueryMobile} {
-    padding: 0;
+    padding: 7px 10px 0 10px;
   }
 `;
 
@@ -60,34 +57,18 @@ export const RegisterUsernameForm = (props: RegisterUsernameFormProps) => {
 
   return (
     <RegisterUsernameFormSection>
-      <Global
-        styles={css`
-          .ant-form-item-control-input {
-            width: 360px;
-          }
-        `}
-      />
       <Text
         marginTop="10px"
-        marginBottom="20px"
         css={css`
-          font-size: 26px;
-          margin-bottom: 30px;
+          font-size: 24px;
+          margin-bottom: 20px;
 
           ${mediaQueryLargeDesktop} {
-            height: 40px;
             font-size: 20px;
-            margin-bottom: 30px;
-          }
-
-          ${mediaQueryTablet} {
-            font-size: 20px;
-            margin-bottom: 15px;
           }
 
           ${mediaQueryMobile} {
-            font-size: 18px;
-            margin-bottom: 0px;
+            font-size: 20px;
           }
         `}
       >
@@ -167,29 +148,20 @@ export const RegisterUsernameForm = (props: RegisterUsernameFormProps) => {
         >
           <InputForm placeholder="ชื่อ" />
         </Form.Item>
-        <Button
+        <PrimaryButton
           type="primary"
           htmlType="submit"
           css={css`
             width: 90px;
+            min-width: 90px;
             height: 35px;
-            font-size: 16px;
-            box-sizing: border-box;
-            background: #ee6400;
-            border-radius: 9px;
-            border: 0;
             position: absolute;
             bottom: 0;
             right: 0;
-            color: #ffff;
-
-            &:hover {
-              background: #ee6400;
-            }
           `}
         >
           ถัดไป
-        </Button>
+        </PrimaryButton>
       </Form>
     </RegisterUsernameFormSection>
   );

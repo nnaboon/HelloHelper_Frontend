@@ -2,8 +2,9 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/react';
 import React, { useState, useEffect } from 'react';
+import styled from '@emotion/styled';
 import { Text } from 'components/Text';
-import { Button, Form, Input, message, Checkbox, Divider, Upload } from 'antd';
+import { Button, Form, message, Checkbox, Divider, Upload } from 'antd';
 import { GoogleMapContent } from 'components/GoogleMap/GoogleMap';
 import { observer } from 'mobx-react-lite';
 import { userStore } from 'store/userStore';
@@ -27,8 +28,26 @@ import {
   PlusOutlined,
   UploadOutlined
 } from '@ant-design/icons';
+import { PrimaryButton } from 'components/Button/Button';
 import { Loading } from 'components/Loading/Loading';
 import { useUser } from 'hooks/user/useUser';
+import { InputForm } from '../Input/InputForm';
+
+const EditProfileTitle = styled.div`
+  font-weight: 500;
+  font-size: 24px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+
+  ${mediaQueryLargeDesktop} {
+    margin-bottom: 15px;
+    font-size: 20px;
+  }
+
+  ${mediaQueryMobile} {
+    font-size: 16px;
+  }
+`;
 
 export const EditProfileForm = observer(() => {
   const [form] = Form.useForm();
@@ -69,7 +88,7 @@ export const EditProfileForm = observer(() => {
   const uploadButton = (
     <div>
       {loading ? <LoadingOutlined /> : <PlusOutlined />}
-      <div style={{ marginTop: 8 }}>Upload</div>
+      <div style={{ marginTop: 8 }}>อัปโหลด</div>
     </div>
   );
   function getBase64(img, callback) {
@@ -129,7 +148,10 @@ export const EditProfileForm = observer(() => {
           ? checkedList
           : selectedMyProvide
           ? checkedList
-          : me.category
+          : me.category,
+      name: value.name,
+      address: value.address,
+      phoneNumber: value.phoneNumber
     };
 
     try {
@@ -215,7 +237,10 @@ export const EditProfileForm = observer(() => {
               email: me.email,
               location: me.location,
               category: me.category,
-              imageUrl: me.imageUrl
+              imageUrl: me.imageUrl,
+              name: me.name,
+              address: me.address,
+              phoneNumber: me.phoneNumber
             }}
             onFinish={onFinish}
             autoComplete="off"
@@ -223,11 +248,11 @@ export const EditProfileForm = observer(() => {
               display: flex;
 
               .ant-form-item-label > label {
-                font-size: 1.68rem;
+                font-size: 16px;
               }
 
               .ant-checkbox + span {
-                font-size: 2rem;
+                font-size: 16px;
               }
 
               .ant-checkbox-inner {
@@ -241,12 +266,18 @@ export const EditProfileForm = observer(() => {
                 }
 
                 .ant-checkbox + span {
-                  font-size: 16px;
+                  font-size: 14px;
                 }
 
                 .ant-checkbox-inner {
                   width: 16px;
                   height: 16px;
+                }
+              }
+
+              ${mediaQueryTablet} {
+                .ant-form-item {
+                  margin-bottom: 0;
                 }
               }
 
@@ -280,52 +311,24 @@ export const EditProfileForm = observer(() => {
               `}
             >
               <Form.Item name="title" label="ชื่อ">
-                <Input
-                  defaultValue={me.username}
-                  placeholder="ชื่อ"
-                  style={{
-                    height: isLargeDesktop ? '40px' : '70px',
-                    fontSize: isLargeDesktop ? '14px' : '1.8rem',
-                    borderRadius: '12px'
-                  }}
-                />
+                <InputForm defaultValue={me.username} placeholder="ชื่อ" />
               </Form.Item>
               <Form.Item name="email" label="อีเมล">
-                <Input
+                <InputForm
                   disabled={Boolean(
                     loginType === 'facebook.com' || loginType === 'google.com'
                   )}
                   placeholder="อีเมล"
-                  style={{
-                    height: isLargeDesktop ? '40px' : '70px',
-                    fontSize: isLargeDesktop ? '14px' : '1.8rem',
-                    borderRadius: '12px'
-                  }}
                 />
               </Form.Item>
               <Divider />
-              <Text
-                fontWeight={500}
-                marginBottom="20px"
-                marginTop="10px"
-                css={css`
-                  font-size: 2.8rem;
-                  margin-bottom: 35px;
-
-                  ${mediaQueryLargeDesktop} {
-                    margin-bottom: 15px;
-                    font-size: 20px;
-                  }
-                `}
-              >
-                สถานที่ให้ความช่วยเหลือ
-              </Text>
+              <EditProfileTitle>สถานที่ให้ความช่วยเหลือ</EditProfileTitle>
               <Form.Item name="location" label="สถานที่ให้ความช่วยเหลือ">
                 <GoogleMapContent
                   width={
                     isSmallTablet ? '100%' : isLargeDesktop ? '470px' : '100%'
                   }
-                  height={isLargeDesktop ? '300px' : '600px'}
+                  height={isLargeDesktop ? '300px' : '400px'}
                   requestLocation={{
                     lat: me.location.latitude,
                     lng: me.location.longitude
@@ -334,52 +337,8 @@ export const EditProfileForm = observer(() => {
                 />
               </Form.Item>
               <Divider />
-              <Text
-                fontWeight={500}
-                marginY="20px"
-                css={css`
-                  font-size: 2.8rem;
-                  margin-bottom: 35px;
+              <EditProfileTitle>ความสามารถในการช่วยเหลือ</EditProfileTitle>
 
-                  ${mediaQueryLargeDesktop} {
-                    margin-bottom: 15px;
-                    font-size: 20px;
-                  }
-                `}
-              >
-                ความสามารถในการช่วยเหลือ
-              </Text>
-              {/* <Form.Item
-            name="ability"
-            css={css`
-              position: relative;
-              left: 15.333%;
-              display: flex;
-
-              .ant-checkbox-group-item {
-                font-size: 16px;
-                margin-bottom: 20px;
-              }
-
-              .ant-checkbox {
-                margin-right: 40px !important;
-              }
-
-              .ant-checkbox-group {
-                display: flex;
-                flex-direction: column;
-                width: 450px;
-                font-size: 16px;
-                > label {
-                  margin-bottom: 8px;
-                }
-              }
-
-              ${mediaQueryTablet} {
-                left: 0;
-              }
-            `}
-          > */}
               <Form.Item label="ความสามารถในการช่วยเหลือ" name="category">
                 <Checkbox.Group
                   options={options}
@@ -400,12 +359,17 @@ export const EditProfileForm = observer(() => {
                   onChange={toggleChecked}
                   style={{
                     display: 'flex',
-                    flexDirection: 'column',
-                    marginBottom: '50px'
+                    flexDirection: 'column'
                   }}
                   css={css`
                     > label {
-                      margin: 8px 0;
+                      margin: 5px 0;
+                    }
+
+                    ${mediaQueryLargeDesktop} {
+                      > label {
+                        margin: 5px 0;
+                      }
                     }
 
                     ${mediaQueryTablet} {
@@ -416,6 +380,47 @@ export const EditProfileForm = observer(() => {
                   `}
                 />
               </Form.Item>
+              <Divider />
+              <EditProfileTitle>
+                ข้อมูลที่อยู่สำหรับการจัดส่งสินค้า
+              </EditProfileTitle>
+              <Form.Item name="name" label="ชื่อ-นามสกุล">
+                <InputForm placeholder="ชื่อ-นามสกุล" />
+              </Form.Item>
+              <Form.Item name="address" label="ที่อยู่">
+                <InputForm placeholder="ที่อยู่" />
+              </Form.Item>
+              <Form.Item name="phoneNumber" label="เบอร์โทรศัพท์">
+                <InputForm placeholder="เบอร์โทรศัพท์" />
+              </Form.Item>
+              {isSmallTablet && (
+                <div
+                  css={css`
+                    width: 100%;
+                    position: relative;
+                    height: 100%;
+                  `}
+                >
+                  <PrimaryButton
+                    type="primary"
+                    htmlType="submit"
+                    css={css`
+                      width: 90px;
+                      position: absolute;
+                      min-width: 90px;
+                      right: 0;
+                      bottom: 0;
+
+                      ${mediaQueryTablet} {
+                        right: 0;
+                        bottom: 0;
+                      }
+                    `}
+                  >
+                    สำเร็จ
+                  </PrimaryButton>
+                </div>
+              )}
             </div>
             <div
               css={css`
@@ -435,15 +440,15 @@ export const EditProfileForm = observer(() => {
                 src={imageUrl}
                 alt="user avatar"
                 css={css`
-                  width: 180px;
-                  height: 180px;
+                  width: 100px;
+                  height: 100px;
                   border-radius: 50%;
                   margin-bottom: 25px;
                   object-fit: cover;
 
-                  ${mediaQueryExtraLargeDesktop} {
-                    width: 140px;
-                    height: 140px;
+                  ${mediaQueryLargeDesktop} {
+                    width: 75px;
+                    height: 75px;
                   }
                 `}
               />{' '}
@@ -454,7 +459,14 @@ export const EditProfileForm = observer(() => {
                   showUploadList={false}
                   onChange={handleChange}
                 >
-                  <Button icon={<UploadOutlined />}>เลือกรูป</Button>
+                  <Button
+                    icon={<UploadOutlined />}
+                    css={css`
+                      font-size: 12px;
+                    `}
+                  >
+                    เลือกรูป
+                  </Button>
                 </Upload>
               </Form.Item>
               <Text
@@ -462,10 +474,10 @@ export const EditProfileForm = observer(() => {
                 fontWeight={500}
                 whiteSpace="pre"
                 css={css`
-                  font-size: 1.5rem;
+                  font-size: 18px;
 
                   ${mediaQueryLargeDesktop} {
-                    font-size: 14px;
+                    font-size: 13px;
                   }
                 `}
               >
@@ -475,104 +487,24 @@ export const EditProfileForm = observer(() => {
                 <div
                   css={css`
                     width: 100%;
-
-                    // @media screen and (min-width: 1900px) {
-                    //   height: 100vh;
-                    // }
                   `}
                 >
-                  <Button
+                  <PrimaryButton
                     type="primary"
                     htmlType="submit"
                     css={css`
-                      width: 170px;
-                      height: 40px;
-                      box-sizing: border-box;
-                      background: #ee6400;
-                      border-radius: 9px;
-                      border: 0;
-                      right: 100px;
-                      color: #ffff;
-                      font-size: 16px;
                       position: absolute;
-                      bottom: 40px;
-
-                      &:hover {
-                        background: #ee6400;
-                      }
-
-                      ${mediaQueryTablet} {
-                        width: 120px;
-                        right: 0;
-                        height: 35px;
-                        font-size: 16px;
-                      }
-
-                      ${mediaQueryMobile} {
-                        width: 100px;
-                      }
+                      width: 100px;
+                      min-width: 100px;
+                      right: 0;
+                      bottom: 20px;
                     `}
                   >
                     สำเร็จ
-                  </Button>
+                  </PrimaryButton>
                 </div>
               )}
             </div>
-            {/* <Form.Item name="image">
-            <Upload
-              name="avatar"
-              className="avatar-uploader"
-              showUploadList={false}
-              onChange={handleChange}
-            >
-              <Button icon={<UploadOutlined />}>เลือกรูป</Button>
-            </Upload>
-          </Form.Item> */}
-            {/* </Form.Item> */}
-            {isSmallTablet && (
-              <div
-                css={css`
-                  width: 100%;
-                  position: relative;
-                  height: 100%;
-                `}
-              >
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  css={css`
-                    width: 170px;
-                    height: 40px;
-                    box-sizing: border-box;
-                    background: #ee6400;
-                    border-radius: 9px;
-                    border: 0;
-                    right: 39%;
-                    color: #ffff;
-                    font-size: 16px;
-                    position: absolute;
-                    bottom: 20px;
-
-                    &:hover {
-                      background: #ee6400;
-                    }
-
-                    ${mediaQueryTablet} {
-                      width: 120px;
-                      right: 0;
-                      height: 35px;
-                      font-size: 16px;
-                    }
-
-                    ${mediaQueryMobile} {
-                      width: 100px;
-                    }
-                  `}
-                >
-                  สำเร็จ
-                </Button>
-              </div>
-            )}
           </Form>
         </div>
       ) : (

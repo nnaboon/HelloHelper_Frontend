@@ -1,17 +1,18 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { css, jsx, Global } from '@emotion/react';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { Text } from 'components/Text';
-import { Button, Divider, Form, Input, message, Checkbox } from 'antd';
-import { LocationType, UserCreateBody } from './const';
+import { Form, message } from 'antd';
+import { UserCreateBody } from './const';
 import {
   mediaQueryMobile,
   mediaQueryTablet,
   mediaQueryLargeDesktop
 } from 'styles/variables';
 import { GoogleMapContent } from 'components/GoogleMap/GoogleMap';
+import { PrimaryButton, SecondaryButton } from 'components/Button/Button';
 
 type RegisterLocationFormProps = {
   userAccountData: UserCreateBody;
@@ -26,7 +27,7 @@ const RegisterLocationFormSection = styled.div`
   height: 100%;
 
   ${mediaQueryMobile} {
-    padding: 0;
+    padding: 7px 10px 0 10px;
   }
 `;
 
@@ -67,32 +68,18 @@ export const RegisterLocationForm = (props: RegisterLocationFormProps) => {
 
   return (
     <RegisterLocationFormSection>
-      <Global
-        styles={css`
-          .ant-form-item-control-input {
-            width: 360px;
-          }
-        `}
-      />
       <Text
+        marginTop="10px"
         css={css`
-          font-size: 26px;
-          margin-bottom: 30px;
+          font-size: 24px;
+          margin-bottom: 20px;
 
           ${mediaQueryLargeDesktop} {
-            height: 40px;
             font-size: 20px;
-            margin-bottom: 30px;
-          }
-
-          ${mediaQueryTablet} {
-            font-size: 20px;
-            margin-bottom: 15px;
           }
 
           ${mediaQueryMobile} {
-            font-size: 18px;
-            margin-bottom: 0px;
+            font-size: 20px;
           }
         `}
       >
@@ -134,61 +121,41 @@ export const RegisterLocationForm = (props: RegisterLocationFormProps) => {
           requestLocation={location}
           setRequestLocation={setLocation}
           width="100%"
-          height="390px"
+          height="370px"
           css={css`
             width: 100%;
             min-width: 100%;
           `}
         />
-        {/* </Form.Item> */}
-        <Button
+        <SecondaryButton
           type="primary"
           htmlType="submit"
           css={css`
             width: 90px;
-            height: 35px;
-            text-align: center;
-            box-sizing: border-box;
-            background: #ffff;
-            border-radius: 9px;
-            border: 1px solid #ee6400;
+            min-width: 90px;
             position: absolute;
+            height: 35px;
             bottom: 0;
             right: 110px;
-            color: #ee6400;
-            font-size: 16px;
-
-            &:hover {
-              background: #ffff;
-            }
           `}
           onClick={() => onBack()}
         >
           ย้อนกลับ
-        </Button>
-        <Button
+        </SecondaryButton>
+        <PrimaryButton
           type="primary"
           htmlType="submit"
           css={css`
             width: 90px;
+            min-width: 90px;
             height: 35px;
-            box-sizing: border-box;
-            background: #ee6400;
-            border-radius: 9px;
-            border: 0;
             position: absolute;
             bottom: 0;
             right: 0;
-            color: #ffff;
-            font-size: 16px;
-
-            &:hover {
-              background: #ee6400;
-            }
           `}
         >
           ตกลง
-        </Button>
+        </PrimaryButton>
       </Form>
     </RegisterLocationFormSection>
   );

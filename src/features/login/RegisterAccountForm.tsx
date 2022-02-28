@@ -18,7 +18,8 @@ import { getAuth } from 'firebase/auth';
 import firebase from '../../firebase';
 import axios from 'axios';
 import { REACT_APP_API } from 'config';
-import { InputForm } from 'components/Input/InputForm';
+import { InputForm, InputPasswordForm } from 'components/Input/InputForm';
+import { PrimaryButton } from 'components/Button/Button';
 
 type RegisterAccountFormProps = {
   userAccountData: UserCreateBody;
@@ -33,7 +34,7 @@ const RegisterAccountFormSection = styled.div`
   height: 100%;
 
   ${mediaQueryMobile} {
-    padding: 0;
+    padding: 7px 10px 0 10px;
   }
 `;
 
@@ -68,10 +69,7 @@ export const RegisterAccountForm = observer(
 
     const onFinish = async (value) => {
       setIsSubmitting(true);
-      // const data = {
-      //   email: value.email,
-      //   password: value.password
-      // } as UserCreateBody;
+
       try {
         firebase
           .auth()
@@ -123,25 +121,14 @@ export const RegisterAccountForm = observer(
 
     return (
       <RegisterAccountFormSection>
-        <Global
-          styles={css`
-            .ant-form-item-control-input {
-              width: 360px;
-            }
-          `}
-        />
         <Text
           marginTop="10px"
           css={css`
-            font-size: 2.2rem;
+            font-size: 24px;
             margin-bottom: 20px;
 
-            ${mediaQueryLargeDesktop} {
-              font-size: 24px;
-            }
-
             ${mediaQueryMobile} {
-              font-size: 18px;
+              font-size: 20px;
             }
           `}
         >
@@ -159,15 +146,16 @@ export const RegisterAccountForm = observer(
             position: relative;
             height: 100%;
 
+            .ant-form-item {
+              height: 40px;
+              margin-bottom: 24px;
+            }
+
             .ant-form-item-control-input {
               width: 100%;
             }
             .ant-form-item-label > label {
               font-size: 1.5rem;
-            }
-
-            .ant-form-item {
-              margin-bottom: 32px;
             }
 
             .ant-select-single:not(.ant-select-customize-input)
@@ -192,10 +180,6 @@ export const RegisterAccountForm = observer(
                 height: 32px;
               }
 
-              .ant-form-item {
-                margin-bottom: 24px;
-              }
-
               .ant-form-item-control-input {
                 width: 100%;
               }
@@ -212,6 +196,11 @@ export const RegisterAccountForm = observer(
 
             ${mediaQueryMobile} {
               width: 100%;
+
+              .ant-form-item {
+                height: 40px;
+                margin-bottom: 15px;
+              }
             }
           `}
         >
@@ -226,26 +215,7 @@ export const RegisterAccountForm = observer(
             name="password"
             rules={[{ required: true, message: 'กรุณากรอกรหัสผ่าน' }]}
           >
-            <Input.Password
-              placeholder="รหัสผ่าน"
-              style={{ borderRadius: '12px' }}
-              css={css`
-                height: 50px;
-
-                .ant-input {
-                  font-size: 1.5rem;
-                  line-height: 6.8713;
-                }
-
-                ${mediaQueryLargeDesktop} {
-                  height: 40px;
-
-                  .ant-input {
-                    font-size: 14px;
-                  }
-                }
-              `}
-            />
+            <InputPasswordForm placeholder="รหัสผ่าน" />
           </Form.Item>
           <Form.Item
             name="confirmPassword"
@@ -261,26 +231,7 @@ export const RegisterAccountForm = observer(
               })
             ]}
           >
-            <Input.Password
-              placeholder="ยืนยันรหัสผ่าน"
-              style={{ borderRadius: '12px' }}
-              css={css`
-                height: 50px;
-
-                .ant-input {
-                  font-size: 1.5rem;
-                  line-height: 6.8713;
-                }
-
-                ${mediaQueryLargeDesktop} {
-                  height: 40px;
-
-                  .ant-input {
-                    font-size: 14px;
-                  }
-                }
-              `}
-            />
+            <InputPasswordForm placeholder="ยืนยันรหัสผ่าน" />
           </Form.Item>
           <Flex
             justify="space-between"
@@ -291,10 +242,9 @@ export const RegisterAccountForm = observer(
           >
             <div
               css={css`
-                // position: absolute;
                 bottom: 30px;
                 left: 64px;
-                font-size: 1.3rem;
+                font-size: 16px;
 
                 ${mediaQueryLargeDesktop} {
                   font-size: 14px;
@@ -317,38 +267,16 @@ export const RegisterAccountForm = observer(
                 เข้าสู่ระบบ
               </span>
             </div>
-            <Button
+            <PrimaryButton
               type="primary"
               htmlType="submit"
               css={css`
-                width: 110px;
-                height: 50px;
-                font-size: 1.5rem;
-                box-sizing: border-box;
-                background: #ee6400;
-                border-radius: 9px;
-                border: 0;
-                bottom: 0;
-                right: 0;
-                color: #ffff;
-                // position: absolute;
-
-                &:hover {
-                  background: #ee6400;
-                }
-
-                ${mediaQueryLargeDesktop} {
-                  height: 40px;
-                  font-size: 16px;
-                }
-
-                ${mediaQueryMobile} {
-                  right: -5px;
-                }
+                width: 90px;
+                min-width: 90px;
               `}
             >
               ถัดไป
-            </Button>
+            </PrimaryButton>
           </Flex>
         </Form>
       </RegisterAccountFormSection>

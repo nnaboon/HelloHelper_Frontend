@@ -37,15 +37,15 @@ interface PostRequestButtonProps {
 
 const RequestButton = styled(PrimaryButton)`
   width: max-content;
-  min-width: 180px;
-  height: 50px;
+  min-width: 90px;
+  height: 40px;
   padding: 0 20px;
   font-weight: 500;
   font-size: 18px;
 
   ${mediaQueryLargeDesktop} {
-    height: 44px;
-    font-size: 16px;
+    height: 35px;
+    font-size: 15px;
   }
 
   &:hover {
@@ -116,7 +116,7 @@ export const PostRequestButton = ({
   const uploadButton = (
     <div>
       {loading ? <LoadingOutlined /> : <PlusOutlined />}
-      <div style={{ marginTop: 8 }}>Upload</div>
+      <div style={{ marginTop: 8 }}>อัปโหลด</div>
     </div>
   );
 
@@ -153,7 +153,7 @@ export const PostRequestButton = ({
     var formData = new FormData();
     formData.append('img', value.image.file.originFileObj);
     try {
-      value.type === 'provide'
+      type === 'provide' || value.type === 'provide'
         ? uploadProvideImage(formData).then((res) => {
             addProvide({
               ...data,
@@ -256,22 +256,23 @@ export const PostRequestButton = ({
         maskClosable={false}
         centered
         css={css`
-          width: 45% !important;
+          width: 38% !important;
 
           .ant-modal-content {
-            height: 100%;
+            height: 1000px;
           }
 
           ${mediaQueryLargeDesktop} {
-            width: 750px !important;
+            width: 650px !important;
 
             .ant-modal-content {
-              height: 800px;
+              height: 700px;
             }
           }
 
           ${mediaQueryTablet} {
             width: 650px !important;
+
             .ant-modal-content {
               height: 750px;
             }
@@ -290,7 +291,7 @@ export const PostRequestButton = ({
           <Global
             styles={css`
               .ant-col-8 {
-                max-width: 24%;
+                max-width: 23%;
               }
 
               .ant-form-item-control-input-content {
@@ -310,31 +311,45 @@ export const PostRequestButton = ({
           <Text
             marginTop="10px"
             css={css`
-              font-size: 2rem;
+              font-size: 24px;
               margin-bottom: 35px;
 
               ${mediaQueryLargeDesktop} {
-                font-size: 24px;
+                font-size: 20px;
                 margin-bottom: 20px;
               }
             `}
           >
-            ฟอร์มความช่วยเหลือ
+            {type
+              ? type === 'provide'
+                ? 'ฟอร์มให้ความช่วยเหลือ'
+                : 'ฟอร์มขอความช่วยเหลือ'
+              : 'ฟอร์มความช่วยเหลือ'}
           </Text>
           <Form
             form={form}
             name="basic"
             labelCol={{ span: 8 }}
             wrapperCol={{ span: 16 }}
-            initialValues={{ type: type }}
+            initialValues={{
+              type: type
+                ? type === 'provide'
+                  ? 'provide'
+                  : 'request'
+                : undefined
+            }}
             onFinish={onFinish}
             css={css`
               .ant-form-item-label > label {
-                font-size: 1.5rem;
+                font-size: 18px;
               }
 
               .ant-form-item {
                 margin-bottom: 35px;
+              }
+
+              .ant-form-item-control-input {
+                width: 100%;
               }
 
               .ant-select-single:not(.ant-select-customize-input)
@@ -343,8 +358,8 @@ export const PostRequestButton = ({
               }
 
               .ant-upload.ant-upload-select-picture-card {
-                width: 170px;
-                height: 170px;
+                width: 140px;
+                height: 140px;
               }
 
               .ant-col-16 {
@@ -363,12 +378,8 @@ export const PostRequestButton = ({
                   margin-bottom: 24px;
                 }
 
-                .ant-form-item-control-input {
-                  width: 460px;
-                }
-
                 .ant-form-item-label > label {
-                  font-size: 16px;
+                  font-size: 14px;
                 }
 
                 .ant-upload.ant-upload-select-picture-card {
@@ -377,46 +388,44 @@ export const PostRequestButton = ({
                 }
               }
 
-              ${mediaQueryTablet} {
-                .ant-form-item-control-input {
-                  width: 100%;
-                }
-              }
-
               ${mediaQueryMobile} {
                 width: 100%;
               }
             `}
           >
-            <Form.Item
-              name="type"
-              label="รูปแบบความช่วยเหลือ"
-              rules={[
-                {
-                  required: true,
-                  message: 'กรุณากรอกรูปแบบความช่วยเหลือ'
-                }
-              ]}
-            >
-              <Select
-                // defaultValue={type}
-                onSelect={(e) =>
-                  e === 'provide' ? setIsProvide(true) : setIsProvide(false)
-                }
-                css={css`
-                  height: 50px;
-                  font-size: 24px;
-
-                  ${mediaQueryLargeDesktop} {
-                    height: 40px;
-                    font-size: 14px;
+            {!type && (
+              <Form.Item
+                name="type"
+                label="รูปแบบความช่วยเหลือ"
+                rules={[
+                  {
+                    required: true,
+                    message: 'กรุณากรอกรูปแบบความช่วยเหลือ'
                   }
-                `}
+                ]}
               >
-                <Select.Option value="provide">ให้ความช่วยเหลือ</Select.Option>
-                <Select.Option value="request">ขอความช่วยเหลือ</Select.Option>
-              </Select>
-            </Form.Item>
+                <Select
+                  defaultValue={type}
+                  onSelect={(e) =>
+                    e === 'provide' ? setIsProvide(true) : setIsProvide(false)
+                  }
+                  css={css`
+                    height: 50px;
+                    font-size: 24px;
+
+                    ${mediaQueryLargeDesktop} {
+                      height: 40px;
+                      font-size: 14px;
+                    }
+                  `}
+                >
+                  <Select.Option value="provide">
+                    ให้ความช่วยเหลือ
+                  </Select.Option>
+                  <Select.Option value="request">ขอความช่วยเหลือ</Select.Option>
+                </Select>
+              </Form.Item>
+            )}
 
             <Form.Item
               name="title"
@@ -444,21 +453,20 @@ export const PostRequestButton = ({
               <GoogleMapContent
                 requestLocation={location}
                 setRequestLocation={setLocation}
-                width={
-                  isSmallTablet ? '100%' : isLargeDesktop ? '470px' : '100%'
-                }
-                height={isLargeDesktop ? '300px' : '460px'}
+                width={isSmallTablet ? '100%' : '100%'}
+                height={isLargeDesktop ? '270px' : '460px'}
               />
             </Form.Item>
             <Form.Item name="message" label="ข้อความ">
               <Input.TextArea
                 placeholder="ข้อความ"
-                style={{ borderRadius: '12px' }}
                 css={css`
-                  font-size: 1.5rem;
+                  border-radius: 12px;
+                  font-size: 16px;
 
                   ${mediaQueryLargeDesktop} {
                     font-size: 14px;
+                    border-radius: 10px;
                   }
                 `}
               />
@@ -476,7 +484,6 @@ export const PostRequestButton = ({
             >
               <InputForm type="number" min="0" placeholder="ขอบเขตราคาสินค้า" />
             </Form.Item>
-            {/* <Flex justify="center" itemAlign="center"> */}
             <Form.Item
               name="maxServiceCharge"
               label="ค่าบริการสูงสุด"
@@ -495,15 +502,6 @@ export const PostRequestButton = ({
                 min="0"
               />
             </Form.Item>
-            {/* <Tooltip title="กำหนดราคาสูงสุดของความช่วยเหลือครั้งนี้ที่คุณพึงพอใจจะจ่าย ให้กับผู้ให้ความช่วยเหลือ">
-                <InfoSvg
-                  css={css`
-                    margin-left: 10px;
-                    margin-top: -20px;
-                  `}
-                />
-              </Tooltip> */}
-            {/* </Flex> */}
             <Form.Item
               name="number"
               label="จำนวน"
@@ -547,11 +545,11 @@ export const PostRequestButton = ({
                 style={{ width: '100%' }}
                 placeholder="เลือกหมวดหมู่ความช่วยเหลือ"
                 css={css`
-                  height: 50px;
-                  font-size: 1.5rem;
+                  height: 40px;
+                  font-size: 16px;
 
                   ${mediaQueryLargeDesktop} {
-                    height: 40px;
+                    height: 35px;
                     font-size: 14px;
                   }
                 `}
@@ -570,13 +568,7 @@ export const PostRequestButton = ({
                 { required: !Boolean(tags.length), message: 'กรุณากรอกแฮชแท็ก' }
               ]}
             >
-              <EditableTagGroup
-                tags={tags}
-                setTags={setTags}
-                css={css`
-                  font-size: 1.5rem;
-                `}
-              />
+              <EditableTagGroup tags={tags} setTags={setTags} />
             </Form.Item>
 
             <Form.Item
@@ -604,29 +596,14 @@ export const PostRequestButton = ({
                 position: relative;
               `}
             >
-              <Button
+              <PrimaryButton
                 type="primary"
                 htmlType="submit"
                 css={css`
-                  width: 170px;
-                  height: 40px;
-                  box-sizing: border-box;
-                  background: #ee6400;
-                  border-radius: 9px;
-                  border: 0;
+                  width: 140px;
                   right: 44px;
-                  color: #ffff;
-                  font-size: 16px;
                   position: absolute;
-
-                  &:hover {
-                    background: #ee6400;
-                  }
-
-                  ${mediaQueryTablet} {
-                    width: 150px;
-                    right: 0;
-                  }
+                  right: 0;
 
                   ${mediaQueryMobile} {
                     width: 144px;
@@ -636,7 +613,7 @@ export const PostRequestButton = ({
                 {isProvide || type === 'provide'
                   ? 'ให้ความช่วยเหลือ'
                   : 'ขอความช่วยเหลือ'}
-              </Button>
+              </PrimaryButton>
             </div>
           </Form>
         </RegisterLocationFormSection>

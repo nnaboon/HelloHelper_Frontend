@@ -6,11 +6,12 @@ import React, { useState } from 'react';
 import { Text } from 'components/Text';
 import { useLocation } from 'react-router-dom';
 import { Rate, Form, Modal, Button, message } from 'antd';
-import { mediaQueryLargeDesktop } from 'styles/variables';
+import { mediaQueryLargeDesktop, mediaQueryMobile } from 'styles/variables';
 import { useUpdateProvideSum } from 'hooks/order/useUpdateProvideSum';
 import { useUpdateRequestSum } from 'hooks/order/useUpdateRequestSum';
 import { useUpdateOrder } from 'hooks/order/useUpdateOrder';
 import { useMyRequestOrder } from 'hooks/order/useMyRequestOrder';
+import { PrimaryButton } from '../Button/Button';
 
 interface RatingFormProps {
   order: any;
@@ -90,10 +91,14 @@ export const RatingForm = ({
         marginTop="-5px"
         marginBottom="5px"
         css={css`
-          font-size: 2.7rem;
+          font-size: 24px;
 
           ${mediaQueryLargeDesktop} {
-            font-size: 24px;
+            font-size: 20px;
+          }
+
+          ${mediaQueryMobile} {
+            font-size: 20px;
           }
         `}
       >
@@ -116,7 +121,13 @@ export const RatingForm = ({
 
           .ant-rate {
             display: flex;
-            justify-content: center;
+          }
+
+          ${mediaQueryMobile} {
+            .ant-rate {
+              display: flex;
+              justify-content: center;
+            }
           }
         `}
       >
@@ -126,23 +137,18 @@ export const RatingForm = ({
             css={css`
               margin-top: 15px;
 
-              .ant-rate {
-                display: flex;
-                justify-content: center;
-              }
-
               .ant-rate-star.ant-rate-star-full svg {
-                width: 60px;
-                height: 60px;
+                width: 40px;
+                height: 40px;
               }
               .ant-rate-star.ant-rate-star-zero svg {
-                width: 60px;
-                height: 60px;
+                width: 40px;
+                height: 40px;
               }
 
               .ant-rate-star.ant-rate-star-half.ant-rate-star-active svg {
-                width: 60px;
-                height: 60px;
+                width: 40px;
+                height: 40px;
               }
 
               .ant-rate-star.ant-rate-star-full,
@@ -180,31 +186,39 @@ export const RatingForm = ({
                   height: 30px;
                 }
               }
+
+              ${mediaQueryMobile} {
+                margin-top: 0;
+
+                .ant-rate-star.ant-rate-star-full svg {
+                  width: 30px;
+                  height: 30px;
+                }
+                .ant-rate-star.ant-rate-star-zero svg {
+                  width: 30px;
+                  height: 30px;
+                }
+
+                .ant-rate-star.ant-rate-star-half.ant-rate-star-active svg {
+                  width: 30px;
+                  height: 30px;
+                }
+              }
             `}
           />
         </Form.Item>
-        <Button
+        <PrimaryButton
           type="primary"
           htmlType="submit"
           css={css`
-            width: 106px;
-            height: 40px;
-            box-sizing: border-box;
-            background: #ee6400;
-            border-radius: 9px;
-            border: 0;
+            width: 90px;
             position: absolute;
             bottom: 0px;
             right: 20px;
-            color: #ffff;
-
-            &:hover {
-              background: #ee6400;
-            }
           `}
         >
           ตกลง
-        </Button>{' '}
+        </PrimaryButton>{' '}
       </Form>
     </RequestListSection>
   );
