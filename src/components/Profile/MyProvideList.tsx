@@ -5,17 +5,13 @@ import { useHistory } from 'react-router-dom';
 import React from 'react';
 import styled from '@emotion/styled';
 import Flex from 'components/Flex/Flex';
-import { SecondaryButton } from 'components/Button/Button';
 import { RequestStatusBadge } from 'components/Badge/Badge';
 import { Rate, Skeleton } from 'antd';
 import {
   mediaQueryMobile,
   mediaQueryTablet,
   mediaQuerySmallTablet,
-  mediaQueryLargeDesktop,
-  mediaQueryExtraLargeDesktop,
-  useMedia,
-  MOBILE_WIDTH
+  mediaQueryLargeDesktop
 } from 'styles/variables';
 
 interface MyProvideListProps {
@@ -25,6 +21,7 @@ interface MyProvideListProps {
 
 const HelperListCard = styled.div`
   background: #ffffff;
+  min-width: 200px;
   box-shadow: 0px 6px 11px rgba(0, 0, 0, 0.15);
   border-radius: 8px;
   height: 400px;
@@ -46,7 +43,7 @@ const HelperListCard = styled.div`
   }
 
   ${mediaQueryMobile} {
-    height: 350px;
+    height: 330px;
     margin-top: 0;
     margin-bottom: 30px;
     padding: 25px;
@@ -55,12 +52,14 @@ const HelperListCard = styled.div`
 
 const HelperListTitle = styled.div`
   font-weight: 700;
-  font-size: 1.8rem;
+  font-size: 22px;
   color: #f86800;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
+  width: 100%;
+  word-break: break-all;
 
   ${mediaQueryLargeDesktop} {
-    font-size: 24px;
+    font-size: 19px;
   }
 
   ${mediaQueryMobile} {
@@ -75,19 +74,20 @@ const HelperListHeading = styled.div`
   min-width: 215px;
 
   ${mediaQueryLargeDesktop} {
-    font-size: 14px;
-    min-width: 190px;
+    font-size: 13px;
+    min-width: 170px;
   }
 
   ${mediaQueryMobile} {
     width: max-content;
     min-width: max-content;
     margin-right: 10px;
+    font-size: 12px;
   }
 `;
 
 const HelperListDetail = styled.div`
-  font-size: 1.5rem;
+  font-size: 20px;
   line-height: 26px;
   color: #000000;
 
@@ -97,12 +97,10 @@ const HelperListDetail = styled.div`
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 
-  ${mediaQueryLargeDesktop} {
-    font-size: 18px;
-  }
+  word-break: break-all;
 
-  ${mediaQueryTablet} {
-    width: 500px;
+  ${mediaQueryLargeDesktop} {
+    font-size: 16px;
   }
 
   ${mediaQuerySmallTablet} {
@@ -115,22 +113,8 @@ const HelperListDetail = styled.div`
   }
 `;
 
-const SecondaryHelpButton = styled(SecondaryButton)`
-  width: max-content;
-  padding: 0 10px;
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-
-  &:hover {
-    background: #f86800;
-    color: #ffff;
-  }
-`;
-
 export const MyProvideList = ({ data, user }: MyProvideListProps) => {
   const history = useHistory();
-  const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
 
   return (
     <HelperListCard
@@ -146,43 +130,48 @@ export const MyProvideList = ({ data, user }: MyProvideListProps) => {
     >
       {user ? (
         <Flex direction="column" justify="flex-start" itemAlign="flex-start">
-          <Flex>
+          <div
+            css={css`
+              display: inline-flex;
+              align-items: center;
+            `}
+          >
             <HelperListTitle>{data.title}</HelperListTitle>{' '}
             {!Boolean(data.visibility) && (
               <RequestStatusBadge
                 status={0}
                 css={css`
-                  margin-bottom: 8px;
+                  margin-bottom: 10px;
                 `}
               >
                 ซ่อน
               </RequestStatusBadge>
             )}
-          </Flex>
+          </div>
 
-          <Flex marginY="8px">
+          <Flex marginBottom="10px">
             <HelperListHeading>ผู้ให้ความช่วยเหลือ</HelperListHeading>
             <HelperListDetail>{user.username}</HelperListDetail>
           </Flex>
-          <Flex marginY="8px">
+          <Flex marginBottom="10px">
             <HelperListHeading>สถานที่ให้ความช่วยเหลือ</HelperListHeading>
             <HelperListDetail>{data.location.name}</HelperListDetail>
           </Flex>
-          <Flex marginY="8px">
+          <Flex marginBottom="10px">
             <HelperListHeading>จำนวนการให้ความช่วยเหลือนี้</HelperListHeading>
             <HelperListDetail>{data.provideSum} ครั้ง</HelperListDetail>
           </Flex>
-          <Flex marginY="8px">
+          <Flex marginBottom="10px">
             <HelperListHeading>คะแนนการให้ความช่วยเหลือนี้</HelperListHeading>
             <HelperListDetail>
               {data.rating.toFixed(1)} <Rate count={1} defaultValue={1} />
             </HelperListDetail>
           </Flex>
-          <Flex marginY="8px">
+          <Flex marginBottom="10px">
             <HelperListHeading>ค่าบริการ</HelperListHeading>
             <HelperListDetail>{data.serviceCharge} บาท</HelperListDetail>
           </Flex>
-          <Flex marginY="8px">
+          <Flex marginBottom="10px">
             <HelperListHeading>วิธีการชำระเงิน</HelperListHeading>
             <HelperListDetail>{data.payment}</HelperListDetail>
           </Flex>
