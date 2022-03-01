@@ -21,8 +21,10 @@ import {
   LARGE_DESKTOP_WIDTH,
   mediaQueryMobile,
   mediaQueryLargeDesktop,
-  mediaQueryTablet
+  mediaQueryTablet,
+  mediaQueryMiniDesktop
 } from 'styles/variables';
+import { mediaQueryDesktop } from '../../styles/variables';
 
 interface LoginFormProps {
   setStep: (step: LoginStep) => void;
@@ -82,6 +84,12 @@ export const LoginForm = observer(
           styles={css`
             .ant-form-item-control-input {
               width: 360px;
+            }
+
+            ${mediaQueryMiniDesktop} {
+              .ant-form-item {
+                margin-bottom: 15px;
+              }
             }
           `}
         />
@@ -294,6 +302,12 @@ export const LoginForm = observer(
 
               .ant-col-16 {
                 max-width: 100%;
+              }
+            }
+
+            ${mediaQueryMiniDesktop} {
+              .ant-form-item {
+                margin-bottom: 15px;
               }
             }
 
