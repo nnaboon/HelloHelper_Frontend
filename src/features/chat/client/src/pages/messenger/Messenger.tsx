@@ -129,6 +129,18 @@ const NoConversationText = styled.div`
   font-size: 40px;
   color: rgb(224, 220, 220);
   cursor: default;
+
+  ${mediaQueryMiniDesktop} {
+    font-size: 30px;
+  }
+
+  ${mediaQueryTablet} {
+    font-size: 20px;
+  }
+
+  ${mediaQueryMobile} {
+    font-size: 20px;
+  }
 `;
 
 const TopBar = styled.div`
@@ -446,6 +458,10 @@ export const Messenger = observer(() => {
 
         ${mediaQueryMiniDesktop} {
           padding: 20px !important;
+        }
+
+        ${mediaQueryMobile} {
+          top: 80px;
         }
       `}
     >
