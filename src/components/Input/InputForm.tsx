@@ -9,7 +9,7 @@ export const InputForm = styled(Input)`
   max-height: 40px;
   font-size: 16px;
   border-radius: 12px;
-  line-height: 6.8713;
+  // line-height: 6.8713;
 
   ${mediaQueryLargeDesktop} {
     height: 35px;
@@ -24,7 +24,7 @@ export const InputPasswordForm = styled(Input.Password)`
   height: 40px;
   font-size: 16px;
   border-radius: 12px;
-  line-height: 6.8713;
+  // line-height: 6.8713;
 
   ${mediaQueryLargeDesktop} {
     height: 35px;
