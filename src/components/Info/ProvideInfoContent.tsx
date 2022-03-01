@@ -503,6 +503,8 @@ export const ProvideInfoContent = observer(({ data }: any) => {
                   <ProvideDetail>{provide?.location.name}</ProvideDetail>
                   <ProvideTitle>จำนวนการช่วยเหลือ</ProvideTitle>
                   <ProvideDetail>{provide?.provideSum} ครั้ง</ProvideDetail>
+                  <ProvideTitle>ราคาสินค้า</ProvideTitle>
+                  <ProvideDetail>{provide?.price} บาท</ProvideDetail>
                   <ProvideTitle>อัตราค่าบริการ</ProvideTitle>
                   <ProvideDetail>{provide?.serviceCharge} บาท</ProvideDetail>
                   <ProvideTitle>ช่องทางการชำระเงิน</ProvideTitle>

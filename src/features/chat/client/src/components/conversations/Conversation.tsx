@@ -26,25 +26,27 @@ const ConversationSection = styled.div`
 
   ${mediaQueryLargeDesktop} {
     margin-bottom: 0;
+    align-items: center;
+    justify-content: center;
   }
 `;
 
 const ConversationName = styled.div`
   font-weight: 500;
-  font-size: 1.7rem;
+  font-size: 16px;
 
   ${mediaQueryLargeDesktop} {
     font-size: 16px;
   }
 
-  ${mediaQueryMobile} {
+  ${mediaQueryTablet} {
     display: none;
   }
 `;
 
 const ConversationImage = styled.img`
-  width: 80px;
-  height: 80px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   object-fit: cover;
   margin-right: 20px;
@@ -88,6 +90,7 @@ export const Conversation = ({
 
             ${mediaQueryTablet} {
               margin-left: 0px;
+              justify-content: center;
             }
           `}
         >

@@ -4,13 +4,14 @@ import {
   useMedia,
   MOBILE_WIDTH,
   TABLET_WIDTH,
-  LARGE_DESKTOP_WIDTH
+  LARGE_DESKTOP_WIDTH,
+  MINI_DESKTOP_WIDTH
 } from 'styles/variables';
-import { width } from 'styled-system';
 
 export const TopThreeHelpedChart = ({ data }: any) => {
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
+  const isMiniDesktop = useMedia(`(max-width: ${MINI_DESKTOP_WIDTH}px)`);
   const isLargeDesktop = useMedia(`(max-width: ${LARGE_DESKTOP_WIDTH}px)`);
 
   const ability = {
@@ -77,7 +78,13 @@ export const TopThreeHelpedChart = ({ data }: any) => {
       <ReactECharts
         option={option}
         style={{
-          width: isLargeDesktop ? (isTablet ? '100%' : '600px') : '700px',
+          width: isLargeDesktop
+            ? isTablet
+              ? '100%'
+              : isMiniDesktop
+              ? '400px'
+              : '500px'
+            : '700px',
           height: isLargeDesktop ? '300px' : '350px'
         }}
       />

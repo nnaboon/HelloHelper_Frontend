@@ -60,7 +60,7 @@ const MessageTiming = styled.div`
   z-index: 2;
   margin-right: 8px;
   margin-bottom: 1em;
-  font-size: 1.2rem;
+  font-size: 14px;
 
   ${mediaQueryLargeDesktop} {
     font-size: 12px;
@@ -80,7 +80,7 @@ const MessageTextOwn = styled.p`
   max-width: 300px;
   width: max-content;
   min-width: max-content;
-  font-size: 1.6rem;
+  font-size: 18px;
 
   ${mediaQueryLargeDesktop} {
     font-size: 16px;
@@ -115,7 +115,7 @@ const MessageText = styled.p`
   width: max-content;
   min-width: max-content;
   white-space: pre-wrap;
-  font-size: 1.6rem;
+  font-size: 18px;
 
   ${mediaQueryLargeDesktop} {
     font-size: 16px;
@@ -164,7 +164,7 @@ export default function Message({
                     Read
                   </div>
                   <MessageTiming>
-                    {moment(message.createdAt).format('HH:MM')}
+                    {moment(message.createdAt).format('MMM DD, HH:MM')}
                   </MessageTiming>
                 </Flex>{' '}
                 {message.media ? (
@@ -183,7 +183,7 @@ export default function Message({
               <Flex itemAlign="flex-end">
                 <Flex itemAlign="flex-end">
                   <MessageTiming>
-                    {moment(message.createdAt).format('HH:MM')}
+                    {moment(message.createdAt).format('MMM DD, HH:MM')}
                   </MessageTiming>
                 </Flex>{' '}
                 {message.media ? (
@@ -223,7 +223,7 @@ export default function Message({
                   margin-left: 10px;
                 `}
               >
-                {moment(message.createdAt).format('HH:MM')}
+                {moment(message.createdAt).format('MMM DD, HH:MM')}
               </MessageTiming>
             </Flex>
           </MessageTop>

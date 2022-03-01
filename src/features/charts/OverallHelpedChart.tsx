@@ -8,7 +8,8 @@ import {
   useMedia,
   MOBILE_WIDTH,
   TABLET_WIDTH,
-  LARGE_DESKTOP_WIDTH
+  LARGE_DESKTOP_WIDTH,
+  MINI_DESKTOP_WIDTH
 } from 'styles/variables';
 
 interface OverallHelpedChartProps {
@@ -22,6 +23,7 @@ export const OverallHelpedChart = ({
 }: OverallHelpedChartProps) => {
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
+  const isMiniDesktop = useMedia(`(max-width: ${MINI_DESKTOP_WIDTH}px)`);
   const isLargeDesktop = useMedia(`(max-width: ${LARGE_DESKTOP_WIDTH}px)`);
 
   const option = {
@@ -75,7 +77,13 @@ export const OverallHelpedChart = ({
       <ReactECharts
         option={option}
         style={{
-          width: isLargeDesktop ? (isTablet ? '100%' : '580px') : '800px',
+          width: isLargeDesktop
+            ? isTablet
+              ? '100%'
+              : isMiniDesktop
+              ? '400px'
+              : '500px'
+            : '800px',
           height: isLargeDesktop ? '270px' : '350px'
         }}
       />

@@ -27,6 +27,7 @@ interface WaitingToConfirmOrdersProps {
 const ChatOnline = styled.div`
   flex: 3;
   height: 100%;
+  overflow-y: scroll;
 
   ${mediaQueryMobile} {
     flex: 1px;
@@ -84,9 +85,11 @@ export const WaitingToConfirmOrders = ({
       <Collapse
         css={css`
           height: 100%;
+
           .ant-collapse {
             height: 100%;
           }
+
           .ant-collapse > .ant-collapse-item > .ant-collapse-header {
             font-size: 34px !important;
           }

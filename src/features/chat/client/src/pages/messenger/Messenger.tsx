@@ -11,7 +11,7 @@ import { WaitingToConfirmOrders } from '../../components/waitingToConfirmOrders/
 import { userStore } from 'store/userStore';
 import { Loading } from 'components/Loading/Loading';
 import { WrapperContainer } from 'components/Wrapper/WrapperContainer';
-import { Modal, Upload, message } from 'antd';
+import { Modal, Upload, message, Dropdown, Menu } from 'antd';
 import Flex from 'components/Flex/Flex';
 import { OrderForm } from 'components/Form/OrderForm';
 import { useChats } from 'hooks/chat/useChats';
@@ -26,7 +26,7 @@ import {
   LARGE_DESKTOP_WIDTH,
   mediaQueryLargeDesktop
 } from 'styles/variables';
-import { PictureOutlined } from '@ant-design/icons';
+import { PictureOutlined, MoreOutlined } from '@ant-design/icons';
 import { useChat } from 'hooks/chat/useChat';
 import { useWaitForConfirmOrders } from 'hooks/order/useWaitForConfirmOrder';
 import { useAddMessage } from 'hooks/chat/useAddMessage';
@@ -37,7 +37,7 @@ import { firestore } from '../../../../../../firebase';
 const ChatMenu = styled.div`
   flex: 3;
 
-  ${mediaQueryMobile} {
+  ${mediaQueryTablet} {
     flex: 1;
   }
 `;
@@ -48,7 +48,7 @@ const ChatMenuInput = styled.input`
   border: none;
   border-bottom: 1px solid gray;
 
-  ${mediaQueryMobile} {
+  ${mediaQueryTablet} {
     display: none;
   }
 `;
@@ -62,12 +62,12 @@ const ChatBox = styled.div`
 `;
 
 const MessengerContainer = styled.div`
-  height: calc(100vh - 200px);
+  height: 100%;
   display: flex;
   background: white;
 
   ${mediaQueryLargeDesktop} {
-    height: calc(100vh - 180px);
+    height: 100%;
   }
 `;
 const ChatBoxTop = styled.div`
@@ -125,7 +125,7 @@ const NoConversationText = styled.div`
   align-items: center;
   position: relative;
   justify-content: center;
-  font-size: 50px;
+  font-size: 40px;
   color: rgb(224, 220, 220);
   cursor: default;
 `;
@@ -140,6 +140,16 @@ const TopBar = styled.div`
 
   ${mediaQueryLargeDesktop} {
     height: 100px;
+  }
+
+  ${mediaQueryTablet} {
+    padding: 10px;
+    height: 80px;
+  }
+
+  ${mediaQueryMobile} {
+    padding: 20px;
+    height: 60px;
   }
 `;
 
@@ -157,13 +167,13 @@ const RequestName = styled.div`
 
 const UserName = styled.div`
   font-weight: bold;
-  font-size: 2.5rem;
+  font-size: 22px;
   line-height: 26px;
 
   color: #e66101;
 
   ${mediaQueryLargeDesktop} {
-    font-size: 24px;
+    font-size: 20px;
   }
 
   ${mediaQueryTablet} {
@@ -172,19 +182,20 @@ const UserName = styled.div`
 `;
 
 const RequestForm = styled.div`
-  font-size: 1.8rem;
+  font-size: 16px;
   line-height: 26px;
   color: #000000;
   margin-top: 20px;
   cursor: pointer;
 
   ${mediaQueryLargeDesktop} {
-    font-size: 18px;
+    font-size: 16px;
     margin-top: 10px;
   }
 
   ${mediaQueryTablet} {
     font-size: 16px;
+    margin-top: 0;
   }
 `;
 
@@ -215,12 +226,14 @@ const ChatSubmitButton = styled.button`
 `;
 
 export const Messenger = observer(() => {
+  const [menu, setMenu] = useState<string>('form');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [chats, setChats] = useState<any[]>(null);
   const [users, setUsers] = useState<any[]>([]);
 
-  const [currentChat, setCurrentChat] = useState(null);
+  const [currentChat, setCurrentChat] = useState<any>(null);
+
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [orders, setOrders] = useState([]);
@@ -243,6 +256,48 @@ export const Messenger = observer(() => {
   const history = useHistory();
   const { pathname, state } = useLocation();
   const query = pathname?.split('/')[2];
+
+  const dropDownMenu = (
+    <Menu
+      css={css`
+        z-index: 99;
+      `}
+    >
+      <Menu.Item key="1">
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+          css={css`
+            z-index: 99;
+          `}
+          onClick={() => {
+            setMenu('wait');
+            setIsModalVisible(true);
+          }}
+        >
+          <div>ออเดอร์รอการยืนยัน</div>
+        </div>
+      </Menu.Item>
+      <Menu.Item key="2">
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+          onClick={() => {
+            setMenu('form');
+            setIsModalVisible(true);
+          }}
+        >
+          <div>ฟอร์มความช่วยเหลือ</div>
+        </div>
+      </Menu.Item>
+    </Menu>
+  );
 
   const handleCancel = () => {
     setIsModalVisible(false);
@@ -371,7 +426,7 @@ export const Messenger = observer(() => {
         setMessages(res.data[0].messages)
       );
     }
-  }, [query]);
+  }, [query, chats]);
 
   useEffect(() => {
     scrollRef?.current?.scrollIntoView({ behavior: 'smooth' });
@@ -408,7 +463,7 @@ export const Messenger = observer(() => {
             </ChatMenu>
             <ChatBox>
               <ChatBoxWrapper>
-                {currentChat && user ? (
+                {currentChat && users ? (
                   <React.Fragment>
                     {' '}
                     <TopBar>
@@ -421,9 +476,65 @@ export const Messenger = observer(() => {
                         >
                           <UserName>{user?.username}</UserName>
                         </div>
-                        <RequestForm onClick={() => setIsModalVisible(true)}>
-                          ฟอร์มการช่วยเหลือ
-                        </RequestForm>
+                        {!isMobile && (
+                          <RequestForm onClick={() => setIsModalVisible(true)}>
+                            ฟอร์มการช่วยเหลือ
+                          </RequestForm>
+                        )}
+                        {isMobile && (
+                          <Dropdown.Button
+                            icon={<MoreOutlined />}
+                            overlay={dropDownMenu}
+                            trigger={['click']}
+                            css={css`
+                              position: absolute;
+                              z-index: 8;
+                              top: 40px;
+                              color: #0000;
+                              right: 25px;
+
+                              .ant-dropdown-trigger {
+                                border: none;
+                                z-index: 8;
+                              }
+
+                              .ant-dropdown-menu {
+                                z-index: 8;
+                              }
+
+                              .ant-dropdown
+                                .ant-dropdown-placement-bottomRight {
+                                z-index: 8;
+                                top: 570px;
+                              }
+
+                              .ant-dropdown-trigger > span {
+                                background-color: white !important;
+                                z-index: 8;
+                              }
+
+                              .ant-dropdown-menu-item,
+                              .ant-dropdown-menu-submenu-title {
+                                z-index: 8;
+                              }
+
+                              &:selection {
+                                color: #fff;
+                                z-index: 8;
+                                background: transparent;
+                              }
+
+                              svg {
+                                font-size: 24px;
+                              }
+
+                              ${mediaQueryMobile} {
+                                right: 8px;
+                                top: 10px;
+                              }
+                            `}
+                          />
+                        )}
                       </LeftInnerContainer>
                     </TopBar>
                     <ChatBoxTop>
@@ -470,7 +581,7 @@ export const Messenger = observer(() => {
                         <Upload showUploadList={false} onChange={handleChange}>
                           <PictureOutlined
                             css={css`
-                              font-size: 2.5rem;
+                              font-size: 32px;
                               margin-right: 15px;
                               cursor: pointer;
 
@@ -497,50 +608,80 @@ export const Messenger = observer(() => {
                 )}
               </ChatBoxWrapper>
             </ChatBox>
-            <ChatOnline>
-              <ChatOnlineWrapper>
-                <WaitingToConfirmOrders
-                  waitConfirmOrder={orders}
-                  setWaitConfirmOrder={setOrders}
-                />
-              </ChatOnlineWrapper>
-            </ChatOnline>
+            {!isMobile && (
+              <ChatOnline>
+                <ChatOnlineWrapper>
+                  <WaitingToConfirmOrders
+                    waitConfirmOrder={orders}
+                    setWaitConfirmOrder={setOrders}
+                  />
+                </ChatOnlineWrapper>
+              </ChatOnline>
+            )}
           </MessengerContainer>
           <Modal
             visible={isModalVisible}
             onCancel={handleCancel}
             footer={null}
-            width={isMobile ? '80%' : isLargeDesktop ? '700px' : '36%'}
             maskClosable={false}
             centered
             css={css`
+              width: 36% !important;
+
+              .ant-modal-content {
+                height: 950px !important;
+              }
+
               .ant-form-item-control-input {
                 width: 100% !important;
+              }
+
+              .ant-modal-body {
+                height: 100%;
+              }
+
+              ${mediaQueryLargeDesktop} {
+                width: 600px !important;
+
+                .ant-modal-content {
+                  height: 700px !important;
+                }
+              }
+
+              ${mediaQueryTablet} {
+                width: 500px !important;
+
+                .ant-modal-content {
+                  height: 700px !important;
+                }
+              }
+
+              ${mediaQueryMobile} {
+                width: 85% !important;
+
+                .ant-modal-content {
+                  height: 700px !important;
+                  overflow-y: scroll;
+                }
               }
 
               .ant-col-16 {
                 max-width: unset;
               }
-              .ant-modal-content {
-                height: 100%;
-
-                ${mediaQueryLargeDesktop} {
-                  height: 800px;
-                }
-
-                ${mediaQueryMobile} {
-                  min-height: 400px;
-                  height: 400px;
-                  overflow-y: scroll;
-                }
-              }
             `}
           >
-            <OrderForm
-              data={state}
-              setIsModalVisible={setIsModalVisible}
-              setOrder={setOrders}
-            />
+            {menu === 'form' ? (
+              <OrderForm
+                data={state}
+                setIsModalVisible={setIsModalVisible}
+                setOrder={setOrders}
+              />
+            ) : (
+              <WaitingToConfirmOrders
+                waitConfirmOrder={orders}
+                setWaitConfirmOrder={setOrders}
+              />
+            )}
           </Modal>
         </React.Fragment>
       ) : (

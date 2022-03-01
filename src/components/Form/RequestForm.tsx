@@ -103,6 +103,7 @@ export const RequestFormModal = ({
         title: requestData.title,
         location: requestData.location,
         message: requestData.message,
+        price: requestData.price,
         serviceCharge: requestData.serviceCharge,
         payment: requestData.payment,
         category: requestData.category,
@@ -153,6 +154,7 @@ export const RequestFormModal = ({
           : requestData.location.longitude
       },
       description: value.message,
+      price: Number(value.price),
       serviceCharge: Number(value.serviceCharge),
       payment: value.payment,
       category: value.category,
@@ -167,7 +169,6 @@ export const RequestFormModal = ({
           uploadProvideImage(formData).then((res) => {
             updateProvide(requestData.provideId, {
               ...data,
-              price: Number(value.price),
               imageUrl: res.data
             }).then((res) => {
               setUpdateData(res.data);
@@ -186,7 +187,6 @@ export const RequestFormModal = ({
             updateRequest(requestData.requestId, {
               ...data,
               number: Number(value.number),
-              price: Number(value.price),
               imageUrl: res.data
             }).then((res) => {
               setUpdateData(res.data);
@@ -195,8 +195,7 @@ export const RequestFormModal = ({
         } else {
           updateRequest(requestData.requestId, {
             ...data,
-            number: Number(value.number),
-            price: Number(value.price)
+            number: Number(value.number)
           }).then((res) => {
             setUpdateData(res.data);
           });
@@ -315,7 +314,9 @@ export const RequestFormModal = ({
             }
           `}
         >
-          ขอความช่วยเหลือ
+          {requestData?.type === 'request'
+            ? 'ขอความช่วยเหลือ'
+            : 'ให้ความช่วยเหลือ'}
         </Text>
         <Form
           form={form}
@@ -505,30 +506,28 @@ export const RequestFormModal = ({
             </Form.Item>
           ) : null}
 
-          {requestData.type === 'request' ? (
-            <Form.Item
-              name="price"
-              label="ราคาสินค้าสูงสุด"
-              tooltip="กำหนดราคาสินค้าสูงสุดที่คุณต้องการหรือที่สามารถจ่ายได้"
-              rules={[
-                {
-                  required: true,
-                  message: 'กรุณากำหนดขอบเขตราคาสินค้าสูงสุดที่คุณสามารถจ่ายได้'
-                }
-              ]}
-            >
-              <InputForm
-                // defaultValue={
-                //   requestData.price
-                //     ? `${requestData.price} บาท`
-                //     : requestData.price
-                // }
-                type="number"
-                min="0"
-                placeholder="ขอบเขตราคาสินค้า"
-              />
-            </Form.Item>
-          ) : null}
+          <Form.Item
+            name="price"
+            label="ราคาสินค้าสูงสุด"
+            tooltip="กำหนดราคาสินค้าสูงสุดที่คุณต้องการหรือที่สามารถจ่ายได้"
+            rules={[
+              {
+                required: true,
+                message: 'กรุณากำหนดขอบเขตราคาสินค้าสูงสุดที่คุณสามารถจ่ายได้'
+              }
+            ]}
+          >
+            <InputForm
+              // defaultValue={
+              //   requestData.price
+              //     ? `${requestData.price} บาท`
+              //     : requestData.price
+              // }
+              type="number"
+              min="0"
+              placeholder="ขอบเขตราคาสินค้า"
+            />
+          </Form.Item>
 
           <Form.Item
             name="serviceCharge"
@@ -642,7 +641,9 @@ export const RequestFormModal = ({
                 }
               `}
             >
-              ขอความช่วยเหลือ
+              {requestData?.type === 'request'
+                ? 'ขอความช่วยเหลือ'
+                : 'ให้ความช่วยเหลือ'}
             </PrimaryButton>
           </div>
         </Form>

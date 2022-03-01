@@ -47,6 +47,7 @@ import { useFollowUser } from 'hooks/user/useFollowUser';
 import { useUnfollowUser } from 'hooks/user/useUnfollowUser';
 
 import { EmptyData } from 'components/Empty/EmptyData';
+import { mediaQueryMiniDesktop } from '../styles/variables';
 
 const ProfilePageContainer = styled.div`
   box-sizing: border-box;
@@ -69,7 +70,7 @@ const ProfilePageUserInfoSection = styled.div`
   align-items: center;
   justify-content: center;
 
-  ${mediaQueryTablet} {
+  ${mediaQueryMiniDesktop} {
     flex-direction: column;
     justify-content: center;
     margin-top: 10px;
@@ -90,7 +91,7 @@ const ProfilePageUserHelperListSection = styled.div`
     grid-gap: 2rem;
   }
 
-  ${mediaQueryTablet} {
+  ${mediaQueryMiniDesktop} {
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 15px;
   }
@@ -179,7 +180,7 @@ const ProfileInfoContainer = styled.div`
   grid-template-columns: minmax(300px, auto) minmax(300px, auto);
   grid-gap: 30px;
 
-  ${mediaQueryTablet} {
+  ${mediaQueryMiniDesktop} {
     grid-template-columns: minmax(200px, auto) minmax(200px, auto);
   }
 
@@ -194,8 +195,9 @@ const ProfileInfoSection = styled.div`
   position: relative;
   left: 130px;
 
-  ${mediaQueryTablet} {
+  ${mediaQueryMiniDesktop} {
     margin-bottom: 30px;
+    margin-top: 40px;
     left: 0;
   }
 

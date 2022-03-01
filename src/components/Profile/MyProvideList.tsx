@@ -158,11 +158,11 @@ export const MyProvideList = ({ data, user }: MyProvideListProps) => {
             <HelperListDetail>{data.location.name}</HelperListDetail>
           </Flex>
           <Flex marginBottom="10px">
-            <HelperListHeading>จำนวนการให้ความช่วยเหลือนี้</HelperListHeading>
+            <HelperListHeading>จำนวนการให้ความช่วยเหลือ</HelperListHeading>
             <HelperListDetail>{data.provideSum} ครั้ง</HelperListDetail>
           </Flex>
           <Flex marginBottom="10px">
-            <HelperListHeading>คะแนนการให้ความช่วยเหลือนี้</HelperListHeading>
+            <HelperListHeading>คะแนนการให้ความช่วยเหลือ</HelperListHeading>
             <HelperListDetail>
               {data.rating.toFixed(1)} <Rate count={1} defaultValue={1} />
             </HelperListDetail>
