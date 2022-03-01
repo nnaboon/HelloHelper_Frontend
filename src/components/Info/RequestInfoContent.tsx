@@ -384,6 +384,7 @@ export const RequestInfoContent = observer(({ data }: any) => {
               <Dropdown.Button
                 icon={<MoreOutlined />}
                 overlay={dropDownMenu}
+                trigger={['click']}
                 css={css`
                   position: absolute;
                   z-index: 8;

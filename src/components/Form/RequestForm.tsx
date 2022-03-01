@@ -445,7 +445,10 @@ export const RequestFormModal = ({
               }
             ]}
           >
-            <InputForm defaultValue={requestData.title} placeholder="ชื่อ" />
+            <InputForm
+              // defaultValue={requestData.title}
+              placeholder="ชื่อ"
+            />
           </Form.Item>
 
           <Form.Item
@@ -471,7 +474,7 @@ export const RequestFormModal = ({
           <Form.Item name="message" label="ข้อความ">
             <Input.TextArea
               placeholder="ข้อความ"
-              defaultValue={requestData.description}
+              // defaultValue={requestData.description}
               style={{ borderRadius: '12px' }}
               css={css`
                 font-size: 16px;
@@ -494,7 +497,7 @@ export const RequestFormModal = ({
               ]}
             >
               <InputForm
-                defaultValue={requestData.number}
+                // defaultValue={requestData.number}
                 placeholder="จำนวนสินค้า"
                 min="0"
                 type="number"
@@ -515,11 +518,11 @@ export const RequestFormModal = ({
               ]}
             >
               <InputForm
-                defaultValue={
-                  requestData.price
-                    ? `${requestData.price} บาท`
-                    : requestData.price
-                }
+                // defaultValue={
+                //   requestData.price
+                //     ? `${requestData.price} บาท`
+                //     : requestData.price
+                // }
                 type="number"
                 min="0"
                 placeholder="ขอบเขตราคาสินค้า"
@@ -542,11 +545,11 @@ export const RequestFormModal = ({
             <InputForm
               type="number"
               min="0"
-              defaultValue={
-                requestData.serviceCharge
-                  ? `${requestData.serviceCharge} บาท`
-                  : requestData.serviceCharge
-              }
+              // defaultValue={
+              //   requestData.serviceCharge
+              //     ? `${requestData.serviceCharge} บาท`
+              //     : requestData.serviceCharge
+              // }
               placeholder="ขอบเขตราคาค่าบริการ"
             />
           </Form.Item>
@@ -573,7 +576,7 @@ export const RequestFormModal = ({
           >
             <Select
               allowClear
-              placeholder="Please select"
+              placeholder="เลือกหมวดหมู่"
               css={css`
                 font-size: 16px;
 
