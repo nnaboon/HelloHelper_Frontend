@@ -60,109 +60,110 @@ const ProfilePageUserInfoSection = styled.div`
   }
 `;
 
-const UserCard = styled.div`
-  position: relative;
-  display: flex;
-  width: 23%;
-  height: 290px;
+const CommunityCard = styled.div`
+  width: 100%;
+  max-width: 500px;
+  min-width: 400px;
+  height: 250px;
   background: #ffffff;
-  margin-right: 150px;
-  margin-left: 50px;
-  padding: 20px;
   box-shadow: 0px 7px 7px rgba(0, 0, 0, 0.15);
   border-radius: 8px;
+  display: flex;
+  align-items: center;
   border-sizing: border-box;
+  padding: 20px;
+  position: relative;
 
   ${mediaQueryLargeDesktop} {
-    width: 445px;
-    height: 246px;
+    width: 400px;
+    height: 210px;
     min-width: unset;
   }
 
   ${mediaQueryTablet} {
-    width: 65%;
+    height: 200px;
+    margin-bottom: 40px;
     margin-left: 0;
-    margin-right: 50px;
-    margin-bottom: 45px;
+    margin-right: 0;
   }
 
   ${mediaQueryMobile} {
     width: 100%;
-    max-width: 100%;
-    margin-right: 0;
-    margin-left: 0;
+    margin: 0 0 20px 0;
   }
 `;
 
 const CommunityImageSection = styled.img`
-  width: 160px;
-  height: 160px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
-  margin-top: 15px;
+  margin-top: -50px;
   object-fit: cover;
 
   ${mediaQueryLargeDesktop} {
-    width: 115px;
-    height: 115px;
+    width: 80px;
+    height: 80px;
   }
+
   ${mediaQueryMobile} {
-    width: 90px;
-    height: 90px;
+    width: 75px;
+    height: 75px;
   }
 `;
 
-const UserName = styled.div`
+const CommunityName = styled.div`
   font-weight: 700;
-  font-size: 2rem;
+  font-size: 24px;
   color: #000000;
   margin-bottom: 5px;
-  word-wrap: break-word;
+  word-break: break-all;
 
   ${mediaQueryLargeDesktop} {
-    font-size: 24px;
+    font-size: 20px;
   }
 
   ${mediaQueryMobile} {
+    font-size: 18px;
     text-align: center;
     max-width: 150px;
   }
 `;
 
-const ProfileInfoListHeading = styled.div`
+const CommunityInfoListHeading = styled.div`
   font-weight: 500;
-  font-size: 1.4rem;
-  line-height: 21px;
+  font-size: 18px;
+  line-height: 14px;
   color: #5a5a5a;
 
   ${mediaQueryLargeDesktop} {
-    font-size: 16px;
+    font-size: 14px;
   }
 
   ${mediaQueryMobile} {
-    font-size: 16px;
+    font-size: 12px;
     white-space: pre;
   }
 `;
 
-const ProfileInfoListDetail = styled.div`
+const CommunityInfoListDetail = styled.div`
   font-weight: 600;
-  font-size: 2.2rem;
-  line-height: 42px;
+  font-size: 24px;
+  line-height: 29px;
   color: #e56101;
   margin-left: 12px;
-  width: 550px;
+  max-width: 500px;
 
   ${mediaQueryLargeDesktop} {
-    font-size: 20px;
-    line-height: 31px;
+    font-size: 18px;
+    max-width: 400px;
   }
 
   ${mediaQueryMobile} {
     font-size: 18px;
-    width: unset;
     word-wrap: break-word;
   }
 `;
+
 export const CommunityContentInfo = observer(({ data }: any) => {
   const [menu, setMenu] = useState<CommunityMenu>(CommunityMenu.PROVIDE);
   const [provides, setProvides] = useState<any[]>([]);
@@ -277,7 +278,7 @@ export const CommunityContentInfo = observer(({ data }: any) => {
         <React.Fragment>
           {' '}
           <ProfilePageUserInfoSection>
-            <UserCard>
+            <CommunityCard>
               {community?.member.filter(
                 ({ userId }) => userId === window.localStorage.getItem('id')
               )[0].role === 1 && (
@@ -314,12 +315,14 @@ export const CommunityContentInfo = observer(({ data }: any) => {
               <div
                 css={css`
                   display: flex;
-                  width: 100%;
+                  width: 40%;
                   flex-direction: column;
                   align-items: center;
+                  margin-right: 35px;
 
                   ${mediaQueryMobile} {
-                    margin-right: 10px;
+                    margin-right: 0;
+                    margin-top: 8px;
                   }
                 `}
               >
@@ -335,10 +338,10 @@ export const CommunityContentInfo = observer(({ data }: any) => {
                   align-items: center;
                   justify-content: center;
                   margin-top: -50px;
-                  width: 100%;
+                  flex: 1;
                 `}
               >
-                <UserName>{community.communityName}</UserName>
+                <CommunityName>{community.communityName}</CommunityName>
               </div>
               <div
                 style={{
@@ -444,44 +447,54 @@ export const CommunityContentInfo = observer(({ data }: any) => {
                   </PrimaryButton>
                 </Dropdown>
               </div>
-            </UserCard>
+            </CommunityCard>
             <div
               css={css`
+                margin-top: 20px;
+                position: relative;
+                left: 55px;
+
+                ${mediaQueryTablet} {
+                  margin-bottom: 30px;
+                  left: 0;
+                }
+
                 ${mediaQueryMobile} {
-                  width: 100%;
+                  margin-bottom: 0;
                 }
               `}
             >
-              <Flex marginBottom="40px" marginTop={isMobile ? '40px' : 0}>
-                <ProfileInfoListHeading
+              <Flex marginBottom="30px" marginTop={isMobile ? '40px' : 0}>
+                <CommunityInfoListHeading
                   css={css`
                     max-width: 600px;
 
                     ${mediaQueryLargeDesktop} {
                       max-width: 500px;
                     }
+
                     ${mediaQueryMobile} {
                       max-width: 300px;
                     }
                   `}
                 >
                   ขอบเขตการช่วยเหลือ
-                </ProfileInfoListHeading>
-                <ProfileInfoListDetail>
+                </CommunityInfoListHeading>
+                <CommunityInfoListDetail>
                   {community.location.name}
-                </ProfileInfoListDetail>
+                </CommunityInfoListDetail>
               </Flex>
-              <Flex marginBottom="40px">
-                <ProfileInfoListHeading>สมาชิก</ProfileInfoListHeading>
-                <ProfileInfoListDetail>
+              <Flex marginBottom="30px">
+                <CommunityInfoListHeading>สมาชิก</CommunityInfoListHeading>
+                <CommunityInfoListDetail>
                   {community.member ? community.member.length : `0`} คน
-                </ProfileInfoListDetail>
+                </CommunityInfoListDetail>
               </Flex>
-              <Flex marginBottom="40px">
-                <ProfileInfoListHeading>คำอธิบาย</ProfileInfoListHeading>
-                <ProfileInfoListDetail>
+              <Flex marginBottom="30px">
+                <CommunityInfoListHeading>คำอธิบาย</CommunityInfoListHeading>
+                <CommunityInfoListDetail>
                   {community.description}
-                </ProfileInfoListDetail>
+                </CommunityInfoListDetail>
               </Flex>
             </div>
           </ProfilePageUserInfoSection>
