@@ -26,8 +26,10 @@ import {
   mediaQueryDesktop,
   mediaQueryLargeDesktop,
   mediaQuerySmallTablet,
+  mediaQueryMiniDesktop,
   mediaQueryExtraLargeDesktop,
-  mediaQueryTablet
+  mediaQueryTablet,
+  MINI_DESKTOP_WIDTH
 } from 'styles/variables';
 import { InfoMenuTab } from 'components/Menu/InfoMenuTab';
 import { RANK_BADGE } from 'components/Badge/const';
@@ -49,7 +51,6 @@ import { EditSvg } from 'components/Svg/EditSvg';
 import { DeleteSvg } from 'components/Svg/DeleteSvg';
 import { EyeOffSvg } from 'components/Svg/EyeOffSvg';
 import { EmptyData } from 'components/Empty/EmptyData';
-import { mediaQueryMiniDesktop } from '../../styles/variables';
 
 const RequestImageSection = styled.img`
   width: 450px;
@@ -277,7 +278,8 @@ export const RequestInfoContent = observer(({ data }: any) => {
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
 
-  const isSmallTablet = useMedia(`(max-width: ${SMALL_TABLET_WIDTH}px)`);
+  const isMiniDesktop = useMedia(`(max-width: ${MINI_DESKTOP_WIDTH}px)`);
+
   const { data: user, execute: getUser } = useUser();
   const { execute: getRequest } = useRequest();
   const { execute: updateRequest } = useUpdateRequest();
@@ -867,7 +869,7 @@ export const RequestInfoContent = observer(({ data }: any) => {
                           </React.Fragment>
                         ) : (
                           <EmptyData
-                            height={isSmallTablet ? '300px' : undefined}
+                            height={isMiniDesktop ? '250px' : undefined}
                           />
                         )}
                       </div>

@@ -66,23 +66,29 @@ export const CommunityProvideContent = ({
   const responsive = {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },
-      items: provide ? (provide?.length > 0 ? 5 : 1) : 1
+      items: provide ? 5 : 1
     },
     bigDesktop: {
       breakpoint: { max: 3000, min: 2000 },
-      items: provide ? (provide?.length > 0 ? 4 : 1) : 1
+      items: provide ? 4 : 1
     },
     desktop: {
-      breakpoint: { max: 2000, min: 1024 },
-      items: provide ? (provide?.length > 0 ? 3 : 1) : 1
+      breakpoint: { max: 2000, min: 1300 },
+      items: provide ? 3 : 1
+    },
+    smallDesktop: {
+      breakpoint: { max: 1300, min: 1024 },
+      items: 2
+      // partialVisibilityGutter: 50
     },
     tablet: {
       breakpoint: { max: 1024, min: 768 },
-      items: provide ? (provide?.length > 0 ? 2 : 1) : 1
+      items: provide ? 2 : 1
     },
+
     smallTablet: {
       breakpoint: { max: 768, min: 464 },
-      items: provide ? (provide?.length > 0 ? 2 : 1) : 1
+      items: provide ? 2 : 1
     },
     mobile: {
       breakpoint: { max: 464, min: 0 },

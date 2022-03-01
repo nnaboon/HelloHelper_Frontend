@@ -170,7 +170,7 @@ export const PostRequestButton = ({
                 message.success('สำเร็จ');
               })
               .catch((error) => {
-                message.error('ไม่สามารถโพสต์ขอความช่วยเหลือได้2');
+                message.error('ไม่สามารถโพสต์ขอความช่วยเหลือได้');
               });
           })
         : uploadRequestImage(formData).then((res) => {
@@ -184,15 +184,15 @@ export const PostRequestButton = ({
                 if (setRequests) {
                   setRequests((prev) => [...prev, res.data]);
                 }
-
                 message.success('สำเร็จ');
               })
               .catch((error) => {
-                message.error('ไม่สามารถโพสต์ขอความช่วยเหลือได้2');
+                console.log(error.response);
+                message.error('ไม่สามารถโพสต์ขอความช่วยเหลือได้');
               });
           });
     } catch (e) {
-      message.error('ไม่สามารถโพสต์ขอความช่วยเหลือได้1');
+      message.error('ไม่สามารถโพสต์ขอความช่วยเหลือได้');
     } finally {
       setIsSubmitting(false);
       setIsModalVisible(false);

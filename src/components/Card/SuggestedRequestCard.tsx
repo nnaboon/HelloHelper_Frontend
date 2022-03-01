@@ -257,9 +257,9 @@ export const SuggestedRequestSection = ({ data }: any) => {
                 <div style={{ display: 'inline-flex', marginBottom: '10px' }}>
                   <RequestTitle>{title}</RequestTitle>
 
-                  {providedUserId.length > 0 && (
+                  {providedUserId?.length > 0 && (
                     <RequestStatusBadge
-                      status={providedUserId.length > 0 ? 2 : undefined}
+                      status={providedUserId?.length > 0 ? 2 : undefined}
                       css={css`
                         margin-left: 0;
                       `}
