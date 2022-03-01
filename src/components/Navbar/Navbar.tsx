@@ -14,14 +14,17 @@ import { LoginStep } from 'features/login/const';
 import {
   mediaQueryMobile,
   mediaQuerySmallTablet,
+  mediaQueryMiniDesktop,
   mediaQueryLargeDesktop,
+  mediaQueryExtraLargeDesktop,
   mediaQueryTablet,
   useMedia,
   MOBILE_WIDTH,
   TABLET_WIDTH,
   SMALL_TABLET_WIDTH,
   LARGE_DESKTOP_WIDTH,
-  MINI_DESKTOP_WIDTH
+  MINI_DESKTOP_WIDTH,
+  mediaQueryDesktop
 } from 'styles/variables';
 import { MessageOutlined } from '@ant-design/icons';
 import { SideMenu } from 'components/Menu/SideMenu';
@@ -29,8 +32,8 @@ import DefaultImage from 'images/default.png';
 import { useUser } from 'hooks/user/useUser';
 import firebase from '../../firebase';
 import { userStore } from 'store/userStore';
-import { mediaQueryExtraLargeDesktop } from '../../styles/variables';
 import { useVerifyToken } from 'hooks/useVerifyToken';
+import { logout } from 'features/logout/Logout';
 
 const NavbarSection = styled.div`
   width: 100%;
@@ -46,7 +49,7 @@ const NavbarSection = styled.div`
     height: 165px;
   }
 
-  ${mediaQuerySmallTablet} {
+  ${mediaQueryTablet} {
     height: 80px;
   }
 
@@ -68,13 +71,20 @@ const NavbarList = styled.ul`
     margin: 0 20px;
     cursor: pointer;
     color: #eeeee;
-    font-size: 1.3rem;
+    font-size: 14px;
     font-weight: 500;
   }
 
   ${mediaQueryLargeDesktop} {
     > li {
-      font-size: 14px;
+      font-size: 12px;
+    }
+  }
+
+  ${mediaQueryMiniDesktop} {
+    padding: 20px 60px;
+    > li {
+      font-size: 10px;
     }
   }
 
@@ -97,8 +107,8 @@ const NavbarList = styled.ul`
 
 const MyAccount = styled.img`
   position: relative;
-  width: 70px;
-  height: 70px;
+  width: 55px;
+  height: 55px;
   border-radius: 50%;
   margin-left: 25px;
   cursor: pointer;
@@ -201,12 +211,10 @@ export const Navbar = observer(() => {
             setIsModalVisible(false);
             setAccount(true);
           })
-          .catch(() => {
-            window.localStorage.removeItem('id');
-            window.localStorage.removeItem('loginType');
-            window.localStorage.removeItem('access_token');
-            window.localStorage.removeItem('selectedCommunity');
-            firebase.auth().signOut();
+          .catch((error) => {
+            if (error.response.data === 'Unauthorized') {
+              logout();
+            }
           });
       } else if (user) {
         setIsModalVisible(true);
@@ -272,15 +280,17 @@ export const Navbar = observer(() => {
 
           ${mediaQueryTablet} {
             margin: 20px 0;
+            padding: 0 60px;
           }
 
           ${mediaQueryMobile} {
             margin: 0;
+            padding: 0;
           }
         `}
       >
         <div>
-          {isSmallTablet ? (
+          {isTablet ? (
             <SideMenu collapsed={collapsed} setCollapsed={setCollapsed} />
           ) : (
             <div
@@ -302,8 +312,13 @@ export const Navbar = observer(() => {
                 style={{ color: 'black', fontWeight: 700 }}
                 css={css`
                   font-size: 45px;
+
                   ${mediaQueryLargeDesktop} {
                     font-size: 32px;
+                  }
+
+                  ${mediaQueryMiniDesktop} {
+                    font-size: 28px;
                   }
                 `}
               >
@@ -314,7 +329,7 @@ export const Navbar = observer(() => {
           )}
         </div>
         <div>
-          {isSmallTablet && (
+          {isTablet && (
             <Search
               placeholder="ข้าวผัดป้าเขียว, ก๋วยจั๊บนายวาย, แกงกะหรี่ป้าอร โชคชัย4"
               defaultValue={state?.search}
@@ -323,6 +338,10 @@ export const Navbar = observer(() => {
               css={css`
                 min-width: 500px;
 
+                ${mediaQuerySmallTablet} {
+                  min-width: 360px;
+                }
+
                 ${mediaQueryMobile} {
                   min-width: 260px;
                 }
@@ -330,6 +349,7 @@ export const Navbar = observer(() => {
                 .ant-input-group-wrapper {
                   width: unset;
                 }
+
                 .ant-input {
                   height: 30px;
                   width: 100%;
@@ -459,7 +479,7 @@ export const Navbar = observer(() => {
           </NavbarList>{' '}
         </div>
       </Flex>
-      {!isSmallTablet && (
+      {!isTablet && (
         <SearchBarContainer>
           <Search
             placeholder="ข้าวผัดป้าเขียว, ก๋วยจั๊บนายวาย, แกงกะหรี่ป้าอร โชคชัย4"
@@ -469,7 +489,7 @@ export const Navbar = observer(() => {
             style={{
               width: isMobile
                 ? '350px'
-                : isSmallTablet
+                : isTablet
                 ? '600px'
                 : isMiniDesktop
                 ? '500px'
@@ -480,27 +500,27 @@ export const Navbar = observer(() => {
               position: relative;
 
               .ant-input {
-                height: 60px;
+                height: 40px;
                 width: 990px;
                 font-size: 1.6rem;
                 line-height: 6.8713;
               }
 
               .ant-btn-icon-only.ant-btn-lg {
-                height: 60px;
-                width: 60px;
+                height: 40px;
+                width: 40px;
               }
 
               ${mediaQueryExtraLargeDesktop} {
                 .ant-input {
-                  height: 40px;
+                  height: 35px;
                   width: 100%;
-                  font-size: 16px;
+                  font-size: 14px;
                 }
 
                 .ant-btn-icon-only.ant-btn-lg {
-                  height: 40px;
-                  width: 40px;
+                  height: 35px;
+                  width: 35px;
                 }
               }
             `}
@@ -512,14 +532,13 @@ export const Navbar = observer(() => {
         onOk={handleOk}
         onCancel={handleCancel}
         footer={null}
-        // width={isMobile ? '85%' : isLargeDesktop ? 500 : '22%'}
         maskClosable={false}
         centered
         css={css`
-          width: 22% !important;
+          width: 500px !important;
 
           .ant-modal-content {
-            min-height: 820px;
+            min-height: 620px;
             height: max-content;
           }
 
@@ -542,7 +561,7 @@ export const Navbar = observer(() => {
           }
 
           ${mediaQueryMobile} {
-            width: 350px !important;
+            width: 320px !important;
 
             .ant-modal-content {
               min-height: 550px;

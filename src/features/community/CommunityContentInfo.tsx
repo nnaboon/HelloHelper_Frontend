@@ -418,7 +418,7 @@ export const CommunityContentInfo = observer(({ data }: any) => {
                   }}
                 >
                   <LogoutSvg style={{ marginRight: '10px' }} />
-                  ออกจากขุมชน
+                  ออกจากชุมชน
                 </PrimaryButton>
                 <Dropdown trigger={['click']} overlay={dropDownMenu}>
                   <PrimaryButton
@@ -493,7 +493,7 @@ export const CommunityContentInfo = observer(({ data }: any) => {
               <Flex marginBottom="30px">
                 <CommunityInfoListHeading>คำอธิบาย</CommunityInfoListHeading>
                 <CommunityInfoListDetail>
-                  {community.description}
+                  {community.description ?? '-'}
                 </CommunityInfoListDetail>
               </Flex>
             </div>

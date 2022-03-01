@@ -26,7 +26,8 @@ import {
   SMALL_TABLET_WIDTH,
   mediaQueryTablet,
   mediaQueryMobile,
-  mediaQuerySmallTablet
+  mediaQuerySmallTablet,
+  TABLET_WIDTH
 } from 'styles/variables';
 import { SkeletonLoading } from 'components/Loading/SkeletonLoading';
 import { useAddChatRoom } from 'hooks/chat/useAddChatRoom';
@@ -155,6 +156,7 @@ const RequestDataContent = styled.div`
 export const PopularRequestSection = observer(({ data }: any) => {
   const history = useHistory();
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
+  const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
   const isSmallTablet = useMedia(`(max-width: ${SMALL_TABLET_WIDTH}px)`);
   const { execute: addChatRoom } = useAddChatRoom();
 

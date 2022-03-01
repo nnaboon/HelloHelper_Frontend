@@ -10,7 +10,7 @@ import {
 export const WrapperContainer = styled.div`
   position: relative;
   top: 210px;
-  padding: 40px 100px;
+  padding: 0px 100px 40px;
   box-sizing: border-box;
   overflow-y: scroll;
 
@@ -30,5 +30,6 @@ export const WrapperContainer = styled.div`
   ${mediaQueryMobile} {
     padding: 20px 20px 40px 20px;
     top: 80px;
+    height: 100%;
   }
 `;

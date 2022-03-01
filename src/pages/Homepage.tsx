@@ -59,14 +59,17 @@ const HomePageContainer = styled.div`
   padding: 40px 100px;
   overflow-y: scroll;
 
+  ${mediaQueryMiniDesktop} {
+    padding: 40px 60px;
+  }
+
   ${mediaQueryTablet} {
     padding: 40px 60px;
-    padding: 40px 60px;
+    top: 80px;
   }
 
   ${mediaQuerySmallTablet} {
     padding: 40px 30px;
-    top: 80px;
   }
 
   ${mediaQueryMobile} {
@@ -299,7 +302,7 @@ export const HomePage = () => {
               alt="earn money in homepage"
             />
           </Carousel>
-          {!isSmallTablet && (
+          {!isTablet && (
             <HomePageCategorySection>
               {CATEGORY.map(({ id, name, icon }) => (
                 <CategoryMenu

@@ -18,7 +18,11 @@ import { userStore } from 'store/userStore';
 import { CATEGORY } from 'data/category';
 import { MenuSvg } from 'components/Svg/MenuSvg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { mediaQueryMobile, mediaQuerySmallTablet } from 'styles/variables';
+import {
+  mediaQueryMobile,
+  mediaQuerySmallTablet,
+  mediaQueryTablet
+} from 'styles/variables';
 import { auth } from '../../firebase';
 
 interface SideMenuProps {
@@ -66,7 +70,6 @@ export const SideMenu = observer(
           css={css`
             ${mediaQuerySmallTablet} {
               position: relative;
-              // top: 35px;
             }
 
             ${mediaQueryMobile} {
@@ -90,14 +93,16 @@ export const SideMenu = observer(
             height: 100vh;
             position: fixed;
 
-            ${mediaQuerySmallTablet} {
+            ${mediaQueryTablet} {
               height: 100vh;
               top: 80px;
+              margin-left: -60px;
             }
 
             ${mediaQueryMobile} {
               height: 100vh;
               top: 70px;
+              margin-left: 0;
             }
           `}
         >

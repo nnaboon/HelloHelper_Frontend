@@ -6,6 +6,7 @@ import {
   mediaQueryMobile,
   mediaQueryTablet,
   mediaQuerySmallTablet,
+  mediaQueryMiniDesktop,
   mediaQueryLargeDesktop
 } from 'styles/variables';
 
@@ -34,8 +35,12 @@ export const ProvideCardContainer = styled.div`
     padding: 20px 30px;
   }
 
+  ${mediaQueryMiniDesktop} {
+    min-width: 320px;
+  }
+
   ${mediaQueryTablet} {
-    min-width: 430px;
+    min-width: 360px;
   }
 
   ${mediaQuerySmallTablet} {
@@ -74,10 +79,10 @@ export const RequestCardContainer = styled.div`
   }
 
   ${mediaQueryTablet} {
-    min-width: 430px;
+    min-width: 360px;
     padding: 0px;
-    margin-top: 40px;
     margin-left: 0;
+    height: 380px;
   }
 
   ${mediaQuerySmallTablet} {
@@ -85,10 +90,10 @@ export const RequestCardContainer = styled.div`
   }
 
   ${mediaQueryMobile} {
-    width: 90%;
-    height: 300px;
-    min-width: 90%;
     display: flex;
     justify-content: center;
+    width: 90%;
+    min-width: 90%;
+    height: 270px;
   }
 `;

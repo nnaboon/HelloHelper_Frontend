@@ -49,9 +49,8 @@ const RequestTitle = styled.div`
   }
 
   ${mediaQueryTablet} {
-    width: 90%;
-    max-width: 200px;
-    margin-left: 27px;
+    width: 100%;
+    margin-right: 10px;
   }
 
   ${mediaQuerySmallTablet} {
@@ -250,7 +249,7 @@ export const SuggestedRequestSection = ({ data }: any) => {
                   }
                 `}
               >
-                <div style={{ display: 'inline-block', marginBottom: '10px' }}>
+                <div style={{ display: 'inline-flex', marginBottom: '10px' }}>
                   <RequestTitle>{title}</RequestTitle>
 
                   {providedUserId.length > 0 && (
