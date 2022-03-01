@@ -25,8 +25,8 @@ const App = () => {
       css={css`
         position: relative;
         width: 100%;
-        height: 100vh;
-        overflow-y: scroll;
+        // height: 100vh;
+        // overflow-y: scroll;
         background: #f9f9f9;
       `}
     >
