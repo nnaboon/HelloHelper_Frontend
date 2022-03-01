@@ -82,30 +82,39 @@ const RequestInfoContainer = styled.div`
 `;
 
 const HelperImage = styled.img`
-  width: 90px;
-  height: 90px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
   margin-top: 5px;
   object-fit: cover;
 
-  ${mediaQueryMobile} {
+  ${mediaQueryLargeDesktop} {
     width: 65px;
     height: 65px;
+  }
+
+  ${mediaQueryMobile} {
+    width: 55px;
+    height: 55px;
   }
 `;
 
 const UserName = styled.div`
   font-weight: 700;
-  font-size: 24px;
+  font-size: 18px;
   color: #000000;
   margin-bottom: 5px;
   margin-right: 30px;
   min-width: 140px;
   width: max-content;
 
+  ${mediaQueryLargeDesktop} {
+    font-size: 18px;
+  }
+
   ${mediaQueryMobile} {
     min-width: max-content;
-    font-size: 16px;
+    font-size: 14px;
     margin-right: 0;
   }
 `;
@@ -156,9 +165,16 @@ const UserProfileCard = styled.div`
   margin-top: 40px;
   margin-bottom: 40px;
 
+  ${mediaQueryLargeDesktop} {
+    height: 100px;
+  }
+
   ${mediaQueryMobile} {
-    height: 90px;
-    margin: 0;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 150px;
+    margin: 20px 0;
+    padding: 10px 15px;
   }
 `;
 
@@ -175,7 +191,9 @@ const UserProfileImageContainer = styled.div`
   }
 
   ${mediaQueryMobile} {
-    margin: 0 30px;
+    margin-right: 20px;
+    margin-left: 0;
+    width: 100%;
   }
 `;
 
@@ -233,7 +251,7 @@ export const CommunitySignin = observer(() => {
               font-size: 1.5rem;
 
               ${mediaQueryLargeDesktop} {
-                font-size: 20px;
+                font-size: 18px;
               }
 
               ${mediaQueryTablet} {
@@ -241,7 +259,7 @@ export const CommunitySignin = observer(() => {
               }
 
               ${mediaQueryMobile} {
-                font-size: 14px;
+                font-size: 15px;
               }
             `}
           >
@@ -258,7 +276,7 @@ export const CommunitySignin = observer(() => {
             placeholder="ค้นหาชุมชนความช่วยเหลือ หรือ สถานที่"
             onSearch={onSearch}
             size="large"
-            style={{ width: isMobile ? '200px' : '462px', height: '40px' }}
+            style={{ width: isMobile ? '300px' : '462px', height: '40px' }}
             css={css`
               .ant-input {
                 height: 40px;
@@ -274,27 +292,35 @@ export const CommunitySignin = observer(() => {
 
               ${mediaQueryExtraLargeDesktop} {
                 .ant-input {
-                  height: 40px;
+                  height: 35px;
                   width: 100%;
                   font-size: 16px;
                 }
 
                 .ant-btn-icon-only.ant-btn-lg {
-                  height: 40px;
-                  width: 40px;
+                  height: 35px;
+                  width: 35px;
+                }
+              }
+
+              ${mediaQueryMobile} {
+                .ant-input {
+                  font-size: 14px;
                 }
               }
             `}
           />
-          {communities.filter(
-            ({ communityName, location }) =>
-              communityName.includes(search) || location.name.includes(search)
+          {communities.filter(({ communityName, location }) =>
+            search
+              ? communityName.includes(search) || location.name.includes(search)
+              : true
           ).length > 0
             ? communities
-                .filter(
-                  ({ communityName, location }) =>
-                    communityName.includes(search) ||
-                    location.name.includes(search)
+                .filter(({ communityName, location }) =>
+                  search
+                    ? communityName.includes(search) ||
+                      location.name.includes(search)
+                    : true
                 )
                 .map(
                   ({
@@ -329,8 +355,14 @@ export const CommunitySignin = observer(() => {
                           }}
                           css={css`
                             margin-right: 100px;
-                            width: 180px;
+                            width: 150px;
                             z-index: 5;
+                            font-size: 14px;
+
+                            ${mediaQueryMobile} {
+                              margin: 0;
+                              width: 100%;
+                            }
                           `}
                         >
                           <div>ดูชุมชนความช่วยเหลือ</div>
@@ -339,11 +371,13 @@ export const CommunitySignin = observer(() => {
                         <SecondaryButton
                           css={css`
                             margin-right: 100px;
-                            width: 230px;
+                            width: 150px !important;
+                            font-size: 14px;
                             z-index: 5;
 
-                            ${mediaQueryLargeDesktop} {
-                              width: 180px;
+                            ${mediaQueryMobile} {
+                              margin: 0;
+                              width: 100% !important;
                             }
                           `}
                           onClick={() => {
@@ -408,106 +442,12 @@ export const CommunitySignin = observer(() => {
                   )
                 )
             : search && <EmptyData height="400px" />}
-          {/* {communities
-            .filter(
-              ({ communityName, location }) =>
-                communityName.includes(search) || location.name.includes(search)
-            )
-            .map(({ communityName, id, createdBy, joinedRequestUserId }) => (
-              <UserProfileCard key={id}>
-                <div style={{ display: 'flex' }}>
-                  <UserProfileImageContainer>
-                    <HelperImage src={undefined} alt="user avatar" />
-                  </UserProfileImageContainer>
-                  <div
-                    css={css`
-                      display: flex;
-                      align-items: center;
-                    `}
-                  >
-                    <UserName>{communityName}</UserName>
-                  </div>
-                </div>
-
-                {me.communityId.includes(id) ? (
-                  <PrimaryButton
-                    onClick={() => {
-                      history.push(`/community/${id}`);
-                    }}
-                    css={css`
-                      margin-right: 100px;
-                      width: 180px;
-                      z-index: 5;
-                    `}
-                  >
-                    <div>ดูชุมชนความช่วยเหลือ</div>
-                  </PrimaryButton>
-                ) : (
-                  <SecondaryButton
-                    css={css`
-                      margin-right: 100px;
-                      width: 180px;
-                      z-index: 5;
-                    `}
-                    onClick={() => {
-                      if (
-                        joinedRequestUserId?.filter(({ userId }) =>
-                          userId.includes(window.localStorage.getItem('id'))
-                        ).length > 0
-                      ) {
-                        try {
-                          updateJoinedCommunityRequest(id, {
-                            joinedRequestId: joinedRequestUserId?.filter(
-                              ({ userId }) =>
-                                userId.includes(
-                                  window.localStorage.getItem('id')
-                                )
-                            )[0].id,
-                            status: 0
-                          });
-                        } catch (e) {
-                          message.error('ไม่สามารถส่งคำขอได้');
-                        } finally {
-                          message.success('สำเร็จ');
-                        }
-                      } else {
-                        try {
-                          joinCommunity({
-                            userId: window.localStorage.getItem('id'),
-                            communityId: id,
-                            communityAdminUserId: createdBy
-                          });
-                        } catch (e) {
-                          message.error('ไม่สามารถส่งคำขอได้');
-                        } finally {
-                          message.success('สำเร็จ');
-                        }
-                      }
-                    }}
-                  >
-                    <div>
-                      {joinedRequestUserId?.filter(({ userId }) =>
-                        userId.includes(window.localStorage.getItem('id'))
-                      ).length > 0 ? (
-                        <Flex>
-                          <CheckOutlined style={{ marginRight: '7px' }} />
-                          <div>ได้ส่งคำขอแล้ว</div>
-                        </Flex>
-                      ) : (
-                        'ส่งคำขอเข้าร่วม'
-                      )}
-                    </div>
-                  </SecondaryButton>
-                )}
-              </UserProfileCard>
-            ))} */}
 
           <Modal
             visible={isModalVisible}
             onOk={handleOk}
             onCancel={handleCancel}
             footer={null}
-            // width={isMobile ? '80%' : isLargeDesktop ? '800px' : '32%'}
             maskClosable={false}
             centered
             css={css`
@@ -520,8 +460,8 @@ export const CommunitySignin = observer(() => {
                 width: 500px !important;
 
                 .ant-modal-content {
-                  min-height: 520px;
-                  height: 750px;
+                  min-height: 420px;
+                  height: 400px;
                 }
               }
 
