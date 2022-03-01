@@ -436,7 +436,11 @@ export const Messenger = observer(() => {
     <WrapperContainer
       css={css`
         top: 210px;
-        padding: 0 20px;
+        padding: 0 20px !important;
+
+        ${mediaQueryLargeDesktop} {
+          padding: 20px !important;
+        }
       `}
     >
       {me && chats ? (
