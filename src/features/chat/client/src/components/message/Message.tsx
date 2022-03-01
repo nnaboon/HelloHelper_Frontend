@@ -80,10 +80,10 @@ const MessageTextOwn = styled.p`
   max-width: 300px;
   width: max-content;
   min-width: max-content;
-  font-size: 18px;
+  font-size: 16px;
 
   ${mediaQueryLargeDesktop} {
-    font-size: 16px;
+    font-size: 14px;
     padding: 10px;
     border-radius: 20px;
   }
@@ -115,10 +115,10 @@ const MessageText = styled.p`
   width: max-content;
   min-width: max-content;
   white-space: pre-wrap;
-  font-size: 18px;
+  font-size: 16px;
 
   ${mediaQueryLargeDesktop} {
-    font-size: 16px;
+    font-size: 14px;
     padding: 10px;
     border-radius: 20px;
   }

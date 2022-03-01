@@ -36,7 +36,7 @@ const ConversationName = styled.div`
   font-size: 16px;
 
   ${mediaQueryLargeDesktop} {
-    font-size: 16px;
+    font-size: 14px;
   }
 
   ${mediaQueryTablet} {
@@ -52,8 +52,8 @@ const ConversationImage = styled.img`
   margin-right: 20px;
 
   ${mediaQueryLargeDesktop} {
-    width: 45px;
-    height: 45px;
+    width: 40px;
+    height: 40px;
   }
 
   ${mediaQueryTablet} {

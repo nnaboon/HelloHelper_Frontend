@@ -33,6 +33,7 @@ import { useAddMessage } from 'hooks/chat/useAddMessage';
 import { useUpdateReadStatus } from 'hooks/chat/useUpdateReadStatus';
 import { useUploadMediaMessage } from 'hooks/chat/useUploadMediaMessage';
 import { firestore } from '../../../../../../firebase';
+import { mediaQueryMiniDesktop } from '../../../../../../styles/variables';
 
 const ChatMenu = styled.div`
   flex: 3;
@@ -439,6 +440,11 @@ export const Messenger = observer(() => {
         padding: 0 20px !important;
 
         ${mediaQueryLargeDesktop} {
+          top: 165px;
+          padding: 0px 20px !important;
+        }
+
+        ${mediaQueryMiniDesktop} {
           padding: 20px !important;
         }
       `}
