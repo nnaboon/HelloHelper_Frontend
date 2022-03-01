@@ -49,6 +49,7 @@ export const SideMenu = observer(
           zIndex: 5
         }}
         css={css`
+          z-index: 8;
           .ant-tooltip
             .ant-menu-inline-collapsed-tooltip
             .ant-tooltip-placement-left

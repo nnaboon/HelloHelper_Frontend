@@ -461,7 +461,7 @@ export const Messenger = observer(() => {
         }
 
         ${mediaQueryMobile} {
-          top: 80px;
+          top: 65px;
         }
       `}
     >
@@ -686,7 +686,7 @@ export const Messenger = observer(() => {
                 width: 85% !important;
 
                 .ant-modal-content {
-                  height: 700px !important;
+                  height: 600px !important;
                   overflow-y: scroll;
                 }
               }

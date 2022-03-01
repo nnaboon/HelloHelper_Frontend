@@ -257,7 +257,14 @@ export const WaitingToConfirmOrders = ({
             )
           )
         ) : (
-          <EmptyData text="ไม่พบออเดอร์ที่รอการยืนยัน" />
+          <EmptyData
+            text="ไม่พบออเดอร์ที่รอการยืนยัน"
+            css={css`
+              ${mediaQueryMobile} {
+                height: 100%;
+              }
+            `}
+          />
         )}
       </Collapse>
     </ChatOnline>
