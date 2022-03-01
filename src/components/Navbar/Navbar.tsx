@@ -84,7 +84,7 @@ const NavbarList = styled.ul`
   ${mediaQueryMiniDesktop} {
     padding: 20px 60px;
     > li {
-      font-size: 10px;
+      font-size: 12px;
     }
   }
 

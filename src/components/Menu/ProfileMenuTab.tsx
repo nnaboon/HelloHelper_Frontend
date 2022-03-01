@@ -21,6 +21,7 @@ import {
   PROFILE_MENU_MAPPER,
   PROFILE_MOBILE_MENU_MAPPER
 } from './const';
+import { mediaQueryMiniDesktop } from '../../styles/variables';
 
 interface MenuTabProps {
   menu: HelpMenu | ProfileMenu;
@@ -45,6 +46,10 @@ export const ProfileMenuTab = ({ menu, setMenu }: MenuTabProps) => {
       css={css`
         width: 50%;
         margin: 30px 0;
+
+        ${mediaQueryMiniDesktop} {
+          width: 65%;
+        }
 
         ${mediaQueryTablet} {
           width: 63%;
