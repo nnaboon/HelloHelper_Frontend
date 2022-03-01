@@ -33,6 +33,7 @@ import {
 import { userStore } from 'store/userStore';
 import { EmptyData } from 'components/Empty/EmptyData';
 import { logout } from 'features/logout/Logout';
+import { mediaQueryDesktop } from '../../styles/variables';
 
 const RequestImageSection = styled.img`
   width: 420px;
@@ -521,6 +522,13 @@ export const CommunitySignin = observer(() => {
                 .ant-modal-content {
                   min-height: 520px;
                   height: 750px;
+                }
+              }
+
+              ${mediaQueryDesktop} {
+                .ant-modal-content {
+                  min-height: 590px;
+                  height: 800px;
                 }
               }
 

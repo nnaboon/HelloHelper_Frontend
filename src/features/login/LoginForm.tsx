@@ -85,12 +85,6 @@ export const LoginForm = observer(
             .ant-form-item-control-input {
               width: 360px;
             }
-
-            ${mediaQueryMiniDesktop} {
-              .ant-form-item {
-                margin-bottom: 15px;
-              }
-            }
           `}
         />
 

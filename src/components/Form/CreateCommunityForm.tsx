@@ -51,7 +51,7 @@ export const CreateCommunityForm = ({
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [imageUrl, setImageUrl] = useState<string>(DefaultImage);
-  const [location, setLocation] = useState<any>();
+  const [location, setLocation] = useState<any>(null);
   const { me } = userStore;
   const {
     data: response,
@@ -321,6 +321,7 @@ export const CreateCommunityForm = ({
           <InputForm
             placeholder="ชื่อขุมชนความช่วยเหลือ"
             css={css`
+              margin: 0;
               ${mediaQueryLargeDesktop} {
                 border-radius: 8px;
               }
@@ -331,6 +332,7 @@ export const CreateCommunityForm = ({
           <InputForm
             placeholder="คำอธิบาย"
             css={css`
+              margin: 0;
               ${mediaQueryLargeDesktop} {
                 border-radius: 8px;
               }

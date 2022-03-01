@@ -60,23 +60,23 @@ export const CommunityProvideContent = ({
   const responsive = {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },
-      items: provide ? (provide.length > 0 ? 5 : 1) : 1
+      items: provide ? (provide?.length > 0 ? 5 : 1) : 1
     },
     bigDesktop: {
       breakpoint: { max: 3000, min: 2000 },
-      items: provide ? (provide.length > 0 ? 4 : 1) : 1
+      items: provide ? (provide?.length > 0 ? 4 : 1) : 1
     },
     desktop: {
       breakpoint: { max: 2000, min: 1024 },
-      items: provide ? (provide.length > 0 ? 3 : 1) : 1
+      items: provide ? (provide?.length > 0 ? 3 : 1) : 1
     },
     tablet: {
       breakpoint: { max: 1024, min: 768 },
-      items: provide ? (provide.length > 0 ? 2 : 1) : 1
+      items: provide ? (provide?.length > 0 ? 2 : 1) : 1
     },
     smallTablet: {
       breakpoint: { max: 768, min: 464 },
-      items: provide ? (provide.length > 0 ? 2 : 1) : 1
+      items: provide ? (provide?.length > 0 ? 2 : 1) : 1
     },
     mobile: {
       breakpoint: { max: 464, min: 0 },
@@ -154,24 +154,42 @@ export const CommunityProvideContent = ({
       <CommunityProvideTitle fontWeight={500}>
         ความช่วยเหลือทั้งหมด
       </CommunityProvideTitle>
-      <CommunityProvideSection isProvide={provide ? provide : 0}>
-        {provide ? (
-          provides.length > 0 ? (
-            provides.map((items) => (
-              <PopularRequestSection
-                data={[items]}
-                css={css`
-                  overflow: hidden !important;
-                `}
-              />
-            ))
+      <Carousel
+        responsive={responsive}
+        arrows
+        css={css`
+          .react-multiple-carousel__arrow {
+            z-index: 10;
+          }
+
+          .react-multiple-carousel__arrow--left {
+            left: 0;
+          }
+
+          .react-multiple-carousel__arrow--right {
+            right: 0;
+          }
+        `}
+      >
+        <CommunityProvideSection isProvide={provide ? provide : 0}>
+          {provide ? (
+            provides.length > 0 ? (
+              provides.map((items) => (
+                <PopularRequestSection
+                  data={[items]}
+                  css={css`
+                    overflow: hidden !important;
+                  `}
+                />
+              ))
+            ) : (
+              <EmptyData height={isMobile ? '200px' : '300px'} />
+            )
           ) : (
-            <EmptyData height={isMobile ? '200px' : '300px'} />
-          )
-        ) : (
-          <Loading height="300px" />
-        )}
-      </CommunityProvideSection>
+            <Loading height="300px" />
+          )}
+        </CommunityProvideSection>
+      </Carousel>
     </div>
   );
 };
