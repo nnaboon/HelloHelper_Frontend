@@ -17,6 +17,7 @@ import {
 import { useCommunityProvide } from 'hooks/community/useCommunityProvide';
 import { Loading } from 'components/Loading/Loading';
 import { EmptyData } from 'components/Empty/EmptyData';
+import { mediaQueryMiniDesktop } from '../../styles/variables';
 
 interface CommunityProvideContentProps {
   provides: any[];
@@ -28,6 +29,11 @@ const CommunityProvideSection = styled.div<{ isProvide: any }>`
   grid-template-columns: ${(props) =>
     props.isProvide.length > 0 ? 'repeat(3, 1fr)' : '1fr'};
   grid-gap: 10px;
+
+  ${mediaQueryMiniDesktop} {
+    grid-template-columns: ${(props) =>
+      props.isProvide.length > 0 ? 'repeat(2, 1fr)' : '1fr'};
+  }
 
   ${mediaQueryMobile} {
     display: flex;
@@ -154,42 +160,24 @@ export const CommunityProvideContent = ({
       <CommunityProvideTitle fontWeight={500}>
         ความช่วยเหลือทั้งหมด
       </CommunityProvideTitle>
-      <Carousel
-        responsive={responsive}
-        arrows
-        css={css`
-          .react-multiple-carousel__arrow {
-            z-index: 10;
-          }
-
-          .react-multiple-carousel__arrow--left {
-            left: 0;
-          }
-
-          .react-multiple-carousel__arrow--right {
-            right: 0;
-          }
-        `}
-      >
-        <CommunityProvideSection isProvide={provide ? provide : 0}>
-          {provide ? (
-            provides.length > 0 ? (
-              provides.map((items) => (
-                <PopularRequestSection
-                  data={[items]}
-                  css={css`
-                    overflow: hidden !important;
-                  `}
-                />
-              ))
-            ) : (
-              <EmptyData height={isMobile ? '200px' : '300px'} />
-            )
+      <CommunityProvideSection isProvide={provide ? provide : 0}>
+        {provide ? (
+          provides.length > 0 ? (
+            provides.map((items) => (
+              <PopularRequestSection
+                data={[items]}
+                css={css`
+                  overflow: hidden !important;
+                `}
+              />
+            ))
           ) : (
-            <Loading height="300px" />
-          )}
-        </CommunityProvideSection>
-      </Carousel>
+            <EmptyData height={isMobile ? '200px' : '300px'} />
+          )
+        ) : (
+          <Loading height="300px" />
+        )}
+      </CommunityProvideSection>
     </div>
   );
 };

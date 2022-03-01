@@ -3,6 +3,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { CATEGORY } from 'data/category';
 import { mediaQueryLargeDesktop } from 'styles/variables';
+import { mediaQueryMiniDesktop } from '../../styles/variables';
 
 const SidebarSection = styled.div`
   display: flex;
@@ -40,6 +41,10 @@ const SidebarItem = styled.div<{ isActive: boolean }>`
     max-width: 280px;
     margin-bottom: 15px;
     font-size: ${(props) => (props.isActive ? '19px' : '16px')};
+  }
+
+  ${mediaQueryMiniDesktop} {
+    margin-bottom: 9px;
   }
 `;
 

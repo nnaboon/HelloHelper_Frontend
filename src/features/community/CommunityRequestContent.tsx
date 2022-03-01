@@ -9,7 +9,8 @@ import {
   MOBILE_WIDTH,
   mediaQueryMobile,
   mediaQueryTablet,
-  mediaQueryLargeDesktop
+  mediaQueryLargeDesktop,
+  mediaQueryMiniDesktop
 } from 'styles/variables';
 import Carousel from 'react-multi-carousel';
 
@@ -30,7 +31,7 @@ const CommunityRequestSection = styled.div<{ isRequest: any }>`
     props.isRequest.length > 0 ? 'repeat(3, 1fr)' : '1fr'};
   grid-gap: 10px;
 
-  ${mediaQueryTablet} {
+  ${mediaQueryMiniDesktop} {
     grid-template-columns: ${(props) =>
       props.isRequest.length > 0 ? 'repeat(2, 1fr)' : '1fr'};
   }
@@ -159,42 +160,24 @@ export const CommunityRequestContent = ({
       <CommunityRequestTitle fontWeight={500}>
         ความช่วยเหลือทั้งหมด
       </CommunityRequestTitle>
-      <Carousel
-        responsive={responsive}
-        arrows
-        css={css`
-          .react-multiple-carousel__arrow {
-            z-index: 10;
-          }
-
-          .react-multiple-carousel__arrow--left {
-            left: 0;
-          }
-
-          .react-multiple-carousel__arrow--right {
-            right: 0;
-          }
-        `}
-      >
-        <CommunityRequestSection isRequest={request ? request : 0}>
-          {request ? (
-            requests.length > 0 ? (
-              requests.map((items) => (
-                <SuggestedRequestSection
-                  data={[items]}
-                  css={css`
-                    overflow: hidden !important;
-                  `}
-                />
-              ))
-            ) : (
-              <EmptyData height={isMobile ? '200px' : '300px'} />
-            )
+      <CommunityRequestSection isRequest={request ? request : 0}>
+        {request ? (
+          requests.length > 0 ? (
+            requests.map((items) => (
+              <SuggestedRequestSection
+                data={[items]}
+                css={css`
+                  overflow: hidden !important;
+                `}
+              />
+            ))
           ) : (
-            <Loading height="300px" />
-          )}
-        </CommunityRequestSection>
-      </Carousel>
+            <EmptyData height={isMobile ? '200px' : '300px'} />
+          )
+        ) : (
+          <Loading height="300px" />
+        )}
+      </CommunityRequestSection>
     </div>
   );
 };

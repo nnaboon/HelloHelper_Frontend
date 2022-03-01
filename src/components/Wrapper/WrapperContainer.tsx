@@ -4,6 +4,7 @@ import {
   mediaQueryMobile,
   mediaQuerySmallTablet,
   mediaQueryTablet,
+  mediaQueryMiniDesktop,
   mediaQueryLargeDesktop
 } from 'styles/variables';
 
@@ -16,6 +17,10 @@ export const WrapperContainer = styled.div`
 
   ${mediaQueryLargeDesktop} {
     top: 165px;
+  }
+
+  ${mediaQueryMiniDesktop} {
+    padding: 0px 60px 40px;
   }
 
   ${mediaQueryTablet} {

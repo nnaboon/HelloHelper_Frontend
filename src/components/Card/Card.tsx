@@ -78,6 +78,10 @@ export const RequestCardContainer = styled.div`
     height: 365px;
   }
 
+  ${mediaQueryMiniDesktop} {
+    min-width: 320px;
+  }
+
   ${mediaQueryTablet} {
     min-width: 360px;
     padding: 0px;

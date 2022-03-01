@@ -20,6 +20,7 @@ import {
   SMALL_TABLET_WIDTH
 } from 'styles/variables';
 import { useUser } from 'hooks/user/useUser';
+import { mediaQueryMiniDesktop } from '../../styles/variables';
 
 const RequestHelperCardContainer = styled.div`
   display: flex;
@@ -76,6 +77,10 @@ const RequestImageSection = styled.img`
   ${mediaQueryLargeDesktop} {
     width: 90%;
     min-width: 160px;
+  }
+
+  ${mediaQueryMiniDesktop} {
+    min-width: 130px;
   }
 
   ${mediaQuerySmallTablet} {
