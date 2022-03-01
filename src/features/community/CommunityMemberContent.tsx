@@ -65,8 +65,8 @@ const CommunityMemberImage = styled.img`
   }
 
   ${mediaQueryMobile} {
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     margin-right: 15px;
     margin-left: 15px;
   }
@@ -166,23 +166,7 @@ export const CommunityMemberContent = ({ member }: any) => {
               `}
             >
               {' '}
-              <SecondaryButton
-                css={css`
-                  width: 165px;
-
-                  ${mediaQueryLargeDesktop} {
-                    width: 140px;
-                  }
-
-                  ${mediaQuerySmallTablet} {
-                    width: 100px;
-                  }
-
-                  ${mediaQueryMobile} {
-                    width: 45%;
-                  }
-                `}
-              >
+              <SecondaryButton>
                 <UserSvg />
                 <div
                   style={{ marginLeft: 5 }}
