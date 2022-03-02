@@ -42,7 +42,7 @@ const MessageImg = styled.img`
   border-radius: 50%;
   object-fit: cover;
   margin-right: 10px;
-  margin-bottom: 2em;
+  margin-bottom: 1em;
   margin-left: 25px;
 
   ${mediaQueryLargeDesktop} {

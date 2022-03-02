@@ -465,6 +465,7 @@ export const Messenger = observer(() => {
     <WrapperContainer
       css={css`
         top: 210px;
+        overflow-y: unset;
         padding: 0 20px !important;
 
         ${mediaQueryLargeDesktop} {
