@@ -2,6 +2,7 @@ import React from 'react';
 import firebase from '../../firebase';
 
 export const logout = () => {
+  window.location.assign('/');
   window.localStorage.removeItem('id');
   window.localStorage.removeItem('loginType');
   window.localStorage.removeItem('access_token');
