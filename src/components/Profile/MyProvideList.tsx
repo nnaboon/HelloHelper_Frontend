@@ -11,7 +11,9 @@ import {
   mediaQueryMobile,
   mediaQueryTablet,
   mediaQuerySmallTablet,
-  mediaQueryLargeDesktop
+  mediaQueryLargeDesktop,
+  useMedia,
+  TABLET_WIDTH
 } from 'styles/variables';
 
 interface MyProvideListProps {
@@ -106,6 +108,10 @@ const HelperListDetail = styled.div`
     font-size: 16px;
   }
 
+  ${mediaQueryTablet} {
+    font-size: 14px;
+  }
+
   ${mediaQuerySmallTablet} {
     width: 350px;
   }
@@ -118,6 +124,7 @@ const HelperListDetail = styled.div`
 
 export const MyProvideList = ({ data, user }: MyProvideListProps) => {
   const history = useHistory();
+  const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
 
   return (
     <HelperListCard
@@ -161,11 +168,16 @@ export const MyProvideList = ({ data, user }: MyProvideListProps) => {
             <HelperListDetail>{data.location.name}</HelperListDetail>
           </Flex>
           <Flex marginBottom="10px">
-            <HelperListHeading>จำนวนการให้ความช่วยเหลือ</HelperListHeading>
+            <HelperListHeading>
+              {' '}
+              {isTablet ? 'จำนวน' : 'จำนวนการให้ความช่วยเหลือ'}
+            </HelperListHeading>
             <HelperListDetail>{data.provideSum} ครั้ง</HelperListDetail>
           </Flex>
           <Flex marginBottom="10px">
-            <HelperListHeading>คะแนนการให้ความช่วยเหลือ</HelperListHeading>
+            <HelperListHeading>
+              {isTablet ? 'คะแนน' : 'คะแนนการให้ความช่วยเหลือ'}
+            </HelperListHeading>
             <HelperListDetail>
               {data.rating.toFixed(1)} <Rate count={1} defaultValue={1} />
             </HelperListDetail>

@@ -76,12 +76,12 @@ const HelperImage = styled.img`
 `;
 
 const HelperName = styled.div`
-  font-size: 22px;
+  font-size: 18px;
   color: #000000;
   margin-left: 50px;
 
   ${mediaQueryMobile} {
-    font-size: 18px;
+    font-size: 16px;
     margin-left: 20px;
     font-weight: 600;
   }

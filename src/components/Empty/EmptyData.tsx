@@ -37,7 +37,7 @@ const EmptyContainer = styled(Empty)`
 export const EmptyData = ({ height, text }: EmptyDataProps) => {
   return (
     <Empty
-      image={Empty.PRESENTED_IMAGE_SIMPLE}
+      image={Empty.PRESENTED_IMAGE_DEFAULT}
       description={<span>{text ? text : 'ไม่พบข้อมูล'}</span>}
       css={css`
         display: flex;
@@ -53,9 +53,9 @@ export const EmptyData = ({ height, text }: EmptyDataProps) => {
           height: 90px;
         }
 
-        .ant-empty-img-simple {
-          width: 90px;
-          height: 90px;
+        .ant-empty-img-default {
+          width: 100px;
+          height: 100px;
         }
 
         .ant-empty-image {
@@ -65,9 +65,14 @@ export const EmptyData = ({ height, text }: EmptyDataProps) => {
         ${mediaQueryLargeDesktop} {
           font-size: 16px;
 
-          .ant-empty-img-simple {
-            width: 70px;
-            height: 70px;
+          > svg {
+            width: 60px;
+            height: 60px;
+          }
+
+          .ant-empty-img-default {
+            width: 90px;
+            height: 90px;
           }
 
           .ant-empty-image {
@@ -78,9 +83,9 @@ export const EmptyData = ({ height, text }: EmptyDataProps) => {
         ${mediaQueryTablet} {
           font-size: 12px;
 
-          .ant-empty-img-simple {
-            width: 50px;
-            height: 50px;
+          .ant-empty-img-default {
+            width: 70px;
+            height: 70px;
           }
 
           .ant-empty-image {
@@ -91,6 +96,11 @@ export const EmptyData = ({ height, text }: EmptyDataProps) => {
         ${mediaQueryMobile} {
           height: ${height ?? `calc(100vh - 265px)`};
           top: 0;
+
+          .ant-empty-img-default {
+            width: 60px;
+            height: 60px;
+          }
         }
       `}
     />
