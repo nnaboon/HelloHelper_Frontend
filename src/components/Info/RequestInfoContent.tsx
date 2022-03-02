@@ -69,7 +69,7 @@ const RequestImageSection = styled.img`
     width: 100%;
     justify-self: center;
     align-self: center;
-    height: 450px;
+    height: 380px;
   }
 
   ${mediaQueryMobile} {
@@ -305,7 +305,7 @@ export const RequestInfoContent = observer(({ data }: any) => {
         }}
       >
         <MenuItemContainer>
-          <EditSvg style={{ marginRight: '8px' }} />
+          {/* <EditSvg style={{ marginRight: '8px' }} /> */}
           <div>แก้ไข</div>
         </MenuItemContainer>
       </Menu.Item>
@@ -339,7 +339,7 @@ export const RequestInfoContent = observer(({ data }: any) => {
             }
           }}
         >
-          <EyeOffSvg style={{ marginRight: '18px' }} />
+          {/* <EyeOffSvg style={{ marginRight: '18px' }} /> */}
           <div>{Boolean(request?.visibility) ? 'ซ่อน' : 'เลิกซ่อน'}</div>
         </div>
       </Menu.Item>
@@ -360,7 +360,7 @@ export const RequestInfoContent = observer(({ data }: any) => {
               });
           }}
         >
-          <DeleteSvg style={{ marginRight: '18px' }} />
+          {/* <DeleteSvg style={{ marginRight: '18px' }} /> */}
           <div>ลบ</div>
         </MenuItemContainer>
       </Menu.Item>
@@ -406,7 +406,7 @@ export const RequestInfoContent = observer(({ data }: any) => {
                 css={css`
                   position: absolute;
                   z-index: 8;
-                  top: 40px;
+                  // top: 40px;
                   color: #0000;
                   right: 25px;
 
@@ -446,7 +446,7 @@ export const RequestInfoContent = observer(({ data }: any) => {
 
                   ${mediaQueryMobile} {
                     right: 8px;
-                    top: 10px;
+                    // top: 10px;
                   }
                 `}
               />
@@ -861,12 +861,16 @@ export const RequestInfoContent = observer(({ data }: any) => {
                         <Text
                           fontWeight={400}
                           css={css`
-                            font-size: 2.3rem;
+                            font-size: 24px;
                             margin-bottom: 35px;
 
                             ${mediaQueryLargeDesktop} {
-                              font-size: 26px;
+                              font-size: 24px;
                               margin-bottom: 20px;
+                            }
+
+                            ${mediaQueryTablet} {
+                              font-size: 20px;
                             }
                           `}
                         >

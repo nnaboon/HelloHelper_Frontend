@@ -30,11 +30,13 @@ export const InfoMenuTab = ({ menu, setMenu }: MenuTabProps) => {
         width: isTablet ? '100%' : '50%'
       }}
       css={css`
+        position: relative;
+        top: 20px;
         margin-top: 10px;
         margin-bottom: 50px;
 
         ${mediaQueryMobile} {
-          margin: 10px 0px 40px 0;
+          margin: 20px 0px 40px 0;
         }
       `}
     >

@@ -55,7 +55,7 @@ const ProvideImageSection = styled.img`
     width: 100%;
     justify-self: center;
     align-self: center;
-    height: 450px;
+    height: 380px;
   }
 
   ${mediaQueryMobile} {
@@ -269,9 +269,14 @@ export const ProvideInfoContent = observer(({ data }: any) => {
             setIsModalVisible(true);
           }}
         >
-          <EditSvg style={{ marginRight: '8px' }} />
-
-          <div>แก้ไข</div>
+          {/* <EditSvg style={{ marginRight: '8px' }} /> */}
+          <div
+            css={css`
+              font-size: 13px;
+            `}
+          >
+            แก้ไข
+          </div>
         </div>
       </Menu.Item>
       <Menu.Item key="2">
@@ -305,8 +310,19 @@ export const ProvideInfoContent = observer(({ data }: any) => {
             }
           }}
         >
-          <EyeOffSvg style={{ marginRight: '18px' }} />
-          <div>{Boolean(provide?.visibility) ? 'ซ่อน' : 'เลิกซ่อน'}</div>
+          {/* <EyeOffSvg
+            style={{ marginRight: '18px' }}
+            css={css`
+              font-size: 14px;
+            `}
+          /> */}
+          <div
+            css={css`
+              font-size: 13px;
+            `}
+          >
+            {Boolean(provide?.visibility) ? 'ซ่อน' : 'เลิกซ่อน'}
+          </div>
         </div>
       </Menu.Item>
       <Menu.Item key="3">
@@ -331,8 +347,14 @@ export const ProvideInfoContent = observer(({ data }: any) => {
               });
           }}
         >
-          <DeleteSvg style={{ marginRight: '18px' }} />
-          <div>ลบ</div>
+          {/* <DeleteSvg style={{ marginRight: '18px' }} /> */}
+          <div
+            css={css`
+              font-size: 13px;
+            `}
+          >
+            ลบ
+          </div>
         </div>
       </Menu.Item>
     </Menu>
@@ -376,7 +398,6 @@ export const ProvideInfoContent = observer(({ data }: any) => {
                 css={css`
                   position: absolute;
                   z-index: 8;
-                  top: 40px;
                   color: #0000;
                   right: 25px;
 
@@ -416,7 +437,6 @@ export const ProvideInfoContent = observer(({ data }: any) => {
 
                   ${mediaQueryMobile} {
                     right: 8px;
-                    top: 10px;
                   }
                 `}
               />

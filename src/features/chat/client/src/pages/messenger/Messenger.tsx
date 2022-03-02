@@ -91,6 +91,10 @@ const ChatBoxWrapper = styled.div`
 const ChatMenuWrapper = styled.div`
   padding: 0px 10px;
   height: 100%;
+
+  ${mediaQueryTablet} {
+    padding: 0px 10px;
+  }
 `;
 
 const ChatOnlineWrapper = styled.div`
@@ -488,7 +492,7 @@ export const Messenger = observer(() => {
           <MessengerContainer>
             <ChatMenu>
               <ChatMenuWrapper>
-                <ChatMenuInput placeholder="Search for friends" />
+                {/* <ChatMenuInput placeholder="Search for friends" /> */}
                 {chats.map((c) => (
                   <div
                     onClick={() => {

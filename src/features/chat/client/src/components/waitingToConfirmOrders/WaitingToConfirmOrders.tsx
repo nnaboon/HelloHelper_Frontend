@@ -35,7 +35,7 @@ const ChatOnline = styled.div`
 `;
 
 const OrderDetail = styled.p`
-  font-size: 1.5rem;
+  font-size: 16px;
   color: black;
 
   ${mediaQueryLargeDesktop} {
@@ -44,12 +44,13 @@ const OrderDetail = styled.p`
 `;
 
 const OrderTitle = styled.p`
-  font-size: 1.5rem;
+  font-size: 16px;
   color: black;
   margin-right: 30px;
+  min-width: 40px;
 
   ${mediaQueryLargeDesktop} {
-    font-size: 14px;
+    font-size: 12px;
     margin-right: 20px;
   }
 `;
@@ -114,10 +115,10 @@ export const WaitingToConfirmOrders = ({
                 key={id}
                 css={css`
                   .ant-collapse-header {
-                    font-size: 1.5rem;
+                    font-size: 14px;
 
                     ${mediaQueryLargeDesktop} {
-                      font-size: 16px;
+                      font-size: 13px;
                     }
                   }
                 `}

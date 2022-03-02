@@ -305,12 +305,20 @@ export const RequestFormModal = ({
           marginTop="10px"
           marginBottom="20px"
           css={css`
-            font-size: 2rem;
+            font-size: 24px;
             margin-bottom: 35px;
 
             ${mediaQueryLargeDesktop} {
-              font-size: 24px;
+              font-size: 20px;
               margin-bottom: 20px;
+            }
+
+            ${mediaQueryTablet} {
+              font-size: 18px;
+            }
+
+            ${mediaQueryMobile} {
+              font-size: 14px;
             }
           `}
         >
@@ -348,8 +356,8 @@ export const RequestFormModal = ({
             }
 
             .ant-upload.ant-upload-select-picture-card {
-              width: 170px;
-              height: 170px;
+              width: 140px;
+              height: 140px;
             }
 
             ${mediaQueryLargeDesktop} {

@@ -100,8 +100,8 @@ const MessageTextOwn = styled.p`
 const MessageMediaOwn = styled(Image)`
   color: white;
   border-radius: 35px;
-  height: 450px;
-  width: 450px;
+  height: 300px;
+  width: 300px;
 
   ${mediaQueryLargeDesktop} {
     border-radius: 20px;
