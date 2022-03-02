@@ -7,6 +7,7 @@ import moment from 'moment';
 import Flex from 'components/Flex/Flex';
 import { Image } from 'antd';
 import { mediaQueryLargeDesktop, mediaQueryTablet } from 'styles/variables';
+import { mediaQueryMobile } from '../../../../../../styles/variables';
 
 interface MessageProps {
   message: any;
@@ -53,6 +54,9 @@ const MessageImg = styled.img`
   ${mediaQueryTablet} {
     width: 22px;
     height: 22px;
+  }
+
+  ${mediaQueryMobile} {
   }
 `;
 
@@ -103,6 +107,16 @@ const MessageMediaOwn = styled(Image)`
     border-radius: 20px;
     height: 250px;
     width: 250px;
+  }
+
+  ${mediaQueryTablet} {
+    height: 150px;
+    width: 150px;
+  }
+
+  ${mediaQueryMobile} {
+    height: 140px;
+    width: 140px;
   }
 `;
 

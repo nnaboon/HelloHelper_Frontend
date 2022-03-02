@@ -66,15 +66,15 @@ export const CommunityProvideContent = ({
   const responsive = {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },
-      items: provide ? 5 : 1
+      items: 5
     },
     bigDesktop: {
       breakpoint: { max: 3000, min: 2000 },
-      items: provide ? 4 : 1
+      items: 4
     },
     desktop: {
       breakpoint: { max: 2000, min: 1300 },
-      items: provide ? 3 : 1
+      items: 3
     },
     smallDesktop: {
       breakpoint: { max: 1300, min: 1024 },
@@ -83,12 +83,12 @@ export const CommunityProvideContent = ({
     },
     tablet: {
       breakpoint: { max: 1024, min: 768 },
-      items: provide ? 2 : 1
+      items: 2
     },
 
     smallTablet: {
       breakpoint: { max: 768, min: 464 },
-      items: provide ? 2 : 1
+      items: 2
     },
     mobile: {
       breakpoint: { max: 464, min: 0 },
@@ -104,65 +104,68 @@ export const CommunityProvideContent = ({
     <div>
       <CommunityProvideTitle fontWeight={500}>
         ความช่วยเหลือยอดนิยม
-      </CommunityProvideTitle>
-      <Carousel
-        responsive={responsive}
-        arrows
-        css={css`
-          .react-multiple-carousel__arrow {
-            z-index: 10;
-          }
+      </CommunityProvideTitle>{' '}
+      {provide ? (
+        provides.length > 0 ? (
+          <Carousel
+            responsive={responsive}
+            arrows
+            css={css`
+              .react-multiple-carousel__arrow {
+                z-index: 10;
+              }
 
-          .react-multiple-carousel__arrow--left {
-            left: 0;
-          }
+              .react-multiple-carousel__arrow--left {
+                left: 0;
+              }
 
-          .react-multiple-carousel__arrow--right {
-            right: 0;
-          }
-        `}
-      >
-        {provide ? (
-          provides.length > 0 ? (
-            provides.map((items) => <PopularRequestSection data={[items]} />)
-          ) : (
-            <EmptyData height={isMobile ? '200px' : '300px'} />
-          )
+              .react-multiple-carousel__arrow--right {
+                right: 0;
+              }
+            `}
+          >
+            {provides.map((items) => (
+              <PopularRequestSection data={[items]} />
+            ))}
+          </Carousel>
         ) : (
-          <Loading height="300px" />
-        )}
-      </Carousel>
+          <EmptyData height={isMobile ? '200px' : '300px'} />
+        )
+      ) : (
+        <Loading height="300px" />
+      )}
       <CommunityProvideTitle fontWeight={500}>
         Top 10 ความช่วยเหลือประจำสัปดาห์
       </CommunityProvideTitle>
+      {provide ? (
+        provides.length > 0 ? (
+          <Carousel
+            responsive={responsive}
+            arrows
+            css={css`
+              .react-multiple-carousel__arrow {
+                z-index: 10;
+              }
 
-      <Carousel
-        responsive={responsive}
-        arrows
-        css={css`
-          .react-multiple-carousel__arrow {
-            z-index: 10;
-          }
+              .react-multiple-carousel__arrow--left {
+                left: 0;
+              }
 
-          .react-multiple-carousel__arrow--left {
-            left: 0;
-          }
-
-          .react-multiple-carousel__arrow--right {
-            right: 0;
-          }
-        `}
-      >
-        {provide ? (
-          provides.length > 0 ? (
-            provides.map((items) => <PopularRequestSection data={[items]} />)
-          ) : (
-            <EmptyData height={isMobile ? '200px' : '300px'} />
-          )
+              .react-multiple-carousel__arrow--right {
+                right: 0;
+              }
+            `}
+          >
+            {provides.map((items) => (
+              <PopularRequestSection data={[items]} />
+            ))}
+          </Carousel>
         ) : (
-          <Loading height="300px" />
-        )}
-      </Carousel>
+          <EmptyData height={isMobile ? '200px' : '300px'} />
+        )
+      ) : (
+        <Loading height="300px" />
+      )}
       <CommunityProvideTitle fontWeight={500}>
         ความช่วยเหลือทั้งหมด
       </CommunityProvideTitle>

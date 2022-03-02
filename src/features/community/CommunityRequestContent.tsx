@@ -67,15 +67,15 @@ export const CommunityRequestContent = ({
   const responsive = {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },
-      items: request ? 5 : 1
+      items: 5
     },
     bigDesktop: {
       breakpoint: { max: 3000, min: 2000 },
-      items: request ? 4 : 1
+      items: 4
     },
     desktop: {
       breakpoint: { max: 2000, min: 1300 },
-      items: request ? 3 : 1
+      items: 3
     },
     smallDesktop: {
       breakpoint: { max: 1300, min: 1024 },
@@ -84,11 +84,11 @@ export const CommunityRequestContent = ({
     },
     tablet: {
       breakpoint: { max: 1024, min: 768 },
-      items: request ? 2 : 1
+      items: 2
     },
     smallTablet: {
       breakpoint: { max: 768, min: 464 },
-      items: request ? 2 : 1
+      items: 2
     },
     mobile: {
       breakpoint: { max: 464, min: 0 },
@@ -105,63 +105,67 @@ export const CommunityRequestContent = ({
       <CommunityRequestTitle fontWeight={500}>
         ความช่วยเหลือยอดนิยม
       </CommunityRequestTitle>
-      <Carousel
-        responsive={responsive}
-        arrows
-        css={css`
-          .react-multiple-carousel__arrow {
-            z-index: 10;
-          }
+      {request ? (
+        requests.length > 0 ? (
+          <Carousel
+            responsive={responsive}
+            arrows
+            css={css`
+              .react-multiple-carousel__arrow {
+                z-index: 10;
+              }
 
-          .react-multiple-carousel__arrow--left {
-            left: 0;
-          }
+              .react-multiple-carousel__arrow--left {
+                left: 0;
+              }
 
-          .react-multiple-carousel__arrow--right {
-            right: 0;
-          }
-        `}
-      >
-        {request ? (
-          requests.length > 0 ? (
-            requests.map((items) => <SuggestedRequestSection data={[items]} />)
-          ) : (
-            <EmptyData height={isMobile ? '200px' : '300px'} />
-          )
+              .react-multiple-carousel__arrow--right {
+                right: 0;
+              }
+            `}
+          >
+            {requests.map((items) => (
+              <SuggestedRequestSection data={[items]} />
+            ))}
+          </Carousel>
         ) : (
-          <Loading height="300px" />
-        )}
-      </Carousel>
+          <EmptyData height={isMobile ? '200px' : '300px'} />
+        )
+      ) : (
+        <Loading height="300px" />
+      )}
       <CommunityRequestTitle fontWeight={500}>
         Top 10 ความช่วยเหลือประจำสัปดาห์
-      </CommunityRequestTitle>
-      <Carousel
-        responsive={responsive}
-        arrows
-        css={css`
-          .react-multiple-carousel__arrow {
-            z-index: 10;
-          }
+      </CommunityRequestTitle>{' '}
+      {request ? (
+        requests.length > 0 ? (
+          <Carousel
+            responsive={responsive}
+            arrows
+            css={css`
+              .react-multiple-carousel__arrow {
+                z-index: 10;
+              }
 
-          .react-multiple-carousel__arrow--left {
-            left: 0;
-          }
+              .react-multiple-carousel__arrow--left {
+                left: 0;
+              }
 
-          .react-multiple-carousel__arrow--right {
-            right: 0;
-          }
-        `}
-      >
-        {request ? (
-          requests.length > 0 ? (
-            requests.map((items) => <SuggestedRequestSection data={[items]} />)
-          ) : (
-            <EmptyData height={isMobile ? '200px' : '300px'} />
-          )
+              .react-multiple-carousel__arrow--right {
+                right: 0;
+              }
+            `}
+          >
+            {requests.map((items) => (
+              <SuggestedRequestSection data={[items]} />
+            ))}
+          </Carousel>
         ) : (
-          <Loading height="300px" />
-        )}
-      </Carousel>
+          <EmptyData height={isMobile ? '200px' : '300px'} />
+        )
+      ) : (
+        <Loading height="300px" />
+      )}
       <CommunityRequestTitle fontWeight={500}>
         ความช่วยเหลือทั้งหมด
       </CommunityRequestTitle>

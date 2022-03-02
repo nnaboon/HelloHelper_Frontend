@@ -259,6 +259,7 @@ export const WaitingToConfirmOrders = ({
         ) : (
           <EmptyData
             text="ไม่พบออเดอร์ที่รอการยืนยัน"
+            height="calc(100vh - 236px)"
             css={css`
               ${mediaQueryMobile} {
                 height: 100%;

@@ -508,7 +508,7 @@ export const RequestFormModal = ({
 
           <Form.Item
             name="price"
-            label="ราคาสินค้าสูงสุด"
+            label="ราคาสินค้า"
             tooltip="กำหนดราคาสินค้าสูงสุดที่คุณต้องการหรือที่สามารถจ่ายได้"
             rules={[
               {

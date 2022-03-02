@@ -473,7 +473,7 @@ export const PostRequestButton = ({
             </Form.Item>
             <Form.Item
               name="maxPrice"
-              label="ราคาสินค้าสูงสุด"
+              label="ราคาสินค้า"
               tooltip="กำหนดราคาสินค้าสูงสุดที่คุณต้องการหรือที่สามารถจ่ายได้"
               rules={[
                 {
@@ -506,7 +506,7 @@ export const PostRequestButton = ({
               name="number"
               label="จำนวน"
               rules={
-                !isProvide
+                type === 'request'
                   ? [
                       {
                         required: true,
@@ -517,7 +517,7 @@ export const PostRequestButton = ({
               }
             >
               <InputForm
-                disabled={isProvide}
+                disabled={type === 'provide'}
                 type="number"
                 min="0"
                 placeholder="จำนวนสินค้า"

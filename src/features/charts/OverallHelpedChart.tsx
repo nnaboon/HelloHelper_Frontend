@@ -36,7 +36,6 @@ export const OverallHelpedChart = ({
     },
     series: [
       {
-        name: 'Access From',
         type: 'pie',
         radius: '50%',
         label: {

@@ -303,7 +303,11 @@ export const CommunitySettingManageMember = () => {
                   <CommunityButtonContainer>
                     <SecondaryButton
                       css={css`
+                        min-width: 109px;
+                        width: 109px;
+
                         ${mediaQueryMobile} {
+                          width: 100%;
                           margin-right: 15px;
                         }
                       `}
@@ -327,6 +331,14 @@ export const CommunitySettingManageMember = () => {
                       <div>ปฏิเสธ</div>
                     </SecondaryButton>
                     <PrimaryButton
+                      css={css`
+                        min-width: 109px;
+                        width: 109px;
+
+                        ${mediaQueryMobile} {
+                          width: 100%;
+                        }
+                      `}
                       onClick={() => {
                         updateJoinedCommunityRequest(query, {
                           joinedRequestId: id,
@@ -379,7 +391,11 @@ export const CommunitySettingManageMember = () => {
               <CommunityButtonContainer>
                 <SecondaryButton
                   css={css`
+                    min-width: 109px;
+                    width: 109px;
+
                     ${mediaQueryMobile} {
+                      width: 100%;
                       margin-right: 15px;
                     }
                   `}
@@ -406,7 +422,16 @@ export const CommunitySettingManageMember = () => {
                   <div>ลบ</div>
                 </SecondaryButton>
                 <Dropdown overlay={menu(id)} trigger={['click']}>
-                  <PrimaryButton>
+                  <PrimaryButton
+                    css={css`
+                      min-width: 109px;
+                      width: 109px;
+
+                      ${mediaQueryMobile} {
+                        width: 100%;
+                      }
+                    `}
+                  >
                     <div>เปลี่ยนสถานะ</div>
                   </PrimaryButton>
                 </Dropdown>
@@ -434,8 +459,12 @@ export const CommunitySettingManageMember = () => {
                   <CommunityButtonContainer>
                     <SecondaryButton
                       css={css`
+                        min-width: 109px;
+                        width: 109px;
+
                         ${mediaQueryMobile} {
                           margin-right: 15px;
+                          width: 100%;
                         }
                       `}
                       onClick={() => {
@@ -462,7 +491,16 @@ export const CommunitySettingManageMember = () => {
                       <div>ลบ</div>
                     </SecondaryButton>
                     <Dropdown overlay={menu(id)} trigger={['click']}>
-                      <PrimaryButton>
+                      <PrimaryButton
+                        css={css`
+                          min-width: 109px;
+                          width: 109px;
+
+                          ${mediaQueryMobile} {
+                            width: 100%;
+                          }
+                        `}
+                      >
                         <div>เปลี่ยนสถานะ</div>
                       </PrimaryButton>
                     </Dropdown>

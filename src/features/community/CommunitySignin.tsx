@@ -10,8 +10,6 @@ import { WrapperContainer } from 'components/Wrapper/WrapperContainer';
 import { SecondaryButton, PrimaryButton } from 'components/Button/Button';
 import Flex from 'components/Flex/Flex';
 import { Text } from 'components/Text';
-import { RANK_BADGE } from 'components/Badge/const';
-import { RankingBadge } from 'components/Badge/Badge';
 import { useCommunities } from 'hooks/community/useCommunities';
 import { useUpdateJoinedCommunityRequest } from 'hooks/community/useUpdateJoinedCommunityRequest';
 import { useJoinCommunity } from 'hooks/community/useJoinCommunity';
@@ -28,60 +26,15 @@ import {
   mediaQueryLargeDesktop,
   mediaQuerySmallTablet,
   mediaQueryTablet,
+  mediaQueryDesktop,
   mediaQueryExtraLargeDesktop
 } from 'styles/variables';
 import { userStore } from 'store/userStore';
 import { EmptyData } from 'components/Empty/EmptyData';
 import { logout } from 'features/logout/Logout';
-import { mediaQueryDesktop } from '../../styles/variables';
+import { firestore } from '../../firebase';
 
-const RequestImageSection = styled.img`
-  width: 420px;
-  height: 510px;
-  margin-bottom: 20px;
-
-  ${mediaQueryTablet} {
-    width: 100%;
-    justify-self: center;
-    align-self: center;
-  }
-
-  ${mediaQueryMobile} {
-    height: 300px;
-    justify-self: center;
-    align-self: center;
-  }
-`;
-
-const RequestCategoryButton = styled(PrimaryButton)`
-  width: max-content;
-  min-width: 140px;
-  padding: 10px 15px;
-  height: 40px;
-  margin: 10px 8px 10px 0px;
-`;
-
-const RequestHashtagButton = styled(SecondaryButton)`
-  width: max-content;
-  min-width: 80px;
-  padding: 10px 15px;
-  height: 40px;
-  margin: 10px 8px 10px 0px;
-`;
-
-const RequestInfoContainer = styled.div`
-  display: grid;
-  grid-template-columns: 180px 400px;
-  grid-gap: 40px;
-  margin-bottom: 60px;
-
-  ${mediaQueryMobile} {
-    grid-template-columns: auto auto;
-    grid-gap: 12px;
-  }
-`;
-
-const HelperImage = styled.img`
+const CommunityImage = styled.img`
   width: 80px;
   height: 80px;
   border-radius: 50%;
@@ -99,7 +52,7 @@ const HelperImage = styled.img`
   }
 `;
 
-const UserName = styled.div`
+const CommunityName = styled.div`
   font-weight: 700;
   font-size: 18px;
   color: #000000;
@@ -119,41 +72,7 @@ const UserName = styled.div`
   }
 `;
 
-const RequestDetail = styled.div`
-  font-weight: 700;
-  font-size: 24px;
-  line-height: 28px;
-  color: #000000;
-  min-width: 200px;
-  line-height: 31px;
-  white-space: pre-wrap;
-
-  ${mediaQueryMobile} {
-    font-size: 16px;
-  }
-`;
-
-const RequestTitle = styled.div`
-  font-size: 14px;
-  line-height: 26px;
-  color: #848484;
-  min-width: 90px;
-  max-width: 150px;
-
-  ${mediaQueryMobile} {
-    min-width: unset;
-    max-width: unset;
-  }
-`;
-
-const MenuItemContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 99;
-`;
-
-const UserProfileCard = styled.div`
+const CommunityCard = styled.div`
   width: 100%;
   height: 140px;
   display: flex;
@@ -178,7 +97,7 @@ const UserProfileCard = styled.div`
   }
 `;
 
-const UserProfileImageContainer = styled.div`
+const CommunityImageContainer = styled.div`
   display: flex;
   width: 20%;
   flex-direction: column;
@@ -213,12 +132,9 @@ export const CommunitySignin = observer(() => {
   } = useUpdateJoinedCommunityRequest();
 
   const history = useHistory();
-  const { pathname, state } = useLocation();
+  const { pathname } = useLocation();
   const { me } = userStore;
-  const query = pathname.split('/')[3];
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
-  const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
-  const isLargeDesktop = useMedia(`(max-width: ${LARGE_DESKTOP_WIDTH}px)`);
 
   const { Search } = Input;
 
@@ -235,8 +151,24 @@ export const CommunitySignin = observer(() => {
   };
 
   useEffect(() => {
-    getCommunities();
-  }, [updateJoinCommunityLoading, updateJoinRequestLoading]);
+    const doc = firestore.collection('communities');
+
+    const observer = doc.onSnapshot(
+      async (docSnapshot) => {
+        console.log('na');
+        getCommunities();
+      },
+      (err) => {
+        console.log(`Encountered error: ${err}`);
+      }
+    );
+
+    return () => observer();
+  }, []);
+
+  // useEffect(() => {
+  //   getCommunities();
+  // }, [updateJoinCommunityLoading, updateJoinRequestLoading]);
 
   return (
     <WrapperContainer>
@@ -330,44 +262,44 @@ export const CommunitySignin = observer(() => {
                     joinedRequestUserId,
                     imageUrl
                   }) => (
-                    <UserProfileCard key={id}>
+                    <CommunityCard key={id}>
                       <div style={{ display: 'flex' }}>
-                        <UserProfileImageContainer>
-                          <HelperImage
+                        <CommunityImageContainer>
+                          <CommunityImage
                             src={imageUrl ?? DefaultImage}
                             alt="community pic"
                           />
-                        </UserProfileImageContainer>
+                        </CommunityImageContainer>
                         <div
                           css={css`
                             display: flex;
                             align-items: center;
                           `}
                         >
-                          <UserName>{communityName}</UserName>
+                          <CommunityName>{communityName}</CommunityName>
                         </div>
                       </div>
 
-                      {me?.communityId?.includes(id) ? (
-                        <PrimaryButton
-                          onClick={() => {
-                            history.push(`/community/${id}`);
-                          }}
-                          css={css`
-                            margin-right: 100px;
-                            width: 150px;
-                            z-index: 5;
-                            font-size: 14px;
+                      {/* {me?.communityId?.includes(id) ? ( */}
+                      <SecondaryButton
+                        onClick={() => {
+                          history.push(`/community/${id}`);
+                        }}
+                        css={css`
+                          margin-right: 100px;
+                          width: 150px;
+                          z-index: 5;
+                          font-size: 14px;
 
-                            ${mediaQueryMobile} {
-                              margin: 0;
-                              width: 100%;
-                            }
-                          `}
-                        >
-                          <div>ดูชุมชนความช่วยเหลือ</div>
-                        </PrimaryButton>
-                      ) : (
+                          ${mediaQueryMobile} {
+                            margin: 0;
+                            width: 100%;
+                          }
+                        `}
+                      >
+                        <div>ดูชุมชนความช่วยเหลือ</div>
+                      </SecondaryButton>
+                      {/* ) : (
                         <SecondaryButton
                           css={css`
                             margin-right: 100px;
@@ -437,8 +369,8 @@ export const CommunitySignin = observer(() => {
                             )}
                           </div>
                         </SecondaryButton>
-                      )}
-                    </UserProfileCard>
+                      )} */}
+                    </CommunityCard>
                   )
                 )
             : search && <EmptyData height="400px" />}
@@ -453,7 +385,7 @@ export const CommunitySignin = observer(() => {
             css={css`
               .ant-modal-content {
                 min-height: 620px;
-                height: 880px;
+                height: 800px;
               }
 
               ${mediaQueryLargeDesktop} {
@@ -461,14 +393,14 @@ export const CommunitySignin = observer(() => {
 
                 .ant-modal-content {
                   min-height: 420px;
-                  height: 400px;
+                  height: 750px !important;
                 }
               }
 
               ${mediaQueryDesktop} {
                 .ant-modal-content {
                   min-height: 590px;
-                  height: 800px;
+                  height: 750px !important;
                 }
               }
 

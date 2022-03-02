@@ -6,7 +6,7 @@ import { css, jsx } from '@emotion/react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { Divider, Input, Menu, Dropdown, Select, message } from 'antd';
 import { WrapperContainer } from 'components/Wrapper/WrapperContainer';
-import { PrimaryButton } from 'components/Button/Button';
+import { PrimaryButton, SecondaryButton } from 'components/Button/Button';
 import {
   useMedia,
   MOBILE_WIDTH,
@@ -37,6 +37,11 @@ import { useCommunityMember } from 'hooks/community/useCommunityMember';
 import { Loading } from 'components/Loading/Loading';
 import { firestore } from '../../firebase';
 import { logout } from 'features/logout/Logout';
+import { mediaQueryMiniDesktop } from '../../styles/variables';
+import { EmptyData } from 'components/Empty/EmptyData';
+import { useJoinCommunity } from 'hooks/community/useJoinCommunity';
+import { useUpdateJoinedCommunityRequest } from '../../hooks/community/useUpdateJoinedCommunityRequest';
+import { CheckOutlined } from '@ant-design/icons';
 
 const ProfilePageUserHelperListSection = styled.div`
   width: 100%;
@@ -51,10 +56,10 @@ const ProfilePageUserInfoSection = styled.div`
 
   ${mediaQueryTablet} {
     margin: 40px 0;
+    flex-direction: column;
   }
 
   ${mediaQuerySmallTablet} {
-    flex-direction: column;
     margin-top: 0;
     margin-bottom: 0;
   }
@@ -70,7 +75,7 @@ const CommunityCard = styled.div`
   border-radius: 8px;
   display: flex;
   align-items: center;
-  border-sizing: border-box;
+  box-sizing: border-box;
   padding: 20px;
   position: relative;
 
@@ -173,6 +178,16 @@ export const CommunityContentInfo = observer(({ data }: any) => {
   const { execute: bannedMember } = useBanMember();
   const { data: member, execute: getCommunityMember } = useCommunityMember();
   const { data: community, execute: getCommunity } = useCommunity();
+  const {
+    data: response,
+    loading: updateJoinCommunityLoading,
+    execute: joinCommunity
+  } = useJoinCommunity();
+  const {
+    data: updateJoinRequest,
+    loading: updateJoinRequestLoading,
+    execute: updateJoinedCommunityRequest
+  } = useUpdateJoinedCommunityRequest();
   const [selectedCommunity, setSetSelectedCommunity] = useState<string>(
     data[0].communityId
   );
@@ -281,7 +296,7 @@ export const CommunityContentInfo = observer(({ data }: any) => {
             <CommunityCard>
               {community?.member.filter(
                 ({ userId }) => userId === window.localStorage.getItem('id')
-              )[0].role === 1 && (
+              )[0]?.role === 1 && (
                 <SettingSvg
                   style={{
                     marginRight: '10px',
@@ -343,110 +358,242 @@ export const CommunityContentInfo = observer(({ data }: any) => {
               >
                 <CommunityName>{community.communityName}</CommunityName>
               </div>
-              <div
-                style={{
-                  display: 'flex',
-                  position: 'absolute',
-                  bottom: '12px',
-                  padding: '10px',
-
-                  width: '100%',
-                  cursor: 'pointer'
-                }}
-                css={css`
-                  left: -9px;
-
-                  ${mediaQueryTablet} {
-                    left: 0;
-                  }
-
-                  ${mediaQueryMobile} {
-                    justify-content: space-between;
-                    left: 0 !important;
-                  }
-                `}
-              >
-                {' '}
-                <PrimaryButton
+              {community?.member.filter(
+                ({ userId }) => userId === window.localStorage.getItem('id')
+              ).length > 0 ? (
+                <div
+                  style={{
+                    display: 'flex',
+                    position: 'absolute',
+                    bottom: '12px',
+                    padding: '10px',
+                    width: '100%',
+                    cursor: 'pointer'
+                  }}
                   css={css`
-                    width: 100%;
+                    left: -9px;
+                    bottom: 12px;
+
+                    ${mediaQueryMiniDesktop} {
+                      bottom: 5px;
+                    }
 
                     ${mediaQueryTablet} {
-                      margin-left: 0;
+                      left: 0;
                     }
 
                     ${mediaQueryMobile} {
-                      width: 47%;
+                      justify-content: space-between;
+                      left: 0 !important;
                     }
                   `}
-                  onClick={() => {
-                    bannedMember(
-                      query,
-                      community?.member.filter(
-                        ({ userId }) =>
-                          userId === window.localStorage.getItem('id')
-                      )[0].id,
-                      {
-                        communityAdminUserId: window.localStorage.getItem('id')
-                      }
-                    )
-                      .then(() => {
-                        // data.length > 1
-                        //   ? history.push(
-                        //       `/community/${
-                        //         data.filter(
-                        //           (items) =>
-                        //             items.communityId !==
-                        //             window.localStorage.getItem(
-                        //               'selectedCommunity'
-                        //             )
-                        //         )[0].communityId
-                        //       }`
-                        //     )
-                        //   : history.push('/community');
-                        history.push('/');
-                      })
-                      .catch((error) => {
-                        if (error.response.data === 'Unauthorized') {
-                          logout();
-                        } else {
-                          message.error(
-                            'ขออภัย ไม่สามารถออกจากชุมชนความช่วยเหลือนี้ได้เนื่องจากมีผู้นำชุมชนเพียง 1 คน'
-                          );
-                        }
-                      });
-                  }}
                 >
-                  <LogoutSvg style={{ marginRight: '10px' }} />
-                  ออกจากชุมชน
-                </PrimaryButton>
-                <Dropdown trigger={['click']} overlay={dropDownMenu}>
+                  {' '}
                   <PrimaryButton
                     css={css`
-                      background: #487bff;
-                      z-index: 2;
+                      width: 100%;
 
-                      border-color: #497bff;
-
-                      &:hover {
-                        background: #1877f2 !important;
-                        border-color: #1877f2 !important;
-                      }
-
-                      &:focus {
-                        background: #1877f2 !important;
-                        border-color: #1877f2 !important;
+                      ${mediaQueryTablet} {
+                        margin-left: 0;
                       }
 
                       ${mediaQueryMobile} {
                         width: 47%;
                       }
                     `}
+                    onClick={() => {
+                      bannedMember(
+                        query,
+                        community?.member.filter(
+                          ({ userId }) =>
+                            userId === window.localStorage.getItem('id')
+                        )[0].id,
+                        {
+                          communityAdminUserId:
+                            window.localStorage.getItem('id')
+                        }
+                      )
+                        .then(() => {
+                          // data.length > 1
+                          //   ? history.push(
+                          //       `/community/${
+                          //         data.filter(
+                          //           (items) =>
+                          //             items.communityId !==
+                          //             window.localStorage.getItem(
+                          //               'selectedCommunity'
+                          //             )
+                          //         )[0].communityId
+                          //       }`
+                          //     )
+                          //   : history.push('/community');
+                          message.success('ลบชุมชนความช่วยเหลือนี้สำเร็จ');
+                          window.localStorage.removeItem('selectedCommunity');
+                          history.push('/');
+                        })
+                        .catch((error) => {
+                          if (error.response.data === 'Unauthorized') {
+                            logout();
+                          } else {
+                            if (
+                              error.response.data ===
+                              'Sorry maximum admin role is 3'
+                            ) {
+                              message.error(
+                                'ขออภัย ผู้นำชุมชุนสามารถมีได้สูงสุด 3 คน'
+                              );
+                            } else if (
+                              error.response.data ===
+                              'Sorry admin role must be at less 1'
+                            ) {
+                              message.error(
+                                'ขออภัย ไม่สามารถออกจากชุมชนความช่วยเหลือนี้ได้เนื่องจากมีผู้นำชุมชนเพียง 1 คน'
+                              );
+                            } else {
+                              message.error(
+                                'ขออภัย ไม่สามารถออกจากชุมชนความช่วยเหลือนี้ได้ ณ ขณะนี้'
+                              );
+                            }
+                          }
+                        });
+                    }}
                   >
-                    สลับชุมชน
+                    <LogoutSvg style={{ marginRight: '10px' }} />
+                    ออกจากชุมชน
                   </PrimaryButton>
-                </Dropdown>
-              </div>
+                  <Dropdown trigger={['click']} overlay={dropDownMenu}>
+                    <PrimaryButton
+                      css={css`
+                        background: #487bff;
+                        z-index: 2;
+
+                        border-color: #497bff;
+
+                        &:hover {
+                          background: #1877f2 !important;
+                          border-color: #1877f2 !important;
+                        }
+
+                        &:focus {
+                          background: #1877f2 !important;
+                          border-color: #1877f2 !important;
+                        }
+
+                        ${mediaQueryMobile} {
+                          width: 47%;
+                        }
+                      `}
+                    >
+                      สลับชุมชน
+                    </PrimaryButton>
+                  </Dropdown>
+                </div>
+              ) : (
+                <div
+                  style={{
+                    display: 'flex',
+                    position: 'absolute',
+                    bottom: '12px',
+                    padding: '10px',
+                    width: '100%',
+                    cursor: 'pointer'
+                  }}
+                  css={css`
+                    left: -9px;
+                    bottom: 12px;
+
+                    ${mediaQueryMiniDesktop} {
+                      bottom: 5px;
+                    }
+
+                    ${mediaQueryTablet} {
+                      left: 0;
+                    }
+
+                    ${mediaQueryMobile} {
+                      padding: 0 10px;
+                      justify-content: space-between;
+                      left: 0 !important;
+                    }
+                  `}
+                >
+                  <PrimaryButton
+                    css={css`
+                      width: 100%;
+
+                      ${mediaQueryTablet} {
+                        margin-left: 0;
+                      }
+                    `}
+                    onClick={() => {
+                      if (
+                        community.joinedRequestUserId?.filter(({ userId }) =>
+                          userId.includes(window.localStorage.getItem('id'))
+                        ).length > 0
+                      ) {
+                        try {
+                          updateJoinedCommunityRequest(community.communityId, {
+                            joinedRequestId:
+                              community.joinedRequestUserId?.filter(
+                                ({ userId }) =>
+                                  userId.includes(
+                                    window.localStorage.getItem('id')
+                                  )
+                              )[0].id,
+                            status: 0
+                          })
+                            .then((res) => {
+                              getCommunity(query ?? selectedCommunity);
+                            })
+                            .catch((error) => {
+                              if (error.response.data === 'Unauthorized') {
+                                logout();
+                              } else {
+                                message.error('ไม่สามารถส่งคำขอได้');
+                              }
+                            });
+                        } catch (e) {
+                          message.error('ไม่สามารถส่งคำขอได้');
+                        } finally {
+                          message.success('สำเร็จ');
+                        }
+                      } else {
+                        try {
+                          joinCommunity({
+                            userId: window.localStorage.getItem('id'),
+                            communityId: community.communityId
+                          })
+                            .then((res) => {
+                              getCommunity(query ?? selectedCommunity);
+                            })
+                            .catch((error) => {
+                              if (error.response.data === 'Unauthorized') {
+                                logout();
+                              }
+                            });
+                        } catch (e) {
+                          message.error('ไม่สามารถส่งคำขอได้');
+                        } finally {
+                          message.success('สำเร็จ');
+                        }
+                      }
+                    }}
+                  >
+                    <div>
+                      {community.joinedRequestUserId?.filter(({ userId }) =>
+                        userId.includes(window.localStorage.getItem('id'))
+                      ).length > 0 ? (
+                        <Flex>
+                          <CheckOutlined style={{ marginRight: '7px' }} />
+                          <div>ได้ส่งคำขอแล้ว</div>
+                        </Flex>
+                      ) : (
+                        'ส่งคำขอเข้าร่วม'
+                      )}
+                    </div>
+                  </PrimaryButton>
+                </div>
+              )}
             </CommunityCard>
             <div
               css={css`
@@ -454,13 +601,18 @@ export const CommunityContentInfo = observer(({ data }: any) => {
                 position: relative;
                 left: 55px;
 
+                ${mediaQueryMiniDesktop} {
+                  left: 25px;
+                }
+
                 ${mediaQueryTablet} {
                   margin-bottom: 30px;
-                  left: 0;
+                  left: 0px;
                 }
 
                 ${mediaQueryMobile} {
                   margin-bottom: 0;
+                  left: 0px;
                 }
               `}
             >
@@ -528,27 +680,27 @@ export const CommunityContentInfo = observer(({ data }: any) => {
                   }}
                   css={css`
                     .ant-input {
-                      height: 50px;
-                      width: 500px;
-                      font-size: 1.6rem;
+                      height: 40px;
+                      width: 400px;
+                      font-size: 16px;
                       line-height: 6.8713;
                     }
 
                     .ant-btn-icon-only.ant-btn-lg {
-                      height: 50px;
-                      width: 50px;
+                      height: 40px;
+                      width: 40px;
                     }
 
                     ${mediaQueryExtraLargeDesktop} {
                       .ant-input {
-                        height: 40px;
+                        height: 35px;
                         width: 100%;
-                        font-size: 16px;
+                        font-size: 14px;
                       }
 
                       .ant-btn-icon-only.ant-btn-lg {
-                        height: 40px;
-                        width: 40px;
+                        height: 35px;
+                        width: 35px;
                       }
                     }
                   `}
@@ -562,15 +714,15 @@ export const CommunityContentInfo = observer(({ data }: any) => {
                   }}
                   css={css`
                     margin-left: 120px;
-                    font-size: 1.6rem;
-                    height: 50px;
-                    width: 250px;
+                    font-size: 16px;
+                    height: 40px;
+                    width: 200px;
 
                     ${mediaQueryExtraLargeDesktop} {
                       margin-left: 20px;
-                      font-size: 16px;
-                      width: 200px;
-                      height: 40px;
+                      font-size: 14px;
+                      width: 150px;
+                      height: 35px;
                     }
                   `}
                 >
@@ -582,52 +734,69 @@ export const CommunityContentInfo = observer(({ data }: any) => {
                 </Select>
               </div>
 
-              <div
-                css={css`
-                  ${mediaQueryMobile} {
-                    align-self: end !important;
-                  }
-                `}
-              >
-                {' '}
-                <PostRequestButton
-                  setProvides={setProvides}
-                  setRequests={setRequests}
-                  buttonText={
-                    menu === CommunityMenu.PROVIDE
-                      ? 'ให้ความช่วยเหลือ'
-                      : 'ขอความช่วยเหลือ'
-                  }
-                  type={menu === CommunityMenu.PROVIDE ? 'provide' : 'request'}
-                />
-              </div>
+              {community?.member.filter(
+                ({ userId }) => userId === window.localStorage.getItem('id')
+              ).length > 0 && (
+                <div
+                  css={css`
+                    ${mediaQueryMobile} {
+                      align-self: end !important;
+                    }
+                  `}
+                >
+                  {' '}
+                  <PostRequestButton
+                    setProvides={setProvides}
+                    setRequests={setRequests}
+                    buttonText={
+                      menu === CommunityMenu.PROVIDE
+                        ? 'ให้ความช่วยเหลือ'
+                        : 'ขอความช่วยเหลือ'
+                    }
+                    type={
+                      menu === CommunityMenu.PROVIDE ? 'provide' : 'request'
+                    }
+                  />
+                </div>
+              )}
             </div>
           )}
-          <ProfilePageUserHelperListSection>
-            {menu === CommunityMenu.MEMBER ? (
-              <div>
-                <CommunityMemberContent member={community.member} />
-              </div>
-            ) : (
-              <div>
-                {menu === CommunityMenu.PROVIDE ? (
-                  <React.Fragment>
-                    <CommunityProvideContent
-                      provides={provides}
-                      setProvides={setProvides}
-                    />
-                  </React.Fragment>
-                ) : (
-                  <React.Fragment>
-                    <CommunityRequestContent
-                      requests={requests}
-                      setRequests={setRequests}
-                    />
-                  </React.Fragment>
-                )}
-              </div>
-            )}
-          </ProfilePageUserHelperListSection>
+          {community?.member.filter(
+            ({ userId }) => userId === window.localStorage.getItem('id')
+          ).length > 0 ? (
+            <ProfilePageUserHelperListSection>
+              {menu === CommunityMenu.MEMBER ? (
+                <div>
+                  <CommunityMemberContent member={community.member} />
+                </div>
+              ) : (
+                <div>
+                  {menu === CommunityMenu.PROVIDE ? (
+                    <React.Fragment>
+                      <CommunityProvideContent
+                        provides={provides}
+                        setProvides={setProvides}
+                      />
+                    </React.Fragment>
+                  ) : (
+                    <React.Fragment>
+                      <CommunityRequestContent
+                        requests={requests}
+                        setRequests={setRequests}
+                      />
+                    </React.Fragment>
+                  )}
+                </div>
+              )}
+            </ProfilePageUserHelperListSection>
+          ) : (
+            <div>
+              <EmptyData
+                text="ขออภัย คุณจำเป็นจะต้องเป็นสมาชิกในชุมชนนี้ก่อนถึงจะสามารถเรียกดูโพสต์ความช่วยเหลือได้"
+                height={isMobile ? '300px' : '400px'}
+              />
+            </div>
+          )}
         </React.Fragment>
       ) : (
         <Loading height="calc(100vh - 265px)" />

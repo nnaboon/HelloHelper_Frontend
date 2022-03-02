@@ -51,6 +51,8 @@ import { EditSvg } from 'components/Svg/EditSvg';
 import { DeleteSvg } from 'components/Svg/DeleteSvg';
 import { EyeOffSvg } from 'components/Svg/EyeOffSvg';
 import { EmptyData } from 'components/Empty/EmptyData';
+import { logout } from 'features/logout/Logout';
+import { useDeleteRequest } from 'hooks/request/useDeleteRequest';
 
 const RequestImageSection = styled.img`
   width: 450px;
@@ -284,6 +286,7 @@ export const RequestInfoContent = observer(({ data }: any) => {
   const { execute: getRequest } = useRequest();
   const { execute: updateRequest } = useUpdateRequest();
   const { execute: addRequesterUserId } = useAddRequesterUser();
+  const { execute: deleteRequest } = useDeleteRequest();
   const { execute: deleteRequesterUserId } = useDeletedRequesterUserId();
 
   const { data: provides, execute: getProvides } = useProvides();
@@ -341,7 +344,22 @@ export const RequestInfoContent = observer(({ data }: any) => {
         </div>
       </Menu.Item>
       <Menu.Item key="3">
-        <MenuItemContainer>
+        <MenuItemContainer
+          onClick={() => {
+            deleteRequest(query)
+              .then((res) => {
+                message.success('สำเร็จ');
+                history.push('/');
+              })
+              .catch((error) => {
+                if (error.response.data === 'Unauthorized') {
+                  logout();
+                }
+
+                message.error('ไม่สำเร็จ');
+              });
+          }}
+        >
           <DeleteSvg style={{ marginRight: '18px' }} />
           <div>ลบ</div>
         </MenuItemContainer>

@@ -32,36 +32,36 @@ export const GoogleMapContent = ({
     const geocoder = new google.maps.Geocoder();
     map.fitBounds(bounds);
 
-    // if (requestLocation) {
-    //   console.log(requestLocation);
-    //   geocoder.geocode({ location: requestLocation }).then((res) => {
-    //     if (res.results[0]) {
-    //       map.setZoom(20);
-    //       setMyLocation(res.results[0].geometry.location);
-    //     }
-    //   });
-    // } else {
-    navigator.geolocation.getCurrentPosition(function (position) {
-      let location = new google.maps.LatLng(
-        position.coords.latitude,
-        position.coords.longitude
-      );
-      setMyLocation(location);
+    if (requestLocation) {
+      console.log(requestLocation);
+      geocoder.geocode({ location: requestLocation }).then((res) => {
+        if (res.results[0]) {
+          map.setZoom(20);
+          setMyLocation(res.results[0].geometry.location);
+        }
+      });
+    } else {
+      navigator.geolocation.getCurrentPosition(function (position) {
+        let location = new google.maps.LatLng(
+          position.coords.latitude,
+          position.coords.longitude
+        );
+        setMyLocation(location);
 
-      geocoder
-        .geocode({
-          location: {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          }
-        })
-        .then((response) => {
-          setRequestLocation(response.results[0]);
-        });
+        geocoder
+          .geocode({
+            location: {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            }
+          })
+          .then((response) => {
+            setRequestLocation(response.results[0]);
+          });
 
-      map.setZoom(14);
-    });
-    // }
+        map.setZoom(14);
+      });
+    }
 
     setMap(map);
   }, []);

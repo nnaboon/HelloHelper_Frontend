@@ -29,6 +29,10 @@ const ConversationSection = styled.div`
     align-items: center;
     justify-content: center;
   }
+
+  ${mediaQueryMobile} {
+    padding: 0;
+  }
 `;
 
 const ConversationName = styled.div`
@@ -60,6 +64,11 @@ const ConversationImage = styled.img`
     width: 30px;
     height: 30px;
     margin-right: 10px;
+  }
+
+  ${mediaQueryMobile} {
+    width: 25px;
+    height: 25px;
   }
 `;
 

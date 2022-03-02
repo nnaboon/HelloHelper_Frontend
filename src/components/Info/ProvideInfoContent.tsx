@@ -18,6 +18,7 @@ import { RANK_BADGE } from 'components/Badge/const';
 import { useProvide } from 'hooks/provide/useProvide';
 import { useUser } from 'hooks/user/useUser';
 import { userStore } from 'store/userStore';
+import { logout } from 'features/logout/Logout';
 
 import { RequestFormModal } from 'components/Form/RequestForm';
 import {
@@ -37,6 +38,7 @@ import { useUpdateProvide } from 'hooks/provide/useUpdateProvide';
 import { useAddChatRoom } from 'hooks/chat/useAddChatRoom';
 import { mediaQueryLargeDesktop } from '../../styles/variables';
 import { ProviderId } from 'firebase/auth';
+import { useDeleteProvide } from '../../hooks/provide/useDeleteProvide';
 
 const ProvideImageSection = styled.img`
   width: 450px;
@@ -242,6 +244,7 @@ export const ProvideInfoContent = observer(({ data }: any) => {
   const { execute: updateProvide } = useUpdateProvide();
   const { execute: getProvide } = useProvide();
   const { execute: addChatRoom } = useAddChatRoom();
+  const { execute: deleteProvide } = useDeleteProvide();
 
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
@@ -312,6 +315,20 @@ export const ProvideInfoContent = observer(({ data }: any) => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center'
+          }}
+          onClick={() => {
+            deleteProvide(query)
+              .then((res) => {
+                message.success('สำเร็จ');
+                history.push('/');
+              })
+              .catch((error) => {
+                if (error.response.data === 'Unauthorized') {
+                  logout();
+                }
+
+                message.error('ไม่สำเร็จ');
+              });
           }}
         >
           <DeleteSvg style={{ marginRight: '18px' }} />
