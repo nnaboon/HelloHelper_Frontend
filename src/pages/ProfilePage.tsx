@@ -170,7 +170,7 @@ const UserName = styled.div`
   ${mediaQueryMobile} {
     font-size: 18px;
     text-align: center;
-    max-width: 150px;
+    max-width: 170px;
   }
 `;
 

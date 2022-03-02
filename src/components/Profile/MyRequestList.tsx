@@ -44,7 +44,7 @@ const HelperListCard = styled.div`
   }
 
   ${mediaQueryMobile} {
-    height: 330px;
+    height: 360px;
     margin-top: 0;
     margin-bottom: 30px;
     padding: 25px;
