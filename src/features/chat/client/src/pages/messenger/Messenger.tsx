@@ -107,6 +107,12 @@ const ChatMessageInput = styled.textarea`
   ${mediaQueryTablet} {
     height: 65px;
   }
+
+  ${mediaQueryMobile} {
+    width: 76%;
+    height: 50px;
+    font-size: 12px;
+  }
 `;
 
 const LeftInnerContainer = styled.div`
@@ -145,14 +151,14 @@ const NoConversationText = styled.div`
 
 const TopBar = styled.div`
   width: 100%;
-  height: 130px;
+  height: 120px;
   box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
   position: relative;
   z-index: 9;
 
   ${mediaQueryLargeDesktop} {
-    height: 100px;
+    height: 90px;
   }
 
   ${mediaQueryTablet} {
@@ -190,7 +196,7 @@ const UserName = styled.div`
   }
 
   ${mediaQueryTablet} {
-    font-size: 18px;
+    font-size: 16px;
   }
 `;
 
@@ -203,7 +209,7 @@ const RequestForm = styled.div`
 
   ${mediaQueryLargeDesktop} {
     font-size: 16px;
-    margin-top: 10px;
+    margin-top: 3px;
   }
 
   ${mediaQueryTablet} {
@@ -236,6 +242,12 @@ const ChatSubmitButton = styled.button`
   cursor: pointer;
   background-color: teal;
   color: white;
+
+  ${mediaQueryMobile} {
+    width: 50px;
+    height: 25px;
+    font-size: 12px;
+  }
 `;
 
 export const Messenger = observer(() => {
@@ -460,8 +472,14 @@ export const Messenger = observer(() => {
           padding: 20px !important;
         }
 
+        ${mediaQueryTablet} {
+          top: 80px;
+          padding: 10px !important;
+        }
+
         ${mediaQueryMobile} {
           top: 65px;
+          padding: 8px !important;
         }
       `}
     >
@@ -616,13 +634,13 @@ export const Messenger = observer(() => {
                               }
 
                               ${mediaQueryMobile} {
-                                font-size: 16px;
+                                font-size: 20px;
                               }
                             `}
                           />
                         </Upload>
                         <ChatSubmitButton onClick={handleSubmit}>
-                          Send
+                          ส่ง
                         </ChatSubmitButton>
                       </Flex>
                     </ChatBoxBottom>
