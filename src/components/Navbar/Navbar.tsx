@@ -218,7 +218,9 @@ export const Navbar = observer(() => {
           });
       } else if (user) {
         setIsModalVisible(true);
-        getUser(user.uid);
+        getUser(user.uid).catch((error) => {
+          setAccountStep(LoginStep.REGISTER);
+        });
         setLoginType(user.providerData[0].providerId);
         setAccount(true);
       } else {
@@ -236,6 +238,7 @@ export const Navbar = observer(() => {
   }, [pathname]);
 
   useEffect(() => {
+    console.log(response);
     if (response) {
       if (Object.keys(response).length !== 0) {
         setMe(response);
@@ -253,6 +256,8 @@ export const Navbar = observer(() => {
         setIsModalVisible(true);
       }
     } else if (response !== undefined) {
+      setAccountStep(LoginStep.REGISTER);
+    } else {
       setAccountStep(LoginStep.REGISTER);
     }
   }, [response]);
