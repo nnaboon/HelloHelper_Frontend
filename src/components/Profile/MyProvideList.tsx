@@ -78,11 +78,14 @@ const HelperListHeading = styled.div`
     min-width: 170px;
   }
 
+  ${mediaQueryTablet} {
+    min-width: 125px;
+    font-size: 11px;
+  }
+
   ${mediaQueryMobile} {
     width: max-content;
-    min-width: max-content;
     margin-right: 10px;
-    font-size: 12px;
   }
 `;
 
