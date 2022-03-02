@@ -4,4 +4,4 @@
 
 // hosting server
 export const REACT_APP_API =
-  'https://us-central1-senior-project-97cfa.cloudfunctions.net/api';
+  'https://asia-southeast1-senior-project-97cfa.cloudfunctions.net/api';
