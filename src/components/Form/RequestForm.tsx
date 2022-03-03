@@ -235,6 +235,7 @@ export const RequestFormModal = ({
   useEffect(() => {
     if (requestData) {
       setLocation(requestData.location);
+      setImageUrl(requestData.imageUrl);
     }
   }, [requestData]);
 
