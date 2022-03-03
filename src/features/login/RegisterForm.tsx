@@ -48,7 +48,7 @@ export const RegisterForm = observer(
               ? `${
                   user.photoURL
                 }?height=200&access_token=${window.localStorage.getItem(
-                  'access_token'
+                  'facebook_access_token'
                 )}`
               : user.photoURL
         }));
@@ -63,7 +63,7 @@ export const RegisterForm = observer(
               ? `${
                   user.photoURL
                 }?height=200&access_token=${window.localStorage.getItem(
-                  'access_token'
+                  'facebook_access_token'
                 )}`
               : user.photoURL
         }));
