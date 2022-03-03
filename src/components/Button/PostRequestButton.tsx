@@ -379,12 +379,18 @@ export const PostRequestButton = ({
                 }
 
                 .ant-form-item-label > label {
-                  font-size: 14px;
+                  font-size: 13px;
                 }
 
                 .ant-upload.ant-upload-select-picture-card {
                   width: 104px;
                   height: 104px;
+                }
+              }
+
+              ${mediaQueryTablet} {
+                .ant-form-item-label > label {
+                  font-size: 14px;
                 }
               }
 
@@ -518,7 +524,7 @@ export const PostRequestButton = ({
               }
             >
               <InputForm
-                disabled={type === 'provide'}
+                disabled={isProvide || type === 'provide'}
                 type="number"
                 min="0"
                 placeholder="จำนวนสินค้า"
