@@ -186,7 +186,7 @@ export default function Message({
                     Read
                   </div>
                   <MessageTiming>
-                    {moment(message.createdAt).format('MMM DD, HH:MM')}
+                    {moment(message.createdAt).format('MMM DD,  HH:mm')}
                   </MessageTiming>
                 </Flex>{' '}
                 {message.media ? (
@@ -205,7 +205,7 @@ export default function Message({
               <Flex itemAlign="flex-end">
                 <Flex itemAlign="flex-end">
                   <MessageTiming>
-                    {moment(message.createdAt).format('MMM DD, HH:MM')}
+                    {moment(message.createdAt).format('MMM DD,  HH:mm')}
                   </MessageTiming>
                 </Flex>{' '}
                 {message.media ? (
@@ -245,7 +245,7 @@ export default function Message({
                   margin-left: 10px;
                 `}
               >
-                {moment(message.createdAt).format('MMM DD, HH:MM')}
+                {moment(message.createdAt).format('MMM DD,  HH:mm')}
               </MessageTiming>
             </Flex>
           </MessageTop>
