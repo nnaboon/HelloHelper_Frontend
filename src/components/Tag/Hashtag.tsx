@@ -95,7 +95,6 @@ export const EditableTagGroup = ({ tags, setTags }: EditableTagGroupProps) => {
   };
 
   const handleEditInputChange = (e: any) => {
-    console.log('32');
     setEditInputValue(e.target.value);
   };
 

@@ -155,7 +155,6 @@ export const CommunitySignin = observer(() => {
 
     const observer = doc.onSnapshot(
       async (docSnapshot) => {
-        console.log('na');
         getCommunities();
       },
       (err) => {

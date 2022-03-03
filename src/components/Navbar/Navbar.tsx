@@ -207,10 +207,9 @@ export const Navbar = observer(() => {
           .then(() => {
             setUserId(window.localStorage.getItem('id'));
             setUserImage(user.photoURL);
-            // getUser(user.uid).catch((error) => {
-            //   logout();
-            // });
-            getUser(user.uid);
+            getUser(user.uid).catch((error) => {
+              logout();
+            });
             setIsModalVisible(false);
             setAccount(true);
           })
@@ -222,13 +221,11 @@ export const Navbar = observer(() => {
       } else if (user) {
         setIsModalVisible(true);
         getUser(user.uid).catch((error) => {
-          console.log('usererror ');
           setAccountStep(LoginStep.REGISTER);
         });
         setLoginType(user.providerData[0].providerId);
         setAccount(true);
       } else if (user === null && window.localStorage.getItem('id')) {
-        console.log('user === null');
         logout();
       } else {
         setIsModalVisible(true);
@@ -247,7 +244,6 @@ export const Navbar = observer(() => {
   }, [pathname]);
 
   useEffect(() => {
-    console.log(response);
     if (response) {
       if (Object.keys(response).length !== 0) {
         setMe(response);

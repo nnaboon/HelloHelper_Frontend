@@ -128,7 +128,6 @@ export const EditProfileForm = observer(() => {
 
   const onFinish = async (value) => {
     setIsSubmitting(true);
-    console.log(location);
     const data = {
       title: value.title,
       email: value.email,

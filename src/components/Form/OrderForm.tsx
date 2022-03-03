@@ -473,7 +473,6 @@ export const OrderForm = observer(
               window.localStorage.getItem('isRememberAddress') === 'true'
             }
             onChange={(e) => {
-              console.log(e.target.checked);
               window.localStorage.setItem(
                 'isRememberAddress',
                 e.target.checked.toString()

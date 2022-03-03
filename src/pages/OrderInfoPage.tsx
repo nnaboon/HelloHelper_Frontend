@@ -136,21 +136,6 @@ export const OrderInfoPage = () => {
     setIsModalVisible(false);
   };
 
-  const onFinish = async (value) => {
-    setIsSubmitting(true);
-    const data = {
-      rating: value.rating
-    };
-
-    try {
-      console.log('data', data);
-    } catch (e) {
-      message.error('ไม่สามารถโพสต์ขอความช่วยเหลือได้');
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
   useEffect(() => {
     getOrder(query);
   }, [status]);
