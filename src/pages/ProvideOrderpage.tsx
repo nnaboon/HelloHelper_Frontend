@@ -47,10 +47,10 @@ export const ProvideOrderPage = observer(() => {
             fontWeight={400}
             marginY="20px"
             css={css`
-              font-size: 24px;
+              font-size: 22px;
 
               ${mediaQueryLargeDesktop} {
-                font-size: 22px;
+                font-size: 20px;
               }
 
               ${mediaQueryTablet} {
