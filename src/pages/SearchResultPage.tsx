@@ -138,12 +138,32 @@ export const SearchResultPage = () => {
                   ผลการค้นหา ทั้งหมด{' '}
                   {menu === 'provide'
                     ? provides.filter(
-                        ({ category, communityId }) =>
-                          category[0] === qs && !Boolean(communityId)
+                        ({
+                          category,
+                          title,
+                          visibility,
+                          communityId,
+                          hashtag
+                        }) =>
+                          Boolean(visibility) && !Boolean(communityId) && search
+                            ? title.includes(state?.search) ||
+                              hashtag.includes(state?.search)
+                            : category[0] === qs
                       ).length
                     : requests.filter(
-                        ({ category, communityId }) =>
-                          category[0] === qs && !Boolean(communityId)
+                        ({
+                          category,
+                          title,
+                          visibility,
+                          communityId,
+                          hashtag
+                        }) =>
+                          Boolean(visibility) &&
+                          !Boolean(communityId) &&
+                          (search
+                            ? title.includes(state?.search) ||
+                              hashtag.includes(state?.search)
+                            : category[0] === qs)
                       ).length}{' '}
                   รายการ
                 </Text>

@@ -353,7 +353,7 @@ export const RequestInfoContent = observer(({ data }: any) => {
 
   return (
     <React.Fragment>
-      {user && request && userId && provides ? (
+      {user && request && provides ? (
         <div>
           <WrapperContainer
             css={css`
@@ -365,7 +365,16 @@ export const RequestInfoContent = observer(({ data }: any) => {
               }
             `}
           >
-            <Flex justify="flex-end" marginTop="10px">
+            <Flex
+              justify="flex-end"
+              css={css`
+                margin-top: 25px;
+
+                ${mediaQueryLargeDesktop} {
+                  margin-top: 10px;
+                }
+              `}
+            >
               {(request.providedUserId.length > 0 ||
                 !Boolean(request.visibility)) && (
                 <RequestStatusBadge
@@ -391,7 +400,7 @@ export const RequestInfoContent = observer(({ data }: any) => {
                     : null}
                 </RequestStatusBadge>
               )}
-              {request.userId === userId && (
+              {request.userId === window.localStorage.getItem('id') && (
                 <Dropdown.Button
                   icon={<MoreOutlined />}
                   overlay={dropDownMenu}
@@ -751,7 +760,7 @@ export const RequestInfoContent = observer(({ data }: any) => {
 
             {(!isTablet || menu === InfoMenu.HELPER_LIST) && (
               <React.Fragment>
-                {request.userId !== userId ? (
+                {request.userId !== window.localStorage.getItem('id') ? (
                   <div>
                     <Divider
                       style={{

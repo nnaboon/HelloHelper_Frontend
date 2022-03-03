@@ -97,6 +97,23 @@ export const OrderForm = observer(
       try {
         addOrder(data)
           .then((res) => {
+            // if (window.localStorage.getItem('isRememberAddress')) {
+            //   updateUser(window.localStorage.getItem('id'), {
+            //     name: value.name,
+            //     address: value.address,
+            //     phoneNumber: value.phoneNumber
+            //   })
+            //     .then(() => {
+            //       me['name'] = value.name;
+            //       me['address'] = value.address;
+            //       me['phoneNumber'] = value.phoneNumber;
+            //     })
+            //     .catch(() => {
+            //       message.error('ไม่สามารถโพสต์ขอความช่วยเหลือได้');
+            //     });
+            // }
+            setOrder((prev) => [...prev, res.data]);
+
             if (window.localStorage.getItem('isRememberAddress')) {
               updateUser(window.localStorage.getItem('id'), {
                 name: value.name,
@@ -112,7 +129,6 @@ export const OrderForm = observer(
                   message.error('ไม่สามารถโพสต์ขอความช่วยเหลือได้');
                 });
             }
-            setOrder((prev) => [...prev, res.data]);
             message.success('ส่งคำขอเรียบร้อย');
             history.replace();
             setIsModalVisible(false);
@@ -334,6 +350,7 @@ export const OrderForm = observer(
               placeholder="จำนวน"
               defaultValue={state?.number}
               type="number"
+              min="0"
             />
           </Form.Item>
 
@@ -351,6 +368,7 @@ export const OrderForm = observer(
               defaultValue={state?.price}
               placeholder="ขอบเขตราคาสินค้า"
               type="number"
+              min="0"
             />
           </Form.Item>
           <Form.Item
@@ -367,6 +385,7 @@ export const OrderForm = observer(
               defaultValue={state?.serviceCharge}
               placeholder="ขอบเขตราคาค่าบริการ"
               type="number"
+              min="0"
             />
           </Form.Item>
 

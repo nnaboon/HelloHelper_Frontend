@@ -154,43 +154,59 @@ export const PostRequestButton = ({
     formData.append('img', value.image.file.originFileObj);
     try {
       type === 'provide' || value.type === 'provide'
-        ? uploadProvideImage(formData).then((res) => {
-            addProvide({
-              ...data,
-              imageUrl: res.data,
-              price: Number(value.maxPrice),
-              rating: 0,
-              provideSum: 0
-            })
-              .then((res) => {
-                if (setProvides) {
-                  setProvides((prev) => [...prev, res.data]);
-                }
+        ? uploadProvideImage(formData)
+            .then((res) => {
+              addProvide({
+                ...data,
+                imageUrl: res.data,
+                price: Number(value.maxPrice),
+                rating: 0,
+                provideSum: 0
+              })
+                .then((res) => {
+                  if (setProvides) {
+                    setProvides((prev) => [...prev, res.data]);
+                  }
 
-                message.success('สำเร็จ');
-              })
-              .catch((error) => {
-                message.error('ไม่สามารถโพสต์ขอความช่วยเหลือได้');
-              });
-          })
-        : uploadRequestImage(formData).then((res) => {
-            addRequest({
-              price: Number(value.maxPrice),
-              imageUrl: res.data,
-              number: Number(value.number),
-              ...data
+                  message.success('สำเร็จ');
+                })
+                .catch((error) => {
+                  message.error('ไม่สามารถโพสต์ขอความช่วยเหลือได้');
+                });
             })
-              .then((res) => {
-                if (setRequests) {
-                  setRequests((prev) => [...prev, res.data]);
-                }
-                message.success('สำเร็จ');
+            .catch((error) => {
+              if (error.response.data === 'Wrong file type submitted!') {
+                message.error('ประเภทของไฟล์ภาพจะต้องเป็น .JPEG, .PNG');
+              } else {
+                message.error('ไม่สามารถโพสต์ให้ความช่วยเหลือได้ ณ ขณะนี้');
+              }
+            })
+        : uploadRequestImage(formData)
+            .then((res) => {
+              addRequest({
+                price: Number(value.maxPrice),
+                imageUrl: res.data,
+                number: Number(value.number),
+                ...data
               })
-              .catch((error) => {
-                console.log(error.response);
-                message.error('ไม่สามารถโพสต์ขอความช่วยเหลือได้');
-              });
-          });
+                .then((res) => {
+                  if (setRequests) {
+                    setRequests((prev) => [...prev, res.data]);
+                  }
+                  message.success('สำเร็จ');
+                })
+                .catch((error) => {
+                  console.log(error.response);
+                  message.error('ไม่สามารถโพสต์ขอความช่วยเหลือได้');
+                });
+            })
+            .catch((error) => {
+              if (error.response.data === 'Wrong file type submitted!') {
+                message.error('ประเภทของไฟล์ภาพจะต้องเป็น .JPEG, .PNG');
+              } else {
+                message.error('ไม่สามารถโพสต์ให้ความช่วยเหลือได้ ณ ขณะนี้');
+              }
+            });
     } catch (e) {
       message.error('ไม่สามารถโพสต์ขอความช่วยเหลือได้');
     } finally {

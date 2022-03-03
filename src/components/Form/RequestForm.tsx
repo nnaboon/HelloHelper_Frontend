@@ -157,7 +157,9 @@ export const RequestFormModal = ({
       price: Number(value.price),
       serviceCharge: Number(value.serviceCharge),
       payment: value.payment,
-      category: value.category,
+      category: Array.isArray(value.category)
+        ? value.category
+        : [value.category],
       hashtag: tags
     };
 
@@ -361,6 +363,10 @@ export const RequestFormModal = ({
               height: 140px;
             }
 
+            .ant-form-item-control-input {
+              width: 100%;
+            }
+
             ${mediaQueryLargeDesktop} {
               font-size: 24px;
 
@@ -371,10 +377,6 @@ export const RequestFormModal = ({
 
               .ant-form-item {
                 margin-bottom: 24px;
-              }
-
-              .ant-form-item-control-input {
-                width: 460px;
               }
 
               .ant-form-item-label > label {
