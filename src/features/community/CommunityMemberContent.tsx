@@ -74,9 +74,8 @@ const CommunityMemberImage = styled.img`
 
 const UserName = styled.div`
   font-weight: 700;
-  font-size: 1.7rem;
+  font-size: 20px;
   color: #000000;
-  margin-bottom: 5px;
   margin-right: 30px;
 
   ${mediaQueryLargeDesktop} {
@@ -89,7 +88,6 @@ const UserName = styled.div`
 
   ${mediaQuerySmallTablet} {
     margin-right: 20px;
-    // max-width: 150px;
   }
 
   ${mediaQueryMobile} {

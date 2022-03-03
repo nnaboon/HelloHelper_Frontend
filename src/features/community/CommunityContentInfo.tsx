@@ -121,7 +121,7 @@ const CommunityName = styled.div`
   font-size: 24px;
   color: #000000;
   margin-bottom: 5px;
-  word-break: break-all;
+  // word-break: break-all;
 
   ${mediaQueryLargeDesktop} {
     font-size: 20px;
@@ -330,10 +330,9 @@ export const CommunityContentInfo = observer(({ data }: any) => {
               <div
                 css={css`
                   display: flex;
-                  width: 40%;
+                  flex: 1;
                   flex-direction: column;
                   align-items: center;
-                  margin-right: 35px;
 
                   ${mediaQueryMobile} {
                     margin-right: 0;
@@ -354,6 +353,7 @@ export const CommunityContentInfo = observer(({ data }: any) => {
                   justify-content: center;
                   margin-top: -50px;
                   flex: 1;
+                  text-align: center;
                 `}
               >
                 <CommunityName>{community.communityName}</CommunityName>
@@ -414,19 +414,6 @@ export const CommunityContentInfo = observer(({ data }: any) => {
                         }
                       )
                         .then(() => {
-                          // data.length > 1
-                          //   ? history.push(
-                          //       `/community/${
-                          //         data.filter(
-                          //           (items) =>
-                          //             items.communityId !==
-                          //             window.localStorage.getItem(
-                          //               'selectedCommunity'
-                          //             )
-                          //         )[0].communityId
-                          //       }`
-                          //     )
-                          //   : history.push('/community');
                           message.success('ลบชุมชนความช่วยเหลือนี้สำเร็จ');
                           window.localStorage.removeItem('selectedCommunity');
                           history.push('/');

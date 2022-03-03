@@ -213,7 +213,7 @@ export const CommunitySignin = observer(() => {
               .ant-input {
                 height: 40px;
                 width: 600px;
-                font-size: 1.6rem;
+                font-size: 16px;
                 line-height: 6.8713;
               }
 
