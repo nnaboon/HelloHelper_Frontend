@@ -210,7 +210,7 @@ export const HelperListCard = ({
             }
 
             ${mediaQueryMobile} {
-              height: 100%;
+              height: 200px;
             }
           }
         `}
