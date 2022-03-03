@@ -317,14 +317,14 @@ export const LoginForm = observer(
         >
           <Form.Item
             name="email"
-            rules={[{ required: true, message: 'Please input your email!' }]}
+            rules={[{ required: true, message: 'กรุณากรอกอีเมล' }]}
           >
             <InputForm placeholder="อีเมล" />
           </Form.Item>
 
           <Form.Item
             name="password"
-            rules={[{ required: true, message: 'Please input your password!' }]}
+            rules={[{ required: true, message: 'กรุณากรอกรหัสผ่าน' }]}
           >
             <InputPasswordForm
               placeholder="รหัสผ่าน"

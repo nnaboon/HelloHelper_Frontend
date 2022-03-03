@@ -218,9 +218,7 @@ export const Navbar = observer(() => {
           });
       } else if (user) {
         setIsModalVisible(true);
-        getUser(user.uid).catch((error) => {
-          setAccountStep(LoginStep.REGISTER);
-        });
+        getUser(user.uid);
         setLoginType(user.providerData[0].providerId);
         setAccount(true);
       } else {
@@ -256,8 +254,6 @@ export const Navbar = observer(() => {
         setIsModalVisible(true);
       }
     } else if (response !== undefined) {
-      setAccountStep(LoginStep.REGISTER);
-    } else {
       setAccountStep(LoginStep.REGISTER);
     }
   }, [response]);

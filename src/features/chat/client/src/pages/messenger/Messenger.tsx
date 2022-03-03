@@ -63,6 +63,7 @@ const ChatMenuInput = styled.input`
 
 const ChatBox = styled.div`
   flex: 5.5;
+  position: relative;
 
   ${mediaQueryMobile} {
     flex: 10;
@@ -238,6 +239,11 @@ const RequestForm = styled.div`
 `;
 
 const ChatBoxBottom = styled.div`
+  position: absolute;
+  bottom: 18px;
+  width: 100%;
+  z-index: 9;
+
   margin-top: 15px;
   display: flex;
   align-items: center;
@@ -487,6 +493,7 @@ export const Messenger = observer(() => {
         overflow-y: unset;
         padding: 0 20px !important;
         height: calc(100% - 230px);
+        position: relative;
 
         ${mediaQueryLargeDesktop} {
           top: 165px;
@@ -663,7 +670,7 @@ export const Messenger = observer(() => {
                               }
 
                               ${mediaQueryTablet} {
-                                font-size: 6px;
+                                font-size: 20px;
                               }
                               ${mediaQueryMobile} {
                                 font-size: 20px;
