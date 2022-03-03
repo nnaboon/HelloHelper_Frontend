@@ -463,6 +463,7 @@ export const PostRequestButton = ({
                 css={css`
                   border-radius: 12px;
                   font-size: 16px;
+                  resize: none;
 
                   ${mediaQueryLargeDesktop} {
                     font-size: 14px;

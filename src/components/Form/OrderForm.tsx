@@ -391,6 +391,7 @@ export const OrderForm = observer(
               css={css`
                 height: 30px;
                 font-size: 1rem;
+                resize: none;
 
                 ${mediaQueryLargeDesktop} {
                   height: 30px;
@@ -441,6 +442,7 @@ export const OrderForm = observer(
               css={css`
                 height: 50px;
                 font-size: 16px;
+                resize: none;
 
                 ${mediaQueryLargeDesktop} {
                   height: 40px;
@@ -451,6 +453,7 @@ export const OrderForm = observer(
           </Form.Item>
           <Form.Item name="phoneNumber" label="เบอร์โทรศัพท์">
             <InputForm
+              type="number"
               defaultValue={
                 window.localStorage.getItem('isRememberAddress') === 'true'
                   ? me.phoneNumber

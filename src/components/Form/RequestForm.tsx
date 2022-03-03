@@ -487,6 +487,7 @@ export const RequestFormModal = ({
               style={{ borderRadius: '12px' }}
               css={css`
                 font-size: 16px;
+                resize: none;
 
                 ${mediaQueryLargeDesktop} {
                   font-size: 14px;
