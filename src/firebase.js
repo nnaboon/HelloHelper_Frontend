@@ -35,13 +35,17 @@ export const signInWithFacebook = () =>
   auth
     .signInWithPopup(facebookProvider)
     .then(async (result) => {
-      var user = result.user;
-      var token = result.credential.accessToken;
-      const credential = facebookProvider.credentialFromResult(result);
-      const accessToken = credential.accessToken;
+      // var user = result.user;
+      // var token = result.credential.accessToken;
+      // const credential = facebookProvider.credentialFromResult(result);
+      // const accessToken = credential.accessToken;
 
-      const firebaseIdToken = await firebase.auth().currentUser.getIdToken();
-      window.localStorage.setItem('access_token', firebaseIdToken);
+      await firebase
+        .auth()
+        .currentUser.getIdToken()
+        .then((result) => {
+          window.localStorage.setItem('access_token', result);
+        });
     })
     .catch(function (error) {
       console.log(error.code);
