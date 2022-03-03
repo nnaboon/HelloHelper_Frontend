@@ -299,7 +299,7 @@ export const ProfilePage = observer(() => {
 
   return (
     <ProfilePageContainer>
-      {provide && user && request ? (
+      {provide && user && request && me ? (
         <React.Fragment>
           {isMobile && <ProfileMenuTab menu={menu} setMenu={setMenu} />}
           {(!isMobile || menu === ProfileMenu.HOME) && (
