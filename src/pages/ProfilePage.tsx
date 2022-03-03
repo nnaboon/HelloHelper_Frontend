@@ -161,10 +161,11 @@ const UserName = styled.div`
   font-size: 24px;
   color: #000000;
   margin-bottom: 5px;
-  word-break: break-all;
+  text-align: center;
 
   ${mediaQueryLargeDesktop} {
     font-size: 20px;
+    line-height: 1.2;
   }
 
   ${mediaQueryMobile} {
@@ -308,10 +309,10 @@ export const ProfilePage = observer(() => {
                   <div
                     css={css`
                       display: flex;
-                      width: 40%;
                       flex-direction: column;
                       align-items: center;
                       margin-right: 35px;
+                      flex: 1;
 
                       ${mediaQueryMobile} {
                         margin-right: 0;
@@ -349,10 +350,11 @@ export const ProfilePage = observer(() => {
                     <div
                       style={{
                         display: 'flex',
-                        marginBottom: '10px',
                         marginTop: '-4px'
                       }}
                       css={css`
+                        margin-bottom: 6px;
+
                         ${mediaQueryMobile} {
                           ul {
                             display: flex;

@@ -346,7 +346,7 @@ export const HomePage = () => {
                 .ant-input {
                   height: 50px;
                   width: 500px;
-                  font-size: 1.6rem;
+                  font-size: 16px;
                   line-height: 6.8713;
                 }
 
