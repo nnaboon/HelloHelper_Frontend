@@ -24,7 +24,9 @@ export const RegisterForm = observer(
     const user = auth.currentUser;
     const [step, setStep] = useState<RegisterStep>(
       user
-        ? user.emailVerified
+        ? user.providerData[0].providerId === 'facebook.com'
+          ? RegisterStep.LOCATION
+          : user.emailVerified
           ? user.displayName
             ? RegisterStep.LOCATION
             : RegisterStep.USERNAME
