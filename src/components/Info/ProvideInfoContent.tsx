@@ -8,7 +8,12 @@ import { observer } from 'mobx-react-lite';
 import { WrapperContainer } from 'components/Wrapper/WrapperContainer';
 import Flex from 'components/Flex/Flex';
 import { CATEGORY } from 'data/category';
-import { PrimaryButton, SecondaryButton } from 'components/Button/Button';
+import {
+  HashtagButton,
+  PrimaryButton,
+  CategoryButton,
+  SecondaryButton
+} from 'components/Button/Button';
 import DefaultImage from 'images/default.png';
 import { UserSvg } from 'components/Svg/UserSvg';
 import { Divider, Dropdown, Menu, message } from 'antd';
@@ -62,46 +67,6 @@ const ProvideImageSection = styled.img`
     height: 300px;
     justify-self: center;
     align-self: center;
-  }
-`;
-
-const ProvideCategoryButton = styled(PrimaryButton)`
-  width: max-content;
-  min-width: 100px;
-  padding: 10px 15px;
-  height: 45px;
-  margin: 10px 8px 10px 0px;
-  font-size: 18px;
-
-  ${mediaQueryLargeDesktop} {
-    min-width: 110px;
-    height: 35px;
-    font-size: 16px;
-  }
-
-  ${mediaQueryMobile} {
-    margin-bottom: 10px;
-    font-size: 14px;
-  }
-`;
-
-const ProvideHashtagButton = styled(SecondaryButton)`
-  width: max-content;
-  min-width: 80px;
-  padding: 10px 15px;
-  height: 40px;
-  margin: 10px 8px 10px 0px;
-  font-size: 18px;
-
-  ${mediaQueryLargeDesktop} {
-    min-width: 80px;
-    height: 35px;
-    font-size: 16px;
-  }
-
-  ${mediaQueryMobile} {
-    margin-bottom: 0;
-    font-size: 14px;
   }
 `;
 
@@ -365,15 +330,8 @@ export const ProvideInfoContent = observer(({ data }: any) => {
       getProvide(query ?? window.localStorage.getItem('id')).then((res) => {
         setProvide(res.data);
       });
-      // getUser(provide?.userId);
     }
   }, []);
-
-  // useEffect(() => {
-  //   if (provide) {
-  //     getUser(provide?.userId);
-  //   }
-  // }, [provide]);
 
   return (
     <React.Fragment>
@@ -482,7 +440,7 @@ export const ProvideInfoContent = observer(({ data }: any) => {
                   `}
                 >
                   {provide?.category.map((items) => (
-                    <ProvideCategoryButton
+                    <CategoryButton
                       onClick={() => {
                         history.push({
                           pathname: `/${items}`
@@ -490,7 +448,7 @@ export const ProvideInfoContent = observer(({ data }: any) => {
                       }}
                     >
                       {CATEGORY.filter(({ id }) => id === items)[0].name}
-                    </ProvideCategoryButton>
+                    </CategoryButton>
                   ))}
                 </Flex>
                 <Flex
@@ -504,7 +462,7 @@ export const ProvideInfoContent = observer(({ data }: any) => {
                   `}
                 >
                   {provide?.hashtag.map((items) => (
-                    <ProvideHashtagButton
+                    <HashtagButton
                       onClick={() => {
                         history.push({
                           pathname: `/search`,
@@ -516,7 +474,7 @@ export const ProvideInfoContent = observer(({ data }: any) => {
                       }}
                     >
                       #{items}
-                    </ProvideHashtagButton>
+                    </HashtagButton>
                   ))}
                 </Flex>
               </Flex>

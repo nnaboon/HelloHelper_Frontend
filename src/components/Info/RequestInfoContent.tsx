@@ -10,7 +10,12 @@ import { Divider, Dropdown, Menu, message } from 'antd';
 import Flex from 'components/Flex/Flex';
 import { Text } from 'components/Text';
 import { RequestFormModal } from 'components/Form/RequestForm';
-import { PrimaryButton, SecondaryButton } from 'components/Button/Button';
+import {
+  PrimaryButton,
+  SecondaryButton,
+  CategoryButton,
+  HashtagButton
+} from 'components/Button/Button';
 import { HelperListCard } from 'components/Card/HelperListCard';
 import { PopularRequestSection } from 'components/Card/PopularRequestCard';
 import { InfoMenu } from 'components/Menu/const';
@@ -76,46 +81,6 @@ const RequestImageSection = styled.img`
     height: 300px;
     justify-self: center;
     align-self: center;
-  }
-`;
-
-const RequestCategoryButton = styled(PrimaryButton)`
-  width: max-content;
-  min-width: 100px;
-  padding: 10px 15px;
-  height: 45px;
-  margin: 10px 8px 10px 0px;
-  font-size: 18px;
-
-  ${mediaQueryLargeDesktop} {
-    min-width: 110px;
-    height: 35px;
-    font-size: 16px;
-  }
-
-  ${mediaQueryMobile} {
-    margin-bottom: 10px;
-    font-size: 14px;
-  }
-`;
-
-const RequestHashtagButton = styled(SecondaryButton)`
-  width: max-content;
-  min-width: 80px;
-  padding: 10px 15px;
-  height: 40px;
-  margin: 10px 8px 10px 0px;
-  font-size: 18px;
-
-  ${mediaQueryLargeDesktop} {
-    min-width: 80px;
-    height: 35px;
-    font-size: 16px;
-  }
-
-  ${mediaQueryMobile} {
-    margin-bottom: 0;
-    font-size: 14px;
   }
 `;
 
@@ -504,7 +469,7 @@ export const RequestInfoContent = observer(({ data }: any) => {
                       `}
                     >
                       {request.category.map((items) => (
-                        <RequestCategoryButton
+                        <CategoryButton
                           onClick={() => {
                             history.push({
                               pathname: `/${items}`
@@ -512,7 +477,7 @@ export const RequestInfoContent = observer(({ data }: any) => {
                           }}
                         >
                           {CATEGORY.filter(({ id }) => id === items)[0].name}
-                        </RequestCategoryButton>
+                        </CategoryButton>
                       ))}
                     </Flex>
                     <Flex
@@ -530,7 +495,7 @@ export const RequestInfoContent = observer(({ data }: any) => {
                       `}
                     >
                       {request.hashtag.map((items) => (
-                        <RequestHashtagButton
+                        <HashtagButton
                           onClick={() => {
                             history.push({
                               pathname: `/search`,
@@ -542,7 +507,7 @@ export const RequestInfoContent = observer(({ data }: any) => {
                           }}
                         >
                           #{items}
-                        </RequestHashtagButton>
+                        </HashtagButton>
                       ))}
                     </Flex>
                   </Flex>

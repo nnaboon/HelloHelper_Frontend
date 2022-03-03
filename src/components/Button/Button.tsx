@@ -122,19 +122,42 @@ export const TopSearchButton = styled.a`
   }
 `;
 
-export const PrimaryButton2 = styled(Button)`
-  width: 106px;
+export const CategoryButton = styled(PrimaryButton)`
+  width: max-content;
+  min-width: 100px;
+  padding: 10px 15px;
   height: 40px;
-  box-sizing: border-box;
-  background: #ee6400;
-  border-radius: 9px;
-  border: 0;
-  position: relative;
-  bottom: 0;
-  right: 20px;
-  color: #ffff;
+  margin: 10px 8px 10px 0px;
+  font-size: 16px;
 
-  &:hover {
-    background: #ee6400;
+  ${mediaQueryLargeDesktop} {
+    min-width: 110px;
+    height: 30px;
+    font-size: 14px;
+  }
+
+  ${mediaQueryMobile} {
+    margin-bottom: 10px;
+    font-size: 14px;
+  }
+`;
+
+export const HashtagButton = styled(SecondaryButton)`
+  width: max-content;
+  min-width: 80px;
+  padding: 10px;
+  height: 40px;
+  margin: 10px 8px 10px 0px;
+  font-size: 16px;
+
+  ${mediaQueryLargeDesktop} {
+    min-width: 80px;
+    height: 30px;
+    font-size: 14px;
+  }
+
+  ${mediaQueryMobile} {
+    margin-bottom: 0;
+    font-size: 14px;
   }
 `;
