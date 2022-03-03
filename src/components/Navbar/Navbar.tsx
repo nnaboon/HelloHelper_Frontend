@@ -208,16 +208,14 @@ export const Navbar = observer(() => {
             setUserId(window.localStorage.getItem('id'));
             setUserImage(user.photoURL);
             getUser(user.uid).catch((error) => {
-              console.log('na');
-              // logout();
+              logout();
             });
             setIsModalVisible(false);
             setAccount(true);
           })
           .catch((error) => {
             if (error.response.data === 'Unauthorized') {
-              console.log('unautho');
-              // logout();
+              logout();
             }
           });
       } else if (user) {
@@ -228,8 +226,7 @@ export const Navbar = observer(() => {
         setLoginType(user.providerData[0].providerId);
         setAccount(true);
       } else if (user === null && window.localStorage.getItem('id')) {
-        console.log('user === null');
-        // logout();
+        logout();
       } else {
         setIsModalVisible(true);
         setAccount(false);
