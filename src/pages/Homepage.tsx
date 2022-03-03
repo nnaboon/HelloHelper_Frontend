@@ -281,7 +281,7 @@ export const HomePage = () => {
 
   return (
     <HomePageContainer>
-      {provides && requests ? (
+      {provides || requests ? (
         <React.Fragment>
           <Carousel
             arrows={false}

@@ -213,7 +213,7 @@ export const SuggestedRequestSection = ({ data }: any) => {
                   css={css`
                     position: absolute;
                     right: 20px;
-                    top: 15px;
+                    top: 12px;
                     margin-left: 0;
                   `}
                 >

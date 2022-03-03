@@ -349,7 +349,7 @@ export const ProvideInfoContent = observer(({ data }: any) => {
               }
             `}
           >
-            <Flex justify="flex-end">
+            <Flex justify="flex-end" marginTop="10px">
               {!Boolean(provide?.visibility) && (
                 <RequestStatusBadge
                   status={0}

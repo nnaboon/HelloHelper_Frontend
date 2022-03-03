@@ -290,6 +290,7 @@ export const RequestInfoContent = observer(({ data }: any) => {
               })
                 .then((res) => {
                   message.success('สำเร็จ');
+                  setRequest(res.data);
                 })
                 .catch((error) => message.error('ไม่สำเร็จ'));
             } else {
@@ -364,7 +365,7 @@ export const RequestInfoContent = observer(({ data }: any) => {
               }
             `}
           >
-            <Flex justify="flex-end">
+            <Flex justify="flex-end" marginTop="10px">
               {(request.providedUserId.length > 0 ||
                 !Boolean(request.visibility)) && (
                 <RequestStatusBadge
@@ -398,7 +399,7 @@ export const RequestInfoContent = observer(({ data }: any) => {
                   css={css`
                     position: absolute;
                     z-index: 8;
-                    // top: 40px;
+                    // top: 0px;
                     color: #0000;
                     right: 25px;
 
