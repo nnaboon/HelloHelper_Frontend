@@ -34,12 +34,14 @@ export const signInWithGoogle = () =>
 export const signInWithFacebook = () =>
   auth
     .signInWithPopup(facebookProvider)
-    .then(function (result) {
+    .then(async (result) => {
+      var user = result.user;
       var token = result.credential.accessToken;
       const credential = facebookProvider.credentialFromResult(result);
       const accessToken = credential.accessToken;
-      var user = result.user;
-      window.localStorage.setItem('access_token', accessToken);
+
+      const firebaseIdToken = await firebase.auth().currentUser.getIdToken();
+      window.localStorage.setItem('access_token', firebaseIdToken);
     })
     .catch(function (error) {
       console.log(error.code);
