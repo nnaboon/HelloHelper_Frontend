@@ -49,15 +49,15 @@ const ConversationName = styled.div`
 `;
 
 const ConversationImage = styled.img`
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   object-fit: cover;
   margin-right: 20px;
 
   ${mediaQueryLargeDesktop} {
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
   }
 
   ${mediaQueryTablet} {

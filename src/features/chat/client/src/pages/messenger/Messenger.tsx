@@ -26,14 +26,21 @@ import {
   LARGE_DESKTOP_WIDTH,
   mediaQueryLargeDesktop
 } from 'styles/variables';
-import { PictureOutlined, MoreOutlined } from '@ant-design/icons';
+import {
+  PictureOutlined,
+  MoreOutlined,
+  PictureFilled
+} from '@ant-design/icons';
 import { useChat } from 'hooks/chat/useChat';
 import { useWaitForConfirmOrders } from 'hooks/order/useWaitForConfirmOrder';
 import { useAddMessage } from 'hooks/chat/useAddMessage';
 import { useUpdateReadStatus } from 'hooks/chat/useUpdateReadStatus';
 import { useUploadMediaMessage } from 'hooks/chat/useUploadMediaMessage';
 import { firestore } from '../../../../../../firebase';
-import { mediaQueryMiniDesktop } from '../../../../../../styles/variables';
+import {
+  mediaQueryMiniDesktop,
+  mediaQuerySmallTablet
+} from '../../../../../../styles/variables';
 
 const ChatMenu = styled.div`
   flex: 3;
@@ -72,16 +79,24 @@ const MessengerContainer = styled.div`
   }
 `;
 const ChatBoxTop = styled.div`
-  height: calc(100vh - 450px);
+  height: calc(100vh - 470px);
   overflow-y: scroll;
   padding-right: 10px;
 
   ${mediaQueryLargeDesktop} {
-    height: calc(100vh - 400px);
+    height: calc(100vh - 390px);
   }
 
-  ${mediaQueryTablet} {
-    height: calc(100vh - 365px);
+  ${mediaQueryMiniDesktop} {
+    height: calc(100vh - 380px);
+  }
+
+  ${mediaQuerySmallTablet} {
+    height: calc(100vh - 300px);
+  }
+
+  ${mediaQueryMobile} {
+    height: calc(100vh - 235px);
   }
 `;
 const ChatBoxWrapper = styled.div`
@@ -140,7 +155,7 @@ const NoConversationText = styled.div`
   color: rgb(224, 220, 220);
   cursor: default;
 
-  ${mediaQueryMiniDesktop} {
+  ${mediaQueryLargeDesktop} {
     font-size: 30px;
   }
 
@@ -247,8 +262,12 @@ const ChatSubmitButton = styled.button`
   background-color: teal;
   color: white;
 
-  ${mediaQueryMobile} {
+  ${mediaQueryTablet} {
     width: 50px;
+    height: 30px;
+  }
+
+  ${mediaQueryMobile} {
     height: 25px;
     font-size: 12px;
   }
@@ -467,24 +486,29 @@ export const Messenger = observer(() => {
         top: 210px;
         overflow-y: unset;
         padding: 0 20px !important;
+        height: calc(100% - 230px);
 
         ${mediaQueryLargeDesktop} {
           top: 165px;
           padding: 0px 20px !important;
+          height: calc(100% - 185px);
         }
 
         ${mediaQueryMiniDesktop} {
-          padding: 20px !important;
+          // padding: 0px 20px !important;
+          height: calc(100% - 175px);
         }
 
         ${mediaQueryTablet} {
           top: 80px;
           padding: 10px !important;
+          height: calc(100% - 100px);
         }
 
         ${mediaQueryMobile} {
           top: 65px;
           padding: 8px !important;
+          height: calc(100% - 85px);
         }
       `}
     >
@@ -628,7 +652,7 @@ export const Messenger = observer(() => {
                       ></ChatMessageInput>
                       <Flex itemAlign="center" width="20%" justify="center">
                         <Upload showUploadList={false} onChange={handleChange}>
-                          <PictureOutlined
+                          <PictureFilled
                             css={css`
                               font-size: 32px;
                               margin-right: 15px;
@@ -638,6 +662,9 @@ export const Messenger = observer(() => {
                                 font-size: 32px;
                               }
 
+                              ${mediaQueryTablet} {
+                                font-size: 6px;
+                              }
                               ${mediaQueryMobile} {
                                 font-size: 20px;
                               }
