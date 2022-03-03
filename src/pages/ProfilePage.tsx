@@ -671,13 +671,19 @@ export const ProfilePage = observer(() => {
                 <React.Fragment>
                   {provides?.length > 0 ? (
                     <div>
-                      {provides.map((props) => (
-                        <MyProvideList
-                          key={props.id}
-                          data={props}
-                          user={user}
-                        />
-                      ))}
+                      {provides
+                        .filter((items) =>
+                          items.userId === me.userId
+                            ? true
+                            : Boolean(items.visibility)
+                        )
+                        .map((props) => (
+                          <MyProvideList
+                            key={props.id}
+                            data={props}
+                            user={user}
+                          />
+                        ))}
                     </div>
                   ) : (
                     <EmptyData height="200px" />
@@ -688,13 +694,19 @@ export const ProfilePage = observer(() => {
                   {requests?.length > 0 ? (
                     <div>
                       {' '}
-                      {requests.map((props) => (
-                        <MyRequestList
-                          key={props.requestId}
-                          data={props}
-                          user={user}
-                        />
-                      ))}
+                      {requests
+                        .filter((items) =>
+                          items.userId === me.userId
+                            ? true
+                            : Boolean(items.visibility)
+                        )
+                        .map((props) => (
+                          <MyRequestList
+                            key={props.requestId}
+                            data={props}
+                            user={user}
+                          />
+                        ))}
                     </div>
                   ) : (
                     <EmptyData height="200px" />
@@ -708,13 +720,19 @@ export const ProfilePage = observer(() => {
                 <React.Fragment>
                   {provides?.length > 0 ? (
                     <ProfilePageUserHelperListSection>
-                      {provides.map((props) => (
-                        <MyProvideList
-                          key={props.id}
-                          data={props}
-                          user={user}
-                        />
-                      ))}
+                      {provides
+                        .filter((items) =>
+                          items.userId === me.userId
+                            ? true
+                            : Boolean(items.visibility)
+                        )
+                        .map((props) => (
+                          <MyProvideList
+                            key={props.id}
+                            data={props}
+                            user={user}
+                          />
+                        ))}
                     </ProfilePageUserHelperListSection>
                   ) : (
                     <EmptyData height="200px" />
@@ -725,13 +743,19 @@ export const ProfilePage = observer(() => {
                   {requests?.length > 0 ? (
                     <ProfilePageUserHelperListSection>
                       {' '}
-                      {requests.map((props) => (
-                        <MyRequestList
-                          key={props.requestId}
-                          data={props}
-                          user={user}
-                        />
-                      ))}
+                      {requests
+                        .filter((items) =>
+                          items.userId === me.userId
+                            ? true
+                            : Boolean(items.visibility)
+                        )
+                        .map((props) => (
+                          <MyRequestList
+                            key={props.requestId}
+                            data={props}
+                            user={user}
+                          />
+                        ))}
                     </ProfilePageUserHelperListSection>
                   ) : (
                     <EmptyData height="200px" />

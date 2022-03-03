@@ -138,62 +138,77 @@ export const MyProvideList = ({ data, user }: MyProvideListProps) => {
         });
       }}
     >
-      {user ? (
-        <Flex direction="column" justify="flex-start" itemAlign="flex-start">
-          <div
+      <React.Fragment>
+        {' '}
+        {!Boolean(data.visibility) && (
+          <RequestStatusBadge
+            status={0}
             css={css`
-              display: inline-flex;
-              align-items: center;
+              position: absolute;
+              right: 10px;
+              top: 15px;
+              margin-left: 0;
+              margin-bottom: 10px;
             `}
           >
-            <HelperListTitle>{data.title}</HelperListTitle>{' '}
-            {!Boolean(data.visibility) && (
-              <RequestStatusBadge
-                status={0}
-                css={css`
-                  margin-bottom: 10px;
-                `}
-              >
-                ซ่อน
-              </RequestStatusBadge>
-            )}
-          </div>
-
-          <Flex marginBottom="10px">
-            <HelperListHeading>ผู้ให้ความช่วยเหลือ</HelperListHeading>
-            <HelperListDetail>{user.username}</HelperListDetail>
-          </Flex>
-          <Flex marginBottom="10px">
-            <HelperListHeading>สถานที่ให้ความช่วยเหลือ</HelperListHeading>
-            <HelperListDetail>{data.location.name}</HelperListDetail>
-          </Flex>
-          <Flex marginBottom="10px">
-            <HelperListHeading>
+            ซ่อน
+          </RequestStatusBadge>
+        )}
+        {user ? (
+          <Flex
+            direction="column"
+            justify="flex-start"
+            itemAlign="flex-start"
+            css={css`
+              position: relative;
+            `}
+          >
+            {' '}
+            <div
+              css={css`
+                display: inline-flex;
+                align-items: center;
+              `}
+            >
               {' '}
-              {isTablet ? 'จำนวน' : 'จำนวนการให้ความช่วยเหลือ'}
-            </HelperListHeading>
-            <HelperListDetail>{data.provideSum} ครั้ง</HelperListDetail>
+            </div>
+            <HelperListTitle>{data.title}</HelperListTitle>{' '}
+            <Flex marginBottom="10px">
+              <HelperListHeading>ผู้ให้ความช่วยเหลือ</HelperListHeading>
+              <HelperListDetail>{user.username}</HelperListDetail>
+            </Flex>
+            <Flex marginBottom="10px">
+              <HelperListHeading>สถานที่ให้ความช่วยเหลือ</HelperListHeading>
+              <HelperListDetail>{data.location.name}</HelperListDetail>
+            </Flex>
+            <Flex marginBottom="10px">
+              <HelperListHeading>
+                {' '}
+                {isTablet ? 'จำนวน' : 'จำนวนการให้ความช่วยเหลือ'}
+              </HelperListHeading>
+              <HelperListDetail>{data.provideSum} ครั้ง</HelperListDetail>
+            </Flex>
+            <Flex marginBottom="10px">
+              <HelperListHeading>
+                {isTablet ? 'คะแนน' : 'คะแนนการให้ความช่วยเหลือ'}
+              </HelperListHeading>
+              <HelperListDetail>
+                {data.rating.toFixed(1)} <Rate count={1} defaultValue={1} />
+              </HelperListDetail>
+            </Flex>
+            <Flex marginBottom="10px">
+              <HelperListHeading>ค่าบริการ</HelperListHeading>
+              <HelperListDetail>{data.serviceCharge} บาท</HelperListDetail>
+            </Flex>
+            <Flex marginBottom="10px">
+              <HelperListHeading>วิธีการชำระเงิน</HelperListHeading>
+              <HelperListDetail>{data.payment}</HelperListDetail>
+            </Flex>
           </Flex>
-          <Flex marginBottom="10px">
-            <HelperListHeading>
-              {isTablet ? 'คะแนน' : 'คะแนนการให้ความช่วยเหลือ'}
-            </HelperListHeading>
-            <HelperListDetail>
-              {data.rating.toFixed(1)} <Rate count={1} defaultValue={1} />
-            </HelperListDetail>
-          </Flex>
-          <Flex marginBottom="10px">
-            <HelperListHeading>ค่าบริการ</HelperListHeading>
-            <HelperListDetail>{data.serviceCharge} บาท</HelperListDetail>
-          </Flex>
-          <Flex marginBottom="10px">
-            <HelperListHeading>วิธีการชำระเงิน</HelperListHeading>
-            <HelperListDetail>{data.payment}</HelperListDetail>
-          </Flex>
-        </Flex>
-      ) : (
-        <Skeleton paragraph={{ rows: 6 }} />
-      )}
+        ) : (
+          <Skeleton paragraph={{ rows: 6 }} />
+        )}{' '}
+      </React.Fragment>
     </HelperListCard>
   );
 };

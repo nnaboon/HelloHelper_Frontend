@@ -87,7 +87,7 @@ const RequestImageSection = styled.img`
 
 const RequestInfoContainer = styled.div`
   display: grid;
-  grid-template-columns: 200px 450px;
+  grid-template-columns: 200px 500px;
   grid-gap: 20px 40px;
   margin-bottom: 60px;
 
@@ -364,59 +364,86 @@ export const RequestInfoContent = observer(({ data }: any) => {
               }
             `}
           >
-            {request.userId === userId && (
-              <Dropdown.Button
-                icon={<MoreOutlined />}
-                overlay={dropDownMenu}
-                trigger={['click']}
-                css={css`
-                  position: absolute;
-                  z-index: 8;
-                  // top: 40px;
-                  color: #0000;
-                  right: 25px;
-
-                  .ant-dropdown-trigger {
-                    border: none;
+            <Flex justify="flex-end">
+              {(request.providedUserId.length > 0 ||
+                !Boolean(request.visibility)) && (
+                <RequestStatusBadge
+                  status={
+                    request.providedUserId.length > 0
+                      ? 2
+                      : Boolean(request.visibility)
+                      ? undefined
+                      : 0
+                  }
+                  css={css`
+                    ${mediaQueryMobile} {
+                      right: 30px;
+                      position: relative;
+                    }
+                  `}
+                >
+                  {request.providedUserId.length > 0 &&
+                  Boolean(request.visibility)
+                    ? 'ช่วยเหลือแล้ว'
+                    : !Boolean(request.visibility)
+                    ? 'ซ่อน'
+                    : null}
+                </RequestStatusBadge>
+              )}
+              {request.userId === userId && (
+                <Dropdown.Button
+                  icon={<MoreOutlined />}
+                  overlay={dropDownMenu}
+                  trigger={['click']}
+                  css={css`
+                    position: absolute;
                     z-index: 8;
-                  }
+                    // top: 40px;
+                    color: #0000;
+                    right: 25px;
 
-                  .ant-dropdown-menu {
-                    z-index: 8;
-                  }
+                    .ant-dropdown-trigger {
+                      border: none;
+                      z-index: 8;
+                    }
 
-                  .ant-dropdown .ant-dropdown-placement-bottomRight {
-                    z-index: 8;
-                    top: 570px;
-                  }
+                    .ant-dropdown-menu {
+                      z-index: 8;
+                    }
 
-                  .ant-dropdown-trigger > span {
-                    background-color: white !important;
-                    z-index: 8;
-                  }
+                    .ant-dropdown .ant-dropdown-placement-bottomRight {
+                      z-index: 8;
+                      top: 570px;
+                    }
 
-                  .ant-dropdown-menu-item,
-                  .ant-dropdown-menu-submenu-title {
-                    z-index: 8;
-                  }
+                    .ant-dropdown-trigger > span {
+                      background-color: white !important;
+                      z-index: 8;
+                    }
 
-                  &:selection {
-                    color: #fff;
-                    z-index: 8;
-                    background: transparent;
-                  }
+                    .ant-dropdown-menu-item,
+                    .ant-dropdown-menu-submenu-title {
+                      z-index: 8;
+                    }
 
-                  svg {
-                    font-size: 24px;
-                  }
+                    &:selection {
+                      color: #fff;
+                      z-index: 8;
+                      background: transparent;
+                    }
 
-                  ${mediaQueryMobile} {
-                    right: 8px;
-                    // top: 10px;
-                  }
-                `}
-              />
-            )}
+                    svg {
+                      font-size: 24px;
+                    }
+
+                    ${mediaQueryMobile} {
+                      right: 8px;
+                      // top: 10px;
+                    }
+                  `}
+                />
+              )}{' '}
+            </Flex>
             {isTablet && <InfoMenuTab menu={menu} setMenu={setMenu} />}
             {(!isTablet || menu === InfoMenu.INFO) && (
               <React.Fragment>
@@ -516,6 +543,9 @@ export const RequestInfoContent = observer(({ data }: any) => {
                       className="share"
                       quote={undefined}
                       hashtag={'hellohelper'}
+                      css={css`
+                        margin-top: 10px;
+                      `}
                     >
                       <FacebookIcon size={32} round={true} />
                     </FacebookShareButton>
@@ -530,25 +560,6 @@ export const RequestInfoContent = observer(({ data }: any) => {
                       <RequestTitle>ชื่อ</RequestTitle>
                       <Flex>
                         <RequestDetail>{request.title}</RequestDetail>
-                        {(request.providedUserId.length > 0 ||
-                          !Boolean(request.visibility)) && (
-                          <RequestStatusBadge
-                            status={
-                              request.providedUserId.length > 0
-                                ? 2
-                                : Boolean(request.visibility)
-                                ? undefined
-                                : 0
-                            }
-                          >
-                            {request.providedUserId.length > 0 &&
-                            Boolean(request.visibility)
-                              ? 'ช่วยเหลือแล้ว'
-                              : !Boolean(request.visibility)
-                              ? 'ซ่อน'
-                              : null}
-                          </RequestStatusBadge>
-                        )}
                       </Flex>
                       <RequestTitle>สถานที่ให้ความข่วยเหลือ</RequestTitle>
                       <RequestDetail>{request.location.name}</RequestDetail>

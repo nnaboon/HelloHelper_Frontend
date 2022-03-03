@@ -133,57 +133,62 @@ export const MyRequestList = ({ data, user }: MyRequestListProps) => {
       }}
     >
       {user ? (
-        <Flex direction="column" justify="flex-start" itemAlign="flex-start">
-          <div
-            css={css`
-              display: inline-flex;
-              align-items: center;
-            `}
-          >
-            <HelperListTitle>{data.title} </HelperListTitle>
-            {(data.providedUserId.length > 0 || !Boolean(data.visibility)) && (
-              <RequestStatusBadge
-                status={
-                  data.providedUserId.length > 0
-                    ? 2
-                    : Boolean(data.visibility)
-                    ? undefined
-                    : 0
-                }
-                css={css`
-                  margin-bottom: 10px;
-                `}
-              >
-                {data.providedUserId.length > 0 && Boolean(data.visibility)
-                  ? 'ช่วยเหลือแล้ว'
-                  : !Boolean(data.visibility)
-                  ? 'ซ่อน'
-                  : null}
-              </RequestStatusBadge>
-            )}
-          </div>
+        <React.Fragment>
+          {(data.providedUserId.length > 0 || !Boolean(data.visibility)) && (
+            <RequestStatusBadge
+              status={
+                data.providedUserId.length > 0
+                  ? 2
+                  : Boolean(data.visibility)
+                  ? undefined
+                  : 0
+              }
+              css={css`
+                position: absolute;
+                right: 10px;
+                top: 15px;
+                margin-left: 0;
+                margin-bottom: 10px;
+              `}
+            >
+              {data.providedUserId.length > 0 && Boolean(data.visibility)
+                ? 'ช่วยเหลือแล้ว'
+                : !Boolean(data.visibility)
+                ? 'ซ่อน'
+                : null}
+            </RequestStatusBadge>
+          )}
+          <Flex direction="column" justify="flex-start" itemAlign="flex-start">
+            <HelperListTitle
+              css={css`
+                margin-top: 5px;
+              `}
+            >
+              {data.title}{' '}
+            </HelperListTitle>
 
-          <Flex marginBottom="10px">
-            <HelperListHeading>ผู้ให้ความช่วยเหลือ</HelperListHeading>
-            <HelperListDetail>{user.username}</HelperListDetail>
+            <Flex marginBottom="10px">
+              <HelperListHeading>ผู้ให้ความช่วยเหลือ</HelperListHeading>
+              <HelperListDetail>{user.username}</HelperListDetail>
+            </Flex>
+            <Flex marginBottom="10px">
+              <HelperListHeading>สถานที่ให้ความช่วยเหลือ</HelperListHeading>
+              <HelperListDetail>{data.location.name}</HelperListDetail>
+            </Flex>
+            <Flex marginBottom="10px">
+              <HelperListHeading>จำนวน</HelperListHeading>
+              <HelperListDetail>{data.number}</HelperListDetail>
+            </Flex>
+            <Flex marginBottom="10px">
+              <HelperListHeading>ค่าบริการ</HelperListHeading>
+              <HelperListDetail>{data.serviceCharge} บาท</HelperListDetail>
+            </Flex>
+            <Flex marginBottom="10px">
+              <HelperListHeading>วิธีการชำระเงิน</HelperListHeading>
+              <HelperListDetail>{data.payment}</HelperListDetail>
+            </Flex>
           </Flex>
-          <Flex marginBottom="10px">
-            <HelperListHeading>สถานที่ให้ความช่วยเหลือ</HelperListHeading>
-            <HelperListDetail>{data.location.name}</HelperListDetail>
-          </Flex>
-          <Flex marginBottom="10px">
-            <HelperListHeading>จำนวน</HelperListHeading>
-            <HelperListDetail>{data.number}</HelperListDetail>
-          </Flex>
-          <Flex marginBottom="10px">
-            <HelperListHeading>ค่าบริการ</HelperListHeading>
-            <HelperListDetail>{data.serviceCharge} บาท</HelperListDetail>
-          </Flex>
-          <Flex marginBottom="10px">
-            <HelperListHeading>วิธีการชำระเงิน</HelperListHeading>
-            <HelperListDetail>{data.payment}</HelperListDetail>
-          </Flex>
-        </Flex>
+        </React.Fragment>
       ) : (
         <Skeleton />
       )}

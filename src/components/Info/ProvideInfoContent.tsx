@@ -102,7 +102,7 @@ const ProvideUserCard = styled.div`
 
 const ProvideInfoContainer = styled.div`
   display: grid;
-  grid-template-columns: 200px 450px;
+  grid-template-columns: 200px 500px;
   grid-gap: 20px 40px;
   margin-bottom: 60px;
 
@@ -349,57 +349,73 @@ export const ProvideInfoContent = observer(({ data }: any) => {
               }
             `}
           >
-            {provide?.userId === window.localStorage.getItem('id') && (
-              <Dropdown.Button
-                icon={<MoreOutlined />}
-                overlay={dropDownMenu}
-                trigger={['click']}
-                css={css`
-                  position: absolute;
-                  z-index: 8;
-                  color: #0000;
-                  right: 25px;
+            <Flex justify="flex-end">
+              {!Boolean(provide?.visibility) && (
+                <RequestStatusBadge
+                  status={0}
+                  css={css`
+                    ${mediaQueryMobile} {
+                      right: 30px;
+                      position: relative;
+                    }
+                  `}
+                >
+                  ซ่อน
+                </RequestStatusBadge>
+              )}
 
-                  .ant-dropdown-trigger {
-                    border: none;
+              {provide?.userId === window.localStorage.getItem('id') && (
+                <Dropdown.Button
+                  icon={<MoreOutlined />}
+                  overlay={dropDownMenu}
+                  trigger={['click']}
+                  css={css`
+                    position: absolute;
                     z-index: 8;
-                  }
+                    color: #0000;
+                    right: 25px;
 
-                  .ant-dropdown-menu {
-                    z-index: 8;
-                  }
+                    .ant-dropdown-trigger {
+                      border: none;
+                      z-index: 8;
+                    }
 
-                  .ant-dropdown .ant-dropdown-placement-bottomRight {
-                    z-index: 8;
-                    top: 570px;
-                  }
+                    .ant-dropdown-menu {
+                      z-index: 8;
+                    }
 
-                  .ant-dropdown-trigger > span {
-                    background-color: white !important;
-                    z-index: 8;
-                  }
+                    .ant-dropdown .ant-dropdown-placement-bottomRight {
+                      z-index: 8;
+                      top: 570px;
+                    }
 
-                  .ant-dropdown-menu-item,
-                  .ant-dropdown-menu-submenu-title {
-                    z-index: 8;
-                  }
+                    .ant-dropdown-trigger > span {
+                      background-color: white !important;
+                      z-index: 8;
+                    }
 
-                  &:selection {
-                    color: #fff;
-                    z-index: 8;
-                    background: transparent;
-                  }
+                    .ant-dropdown-menu-item,
+                    .ant-dropdown-menu-submenu-title {
+                      z-index: 8;
+                    }
 
-                  svg {
-                    font-size: 24px;
-                  }
+                    &:selection {
+                      color: #fff;
+                      z-index: 8;
+                      background: transparent;
+                    }
 
-                  ${mediaQueryMobile} {
-                    right: 8px;
-                  }
-                `}
-              />
-            )}
+                    svg {
+                      font-size: 24px;
+                    }
+
+                    ${mediaQueryMobile} {
+                      right: 8px;
+                    }
+                  `}
+                />
+              )}
+            </Flex>
             <div
               style={{
                 display: 'flex',
@@ -483,6 +499,9 @@ export const ProvideInfoContent = observer(({ data }: any) => {
                   className="share"
                   quote={undefined}
                   hashtag={'hellohelper'}
+                  css={css`
+                    margin-top: 10px;
+                  `}
                 >
                   <FacebookIcon size={32} round={true} />
                 </FacebookShareButton>
@@ -497,9 +516,9 @@ export const ProvideInfoContent = observer(({ data }: any) => {
                   <ProvideTitle>ชื่อ</ProvideTitle>
                   <Flex>
                     <ProvideDetail>{provide?.title}</ProvideDetail>
-                    {!Boolean(provide?.visibility) && (
+                    {/* {!Boolean(provide?.visibility) && (
                       <RequestStatusBadge status={0}>ซ่อน</RequestStatusBadge>
-                    )}
+                    )} */}
                   </Flex>
                   <ProvideTitle>
                     {isMobile ? 'สถานที่' : 'สถานที่ให้ความข่วยเหลือ'}

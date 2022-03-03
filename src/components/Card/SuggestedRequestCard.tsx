@@ -207,6 +207,19 @@ export const SuggestedRequestSection = ({ data }: any) => {
                 }
               `}
             >
+              {providedUserId?.length > 0 && (
+                <RequestStatusBadge
+                  status={providedUserId?.length > 0 ? 2 : undefined}
+                  css={css`
+                    position: absolute;
+                    right: 20px;
+                    top: 15px;
+                    margin-left: 0;
+                  `}
+                >
+                  ช่วยเหลือแล้ว
+                </RequestStatusBadge>
+              )}
               <div
                 css={css`
                   display: flex;
@@ -254,19 +267,20 @@ export const SuggestedRequestSection = ({ data }: any) => {
                   }
                 `}
               >
-                <div style={{ display: 'inline-flex', marginBottom: '10px' }}>
-                  <RequestTitle>{title}</RequestTitle>
+                <div
+                  style={{
+                    display: 'inline-flex',
+                    marginBottom: '10px'
+                  }}
+                  css={css`
+                    margin-top: 20px;
 
-                  {providedUserId?.length > 0 && (
-                    <RequestStatusBadge
-                      status={providedUserId?.length > 0 ? 2 : undefined}
-                      css={css`
-                        margin-left: 0;
-                      `}
-                    >
-                      ช่วยเหลือแล้ว
-                    </RequestStatusBadge>
-                  )}
+                    ${mediaQueryTablet} {
+                      margin-top: 0;
+                    }
+                  `}
+                >
+                  <RequestTitle>{title}</RequestTitle>
                 </div>
 
                 <RequestDataContent>
