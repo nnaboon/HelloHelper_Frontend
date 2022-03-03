@@ -506,8 +506,8 @@ export const Navbar = observer(() => {
 
               .ant-input {
                 height: 40px;
-                width: 990px;
-                font-size: 1.6rem;
+                width: 700px;
+                font-size: 16px;
                 line-height: 6.8713;
               }
 
