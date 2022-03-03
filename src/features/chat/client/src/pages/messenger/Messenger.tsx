@@ -83,6 +83,7 @@ const ChatBoxTop = styled.div`
   height: calc(100vh - 470px);
   overflow-y: scroll;
   padding-right: 10px;
+  z-index: 2;
 
   ${mediaQueryLargeDesktop} {
     height: calc(100vh - 390px);
@@ -93,11 +94,11 @@ const ChatBoxTop = styled.div`
   }
 
   ${mediaQuerySmallTablet} {
-    height: calc(100vh - 300px);
+    height: calc(100vh - 280px);
   }
 
   ${mediaQueryMobile} {
-    height: calc(100vh - 235px);
+    height: calc(100vh - 215px);
   }
 `;
 const ChatBoxWrapper = styled.div`
@@ -120,17 +121,18 @@ const ChatOnlineWrapper = styled.div`
 
 const ChatMessageInput = styled.textarea`
   width: 80%;
-  height: 90px;
+  height: 70px;
   padding: 10px;
   resize: none;
 
   ${mediaQueryTablet} {
-    height: 65px;
+    height: 45px;
   }
 
   ${mediaQueryMobile} {
     width: 76%;
-    height: 50px;
+    height: 40px;
+    padding: 5px;
     font-size: 12px;
   }
 `;
@@ -242,12 +244,17 @@ const ChatBoxBottom = styled.div`
   position: absolute;
   bottom: 18px;
   width: 100%;
-  z-index: 9;
+  z-index: 10;
 
   margin-top: 15px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  ${mediaQueryMobile} {
+    bottom: 8px;
+    width: 97%;
+  }
 `;
 
 const ChatOnline = styled.div`
@@ -267,6 +274,7 @@ const ChatSubmitButton = styled.button`
   cursor: pointer;
   background-color: teal;
   color: white;
+  z-index: 9;
 
   ${mediaQueryTablet} {
     width: 50px;
@@ -515,7 +523,7 @@ export const Messenger = observer(() => {
         ${mediaQueryMobile} {
           top: 65px;
           padding: 8px !important;
-          height: calc(100% - 85px);
+          height: calc(100% - 70px);
         }
       `}
     >
@@ -657,13 +665,21 @@ export const Messenger = observer(() => {
                         onChange={(e) => setNewMessage(e.target.value)}
                         value={newMessage}
                       ></ChatMessageInput>
-                      <Flex itemAlign="center" width="20%" justify="center">
+                      <Flex
+                        itemAlign="center"
+                        width="20%"
+                        justify="center"
+                        css={css`
+                          z-index: 9;
+                        `}
+                      >
                         <Upload showUploadList={false} onChange={handleChange}>
                           <PictureFilled
                             css={css`
                               font-size: 32px;
                               margin-right: 15px;
                               cursor: pointer;
+                              z-index: 9;
 
                               ${mediaQueryLargeDesktop} {
                                 font-size: 32px;

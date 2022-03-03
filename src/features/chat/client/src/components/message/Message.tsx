@@ -7,7 +7,10 @@ import moment from 'moment';
 import Flex from 'components/Flex/Flex';
 import { Image } from 'antd';
 import { mediaQueryLargeDesktop, mediaQueryTablet } from 'styles/variables';
-import { mediaQueryMobile } from '../../../../../../styles/variables';
+import {
+  mediaQueryMobile,
+  mediaQueryMiniDesktop
+} from '../../../../../../styles/variables';
 
 interface MessageProps {
   message: any;
@@ -49,6 +52,11 @@ const MessageImg = styled.img`
     width: 32px;
     height: 32px;
     margin-bottom: 1em;
+  }
+
+  ${mediaQueryMiniDesktop} {
+    width: 26px;
+    height: 26px;
   }
 
   ${mediaQueryTablet} {
