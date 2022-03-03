@@ -137,11 +137,13 @@ export const WaitingToConfirmOrders = ({
                 </Flex>
                 <Flex>
                   <OrderTitle>ราคา</OrderTitle>
-                  <OrderDetail>{price} บาท</OrderDetail>
+                  <OrderDetail>{price.toLocaleString()} บาท</OrderDetail>
                 </Flex>
                 <Flex>
                   <OrderTitle>ค่าบริการ</OrderTitle>
-                  <OrderDetail>{serviceCharge} บาท</OrderDetail>
+                  <OrderDetail>
+                    {serviceCharge.toLocaleString()} บาท
+                  </OrderDetail>
                 </Flex>
                 <Flex>
                   <OrderTitle>ช่องทางการชำระเงิน</OrderTitle>

@@ -3,6 +3,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
+import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 import Flex from 'components/Flex/Flex';
 import { Image } from 'antd';
@@ -47,6 +48,7 @@ const MessageImg = styled.img`
   margin-right: 10px;
   margin-bottom: 1em;
   margin-left: 25px;
+  cursor: pointer;
 
   ${mediaQueryLargeDesktop} {
     width: 32px;
@@ -155,6 +157,8 @@ export default function Message({
   own,
   anotherUserImg
 }: MessageProps) {
+  const history = useHistory();
+
   return (
     <div>
       {Boolean(own) ? (
@@ -226,7 +230,13 @@ export default function Message({
       ) : (
         <MessageAnother>
           <MessageTop>
-            <MessageImg src={anotherUserImg} alt="chat user avatar" />
+            <MessageImg
+              src={anotherUserImg}
+              alt="chat user avatar"
+              onClick={() => {
+                history.push(`/profile/${message.createdBy}`);
+              }}
+            />
 
             <Flex itemAlign="flex-end">
               {message.media ? (

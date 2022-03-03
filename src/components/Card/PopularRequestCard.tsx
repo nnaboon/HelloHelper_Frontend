@@ -367,6 +367,7 @@ export const PopularRequestSection = observer(({ data }: any) => {
                       }}
                       css={css`
                         font-size: 18px;
+                        min-width: 105px !important;
 
                         ${mediaQueryLargeDesktop} {
                           font-size: 14px;
@@ -381,6 +382,7 @@ export const PopularRequestSection = observer(({ data }: any) => {
                     <PrimaryButton
                       css={css`
                         font-size: 18px;
+                        min-width: 105px !important;
 
                         ${mediaQueryLargeDesktop} {
                           font-size: 14px;

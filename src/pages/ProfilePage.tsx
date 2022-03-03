@@ -554,6 +554,16 @@ export const ProfilePage = observer(() => {
                           border-color: #487bff;
                           width: 100%;
 
+                          &:hover {
+                            background: #1877f2 !important;
+                            border-color: #1877f2 !important;
+                          }
+
+                          &:focus {
+                            background: #1877f2 !important;
+                            border-color: #1877f2 !important;
+                          }
+
                           ${mediaQueryMobile} {
                             width: 47%;
                           }

@@ -27,6 +27,7 @@ import { useAddRequest } from 'hooks/request/useAddRequest';
 import { useUploadProvideImage } from 'hooks/provide/useUploadProvideImage';
 import { useUploadRequestImage } from 'hooks/request/useUploadRequestImage';
 import { LARGE_DESKTOP_WIDTH } from '../../styles/variables';
+import { logout } from '../../features/logout/Logout';
 
 interface PostRequestButtonProps {
   setProvides?: (provide: any) => void;
@@ -100,16 +101,8 @@ export const PostRequestButton = ({
 
   const { pathname } = useLocation();
 
-  const {
-    data: provide,
-    loading: provideLoading,
-    execute: addProvide
-  } = useAddProvide();
-  const {
-    data: request,
-    loading: requestLoading,
-    execute: addRequest
-  } = useAddRequest();
+  const { execute: addProvide } = useAddProvide();
+  const { execute: addRequest } = useAddRequest();
   const { execute: uploadProvideImage } = useUploadProvideImage();
   const { execute: uploadRequestImage } = useUploadRequestImage();
 
@@ -203,6 +196,8 @@ export const PostRequestButton = ({
             .catch((error) => {
               if (error.response.data === 'Wrong file type submitted!') {
                 message.error('ประเภทของไฟล์ภาพจะต้องเป็น .JPEG, .PNG');
+              } else if (error.response.data === 'Unauthorized') {
+                logout();
               } else {
                 message.error('ไม่สามารถโพสต์ให้ความช่วยเหลือได้ ณ ขณะนี้');
               }

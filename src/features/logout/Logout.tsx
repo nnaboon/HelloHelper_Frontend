@@ -3,10 +3,13 @@ import firebase from '../../firebase';
 
 export const logout = () => {
   window.location.assign('/');
-  window.localStorage.removeItem('id');
-  window.localStorage.removeItem('loginType');
-  window.localStorage.removeItem('access_token');
-  window.localStorage.removeItem('facebook_access_token');
-  window.localStorage.removeItem('selectedCommunity');
-  firebase.auth().signOut();
+
+  setTimeout(() => {
+    window.localStorage.removeItem('loginType');
+    window.localStorage.removeItem('access_token');
+    window.localStorage.removeItem('facebook_access_token');
+    window.localStorage.removeItem('selectedCommunity');
+    window.localStorage.removeItem('id');
+    firebase.auth().signOut();
+  }, 2000);
 };

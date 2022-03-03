@@ -210,8 +210,8 @@ const UserName = styled.div`
   font-weight: bold;
   font-size: 22px;
   line-height: 26px;
-
   color: #e66101;
+  cursor: pointer;
 
   ${mediaQueryLargeDesktop} {
     font-size: 20px;
@@ -255,6 +255,8 @@ const ChatBoxBottom = styled.div`
     bottom: 8px;
     width: 97%;
   }
+
+  background: #ffff;
 `;
 
 const ChatOnline = styled.div`
@@ -562,7 +564,13 @@ export const Messenger = observer(() => {
                             alignItems: 'flex-end'
                           }}
                         >
-                          <UserName>{user?.username}</UserName>
+                          <UserName
+                            onClick={() =>
+                              history.push(`/profile/${user?.userId}`)
+                            }
+                          >
+                            {user?.username}
+                          </UserName>
                         </div>
                         {!isMobile && (
                           <RequestForm onClick={() => setIsModalVisible(true)}>

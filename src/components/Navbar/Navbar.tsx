@@ -430,7 +430,7 @@ export const Navbar = observer(() => {
               me ? (
                 <React.Fragment>
                   <MyAccount
-                    src={me ? me.imageUrl : DefaultImage}
+                    src={me?.imageUrl ? me.imageUrl : DefaultImage}
                     alt="my account"
                     onClick={() => {
                       setCollapsed(true);

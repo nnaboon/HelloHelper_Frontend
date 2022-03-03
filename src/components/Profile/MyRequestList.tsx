@@ -134,10 +134,10 @@ export const MyRequestList = ({ data, user }: MyRequestListProps) => {
     >
       {user ? (
         <React.Fragment>
-          {(data.providedUserId.length > 0 || !Boolean(data.visibility)) && (
+          {(data?.providedUserId?.length > 0 || !Boolean(data.visibility)) && (
             <RequestStatusBadge
               status={
-                data.providedUserId.length > 0
+                data?.providedUserId?.length > 0
                   ? 2
                   : Boolean(data.visibility)
                   ? undefined
@@ -151,7 +151,7 @@ export const MyRequestList = ({ data, user }: MyRequestListProps) => {
                 margin-bottom: 10px;
               `}
             >
-              {data.providedUserId.length > 0 && Boolean(data.visibility)
+              {data?.providedUserId?.length > 0 && Boolean(data.visibility)
                 ? 'ช่วยเหลือแล้ว'
                 : !Boolean(data.visibility)
                 ? 'ซ่อน'

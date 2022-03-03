@@ -23,6 +23,7 @@ import { userStore } from 'store/userStore';
 import { PrimaryButton } from '../Button/Button';
 import { InputForm } from '../Input/InputForm';
 import { mediaQueryMiniDesktop } from '../../styles/variables';
+import { logout } from '../../features/logout/Logout';
 
 interface OrderFormProps {
   data: any;
@@ -134,7 +135,10 @@ export const OrderForm = observer(
             setIsModalVisible(false);
             form.resetFields();
           })
-          .catch(() => {
+          .catch((error) => {
+            if (error.response.data === 'Unauthorized') {
+              logout();
+            }
             setIsModalVisible(false);
             message.error('ไม่สามารถโพสต์ขอความช่วยเหลือได้');
           });

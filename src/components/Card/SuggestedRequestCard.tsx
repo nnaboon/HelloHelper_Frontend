@@ -273,7 +273,11 @@ export const SuggestedRequestSection = ({ data }: any) => {
                     marginBottom: '10px'
                   }}
                   css={css`
-                    margin-top: 20px;
+                    margin-top: 25px;
+
+                    ${mediaQueryLargeDesktop} {
+                      margin-top: 20px;
+                    }
 
                     ${mediaQueryTablet} {
                       margin-top: 0;
