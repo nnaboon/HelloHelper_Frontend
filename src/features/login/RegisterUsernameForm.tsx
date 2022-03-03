@@ -68,7 +68,7 @@ export const RegisterUsernameForm = (props: RegisterUsernameFormProps) => {
           }
 
           ${mediaQueryMobile} {
-            font-size: 20px;
+            font-size: 19px;
           }
         `}
       >

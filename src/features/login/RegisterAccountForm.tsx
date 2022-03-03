@@ -128,7 +128,7 @@ export const RegisterAccountForm = observer(
             margin-bottom: 20px;
 
             ${mediaQueryMobile} {
-              font-size: 20px;
+              font-size: 19px;
             }
           `}
         >

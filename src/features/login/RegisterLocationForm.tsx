@@ -79,7 +79,8 @@ export const RegisterLocationForm = (props: RegisterLocationFormProps) => {
           }
 
           ${mediaQueryMobile} {
-            font-size: 20px;
+            font-size: 19px;
+            margin-bottom: 10px;
           }
         `}
       >

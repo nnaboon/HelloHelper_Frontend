@@ -188,14 +188,14 @@ export const RegisterAbilityForm = (props: RegisterAbilityFormProps) => {
           marginTop="10px"
           css={css`
             font-size: 24px;
-            margin-bottom: 20px;
+            margin-bottom: 8px;
 
             ${mediaQueryLargeDesktop} {
               font-size: 20px;
             }
 
             ${mediaQueryMobile} {
-              font-size: 20px;
+              font-size: 19px;
             }
           `}
         >
