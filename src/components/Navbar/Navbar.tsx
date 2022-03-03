@@ -207,7 +207,9 @@ export const Navbar = observer(() => {
           .then(() => {
             setUserId(window.localStorage.getItem('id'));
             setUserImage(user.photoURL);
-            getUser(user.uid);
+            getUser(user.uid).catch((error) => {
+              logout();
+            });
             setIsModalVisible(false);
             setAccount(true);
           })
@@ -218,9 +220,13 @@ export const Navbar = observer(() => {
           });
       } else if (user) {
         setIsModalVisible(true);
-        getUser(user.uid);
+        getUser(user.uid).catch((error) => {
+          setAccountStep(LoginStep.REGISTER);
+        });
         setLoginType(user.providerData[0].providerId);
         setAccount(true);
+      } else if (user === null && window.localStorage.getItem('id')) {
+        logout();
       } else {
         setIsModalVisible(true);
         setAccount(false);
@@ -254,6 +260,8 @@ export const Navbar = observer(() => {
         setIsModalVisible(true);
       }
     } else if (response !== undefined) {
+      setAccountStep(LoginStep.REGISTER);
+    } else {
       setAccountStep(LoginStep.REGISTER);
     }
   }, [response]);
@@ -539,7 +547,7 @@ export const Navbar = observer(() => {
           width: 500px !important;
 
           .ant-modal-content {
-            min-height: 620px;
+            min-height: 600px;
             height: max-content;
           }
 
@@ -547,7 +555,7 @@ export const Navbar = observer(() => {
             width: 430px !important;
 
             .ant-modal-content {
-              min-height: 620px;
+              min-height: 590px !important;
               height: max-content;
             }
           }
@@ -556,8 +564,8 @@ export const Navbar = observer(() => {
             width: 500px !important;
 
             .ant-modal-content {
-              min-height: 620px;
-              height: 620px;
+              min-height: 570px;
+              height: 570px;
             }
           }
 
@@ -565,7 +573,7 @@ export const Navbar = observer(() => {
             width: 320px !important;
 
             .ant-modal-content {
-              min-height: 550px;
+              min-height: 555px !important;
               height: 550px;
             }
           }

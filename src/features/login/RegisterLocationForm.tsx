@@ -49,15 +49,6 @@ export const RegisterLocationForm = (props: RegisterLocationFormProps) => {
     };
 
     try {
-      //   const {
-      //     available,
-      //     message: errorMessage
-      //   } = await checkRegisterAvailableEmail(value.email);
-      //   if (!available) {
-      //     message.error(errorMessage, 5);
-      //   } else {
-      //     onNext(data);
-      //   }
       onNext({ ...userAccountData, ...data });
     } catch (e) {
       message.error('ไม่สามารถเพิ่มสถานที่ให้ความช่วยเหลือได้');
@@ -109,20 +100,11 @@ export const RegisterLocationForm = (props: RegisterLocationFormProps) => {
           }
         `}
       >
-        {/* <Form.Item
-          name="location"
-          // rules={[
-          //   {
-          //     required: true,
-          //     message: 'กรุณากรอกสถานที่ที่คุณสามารถให้ความช่วยเหลือได้'
-          //   }
-          // ]}
-        > */}
         <GoogleMapContent
           requestLocation={location}
           setRequestLocation={setLocation}
           width="100%"
-          height="370px"
+          height="360px"
           css={css`
             width: 100%;
             min-width: 100%;
