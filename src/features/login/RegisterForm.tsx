@@ -66,7 +66,7 @@ export const RegisterForm = observer(
               : user.photoURL
         }));
       }
-    }, []);
+    }, [user]);
 
     useEffect(() => {
       if (user?.emailVerified && !user.displayName) {
@@ -131,12 +131,12 @@ export const RegisterForm = observer(
                 ) {
                   axios
                     .post(`${REACT_APP_API}/user`, userAccountData)
-                    .then((res) => {
+                    .then(async (res) => {
                       setIsModalVisible(false);
+                      message.success('สร้างบัญชีผู้ใช้สำเร็จ');
                       setUserId(user.uid);
                       window.localStorage.setItem('id', user.uid);
                       window.location.reload();
-                      message.success('สร้างบัญชีผู้ใช้สำเร็จ');
                     })
                     .catch((error) => {
                       console.log(error);

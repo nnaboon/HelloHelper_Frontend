@@ -76,12 +76,25 @@ export const RegisterAccountForm = observer(
           .createUserWithEmailAndPassword(value.email, value.password)
           .then(async ({ user }) => {
             user.getIdToken().then((idToken) => {
+              const config = {
+                headers: {
+                  Authorization: `Bearer ${idToken}`
+                }
+              };
               axios
-                .post(`${REACT_APP_API}/user/verify`, {
-                  idToken: idToken
-                })
-                .then((res) => {
-                  console.log('Verification Email Sent Successfully !');
+                .post(
+                  `${REACT_APP_API}/user/verify`,
+                  {
+                    idToken: idToken
+                  },
+                  config
+                )
+                .then(async (res) => {
+                  const firebaseIdToken = await firebase
+                    .auth()
+                    .currentUser.getIdToken();
+                  window.localStorage.setItem('access_token', firebaseIdToken);
+
                   onNext({
                     userId: res.data.uid,
                     email: res.data.email

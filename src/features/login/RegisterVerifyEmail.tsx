@@ -3,7 +3,6 @@
 import { css, jsx } from '@emotion/react';
 import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
-import { MailOutlined } from '@ant-design/icons';
 import { mediaQueryMobile, mediaQueryLargeDesktop } from 'styles/variables';
 import firebase from '../../firebase';
 import MailSend from 'images/mail-send.png';
@@ -37,30 +36,19 @@ export const RegisterVerifyEmail = (props: RegisterUsernameFormProps) => {
   const { onNext } = props;
 
   useEffect(() => {
-    firebase.auth().onAuthStateChanged(function (user) {
-      if (user && !user.emailVerified) {
-        setInterval(function () {
-          user.reload();
-          if (user.emailVerified) {
-            onNext();
-          }
-        }, 2000);
+    const isVerified = setInterval(function () {
+      firebase.auth().currentUser.reload();
+      if (firebase.auth().currentUser.emailVerified) {
+        clearInterval(isVerified);
+        onNext();
       }
-    });
+    }, 2000);
+
+    return () => {};
   }, []);
 
   return (
     <RegisterVerifySection>
-      {/* <MailOutlined
-        css={css`
-          margin-bottom: 20px;
-          font-size: 64px;
-
-          ${mediaQueryMobile} {
-            font-size: 64px;
-          }
-        `}
-      /> */}
       <img
         src={MailSend}
         alt="send verified email"

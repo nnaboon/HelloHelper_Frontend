@@ -191,13 +191,13 @@ export const Navbar = observer(() => {
   const handleCancel = () => {
     setIsModalVisible(false);
 
-    firebase.auth().onAuthStateChanged(function (user) {
-      if (user) {
-        setAccountStep(LoginStep.LOGIN);
-      } else {
-        setAccountStep(LoginStep.REGISTER);
-      }
-    });
+    // firebase.auth().onAuthStateChanged(function (user) {
+    //   if (user) {
+    //     setAccountStep(LoginStep.LOGIN);
+    //   } else {
+    //     setAccountStep(LoginStep.REGISTER);
+    //   }
+    // });
   };
 
   useEffect(() => {
@@ -207,9 +207,10 @@ export const Navbar = observer(() => {
           .then(() => {
             setUserId(window.localStorage.getItem('id'));
             setUserImage(user.photoURL);
-            getUser(user.uid).catch((error) => {
-              logout();
-            });
+            // getUser(user.uid).catch((error) => {
+            //   logout();
+            // });
+            getUser(user.uid);
             setIsModalVisible(false);
             setAccount(true);
           })
@@ -221,11 +222,13 @@ export const Navbar = observer(() => {
       } else if (user) {
         setIsModalVisible(true);
         getUser(user.uid).catch((error) => {
+          console.log('usererror ');
           setAccountStep(LoginStep.REGISTER);
         });
         setLoginType(user.providerData[0].providerId);
         setAccount(true);
       } else if (user === null && window.localStorage.getItem('id')) {
+        console.log('user === null');
         logout();
       } else {
         setIsModalVisible(true);
@@ -233,6 +236,8 @@ export const Navbar = observer(() => {
         setAccountStep(LoginStep.LOGIN);
       }
     });
+
+    return () => {};
   }, []);
 
   useEffect(() => {
@@ -260,8 +265,6 @@ export const Navbar = observer(() => {
         setIsModalVisible(true);
       }
     } else if (response !== undefined) {
-      setAccountStep(LoginStep.REGISTER);
-    } else {
       setAccountStep(LoginStep.REGISTER);
     }
   }, [response]);
@@ -542,6 +545,7 @@ export const Navbar = observer(() => {
         onCancel={handleCancel}
         footer={null}
         maskClosable={false}
+        closable={false}
         centered
         css={css`
           width: 500px !important;
