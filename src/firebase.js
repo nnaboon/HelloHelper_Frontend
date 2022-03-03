@@ -36,8 +36,10 @@ export const signInWithFacebook = () =>
     .signInWithPopup(facebookProvider)
     .then(function (result) {
       var token = result.credential.accessToken;
+      const credential = facebookProvider.credentialFromResult(result);
+      const accessToken = credential.accessToken;
       var user = result.user;
-      window.localStorage.setItem('access_token', token);
+      window.localStorage.setItem('access_token', accessToken);
     })
     .catch(function (error) {
       console.log(error.code);
