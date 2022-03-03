@@ -16,6 +16,7 @@ import {
   CategoryButton,
   HashtagButton
 } from 'components/Button/Button';
+import { FacebookShareButton, FacebookIcon } from 'react-share';
 import { HelperListCard } from 'components/Card/HelperListCard';
 import { PopularRequestSection } from 'components/Card/PopularRequestCard';
 import { InfoMenu } from 'components/Menu/const';
@@ -510,6 +511,14 @@ export const RequestInfoContent = observer(({ data }: any) => {
                         </HashtagButton>
                       ))}
                     </Flex>
+                    <FacebookShareButton
+                      url={`https://hello-helper-66225d.netlify.app/${pathname}`}
+                      className="share"
+                      quote={undefined}
+                      hashtag={'hellohelper'}
+                    >
+                      <FacebookIcon size={32} round={true} />
+                    </FacebookShareButton>
                   </Flex>
                   <Flex
                     direction="column"

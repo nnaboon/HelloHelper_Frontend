@@ -279,7 +279,7 @@ export const RequestOrderCard = ({
               z-index: 10;
 
               ${mediaQueryTablet} {
-                min-width: 130px;
+                min-width: 100px;
               }
 
               ${mediaQueryMobile} {
@@ -296,7 +296,7 @@ export const RequestOrderCard = ({
                 min-width: 140px;
 
                 ${mediaQueryTablet} {
-                  min-width: 130px;
+                  min-width: 100px;
                 }
 
                 ${mediaQueryMobile} {

@@ -22,6 +22,7 @@ import { useUpdateUser } from 'hooks/user/useUpdateUser';
 import { userStore } from 'store/userStore';
 import { PrimaryButton } from '../Button/Button';
 import { InputForm } from '../Input/InputForm';
+import { mediaQueryMiniDesktop } from '../../styles/variables';
 
 interface OrderFormProps {
   data: any;
@@ -410,6 +411,10 @@ export const OrderForm = observer(
               ${mediaQueryLargeDesktop} {
                 font-size: 18px;
                 margin-bottom: 30px;
+              }
+
+              ${mediaQueryMiniDesktop} {
+                font-size: 16px;
               }
 
               ${mediaQueryMobile} {

@@ -14,6 +14,7 @@ import {
   CategoryButton,
   SecondaryButton
 } from 'components/Button/Button';
+import { FacebookShareButton, FacebookIcon } from 'react-share';
 import DefaultImage from 'images/default.png';
 import { UserSvg } from 'components/Svg/UserSvg';
 import { Divider, Dropdown, Menu, message } from 'antd';
@@ -477,6 +478,14 @@ export const ProvideInfoContent = observer(({ data }: any) => {
                     </HashtagButton>
                   ))}
                 </Flex>
+                <FacebookShareButton
+                  url={`https://hello-helper-66225d.netlify.app/${pathname}`}
+                  className="share"
+                  quote={undefined}
+                  hashtag={'hellohelper'}
+                >
+                  <FacebookIcon size={32} round={true} />
+                </FacebookShareButton>
               </Flex>
               <Flex
                 direction="column"
