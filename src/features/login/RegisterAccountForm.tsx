@@ -11,7 +11,11 @@ import { UserCreateBody } from './const';
 import { FormRule, getRule } from 'utils/form/getRule';
 import { Text } from 'components/Text';
 import { LoginStep } from 'components/Navbar/const';
-import { mediaQueryMobile, mediaQueryLargeDesktop } from 'styles/variables';
+import {
+  mediaQueryMobile,
+  mediaQueryLargeDesktop,
+  mediaQueryTablet
+} from 'styles/variables';
 import { userStore } from 'store/userStore';
 import { getAuth } from 'firebase/auth';
 
@@ -135,13 +139,21 @@ export const RegisterAccountForm = observer(
     return (
       <RegisterAccountFormSection>
         <Text
-          marginTop="10px"
           css={css`
-            font-size: 24px;
+            font-size: 22px;
             margin-bottom: 20px;
+
+            ${mediaQueryLargeDesktop} {
+              font-size: 20px;
+            }
+
+            ${mediaQueryTablet} {
+              margin-bottom: 20px;
+            }
 
             ${mediaQueryMobile} {
               font-size: 19px;
+              margin-bottom: 10px;
             }
           `}
         >

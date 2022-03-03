@@ -1,6 +1,10 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react';
+/** @jsxRuntime classic */
+/** @jsx jsx */
+import { css, jsx } from '@emotion/react';
+import React, { useState, useCallback } from 'react';
 import { Spin } from 'antd';
-import { position } from 'styled-system';
+import { mediaQueryLargeDesktop } from '../../styles/variables';
+import { LoadingOutlined } from '@ant-design/icons';
 import {
   GoogleMap,
   useJsApiLoader,
@@ -26,6 +30,8 @@ export const GoogleMapContent = ({
   const [center, setCenter] = useState<google.maps.LatLng>();
   const [searchBox, setSearchBox] = useState<any>(null);
   const [currentZoom, setCurrentZoom] = useState(40);
+
+  const antIcon = <LoadingOutlined style={{ color: '#ee6400' }} spin />;
 
   const onLoad = React.useCallback(function callback(map) {
     const bounds = new window.google.maps.LatLngBounds();
@@ -148,6 +154,24 @@ export const GoogleMapContent = ({
       </StandaloneSearchBox>
     </GoogleMap>
   ) : (
-    <Spin />
+    <Spin
+      indicator={antIcon}
+      css={css`
+        display: flex;
+        position: relative;
+        height: 460px;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+
+        svg {
+          font-size: 25px;
+        }
+
+        ${mediaQueryLargeDesktop} {
+          height: 270px;
+        }
+      `}
+    />
   );
 };

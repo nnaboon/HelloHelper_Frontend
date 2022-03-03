@@ -9,7 +9,9 @@ import { UserCreateBody } from './const';
 import {
   mediaQueryMobile,
   mediaQueryTablet,
-  mediaQueryLargeDesktop
+  mediaQueryLargeDesktop,
+  useMedia,
+  TABLET_WIDTH
 } from 'styles/variables';
 import { GoogleMapContent } from 'components/GoogleMap/GoogleMap';
 import { PrimaryButton, SecondaryButton } from 'components/Button/Button';
@@ -35,6 +37,7 @@ export const RegisterLocationForm = (props: RegisterLocationFormProps) => {
   const [form] = Form.useForm();
   const { userAccountData, onNext, onBack } = props;
   const [location, setLocation] = useState<any>(null);
+  const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
 
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
@@ -60,13 +63,17 @@ export const RegisterLocationForm = (props: RegisterLocationFormProps) => {
   return (
     <RegisterLocationFormSection>
       <Text
-        marginTop="10px"
+        // marginTop="10px"
         css={css`
-          font-size: 24px;
-          margin-bottom: 20px;
+          font-size: 22px;
+          margin-bottom: 10px;
 
           ${mediaQueryLargeDesktop} {
             font-size: 20px;
+          }
+
+          ${mediaQueryTablet} {
+            margin-bottom: 20px;
           }
 
           ${mediaQueryMobile} {
@@ -104,7 +111,7 @@ export const RegisterLocationForm = (props: RegisterLocationFormProps) => {
           requestLocation={location}
           setRequestLocation={setLocation}
           width="100%"
-          height="360px"
+          height={isTablet ? '380px' : '370px'}
           css={css`
             width: 100%;
             min-width: 100%;
@@ -118,7 +125,7 @@ export const RegisterLocationForm = (props: RegisterLocationFormProps) => {
             min-width: 90px;
             position: absolute;
             height: 35px;
-            bottom: 0;
+            bottom: -5px;
             right: 110px;
           `}
           onClick={() => onBack()}
@@ -133,7 +140,7 @@ export const RegisterLocationForm = (props: RegisterLocationFormProps) => {
             min-width: 90px;
             height: 35px;
             position: absolute;
-            bottom: 0;
+            bottom: -5px;
             right: 0;
           `}
         >

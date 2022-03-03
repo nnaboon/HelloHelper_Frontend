@@ -58,9 +58,9 @@ export const RegisterUsernameForm = (props: RegisterUsernameFormProps) => {
   return (
     <RegisterUsernameFormSection>
       <Text
-        marginTop="10px"
+        // marginTop="10px"
         css={css`
-          font-size: 24px;
+          font-size: 22px;
           margin-bottom: 20px;
 
           ${mediaQueryLargeDesktop} {
@@ -156,7 +156,7 @@ export const RegisterUsernameForm = (props: RegisterUsernameFormProps) => {
             min-width: 90px;
             height: 35px;
             position: absolute;
-            bottom: 0;
+            bottom: -5px;
             right: 0;
           `}
         >
