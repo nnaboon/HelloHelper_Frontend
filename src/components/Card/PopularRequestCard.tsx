@@ -361,55 +361,57 @@ export const PopularRequestSection = observer(({ data }: any) => {
                   `}
                 >
                   {!isSmallTablet && (
-                    <SecondaryButton
-                      onClick={() => {
-                        history.push({ pathname: `/profile/${userId}` });
-                      }}
-                      css={css`
-                        font-size: 18px;
-                        min-width: 105px !important;
-
-                        ${mediaQueryLargeDesktop} {
-                          font-size: 14px;
-                        }
-                      `}
-                    >
-                      <UserSvg />
-                      <div>โปรไฟล์</div>
-                    </SecondaryButton>
-                  )}
-                  {userId !== window.localStorage.getItem('id') && (
-                    <PrimaryButton
-                      css={css`
-                        font-size: 18px;
-                        min-width: 105px !important;
-
-                        ${mediaQueryLargeDesktop} {
-                          font-size: 14px;
-                        }
-
-                        ${mediaQuerySmallTablet} {
-                          height: 30px;
-                          border-radius: 5px;
-                          margin: 0;
-                        }
-                      `}
-                      onClick={() => {
-                        addChatRoom({
-                          providerUserId: userId,
-                          requesterUserId: me.userId
-                        }).then((res) => {
-                          history.push(`/chat/${res.data}`);
-                        });
-                      }}
-                    >
-                      <MessageSvg
+                    <React.Fragment>
+                      <SecondaryButton
+                        onClick={() => {
+                          history.push({ pathname: `/profile/${userId}` });
+                        }}
                         css={css`
-                          margin-right: 5px;
+                          font-size: 18px;
+                          min-width: 105px !important;
+
+                          ${mediaQueryLargeDesktop} {
+                            font-size: 14px;
+                          }
                         `}
-                      />
-                      <div>แชท</div>
-                    </PrimaryButton>
+                      >
+                        <UserSvg />
+                        <div>โปรไฟล์</div>
+                      </SecondaryButton>
+                      {userId !== window.localStorage.getItem('id') && (
+                        <PrimaryButton
+                          css={css`
+                            font-size: 18px;
+                            min-width: 105px !important;
+
+                            ${mediaQueryLargeDesktop} {
+                              font-size: 14px;
+                            }
+
+                            ${mediaQuerySmallTablet} {
+                              height: 30px;
+                              border-radius: 5px;
+                              margin: 0;
+                            }
+                          `}
+                          onClick={() => {
+                            addChatRoom({
+                              providerUserId: userId,
+                              requesterUserId: me.userId
+                            }).then((res) => {
+                              history.push(`/chat/${res.data}`);
+                            });
+                          }}
+                        >
+                          <MessageSvg
+                            css={css`
+                              margin-right: 5px;
+                            `}
+                          />
+                          <div>แชท</div>
+                        </PrimaryButton>
+                      )}{' '}
+                    </React.Fragment>
                   )}
                 </div>
               </ProvideCardContainer>

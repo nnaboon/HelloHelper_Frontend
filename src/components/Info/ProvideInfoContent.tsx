@@ -558,6 +558,7 @@ export const ProvideInfoContent = observer(({ data }: any) => {
                         }
 
                         ${mediaQueryTablet} {
+                          bottom: 0px;
                           width: 100%;
                           max-width: 100%;
                         }

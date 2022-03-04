@@ -100,4 +100,8 @@ export const RequestCardContainer = styled.div`
     min-width: 90%;
     height: 270px;
   }
+
+  ${mediaQueryMobile} {
+    height: 310px;
+  }
 `;

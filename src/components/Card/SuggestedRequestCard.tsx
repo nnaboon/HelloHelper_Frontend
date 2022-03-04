@@ -62,6 +62,10 @@ const RequestTitle = styled.div`
     max-width: unset;
     margin-left: 0;
   }
+
+  ${mediaQueryMobile} {
+    margin-bottom: 4px;
+  }
 `;
 
 const RequestImageSection = styled.img`
@@ -92,7 +96,7 @@ const RequestImageSection = styled.img`
   }
 
   ${mediaQueryMobile} {
-    height: 140px;
+    height: 150px;
   }
 `;
 
@@ -159,7 +163,7 @@ const RequestDataContent = styled.div`
   }
 
   ${mediaQueryMobile} {
-    margin-bottom: 0;
+    margin-bottom: 4px;
   }
 `;
 
@@ -262,7 +266,7 @@ export const SuggestedRequestSection = ({ data }: any) => {
                   }
 
                   ${mediaQueryMobile} {
-                    top: 46%;
+                    top: 49%;
                     padding: 15px;
                   }
                 `}
@@ -293,7 +297,6 @@ export const SuggestedRequestSection = ({ data }: any) => {
                 </RequestDataContent>
                 <RequestDataContent>
                   <RequestDataTitle>ระดับ</RequestDataTitle>
-
                   <RankingBadge rankColor={RANK_BADGE[user.rank].color}>
                     {user.rank.toUpperCase()}
                   </RankingBadge>

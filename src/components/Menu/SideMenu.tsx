@@ -102,7 +102,7 @@ export const SideMenu = observer(
 
             ${mediaQueryMobile} {
               height: 100vh;
-              top: 70px;
+              top: 64px;
               margin-left: 0;
             }
           `}

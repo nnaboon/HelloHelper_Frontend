@@ -107,7 +107,7 @@ const HomePageTitle = styled.div`
   }
 
   ${mediaQueryMobile} {
-    font-size: 18px;
+    font-size: 22px;
   }
 `;
 
