@@ -38,6 +38,7 @@ import { useProvides } from 'hooks/provide/useProvides';
 import { useRequests } from 'hooks/request/useRequests';
 import { Loading } from 'components/Loading/Loading';
 import {} from '../styles/variables';
+import { useTopTenProvides } from '../hooks/provide/useTopTenProvides';
 
 const HomePageCategorySection = styled.div`
   display: grid;
@@ -201,6 +202,8 @@ export const HomePage = () => {
   const history = useHistory();
   const { data: response, execute: getUsers } = useUsers();
   const { data: provides, execute: getProvides } = useProvides();
+  const { data: topTenProvides, execute: getTopTenProvides } =
+    useTopTenProvides();
   const { data: requests, execute: getRequests } = useRequests();
   const { Search } = Input;
 
@@ -276,12 +279,13 @@ export const HomePage = () => {
 
   useEffect(() => {
     getProvides();
+    getTopTenProvides();
     getRequests();
   }, []);
 
   return (
     <HomePageContainer>
-      {provides || requests ? (
+      {provides && requests ? (
         <React.Fragment>
           <Carousel
             arrows={false}
@@ -513,7 +517,7 @@ export const HomePage = () => {
           </TopTenSearchContainer> */}
           <HomePageTitle>Top 10 ความช่วยเหลือประจำสัปดาห์</HomePageTitle>
           <React.Fragment>
-            {provides?.filter(({ location }) =>
+            {topTenProvides?.filter(({ location }) =>
               searchValue ? location.name.includes(searchValue) : true
             ).length > 0 ? (
               <React.Fragment
@@ -542,7 +546,7 @@ export const HomePage = () => {
                     }
                   `}
                 >
-                  {provides
+                  {topTenProvides
                     ?.filter(
                       ({ communityId, location, visibility }) =>
                         Boolean(visibility) &&
@@ -605,7 +609,8 @@ export const HomePage = () => {
                 >
                   {requests
                     ?.filter(
-                      ({ communityId, location, visibility }) =>
+                      ({ communityId, location, visibility, providedUserId }) =>
+                        !Boolean(providedUserId.length > 0) &&
                         Boolean(visibility) &&
                         !Boolean(communityId) &&
                         (searchValue

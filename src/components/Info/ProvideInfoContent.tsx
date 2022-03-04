@@ -42,9 +42,13 @@ import { EyeOffSvg } from 'components/Svg/EyeOffSvg';
 import { Loading } from 'components/Loading/Loading';
 import { useUpdateProvide } from 'hooks/provide/useUpdateProvide';
 import { useAddChatRoom } from 'hooks/chat/useAddChatRoom';
-import { mediaQueryLargeDesktop } from '../../styles/variables';
+import {
+  mediaQueryLargeDesktop,
+  mediaQueryMiniDesktop
+} from '../../styles/variables';
 import { ProviderId } from 'firebase/auth';
 import { useDeleteProvide } from '../../hooks/provide/useDeleteProvide';
+import { useUpdateVisitorProvide } from '../../hooks/provide/useUpdateVisitorProvide';
 
 const ProvideImageSection = styled.img`
   width: 450px;
@@ -189,6 +193,9 @@ const UserName = styled.div`
 
   ${mediaQueryLargeDesktop} {
     font-size: 20px;
+  }
+
+  ${mediaQueryMiniDesktop} {
     margin-right: 10px;
   }
 
@@ -208,6 +215,7 @@ export const ProvideInfoContent = observer(({ data }: any) => {
 
   // const { data: user, loading: isUserLoading, execute: getUser } = useUser();
   const { execute: updateProvide } = useUpdateProvide();
+  const { execute: updateVisitProvide } = useUpdateVisitorProvide();
   const { execute: getProvide } = useProvide();
   const { execute: addChatRoom } = useAddChatRoom();
   const { execute: deleteProvide } = useDeleteProvide();
@@ -333,6 +341,10 @@ export const ProvideInfoContent = observer(({ data }: any) => {
       });
     }
   }, []);
+
+  // useEffect(() => {
+  //   updateVisitProvide(query);
+  // }, []);
 
   return (
     <React.Fragment>

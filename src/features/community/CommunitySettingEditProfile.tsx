@@ -41,7 +41,7 @@ const CommunityEditProfileTitle = styled.div`
   margin-top: 20px;
 
   ${mediaQueryLargeDesktop} {
-    margin-bottom: 15px;
+    margin-bottom: 30px;
     font-size: 20px;
   }
 

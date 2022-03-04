@@ -22,6 +22,7 @@ import { useBanMember } from 'hooks/community/useBanMember';
 import { EmptyData } from 'components/Empty/EmptyData';
 import { firestore } from '../../firebase';
 import { logout } from 'features/logout/Logout';
+import { Loading } from 'components/Loading/Loading';
 
 const CommunityMemberCard = styled.div`
   width: 100%;
@@ -144,7 +145,7 @@ const CommunityTitle = styled(Text)`
   margin-top: 20px;
 
   ${mediaQueryLargeDesktop} {
-    margin-bottom: 15px;
+    margin-bottom: 30px;
     font-size: 20px;
   }
 
@@ -285,166 +286,102 @@ export const CommunitySettingManageMember = () => {
         }
       `}
     >
-      <CommunityTitle fontWeight={500}>ผู้ต้องการเข้าร่วมชุมชน</CommunityTitle>
-      {joinedRequestUserId?.length > 0 ? (
-        <div>
-          {' '}
-          {joinedRequestUserId.map(
-            ({ id, username, userId, joinedRequestId, imageUrl }) => (
-              <CommunityMemberCard key={userId}>
-                <CommunityMemberContainer>
-                  <CommunityMemberImageContainer>
-                    <CommunityMemberImage
-                      src={imageUrl ?? DefaultImage}
-                      alt="community member avatar"
-                    />
-                    <UserName>{username}</UserName>
-                  </CommunityMemberImageContainer>
-                  <CommunityButtonContainer>
-                    <SecondaryButton
-                      css={css`
-                        min-width: 109px;
-                        width: 109px;
-
-                        ${mediaQueryMobile} {
-                          width: 100%;
-                          margin-right: 15px;
-                        }
-                      `}
-                      onClick={() => {
-                        updateJoinedCommunityRequest(query, {
-                          joinedRequestId: id,
-                          userId: userId
-                        })
-                          .then(() => {
-                            message.success('สำเร็จ');
-                          })
-                          .catch((error) => {
-                            if (error.response.data === 'Unauthorized') {
-                              logout();
-                            } else {
-                              message.error('ไม่สำเร็จ');
-                            }
-                          });
-                      }}
-                    >
-                      <div>ปฏิเสธ</div>
-                    </SecondaryButton>
-                    <PrimaryButton
-                      css={css`
-                        min-width: 109px;
-                        width: 109px;
-
-                        ${mediaQueryMobile} {
-                          width: 100%;
-                        }
-                      `}
-                      onClick={() => {
-                        updateJoinedCommunityRequest(query, {
-                          joinedRequestId: id,
-                          status: 1,
-                          requesterUserId: userId,
-                          communityAdminUserId:
-                            window.localStorage.getItem('id')
-                        })
-                          .then(() => {
-                            message.success('สำเร็จ');
-                          })
-                          .catch((error) => {
-                            if (error.response.data === 'Unauthorized') {
-                              logout();
-                            } else {
-                              message.error('ไม่สำเร็จ');
-                            }
-                          });
-                      }}
-                    >
-                      <div>ยอมรับ</div>
-                    </PrimaryButton>
-                  </CommunityButtonContainer>
-                </CommunityMemberContainer>
-              </CommunityMemberCard>
-            )
-          )}
-        </div>
-      ) : (
-        <EmptyData
-          text={`ยังไม่มีสมาชิกในชุมชนความช่วยเหลือนี้`}
-          height={isMobile ? '150px' : '200px'}
-        />
-      )}
-
-      <CommunityTitle fontWeight={500}>ผู้นำชุมชน</CommunityTitle>
-      {member
-        ?.filter(({ role }) => role === 1)
-        .map(({ id, username, imageUrl }) => (
-          <CommunityMemberCard key={id}>
-            <CommunityMemberContainer>
-              <CommunityMemberImageContainer>
-                {' '}
-                <CommunityMemberImage
-                  src={imageUrl ?? DefaultImage}
-                  alt="community member avatar"
-                />
-                <UserName>{username}</UserName>
-              </CommunityMemberImageContainer>
-              <CommunityButtonContainer>
-                <SecondaryButton
-                  css={css`
-                    min-width: 109px;
-                    width: 109px;
-
-                    ${mediaQueryMobile} {
-                      width: 100%;
-                      margin-right: 15px;
-                    }
-                  `}
-                  onClick={() => {
-                    bannedMember(query, id, {
-                      communityAdminUserId: window.localStorage.getItem('id')
-                    })
-                      .then(() => {
-                        message.success(
-                          'ลบผู้ใช้งานออกจากชุมชนความช่วยเหลือนี้สำเร็จ'
-                        );
-                      })
-                      .catch((error) => {
-                        if (error.response.data === 'Unauthorized') {
-                          logout();
-                        } else {
-                          message.error(
-                            'ขออภัย ไม่สามารถลบผู้ใช้งานนี้ได้ ณ ขณะนี้'
-                          );
-                        }
-                      });
-                  }}
-                >
-                  <div>ลบ</div>
-                </SecondaryButton>
-                <Dropdown overlay={menu(id)} trigger={['click']}>
-                  <PrimaryButton
-                    css={css`
-                      min-width: 109px;
-                      width: 109px;
-
-                      ${mediaQueryMobile} {
-                        width: 100%;
-                      }
-                    `}
-                  >
-                    <div>เปลี่ยนสถานะ</div>
-                  </PrimaryButton>
-                </Dropdown>
-              </CommunityButtonContainer>
-            </CommunityMemberContainer>
-          </CommunityMemberCard>
-        ))}
-      <CommunityTitle fontWeight={500}>สมาชิกในชุมชน</CommunityTitle>
-      {member?.filter(({ role }) => role === 0).length > 0 ? (
+      {member?.length > 0 ? (
         <React.Fragment>
-          {' '}
+          <CommunityTitle fontWeight={500}>
+            ผู้ต้องการเข้าร่วมชุมชน
+          </CommunityTitle>
+          {joinedRequestUserId?.length > 0 ? (
+            <div>
+              {' '}
+              {joinedRequestUserId.map(
+                ({ id, username, userId, joinedRequestId, imageUrl }) => (
+                  <CommunityMemberCard key={userId}>
+                    <CommunityMemberContainer>
+                      <CommunityMemberImageContainer>
+                        <CommunityMemberImage
+                          src={imageUrl ?? DefaultImage}
+                          alt="community member avatar"
+                        />
+                        <UserName>{username}</UserName>
+                      </CommunityMemberImageContainer>
+                      <CommunityButtonContainer>
+                        <SecondaryButton
+                          css={css`
+                            min-width: 109px;
+                            width: 109px;
+
+                            ${mediaQueryMobile} {
+                              width: 100%;
+                              margin-right: 15px;
+                            }
+                          `}
+                          onClick={() => {
+                            updateJoinedCommunityRequest(query, {
+                              joinedRequestId: id,
+                              userId: userId
+                            })
+                              .then(() => {
+                                message.success('สำเร็จ');
+                              })
+                              .catch((error) => {
+                                if (error.response.data === 'Unauthorized') {
+                                  logout();
+                                } else {
+                                  message.error('ไม่สำเร็จ');
+                                }
+                              });
+                          }}
+                        >
+                          <div>ปฏิเสธ</div>
+                        </SecondaryButton>
+                        <PrimaryButton
+                          css={css`
+                            min-width: 109px;
+                            width: 109px;
+
+                            ${mediaQueryMobile} {
+                              width: 100%;
+                            }
+                          `}
+                          onClick={() => {
+                            updateJoinedCommunityRequest(query, {
+                              joinedRequestId: id,
+                              status: 1,
+                              requesterUserId: userId,
+                              communityAdminUserId:
+                                window.localStorage.getItem('id')
+                            })
+                              .then(() => {
+                                message.success('สำเร็จ');
+                              })
+                              .catch((error) => {
+                                if (error.response.data === 'Unauthorized') {
+                                  logout();
+                                } else {
+                                  message.error('ไม่สำเร็จ');
+                                }
+                              });
+                          }}
+                        >
+                          <div>ยอมรับ</div>
+                        </PrimaryButton>
+                      </CommunityButtonContainer>
+                    </CommunityMemberContainer>
+                  </CommunityMemberCard>
+                )
+              )}
+            </div>
+          ) : (
+            <EmptyData
+              text={`ยังไม่มีสมาชิกในชุมชนความช่วยเหลือนี้`}
+              height={isMobile ? '150px' : '200px'}
+            />
+          )}
+
+          <CommunityTitle fontWeight={500}>ผู้นำชุมชน</CommunityTitle>
           {member
-            ?.filter(({ role }) => role === 0)
+            ?.filter(({ role }) => role === 1)
             .map(({ id, username, imageUrl }) => (
               <CommunityMemberCard key={id}>
                 <CommunityMemberContainer>
@@ -463,8 +400,8 @@ export const CommunitySettingManageMember = () => {
                         width: 109px;
 
                         ${mediaQueryMobile} {
-                          margin-right: 15px;
                           width: 100%;
+                          margin-right: 15px;
                         }
                       `}
                       onClick={() => {
@@ -508,12 +445,85 @@ export const CommunitySettingManageMember = () => {
                 </CommunityMemberContainer>
               </CommunityMemberCard>
             ))}
+          <CommunityTitle fontWeight={500}>สมาชิกในชุมชน</CommunityTitle>
+          {member?.filter(({ role }) => role === 0).length > 0 ? (
+            <React.Fragment>
+              {' '}
+              {member
+                ?.filter(({ role }) => role === 0)
+                .map(({ id, username, imageUrl }) => (
+                  <CommunityMemberCard key={id}>
+                    <CommunityMemberContainer>
+                      <CommunityMemberImageContainer>
+                        {' '}
+                        <CommunityMemberImage
+                          src={imageUrl ?? DefaultImage}
+                          alt="community member avatar"
+                        />
+                        <UserName>{username}</UserName>
+                      </CommunityMemberImageContainer>
+                      <CommunityButtonContainer>
+                        <SecondaryButton
+                          css={css`
+                            min-width: 109px;
+                            width: 109px;
+
+                            ${mediaQueryMobile} {
+                              margin-right: 15px;
+                              width: 100%;
+                            }
+                          `}
+                          onClick={() => {
+                            bannedMember(query, id, {
+                              communityAdminUserId:
+                                window.localStorage.getItem('id')
+                            })
+                              .then(() => {
+                                message.success(
+                                  'ลบผู้ใช้งานออกจากชุมชนความช่วยเหลือนี้สำเร็จ'
+                                );
+                              })
+                              .catch((error) => {
+                                if (error.response.data === 'Unauthorized') {
+                                  logout();
+                                } else {
+                                  message.error(
+                                    'ขออภัย ไม่สามารถลบผู้ใช้งานนี้ได้ ณ ขณะนี้'
+                                  );
+                                }
+                              });
+                          }}
+                        >
+                          <div>ลบ</div>
+                        </SecondaryButton>
+                        <Dropdown overlay={menu(id)} trigger={['click']}>
+                          <PrimaryButton
+                            css={css`
+                              min-width: 109px;
+                              width: 109px;
+
+                              ${mediaQueryMobile} {
+                                width: 100%;
+                              }
+                            `}
+                          >
+                            <div>เปลี่ยนสถานะ</div>
+                          </PrimaryButton>
+                        </Dropdown>
+                      </CommunityButtonContainer>
+                    </CommunityMemberContainer>
+                  </CommunityMemberCard>
+                ))}
+            </React.Fragment>
+          ) : (
+            <EmptyData
+              text={`ยังไม่มีสมาชิกในชุมชนความช่วยเหลือนี้`}
+              height={isMobile ? '150px' : '200px'}
+            />
+          )}
         </React.Fragment>
       ) : (
-        <EmptyData
-          text={`ยังไม่มีสมาชิกในชุมชนความช่วยเหลือนี้`}
-          height={isMobile ? '150px' : '200px'}
-        />
+        <Loading height="calc(100vh - 265px)" />
       )}
     </div>
   );

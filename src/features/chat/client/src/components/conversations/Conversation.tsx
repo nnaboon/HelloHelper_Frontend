@@ -14,6 +14,8 @@ import {
 interface ConversationProps {
   conversation: any;
   currentUser: any;
+  imageUrl?: string;
+  username?: string;
 }
 
 const ConversationSection = styled.div`
@@ -74,42 +76,41 @@ const ConversationImage = styled.img`
 
 export const Conversation = ({
   conversation,
-  currentUser
+  currentUser,
+  imageUrl,
+  username
 }: ConversationProps) => {
-  const { data: user, execute: getUser } = useUser();
+  // const { data: user, execute: getUser } = useUser();
 
-  useEffect(() => {
-    const anotherUser = conversation.users.filter(
-      (items) => items !== window.localStorage.getItem('id')
-    );
+  // useEffect(() => {
+  //   const anotherUser = conversation.users.filter(
+  //     (items) => items !== window.localStorage.getItem('id')
+  //   );
 
-    getUser(anotherUser);
-  }, [currentUser, conversation]);
+  //   getUser(anotherUser);
+  // }, [currentUser, conversation]);
 
   return (
     <ConversationSection>
-      {user && (
-        <Flex
-          css={css`
-            margin-left: 25px;
+      {/* {user && ( */}
+      <Flex
+        css={css`
+          margin-left: 25px;
 
-            ${mediaQueryLargeDesktop} {
-              margin-left: 15px;
-            }
+          ${mediaQueryLargeDesktop} {
+            margin-left: 15px;
+          }
 
-            ${mediaQueryTablet} {
-              margin-left: 0px;
-              justify-content: center;
-            }
-          `}
-        >
-          <ConversationImage
-            src={user.imageUrl}
-            alt="conversation user profile"
-          />
-          <ConversationName>{user.username}</ConversationName>
-        </Flex>
-      )}
+          ${mediaQueryTablet} {
+            margin-left: 0px;
+            justify-content: center;
+          }
+        `}
+      >
+        <ConversationImage src={imageUrl} alt="conversation user profile" />
+        <ConversationName>{username}</ConversationName>
+      </Flex>
+      {/* )} */}
     </ConversationSection>
   );
 };

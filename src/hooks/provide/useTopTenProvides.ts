@@ -7,14 +7,14 @@ export type ProvidesListResponse = {
   message: string;
 };
 
-export const useProvides = () => {
-  const [{ data: response, loading, error }, fire] = useAxios(
+export const useTopTenProvides = () => {
+  const [{ data: response, loading, error }, fire] = useAxios<ProvideGetDto[]>(
     {},
     { manual: true }
   );
 
   const execute = () => {
-    return fire({ url: `${REACT_APP_API}/provide` });
+    return fire({ url: `${REACT_APP_API}/provide/top` });
   };
 
   return {

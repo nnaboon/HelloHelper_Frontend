@@ -91,7 +91,7 @@ export const CommunitySetting = () => {
             font-size: 24px;
 
             ${mediaQueryLargeDesktop} {
-              font-size: 20px;
+              font-size: 18px;
             }
 
             ${mediaQueryMobile} {
@@ -104,7 +104,7 @@ export const CommunitySetting = () => {
             font-size: 24px;
 
             ${mediaQueryLargeDesktop} {
-              font-size: 20px;
+              font-size: 18px;
             }
 
             ${mediaQueryMobile} {

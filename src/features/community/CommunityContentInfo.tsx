@@ -171,6 +171,8 @@ const CommunityInfoListDetail = styled.div`
 
 export const CommunityContentInfo = observer(({ data }: any) => {
   const [menu, setMenu] = useState<CommunityMenu>(CommunityMenu.PROVIDE);
+  const [searchValue, setSearchValue] = useState<string>();
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [provides, setProvides] = useState<any[]>([]);
   const [requests, setRequests] = useState<any[]>([]);
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
@@ -202,13 +204,7 @@ export const CommunityContentInfo = observer(({ data }: any) => {
   const { Option } = Select;
 
   const onSearch = (value) => {
-    history.push({
-      pathname: '/search',
-      search: `?keyword=${value}`,
-      state: {
-        search: value
-      }
-    });
+    setSearchValue(value);
   };
 
   const dropDownMenu = (
@@ -505,6 +501,7 @@ export const CommunityContentInfo = observer(({ data }: any) => {
                   `}
                 >
                   <PrimaryButton
+                    loading={isSubmitting}
                     css={css`
                       width: 100%;
 
@@ -519,6 +516,7 @@ export const CommunityContentInfo = observer(({ data }: any) => {
                         ).length > 0
                       ) {
                         try {
+                          setIsSubmitting(true);
                           updateJoinedCommunityRequest(community.communityId, {
                             joinedRequestId:
                               community.joinedRequestUserId?.filter(
@@ -543,9 +541,11 @@ export const CommunityContentInfo = observer(({ data }: any) => {
                           message.error('ไม่สามารถส่งคำขอได้');
                         } finally {
                           message.success('สำเร็จ');
+                          setIsSubmitting(false);
                         }
                       } else {
                         try {
+                          setIsSubmitting(true);
                           joinCommunity({
                             userId: window.localStorage.getItem('id'),
                             communityId: community.communityId
@@ -562,6 +562,7 @@ export const CommunityContentInfo = observer(({ data }: any) => {
                           message.error('ไม่สามารถส่งคำขอได้');
                         } finally {
                           message.success('สำเร็จ');
+                          setIsSubmitting(false);
                         }
                       }
                     }}
@@ -692,7 +693,7 @@ export const CommunityContentInfo = observer(({ data }: any) => {
                     }
                   `}
                 />
-                <Select
+                {/* <Select
                   defaultValue="เลือกหมวดหมู่"
                   style={{
                     justifyContent: 'center',
@@ -718,7 +719,7 @@ export const CommunityContentInfo = observer(({ data }: any) => {
                       {name}
                     </Option>
                   ))}
-                </Select>
+                </Select> */}
               </div>
 
               {community?.member.filter(
@@ -761,14 +762,18 @@ export const CommunityContentInfo = observer(({ data }: any) => {
                   {menu === CommunityMenu.PROVIDE ? (
                     <React.Fragment>
                       <CommunityProvideContent
-                        provides={provides}
+                        provides={provides?.filter(({ title }) =>
+                          searchValue ? title.includes(searchValue) : true
+                        )}
                         setProvides={setProvides}
                       />
                     </React.Fragment>
                   ) : (
                     <React.Fragment>
                       <CommunityRequestContent
-                        requests={requests}
+                        requests={requests?.filter(({ title }) =>
+                          searchValue ? title.includes(searchValue) : true
+                        )}
                         setRequests={setRequests}
                       />
                     </React.Fragment>

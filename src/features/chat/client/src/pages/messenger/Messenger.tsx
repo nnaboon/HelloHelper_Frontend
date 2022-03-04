@@ -371,7 +371,7 @@ export const Messenger = observer(() => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const message = {
-      senderUserId: me.userId,
+      senderUserId: window.localStorage.getItem('id'),
       receiverUserId: user?.userId,
       messageText: newMessage
     };
@@ -394,7 +394,7 @@ export const Messenger = observer(() => {
       uploadMedia(formData)
         .then((res) => {
           const message = {
-            senderUserId: me.userId,
+            senderUserId: window.localStorage.getItem('id'),
             receiverUserId: user?.userId,
             media: res.data
           };
@@ -416,15 +416,17 @@ export const Messenger = observer(() => {
   }, []);
 
   useEffect(() => {
-    if (me) {
-      getChats(me.userId).then((res) => setChats(res.data));
+    if (window.localStorage.getItem('id')) {
+      getChats(window.localStorage.getItem('id')).then((res) =>
+        setChats(res.data)
+      );
       if (query !== undefined) {
         getChat(pathname?.split('/')[2]).then((res) =>
           setMessages(res.data[0].messages)
         );
       }
     }
-  }, [me]);
+  }, [window.localStorage.getItem('id')]);
 
   useEffect(() => {
     const doc = firestore
@@ -436,7 +438,7 @@ export const Messenger = observer(() => {
       async (docSnapshot) => {
         // if (pathname?.split('/')[2]) {
         await updateReadStatus(pathname?.split('/')[2], {
-          senderUserId: me.userId
+          senderUserId: window.localStorage.getItem('id')
         });
 
         //   if (pathname?.split('/')[2] === query) {
@@ -534,19 +536,23 @@ export const Messenger = observer(() => {
           <MessengerContainer>
             <ChatMenu>
               <ChatMenuWrapper>
-                {/* <ChatMenuInput placeholder="Search for friends" /> */}
-                {chats.map((c) => (
+                {chats?.map((c) => (
                   <div
                     onClick={() => {
                       setCurrentChat(c);
                       history.push(`/chat/${c.chatId}`);
 
                       updateReadStatus(c.chatId, {
-                        senderUserId: me.userId
+                        senderUserId: window.localStorage.getItem('id')
                       });
                     }}
                   >
-                    <Conversation conversation={c} currentUser={me} />
+                    <Conversation
+                      conversation={c}
+                      username={c.user.username}
+                      imageUrl={c.user.imageUrl}
+                      currentUser={window.localStorage.getItem('id')}
+                    />
                   </div>
                 ))}
               </ChatMenuWrapper>

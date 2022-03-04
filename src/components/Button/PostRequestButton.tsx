@@ -617,6 +617,7 @@ export const PostRequestButton = ({
               <PrimaryButton
                 type="primary"
                 htmlType="submit"
+                loading={isSubmitting}
                 css={css`
                   width: 140px;
                   right: 44px;

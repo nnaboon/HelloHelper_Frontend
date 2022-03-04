@@ -129,6 +129,9 @@ const UserName = styled.div`
 
   ${mediaQueryLargeDesktop} {
     font-size: 20px;
+  }
+
+  ${mediaQueryMiniDesktop} {
     margin-right: 10px;
   }
 

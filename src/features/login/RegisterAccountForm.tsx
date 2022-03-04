@@ -45,6 +45,7 @@ const RegisterAccountFormSection = styled.div`
 export const RegisterAccountForm = observer(
   (props: RegisterAccountFormProps) => {
     const [form] = Form.useForm();
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const { userAccountData, setProcessStep, onNext } = props;
     const [password, setPassword] = useState('');
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -75,6 +76,8 @@ export const RegisterAccountForm = observer(
       setIsSubmitting(true);
 
       try {
+        setIsLoading(true);
+
         firebase
           .auth()
           .createUserWithEmailAndPassword(value.email, value.password)
@@ -98,7 +101,6 @@ export const RegisterAccountForm = observer(
                     .auth()
                     .currentUser.getIdToken();
                   window.localStorage.setItem('access_token', firebaseIdToken);
-
                   onNext({
                     userId: res.data.uid,
                     email: res.data.email
@@ -118,11 +120,14 @@ export const RegisterAccountForm = observer(
               });
           })
           .catch((error) => {
+            setIsLoading(false);
             message.error('อีเมลนี้ถูกใช้แล้ว');
           });
       } catch (e) {
+        setIsLoading(false);
         message.error('ไม่สามารถลงทะเบียนได้');
       } finally {
+        setIsLoading(false);
         setIsSubmitting(false);
       }
     };
@@ -299,6 +304,7 @@ export const RegisterAccountForm = observer(
                 width: 90px;
                 min-width: 90px;
               `}
+              loading={isLoading}
             >
               ถัดไป
             </PrimaryButton>

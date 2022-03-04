@@ -2,19 +2,21 @@ import useAxios from 'axios-hooks';
 import { ProvideGetDto } from 'models/ProvideGetDto';
 import { REACT_APP_API } from 'config';
 
-export type ProvidesListResponse = {
-  data: Array<ProvideGetDto>;
+export type ProvideResponse = {
+  data: ProvideGetDto;
   message: string;
 };
 
-export const useProvides = () => {
+export const useUpdateVisitorProvide = () => {
   const [{ data: response, loading, error }, fire] = useAxios(
-    {},
+    {
+      method: 'PUT'
+    },
     { manual: true }
   );
 
-  const execute = () => {
-    return fire({ url: `${REACT_APP_API}/provide` });
+  const execute = (provideId: string) => {
+    return fire({ url: `${REACT_APP_API}/provide/${provideId}/visit` });
   };
 
   return {
