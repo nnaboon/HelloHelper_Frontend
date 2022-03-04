@@ -86,11 +86,11 @@ const ChatBoxTop = styled.div`
   z-index: 2;
 
   ${mediaQueryLargeDesktop} {
-    height: calc(100vh - 390px);
+    height: calc(100vh - 365px);
   }
 
   ${mediaQueryMiniDesktop} {
-    height: calc(100vh - 380px);
+    height: calc(100vh - 355px);
   }
 
   ${mediaQuerySmallTablet} {
@@ -98,7 +98,7 @@ const ChatBoxTop = styled.div`
   }
 
   ${mediaQueryMobile} {
-    height: calc(100vh - 215px);
+    height: calc(100vh - 210px);
   }
 `;
 const ChatBoxWrapper = styled.div`
@@ -126,12 +126,12 @@ const ChatMessageInput = styled.textarea`
   resize: none;
 
   ${mediaQueryTablet} {
-    height: 45px;
+    height: 65px;
   }
 
   ${mediaQueryMobile} {
     width: 76%;
-    height: 40px;
+    height: 55px;
     padding: 5px;
     font-size: 12px;
   }
@@ -242,7 +242,8 @@ const RequestForm = styled.div`
 
 const ChatBoxBottom = styled.div`
   position: absolute;
-  bottom: 18px;
+  bottom: 0px;
+  height: 80px;
   width: 100%;
   z-index: 10;
 
@@ -252,7 +253,7 @@ const ChatBoxBottom = styled.div`
   justify-content: space-between;
 
   ${mediaQueryMobile} {
-    bottom: 8px;
+    height: 68px;
     width: 97%;
   }
 
@@ -512,19 +513,18 @@ export const Messenger = observer(() => {
         }
 
         ${mediaQueryMiniDesktop} {
-          // padding: 0px 20px !important;
           height: calc(100% - 175px);
         }
 
         ${mediaQueryTablet} {
           top: 80px;
-          padding: 10px !important;
+          padding: 10px 10px 0px !important;
           height: calc(100% - 100px);
         }
 
         ${mediaQueryMobile} {
           top: 65px;
-          padding: 8px !important;
+          padding: 8px 8px 0px !important;
           height: calc(100% - 70px);
         }
       `}
@@ -694,8 +694,10 @@ export const Messenger = observer(() => {
                               }
 
                               ${mediaQueryTablet} {
-                                font-size: 20px;
+                                font-size: 25px;
+                                margin-left: 10px;
                               }
+
                               ${mediaQueryMobile} {
                                 font-size: 20px;
                               }
