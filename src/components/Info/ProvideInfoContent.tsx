@@ -22,7 +22,6 @@ import { RankingBadge, RequestStatusBadge } from 'components/Badge/Badge';
 import { SuggestedBadge } from 'components/Badge/Badge';
 import { RANK_BADGE } from 'components/Badge/const';
 import { useProvide } from 'hooks/provide/useProvide';
-import { useUser } from 'hooks/user/useUser';
 import { userStore } from 'store/userStore';
 import { logout } from 'features/logout/Logout';
 
@@ -46,9 +45,7 @@ import {
   mediaQueryLargeDesktop,
   mediaQueryMiniDesktop
 } from '../../styles/variables';
-import { ProviderId } from 'firebase/auth';
 import { useDeleteProvide } from '../../hooks/provide/useDeleteProvide';
-import { useUpdateVisitorProvide } from '../../hooks/provide/useUpdateVisitorProvide';
 
 const ProvideImageSection = styled.img`
   width: 450px;
@@ -213,9 +210,7 @@ export const ProvideInfoContent = observer(({ data }: any) => {
   const query = pathname.split('/')[3];
   const { me } = userStore;
 
-  // const { data: user, loading: isUserLoading, execute: getUser } = useUser();
   const { execute: updateProvide } = useUpdateProvide();
-  const { execute: updateVisitProvide } = useUpdateVisitorProvide();
   const { execute: getProvide } = useProvide();
   const { execute: addChatRoom } = useAddChatRoom();
   const { execute: deleteProvide } = useDeleteProvide();
@@ -341,10 +336,6 @@ export const ProvideInfoContent = observer(({ data }: any) => {
       });
     }
   }, []);
-
-  // useEffect(() => {
-  //   updateVisitProvide(query);
-  // }, []);
 
   return (
     <React.Fragment>
