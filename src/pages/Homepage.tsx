@@ -285,7 +285,7 @@ export const HomePage = () => {
 
   return (
     <HomePageContainer>
-      {provides && requests ? (
+      {provides && requests && topTenProvides ? (
         <React.Fragment>
           <Carousel
             arrows={false}
@@ -547,13 +547,8 @@ export const HomePage = () => {
                   `}
                 >
                   {topTenProvides
-                    ?.filter(
-                      ({ communityId, location, visibility }) =>
-                        Boolean(visibility) &&
-                        !Boolean(communityId) &&
-                        (searchValue
-                          ? location.name.includes(searchValue)
-                          : true)
+                    ?.filter(({ communityId, location, visibility }) =>
+                      searchValue ? location.name.includes(searchValue) : true
                     )
                     .map((items) => (
                       <PopularRequestSection key={items.id} data={[items]} />
