@@ -28,14 +28,18 @@ interface CommunityRequestContentProps {
 const CommunityRequestSection = styled.div<{ isRequest: any }>`
   display: grid;
   grid-template-columns: ${(props) =>
-    props.isRequest.length > 0 ? 'repeat(3, 1fr)' : '1fr'};
+    props.isRequest.length > 0 ? 'repeat(4, 1fr)' : '1fr'};
   grid-gap: 10px;
+
+  ${mediaQueryLargeDesktop} {
+    grid-template-columns: ${(props) =>
+      props.isRequest.length > 0 ? 'repeat(3, 1fr)' : '1fr'};
+  }
 
   ${mediaQueryMiniDesktop} {
     grid-template-columns: ${(props) =>
       props.isRequest.length > 0 ? 'repeat(2, 1fr)' : '1fr'};
   }
-
   ${mediaQueryMobile} {
     display: flex;
     flex-direction: column;
@@ -171,7 +175,7 @@ export const CommunityRequestContent = ({
       <CommunityRequestTitle fontWeight={500}>
         ความช่วยเหลือทั้งหมด
       </CommunityRequestTitle>
-      <CommunityRequestSection isRequest={request ? request : 0}>
+      <CommunityRequestSection isRequest={requests ?? 0}>
         {request ? (
           requests.length > 0 ? (
             requests.map((items) => (

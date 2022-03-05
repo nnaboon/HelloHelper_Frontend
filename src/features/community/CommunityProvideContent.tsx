@@ -27,8 +27,13 @@ interface CommunityProvideContentProps {
 const CommunityProvideSection = styled.div<{ isProvide: any }>`
   display: grid;
   grid-template-columns: ${(props) =>
-    props.isProvide.length > 0 ? 'repeat(3, 1fr)' : '1fr'};
+    props.isProvide.length > 0 ? 'repeat(4, 1fr)' : '1fr'};
   grid-gap: 10px;
+
+  ${mediaQueryLargeDesktop} {
+    grid-template-columns: ${(props) =>
+      props.isProvide.length > 0 ? 'repeat(3, 1fr)' : '1fr'};
+  }
 
   ${mediaQueryMiniDesktop} {
     grid-template-columns: ${(props) =>
@@ -171,7 +176,7 @@ export const CommunityProvideContent = ({
       <CommunityProvideTitle fontWeight={500}>
         ความช่วยเหลือทั้งหมด
       </CommunityProvideTitle>
-      <CommunityProvideSection isProvide={provide ? provide : 0}>
+      <CommunityProvideSection isProvide={provides ?? 0}>
         {provide ? (
           provides.length > 0 ? (
             provides.map((items) => (
