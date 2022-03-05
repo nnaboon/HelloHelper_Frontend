@@ -411,7 +411,9 @@ export const Messenger = observer(() => {
             }
           ]);
 
-          addMessage(pathname?.split('/')[2], message);
+          addMessage(pathname?.split('/')[2], message).then((res) => {
+            setMessages(res.data);
+          });
         })
         .catch((error) => {
           message.error('อัปโหลดรูปไม่สำเร็จ');
@@ -532,6 +534,10 @@ export const Messenger = observer(() => {
           top: 80px;
           padding: 10px 10px 0px !important;
           height: calc(100% - 100px);
+        }
+
+        ${mediaQuerySmallTablet} {
+          height: calc(100% - 165px);
         }
 
         ${mediaQueryMobile} {
