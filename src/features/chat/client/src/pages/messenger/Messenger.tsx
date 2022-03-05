@@ -98,10 +98,12 @@ const ChatBoxTop = styled.div`
   }
 
   ${mediaQueryMobile} {
-    height: calc(100vh - 310px);
+    // height: calc(100vh - 310px);
+    height: calc(100% - 120px);
   }
 `;
 const ChatBoxWrapper = styled.div`
+  position: relative;
   height: 100%;
 `;
 
