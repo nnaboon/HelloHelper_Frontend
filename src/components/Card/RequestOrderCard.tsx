@@ -175,7 +175,7 @@ export const RequestOrderCard = ({
               }
             `}
           >
-            ฿{props.serviceCharge + props.price}
+            ฿{(props.serviceCharge + props.price).toLocaleString()}
           </RequestListData>
         </Flex>
       </RequestListContent>

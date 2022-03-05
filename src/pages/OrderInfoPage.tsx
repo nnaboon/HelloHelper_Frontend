@@ -553,7 +553,7 @@ export const OrderInfoPage = () => {
                     }
                   `}
                 >
-                  ฿{order.price}
+                  ฿{order.price.toLocaleString()}
                 </ProvideListData>
               </Flex>
               <Flex itemAlign="center" justify="flex-end">
@@ -574,7 +574,7 @@ export const OrderInfoPage = () => {
                     }
                   `}
                 >
-                  ฿{order.serviceCharge}
+                  ฿{order.serviceCharge.toLocaleString()}
                 </ProvideListData>
               </Flex>
               <Flex itemAlign="center" justify="flex-end">
@@ -595,7 +595,7 @@ export const OrderInfoPage = () => {
                     }
                   `}
                 >
-                  ฿{order.serviceCharge + order.price}
+                  ฿{(order.serviceCharge + order.price).toLocaleString()}
                 </ProvideListData>
               </Flex>
             </ProvideListContent>

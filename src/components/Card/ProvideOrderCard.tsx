@@ -253,7 +253,7 @@ export const ProvideOrderCard = ({
               }
             `}
           >
-            ฿{props.serviceCharge + props.price}
+            ฿{(props.serviceCharge + props.price).toLocaleString()}
           </ProvideListData>
         </Flex>
       </ProvideListContent>
