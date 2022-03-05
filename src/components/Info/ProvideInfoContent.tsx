@@ -363,6 +363,10 @@ export const ProvideInfoContent = observer(({ data }: any) => {
                 margin-top: 25px;
 
                 ${mediaQueryLargeDesktop} {
+                  margin-top: 15px;
+                }
+
+                ${mediaQueryMobile} {
                   margin-top: 10px;
                 }
               `}
@@ -441,6 +445,10 @@ export const ProvideInfoContent = observer(({ data }: any) => {
               }}
               css={css`
                 position: relative;
+
+                ${mediaQueryTablet} {
+                  top: 30px;
+                }
               `}
             >
               <Flex

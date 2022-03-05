@@ -379,6 +379,10 @@ export const RequestInfoContent = observer(({ data }: any) => {
                 margin-top: 25px;
 
                 ${mediaQueryLargeDesktop} {
+                  margin-top: 15px;
+                }
+
+                ${mediaQueryMobile} {
                   margin-top: 10px;
                 }
               `}
@@ -479,6 +483,7 @@ export const RequestInfoContent = observer(({ data }: any) => {
                     }
 
                     ${mediaQueryTablet} {
+                      top: 30px;
                       justify-content: center;
                     }
                   `}

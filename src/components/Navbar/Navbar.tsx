@@ -369,6 +369,10 @@ export const Navbar = observer(() => {
                   height: 30px;
                   width: 30px;
                 }
+
+                @media screen and (max-width: 380px) {
+                  min-width: 230px;
+                }
               `}
             />
           )}
