@@ -10,6 +10,7 @@ import {
   mediaQueryMobile,
   mediaQueryTablet,
   mediaQuerySmallTablet,
+  mediaQueryMiniDesktop,
   mediaQueryLargeDesktop
 } from 'styles/variables';
 import { Skeleton } from 'antd';
@@ -36,7 +37,11 @@ const HelperListCard = styled.div`
   cursor: pointer;
 
   ${mediaQueryLargeDesktop} {
-    height: 370px;
+    height: 330px;
+  }
+
+  ${mediaQueryMiniDesktop} {
+    height: 346px;
   }
 
   ${mediaQueryTablet} {

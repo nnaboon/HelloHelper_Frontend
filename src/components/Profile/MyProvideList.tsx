@@ -15,6 +15,7 @@ import {
   useMedia,
   TABLET_WIDTH
 } from 'styles/variables';
+import { mediaQueryMiniDesktop } from '../../styles/variables';
 
 interface MyProvideListProps {
   data: any;
@@ -38,6 +39,10 @@ const HelperListCard = styled.div`
   cursor: pointer;
 
   ${mediaQueryLargeDesktop} {
+    height: 355px;
+  }
+
+  ${mediaQueryMiniDesktop} {
     height: 370px;
   }
 
