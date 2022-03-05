@@ -508,7 +508,7 @@ export const OrderForm = observer(
             css={css`
               width: 100%;
               display: flex;
-              justify-content: end;
+              justify-content: flex-end;
               position: relative;
             `}
           >

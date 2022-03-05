@@ -62,7 +62,7 @@ const NavbarList = styled.ul`
   list-style-type: none;
   display: flex;
   align-items: center;
-  justify-content: end;
+  justify-content: flex-end;
   box-sizing: border-box;
   padding: 20px 100px;
 
