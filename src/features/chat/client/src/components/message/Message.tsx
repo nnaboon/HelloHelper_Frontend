@@ -86,14 +86,14 @@ const MessageTiming = styled.div`
 `;
 
 const MessageTextOwn = styled.p`
-  white-space: pre-wrap;
   background-color: #ff6b00;
   color: white;
   padding: 12px 20px;
   border-radius: 35px;
   max-width: 300px;
   width: max-content;
-  min-width: max-content;
+  min-width: unset;
+  white-space: pre-wrap;
   font-size: 16px;
   word-break: break-all;
 
@@ -104,15 +104,11 @@ const MessageTextOwn = styled.p`
   }
 
   ${mediaQueryTablet} {
-    font-size: 12px;
     max-width: 300px;
-    border-radius: 18px;
-  }
-
-  ${mediaQueryMobile} {
-    max-width: 250px;
+    font-size: 12px;
     min-width: unset;
     width: unset;
+    border-radius: 18px;
   }
 `;
 
@@ -146,7 +142,7 @@ const MessageText = styled.p`
   color: black;
   max-width: 300px;
   width: max-content;
-  min-width: max-content;
+  min-width: unset;
   white-space: pre-wrap;
   font-size: 16px;
   word-break: break-all;
@@ -158,15 +154,11 @@ const MessageText = styled.p`
   }
 
   ${mediaQueryTablet} {
-    font-size: 12px;
     max-width: 300px;
-    border-radius: 18px;
-  }
-
-  ${mediaQueryMobile} {
-    max-width: 250px;
+    font-size: 12px;
     min-width: unset;
     width: unset;
+    border-radius: 18px;
   }
 `;
 
