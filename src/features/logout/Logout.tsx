@@ -3,7 +3,6 @@ import firebase from '../../firebase';
 
 export const logout = () => {
   window.location.assign('/');
-
   window.localStorage.removeItem('loginType');
   window.localStorage.removeItem('access_token');
   window.localStorage.removeItem('facebook_access_token');
