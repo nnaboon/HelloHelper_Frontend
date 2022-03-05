@@ -17,6 +17,9 @@ import {
   mediaQueryTablet,
   mediaQueryLargeDesktop
 } from 'styles/variables';
+import { useAddChatRoom } from 'hooks/chat/useAddChatRoom';
+import { observer } from 'mobx-react-lite';
+import { userStore } from 'store/userStore';
 
 const CommunityMemberCard = styled.div`
   width: 100%;
@@ -98,10 +101,11 @@ const UserName = styled.div`
   }
 `;
 
-export const CommunityMemberContent = ({ member }: any) => {
-  const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
+export const CommunityMemberContent = observer(({ member }: any) => {
   const history = useHistory();
-
+  const { execute: addChatRoom } = useAddChatRoom();
+  const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
+  const { me } = userStore;
   return (
     <div>
       {member.map(({ id, role, username, imageUrl, userId }) => (
@@ -164,7 +168,22 @@ export const CommunityMemberContent = ({ member }: any) => {
               `}
             >
               {' '}
-              <SecondaryButton>
+              <SecondaryButton
+                css={css`
+                  width: 145px;
+
+                  ${mediaQueryLargeDesktop} {
+                    width: 120px;
+                  }
+                  ${mediaQuerySmallTablet} {
+                    width: 100px;
+                  }
+
+                  ${mediaQueryMobile} {
+                    width: 100%;
+                  }
+                `}
+              >
                 <UserSvg />
                 <div
                   style={{ marginLeft: 5 }}
@@ -180,19 +199,28 @@ export const CommunityMemberContent = ({ member }: any) => {
               {userId !== window.localStorage.getItem('id') && (
                 <PrimaryButton
                   css={css`
-                    width: 165px;
+                    width: 145px;
 
                     ${mediaQueryLargeDesktop} {
-                      width: 140px;
+                      width: 120px;
                     }
                     ${mediaQuerySmallTablet} {
                       width: 100px;
                     }
 
                     ${mediaQueryMobile} {
-                      width: 45%;
+                      width: 100%;
+                      margin-left: 10px;
                     }
                   `}
+                  onClick={() => {
+                    addChatRoom({
+                      providerUserId: userId,
+                      requesterUserId: me.userId
+                    }).then((res) => {
+                      history.push(`/chat/${res.data}`);
+                    });
+                  }}
                 >
                   <MessageSvg />
                   <div style={{ marginLeft: 5 }}>แชท</div>
@@ -204,4 +232,4 @@ export const CommunityMemberContent = ({ member }: any) => {
       ))}
     </div>
   );
-};
+});
