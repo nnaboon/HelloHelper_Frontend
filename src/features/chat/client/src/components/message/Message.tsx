@@ -237,7 +237,7 @@ export default function Message({
               </Flex>
             ) : (
               <Flex itemAlign="flex-end">
-                <Flex itemAlign="flex-end">
+                <Flex itemAlign="flex-end" width="unset">
                   <MessageTiming>
                     {moment(message.createdAt).format('MMM DD,  HH:mm')}
                   </MessageTiming>
