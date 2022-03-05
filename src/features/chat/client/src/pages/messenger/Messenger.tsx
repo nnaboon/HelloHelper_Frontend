@@ -401,9 +401,17 @@ export const Messenger = observer(() => {
             media: res.data
           };
 
-          addMessage(pathname?.split('/')[2], message).then((res) => {
-            setMessages(res.data);
-          });
+          setMessages((messages) => [
+            ...messages,
+            {
+              senderUserId: window.localStorage.getItem('id'),
+              receiverUserId: user?.userId,
+              media: res.data,
+              createdBy: window.localStorage.getItem('id')
+            }
+          ]);
+
+          addMessage(pathname?.split('/')[2], message);
         })
         .catch((error) => {
           message.error('อัปโหลดรูปไม่สำเร็จ');

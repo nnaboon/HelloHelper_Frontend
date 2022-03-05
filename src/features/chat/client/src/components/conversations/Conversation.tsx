@@ -21,10 +21,12 @@ interface ConversationProps {
   username?: string;
 }
 
-const ConversationSection = styled.div`
+const ConversationSection = styled.div<{ isActive: boolean }>`
   position: relative;
   display: flex;
   align-items: center;
+  background-color: ${(props) => (props.isActive ? '#fff4ed' : 'white')};
+  border-radius: 12px;
   padding: 10px;
   cursor: pointer;
   margin-top: 20px;
@@ -34,6 +36,10 @@ const ConversationSection = styled.div`
     margin-bottom: 0;
     align-items: center;
     justify-content: center;
+  }
+
+  ${mediaQueryTablet} {
+    background-color: transparent;
   }
 
   ${mediaQueryMobile} {
@@ -114,7 +120,7 @@ export const Conversation = ({
   }, []);
 
   return (
-    <ConversationSection>
+    <ConversationSection isActive={query === conversation.chatId}>
       <Flex
         css={css`
           margin-left: 25px;
