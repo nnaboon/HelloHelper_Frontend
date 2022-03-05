@@ -95,6 +95,7 @@ const MessageTextOwn = styled.p`
   width: max-content;
   min-width: max-content;
   font-size: 16px;
+  word-break: break-all;
 
   ${mediaQueryLargeDesktop} {
     font-size: 14px;
@@ -104,6 +105,14 @@ const MessageTextOwn = styled.p`
 
   ${mediaQueryTablet} {
     font-size: 12px;
+    max-width: 300px;
+    border-radius: 18px;
+  }
+
+  ${mediaQueryMobile} {
+    max-width: 250px;
+    min-width: unset;
+    width: unset;
   }
 `;
 
@@ -140,6 +149,7 @@ const MessageText = styled.p`
   min-width: max-content;
   white-space: pre-wrap;
   font-size: 16px;
+  word-break: break-all;
 
   ${mediaQueryLargeDesktop} {
     font-size: 14px;
@@ -149,6 +159,14 @@ const MessageText = styled.p`
 
   ${mediaQueryTablet} {
     font-size: 12px;
+    max-width: 300px;
+    border-radius: 18px;
+  }
+
+  ${mediaQueryMobile} {
+    max-width: 250px;
+    min-width: unset;
+    width: unset;
   }
 `;
 
