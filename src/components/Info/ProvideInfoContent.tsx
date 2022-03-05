@@ -331,9 +331,14 @@ export const ProvideInfoContent = observer(({ data }: any) => {
 
   useEffect(() => {
     if (query || window.localStorage.getItem('id')) {
-      getProvide(query ?? window.localStorage.getItem('id')).then((res) => {
-        setProvide(res.data);
-      });
+      getProvide(query ?? window.localStorage.getItem('id'))
+        .then((res) => {
+          setProvide(res.data);
+        })
+        .catch((error) => {
+          message.error('ไม่พบความช่วยเหลือนี้', 10);
+          history.push('/');
+        });
     }
   }, []);
 

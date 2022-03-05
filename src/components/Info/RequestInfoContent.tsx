@@ -343,9 +343,14 @@ export const RequestInfoContent = observer(({ data }: any) => {
 
   useEffect(() => {
     getProvides();
-    getRequest(query).then((res) => {
-      setRequest(res.data);
-    });
+    getRequest(query)
+      .then((res) => {
+        setRequest(res.data);
+      })
+      .catch((error) => {
+        message.error('ไม่พบความช่วยเหลือนี้', 10);
+        history.push('/');
+      });
   }, []);
 
   useEffect(() => {
@@ -630,12 +635,17 @@ export const RequestInfoContent = observer(({ data }: any) => {
                               )[0].requesterId
                             )
                               .then(() => {
-                                getRequest(query).then((res) => {
-                                  setRequest(res.data);
-                                });
-                                message.success(
-                                  'ยกเลิกการสนใจให้ความช่วยเหลือนี้สำเร็จ'
-                                );
+                                getRequest(query)
+                                  .then((res) => {
+                                    setRequest(res.data);
+                                    message.success(
+                                      'ยกเลิกการสนใจให้ความช่วยเหลือนี้สำเร็จ'
+                                    );
+                                  })
+                                  .catch((error) => {
+                                    message.error('ไม่พบความช่วยเหลือนี้', 10);
+                                    history.push('/');
+                                  });
                               })
                               .catch(() => {
                                 message.error('ยกเลิกไม่สำเร็จ');
@@ -675,13 +685,17 @@ export const RequestInfoContent = observer(({ data }: any) => {
                               }
                             )
                               .then((res) => {
-                                getRequest(query).then((res) => {
-                                  setRequest(res.data);
-                                });
-
-                                message.success(
-                                  'เรากำลังส่งความช่วยเหลือของคุณให้เจ้าของโพสต์ได้รับทราบ'
-                                );
+                                getRequest(query)
+                                  .then((res) => {
+                                    setRequest(res.data);
+                                    message.success(
+                                      'เรากำลังส่งความช่วยเหลือของคุณให้เจ้าของโพสต์ได้รับทราบ'
+                                    );
+                                  })
+                                  .catch((error) => {
+                                    message.error('ไม่พบความช่วยเหลือนี้', 10);
+                                    history.push('/');
+                                  });
                               })
                               .catch(() => {
                                 message.error('ไม่สำเร็จ');
