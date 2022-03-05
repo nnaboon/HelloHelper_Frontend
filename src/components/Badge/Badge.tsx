@@ -3,7 +3,8 @@ import styled from '@emotion/styled';
 import {
   mediaQueryMobile,
   mediaQuerySmallTablet,
-  mediaQueryLargeDesktop
+  mediaQueryLargeDesktop,
+  mediaQueryTablet
 } from 'styles/variables';
 
 export const SuggestedBadge = styled.div`
@@ -91,5 +92,32 @@ export const RequestStatusBadge = styled.div<{ status?: number }>`
     font-size: 12px;
     border-radius: 6px;
     height: 22px;
+  }
+`;
+
+export const NotificationBadge = styled.div`
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  background: red;
+
+  ${mediaQueryTablet} {
+    height: 12px;
+    width: 12px;
+    background: red;
+    position: absolute;
+    right: 27px;
+    top: 7px;
+  }
+
+  ${mediaQuerySmallTablet} {
+    right: 17px;
+  }
+
+  ${mediaQueryMobile} {
+    height: 10px;
+    width: 10px;
+    right: 8px;
+    top: -2px;
   }
 `;

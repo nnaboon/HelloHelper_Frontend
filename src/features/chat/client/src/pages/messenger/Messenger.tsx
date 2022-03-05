@@ -416,17 +416,17 @@ export const Messenger = observer(() => {
   }, []);
 
   useEffect(() => {
-    if (window.localStorage.getItem('id')) {
-      getChats(window.localStorage.getItem('id')).then((res) =>
-        setChats(res.data)
+    // if (window.localStorage.getItem('id')) {
+    getChats(window.localStorage.getItem('id')).then((res) => {
+      setChats(res.data);
+    });
+    if (query !== undefined) {
+      getChat(pathname?.split('/')[2]).then((res) =>
+        setMessages(res.data[0].messages)
       );
-      if (query !== undefined) {
-        getChat(pathname?.split('/')[2]).then((res) =>
-          setMessages(res.data[0].messages)
-        );
-      }
     }
-  }, [window.localStorage.getItem('id')]);
+    // }
+  }, []);
 
   useEffect(() => {
     const doc = firestore
@@ -531,7 +531,7 @@ export const Messenger = observer(() => {
         }
       `}
     >
-      {me && chats ? (
+      {chats ? (
         <React.Fragment>
           <MessengerContainer>
             <ChatMenu>
@@ -630,9 +630,19 @@ export const Messenger = observer(() => {
                                 font-size: 24px;
                               }
 
+                              ${mediaQueryTablet} {
+                                svg {
+                                  font-size: 22px;
+                                }
+                              }
+
                               ${mediaQueryMobile} {
                                 right: 8px;
                                 top: 10px;
+
+                                svg {
+                                  font-size: 17px;
+                                }
                               }
                             `}
                           />

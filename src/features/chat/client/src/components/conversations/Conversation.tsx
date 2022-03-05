@@ -1,9 +1,12 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
 import { useUser } from 'hooks/user/useUser';
+import { firestore } from '../../../../../../firebase';
+import { useHistory, useLocation } from 'react-router-dom';
+import { NotificationBadge } from 'components/Badge/Badge';
 import Flex from 'components/Flex/Flex';
 import {
   mediaQueryLargeDesktop,
@@ -19,6 +22,7 @@ interface ConversationProps {
 }
 
 const ConversationSection = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   padding: 10px;
@@ -80,19 +84,37 @@ export const Conversation = ({
   imageUrl,
   username
 }: ConversationProps) => {
-  // const { data: user, execute: getUser } = useUser();
+  const [isWaitToConfirmOrders, setIsWaitToConfirmOrders] =
+    useState<boolean>(false);
+  const { pathname } = useLocation();
+  const history = useHistory();
+  const query = pathname.split('/')[2];
 
-  // useEffect(() => {
-  //   const anotherUser = conversation.users.filter(
-  //     (items) => items !== window.localStorage.getItem('id')
-  //   );
+  useEffect(() => {
+    const doc = firestore
+      .collection('orders')
+      .where('chatId', '==', conversation.chatId)
+      .where('providerUserId', '==', window.localStorage.getItem('id'))
+      .where('status', '==', 'waiting');
 
-  //   getUser(anotherUser);
-  // }, [currentUser, conversation]);
+    const observer = doc.onSnapshot(
+      async (docSnapshot) => {
+        if (docSnapshot.docs.length > 0) {
+          setIsWaitToConfirmOrders(true);
+        } else {
+          setIsWaitToConfirmOrders(false);
+        }
+      },
+      (err) => {
+        console.log(`Encountered error: ${err}`);
+      }
+    );
+
+    return () => observer();
+  }, []);
 
   return (
     <ConversationSection>
-      {/* {user && ( */}
       <Flex
         css={css`
           margin-left: 25px;
@@ -110,7 +132,7 @@ export const Conversation = ({
         <ConversationImage src={imageUrl} alt="conversation user profile" />
         <ConversationName>{username}</ConversationName>
       </Flex>
-      {/* )} */}
+      {isWaitToConfirmOrders && <NotificationBadge />}
     </ConversationSection>
   );
 };
