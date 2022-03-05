@@ -7,11 +7,13 @@ import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 import Flex from 'components/Flex/Flex';
 import { Image } from 'antd';
-import { mediaQueryLargeDesktop, mediaQueryTablet } from 'styles/variables';
 import {
+  mediaQueryLargeDesktop,
+  mediaQueryTablet,
   mediaQueryMobile,
-  mediaQueryMiniDesktop
-} from '../../../../../../styles/variables';
+  mediaQueryMiniDesktop,
+  mediaQueryExtraLargeDesktop
+} from 'styles/variables';
 
 interface MessageProps {
   message: any;
@@ -86,45 +88,25 @@ const MessageTiming = styled.div`
 `;
 
 const MessageTextOwn = styled.p`
-  // background-color: #ff6b00;
-  // color: white;
-  // padding: 12px 20px;
-  // border-radius: 35px;
-  // max-width: 300px;
-  // width: max-content;
-  // min-width: unset;
-  // white-space: pre-wrap;
-  // font-size: 16px;
-  // word-break: break-all;
-
-  // ${mediaQueryLargeDesktop} {
-  //   font-size: 14px;
-  //   padding: 10px;
-  //   border-radius: 20px;
-  // }
-
-  // ${mediaQueryTablet} {
-  //   max-width: 300px;
-  //   font-size: 12px;
-  //   min-width: unset;
-  //   width: unset;
-  //   border-radius: 18px;
-  // }
-
   padding: 12px 20px;
   border-radius: 35px;
   background-color: #ff6b00;
   color: white;
-  max-width: 300px;
+  max-width: 500px;
   width: max-content;
   min-width: unset;
   white-space: pre-wrap;
   font-size: 16px;
   word-break: break-all;
 
+  ${mediaQueryExtraLargeDesktop} {
+    max-width: 400px;
+  }
+
   ${mediaQueryLargeDesktop} {
     font-size: 14px;
     padding: 10px;
+    max-width: 300px;
     border-radius: 20px;
   }
 
@@ -169,17 +151,22 @@ const MessageText = styled.p`
   border-radius: 35px;
   background-color: rgb(245, 241, 241);
   color: black;
-  max-width: 300px;
+  max-width: 500px;
   width: max-content;
   min-width: unset;
   white-space: pre-wrap;
   font-size: 16px;
   word-break: break-all;
 
+  ${mediaQueryExtraLargeDesktop} {
+    max-width: 400px;
+  }
+
   ${mediaQueryLargeDesktop} {
     font-size: 14px;
     padding: 10px;
     border-radius: 20px;
+    max-width: 300px;
   }
 
   ${mediaQueryTablet} {
