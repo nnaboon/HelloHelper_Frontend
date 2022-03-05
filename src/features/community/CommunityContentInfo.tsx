@@ -277,11 +277,11 @@ export const CommunityContentInfo = observer(({ data }: any) => {
     setMenu(currentMenu);
   }, [currentMenu]);
 
-  useEffect(() => {
-    if (query !== window.localStorage.getItem('selectedCommunity')) {
-      window.localStorage.setItem('selectedCommunity', query);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (query !== window.localStorage.getItem('selectedCommunity')) {
+  //     window.localStorage.setItem('selectedCommunity', query);
+  //   }
+  // }, []);
 
   return (
     <WrapperContainer>

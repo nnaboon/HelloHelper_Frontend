@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { Dropdown, Menu, message } from 'antd';
 import { SecondaryButton, PrimaryButton } from 'components/Button/Button';
 import { Text } from 'components/Text';
@@ -159,6 +159,7 @@ export const CommunitySettingManageMember = () => {
   const [joinedRequestUserId, setJoinedRequestUserId] = useState<any[]>();
 
   const { pathname } = useLocation();
+  const history = useHistory();
   const query = pathname.split('/')[3];
 
   const { execute: updateJoinedCommunityRequest } =
@@ -382,7 +383,7 @@ export const CommunitySettingManageMember = () => {
           <CommunityTitle fontWeight={500}>ผู้นำชุมชน</CommunityTitle>
           {member
             ?.filter(({ role }) => role === 1)
-            .map(({ id, username, imageUrl }) => (
+            .map(({ id, username, imageUrl, userId }) => (
               <CommunityMemberCard key={id}>
                 <CommunityMemberContainer>
                   <CommunityMemberImageContainer>
@@ -410,9 +411,13 @@ export const CommunitySettingManageMember = () => {
                             window.localStorage.getItem('id')
                         })
                           .then(() => {
+                            console.log(id);
                             message.success(
                               'ลบผู้ใช้งานออกจากชุมชนความช่วยเหลือนี้สำเร็จ'
                             );
+                            if (userId === window.localStorage.getItem('id')) {
+                              history.push(`/community/${query}`);
+                            }
                           })
                           .catch((error) => {
                             if (error.response.data === 'Unauthorized') {
