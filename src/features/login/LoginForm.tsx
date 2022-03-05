@@ -246,7 +246,13 @@ export const LoginForm = observer(
           css={css`
             .ant-form-item-control-input {
               width: 100%;
+              // height: 40px;
             }
+
+            .ant-form-item-control-input-content {
+              height: 40px;
+            }
+
             .ant-form-item-label > label {
               font-size: 1.5rem;
             }
@@ -277,12 +283,17 @@ export const LoginForm = observer(
                 height: 32px;
               }
 
+              .ant-form-item-control-input-content {
+                height: 35px;
+              }
+
               .ant-form-item {
                 margin-bottom: 24px;
               }
 
               .ant-form-item-control-input {
                 width: 100%;
+                // height: 35px;
               }
 
               .ant-form-item-label > label {
