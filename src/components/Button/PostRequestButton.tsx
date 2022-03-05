@@ -157,11 +157,10 @@ export const PostRequestButton = ({
                 provideSum: 0
               })
                 .then((res) => {
+                  message.success('สำเร็จ');
                   if (setProvides) {
                     setProvides((prev) => [...prev, res.data]);
                   }
-
-                  message.success('สำเร็จ');
                 })
                 .catch((error) => {
                   message.error('ไม่สามารถโพสต์ขอความช่วยเหลือได้');
@@ -189,7 +188,6 @@ export const PostRequestButton = ({
                   message.success('สำเร็จ');
                 })
                 .catch((error) => {
-                  console.log(error.response);
                   message.error('ไม่สามารถโพสต์ขอความช่วยเหลือได้');
                 });
             })
@@ -600,9 +598,16 @@ export const PostRequestButton = ({
                 className="avatar-uploader"
                 showUploadList={false}
                 onChange={handleChange}
+                css={css`
+                  height: 100%;
+                `}
               >
                 {imageUrl ? (
-                  <img src={imageUrl} alt="avatar" style={{ width: '100%' }} />
+                  <img
+                    src={imageUrl}
+                    alt="avatar"
+                    style={{ width: '100%', height: '100%' }}
+                  />
                 ) : (
                   uploadButton
                 )}
