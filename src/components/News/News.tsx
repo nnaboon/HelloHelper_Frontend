@@ -78,6 +78,7 @@ export const News = () => {
           <Carousel
             responsive={responsive}
             arrows
+            autoPlay={false}
             css={css`
               .react-multiple-carousel__arrow {
                 z-index: 10;

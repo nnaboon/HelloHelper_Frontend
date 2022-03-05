@@ -127,6 +127,7 @@ const RequestDataInfo = styled.div`
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   width: 60%;
+  max-width: 190px;
 
   ${mediaQueryLargeDesktop} {
     font-size: 15px;

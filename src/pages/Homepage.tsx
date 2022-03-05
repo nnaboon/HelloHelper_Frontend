@@ -401,6 +401,7 @@ export const HomePage = () => {
                   responsive={responsive}
                   partialVisible={true}
                   arrows
+                  autoPlay={false}
                   css={css`
                     .react-multiple-carousel__arrow {
                       z-index: 10;
@@ -532,6 +533,7 @@ export const HomePage = () => {
                   responsive={responsive}
                   partialVisible={true}
                   arrows
+                  autoPlay={false}
                   css={css`
                     .react-multiple-carousel__arrow {
                       z-index: 10;

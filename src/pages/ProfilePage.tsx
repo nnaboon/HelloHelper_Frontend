@@ -405,12 +405,7 @@ export const ProfilePage = observer(() => {
                           }
                         `}
                         onClick={() => {
-                          window.localStorage.removeItem('id');
-                          window.localStorage.removeItem('loginType');
-                          window.localStorage.removeItem('access_token');
-                          window.localStorage.removeItem('selectedCommunity');
-                          window.location.assign('/');
-                          auth.signOut();
+                          logout();
                         }}
                       >
                         <LogoutSvg style={{ marginRight: '10px' }} />

@@ -24,6 +24,7 @@ import {
   mediaQueryTablet
 } from 'styles/variables';
 import { auth } from '../../firebase';
+import { logout } from 'features/logout/Logout';
 
 interface SideMenuProps {
   collapsed: boolean;
@@ -205,9 +206,7 @@ export const SideMenu = observer(
             key="10"
             icon={<LogoutOutlined />}
             onClick={() => {
-              window.localStorage.removeItem('id');
-              auth.signOut();
-              window.location.assign('/');
+              logout();
             }}
           >
             ออกจากระบบ

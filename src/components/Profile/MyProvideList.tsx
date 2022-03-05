@@ -24,6 +24,7 @@ interface MyProvideListProps {
 const HelperListCard = styled.div`
   background: #ffffff;
   min-width: 200px;
+
   box-shadow: 0px 6px 11px rgba(0, 0, 0, 0.15);
   border-radius: 8px;
   height: 400px;

@@ -110,6 +110,7 @@ export const CommunityProvideContent = ({
           <Carousel
             responsive={responsive}
             arrows
+            autoPlay={false}
             css={css`
               .react-multiple-carousel__arrow {
                 z-index: 10;
@@ -142,6 +143,7 @@ export const CommunityProvideContent = ({
           <Carousel
             responsive={responsive}
             arrows
+            autoPlay={false}
             css={css`
               .react-multiple-carousel__arrow {
                 z-index: 10;

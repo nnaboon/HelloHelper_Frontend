@@ -848,7 +848,7 @@ export const RequestInfoContent = observer(({ data }: any) => {
                           marginTop: isTablet ? '0px' : '40px'
                         }}
                         css={css`
-                          width: unset;
+                          width: 39%;
                           margin-right: 120px;
 
                           ${mediaQueryLargeDesktop} {
