@@ -34,8 +34,8 @@ import {
 } from 'styles/variables';
 import { LeftOutlined, LineOutlined, RightOutlined } from '@ant-design/icons';
 import { useUsers } from 'hooks/user/useUsers';
-import { useProvides } from 'hooks/provide/useProvides';
-import { useRequests } from 'hooks/request/useRequests';
+import { usePopularProvides } from 'hooks/provide/usePopularProvide';
+import { useSuggestRequests } from 'hooks/request/useSuggestRequest';
 import { Loading } from 'components/Loading/Loading';
 import {} from '../styles/variables';
 import { useTopTenProvides } from '../hooks/provide/useTopTenProvides';
@@ -201,10 +201,11 @@ export const HomePage = () => {
   const isSmallTablet = useMedia(`(max-width: ${SMALL_TABLET_WIDTH}px)`);
   const history = useHistory();
   const { data: response, execute: getUsers } = useUsers();
-  const { data: provides, execute: getProvides } = useProvides();
+  const { data: provides, execute: getProvides } = usePopularProvides();
   const { data: topTenProvides, execute: getTopTenProvides } =
     useTopTenProvides();
-  const { data: requests, execute: getRequests } = useRequests();
+
+  const { data: requests, execute: getRequests } = useSuggestRequests();
   const { Search } = Input;
 
   const onSearch = (value) => {
@@ -590,6 +591,7 @@ export const HomePage = () => {
                   responsive={responsive}
                   partialVisible={true}
                   arrows
+                  autoPlay={false}
                   css={css`
                     .react-multiple-carousel__arrow {
                       z-index: 10;
@@ -607,7 +609,7 @@ export const HomePage = () => {
                   {requests
                     ?.filter(
                       ({ communityId, location, visibility, providedUserId }) =>
-                        !Boolean(providedUserId.length > 0) &&
+                        Boolean(providedUserId.length === 0) &&
                         Boolean(visibility) &&
                         !Boolean(communityId) &&
                         (searchValue

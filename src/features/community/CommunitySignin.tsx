@@ -387,6 +387,10 @@ export const CommunitySignin = observer(() => {
                 height: 800px;
               }
 
+              .ant-modal-body {
+                height: 100%;
+              }
+
               ${mediaQueryLargeDesktop} {
                 width: 500px !important;
 

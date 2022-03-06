@@ -619,9 +619,16 @@ export const RequestFormModal = ({
               className="avatar-uploader"
               showUploadList={false}
               onChange={handleChange}
+              css={css`
+                height: 100%;
+              `}
             >
               {imageUrl ? (
-                <img src={imageUrl} alt="avatar" style={{ width: '100%' }} />
+                <img
+                  src={imageUrl}
+                  alt="avatar"
+                  style={{ width: '100%', height: '100%' }}
+                />
               ) : (
                 uploadButton
               )}

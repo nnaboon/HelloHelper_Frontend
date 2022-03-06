@@ -3,7 +3,10 @@
 import { css, jsx } from '@emotion/react';
 import React from 'react';
 import { Spin } from 'antd';
-import { mediaQueryLargeDesktop } from '../../styles/variables';
+import {
+  mediaQueryLargeDesktop,
+  mediaQueryMobile
+} from '../../styles/variables';
 import { LoadingOutlined } from '@ant-design/icons';
 
 interface LoadingProps {
@@ -31,6 +34,10 @@ export const Loading = ({ height }: LoadingProps) => {
           svg {
             font-size: 30px;
           }
+        }
+
+        ${mediaQueryMobile} {
+          height: 100%;
         }
       `}
     />

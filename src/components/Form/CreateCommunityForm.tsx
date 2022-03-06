@@ -203,6 +203,10 @@ export const CreateCommunityForm = ({
             font-size: 1.5rem;
           }
 
+          .ant-modal-body {
+            height: 100%;
+          }
+
           .ant-form-item {
             margin-bottom: 35px;
           }
@@ -222,12 +226,20 @@ export const CreateCommunityForm = ({
             line-height: 8.8;
           }
 
+          .ant-form-item-control-input-content {
+            height: 40px;
+          }
+
           ${mediaQueryLargeDesktop} {
             font-size: 24px;
 
             .ant-select-single:not(.ant-select-customize-input)
               .ant-select-selector {
               height: 32px;
+            }
+
+            .ant-form-item-control-input-content {
+              height: 35px;
             }
 
             .ant-form-item {
@@ -358,23 +370,20 @@ export const CreateCommunityForm = ({
         <div
           css={css`
             width: 100%;
-            display: flex;
-            justify-content: flex-end;
           `}
         >
           <PrimaryButton
             type="primary"
             htmlType="submit"
+            loading={isSubmitting}
             css={css`
-              width: 90px;
-              min-width: 90px;
-              height: 35px;
-              bottom: 0px;
-              right: 0;
+              width: 140px;
+              right: 44px;
+              position: absolute;
+              bottom: 10px;
 
-              ${mediaQueryLargeDesktop} {
-                width: 90px;
-                height: 35px;
+              ${mediaQueryMobile} {
+                width: 144px;
               }
             `}
           >
