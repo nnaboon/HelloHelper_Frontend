@@ -627,6 +627,7 @@ export const RequestInfoContent = observer(({ data }: any) => {
 
                             ${mediaQueryMobile} {
                               height: 40px;
+                              margin-top: 10px;
                               margin-bottom: 10px;
                             }
                           `}
@@ -674,11 +675,13 @@ export const RequestInfoContent = observer(({ data }: any) => {
                               max-width: 100%;
                               bottom: 0;
                               margin-left: 0;
+                              margin-bottom: 10px;
                             }
 
                             ${mediaQueryMobile} {
                               height: 40px;
-                              margin-bottom: 10px;
+                              margin-bottom: 20px;
+                              margin-top: 10px;
                             }
                           `}
                           onClick={() => {
