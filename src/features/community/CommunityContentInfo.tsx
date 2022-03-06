@@ -529,6 +529,7 @@ export const CommunityContentInfo = observer(({ data }: any) => {
                           })
                             .then((res) => {
                               getCommunity(query ?? selectedCommunity);
+                              message.success('สำเร็จ');
                             })
                             .catch((error) => {
                               if (error.response.data === 'Unauthorized') {
@@ -540,7 +541,6 @@ export const CommunityContentInfo = observer(({ data }: any) => {
                         } catch (e) {
                           message.error('ไม่สามารถส่งคำขอได้');
                         } finally {
-                          message.success('สำเร็จ');
                           setIsSubmitting(false);
                         }
                       } else {
@@ -552,6 +552,7 @@ export const CommunityContentInfo = observer(({ data }: any) => {
                           })
                             .then((res) => {
                               getCommunity(query ?? selectedCommunity);
+                              message.success('สำเร็จ');
                             })
                             .catch((error) => {
                               if (error.response.data === 'Unauthorized') {
@@ -561,7 +562,6 @@ export const CommunityContentInfo = observer(({ data }: any) => {
                         } catch (e) {
                           message.error('ไม่สามารถส่งคำขอได้');
                         } finally {
-                          message.success('สำเร็จ');
                           setIsSubmitting(false);
                         }
                       }

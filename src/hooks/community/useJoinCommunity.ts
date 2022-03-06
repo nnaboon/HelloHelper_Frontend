@@ -6,8 +6,7 @@ export const useJoinCommunity = () => {
     {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${window.localStorage.getItem('access_token')}`,
-        'Content-Type': 'application/x-www-form-urlencoded'
+        Authorization: `Bearer ${window.localStorage.getItem('access_token')}`
       }
     },
     { manual: true }

@@ -170,7 +170,7 @@ export const SideMenu = observer(
                   ? `/community/${window.localStorage.getItem(
                       'selectedCommunity'
                     )}`
-                  : me?.communityId
+                  : me?.communityId?.length > 0
                   ? `/community/${me?.communityId[0]}`
                   : '/community'
               });
