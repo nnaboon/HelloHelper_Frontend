@@ -378,12 +378,13 @@ export const CreateCommunityForm = ({
             loading={isSubmitting}
             css={css`
               width: 140px;
-              right: 0px;
+              right: 44px;
               position: absolute;
               bottom: 10px;
 
               ${mediaQueryMobile} {
                 width: 144px;
+                right: 0px;
               }
             `}
           >

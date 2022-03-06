@@ -279,7 +279,6 @@ export const CommunitySignin = observer(() => {
                         </div>
                       </div>
 
-                      {/* {me?.communityId?.includes(id) ? ( */}
                       <SecondaryButton
                         onClick={() => {
                           history.push(`/community/${id}`);
@@ -298,77 +297,6 @@ export const CommunitySignin = observer(() => {
                       >
                         <div>ดูชุมชนความช่วยเหลือ</div>
                       </SecondaryButton>
-                      {/* ) : (
-                        <SecondaryButton
-                          css={css`
-                            margin-right: 100px;
-                            width: 150px !important;
-                            font-size: 14px;
-                            z-index: 5;
-
-                            ${mediaQueryMobile} {
-                              margin: 0;
-                              width: 100% !important;
-                            }
-                          `}
-                          onClick={() => {
-                            if (
-                              joinedRequestUserId?.filter(({ userId }) =>
-                                userId.includes(
-                                  window.localStorage.getItem('id')
-                                )
-                              ).length > 0
-                            ) {
-                              try {
-                                updateJoinedCommunityRequest(id, {
-                                  joinedRequestId: joinedRequestUserId?.filter(
-                                    ({ userId }) =>
-                                      userId.includes(
-                                        window.localStorage.getItem('id')
-                                      )
-                                  )[0].id,
-                                  status: 0
-                                }).catch((error) => {
-                                  if (error.response.data === 'Unauthorized') {
-                                    logout();
-                                  } else {
-                                    message.error('ไม่สามารถส่งคำขอได้');
-                                  }
-                                });
-                              } catch (e) {
-                                message.error('ไม่สามารถส่งคำขอได้');
-                              } finally {
-                                message.success('สำเร็จ');
-                              }
-                            } else {
-                              try {
-                                joinCommunity({
-                                  userId: window.localStorage.getItem('id'),
-                                  communityId: id,
-                                  communityAdminUserId: createdBy
-                                });
-                              } catch (e) {
-                                message.error('ไม่สามารถส่งคำขอได้');
-                              } finally {
-                                message.success('สำเร็จ');
-                              }
-                            }
-                          }}
-                        >
-                          <div>
-                            {joinedRequestUserId?.filter(({ userId }) =>
-                              userId.includes(window.localStorage.getItem('id'))
-                            ).length > 0 ? (
-                              <Flex>
-                                <CheckOutlined style={{ marginRight: '7px' }} />
-                                <div>ได้ส่งคำขอแล้ว</div>
-                              </Flex>
-                            ) : (
-                              'ส่งคำขอเข้าร่วม'
-                            )}
-                          </div>
-                        </SecondaryButton>
-                      )} */}
                     </CommunityCard>
                   )
                 )

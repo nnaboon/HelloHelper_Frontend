@@ -191,7 +191,7 @@ export const CommunityContentInfo = observer(({ data }: any) => {
     execute: updateJoinedCommunityRequest
   } = useUpdateJoinedCommunityRequest();
   const [selectedCommunity, setSetSelectedCommunity] = useState<string>(
-    data[0].communityId
+    data ? data[0].communityId : null
   );
   const history = useHistory();
   const { pathname, state } = useLocation();
@@ -223,7 +223,7 @@ export const CommunityContentInfo = observer(({ data }: any) => {
         }
       `}
     >
-      {data.map(({ communityId, communityName }) => (
+      {data?.map(({ communityId, communityName }) => (
         <Menu.Item
           onClick={() => {
             history.push(`/community/${communityId}`);

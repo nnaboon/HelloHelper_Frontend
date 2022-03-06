@@ -13,6 +13,7 @@ export const CommunityContent = observer(() => {
   const [menu, setMenu] = useState<CommunityMenu>(CommunityMenu.PROVIDE);
   const { pathname, state } = useLocation();
   const { me } = userStore;
+  const query = pathname.split('/')[2];
   const currentMenu = ((state as any)?.menuKey ||
     CommunityMenu.PROVIDE) as CommunityMenu;
   const { data: myCommunity, execute: getMyCommunity } = useMyCommunity();
@@ -30,8 +31,8 @@ export const CommunityContent = observer(() => {
   return (
     <React.Fragment>
       {me ? (
-        me?.communityId?.length > 0 ? (
-          myCommunity ? (
+        me?.communityId?.length > 0 || query ? (
+          myCommunity || query ? (
             pathname.split('/')[1] === 'community' &&
             pathname.split('/')[2] !== undefined ? (
               <CommunityContentInfo data={myCommunity} />
