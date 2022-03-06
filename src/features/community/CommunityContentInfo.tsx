@@ -6,7 +6,7 @@ import { css, jsx } from '@emotion/react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { Divider, Input, Menu, Dropdown, Select, message } from 'antd';
 import { WrapperContainer } from 'components/Wrapper/WrapperContainer';
-import { PrimaryButton, SecondaryButton } from 'components/Button/Button';
+import { PrimaryButton } from 'components/Button/Button';
 import {
   useMedia,
   MOBILE_WIDTH,
@@ -121,7 +121,6 @@ const CommunityName = styled.div`
   font-size: 24px;
   color: #000000;
   margin-bottom: 5px;
-  // word-break: break-all;
 
   ${mediaQueryLargeDesktop} {
     font-size: 20px;
@@ -171,6 +170,7 @@ const CommunityInfoListDetail = styled.div`
 
 export const CommunityContentInfo = observer(({ data }: any) => {
   const [menu, setMenu] = useState<CommunityMenu>(CommunityMenu.PROVIDE);
+  const [isJoinRequest, setIsJoinRequest] = useState<string>();
   const [searchValue, setSearchValue] = useState<string>();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [provides, setProvides] = useState<any[]>([]);
@@ -263,11 +263,29 @@ export const CommunityContentInfo = observer(({ data }: any) => {
   }, []);
 
   useEffect(() => {
+    if (community) {
+      if (
+        community.joinedRequestUserId?.filter(({ userId }) =>
+          userId.includes(window.localStorage.getItem('id'))
+        ).length > 0
+      ) {
+        setIsJoinRequest(
+          community.joinedRequestUserId?.filter(({ userId }) =>
+            userId.includes(window.localStorage.getItem('id'))
+          )[0]
+        );
+      } else {
+        setIsJoinRequest(null);
+      }
+    }
+  }, [community]);
+
+  useEffect(() => {
     setMenu(currentMenu);
   }, [currentMenu]);
 
   useEffect(() => {
-    if (selectedCommunity) {
+    if (selectedCommunity || query) {
       getCommunity(query ?? selectedCommunity);
       // getCommunityMember(query);
     }
@@ -511,9 +529,10 @@ export const CommunityContentInfo = observer(({ data }: any) => {
                     `}
                     onClick={() => {
                       if (
-                        community.joinedRequestUserId?.filter(({ userId }) =>
-                          userId.includes(window.localStorage.getItem('id'))
-                        ).length > 0
+                        // community.joinedRequestUserId?.filter(({ userId }) =>
+                        //   userId.includes(window.localStorage.getItem('id'))
+                        // ).length > 0
+                        isJoinRequest
                       ) {
                         try {
                           setIsSubmitting(true);
@@ -528,7 +547,8 @@ export const CommunityContentInfo = observer(({ data }: any) => {
                             status: 0
                           })
                             .then((res) => {
-                              getCommunity(query ?? selectedCommunity);
+                              setIsJoinRequest(null);
+                              // getCommunity(query ?? selectedCommunity);
                               message.success('สำเร็จ');
                             })
                             .catch((error) => {
@@ -551,8 +571,9 @@ export const CommunityContentInfo = observer(({ data }: any) => {
                             communityId: community.communityId
                           })
                             .then((res) => {
-                              getCommunity(query ?? selectedCommunity);
                               message.success('สำเร็จ');
+                              setIsJoinRequest(res.data);
+                              // getCommunity(query ?? selectedCommunity);
                             })
                             .catch((error) => {
                               if (error.response.data === 'Unauthorized') {
@@ -568,9 +589,8 @@ export const CommunityContentInfo = observer(({ data }: any) => {
                     }}
                   >
                     <div>
-                      {community.joinedRequestUserId?.filter(({ userId }) =>
-                        userId.includes(window.localStorage.getItem('id'))
-                      ).length > 0 ? (
+                      {console.log(isJoinRequest)}
+                      {isJoinRequest ? (
                         <Flex>
                           <CheckOutlined style={{ marginRight: '7px' }} />
                           <div>ได้ส่งคำขอแล้ว</div>
@@ -693,33 +713,6 @@ export const CommunityContentInfo = observer(({ data }: any) => {
                     }
                   `}
                 />
-                {/* <Select
-                  defaultValue="เลือกหมวดหมู่"
-                  style={{
-                    justifyContent: 'center',
-                    display: 'flex',
-                    alignItems: 'center'
-                  }}
-                  css={css`
-                    margin-left: 120px;
-                    font-size: 16px;
-                    height: 40px;
-                    width: 200px;
-
-                    ${mediaQueryExtraLargeDesktop} {
-                      margin-left: 20px;
-                      font-size: 14px;
-                      width: 150px;
-                      height: 35px;
-                    }
-                  `}
-                >
-                  {CATEGORY.map(({ id, name }) => (
-                    <Option key={id} value={name}>
-                      {name}
-                    </Option>
-                  ))}
-                </Select> */}
               </div>
 
               {community?.member.filter(
@@ -762,8 +755,11 @@ export const CommunityContentInfo = observer(({ data }: any) => {
                   {menu === CommunityMenu.PROVIDE ? (
                     <React.Fragment>
                       <CommunityProvideContent
-                        provides={provides?.filter(({ title }) =>
-                          searchValue ? title.includes(searchValue) : true
+                        provides={provides?.filter(({ title, hashtag }) =>
+                          searchValue
+                            ? title.includes(searchValue) ||
+                              hashtag.includes(searchValue)
+                            : true
                         )}
                         setProvides={setProvides}
                       />
@@ -771,8 +767,11 @@ export const CommunityContentInfo = observer(({ data }: any) => {
                   ) : (
                     <React.Fragment>
                       <CommunityRequestContent
-                        requests={requests?.filter(({ title }) =>
-                          searchValue ? title.includes(searchValue) : true
+                        requests={requests?.filter(({ title, hashtag }) =>
+                          searchValue
+                            ? title.includes(searchValue) ||
+                              hashtag.includes(searchValue)
+                            : true
                         )}
                         setRequests={setRequests}
                       />
