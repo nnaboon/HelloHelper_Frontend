@@ -129,7 +129,7 @@ export const EditProfileForm = observer(() => {
   const onFinish = async (value) => {
     setIsSubmitting(true);
     const data = {
-      title: value.title,
+      username: value.username,
       email: value.email,
       location: {
         name: location
@@ -309,7 +309,7 @@ export const EditProfileForm = observer(() => {
                 width: 100%;
               `}
             >
-              <Form.Item name="title" label="ชื่อ">
+              <Form.Item name="username" label="ชื่อ">
                 <InputForm defaultValue={me.username} placeholder="ชื่อ" />
               </Form.Item>
               <Form.Item name="email" label="อีเมล">

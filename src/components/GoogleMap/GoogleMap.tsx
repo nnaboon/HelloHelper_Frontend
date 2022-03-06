@@ -39,7 +39,6 @@ export const GoogleMapContent = ({
     map.fitBounds(bounds);
 
     if (requestLocation) {
-      console.log(requestLocation);
       geocoder.geocode({ location: requestLocation }).then((res) => {
         if (res.results[0]) {
           map.setZoom(20);
