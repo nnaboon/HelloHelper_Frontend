@@ -378,7 +378,7 @@ export const CreateCommunityForm = ({
             loading={isSubmitting}
             css={css`
               width: 140px;
-              right: 44px;
+              right: 0px;
               position: absolute;
               bottom: 10px;
 

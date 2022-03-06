@@ -411,8 +411,8 @@ export const CommunitySignin = observer(() => {
                 width: 320px !important;
 
                 .ant-modal-content {
-                  min-height: 700px;
-                  height: max-content;
+                  min-height: 600px;
+                  height: 685px !important;
                 }
               }
 
