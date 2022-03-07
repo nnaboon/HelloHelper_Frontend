@@ -73,11 +73,11 @@ export const EditProfileForm = observer(() => {
     { label: 'ด้านความงาม', value: 'beauty' },
     { label: 'ด้านเครื่องใช้ในบ้าน', value: 'furniture' },
     { label: 'ด้านเครื่องใช้ไฟฟ้า', value: 'electronic' },
-    { label: 'ด้านอุปกรณ์ทำการเกษตร', value: 'agriculture' },
+    { label: 'ด้านการเกษตร', value: 'agriculture' },
     { label: 'ด้านหนังสือและเครื่องเขียน', value: 'stationary' },
     { label: 'ด้านเพลงและดนตรี', value: 'music' },
     { label: 'ด้านมือถือและอุปกรณ์เสริม', value: 'mobile' },
-    { label: 'ด้านกีฬาและอุปกรณ์เสริม', value: 'sports' },
+    { label: 'ด้านกีฬา', value: 'sports' },
     { label: 'ด้านสุขภาพ', value: 'health' }
     // {
     //   label: 'ให้ความช่วยเหลือตามรายการให้ความช่วยเหลือของฉัน',

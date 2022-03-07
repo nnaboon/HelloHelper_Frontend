@@ -43,12 +43,14 @@ export const RegisterAbilityForm = (props: RegisterAbilityFormProps) => {
     { label: 'ด้านเครื่องแต่งกาย', value: 'cloth' },
     { label: 'ด้านเครื่องใช้ในบ้าน', value: 'furniture' },
     { label: 'ด้านเครื่องใช้ไฟฟ้า', value: 'electronic' },
-    { label: 'ด้านอุปกรณ์ทำการเกษตร', value: 'agriculture' },
+    { label: 'ด้านการเกษตร', value: 'agriculture' },
+    { label: 'ด้านการ์ตูน', value: 'anime' },
     { label: 'ด้านหนังสือและเครื่องเขียน', value: 'stationary' },
     { label: 'ด้านเพลงและดนตรี', value: 'music' },
     { label: 'ด้านมือถือและอุปกรณ์เสริม', value: 'mobile' },
-    { label: 'ด้านกีฬาและอุปกรณ์เสริม', value: 'sports' },
-    { label: 'ด้านสุขภาพและความงาม', value: 'health' }
+    { label: 'ด้านกีฬา', value: 'sports' },
+    { label: 'ด้านสุขภาพและความงาม', value: 'health' },
+    { label: 'ด้านของเล่น', value: 'toy' }
     // {
     //   label: 'ให้ความช่วยเหลือตามรายการให้ความช่วยเหลือของฉัน',
     //   value: undefined
@@ -180,7 +182,7 @@ export const RegisterAbilityForm = (props: RegisterAbilityFormProps) => {
           styles={css`
             .ant-form label {
               font-size: 18px;
-              margin-bottom: 10px;
+              margin-bottom: 4px;
             }
           `}
         />

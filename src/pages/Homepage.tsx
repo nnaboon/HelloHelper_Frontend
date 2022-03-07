@@ -42,7 +42,7 @@ import { useTopTenProvides } from '../hooks/provide/useTopTenProvides';
 
 const HomePageCategorySection = styled.div`
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   grid-gap: 20px;
   justify-content: center;
 
@@ -56,8 +56,8 @@ const HomePageCategorySection = styled.div`
 const HomePageContainer = styled.div`
   box-sizing: border-box;
   position: relative;
-  top: 165px;
-  padding: 40px 100px;
+  top: 135px;
+  padding: 0px 100px 40px;
   overflow-y: scroll;
 
   ${mediaQueryMiniDesktop} {
@@ -81,16 +81,16 @@ const HomePageContainer = styled.div`
 
 const HomePagePictureSection = styled.img`
   width: 100%;
-  height: 300px;
+  height: 200px;
   margin-bottom: 30px;
   object-fit: fill;
 
   ${mediaQueryLargeDesktop} {
-    height: 230px;
+    height: 160px;
   }
 
   ${mediaQueryMobile} {
-    height: 180px;
+    height: 140px;
   }
 `;
 
@@ -294,7 +294,7 @@ export const HomePage = () => {
             infinite
             autoPlay
             autoPlaySpeed={3000}
-            customTransition="all .5"
+            customTransition="all .9"
             transitionDuration={500}
             containerClass="carousel-container"
           >
@@ -637,14 +637,14 @@ export const HomePage = () => {
               />
             )}
           </React.Fragment>
-          <HomePageTitle>ข่าวน่าสนใจ</HomePageTitle>
+          {/* <HomePageTitle>ข่าวน่าสนใจ</HomePageTitle>
           <div
             css={css`
               display: flex;
             `}
           >
             <News />
-          </div>
+          </div> */}
         </React.Fragment>
       ) : (
         <Loading height="calc(100vh - 265px)" />

@@ -37,7 +37,7 @@ import { logout } from 'features/logout/Logout';
 
 const NavbarSection = styled.div`
   width: 100%;
-  height: 210px;
+  height: 190px;
   position: fixed;
   top: 0;
   display: flex;
@@ -46,7 +46,7 @@ const NavbarSection = styled.div`
   z-index: 99;
 
   ${mediaQueryLargeDesktop} {
-    height: 165px;
+    height: 155px;
   }
 
   ${mediaQueryTablet} {
@@ -138,7 +138,7 @@ const SearchBarContainer = styled.div`
   top: -40px;
 
   ${mediaQueryLargeDesktop} {
-    top: -20px;
+    top: -35px;
   }
 
   ${mediaQuerySmallTablet} {
@@ -298,7 +298,7 @@ export const Navbar = observer(() => {
         `}
       >
         <div>
-          {isTablet ? (
+          {isTablet && window.localStorage.getItem('id') ? (
             <SideMenu collapsed={collapsed} setCollapsed={setCollapsed} />
           ) : (
             <div
@@ -337,7 +337,7 @@ export const Navbar = observer(() => {
           )}
         </div>
         <div>
-          {isTablet && (
+          {isTablet && window.localStorage.getItem('id') && (
             <Search
               placeholder="ข้าวผัดป้าเขียว, ก๋วยจั๊บนายวาย, แกงกะหรี่ป้าอร โชคชัย4"
               defaultValue={state?.search}
@@ -481,7 +481,7 @@ export const Navbar = observer(() => {
 
                   ${mediaQueryMobile} {
                     top: 12px;
-                    padding-top: 15px;
+                    padding: 15px;
                   }
                 `}
               >

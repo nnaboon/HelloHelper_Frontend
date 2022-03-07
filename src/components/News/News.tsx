@@ -3,19 +3,28 @@
 import React from 'react';
 import { css, jsx } from '@emotion/react';
 import styled from '@emotion/styled';
+import Flex from 'components/Flex/Flex';
 import Carousel from 'react-multi-carousel';
+import Community from 'images/community.png';
+import Money from 'images/money.jpg';
+import Shopping from 'images/shopping.jpg';
+import Helping from 'images/helping.jpg';
+
 import {
   mediaQueryMobile,
   mediaQueryLargeDesktop,
   MOBILE_WIDTH,
   useMedia
 } from 'styles/variables';
+import { Card } from 'antd';
+
+const { Meta } = Card;
 
 const NewsSection = styled.div`
   width: 100%;
   padding: 20px 0;
-  display: flex;
-  justify-content: space-between;
+  // display: flex;
+  // justify-content: space-between;
   align-items: center;
   position: relative;
 
@@ -93,12 +102,175 @@ export const News = () => {
               }
             `}
           >
-            <NewsContainer>na1</NewsContainer>
-            <NewsContainer>na2</NewsContainer>
+            <Card
+              hoverable
+              cover={
+                <img
+                  alt="Spend money with rare goods"
+                  src={Money}
+                  css={css`
+                    height: 250px;
+                  `}
+                />
+              }
+              css={css`
+                width: 23%;
+                margin: 0 10px;
+              `}
+            >
+              <Meta
+                title="จับจ่ายใช้สอยกับประสบการณ์"
+                description="www.instagram.com"
+              />
+            </Card>
+            <Card
+              hoverable
+              cover={
+                <img
+                  alt="Build your provide and request community for help each other"
+                  src={Community}
+                  css={css`
+                    height: 250px;
+                  `}
+                />
+              }
+              css={css`
+                width: 23%;
+                margin: 0 10px;
+              `}
+            >
+              <Meta
+                title="สร้างชุมชนความช่วยเหลือของคุณ"
+                description="www.instagram.com"
+              />
+            </Card>
+
+            <Card
+              hoverable
+              cover={
+                <img
+                  alt="Best ways that you can shopping rare goods"
+                  src={Shopping}
+                  css={css`
+                    height: 250px;
+                  `}
+                />
+              }
+              css={css`
+                width: 23%;
+                margin: 0 10px;
+              `}
+            >
+              <Meta
+                title="เลือกซื้อสินค้าหายาก"
+                description="www.instagram.com"
+              />
+            </Card>
+            <Card
+              hoverable
+              cover={
+                <img
+                  alt="help each other to find goods"
+                  src={Helping}
+                  css={css`
+                    height: 250px;
+                  `}
+                />
+              }
+              css={css`
+                width: 23%;
+                margin: 0 10px;
+              `}
+            >
+              <Meta title="เลือกซื้อสินค้า" description="www.instagram.com" />
+            </Card>
           </Carousel>
         </React.Fragment>
       ) : (
-        <NewsContainer />
+        <Flex justify="space-between">
+          <Card
+            hoverable
+            cover={
+              <img
+                alt="Spend money with rare goods"
+                src={Money}
+                css={css`
+                  height: 250px;
+                `}
+              />
+            }
+            css={css`
+              width: 23%;
+              margin: 0 10px;
+            `}
+          >
+            <Meta
+              title="จับจ่ายใช้สอยกับประสบการณ์"
+              description="www.instagram.com"
+            />
+          </Card>
+          <Card
+            hoverable
+            cover={
+              <img
+                alt="Build your provide and request community for help each other"
+                src={Community}
+                css={css`
+                  height: 250px;
+                `}
+              />
+            }
+            css={css`
+              width: 23%;
+              margin: 0 10px;
+            `}
+          >
+            <Meta
+              title="สร้างชุมชนความช่วยเหลือของคุณ"
+              description="www.instagram.com"
+            />
+          </Card>
+
+          <Card
+            hoverable
+            cover={
+              <img
+                alt="Best ways that you can shopping rare goods"
+                src={Shopping}
+                css={css`
+                  height: 250px;
+                `}
+              />
+            }
+            css={css`
+              width: 23%;
+              margin: 0 10px;
+            `}
+          >
+            <Meta
+              title="เลือกซื้อสินค้าหายาก"
+              description="www.instagram.com"
+            />
+          </Card>
+          <Card
+            hoverable
+            cover={
+              <img
+                alt="help each other to find goods"
+                src={Helping}
+                css={css`
+                  height: 250px;
+                `}
+              />
+            }
+            css={css`
+              width: 23%;
+              margin: 0 10px;
+            `}
+          >
+            <Meta title="เลือกซื้อสินค้า" description="www.instagram.com" />
+          </Card>
+        </Flex>
       )}
     </NewsSection>
   );

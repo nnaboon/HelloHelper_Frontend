@@ -372,19 +372,22 @@ export const Messenger = observer(() => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const message = {
-      senderUserId: window.localStorage.getItem('id'),
-      receiverUserId: user?.userId,
-      messageText: newMessage
-    };
 
-    try {
-      addMessage(pathname?.split('/')[2], message).then((res) => {
-        setMessages(res.data);
-      });
-      setNewMessage('');
-    } catch (err) {
-      console.log(err);
+    if (newMessage.length > 0) {
+      const message = {
+        senderUserId: window.localStorage.getItem('id'),
+        receiverUserId: user?.userId,
+        messageText: newMessage
+      };
+
+      try {
+        addMessage(pathname?.split('/')[2], message).then((res) => {
+          setMessages(res.data);
+        });
+        setNewMessage('');
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 
@@ -521,7 +524,7 @@ export const Messenger = observer(() => {
         position: relative;
 
         ${mediaQueryLargeDesktop} {
-          top: 165px;
+          top: 155px;
           padding: 0px 20px !important;
           height: calc(100% - 185px);
         }

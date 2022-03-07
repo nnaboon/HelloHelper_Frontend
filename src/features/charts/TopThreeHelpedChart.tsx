@@ -19,12 +19,14 @@ export const TopThreeHelpedChart = ({ data }: any) => {
     cloth: 'เครื่องแต่งกาย',
     furniture: 'เครื่องใช้ในบ้าน',
     electronic: 'เครื่องใช้ไฟฟ้า',
-    agriculture: 'อุปกรณ์ทำการเกษตร',
+    agriculture: 'การเกษตร',
+    anime: 'ด้านอนิเมะ',
     stationary: 'หนังสือและเครื่องเขียน',
     music: 'เพลงและดนตรี',
     mobile: 'มือถือและอุปกรณ์เสริม',
-    sports: 'กีฬาและอุปกรณ์เสริม',
-    health: 'สุขภาพและความงาม'
+    sports: 'กีฬา',
+    health: 'สุขภาพและความงาม',
+    tou: 'ด้านของเล่น'
   };
 
   const option = {

@@ -15,6 +15,7 @@ import {
 } from 'styles/variables';
 import { GoogleMapContent } from 'components/GoogleMap/GoogleMap';
 import { PrimaryButton, SecondaryButton } from 'components/Button/Button';
+import { getAuth } from 'firebase/auth';
 
 type RegisterLocationFormProps = {
   userAccountData: UserCreateBody;
@@ -38,6 +39,9 @@ export const RegisterLocationForm = (props: RegisterLocationFormProps) => {
   const { userAccountData, onNext, onBack } = props;
   const [location, setLocation] = useState<any>(null);
   const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
+
+  const auth = getAuth();
+  const user = auth.currentUser;
 
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
@@ -117,21 +121,23 @@ export const RegisterLocationForm = (props: RegisterLocationFormProps) => {
             min-width: 100%;
           `}
         />
-        <SecondaryButton
-          type="primary"
-          htmlType="submit"
-          css={css`
-            width: 90px;
-            min-width: 90px;
-            position: absolute;
-            height: 35px;
-            bottom: -5px;
-            right: 110px;
-          `}
-          onClick={() => onBack()}
-        >
-          ย้อนกลับ
-        </SecondaryButton>
+        {!user.displayName && (
+          <SecondaryButton
+            type="primary"
+            htmlType="submit"
+            css={css`
+              width: 90px;
+              min-width: 90px;
+              position: absolute;
+              height: 35px;
+              bottom: -5px;
+              right: 110px;
+            `}
+            onClick={() => onBack()}
+          >
+            ย้อนกลับ
+          </SecondaryButton>
+        )}
         <PrimaryButton
           type="primary"
           htmlType="submit"
@@ -144,7 +150,7 @@ export const RegisterLocationForm = (props: RegisterLocationFormProps) => {
             right: 0;
           `}
         >
-          ตกลง
+          ถัดไป
         </PrimaryButton>
       </Form>
     </RegisterLocationFormSection>

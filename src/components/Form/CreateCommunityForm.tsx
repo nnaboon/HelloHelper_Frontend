@@ -377,13 +377,13 @@ export const CreateCommunityForm = ({
             htmlType="submit"
             loading={isSubmitting}
             css={css`
-              width: 140px;
+              width: 100px;
               right: 44px;
               position: absolute;
               bottom: 10px;
 
               ${mediaQueryMobile} {
-                width: 144px;
+                width: 85px;
                 right: 0px;
               }
             `}

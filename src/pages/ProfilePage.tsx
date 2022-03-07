@@ -52,7 +52,7 @@ import { mediaQueryMiniDesktop } from '../styles/variables';
 const ProfilePageContainer = styled.div`
   box-sizing: border-box;
   position: relative;
-  top: 165px;
+  top: 155px;
   padding: 40px 100px;
 
   ${mediaQueryTablet} {

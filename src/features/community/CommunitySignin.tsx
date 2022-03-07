@@ -110,9 +110,8 @@ const CommunityImageContainer = styled.div`
   }
 
   ${mediaQueryMobile} {
-    margin-right: 20px;
-    margin-left: 0;
-    width: 100%;
+    margin-right: 30px;
+    margin-left: 20px;
   }
 `;
 
@@ -262,7 +261,15 @@ export const CommunitySignin = observer(() => {
                     imageUrl
                   }) => (
                     <CommunityCard key={id}>
-                      <div style={{ display: 'flex' }}>
+                      <div
+                        css={css`
+                          display: flex;
+                          ${mediaQueryTablet} {
+                            width: 100%;
+                            justify-content: flex-start;
+                          }
+                        `}
+                      >
                         <CommunityImageContainer>
                           <CommunityImage
                             src={imageUrl ?? DefaultImage}
@@ -285,13 +292,17 @@ export const CommunitySignin = observer(() => {
                         }}
                         css={css`
                           margin-right: 100px;
-                          width: 150px;
+                          width: 150px !important;
                           z-index: 5;
                           font-size: 14px;
 
+                          ${mediaQueryTablet} {
+                            width: 200px !important;
+                          }
+
                           ${mediaQueryMobile} {
                             margin: 0;
-                            width: 100%;
+                            width: 100% !important;
                           }
                         `}
                       >

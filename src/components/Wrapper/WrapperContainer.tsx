@@ -16,7 +16,7 @@ export const WrapperContainer = styled.div`
   overflow-y: scroll;
 
   ${mediaQueryLargeDesktop} {
-    top: 165px;
+    top: 155px;
   }
 
   ${mediaQueryMiniDesktop} {

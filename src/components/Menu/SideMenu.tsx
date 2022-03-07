@@ -92,17 +92,15 @@ export const SideMenu = observer(
             width: '100%'
           }}
           css={css`
-            height: 100vh;
+            height: calc(100vh - 62px);
             position: fixed;
 
             ${mediaQueryTablet} {
-              height: 100vh;
               top: 80px;
               margin-left: -60px;
             }
 
             ${mediaQueryMobile} {
-              height: 100vh;
               top: 64px;
               margin-left: 0;
             }

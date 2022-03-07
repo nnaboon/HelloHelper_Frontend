@@ -97,7 +97,7 @@ export const SearchResultPage = () => {
 
               ${mediaQueryMiniDesktop} {
                 width: 80%;
-                left: 21%;
+                left: 23%;
               }
 
               ${mediaQueryTablet} {

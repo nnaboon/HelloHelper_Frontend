@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { css, jsx } from '@emotion/react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { Divider, Input, Menu, Dropdown, Select, message } from 'antd';
+import { Divider, Input, Menu, Dropdown, message } from 'antd';
 import { WrapperContainer } from 'components/Wrapper/WrapperContainer';
 import { PrimaryButton } from 'components/Button/Button';
 import {
@@ -23,17 +23,14 @@ import { SettingSvg } from 'components/Svg/SettingSvg';
 import { LogoutSvg } from 'components/Svg/LogoutSvg';
 import { PlusOutlined } from '@ant-design/icons';
 import { observer } from 'mobx-react-lite';
-import { userStore } from 'store/userStore';
 import { CommunityMenuTab } from 'components/Menu/CommunityMenuTab';
 import { CommunityMenu } from 'components/Menu/const';
 import { PostRequestButton } from 'components/Button/PostRequestButton';
 import { CommunityMemberContent } from './CommunityMemberContent';
-import { CATEGORY } from 'data/category';
 import { CommunityProvideContent } from './CommunityProvideContent';
 import { CommunityRequestContent } from './CommunityRequestContent';
 import { useCommunity } from 'hooks/community/useCommunity';
 import { useBanMember } from 'hooks/community/useBanMember';
-import { useCommunityMember } from 'hooks/community/useCommunityMember';
 import { Loading } from 'components/Loading/Loading';
 import { firestore } from '../../firebase';
 import { logout } from 'features/logout/Logout';
@@ -178,30 +175,20 @@ export const CommunityContentInfo = observer(({ data }: any) => {
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const isSmallTablet = useMedia(`(max-width: ${SMALL_TABLET_WIDTH}px)`);
   const { execute: bannedMember } = useBanMember();
-  const { data: member, execute: getCommunityMember } = useCommunityMember();
   const { data: community, execute: getCommunity } = useCommunity();
-  const {
-    data: response,
-    loading: updateJoinCommunityLoading,
-    execute: joinCommunity
-  } = useJoinCommunity();
-  const {
-    data: updateJoinRequest,
-    loading: updateJoinRequestLoading,
-    execute: updateJoinedCommunityRequest
-  } = useUpdateJoinedCommunityRequest();
+  const { execute: joinCommunity } = useJoinCommunity();
+  const { execute: updateJoinedCommunityRequest } =
+    useUpdateJoinedCommunityRequest();
   const [selectedCommunity, setSetSelectedCommunity] = useState<string>(
     data ? data[0].communityId : null
   );
   const history = useHistory();
   const { pathname, state } = useLocation();
-  const { me } = userStore;
   const query = pathname.split('/')[2];
   const currentMenu = ((state as any)?.menuKey ||
     CommunityMenu.PROVIDE) as CommunityMenu;
 
   const { Search } = Input;
-  const { Option } = Select;
 
   const onSearch = (value) => {
     setSearchValue(value);
@@ -528,12 +515,7 @@ export const CommunityContentInfo = observer(({ data }: any) => {
                       }
                     `}
                     onClick={() => {
-                      if (
-                        // community.joinedRequestUserId?.filter(({ userId }) =>
-                        //   userId.includes(window.localStorage.getItem('id'))
-                        // ).length > 0
-                        isJoinRequest
-                      ) {
+                      if (isJoinRequest) {
                         try {
                           setIsSubmitting(true);
                           updateJoinedCommunityRequest(community.communityId, {
@@ -548,7 +530,6 @@ export const CommunityContentInfo = observer(({ data }: any) => {
                           })
                             .then((res) => {
                               setIsJoinRequest(null);
-                              // getCommunity(query ?? selectedCommunity);
                               message.success('สำเร็จ');
                             })
                             .catch((error) => {
@@ -573,7 +554,6 @@ export const CommunityContentInfo = observer(({ data }: any) => {
                             .then((res) => {
                               message.success('สำเร็จ');
                               setIsJoinRequest(res.data);
-                              // getCommunity(query ?? selectedCommunity);
                             })
                             .catch((error) => {
                               if (error.response.data === 'Unauthorized') {
@@ -589,7 +569,6 @@ export const CommunityContentInfo = observer(({ data }: any) => {
                     }}
                   >
                     <div>
-                      {console.log(isJoinRequest)}
                       {isJoinRequest ? (
                         <Flex>
                           <CheckOutlined style={{ marginRight: '7px' }} />
@@ -659,127 +638,132 @@ export const CommunityContentInfo = observer(({ data }: any) => {
             </div>
           </ProfilePageUserInfoSection>
           <Divider />
-          <CommunityMenuTab menu={menu} setMenu={setMenu} />
-          {menu !== CommunityMenu.MEMBER && (
-            <div
-              css={css`
-                justify-content: space-between;
-                display: flex;
-                margin-top: 30px;
-
-                ${mediaQueryMobile} {
-                  flex-direction: column;
-                }
-              `}
-            >
-              <div
-                css={css`
-                  display: flex;
-                  align-items: start;
-                `}
-              >
-                <Search
-                  placeholder="ค้นหาความช่วยเหลือ"
-                  onSearch={onSearch}
-                  size="large"
-                  style={{
-                    width: isSmallTablet ? '100%' : '462px',
-                    height: '60px'
-                  }}
-                  css={css`
-                    .ant-input {
-                      height: 40px;
-                      width: 400px;
-                      font-size: 16px;
-                      line-height: 6.8713;
-                    }
-
-                    .ant-btn-icon-only.ant-btn-lg {
-                      height: 40px;
-                      width: 40px;
-                    }
-
-                    ${mediaQueryExtraLargeDesktop} {
-                      .ant-input {
-                        height: 35px;
-                        width: 100%;
-                        font-size: 14px;
-                      }
-
-                      .ant-btn-icon-only.ant-btn-lg {
-                        height: 35px;
-                        width: 35px;
-                      }
-                    }
-                  `}
-                />
-              </div>
-
-              {community?.member.filter(
-                ({ userId }) => userId === window.localStorage.getItem('id')
-              ).length > 0 && (
-                <div
-                  css={css`
-                    ${mediaQueryMobile} {
-                      align-self: end !important;
-                    }
-                  `}
-                >
-                  {' '}
-                  <PostRequestButton
-                    setProvides={setProvides}
-                    setRequests={setRequests}
-                    buttonText={
-                      menu === CommunityMenu.PROVIDE
-                        ? 'ให้ความช่วยเหลือ'
-                        : 'ขอความช่วยเหลือ'
-                    }
-                    type={
-                      menu === CommunityMenu.PROVIDE ? 'provide' : 'request'
-                    }
-                  />
-                </div>
-              )}
-            </div>
-          )}
           {community?.member.filter(
             ({ userId }) => userId === window.localStorage.getItem('id')
           ).length > 0 ? (
-            <ProfilePageUserHelperListSection>
-              {menu === CommunityMenu.MEMBER ? (
-                <div>
-                  <CommunityMemberContent member={community.member} />
-                </div>
-              ) : (
-                <div>
-                  {menu === CommunityMenu.PROVIDE ? (
-                    <React.Fragment>
-                      <CommunityProvideContent
-                        provides={provides?.filter(({ title, hashtag }) =>
-                          searchValue
-                            ? title.includes(searchValue) ||
-                              hashtag.includes(searchValue)
-                            : true
-                        )}
+            <React.Fragment>
+              <CommunityMenuTab menu={menu} setMenu={setMenu} />
+              {menu !== CommunityMenu.MEMBER && (
+                <div
+                  css={css`
+                    justify-content: space-between;
+                    display: flex;
+                    margin-top: 30px;
+
+                    ${mediaQueryMobile} {
+                      flex-direction: column;
+                    }
+                  `}
+                >
+                  <div
+                    css={css`
+                      display: flex;
+                      align-items: start;
+                    `}
+                  >
+                    <Search
+                      placeholder="ค้นหาความช่วยเหลือ"
+                      onSearch={onSearch}
+                      size="large"
+                      style={{
+                        width: isSmallTablet ? '100%' : '462px',
+                        height: '60px'
+                      }}
+                      css={css`
+                        .ant-input {
+                          height: 40px;
+                          width: 400px;
+                          font-size: 16px;
+                          line-height: 6.8713;
+                        }
+
+                        .ant-btn-icon-only.ant-btn-lg {
+                          height: 40px;
+                          width: 40px;
+                        }
+
+                        ${mediaQueryExtraLargeDesktop} {
+                          .ant-input {
+                            height: 35px;
+                            width: 100%;
+                            font-size: 14px;
+                          }
+
+                          .ant-btn-icon-only.ant-btn-lg {
+                            height: 35px;
+                            width: 35px;
+                          }
+                        }
+                      `}
+                    />
+                  </div>
+
+                  {community?.member.filter(
+                    ({ userId }) => userId === window.localStorage.getItem('id')
+                  ).length > 0 && (
+                    <div
+                      css={css`
+                        ${mediaQueryMobile} {
+                          align-self: end !important;
+                        }
+                      `}
+                    >
+                      {' '}
+                      <PostRequestButton
                         setProvides={setProvides}
-                      />
-                    </React.Fragment>
-                  ) : (
-                    <React.Fragment>
-                      <CommunityRequestContent
-                        requests={requests?.filter(({ title, hashtag }) =>
-                          searchValue
-                            ? title.includes(searchValue) ||
-                              hashtag.includes(searchValue)
-                            : true
-                        )}
                         setRequests={setRequests}
+                        buttonText={
+                          menu === CommunityMenu.PROVIDE
+                            ? 'ให้ความช่วยเหลือ'
+                            : 'ขอความช่วยเหลือ'
+                        }
+                        type={
+                          menu === CommunityMenu.PROVIDE ? 'provide' : 'request'
+                        }
                       />
-                    </React.Fragment>
+                    </div>
                   )}
                 </div>
               )}
-            </ProfilePageUserHelperListSection>
+              {/* {community?.member.filter(
+            ({ userId }) => userId === window.localStorage.getItem('id')
+          ).length > 0 ? ( */}
+              <ProfilePageUserHelperListSection>
+                {menu === CommunityMenu.MEMBER ? (
+                  <div>
+                    <CommunityMemberContent member={community.member} />
+                  </div>
+                ) : (
+                  <div>
+                    {menu === CommunityMenu.PROVIDE ? (
+                      <React.Fragment>
+                        <CommunityProvideContent
+                          provides={provides?.filter(({ title, hashtag }) =>
+                            searchValue
+                              ? title.includes(searchValue) ||
+                                hashtag.includes(searchValue)
+                              : true
+                          )}
+                          setProvides={setProvides}
+                        />
+                      </React.Fragment>
+                    ) : (
+                      <React.Fragment>
+                        <CommunityRequestContent
+                          requests={requests?.filter(({ title, hashtag }) =>
+                            searchValue
+                              ? title.includes(searchValue) ||
+                                hashtag.includes(searchValue)
+                              : true
+                          )}
+                          setRequests={setRequests}
+                        />
+                      </React.Fragment>
+                    )}
+                  </div>
+                )}
+              </ProfilePageUserHelperListSection>
+            </React.Fragment>
           ) : (
             <div>
               <EmptyData

@@ -37,7 +37,7 @@ export const Loading = ({ height }: LoadingProps) => {
         }
 
         ${mediaQueryMobile} {
-          height: 100%;
+          height: calc(100vh - 220px);
         }
       `}
     />

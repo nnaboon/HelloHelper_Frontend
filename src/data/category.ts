@@ -9,6 +9,8 @@ import { faTractor } from '@fortawesome/free-solid-svg-icons';
 import { faPlug } from '@fortawesome/free-solid-svg-icons';
 import { faCouch } from '@fortawesome/free-solid-svg-icons';
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import { faTv } from '@fortawesome/free-solid-svg-icons';
+import { faChild } from '@fortawesome/free-solid-svg-icons';
 
 export const CATEGORY = [
   {
@@ -33,8 +35,14 @@ export const CATEGORY = [
   },
   {
     id: 'agriculture',
-    name: 'ด้านอุปกรณ์ทำการเกษตร',
+    name: 'ด้านการเกษตร',
     icon: faTractor as IconProp
+  },
+
+  {
+    id: 'anime',
+    name: 'ด้านการ์ตูน',
+    icon: faTv as IconProp
   },
   {
     id: 'stationary',
@@ -53,12 +61,17 @@ export const CATEGORY = [
   },
   {
     id: 'sports',
-    name: 'ด้านกีฬาและอุปกรณ์เสริม',
+    name: 'ด้านกีฬา',
     icon: faSwimmer as IconProp
   },
   {
     id: 'health',
     name: 'ด้านสุขภาพและความงาม',
     icon: faMedkit as IconProp
+  },
+  {
+    id: 'toy',
+    name: 'ด้านของเล่น',
+    icon: faChild as IconProp
   }
 ];
