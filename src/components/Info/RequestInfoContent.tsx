@@ -241,6 +241,7 @@ const UserProfileImageContainer = styled.div`
 export const RequestInfoContent = observer(({ data }: any) => {
   const [menu, setMenu] = useState<InfoMenu>(InfoMenu.INFO);
   const [request, setRequest] = useState<any>();
+  const [isJoined, setIsJoined] = useState<boolean>(false);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const history = useHistory();
   const { pathname, state } = useLocation();
@@ -352,6 +353,18 @@ export const RequestInfoContent = observer(({ data }: any) => {
         history.push('/');
       });
   }, []);
+
+  useEffect(() => {
+    if (request) {
+      if (
+        request.requesterUserId.filter(
+          (item) => item.userId === window.localStorage.getItem('id')
+        ).length > 0
+      ) {
+        setIsJoined(true);
+      }
+    }
+  }, [request]);
 
   useEffect(() => {
     if (request) {
@@ -631,118 +644,116 @@ export const RequestInfoContent = observer(({ data }: any) => {
                         {request.description ? request.description : '-'}
                       </RequestDetail>
                     </RequestInfoContainer>
-                    {request.userId !== window.localStorage.getItem('id') &&
-                      (request.requesterUserId.filter(
-                        (item) =>
-                          item.userId === window.localStorage.getItem('id')
-                      ).length > 0 ? (
-                        <SecondaryButton
-                          css={css`
-                            position: absolute;
+                    {isJoined ? (
+                      <SecondaryButton
+                        css={css`
+                          position: absolute;
+                          bottom: 0;
+
+                          &:hover {
+                            box-shadow: 0px 9px 16px rgba(255, 135, 48, 0.2);
+                          }
+
+                          ${mediaQueryLargeDesktop} {
+                            bottom: 40px;
+                          }
+
+                          ${mediaQueryTablet} {
+                            width: 100%;
+                            max-width: 100%;
                             bottom: 0;
+                          }
 
-                            &:hover {
-                              box-shadow: 0px 9px 16px rgba(255, 135, 48, 0.2);
-                            }
+                          ${mediaQueryMobile} {
+                            height: 40px;
+                            margin-top: 10px;
+                            margin-bottom: 10px;
+                          }
+                        `}
+                        onClick={() => {
+                          deleteRequesterUserId(
+                            request.requestId,
+                            request.requesterUserId.filter(
+                              (item) =>
+                                item.userId ===
+                                window.localStorage.getItem('id')
+                            )[0].requesterId
+                          )
+                            .then(() => {
+                              setIsJoined(false);
+                              // getRequest(query)
+                              //   .then((res) => {
+                              // setRequest(res.data);
+                              message.success(
+                                'ยกเลิกการสนใจให้ความช่วยเหลือนี้สำเร็จ'
+                              );
+                              //   })
+                              //   .catch((error) => {
+                              //     message.error('มีข้อผิดพลาดเกิดขึ้น', 10);
+                              //     history.push('/');
+                              //   });
+                            })
+                            .catch(() => {
+                              message.error('ยกเลิกไม่สำเร็จ');
+                            });
+                        }}
+                      >
+                        ยกเลิกการสนใจให้ความช่วยเหลือนี้
+                      </SecondaryButton>
+                    ) : (
+                      <PrimaryButton
+                        css={css`
+                          position: absolute;
+                          bottom: 0;
 
-                            ${mediaQueryLargeDesktop} {
-                              bottom: 40px;
-                            }
+                          ${mediaQueryLargeDesktop} {
+                            bottom: 40px;
+                          }
 
-                            ${mediaQueryTablet} {
-                              width: 100%;
-                              max-width: 100%;
-                              bottom: 0;
-                            }
-
-                            ${mediaQueryMobile} {
-                              height: 40px;
-                              margin-top: 10px;
-                              margin-bottom: 10px;
-                            }
-                          `}
-                          onClick={() => {
-                            deleteRequesterUserId(
-                              request.requestId,
-                              request.requesterUserId.filter(
-                                (item) =>
-                                  item.userId ===
-                                  window.localStorage.getItem('id')
-                              )[0].requesterId
-                            )
-                              .then(() => {
-                                getRequest(query)
-                                  .then((res) => {
-                                    setRequest(res.data);
-                                    message.success(
-                                      'ยกเลิกการสนใจให้ความช่วยเหลือนี้สำเร็จ'
-                                    );
-                                  })
-                                  .catch((error) => {
-                                    message.error('มีข้อผิดพลาดเกิดขึ้น', 10);
-                                    history.push('/');
-                                  });
-                              })
-                              .catch(() => {
-                                message.error('ยกเลิกไม่สำเร็จ');
-                              });
-                          }}
-                        >
-                          ยกเลิกการสนใจให้ความช่วยเหลือนี้
-                        </SecondaryButton>
-                      ) : (
-                        <PrimaryButton
-                          css={css`
-                            position: absolute;
+                          ${mediaQueryTablet} {
+                            width: 100%;
+                            max-width: 100%;
                             bottom: 0;
+                            margin-left: 0;
+                            margin-bottom: 10px;
+                          }
 
-                            ${mediaQueryLargeDesktop} {
-                              bottom: 40px;
+                          ${mediaQueryMobile} {
+                            height: 40px;
+                            margin-bottom: 20px;
+                            margin-top: 10px;
+                          }
+                        `}
+                        onClick={() => {
+                          addRequesterUserId(
+                            request.requestId,
+                            request.userId,
+                            {
+                              userId: window.localStorage.getItem('id')
                             }
-
-                            ${mediaQueryTablet} {
-                              width: 100%;
-                              max-width: 100%;
-                              bottom: 0;
-                              margin-left: 0;
-                              margin-bottom: 10px;
-                            }
-
-                            ${mediaQueryMobile} {
-                              height: 40px;
-                              margin-bottom: 20px;
-                              margin-top: 10px;
-                            }
-                          `}
-                          onClick={() => {
-                            addRequesterUserId(
-                              request.requestId,
-                              request.userId,
-                              {
-                                userId: window.localStorage.getItem('id')
-                              }
-                            )
-                              .then((res) => {
-                                getRequest(query)
-                                  .then((res) => {
-                                    setRequest(res.data);
-                                    message.success(
-                                      'เรากำลังส่งความช่วยเหลือของคุณให้เจ้าของโพสต์ได้รับทราบ'
-                                    );
-                                  })
-                                  .catch((error) => {
-                                    message.error('มีข้อผิดพลาดเกิดขึ้น', 10);
-                                    history.push('/');
-                                  });
-                              })
-                              .catch(() => {
-                                message.error('ไม่สำเร็จ');
-                              });
-                          }}
-                        >
-                          สนใจให้ความช่วยเหลือ
-                        </PrimaryButton>
-                      ))}
+                          )
+                            .then((res) => {
+                              setIsJoined(true);
+                              // getRequest(query)
+                              //   .then((res) => {
+                              //     setRequest(res.data);
+                              message.success(
+                                'เรากำลังส่งความช่วยเหลือของคุณให้เจ้าของโพสต์ได้รับทราบ'
+                              );
+                              // })
+                              //   .catch((error) => {
+                              //     message.error('มีข้อผิดพลาดเกิดขึ้น', 10);
+                              //     history.push('/');
+                              //   });
+                            })
+                            .catch(() => {
+                              message.error('ไม่สำเร็จ');
+                            });
+                        }}
+                      >
+                        สนใจให้ความช่วยเหลือ
+                      </PrimaryButton>
+                    )}
                   </Flex>
                 </div>
                 <UserProfileCard
