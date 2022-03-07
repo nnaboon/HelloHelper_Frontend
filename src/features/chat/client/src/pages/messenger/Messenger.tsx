@@ -110,6 +110,7 @@ const ChatBoxWrapper = styled.div`
 const ChatMenuWrapper = styled.div`
   padding: 0px 10px;
   height: 100%;
+  overflow-y: scroll;
 
   ${mediaQueryTablet} {
     padding: 0px 10px;
