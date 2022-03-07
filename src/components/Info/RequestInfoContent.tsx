@@ -241,7 +241,7 @@ const UserProfileImageContainer = styled.div`
 export const RequestInfoContent = observer(({ data }: any) => {
   const [menu, setMenu] = useState<InfoMenu>(InfoMenu.INFO);
   const [request, setRequest] = useState<any>();
-  const [isJoined, setIsJoined] = useState<boolean>(false);
+  const [isJoined, setIsJoined] = useState<string>('');
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const history = useHistory();
   const { pathname, state } = useLocation();
@@ -361,7 +361,11 @@ export const RequestInfoContent = observer(({ data }: any) => {
           (item) => item.userId === window.localStorage.getItem('id')
         ).length > 0
       ) {
-        setIsJoined(true);
+        setIsJoined(
+          request.requesterUserId.filter(
+            (item) => item.userId === window.localStorage.getItem('id')
+          )[0].requesterId
+        );
       }
     }
   }, [request]);
@@ -374,6 +378,7 @@ export const RequestInfoContent = observer(({ data }: any) => {
 
   return (
     <React.Fragment>
+      {console.log(isJoined)}
       {user && request && provides ? (
         <div>
           <WrapperContainer
@@ -644,7 +649,7 @@ export const RequestInfoContent = observer(({ data }: any) => {
                         {request.description ? request.description : '-'}
                       </RequestDetail>
                     </RequestInfoContainer>
-                    {isJoined ? (
+                    {isJoined.length > 0 ? (
                       <SecondaryButton
                         css={css`
                           position: absolute;
@@ -671,16 +676,9 @@ export const RequestInfoContent = observer(({ data }: any) => {
                           }
                         `}
                         onClick={() => {
-                          deleteRequesterUserId(
-                            request.requestId,
-                            request.requesterUserId.filter(
-                              (item) =>
-                                item.userId ===
-                                window.localStorage.getItem('id')
-                            )[0].requesterId
-                          )
+                          deleteRequesterUserId(request.requestId, isJoined)
                             .then(() => {
-                              setIsJoined(false);
+                              setIsJoined('');
                               // getRequest(query)
                               //   .then((res) => {
                               // setRequest(res.data);
@@ -733,7 +731,7 @@ export const RequestInfoContent = observer(({ data }: any) => {
                             }
                           )
                             .then((res) => {
-                              setIsJoined(true);
+                              setIsJoined(res.data);
                               // getRequest(query)
                               //   .then((res) => {
                               //     setRequest(res.data);
