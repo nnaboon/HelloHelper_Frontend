@@ -519,18 +519,12 @@ export const RequestInfoContent = observer(({ data }: any) => {
                         }
                       `}
                     >
-                      {request.category.map((items) => (
-                        <CategoryButton
-                          onClick={() => {
-                            history.push({
-                              pathname: `/${items}`
-                            });
-                          }}
-                        >
+                      {request?.category.map((items) => (
+                        <React.Fragment>
                           {CATEGORY.filter(
                             ({ id, sub }) =>
                               id === items ||
-                              sub?.filter(({ id }) => id === items)
+                              sub?.filter(({ id }) => id === items).length > 0
                           )[0].sub ? (
                             <CategoryButton
                               onClick={() => {
@@ -539,11 +533,19 @@ export const RequestInfoContent = observer(({ data }: any) => {
                                 });
                               }}
                             >
+                              {console.log(
+                                CATEGORY.filter(
+                                  ({ id, sub }) =>
+                                    id === items ||
+                                    sub?.filter(({ id }) => id === items)
+                                )[0].sub
+                              )}
                               {
                                 CATEGORY.filter(
                                   ({ id, sub }) =>
                                     id === items ||
                                     sub?.filter(({ id }) => id === items)
+                                      .length > 0
                                 )[0].sub.filter(({ id }) => id === items)[0]
                                   .name
                               }
@@ -558,14 +560,12 @@ export const RequestInfoContent = observer(({ data }: any) => {
                             >
                               {
                                 CATEGORY.filter(
-                                  ({ id, sub }) =>
-                                    id === items ||
-                                    sub?.filter(({ id }) => id === items)
+                                  ({ id, sub }) => id === items
                                 )[0].name
                               }
                             </CategoryButton>
                           )}
-                        </CategoryButton>
+                        </React.Fragment>
                       ))}
                     </Flex>
                     <Flex

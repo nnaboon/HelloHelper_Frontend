@@ -485,7 +485,8 @@ export const ProvideInfoContent = observer(({ data }: any) => {
                     <React.Fragment>
                       {CATEGORY.filter(
                         ({ id, sub }) =>
-                          id === items || sub?.filter(({ id }) => id === items)
+                          id === items ||
+                          sub?.filter(({ id }) => id === items).length > 0
                       )[0].sub ? (
                         <CategoryButton
                           onClick={() => {
@@ -498,7 +499,7 @@ export const ProvideInfoContent = observer(({ data }: any) => {
                             CATEGORY.filter(
                               ({ id, sub }) =>
                                 id === items ||
-                                sub?.filter(({ id }) => id === items)
+                                sub?.filter(({ id }) => id === items).length > 0
                             )[0].sub.filter(({ id }) => id === items)[0].name
                           }
                         </CategoryButton>
@@ -511,11 +512,8 @@ export const ProvideInfoContent = observer(({ data }: any) => {
                           }}
                         >
                           {
-                            CATEGORY.filter(
-                              ({ id, sub }) =>
-                                id === items ||
-                                sub?.filter(({ id }) => id === items)
-                            )[0].name
+                            CATEGORY.filter(({ id, sub }) => id === items)[0]
+                              .name
                           }
                         </CategoryButton>
                       )}

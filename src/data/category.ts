@@ -42,32 +42,32 @@ export const CATEGORY = [
     sub: [
       {
         id: 'cloth',
-        name: 'เสื้อ',
+        name: 'ด้านเสื้อผ้า',
         icon: faHamburger as IconProp
       },
       {
         id: 'bottom',
-        name: 'กางเกง',
+        name: 'ด้านกางเกง',
         icon: faHamburger as IconProp
       },
       {
         id: 'shoes',
-        name: 'รองเท้า',
+        name: 'ด้านรองเท้า',
         icon: faHamburger as IconProp
       },
       {
         id: 'underwear',
-        name: 'ชุดชั้นใน',
+        name: 'ด้านชุดชั้นใน',
         icon: faHamburger as IconProp
       },
       {
         id: 'exercise',
-        name: 'ชุดออกกำลัง',
+        name: 'ด้านชุดออกกำลัง',
         icon: faHamburger as IconProp
       },
       {
         id: 'jewelry',
-        name: 'เครื่องประดับ',
+        name: 'ด้านเครื่องประดับ',
         icon: faHamburger as IconProp
       }
     ]
@@ -79,22 +79,22 @@ export const CATEGORY = [
     sub: [
       {
         id: 'furniture',
-        name: 'ห้องนั่งเล่น',
+        name: 'ด้านห้องนั่งเล่น',
         icon: faHamburger as IconProp
       },
       {
         id: 'kitchen',
-        name: 'ห้องครัว',
+        name: 'ด้านห้องครัว',
         icon: faHamburger as IconProp
       },
       {
         id: 'bathroom',
-        name: 'ห้องน้ำ',
+        name: 'ด้านห้องน้ำ',
         icon: faHamburger as IconProp
       },
       {
         id: 'bedroom',
-        name: 'ห้องนอน',
+        name: 'ด้านห้องนอน',
         icon: faHamburger as IconProp
       }
     ]
