@@ -41,12 +41,17 @@ export const EmptyData = ({ height, text }: EmptyDataProps) => {
       description={<span>{text ? text : 'ไม่พบข้อมูล'}</span>}
       css={css`
         display: flex;
+        margin: 0;
         font-size: 24px;
         flex-direction: column;
         height: ${height ?? `calc(100vh - 265px)`};
         width: 100%;
         align-items: center;
         justify-content: center;
+
+        .ant-empty {
+          margin: 0;
+        }
 
         > svg {
           width: 90px;

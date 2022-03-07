@@ -6,9 +6,11 @@ import styled from '@emotion/styled';
 import { Sidebar } from 'components/Sidebar/Sidebar';
 import { Text } from 'components/Text';
 import { WrapperContainer } from 'components/Wrapper/WrapperContainer';
-import { useLocation } from 'react-router-dom';
-import { HelpMenu } from 'components/Menu/const';
-import { MenuTab } from 'components/Menu/MenuTab';
+import { useHistory, useLocation } from 'react-router-dom';
+import { SearchMenu } from 'components/Menu/const';
+import { SecondaryButton } from 'components/Button/Button';
+import { UserSvg } from 'components/Svg/UserSvg';
+import { SearchMenuTab } from 'components/Menu/SearchMenuTab';
 import { Divider } from 'components/Divider/Divider';
 import Flex from 'components/Flex/Flex';
 import { PostRequestButton } from 'components/Button/PostRequestButton';
@@ -28,6 +30,7 @@ import { EmptyData } from 'components/Empty/EmptyData';
 import { useProvides } from 'hooks/provide/useProvides';
 import { useRequests } from 'hooks/request/useRequests';
 import { Loading } from 'components/Loading/Loading';
+import { useUsers } from 'hooks/user/useUsers';
 
 const SearchResultContent = styled.div`
   display: grid;
@@ -51,15 +54,81 @@ const SearchResultContent = styled.div`
   }
 `;
 
+const HelperListCardContainer = styled.div`
+  width: 100%;
+  min-width: 850px;
+  height: 100px;
+  background: #ffffff;
+  box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.09);
+  border-radius: 12px;
+  box-sizing: border-box;
+  padding: 20px 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 35px;
+
+  ${mediaQueryLargeDesktop} {
+    min-width: 330px;
+  }
+
+  ${mediaQueryTablet} {
+    width: 100%;
+    height: 130px;
+    min-width: 100%;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+
+  ${mediaQueryMobile} {
+    flex-direction: column;
+    margin-bottom: 20px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    height: 90px;
+  }
+`;
+
+const HelperImage = styled.img`
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+
+  ${mediaQueryTablet} {
+    width: 55px;
+    height: 55px;
+  }
+
+  ${mediaQueryMobile} {
+    width: 45px;
+    height: 45px;
+  }
+`;
+
+const HelperName = styled.div`
+  font-size: 18px;
+  color: #000000;
+  margin-left: 50px;
+
+  ${mediaQueryMobile} {
+    font-size: 16px;
+    margin-left: 20px;
+    font-weight: 600;
+  }
+`;
+
 export const SearchResultPage = () => {
-  const [menu, setMenu] = useState<HelpMenu>(HelpMenu.PROVIDE);
+  const [menu, setMenu] = useState<SearchMenu>(SearchMenu.PROVIDE);
   const [provides, setProvides] = useState<any[]>([]);
   const [requests, setRequests] = useState<any[]>([]);
   const { pathname, state, search } = useLocation();
+  const history = useHistory();
   const qs = pathname.split('/')[1];
-  const currentMenu = ((state as any)?.menu || HelpMenu.PROVIDE) as HelpMenu;
+  const currentMenu = ((state as any)?.menu ||
+    SearchMenu.PROVIDE) as SearchMenu;
   const isMobile = useMedia(`(max-width: ${MOBILE_WIDTH}px)`);
   const isTablet = useMedia(`(max-width: ${TABLET_WIDTH}px)`);
+  const { data: users, execute: getUsers } = useUsers();
   const { data: provideData, execute: getProvides } = useProvides();
   const { data: requestData, execute: getRequests } = useRequests();
 
@@ -72,6 +141,7 @@ export const SearchResultPage = () => {
   useEffect(() => {
     getProvides().then((res) => setProvides(res.data));
     getRequests().then((res) => setRequests(res.data));
+    getUsers();
   }, []);
 
   return (
@@ -107,7 +177,7 @@ export const SearchResultPage = () => {
             `}
           >
             <div style={{ top: '125px' }}>
-              <MenuTab menu={menu} setMenu={setMenu} />
+              <SearchMenuTab menu={menu} setMenu={setMenu} />
               <Divider
                 css={css`
                   ${mediaQueryMobile} {
@@ -135,7 +205,7 @@ export const SearchResultPage = () => {
                     }
                   `}
                 >
-                  ผลการค้นหา ทั้งหมด{' '}
+                  ผลการค้นหาทั้งหมด{' '}
                   {menu === 'provide'
                     ? provides.filter(
                         ({
@@ -150,7 +220,8 @@ export const SearchResultPage = () => {
                               hashtag.includes(state?.search)
                             : category[0] === qs
                       ).length
-                    : requests.filter(
+                    : menu === 'request'
+                    ? requests.filter(
                         ({
                           category,
                           title,
@@ -164,31 +235,40 @@ export const SearchResultPage = () => {
                             ? title.includes(state?.search) ||
                               hashtag.includes(state?.search)
                             : category[0] === qs)
+                      ).length
+                    : users.filter(
+                        ({ username, location }) =>
+                          username
+                            .toLowerCase()
+                            .includes(state?.search.toLowerCase()) ||
+                          location.name.includes(state?.search)
                       ).length}{' '}
                   รายการ
                 </Text>
-                <div
-                  css={css`
-                    ${mediaQueryMobile} {
-                      align-self: end !important;
-                    }
-                  `}
-                >
-                  {' '}
-                  <PostRequestButton
-                    setProvides={setProvides}
-                    setRequests={setRequests}
-                    buttonText={
-                      menu === HelpMenu.PROVIDE
-                        ? 'ให้ความช่วยเหลือ'
-                        : 'ขอความช่วยเหลือ'
-                    }
-                    type={menu === HelpMenu.PROVIDE ? 'provide' : 'request'}
-                  />
-                </div>
+                {menu !== SearchMenu.USER && (
+                  <div
+                    css={css`
+                      ${mediaQueryMobile} {
+                        align-self: end !important;
+                      }
+                    `}
+                  >
+                    {' '}
+                    <PostRequestButton
+                      setProvides={setProvides}
+                      setRequests={setRequests}
+                      buttonText={
+                        menu === SearchMenu.PROVIDE
+                          ? 'ให้ความช่วยเหลือ'
+                          : 'ขอความช่วยเหลือ'
+                      }
+                      type={menu === SearchMenu.PROVIDE ? 'provide' : 'request'}
+                    />
+                  </div>
+                )}
               </Flex>
             </div>
-            {menu === HelpMenu.PROVIDE ? (
+            {menu === SearchMenu.PROVIDE ? (
               provideData.filter(({ category, title }) =>
                 search ? title.includes(state?.search) : category[0] === qs
               ).length > 0 ? (
@@ -208,24 +288,93 @@ export const SearchResultPage = () => {
               ) : (
                 <EmptyData height="300px" />
               )
-            ) : requestData.filter(({ category, title }) =>
+            ) : menu === SearchMenu.REQUEST ? (
+              requestData.filter(({ category, title }) =>
                 search ? title.includes(state?.search) : category[0] === qs
               ).length > 0 ? (
-              <SearchResultContent>
-                {requests
-                  .filter(
-                    ({ category, title, visibility, communityId, hashtag }) =>
-                      Boolean(visibility) &&
-                      !Boolean(communityId) &&
-                      (search
-                        ? title.includes(state?.search) ||
-                          hashtag.includes(state?.search)
-                        : category[0] === qs)
-                  )
-                  .map((props) => (
-                    <SuggestedRequestSection data={[props]} />
-                  ))}
-              </SearchResultContent>
+                <SearchResultContent>
+                  {requests
+                    .filter(
+                      ({ category, title, visibility, communityId, hashtag }) =>
+                        Boolean(visibility) &&
+                        !Boolean(communityId) &&
+                        (search
+                          ? title.includes(state?.search) ||
+                            hashtag.includes(state?.search)
+                          : category[0] === qs)
+                    )
+                    .map((props) => (
+                      <SuggestedRequestSection data={[props]} />
+                    ))}
+                </SearchResultContent>
+              ) : (
+                <EmptyData height="300px" />
+              )
+            ) : users.filter(
+                ({ username, location }) =>
+                  username
+                    .toLowerCase()
+                    .includes(state?.search.toLowerCase()) ||
+                  location.name.includes(state?.search)
+              ).length > 0 ? (
+              users
+                .filter(
+                  ({ username, location }) =>
+                    username
+                      .toLowerCase()
+                      .includes(state?.search.toLowerCase()) ||
+                    location.name.includes(state?.search)
+                )
+                .map(({ id, username, imageUrl }) => (
+                  <HelperListCardContainer
+                    onClick={() => {
+                      history.push({ pathname: `/profile/${id}` });
+                    }}
+                  >
+                    <div
+                      css={css`
+                        display: flex;
+                        align-items: center;
+
+                        ${mediaQueryMobile} {
+                          width: 100%;
+                        }
+                      `}
+                    >
+                      <HelperImage src={imageUrl} alt="user avatar" />
+                      <HelperName>{username}</HelperName>
+                    </div>
+
+                    <div
+                      css={css`
+                        display: flex;
+
+                        ${mediaQueryMobile} {
+                          position: relative;
+                          bottom: -12px;
+                          width: 100%;
+                          justify-content: space-between;
+                          display: none;
+                        }
+                      `}
+                    >
+                      <SecondaryButton
+                        css={css`
+                          ${mediaQueryMobile} {
+                            width: 50%;
+                            margin-right: 15px;
+                          }
+                        `}
+                        onClick={() => {
+                          history.push({ pathname: `/profile/${id}` });
+                        }}
+                      >
+                        <UserSvg />
+                        <div>โปรไฟล์</div>
+                      </SecondaryButton>
+                    </div>
+                  </HelperListCardContainer>
+                ))
             ) : (
               <EmptyData height="300px" />
             )}

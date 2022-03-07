@@ -100,7 +100,15 @@ export const Sidebar = () => {
           </SidebarLink>
         </SidebarItem>
       ))} */}
-      <Menu style={{ width: '100%', height: '100%' }} mode={'inline'}>
+      <Menu
+        style={{
+          width: '100%',
+          height: '100%',
+          backgroundColor: '#f9f9f9',
+          border: 'none'
+        }}
+        mode={'inline'}
+      >
         <SubMenu key="food" title="ด้านอาหาร">
           <Menu.Item
             key="savory"

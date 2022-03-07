@@ -3,6 +3,12 @@ export enum HelpMenu {
   REQUEST = 'request'
 }
 
+export enum SearchMenu {
+  PROVIDE = 'provide',
+  REQUEST = 'request',
+  USER = 'user'
+}
+
 export enum ProfileMenu {
   HOME = 'home',
   PROVIDE = 'provide',
@@ -12,6 +18,12 @@ export enum ProfileMenu {
 export const HELP_MENU_MAPPER = {
   [HelpMenu.PROVIDE]: 'ให้ความช่วยเหลือ',
   [HelpMenu.REQUEST]: 'ขอความช่วยเหลือ'
+};
+
+export const SEARCH_MENU_MAPPER = {
+  [SearchMenu.PROVIDE]: 'ให้ความช่วยเหลือ',
+  [SearchMenu.REQUEST]: 'ขอความช่วยเหลือ',
+  [SearchMenu.USER]: 'ผู้ใช้งาน'
 };
 
 export const PROFILE_MENU_MAPPER = {
