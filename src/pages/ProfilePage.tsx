@@ -572,9 +572,7 @@ export const ProfilePage = observer(() => {
                 </UserCard>
                 <ProfileInfoSection>
                   <Flex marginBottom="30px" itemAlign="center">
-                    <ProfileInfoListHeading>
-                      ขอบเขตการช่วยเหลือ
-                    </ProfileInfoListHeading>
+                    <ProfileInfoListHeading>ที่อยู่</ProfileInfoListHeading>
                     <ProfileInfoListDetail
                       css={css`
                         max-width: 600px;
