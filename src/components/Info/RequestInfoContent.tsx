@@ -533,13 +533,6 @@ export const RequestInfoContent = observer(({ data }: any) => {
                                 });
                               }}
                             >
-                              {console.log(
-                                CATEGORY.filter(
-                                  ({ id, sub }) =>
-                                    id === items ||
-                                    sub?.filter(({ id }) => id === items)
-                                )[0].sub
-                              )}
                               {
                                 CATEGORY.filter(
                                   ({ id, sub }) =>
@@ -686,7 +679,7 @@ export const RequestInfoContent = observer(({ data }: any) => {
                                     );
                                   })
                                   .catch((error) => {
-                                    message.error('ไม่พบความช่วยเหลือนี้', 10);
+                                    message.error('มีข้อผิดพลาดเกิดขึ้น', 10);
                                     history.push('/');
                                   });
                               })
@@ -738,7 +731,7 @@ export const RequestInfoContent = observer(({ data }: any) => {
                                     );
                                   })
                                   .catch((error) => {
-                                    message.error('ไม่พบความช่วยเหลือนี้', 10);
+                                    message.error('มีข้อผิดพลาดเกิดขึ้น', 10);
                                     history.push('/');
                                   });
                               })
