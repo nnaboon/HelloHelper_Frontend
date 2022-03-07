@@ -527,7 +527,44 @@ export const RequestInfoContent = observer(({ data }: any) => {
                             });
                           }}
                         >
-                          {CATEGORY.filter(({ id }) => id === items)[0].name}
+                          {CATEGORY.filter(
+                            ({ id, sub }) =>
+                              id === items ||
+                              sub?.filter(({ id }) => id === items)
+                          )[0].sub ? (
+                            <CategoryButton
+                              onClick={() => {
+                                history.push({
+                                  pathname: `/${items}`
+                                });
+                              }}
+                            >
+                              {
+                                CATEGORY.filter(
+                                  ({ id, sub }) =>
+                                    id === items ||
+                                    sub?.filter(({ id }) => id === items)
+                                )[0].sub.filter(({ id }) => id === items)[0]
+                                  .name
+                              }
+                            </CategoryButton>
+                          ) : (
+                            <CategoryButton
+                              onClick={() => {
+                                history.push({
+                                  pathname: `/${items}`
+                                });
+                              }}
+                            >
+                              {
+                                CATEGORY.filter(
+                                  ({ id, sub }) =>
+                                    id === items ||
+                                    sub?.filter(({ id }) => id === items)
+                                )[0].name
+                              }
+                            </CategoryButton>
+                          )}
                         </CategoryButton>
                       ))}
                     </Flex>

@@ -482,15 +482,44 @@ export const ProvideInfoContent = observer(({ data }: any) => {
                   `}
                 >
                   {provide?.category.map((items) => (
-                    <CategoryButton
-                      onClick={() => {
-                        history.push({
-                          pathname: `/${items}`
-                        });
-                      }}
-                    >
-                      {CATEGORY.filter(({ id }) => id === items)[0].name}
-                    </CategoryButton>
+                    <React.Fragment>
+                      {CATEGORY.filter(
+                        ({ id, sub }) =>
+                          id === items || sub?.filter(({ id }) => id === items)
+                      )[0].sub ? (
+                        <CategoryButton
+                          onClick={() => {
+                            history.push({
+                              pathname: `/${items}`
+                            });
+                          }}
+                        >
+                          {
+                            CATEGORY.filter(
+                              ({ id, sub }) =>
+                                id === items ||
+                                sub?.filter(({ id }) => id === items)
+                            )[0].sub.filter(({ id }) => id === items)[0].name
+                          }
+                        </CategoryButton>
+                      ) : (
+                        <CategoryButton
+                          onClick={() => {
+                            history.push({
+                              pathname: `/${items}`
+                            });
+                          }}
+                        >
+                          {
+                            CATEGORY.filter(
+                              ({ id, sub }) =>
+                                id === items ||
+                                sub?.filter(({ id }) => id === items)
+                            )[0].name
+                          }
+                        </CategoryButton>
+                      )}
+                    </React.Fragment>
                   ))}
                 </Flex>
                 <Flex

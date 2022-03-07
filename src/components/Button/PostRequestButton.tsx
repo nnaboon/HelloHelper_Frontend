@@ -7,7 +7,16 @@ import { useLocation } from 'react-router-dom';
 import { PrimaryButton } from './Button';
 import { PenRequestSvg } from 'components/Svg/PenRequestSvg';
 import { Text } from 'components/Text';
-import { Button, Form, Input, message, Select, Upload, Modal } from 'antd';
+import {
+  Button,
+  Form,
+  Input,
+  message,
+  Select,
+  Upload,
+  Modal,
+  TreeSelect
+} from 'antd';
 import { InputForm } from 'components/Input/InputForm';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { CATEGORY } from 'data/category';
@@ -101,6 +110,8 @@ export const PostRequestButton = ({
 
   const { pathname } = useLocation();
 
+  const { TreeNode } = TreeSelect;
+
   const { execute: addProvide } = useAddProvide();
   const { execute: addRequest } = useAddRequest();
   const { execute: uploadProvideImage } = useUploadProvideImage();
@@ -124,6 +135,7 @@ export const PostRequestButton = ({
 
   const onFinish = async (value) => {
     setIsSubmitting(true);
+    console.log(value.category);
     const data = {
       userId: window.localStorage.getItem('id'),
       title: value.title,
@@ -556,10 +568,11 @@ export const PostRequestButton = ({
                 }
               ]}
             >
-              <Select
+              <TreeSelect
                 allowClear
                 style={{ width: '100%' }}
                 placeholder="เลือกหมวดหมู่ความช่วยเหลือ"
+                treeDefaultExpandAll
                 css={css`
                   height: 40px;
                   font-size: 16px;
@@ -570,12 +583,14 @@ export const PostRequestButton = ({
                   }
                 `}
               >
-                {CATEGORY.map(({ id, name }) => (
-                  <Select.Option key={id} value={id}>
-                    {name}
-                  </Select.Option>
+                {CATEGORY.map(({ id, name, sub }) => (
+                  <TreeNode key={`tree_${id}`} value={id} title={name}>
+                    {sub?.map(({ id, name }) => (
+                      <TreeNode key={`node_${id}`} value={id} title={name} />
+                    ))}
+                  </TreeNode>
                 ))}
-              </Select>
+              </TreeSelect>
             </Form.Item>
             <Form.Item
               name="hashtag"

@@ -119,31 +119,113 @@ export const SideMenu = observer(
             หน้าแรก
           </Menu.Item>
           <SubMenu key="sub1" icon={<UnorderedListOutlined />} title="หมวดหมู่">
-            {CATEGORY.map(({ id, name, icon }) => (
-              <Menu.Item
-                key={id}
-                onClick={() => {
-                  setCollapsed(true);
-                  history.push({
-                    pathname: `/${id}`
-                  });
-                }}
-                css={css`
-                  span {
-                    display: flex;
-                    align-items: center;
-                  }
-                `}
-              >
-                <FontAwesomeIcon icon={icon} />
-                <div
+            {CATEGORY.map(({ id, name, icon, sub }) => (
+              <React.Fragment>
+                {sub ? (
+                  <SubMenu key={id} title={name}>
+                    {sub?.map(({ id, name }) => (
+                      <Menu.Item
+                        key={id}
+                        onClick={() => {
+                          setCollapsed(true);
+                          history.push({
+                            pathname: `/${id}`
+                          });
+                        }}
+                        css={css`
+                          span {
+                            display: flex;
+                            align-items: center;
+                          }
+                        `}
+                      >
+                        <div
+                          css={css`
+                            margin-left: 10px;
+                          `}
+                        >
+                          {name}
+                        </div>
+                      </Menu.Item>
+                    ))}
+                  </SubMenu>
+                ) : (
+                  <Menu.Item
+                    key={id}
+                    onClick={() => {
+                      setCollapsed(true);
+                      history.push({
+                        pathname: `/${id}`
+                      });
+                    }}
+                    css={css`
+                      span {
+                        display: flex;
+                        align-items: center;
+                      }
+                    `}
+                  >
+                    <div
+                      css={css`
+                        margin-left: 10px;
+                      `}
+                    >
+                      {name}
+                    </div>
+                  </Menu.Item>
+                )}
+                {/* <Menu.Item
+                  key={id}
+                  onClick={() => {
+                    setCollapsed(true);
+                    history.push({
+                      pathname: `/${id}`
+                    });
+                  }}
                   css={css`
-                    margin-left: 10px;
+                    span {
+                      display: flex;
+                      align-items: center;
+                    }
                   `}
                 >
-                  {name}
-                </div>
-              </Menu.Item>
+                  <FontAwesomeIcon icon={icon} />
+                  <div
+                    css={css`
+                      margin-left: 10px;
+                    `}
+                  >
+                    {name}
+                  </div>
+                  {sub?.map(({ id, name, icon }) => (
+                    <Menu.Item
+                      key={id}
+                      onClick={() => {
+                        setCollapsed(true);
+                        history.push({
+                          pathname: `/${id}`
+                        });
+                      }}
+                      css={css`
+                        span {
+                          display: flex;
+                          align-items: center;
+                        }
+                      `}
+                    >
+                      <FontAwesomeIcon icon={icon} />
+                      <div
+                        css={css`
+                          margin-left: 10px;
+                        `}
+                      >
+                        {name}
+                      </div>
+                      ))
+                    </Menu.Item>
+                  ))} 
+                </Menu.Item>*/}
+              </React.Fragment>
             ))}
           </SubMenu>{' '}
           <Menu.Item

@@ -16,17 +16,88 @@ export const CATEGORY = [
   {
     id: 'food',
     name: 'ด้านการจัดหาอาหาร',
-    icon: faHamburger as IconProp
+    icon: faHamburger as IconProp,
+    sub: [
+      {
+        id: 'food',
+        name: 'ด้านอาหารคาว',
+        icon: faHamburger as IconProp
+      },
+      {
+        id: 'dessert',
+        name: 'ด้านขนมหวาน',
+        icon: faHamburger as IconProp
+      },
+      {
+        id: 'season',
+        name: 'ด้านเครื่องปรุง',
+        icon: faHamburger as IconProp
+      }
+    ]
   },
   {
     id: 'cloth',
     name: 'ด้านเครื่องแต่งกาย',
-    icon: faTshirt as IconProp
+    icon: faTshirt as IconProp,
+    sub: [
+      {
+        id: 'cloth',
+        name: 'เสื้อ',
+        icon: faHamburger as IconProp
+      },
+      {
+        id: 'bottom',
+        name: 'กางเกง',
+        icon: faHamburger as IconProp
+      },
+      {
+        id: 'shoes',
+        name: 'รองเท้า',
+        icon: faHamburger as IconProp
+      },
+      {
+        id: 'underwear',
+        name: 'ชุดชั้นใน',
+        icon: faHamburger as IconProp
+      },
+      {
+        id: 'exercise',
+        name: 'ชุดออกกำลัง',
+        icon: faHamburger as IconProp
+      },
+      {
+        id: 'jewelry',
+        name: 'เครื่องประดับ',
+        icon: faHamburger as IconProp
+      }
+    ]
   },
   {
     id: 'furniture',
     name: 'ด้านเครื่องใช้ในบ้าน',
-    icon: faCouch as IconProp
+    icon: faCouch as IconProp,
+    sub: [
+      {
+        id: 'furniture',
+        name: 'ห้องนั่งเล่น',
+        icon: faHamburger as IconProp
+      },
+      {
+        id: 'kitchen',
+        name: 'ห้องครัว',
+        icon: faHamburger as IconProp
+      },
+      {
+        id: 'bathroom',
+        name: 'ห้องน้ำ',
+        icon: faHamburger as IconProp
+      },
+      {
+        id: 'bedroom',
+        name: 'ห้องนอน',
+        icon: faHamburger as IconProp
+      }
+    ]
   },
   {
     id: 'electronic',

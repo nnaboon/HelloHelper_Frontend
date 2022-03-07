@@ -5,7 +5,16 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { Text } from 'components/Text';
-import { Button, Form, Input, message, Select, Upload, Modal } from 'antd';
+import {
+  Button,
+  Form,
+  Input,
+  message,
+  Select,
+  Upload,
+  Modal,
+  TreeSelect
+} from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { CATEGORY } from 'data/category';
 import { GoogleMapContent } from 'components/GoogleMap/GoogleMap';
@@ -585,9 +594,10 @@ export const RequestFormModal = ({
               }
             ]}
           >
-            <Select
+            <TreeSelect
               allowClear
               placeholder="เลือกหมวดหมู่"
+              treeDefaultExpandAll
               css={css`
                 font-size: 16px;
 
@@ -596,12 +606,18 @@ export const RequestFormModal = ({
                 }
               `}
             >
-              {CATEGORY.map(({ id, name }) => (
-                <Select.Option key={id} value={id}>
-                  {name}
-                </Select.Option>
+              {CATEGORY.map(({ id, name, sub }) => (
+                <TreeSelect.TreeNode key={`tree_${id}`} value={id} title={name}>
+                  {sub?.map(({ id, name }) => (
+                    <TreeSelect.TreeNode
+                      key={`node_${id}`}
+                      value={id}
+                      title={name}
+                    />
+                  ))}
+                </TreeSelect.TreeNode>
               ))}
-            </Select>
+            </TreeSelect>
           </Form.Item>
           <Form.Item
             name="hashtag"
