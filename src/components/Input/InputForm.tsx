@@ -10,7 +10,6 @@ export const InputForm = styled(Input)`
   max-height: 40px;
   font-size: 16px;
   border-radius: 12px;
-  line-height: 6.8713;
 
   ${mediaQueryLargeDesktop} {
     height: 35px;
@@ -18,10 +17,6 @@ export const InputForm = styled(Input)`
     max-height: 35px;
     border-radius: 10px;
     font-size: 14px;
-  }
-
-  ${mediaQueryMiniDesktop} {
-    line-height: 1.8713;
   }
 `;
 

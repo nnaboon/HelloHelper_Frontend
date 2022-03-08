@@ -16,8 +16,18 @@ export const TopThreeHelpedChart = ({ data }: any) => {
 
   const ability = {
     food: 'การจัดหาอาหาร',
+    dessert: 'ด้านขนมหวาน',
+    season: 'ด้านเครื่องปรุง',
     cloth: 'เครื่องแต่งกาย',
+    bottom: 'ด้านกางเกง',
+    shoes: 'ด้านรองเท้า',
+    underwear: 'ด้านชุดชั้นใน',
+    exercise: 'ด้านชุดออกกำลัง',
+    jewelry: 'ด้านเครื่องประดับ',
     furniture: 'เครื่องใช้ในบ้าน',
+    kitchen: 'ด้านห้องครัว',
+    bathroom: 'ด้านห้องน้ำ',
+    bedroom: 'ด้านห้องนอน',
     electronic: 'เครื่องใช้ไฟฟ้า',
     agriculture: 'การเกษตร',
     anime: 'ด้านอนิเมะ',
@@ -26,7 +36,7 @@ export const TopThreeHelpedChart = ({ data }: any) => {
     mobile: 'มือถือและอุปกรณ์เสริม',
     sports: 'กีฬา',
     health: 'สุขภาพและความงาม',
-    tou: 'ด้านของเล่น'
+    toy: 'ด้านของเล่น'
   };
 
   const option = {

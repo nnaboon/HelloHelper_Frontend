@@ -51,7 +51,7 @@ const ProvideImageSection = styled.img`
   width: 450px;
   height: 100%;
   margin-bottom: 20px;
-  object-fit: cover;
+  object-fit: fill;
 
   ${mediaQueryLargeDesktop} {
     width: 350px;

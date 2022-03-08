@@ -8,18 +8,14 @@ import Carousel from 'react-multi-carousel';
 import { css, jsx } from '@emotion/react';
 import { PopularRequestSection } from 'components/Card/PopularRequestCard';
 import Flex from 'components/Flex/Flex';
-import { Text } from 'components/Text';
-import { TOP_TEN_SEARCH_WEEKLY } from 'data/search';
-import { SecondaryButton, TopSearchButton } from 'components/Button/Button';
 import { PostRequestButton } from 'components/Button/PostRequestButton';
 import { SuggestedRequestSection } from 'components/Card/SuggestedRequestCard';
 import { News } from 'components/News/News';
 import { CATEGORY } from 'data/category';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { SearchSvg } from 'components/Svg/SearchSvg';
-import CommunityPic from 'images/community_homepage.jpeg';
-import GoodsPic from 'images/goods_homepage.jpeg';
-import EarnMoneyPic from 'images/earn.jpeg';
+import JoinPic from 'images/join.png';
+import BannerFind from 'images/find.png';
+
 import {
   SMALL_TABLET_WIDTH,
   MOBILE_WIDTH,
@@ -94,6 +90,28 @@ const HomePagePictureSection = styled.img`
   }
 `;
 
+const HomePageBannerSection = styled.div`
+  width: 100%;
+  height: 200px;
+  margin-bottom: 30px;
+  background: linear-gradient(
+    270deg,
+    #ffe200 -34.75%,
+    #ef8227 27.67%,
+    #db4d99 102.99%,
+    rgba(255, 184, 0, 0) 103.01%
+  );
+  color: #ffff;
+
+  ${mediaQueryLargeDesktop} {
+    height: 160px;
+  }
+
+  ${mediaQueryMobile} {
+    height: 140px;
+  }
+`;
+
 const HomePageTitle = styled.div`
   margin: 20px 0;
   font-size: 28px;
@@ -109,25 +127,6 @@ const HomePageTitle = styled.div`
 
   ${mediaQueryMobile} {
     font-size: 22px;
-  }
-`;
-
-const TopTenSearchContainer = styled.div`
-  display: grid;
-  grid-template-columns: auto auto auto auto auto;
-  grid-gap: 28px;
-  padding: 10px;
-  overflow-x: scroll;
-  margin: 40px 0;
-
-  ${mediaQueryMobile} {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 380px;
-    margin: 10px 0;
-    box-sizing: border-box;
-    padding: 0;
   }
 `;
 
@@ -298,14 +297,8 @@ export const HomePage = () => {
             transitionDuration={500}
             containerClass="carousel-container"
           >
-            <HomePagePictureSection
-              src={CommunityPic}
-              alt="community in homepage"
-            />
-            <HomePagePictureSection
-              src={EarnMoneyPic}
-              alt="earn money in homepage"
-            />
+            <HomePagePictureSection src={JoinPic} alt="community in homepage" />
+            <HomePagePictureSection src={BannerFind} alt="Find provider" />
           </Carousel>
           {!isTablet && (
             <HomePageCategorySection>
@@ -647,7 +640,7 @@ export const HomePage = () => {
           </div> */}
         </React.Fragment>
       ) : (
-        <Loading height="calc(100vh - 265px)" />
+        <Loading height="calc(100vh - 165px)" />
       )}
     </HomePageContainer>
   );

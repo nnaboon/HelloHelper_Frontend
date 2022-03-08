@@ -259,7 +259,7 @@ export const Sidebar = () => {
           key="agriculture"
           onClick={() => {
             history.push({
-              pathname: 'mobile'
+              pathname: 'agriculture'
             });
           }}
         >
@@ -269,7 +269,7 @@ export const Sidebar = () => {
           key="anime"
           onClick={() => {
             history.push({
-              pathname: 'mobile'
+              pathname: 'anime'
             });
           }}
         >
@@ -279,17 +279,17 @@ export const Sidebar = () => {
           key="stationary"
           onClick={() => {
             history.push({
-              pathname: 'mobile'
+              pathname: 'stationary'
             });
           }}
         >
           ด้านหนังสือและเครื่องเขียน
         </Menu.Item>
         <Menu.Item
-          key="music"
+          key="stationary"
           onClick={() => {
             history.push({
-              pathname: 'mobile'
+              pathname: 'stationary'
             });
           }}
         >
