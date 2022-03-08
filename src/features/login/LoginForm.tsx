@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { useHistory } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
-import { Input, Button, Form, Divider } from 'antd';
+import { Input, Button, Form, Divider, Modal } from 'antd';
 import { FacebookOutlined, GoogleOutlined } from '@ant-design/icons';
 import { Text } from 'components/Text';
 import { PrimaryButton } from 'components/Button/Button';
@@ -24,7 +24,8 @@ import {
   mediaQueryTablet,
   mediaQueryMiniDesktop
 } from 'styles/variables';
-import { mediaQueryDesktop } from '../../styles/variables';
+import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
+import { ForgotPassword } from './ForgotPasswordForm';
 
 interface LoginFormProps {
   setStep: (step: LoginStep) => void;
@@ -48,9 +49,13 @@ const LoginSection = styled.div`
 export const LoginForm = observer(
   ({ setStep, setIsModalVisible }: LoginFormProps) => {
     const [isLoggedIn, serIsLoggedIn] = useState<boolean>(false);
+    const [isForgotPasswordModalVisible, setIsForgotPasswordModalVisible] =
+      useState(false);
     const [form] = Form.useForm();
     const history = useHistory();
     const { data: user, execute: getUser } = useUser();
+
+    const auth = getAuth();
 
     const isLargeDesktop = useMedia(`(max-width: ${LARGE_DESKTOP_WIDTH}px)`);
 
@@ -78,6 +83,14 @@ export const LoginForm = observer(
         });
     };
 
+    const handleOk = () => {
+      setIsForgotPasswordModalVisible(false);
+    };
+
+    const handleCancel = () => {
+      setIsForgotPasswordModalVisible(false);
+    };
+
     return (
       <LoginSection>
         <Global
@@ -89,9 +102,9 @@ export const LoginForm = observer(
         />
 
         <Text
-          marginY="10px"
           css={css`
             font-size: 22px;
+            margin-bottom: 10px;
 
             ${mediaQueryMobile} {
               font-size: 20px;
@@ -134,7 +147,7 @@ export const LoginForm = observer(
             }
 
             ${mediaQueryLargeDesktop} {
-              height: 45px;
+              height: 42px;
             }
 
             ${mediaQueryMobile} {
@@ -187,7 +200,7 @@ export const LoginForm = observer(
             }
 
             ${mediaQueryLargeDesktop} {
-              height: 45px;
+              height: 42px;
             }
 
             ${mediaQueryMobile} {
@@ -346,7 +359,18 @@ export const LoginForm = observer(
               `}
             />
           </Form.Item>
-
+          <div
+            css={css`
+              width: 100%;
+              font-size: 14px;
+              display: flex;
+              justify-content: center;
+              margin: 15px 0;
+            `}
+            onClick={() => setIsForgotPasswordModalVisible(true)}
+          >
+            ลืมรหัสผ่าน ?
+          </div>
           <Button
             type="primary"
             htmlType="submit"
@@ -380,7 +404,7 @@ export const LoginForm = observer(
           </Button>
           <Flex
             justify="center"
-            marginTop="35px"
+            marginTop="25px"
             css={css`
               font-size: 14px;
 
@@ -403,6 +427,61 @@ export const LoginForm = observer(
             </span>
           </Flex>
         </Form>
+        <Modal
+          visible={isForgotPasswordModalVisible}
+          onCancel={handleCancel}
+          footer={null}
+          maskClosable={false}
+          closable
+          centered
+          css={css`
+            width: 500px !important;
+
+            .ant-modal-content {
+              min-height: 600px;
+              height: max-content;
+            }
+
+            ${mediaQueryLargeDesktop} {
+              width: 430px !important;
+
+              .ant-modal-content {
+                min-height: 590px !important;
+                height: max-content;
+              }
+            }
+
+            ${mediaQueryTablet} {
+              width: 500px !important;
+
+              .ant-modal-content {
+                min-height: 570px;
+                height: 570px;
+              }
+            }
+
+            ${mediaQueryMobile} {
+              width: 320px !important;
+
+              .ant-modal-content {
+                min-height: 555px !important;
+                height: 550px;
+              }
+            }
+
+            .ant-modal-body {
+              width: 100%;
+              height: 100%;
+              position: absolute;
+            }
+          `}
+        >
+          <div style={{ height: '100%' }}>
+            <ForgotPassword
+              setIsModalVisible={setIsForgotPasswordModalVisible}
+            />
+          </div>
+        </Modal>
       </LoginSection>
     );
   }

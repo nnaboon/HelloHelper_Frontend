@@ -77,34 +77,12 @@ const HomePageContainer = styled.div`
 
 const HomePagePictureSection = styled.img`
   width: 100%;
-  height: 200px;
+  height: 180px;
   margin-bottom: 30px;
   object-fit: fill;
 
   ${mediaQueryLargeDesktop} {
-    height: 160px;
-  }
-
-  ${mediaQueryMobile} {
     height: 140px;
-  }
-`;
-
-const HomePageBannerSection = styled.div`
-  width: 100%;
-  height: 200px;
-  margin-bottom: 30px;
-  background: linear-gradient(
-    270deg,
-    #ffe200 -34.75%,
-    #ef8227 27.67%,
-    #db4d99 102.99%,
-    rgba(255, 184, 0, 0) 103.01%
-  );
-  color: #ffff;
-
-  ${mediaQueryLargeDesktop} {
-    height: 160px;
   }
 
   ${mediaQueryMobile} {
