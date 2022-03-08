@@ -415,7 +415,7 @@ export const CommunityContentInfo = observer(({ data }: any) => {
                         }
                       )
                         .then(() => {
-                          message.success('ลบชุมชนความช่วยเหลือนี้สำเร็จ');
+                          message.success('ออกจากชุมชนความช่วยเหลือนี้สำเร็จ');
                           window.localStorage.removeItem('selectedCommunity');
                           history.push('/');
                         })
