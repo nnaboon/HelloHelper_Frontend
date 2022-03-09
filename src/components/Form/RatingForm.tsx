@@ -12,11 +12,13 @@ import { useUpdateRequestSum } from 'hooks/order/useUpdateRequestSum';
 import { useUpdateOrder } from 'hooks/order/useUpdateOrder';
 import { useMyRequestOrder } from 'hooks/order/useMyRequestOrder';
 import { PrimaryButton } from '../Button/Button';
+import { useRequesterRating } from '../../hooks/order/useRequesterRating';
 
 interface RatingFormProps {
   order: any;
+  setRequesterRating?: (rating: number) => void;
   setIsModalVisible: (isModalvisible: boolean) => void;
-  setStatus?: (status: string) => void;
+  setStatus?: (status?: string) => void;
 }
 
 const RequestListSection = styled.div`
@@ -28,6 +30,7 @@ const RequestListSection = styled.div`
 export const RatingForm = ({
   order,
   setIsModalVisible,
+  setRequesterRating,
   setStatus
 }: RatingFormProps) => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -39,6 +42,8 @@ export const RatingForm = ({
     useMyRequestOrder();
   const { execute: updateProvideSum } = useUpdateProvideSum();
   const { execute: updateRequestSum } = useUpdateRequestSum();
+  const { execute: requesterRating } = useRequesterRating();
+
   const [form] = Form.useForm();
 
   const onFinish = async (value) => {
@@ -48,39 +53,57 @@ export const RatingForm = ({
     };
 
     try {
-      if (order.referenceType === 'request') {
-        updateRequestSum(order?.id, {
+      if (orderType === 'provide') {
+        requesterRating(order?.id, {
           orderReferenceId: order?.orderReferenceId,
           requesterUserId: order?.requesterUserId,
           providerUserId: order?.providerUserId,
           rating: value.rating
-        }).then(() => {
-          if (setStatus) {
-            setStatus('complete');
-          }
-          message.success('ให้คะแนนสำเร็จ');
-          form.resetFields();
-          setIsModalVisible(false);
-        });
+        })
+          .then(() => {
+            setRequesterRating(value.rating);
+            message.success('ให้คะแนนสำเร็จ');
+            setIsModalVisible(false);
+          })
+          .catch(() => {
+            message.error('ไม่สามารถให้คะแนนความช่วยเหลือได้');
+          });
       } else {
-        updateProvideSum(order?.id, {
-          orderReferenceId: order?.orderReferenceId,
-          requesterUserId: order?.requesterUserId,
-          providerUserId: order?.providerUserId,
-          rating: value.rating
-        }).then(() => {
-          if (setStatus) {
-            setStatus('complete');
-          }
-          message.success('ให้คะแนนสำเร็จ');
-          form.resetFields();
-          setIsModalVisible(false);
-        });
+        if (order.orderReferenceType === 'request') {
+          updateRequestSum(order?.id, {
+            orderReferenceId: order?.orderReferenceId,
+            requesterUserId: order?.requesterUserId,
+            providerUserId: order?.providerUserId,
+            rating: value.rating
+          }).then(() => {
+            if (setStatus) {
+              setStatus(order?.id);
+            }
+            message.success('ให้คะแนนสำเร็จ');
+            form.resetFields();
+            setIsModalVisible(false);
+          });
+        } else {
+          updateProvideSum(order?.id, {
+            orderReferenceId: order?.orderReferenceId,
+            requesterUserId: order?.requesterUserId,
+            providerUserId: order?.providerUserId,
+            rating: value.rating
+          }).then(() => {
+            if (setStatus) {
+              setStatus(order?.id);
+            }
+            message.success('ให้คะแนนสำเร็จ');
+            form.resetFields();
+            setIsModalVisible(false);
+          });
+        }
       }
     } catch (e) {
       message.error('ไม่สามารถให้คะแนนความช่วยเหลือได้');
     } finally {
       setIsSubmitting(false);
+      form.resetFields();
     }
   };
 
