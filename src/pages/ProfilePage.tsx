@@ -348,7 +348,7 @@ export const ProfilePage = observer(() => {
                     `}
                   >
                     <UserName>{user?.username}</UserName>
-                    <div
+                    {/* <div
                       style={{
                         display: 'flex',
                         marginTop: '-4px'
@@ -365,8 +365,13 @@ export const ProfilePage = observer(() => {
                       `}
                     >
                       {getStar(user?.rating)}
-                    </div>
-                    <RankingBadge rankColor={RANK_BADGE[user?.rank].color}>
+                    </div> */}
+                    <RankingBadge
+                      rankColor={RANK_BADGE[user?.rank].color}
+                      css={css`
+                        margin-top: 10px;
+                      `}
+                    >
                       {user?.rank.toUpperCase()}
                     </RankingBadge>
                   </div>
