@@ -20,6 +20,7 @@ import { useMyRequestOrder } from 'hooks/order/useMyRequestOrder';
 import { EmptyData } from 'components/Empty/EmptyData';
 import { Loading } from '../components/Loading/Loading';
 import { userStore } from 'store/userStore';
+import { firestore } from '../firebase';
 
 export const RequestOrderPage = observer(() => {
   const [currentStatus, setCurrentStatus] = useState<string>('pending');
@@ -37,8 +38,21 @@ export const RequestOrderPage = observer(() => {
   };
 
   useEffect(() => {
-    getRequestOrders(window.localStorage.getItem('id'));
-  }, [status]);
+    const doc = firestore
+      .collection('orders')
+      .where('requesterUserId', '==', window.localStorage.getItem('id'));
+
+    const observer = doc.onSnapshot(
+      async (docSnapshot) => {
+        getRequestOrders(window.localStorage.getItem('id'));
+      },
+      (err) => {
+        console.log(`Encountered error: ${err}`);
+      }
+    );
+
+    return () => observer();
+  }, []);
 
   return (
     <WrapperContainer

@@ -26,7 +26,7 @@ import { OrderProps } from 'data/order';
 
 type RequestListCardProps = {
   props: OrderProps;
-  setStatus: (status: string) => void;
+  setStatus: (status?: string) => void;
 };
 
 const RequestListContainer = styled.div`

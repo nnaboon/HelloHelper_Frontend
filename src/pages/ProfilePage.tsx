@@ -7,7 +7,7 @@ import { observer } from 'mobx-react-lite';
 import { useHistory, useLocation } from 'react-router-dom';
 import { auth } from '../firebase';
 import { HelpMenu } from 'components/Menu/const';
-import { message } from 'antd';
+import { message, Rate } from 'antd';
 import Flex from 'components/Flex/Flex';
 import { PrimaryButton, SecondaryButton } from 'components/Button/Button';
 import { Divider } from 'components/Divider/Divider';
@@ -229,6 +229,7 @@ const ProfileInfoListDetail = styled.div`
   line-height: 29px;
   color: #e56101;
   margin-left: 12px;
+  justify-content: center;
 
   ${mediaQueryLargeDesktop} {
     font-size: 18px;
@@ -622,6 +623,26 @@ export const ProfilePage = observer(() => {
                       </ProfileInfoListHeading>
                       <ProfileInfoListDetail>
                         {user?.followingUserId.length} คน
+                      </ProfileInfoListDetail>
+                    </Flex>
+                    <Flex>
+                      <ProfileInfoListHeading>
+                        คะแนนการให้ความช่วยเหลือ
+                      </ProfileInfoListHeading>
+                      <ProfileInfoListDetail>
+                        {user?.rating?.toFixed(1)}{' '}
+                        <Rate count={1} defaultValue={1} />
+                      </ProfileInfoListDetail>
+                    </Flex>
+                    <Flex>
+                      <ProfileInfoListHeading>
+                        คะแนนการขอความช่วยเหลือ
+                      </ProfileInfoListHeading>
+                      <ProfileInfoListDetail>
+                        {user?.requestRating
+                          ? user?.requestRating?.toFixed(1)
+                          : (0).toFixed(1)}{' '}
+                        <Rate count={1} defaultValue={1} />
                       </ProfileInfoListDetail>
                     </Flex>
                   </ProfileInfoContainer>

@@ -34,6 +34,8 @@ import firebase from '../../firebase';
 import { userStore } from 'store/userStore';
 import { useVerifyToken } from 'hooks/useVerifyToken';
 import { logout } from 'features/logout/Logout';
+import { firestore } from '../../firebase';
+import { NotificationBadge } from 'components/Badge/Badge';
 
 const NavbarSection = styled.div`
   width: 100%;
@@ -73,6 +75,7 @@ const NavbarList = styled.ul`
     color: #eeeee;
     font-size: 14px;
     font-weight: 500;
+    position: relative;
   }
 
   ${mediaQueryLargeDesktop} {
@@ -155,6 +158,7 @@ export const Navbar = observer(() => {
   const [account, setAccount] = useState<boolean>(false);
   const [userImage, setUserImage] = useState<any>('');
   const [collapsed, setCollapsed] = useState<boolean>(true);
+  const [isWaitForConfirmOrder, setIsWaitForConfirmOrder] = useState<number>(0);
 
   const { pathname, state } = useLocation();
 
@@ -190,15 +194,25 @@ export const Navbar = observer(() => {
 
   const handleCancel = () => {
     setIsModalVisible(false);
-
-    // firebase.auth().onAuthStateChanged(function (user) {
-    //   if (user) {
-    //     setAccountStep(LoginStep.LOGIN);
-    //   } else {
-    //     setAccountStep(LoginStep.REGISTER);
-    //   }
-    // });
   };
+
+  useEffect(() => {
+    const doc = firestore
+      .collection('orders')
+      .where('providerUserId', '==', window.localStorage.getItem('id'))
+      .where('status', '==', 'waiting');
+
+    const observer = doc.onSnapshot(
+      async (docSnapshot) => {
+        setIsWaitForConfirmOrder(docSnapshot.size);
+      },
+      (err) => {
+        console.log(`Encountered error: ${err}`);
+      }
+    );
+
+    return () => observer();
+  }, []);
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged(function (user) {
@@ -426,6 +440,15 @@ export const Navbar = observer(() => {
                   }}
                 >
                   กล่องข้อความ
+                  {isWaitForConfirmOrder > 0 && (
+                    <NotificationBadge
+                      css={css`
+                        position: absolute;
+                        right: -9px;
+                        top: -2px;
+                      `}
+                    />
+                  )}
                 </li>
               </React.Fragment>
             )}

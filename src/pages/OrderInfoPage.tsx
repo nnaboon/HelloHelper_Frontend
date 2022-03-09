@@ -112,6 +112,7 @@ const ReceiverData = styled.div`
 `;
 export const OrderInfoPage = () => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [requesterRating, setRequesterRating] = useState<number>();
   const [status, setStatus] = useState<string>();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
@@ -137,7 +138,9 @@ export const OrderInfoPage = () => {
   };
 
   useEffect(() => {
-    getOrder(query);
+    getOrder(query).then((res) => {
+      setRequesterRating(res.data.requesterRating);
+    });
   }, [status]);
 
   const menu = (
@@ -428,6 +431,25 @@ export const OrderInfoPage = () => {
                       >
                         แชท
                       </SecondaryButton>
+                      {(!order.rating || !requesterRating) && (
+                        <PrimaryButton
+                          css={css`
+                            margin-left: 0;
+                            z-index: 10;
+                            margin-top: 10px;
+
+                            ${mediaQueryMobile} {
+                              min-width: 47%;
+                              width: 47%;
+                            }
+                          `}
+                          onClick={() => {
+                            setIsModalVisible(true);
+                          }}
+                        >
+                          ให้คะแนน
+                        </PrimaryButton>
+                      )}
                     </Flex>
                   )
                 ) : (
@@ -625,6 +647,7 @@ export const OrderInfoPage = () => {
             >
               <RatingForm
                 order={order}
+                setRequesterRating={setRequesterRating}
                 setIsModalVisible={setIsModalVisible}
                 setStatus={setStatus}
               />
@@ -669,7 +692,8 @@ export const OrderInfoPage = () => {
                     >
                       แชท
                     </SecondaryButton>
-                    {!order.rating && (
+
+                    {order.rating && (
                       <PrimaryButton
                         css={css`
                           width: 140px;
@@ -698,7 +722,7 @@ export const OrderInfoPage = () => {
                     )}
                   </Flex>
                 ) : (
-                  <Flex direction="column" itemAlign="flex-end">
+                  <Flex itemAlign="flex-end">
                     <SecondaryButton
                       onClick={() => {
                         history.push(`/chat/${order.chatId}`);
@@ -723,6 +747,26 @@ export const OrderInfoPage = () => {
                     >
                       แชท
                     </SecondaryButton>
+                    {(!order.rating || !requesterRating) && (
+                      <PrimaryButton
+                        css={css`
+                          margin-left: 0;
+                          z-index: 10;
+                          margin-top: 10px;
+                          margin-left: 10px;
+
+                          ${mediaQueryMobile} {
+                            min-width: 47%;
+                            margin-left: 10px;
+                          }
+                        `}
+                        onClick={() => {
+                          setIsModalVisible(true);
+                        }}
+                      >
+                        ให้คะแนน
+                      </PrimaryButton>
+                    )}
                   </Flex>
                 )
               ) : (

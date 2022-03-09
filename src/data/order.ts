@@ -21,7 +21,9 @@ export type OrderProps = {
   };
   providerUserId: string;
   requesterUserId: string;
-  rating: number;
+  rating: string;
+  providerRating: number;
+  requesterRating: number;
   status: string;
 };
 

@@ -25,7 +25,7 @@ import { OrderProps } from 'data/order';
 
 type ProvideListCardProps = {
   props: OrderProps;
-  setStatus: (status: string) => void;
+  setStatus: (status?: string) => void;
 };
 
 const ProvideListContainer = styled.div`
@@ -95,6 +95,9 @@ export const ProvideOrderCard = ({
   setStatus
 }: ProvideListCardProps) => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [requesterRating, setRequesterRating] = useState<number>(
+    props.requesterRating
+  );
   const { execute: updateOrder } = useUpdateOrder();
   const history = useHistory();
 
@@ -129,6 +132,7 @@ export const ProvideOrderCard = ({
               message.error('ไม่สามาถเปลี่ยนสถานะได้');
             } finally {
               message.success('สำเร็จ');
+              setStatus();
             }
           }
         }}
@@ -146,6 +150,7 @@ export const ProvideOrderCard = ({
               message.error('ไม่สามาถเปลี่ยนสถานะได้');
             } finally {
               message.success('สำเร็จ');
+              setStatus();
             }
           }
         }}
@@ -163,6 +168,7 @@ export const ProvideOrderCard = ({
               message.error('ไม่สามาถเปลี่ยนสถานะได้');
             } finally {
               message.success('สำเร็จ');
+              setStatus();
             }
           }
         }}
@@ -180,6 +186,7 @@ export const ProvideOrderCard = ({
               message.error('ไม่สามาถเปลี่ยนสถานะได้');
             } finally {
               message.success('สำเร็จ');
+              setStatus();
             }
           }
         }}
@@ -297,6 +304,29 @@ export const ProvideOrderCard = ({
           >
             แชท
           </PrimaryButton>
+          {props.rating && !requesterRating && (
+            <PrimaryButton
+              css={css`
+                min-width: 140px;
+
+                ${mediaQueryTablet} {
+                  min-width: 100px;
+                }
+
+                ${mediaQueryMobile} {
+                  min-width: 47%;
+                  width: 47%;
+                  margin-left: 15px;
+                }
+              `}
+              onClick={() => {
+                setIsModalVisible(true);
+                setStatus('complete');
+              }}
+            >
+              ให้คะแนน
+            </PrimaryButton>
+          )}
         </Flex>
       ) : (
         <Flex
@@ -341,6 +371,7 @@ export const ProvideOrderCard = ({
           >
             แชท
           </PrimaryButton>
+
           <Dropdown overlay={menu} trigger={['click']}>
             <PrimaryButton>เปลี่ยนสถานะ</PrimaryButton>
           </Dropdown>
@@ -370,7 +401,11 @@ export const ProvideOrderCard = ({
           }
         `}
       >
-        <RatingForm order={props} setIsModalVisible={setIsModalVisible} />
+        <RatingForm
+          order={props}
+          setRequesterRating={setRequesterRating}
+          setIsModalVisible={setIsModalVisible}
+        />
       </Modal>
     </ProvideListContainer>
   );

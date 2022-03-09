@@ -14,6 +14,7 @@ export type UsersGetDto = {
   recommend: boolean;
   rank: string;
   rating: number;
+  requestRating: number;
   communityId: Array<string>;
   category: Array<string>;
   requestSum: number;

@@ -20,6 +20,7 @@ import { useMyProvideOrder } from 'hooks/order/useMyProvideOrder';
 import { EmptyData } from '../components/Empty/EmptyData';
 import { Loading } from 'components/Loading/Loading';
 import { userStore } from 'store/userStore';
+import { firestore } from '../firebase';
 
 export const ProvideOrderPage = observer(() => {
   const [currentStatus, setCurrentStatus] = useState<string>('pending');
@@ -30,13 +31,26 @@ export const ProvideOrderPage = observer(() => {
 
   const { me } = userStore;
 
-  useEffect(() => {
-    getProvideOrders(window.localStorage.getItem('id'));
-  }, [status]);
-
   const handleClick = (e) => {
     setCurrentStatus(e.key);
   };
+
+  useEffect(() => {
+    const doc = firestore
+      .collection('orders')
+      .where('providerUserId', '==', window.localStorage.getItem('id'));
+
+    const observer = doc.onSnapshot(
+      async (docSnapshot) => {
+        getProvideOrders(window.localStorage.getItem('id'));
+      },
+      (err) => {
+        console.log(`Encountered error: ${err}`);
+      }
+    );
+
+    return () => observer();
+  }, []);
 
   return (
     <WrapperContainer>
