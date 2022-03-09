@@ -269,8 +269,11 @@ export const SearchResultPage = () => {
               </Flex>
             </div>
             {menu === SearchMenu.PROVIDE ? (
-              provideData.filter(({ category, title }) =>
-                search ? title.includes(state?.search) : category[0] === qs
+              provideData.filter(({ category, title, hashtag }) =>
+                search
+                  ? title.includes(state?.search) ||
+                    hashtag.includes(state?.search)
+                  : category[0] === qs
               ).length > 0 ? (
                 <SearchResultContent>
                   {provides
@@ -289,8 +292,11 @@ export const SearchResultPage = () => {
                 <EmptyData height="300px" />
               )
             ) : menu === SearchMenu.REQUEST ? (
-              requestData.filter(({ category, title }) =>
-                search ? title.includes(state?.search) : category[0] === qs
+              requestData.filter(({ category, title, hashtag }) =>
+                search
+                  ? title.includes(state?.search) ||
+                    hashtag.includes(state?.search)
+                  : category[0] === qs
               ).length > 0 ? (
                 <SearchResultContent>
                   {requests
