@@ -3,12 +3,12 @@ import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyDTTzpZWMgIxLMgay23G-eJja4hxzr7acg',
-  authDomain: 'senior-project-97cfa.firebaseapp.com',
-  projectId: 'senior-project-97cfa',
-  storageBucket: 'senior-project-97cfa.appspot.com',
-  messagingSenderId: '831712944324',
-  appId: '1:831712944324:web:7204980ea64e6894796991'
+  apiKey: '',
+  authDomain: '',
+  projectId: '',
+  storageBucket: '',
+  messagingSenderId: '',
+  appId: ''
 };
 
 // Initialize Firebase
